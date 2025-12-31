@@ -1,0 +1,92 @@
+import { ArrowLeft, MessageCircle, CheckCircle } from "lucide-react";
+import { useNavigate, useParams } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { concept } from "../../data/Concepts/concepts";
+import MarkdownRenderer from "../../components/Markdown/MarkdownRenderer";
+
+export default function BasicConceptDetail() {
+  const { conceptId } = useParams<{ conceptId: string }>();
+  const navigate = useNavigate();
+
+  if (!concept) return <p className="p-8">Concept not found.</p>;
+
+  return (
+    <div className="max-w-5xl p-8 mx-auto">
+      <button
+        onClick={() => navigate("/basic-concepts")}
+        className="flex items-center gap-2 mb-6 text-gray-600 hover:text-gray-900"
+      >
+        <ArrowLeft className="w-5 h-5" />
+        Back to Concepts
+      </button>
+
+      <div className="p-8 mb-6 bg-white border border-gray-200 rounded-lg">
+        <div className="flex items-start justify-between mb-6">
+          <div className="flex-1">
+            <div className="flex items-center gap-3 mb-2">
+              <h1 className="text-3xl font-bold text-gray-900">
+                {concept.name}
+              </h1>
+              <span className="px-3 py-1 text-sm text-gray-600 bg-gray-100 rounded">
+                {concept.category}
+              </span>
+            </div>
+            <p className="mb-4 text-gray-600">{concept.description}</p>
+            <div className="flex flex-wrap gap-2 mb-4">
+              {concept.tags.map((tag, idx) => (
+                <span
+                  key={idx}
+                  className="px-3 py-1 text-sm text-green-600 rounded-full bg-green-50"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+          <button
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+              concept.isUnderstood
+                ? "bg-green-100 text-green-700"
+                : "border border-gray-300 hover:bg-gray-50"
+            }`}
+          >
+            <CheckCircle className="w-4 h-4" />
+            {concept.isUnderstood ? "Understood" : "Mark as Understood"}
+          </button>
+        </div>
+
+        <div className="flex gap-3 mb-8">
+          <button className="flex items-center gap-2 px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700">
+            <MessageCircle className="w-4 h-4" />
+            Chat with AI
+          </button>
+        </div>
+
+        <div className="prose max-w-none">
+          <MarkdownRenderer content={concept.content} />
+        </div>
+      </div>
+
+      <div className="p-6 bg-white border border-gray-200 rounded-lg">
+        <h2 className="mb-4 text-xl font-bold text-gray-900">
+          Related Concepts
+        </h2>
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+          {concept.relatedConcepts?.map((related) => (
+            <button
+              key={related.id}
+              className="w-full p-4 text-left transition-all bg-white border border-gray-200 rounded-lg cursor-pointer hover:border-green-400 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-green-300"
+              onClick={() => navigate(`/basic-concepts/${related.id}`)}
+            >
+              <h3 className="mb-1 font-semibold text-gray-900">
+                {related.name}
+              </h3>
+              <p className="text-xs text-gray-500 capitalize">{related.type}</p>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}

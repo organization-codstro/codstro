@@ -1,0 +1,204 @@
+import { Routes, Route, Navigate } from "react-router-dom";
+import * as Page from "./pages";
+
+export default function AppRoutes() {
+  return (
+    <Routes>
+      {/* 🔐 Auth Layout */}
+      <Route element={<Page.AuthLayout />}>
+        <Route path="/login" element={<Page.Login />} />
+        <Route path="/signup" element={<Page.Signup />} />
+      </Route>
+
+      {/* ================= 서비스 영역 (Layout 적용) ================= */}
+      <Route element={<Page.Layout />}>
+        {/* 기본 진입 */}
+        {/* <Route path="/" element={<Navigate to="/woomoonjeong" replace />} /> */}
+
+        {/* ================= Woomoonjeong ================= */}
+        <Route path="/woomoonjeong/todo" element={<Page.TodoManagement />} />
+        <Route
+          path="/woomoonjeong/documents"
+          element={<Page.DocumentsManagement />}
+        />
+        <Route
+          path="/woomoonjeong/documents/recommended"
+          element={<Page.RecommendedDocumentsMain />}
+        />
+
+        {/* ================= Woomoonro ================= */}
+        <Route path="/woomoonro" element={<Page.WoomoonroMain />} />
+        <Route path="/woomoonro/archive" element={<Page.WoomoonroArchive />} />
+
+        {/* ================= Woomoonkyung ================= */}
+        {/* 목록 (list) */}
+        <Route path="/woomoonkyung" element={<Page.WoomoonkyungMain />} />
+
+        {/* 생성 (create) */}
+        <Route
+          path="/woomoonkyung/create"
+          element={<Page.WoomoonkyungCreate />}
+        />
+
+        {/* 상세 (list → 선택) */}
+        <Route
+          path="/woomoonkyung/plan/:planId"
+          element={<Page.WoomoonkyungDetail />}
+        />
+
+        {/* 수정 (edit) */}
+        <Route
+          path="/woomoonkyung/:planId/edit"
+          element={<Page.WoomoonkyungEdit />}
+        />
+
+        {/* 노드 편집 (nodes) */}
+        <Route
+          path="/woomoonkyung/:planId/nodes"
+          element={<Page.WoomoonkyungNodes />}
+        />
+
+        {/* 추천 */}
+        <Route
+          path="/woomoonkyung/recommended"
+          element={<Page.RecommendedStudyPlans />}
+        />
+
+        {/* 추천 - 선택*/}
+        <Route
+          path="/woomoonkyung/recommended/:planId"
+          element={<Page.RecommendedStudyPlanDetail />}
+        />
+
+        {/* 아카이브 */}
+        <Route
+          path="/woomoonkyung/archive"
+          element={<Page.StudyPlanArchive />}
+        />
+
+        {/* 아카이브 - 선택*/}
+        <Route
+          path="/woomoonkyung/archive/:planId"
+          element={<Page.StudyPlanArchiveDetail />}
+        />
+        {/* ================= Company ================= */}
+        <Route path="/companies" element={<Page.CompanyList />} />
+        <Route path="/companies/:companyId" element={<Page.CompanyDetail />} />
+        <Route
+          path="/companies/:companyId/match"
+          element={<Page.CompanyMatch />}
+        />
+        <Route
+          path="/companies/:companyId/interview"
+          element={<Page.MockInterview />}
+        />
+
+        {/* ===== Company Archive / History ===== */}
+        <Route path="/bookmarks" element={<Page.Bookmarks />} />
+        <Route path="/interviews" element={<Page.InterviewHistory />} />
+        <Route
+          path="/interviews/:interviewId"
+          element={<Page.InterviewHistoryDetail />}
+        />
+        <Route path="/matches" element={<Page.MatchingHistory />} />
+        <Route
+          path="/matches/:matchingId"
+          element={<Page.MatchingHistoryDetail />}
+        />
+
+        {/* ================= Project Planning ================= */}
+        <Route path="/projects" element={<Page.ProjectMain />} />
+        <Route path="/projects/new" element={<Page.ProjectCreateChat />} />
+        <Route
+          path="/projects/new/info"
+          element={<Page.ProjectInfoGenerate />}
+        />
+        <Route path="/projects/meetings" element={<Page.ProjectMeeting />} />
+        <Route
+          path="/projects/meetings/new"
+          element={<Page.CreateProjectMeeting />}
+        />
+        <Route
+          path="/projects/meetings/:meetingId"
+          element={<Page.MeetingProgress />}
+        />
+        <Route
+          path="/projects/meetings/:meetingId/materials"
+          element={<Page.MeetingMaterials />}
+        />
+        <Route
+          path="/projects/archive"
+          element={<Page.ProjectPlanningArchive />}
+        />
+
+        {/* ================= AI Chat ================= */}
+        <Route path="/ai-chat" element={<Page.ChatRoomsList />} />
+        <Route path="/ai-chat/:roomId" element={<Page.ChatConversation />} />
+        <Route
+          path="/ai-chat/friends"
+          element={<Page.AIPersonasCollection />}
+        />
+        <Route
+          path="/ai-chat/persona/:personaId"
+          element={<Page.AIPersonaDetail />}
+        />
+        <Route path="/ai-chat/create-room" element={<Page.CreateChatRoom />} />
+        <Route path="/ai-chat/user-info" element={<Page.UserInfo />} />
+        <Route path="/ai-chat/add-friend" element={<Page.AddFriend />} />
+
+        {/* ================= MBIT ================= */}
+        <Route path="/mbit" element={<Page.MbitHome />} />
+        <Route path="/mbit/fortune" element={<Page.TodayFortune />} />
+        <Route
+          path="/mbit/fortune-encyclopedia"
+          element={<Page.FortuneEncyclopedia />}
+        />
+        <Route path="/mbit/personality" element={<Page.PersonalityTest />} />
+        <Route
+          path="/mbit/personality-encyclopedia"
+          element={<Page.PersonalityEncyclopedia />}
+        />
+        <Route path="/mbit/major" element={<Page.MajorTest />} />
+        <Route
+          path="/mbit/major-encyclopedia"
+          element={<Page.MajorEncyclopedia />}
+        />
+
+        {/* ================= Coding Concepts ================= */}
+        <Route path="/concepts" element={<Page.ConceptMain />} />
+        <Route path="/libraries" element={<Page.LibrariesList />} />
+        <Route path="/libraries/:libraryId" element={<Page.LibraryDetail />} />
+        <Route path="/basic-concepts" element={<Page.BasicConceptsList />} />
+        <Route
+          path="/basic-concepts/:conceptId"
+          element={<Page.BasicConceptDetail />}
+        />
+        <Route path="/coding-tools" element={<Page.CodingToolsList />} />
+        <Route
+          path="/coding-tools/:toolId"
+          element={<Page.CodingToolDetail />}
+        />
+        <Route path="/third-partys" element={<Page.ThirdPartyList />} />
+        <Route
+          path="/third-partys/:serviceId"
+          element={<Page.ThirdPartyDetail />}
+        />
+        <Route path="/notes" element={<Page.NotesList />} />
+        <Route path="/notes/:noteId" element={<Page.NoteDetail />} />
+        <Route path="/notes/:noteId/edit" element={<Page.NoteCreate />} />
+
+        {/* ================= Profile ================= */}
+        <Route path="/profile" element={<Page.Profile />} />
+        <Route path="/profile/edit" element={<Page.ProfileEdit />} />
+        <Route path="/profile/badges" element={<Page.BadgeManager />} />
+
+        {/* ================= Notices ================= */}
+        <Route path="/notices" element={<Page.NoticesList />} />
+        <Route path="/notices/:id" element={<Page.NoticeDetail />} />
+      </Route>
+
+      {/* ================= 잘못된 경로 ================= */}
+      <Route path="*" element={<Navigate to="/login" replace />} />
+    </Routes>
+  );
+}

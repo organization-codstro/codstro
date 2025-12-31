@@ -1,0 +1,63 @@
+export interface Badge {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  earned: boolean;
+  earnedDate?: string;
+  requirement: string;
+}
+
+export const badges: Badge[] = [
+  {
+    id: "1",
+    name: "First Step",
+    description: "Complete your first concept review",
+    icon: "👣",
+    earned: true,
+    earnedDate: "2024-01-05",
+    requirement: "Mark 1 concept as understood",
+  },
+  {
+    id: "2",
+    name: "Advanced Learner",
+    description: "Master 10 advanced concepts",
+    icon: "🚀",
+    earned: true,
+    earnedDate: "2024-01-15",
+    requirement: "Mark 10 concepts as understood",
+  },
+  {
+    id: "3",
+    name: "Note Master",
+    description: "Create 5 personal study notes",
+    icon: "📚",
+    earned: true,
+    earnedDate: "2024-01-20",
+    requirement: "Create 5 notes",
+  },
+  {
+    id: "4",
+    name: "Explorer",
+    description: "Explore all concept categories",
+    icon: "🗺️",
+    earned: false,
+    requirement: "Visit all 4 concept categories",
+  },
+  {
+    id: "5",
+    name: "Quick Learner",
+    description: "Complete 3 concepts in one day",
+    icon: "⚡",
+    earned: false,
+    requirement: "Mark 3 concepts as understood in 24 hours",
+  },
+  {
+    id: "6",
+    name: "Full Stack Master",
+    description: "Master concepts in all programming domains",
+    icon: "🎓",
+    earned: false,
+    requirement: "Mark concepts in Frontend, Backend, DevOps & Database",
+  },
+];

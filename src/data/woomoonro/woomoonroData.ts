@@ -1,0 +1,458 @@
+export interface Project {
+  id: string;
+  title: string;
+  description: string;
+  tech_stack: string[];
+  difficulty: "beginner" | "intermediate" | "advanced";
+  estimated_hours: number;
+  thumbnail_url?: string;
+  github_url?: string;
+  demo_url?: string;
+  tags: string[];
+  created_at: string;
+}
+
+export interface UserProject {
+  id: string;
+  user_id: string;
+  project_id: string;
+  status: "not_started" | "in_progress" | "completed";
+  is_bookmarked: boolean;
+  progress_notes?: string;
+  started_at?: string;
+  completed_at?: string;
+  created_at: string;
+}
+
+export interface ProjectGroup {
+  id: string;
+  user_id: string;
+  project_id: string;
+  name: string;
+  links: {
+    title: string;
+    url: string;
+    type: "documentation" | "library" | "tutorial" | "other";
+  }[];
+  created_at: string;
+}
+
+export interface ProjectTodo {
+  id: string;
+  user_id: string;
+  project_id?: string;
+  title: string;
+  description?: string;
+  is_completed: boolean;
+  due_date?: string;
+  created_at: string;
+}
+
+export const difficultyColors = {
+  beginner: "bg-green-100 text-green-700 border-green-200",
+  intermediate: "bg-yellow-100 text-yellow-700 border-yellow-200",
+  advanced: "bg-red-100 text-red-700 border-red-200",
+};
+
+export const statusColors = {
+  not_started: "bg-gray-100 text-gray-700 border-gray-200",
+  in_progress: "bg-blue-100 text-blue-700 border-blue-200",
+  completed: "bg-green-100 text-green-700 border-green-200",
+};
+
+export const projectsData: Project[] = [
+  {
+    id: "1",
+    title: "Todo List App",
+    description: "Build a simple todo list application with CRUD operations",
+    tech_stack: ["React", "JavaScript", "CSS"],
+    difficulty: "beginner",
+    estimated_hours: 8,
+    thumbnail_url:
+      "https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg",
+    github_url: "https://github.com/example/todo-app",
+    demo_url: "https://todo-demo.example.com",
+    tags: ["frontend", "beginner-friendly", "react"],
+    created_at: "2024-01-15T09:00:00Z",
+  },
+  {
+    id: "2",
+    title: "Weather Dashboard",
+    description: "Create a weather dashboard using external API integration",
+    tech_stack: ["React", "TypeScript", "Tailwind CSS", "API"],
+    difficulty: "intermediate",
+    estimated_hours: 15,
+    thumbnail_url:
+      "https://images.pexels.com/photos/1118873/pexels-photo-1118873.jpeg",
+    github_url: "https://github.com/example/weather-dashboard",
+    demo_url: "https://weather-demo.example.com",
+    tags: ["frontend", "api", "typescript"],
+    created_at: "2024-01-16T10:00:00Z",
+  },
+  {
+    id: "3",
+    title: "E-commerce Platform",
+    description: "Full-stack e-commerce application with payment integration",
+    tech_stack: ["React", "Node.js", "Express", "MongoDB", "Stripe"],
+    difficulty: "advanced",
+    estimated_hours: 40,
+    thumbnail_url:
+      "https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg",
+    github_url: "https://github.com/example/ecommerce-platform",
+    demo_url: "https://ecommerce-demo.example.com",
+    tags: ["fullstack", "payment", "database"],
+    created_at: "2024-01-17T11:00:00Z",
+  },
+  {
+    id: "4",
+    title: "Chat Application",
+    description: "Real-time chat application using WebSocket technology",
+    tech_stack: ["React", "Node.js", "Socket.io", "Express"],
+    difficulty: "intermediate",
+    estimated_hours: 20,
+    thumbnail_url:
+      "https://images.pexels.com/photos/267350/pexels-photo-267350.jpeg",
+    github_url: "https://github.com/example/chat-app",
+    demo_url: "https://chat-demo.example.com",
+    tags: ["realtime", "websocket", "fullstack"],
+    created_at: "2024-01-18T12:00:00Z",
+  },
+  {
+    id: "5",
+    title: "Portfolio Website",
+    description: "Personal portfolio website with modern design",
+    tech_stack: ["React", "Next.js", "Tailwind CSS", "Framer Motion"],
+    difficulty: "beginner",
+    estimated_hours: 12,
+    thumbnail_url:
+      "https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg",
+    github_url: "https://github.com/example/portfolio",
+    demo_url: "https://portfolio-demo.example.com",
+    tags: ["frontend", "portfolio", "animation"],
+    created_at: "2024-01-19T13:00:00Z",
+  },
+  {
+    id: "6",
+    title: "Task Management System",
+    description: "Kanban-style task management with drag and drop",
+    tech_stack: ["React", "TypeScript", "DnD Kit", "Zustand"],
+    difficulty: "intermediate",
+    estimated_hours: 25,
+    thumbnail_url:
+      "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg",
+    github_url: "https://github.com/example/task-management",
+    demo_url: "https://tasks-demo.example.com",
+    tags: ["productivity", "drag-drop", "state-management"],
+    created_at: "2024-01-20T14:00:00Z",
+  },
+];
+
+export const userProjectsData: UserProject[] = [
+  {
+    id: "up1",
+    user_id: "user1",
+    project_id: "1",
+    status: "completed",
+    is_bookmarked: true,
+    progress_notes: "Completed successfully! Learned a lot about React hooks.",
+    started_at: "2024-01-15T09:00:00Z",
+    completed_at: "2024-01-18T15:00:00Z",
+    created_at: "2024-01-15T09:00:00Z",
+  },
+  {
+    id: "up2",
+    user_id: "user1",
+    project_id: "2",
+    status: "in_progress",
+    is_bookmarked: true,
+    progress_notes:
+      "Working on API integration. Need to handle error cases better.",
+    started_at: "2024-01-19T10:00:00Z",
+    created_at: "2024-01-19T10:00:00Z",
+  },
+  {
+    id: "up3",
+    user_id: "user1",
+    project_id: "4",
+    status: "not_started",
+    is_bookmarked: true,
+    created_at: "2024-01-20T11:00:00Z",
+  },
+  {
+    id: "up4",
+    user_id: "user1",
+    project_id: "5",
+    status: "not_started",
+    is_bookmarked: false,
+    created_at: "2024-01-20T12:00:00Z",
+  },
+];
+
+export const projectTodosData: ProjectTodo[] = [
+  {
+    id: "pt1",
+    user_id: "user1",
+    project_id: "2",
+    title: "Implement weather API integration",
+    description: "Connect to OpenWeatherMap API and handle responses",
+    is_completed: true,
+    due_date: "2024-01-22T00:00:00Z",
+    created_at: "2024-01-20T09:00:00Z",
+  },
+  {
+    id: "pt2",
+    user_id: "user1",
+    project_id: "2",
+    title: "Add error handling for API calls",
+    description: "Handle network errors and invalid API responses",
+    is_completed: false,
+    due_date: "2024-01-24T00:00:00Z",
+    created_at: "2024-01-20T10:00:00Z",
+  },
+  {
+    id: "pt3",
+    user_id: "user1",
+    project_id: "2",
+    title: "Style the weather cards",
+    description: "Create responsive weather card components",
+    is_completed: false,
+    due_date: "2024-01-25T00:00:00Z",
+    created_at: "2024-01-20T11:00:00Z",
+  },
+  {
+    id: "pt4",
+    user_id: "user1",
+    title: "Review React documentation",
+    description: "Study advanced React patterns for upcoming projects",
+    is_completed: false,
+    due_date: "2024-01-23T00:00:00Z",
+    created_at: "2024-01-20T12:00:00Z",
+  },
+];
+
+export const projectGroupsData: ProjectGroup[] = [
+  {
+    id: "pg1",
+    user_id: "user1",
+    project_id: "2",
+    name: "Weather API Resources",
+    links: [
+      {
+        title: "OpenWeatherMap API Docs",
+        url: "https://openweathermap.org/api",
+        type: "documentation",
+      },
+      {
+        title: "Axios HTTP Client",
+        url: "https://axios-http.com/",
+        type: "library",
+      },
+      {
+        title: "Weather App Tutorial",
+        url: "https://example.com/weather-tutorial",
+        type: "tutorial",
+      },
+    ],
+    created_at: "2024-01-20T13:00:00Z",
+  },
+];
+
+// Archive용 확장된 프로젝트 데이터
+export const archivedProjectsData: Project[] = [
+  {
+    id: "1",
+    title: "Todo List App",
+    description: "Build a simple todo list application with CRUD operations",
+    tech_stack: ["React", "JavaScript", "CSS"],
+    difficulty: "beginner",
+    estimated_hours: 8,
+    thumbnail_url:
+      "https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg",
+    github_url: "https://github.com/example/todo-app",
+    demo_url: "https://todo-demo.example.com",
+    tags: ["frontend", "beginner-friendly", "react"],
+    created_at: "2024-01-15T09:00:00Z",
+  },
+  {
+    id: "2",
+    title: "Weather Dashboard",
+    description: "Create a weather dashboard using external API integration",
+    tech_stack: ["React", "TypeScript", "Tailwind CSS", "API"],
+    difficulty: "intermediate",
+    estimated_hours: 15,
+    thumbnail_url:
+      "https://images.pexels.com/photos/1118873/pexels-photo-1118873.jpeg",
+    github_url: "https://github.com/example/weather-dashboard",
+    demo_url: "https://weather-demo.example.com",
+    tags: ["frontend", "api", "typescript"],
+    created_at: "2024-01-16T10:00:00Z",
+  },
+  {
+    id: "4",
+    title: "Chat Application",
+    description: "Real-time chat application using WebSocket technology",
+    tech_stack: ["React", "Node.js", "Socket.io", "Express"],
+    difficulty: "intermediate",
+    estimated_hours: 20,
+    thumbnail_url:
+      "https://images.pexels.com/photos/267350/pexels-photo-267350.jpeg",
+    github_url: "https://github.com/example/chat-app",
+    demo_url: "https://chat-demo.example.com",
+    tags: ["realtime", "websocket", "fullstack"],
+    created_at: "2024-01-18T12:00:00Z",
+  },
+  {
+    id: "5",
+    title: "Portfolio Website",
+    description: "Personal portfolio website with modern design",
+    tech_stack: ["React", "Next.js", "Tailwind CSS", "Framer Motion"],
+    difficulty: "beginner",
+    estimated_hours: 12,
+    thumbnail_url:
+      "https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg",
+    github_url: "https://github.com/example/portfolio",
+    demo_url: "https://portfolio-demo.example.com",
+    tags: ["frontend", "portfolio", "animation"],
+    created_at: "2024-01-19T13:00:00Z",
+  },
+  {
+    id: "7",
+    title: "Music Player App",
+    description: "Spotify-like music streaming application",
+    tech_stack: ["React", "Redux", "Web Audio API", "CSS3"],
+    difficulty: "advanced",
+    estimated_hours: 35,
+    thumbnail_url:
+      "https://images.pexels.com/photos/167092/pexels-photo-167092.jpeg",
+    github_url: "https://github.com/example/music-player",
+    demo_url: "https://music-demo.example.com",
+    tags: ["audio", "streaming", "redux"],
+    created_at: "2024-01-21T14:00:00Z",
+  },
+  {
+    id: "8",
+    title: "Instagram Clone",
+    description: "Social media platform with photo sharing and stories",
+    tech_stack: ["React", "Firebase", "Tailwind CSS", "React Router"],
+    difficulty: "advanced",
+    estimated_hours: 45,
+    thumbnail_url:
+      "https://images.pexels.com/photos/147413/twitter-facebook-together-exchange-of-information-147413.jpeg",
+    github_url: "https://github.com/example/instagram-clone",
+    demo_url: "https://insta-demo.example.com",
+    tags: ["social", "firebase", "photo-sharing"],
+    created_at: "2024-01-22T15:00:00Z",
+  },
+  {
+    id: "9",
+    title: "Expense Tracker",
+    description: "Personal finance management application",
+    tech_stack: ["React", "Chart.js", "Local Storage", "CSS3"],
+    difficulty: "intermediate",
+    estimated_hours: 18,
+    thumbnail_url:
+      "https://images.pexels.com/photos/259027/pexels-photo-259027.jpeg",
+    github_url: "https://github.com/example/expense-tracker",
+    demo_url: "https://expense-demo.example.com",
+    tags: ["finance", "charts", "personal"],
+    created_at: "2024-01-23T16:00:00Z",
+  },
+  {
+    id: "10",
+    title: "Recipe Finder",
+    description: "Food recipe search and meal planning application",
+    tech_stack: ["React", "Recipe API", "Material-UI", "TypeScript"],
+    difficulty: "intermediate",
+    estimated_hours: 22,
+    thumbnail_url:
+      "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
+    github_url: "https://github.com/example/recipe-finder",
+    demo_url: "https://recipe-demo.example.com",
+    tags: ["food", "api", "material-ui"],
+    created_at: "2024-01-24T17:00:00Z",
+  },
+];
+
+// Archive용 사용자 프로젝트 데이터 (모두 북마크됨)
+export const archivedUserProjectsData: UserProject[] = [
+  {
+    id: "up1",
+    user_id: "user1",
+    project_id: "1",
+    status: "completed",
+    is_bookmarked: true,
+    progress_notes: "Completed successfully! Learned a lot about React hooks.",
+    started_at: "2024-01-15T09:00:00Z",
+    completed_at: "2024-01-18T15:00:00Z",
+    created_at: "2024-01-15T09:00:00Z",
+  },
+  {
+    id: "up2",
+    user_id: "user1",
+    project_id: "2",
+    status: "in_progress",
+    is_bookmarked: true,
+    progress_notes:
+      "Working on API integration. Need to handle error cases better.",
+    started_at: "2024-01-19T10:00:00Z",
+    created_at: "2024-01-19T10:00:00Z",
+  },
+  {
+    id: "up4",
+    user_id: "user1",
+    project_id: "4",
+    status: "in_progress",
+    is_bookmarked: true,
+    progress_notes: "Socket.io integration is challenging but fun!",
+    started_at: "2024-01-20T11:00:00Z",
+    created_at: "2024-01-20T11:00:00Z",
+  },
+  {
+    id: "up5",
+    user_id: "user1",
+    project_id: "5",
+    status: "completed",
+    is_bookmarked: true,
+    progress_notes: "Great project for learning animations with Framer Motion.",
+    started_at: "2024-01-19T13:00:00Z",
+    completed_at: "2024-01-21T18:00:00Z",
+    created_at: "2024-01-19T13:00:00Z",
+  },
+  {
+    id: "up7",
+    user_id: "user1",
+    project_id: "7",
+    status: "not_started",
+    is_bookmarked: true,
+    progress_notes: "Planning to start this after finishing the chat app.",
+    created_at: "2024-01-21T14:00:00Z",
+  },
+  {
+    id: "up8",
+    user_id: "user1",
+    project_id: "8",
+    status: "not_started",
+    is_bookmarked: true,
+    progress_notes: "Excited to learn Firebase with this project!",
+    created_at: "2024-01-22T15:00:00Z",
+  },
+  {
+    id: "up9",
+    user_id: "user1",
+    project_id: "9",
+    status: "in_progress",
+    is_bookmarked: true,
+    progress_notes: "Learning Chart.js for data visualization.",
+    started_at: "2024-01-23T16:00:00Z",
+    created_at: "2024-01-23T16:00:00Z",
+  },
+  {
+    id: "up10",
+    user_id: "user1",
+    project_id: "10",
+    status: "not_started",
+    is_bookmarked: true,
+    progress_notes: "Looking forward to working with recipe APIs.",
+    created_at: "2024-01-24T17:00:00Z",
+  },
+];
