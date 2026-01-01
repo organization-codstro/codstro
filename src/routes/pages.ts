@@ -39,10 +39,12 @@ export { default as MatchingHistoryDetail } from "../pages/CompanyInformation/Ma
 
 /* ================= PROJECT ================= */
 export { default as ProjectMain } from "../pages/ProjectPlanning/ProjectMain";
+export { default as ProjectBasicInfoInput } from "../pages/ProjectPlanning/ProjectBasicInfoInput";
 export { default as ProjectCreateChat } from "../pages/ProjectPlanning/ProjectCreateChat";
 export { default as ProjectInfoGenerate } from "../pages/ProjectPlanning/ProjectInfoGenerate";
+export { default as ProjectDetail } from "../pages/ProjectPlanning/ProjectDetail";
 export { default as ProjectMeeting } from "../pages/ProjectPlanning/ProjectMeeting";
-export { default as CreateProjectMeeting} from "../pages/ProjectPlanning/MeetingCreate"
+export { default as CreateProjectMeeting } from "../pages/ProjectPlanning/MeetingCreate";
 export { default as MeetingProgress } from "../pages/ProjectPlanning/MeetingProgress";
 export { default as MeetingMaterials } from "../pages/ProjectPlanning/MeetingMaterials";
 export { default as ProjectPlanningArchive } from "../pages/ProjectPlanning/ProjectPlanningArchive";

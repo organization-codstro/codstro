@@ -1,13 +1,20 @@
 import { ArrowLeft, MessageCircle, CheckCircle } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
-import { concept } from "../../data/Concepts/concepts";
+import { tool } from "../../data/Concepts/tools";
 import MarkdownRenderer from "../../components/Markdown/MarkdownRenderer";
+import { useState } from "react";
+import AIChat from "../../components/CompanyInformation/AIChat";
+import AddTodoModal from "../../components/CompanyInformation/AddTodoModal";
 
 export default function BasicConceptDetail() {
-  const { conceptId } = useParams<{ conceptId: string }>();
+  const { toolId } = useParams<{ toolId: string }>();
   const navigate = useNavigate();
+  const [showAIChat, setShowAIChat] = useState(false);
+  const [showTodoModal, setShowTodoModal] = useState<
+    false | "documentation" | "clone_project"
+  >(false);
 
-  if (!concept) return <p className="p-8">Concept not found.</p>;
+  if (!tool) return <p className="p-8">Concept not found.</p>;
 
   return (
     <div className="max-w-5xl p-8 mx-auto">
@@ -23,16 +30,14 @@ export default function BasicConceptDetail() {
         <div className="flex items-start justify-between mb-6">
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-3xl font-bold text-gray-900">
-                {concept.name}
-              </h1>
+              <h1 className="text-3xl font-bold text-gray-900">{tool.name}</h1>
               <span className="px-3 py-1 text-sm text-gray-600 bg-gray-100 rounded">
-                {concept.category}
+                {tool.category}
               </span>
             </div>
-            <p className="mb-4 text-gray-600">{concept.description}</p>
+            <p className="mb-4 text-gray-600">{tool.description}</p>
             <div className="flex flex-wrap gap-2 mb-4">
-              {concept.tags.map((tag, idx) => (
+              {tool.tags.map((tag, idx) => (
                 <span
                   key={idx}
                   className="px-3 py-1 text-sm text-green-600 rounded-full bg-green-50"
@@ -44,25 +49,42 @@ export default function BasicConceptDetail() {
           </div>
           <button
             className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-              concept.isUnderstood
+              tool.isUnderstood
                 ? "bg-green-100 text-green-700"
                 : "border border-gray-300 hover:bg-gray-50"
             }`}
           >
             <CheckCircle className="w-4 h-4" />
-            {concept.isUnderstood ? "Understood" : "Mark as Understood"}
+            {tool.isUnderstood ? "Understood" : "Mark as Understood"}
           </button>
         </div>
 
         <div className="flex gap-3 mb-8">
-          <button className="flex items-center gap-2 px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700">
+          <button
+            onClick={() => setShowAIChat(true)}
+            className="flex items-center gap-2 px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+          >
             <MessageCircle className="w-4 h-4" />
             Chat with AI
+          </button>
+          <button
+            onClick={() => setShowTodoModal("documentation")}
+            className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            <MessageCircle className="w-4 h-4" />
+            Add Todo: Explore Documentation
+          </button>
+          <button
+            onClick={() => setShowTodoModal("clone_project")}
+            className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            <MessageCircle className="w-4 h-4" />
+            Add Todo: Build Clone Project
           </button>
         </div>
 
         <div className="prose max-w-none">
-          <MarkdownRenderer content={concept.content} />
+          <MarkdownRenderer content={tool.content} />
         </div>
       </div>
 
@@ -71,7 +93,7 @@ export default function BasicConceptDetail() {
           Related Concepts
         </h2>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          {concept.relatedConcepts?.map((related) => (
+          {tool.relatedConcepts?.map((related) => (
             <button
               key={related.id}
               className="w-full p-4 text-left transition-all bg-white border border-gray-200 rounded-lg cursor-pointer hover:border-green-400 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-green-300"
@@ -85,6 +107,21 @@ export default function BasicConceptDetail() {
           ))}
         </div>
       </div>
+
+      <AIChat
+        isOpen={showAIChat}
+        onClose={() => setShowAIChat(false)}
+        conceptName={tool.name}
+      />
+
+      {showTodoModal && (
+        <AddTodoModal
+          isOpen={true}
+          onClose={() => setShowTodoModal(false)}
+          conceptName={tool.name}
+          todoType={showTodoModal}
+        />
+      )}
     </div>
   );
 }

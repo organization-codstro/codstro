@@ -2,13 +2,13 @@ import React from "react";
 import { Save } from "lucide-react";
 
 interface ProjectFooterActionsProps {
-  onBack: () => void;
+  onSave: () => void;
   onSubmit: () => void;
   submitLabel?: string;
 }
 
 export const ProjectFooterActions: React.FC<ProjectFooterActionsProps> = ({
-  onBack,
+  onSave,
   onSubmit,
   submitLabel = "Create Project",
 }) => {
@@ -16,10 +16,10 @@ export const ProjectFooterActions: React.FC<ProjectFooterActionsProps> = ({
     <div className="flex justify-between mt-8">
       <button
         type="button"
-        onClick={onBack}
+        onClick={onSave}
         className="px-6 py-3 font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"
       >
-        Back
+        Save
       </button>
 
       <button

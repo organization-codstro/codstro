@@ -1,5 +1,5 @@
 import React from "react";
-import { Calendar, Trash2, X } from "lucide-react";
+import { Calendar, Trash2, X, Check } from "lucide-react";
 import { Todo } from "../../types/ProjectPlanning/project";
 
 interface ProjectTodoItemProps {
@@ -21,6 +21,22 @@ export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
   onDelete,
   getStatusColor,
 }) => {
+  const [editedTodo, setEditedTodo] = React.useState<Todo>(todo);
+
+  React.useEffect(() => {
+    setEditedTodo(todo);
+  }, [todo, isEditing]);
+
+  const handleSave = () => {
+    onUpdate(todo.todo_id, editedTodo);
+    onCancelEdit();
+  };
+
+  const handleCancel = () => {
+    setEditedTodo(todo);
+    onCancelEdit();
+  };
+
   return (
     <div
       className={`p-4 border rounded-lg transition-colors ${
@@ -34,32 +50,38 @@ export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
         <div className="space-y-3">
           <input
             type="text"
-            value={todo.todo_name}
+            value={editedTodo.todo_name}
             onChange={(e) =>
-              onUpdate(todo.todo_id, { todo_name: e.target.value })
+              setEditedTodo({ ...editedTodo, todo_name: e.target.value })
             }
             placeholder="Task name"
             className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-400"
+            onClick={(e) => e.stopPropagation()}
           />
 
           <textarea
-            value={todo.todo_content}
+            value={editedTodo.todo_content}
             onChange={(e) =>
-              onUpdate(todo.todo_id, { todo_content: e.target.value })
+              setEditedTodo({ ...editedTodo, todo_content: e.target.value })
             }
             placeholder="Task content"
             rows={2}
             className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-400"
+            onClick={(e) => e.stopPropagation()}
           />
 
           <textarea
-            value={todo.todo_description}
+            value={editedTodo.todo_description}
             onChange={(e) =>
-              onUpdate(todo.todo_id, { todo_description: e.target.value })
+              setEditedTodo({
+                ...editedTodo,
+                todo_description: e.target.value,
+              })
             }
             placeholder="Task description"
             rows={2}
             className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-400"
+            onClick={(e) => e.stopPropagation()}
           />
 
           <div className="grid grid-cols-2 gap-2">
@@ -69,13 +91,15 @@ export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
               </label>
               <input
                 type="date"
-                value={todo.todo_start_date}
+                value={editedTodo.todo_start_date}
                 onChange={(e) =>
-                  onUpdate(todo.todo_id, {
+                  setEditedTodo({
+                    ...editedTodo,
                     todo_start_date: e.target.value,
                   })
                 }
                 className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-400"
+                onClick={(e) => e.stopPropagation()}
               />
             </div>
 
@@ -85,26 +109,30 @@ export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
               </label>
               <input
                 type="date"
-                value={todo.todo_end_date}
+                value={editedTodo.todo_end_date}
                 onChange={(e) =>
-                  onUpdate(todo.todo_id, {
+                  setEditedTodo({
+                    ...editedTodo,
                     todo_end_date: e.target.value,
                   })
                 }
                 className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-400"
+                onClick={(e) => e.stopPropagation()}
               />
             </div>
           </div>
 
           <div className="flex items-center justify-between">
             <select
-              value={todo.todo_status}
+              value={editedTodo.todo_status}
               onChange={(e) =>
-                onUpdate(todo.todo_id, {
+                setEditedTodo({
+                  ...editedTodo,
                   todo_status: e.target.value as Todo["todo_status"],
                 })
               }
               className="px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-400"
+              onClick={(e) => e.stopPropagation()}
             >
               <option value="waiting">Waiting</option>
               <option value="in progress">In Progress</option>
@@ -114,17 +142,35 @@ export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
             <div className="flex space-x-2">
               <button
                 type="button"
-                onClick={() => onDelete(todo.todo_id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (window.confirm("정말 삭제하시겠습니까?")) {
+                    onDelete(todo.todo_id);
+                  }
+                }}
                 className="p-2 text-red-600 rounded hover:bg-red-50"
               >
                 <Trash2 className="w-4 h-4" />
               </button>
               <button
                 type="button"
-                onClick={onCancelEdit}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleCancel();
+                }}
                 className="p-2 text-gray-600 rounded hover:bg-gray-50"
               >
                 <X className="w-4 h-4" />
+              </button>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleSave();
+                }}
+                className="p-2 text-green-600 rounded hover:bg-green-50"
+              >
+                <Check className="w-4 h-4" />
               </button>
             </div>
           </div>

@@ -1,9 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Send, ArrowRight } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { ProjectBasicInfo } from "../../types/ProjectPlanning/project";
 
 export default function ProjectCreateChat() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const basicInfo = (location.state as { basicInfo?: ProjectBasicInfo })
+    ?.basicInfo;
 
   const [messages, setMessages] = useState<
     Array<{ sender: string; message: string }>
@@ -16,6 +21,30 @@ export default function ProjectCreateChat() {
   ]);
 
   const [input, setInput] = useState("");
+
+  useEffect(() => {
+    // 기초 정보가 없으면 첫 단계로 리다이렉트
+    if (!basicInfo) {
+      navigate("/projects/new", { replace: true });
+      return;
+    }
+
+    // 기초 정보를 바탕으로 초기 메시지 설정
+    if (basicInfo.project_topic || basicInfo.desired_features) {
+      const topic = basicInfo.project_topic || "your idea";
+      const features = basicInfo.desired_features
+        ? `You mentioned features like: ${basicInfo.desired_features}. `
+        : "";
+      const initialMessage = `I see you want to create a project about "${topic}". ${features}Let's discuss this further and refine your project plan!`;
+
+      setMessages([
+        {
+          sender: "AI",
+          message: initialMessage,
+        },
+      ]);
+    }
+  }, [basicInfo, navigate]);
 
   const handleSend = () => {
     if (!input.trim()) return;
@@ -40,9 +69,16 @@ export default function ProjectCreateChat() {
   const handleNext = () => {
     navigate("/projects/new/info", {
       state: {
+        basicInfo,
         chatHistory: messages,
       },
+      replace: true, // 뒤로가기 방지
     });
+  };
+
+  const handleBack = () => {
+    // todo : 단계 저장 api 연결
+    navigate("/projects");
   };
 
   return (
@@ -54,7 +90,7 @@ export default function ProjectCreateChat() {
             Create New Project
           </h1>
           <p className="mt-1 text-gray-600">
-            Step 1: Discuss your project idea with AI
+            Step 2: Discuss your project idea with AI
           </p>
         </div>
       </div>
@@ -64,7 +100,7 @@ export default function ProjectCreateChat() {
         <div className="max-w-4xl p-8 mx-auto space-y-4">
           {messages.map((msg, idx) => (
             <div
-              key={idx}
+              key={`msg-${idx}-${msg.sender}`}
               className={`flex ${
                 msg.sender === "USER" ? "justify-end" : "justify-start"
               }`}
@@ -109,10 +145,10 @@ export default function ProjectCreateChat() {
 
           <div className="flex justify-between">
             <button
-              onClick={() => navigate("/projects")}
+              onClick={handleBack}
               className="px-6 py-2 font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"
             >
-              Cancel
+              Save
             </button>
 
             <button

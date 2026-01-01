@@ -108,7 +108,9 @@ export default function AppRoutes() {
 
         {/* ================= Project Planning ================= */}
         <Route path="/projects" element={<Page.ProjectMain />} />
-        <Route path="/projects/new" element={<Page.ProjectCreateChat />} />
+        <Route path="/projects/:projectId" element={<Page.ProjectDetail />} />
+        <Route path="/projects/new" element={<Page.ProjectBasicInfoInput />} />
+        <Route path="/projects/new/chat" element={<Page.ProjectCreateChat />} />
         <Route
           path="/projects/new/info"
           element={<Page.ProjectInfoGenerate />}

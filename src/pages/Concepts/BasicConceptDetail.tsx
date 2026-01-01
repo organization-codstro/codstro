@@ -1,13 +1,18 @@
 import { ArrowLeft, MessageCircle, CheckCircle } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import { useState } from "react";
 import { concept } from "../../data/Concepts/concepts";
 import MarkdownRenderer from "../../components/Markdown/MarkdownRenderer";
+import AIChat from "../../components/CompanyInformation/AIChat";
+import AddTodoModal from "../../components/CompanyInformation/AddTodoModal";
 
 export default function BasicConceptDetail() {
   const { conceptId } = useParams<{ conceptId: string }>();
   const navigate = useNavigate();
+  const [showAIChat, setShowAIChat] = useState(false);
+  const [showTodoModal, setShowTodoModal] = useState<
+    false | "documentation" | "clone_project"
+  >(false);
 
   if (!concept) return <p className="p-8">Concept not found.</p>;
 
@@ -57,9 +62,26 @@ export default function BasicConceptDetail() {
         </div>
 
         <div className="flex gap-3 mb-8">
-          <button className="flex items-center gap-2 px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700">
+          <button
+            onClick={() => setShowAIChat(true)}
+            className="flex items-center gap-2 px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+          >
             <MessageCircle className="w-4 h-4" />
             Chat with AI
+          </button>
+          <button
+            onClick={() => setShowTodoModal("documentation")}
+            className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            <MessageCircle className="w-4 h-4" />
+            Add Todo: Explore Documentation
+          </button>
+          <button
+            onClick={() => setShowTodoModal("clone_project")}
+            className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            <MessageCircle className="w-4 h-4" />
+            Add Todo: Build Clone Project
           </button>
         </div>
 
@@ -87,6 +109,21 @@ export default function BasicConceptDetail() {
           ))}
         </div>
       </div>
+
+      <AIChat
+        isOpen={showAIChat}
+        onClose={() => setShowAIChat(false)}
+        conceptName={concept.name}
+      />
+
+      {showTodoModal && (
+        <AddTodoModal
+          isOpen={true}
+          onClose={() => setShowTodoModal(false)}
+          conceptName={concept.name}
+          todoType={showTodoModal}
+        />
+      )}
     </div>
   );
 }

@@ -48,6 +48,7 @@ export const tool = {
   name: "VS Code",
   category: "IDE",
   tags: ["Editor", "Microsoft", "Extensions"],
+  isUnderstood: false,
   officialSite: "https://code.visualstudio.com",
   description:
     "Visual Studio Code is a lightweight but powerful source code editor which runs on your desktop.",

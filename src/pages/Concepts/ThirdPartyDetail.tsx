@@ -1,13 +1,33 @@
-import { ArrowLeft, MessageCircle, ExternalLink } from "lucide-react";
+import { ArrowLeft, MessageCircle, ExternalLink, Plus } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
 import { service } from "../../data/Concepts/thirdPartyServices";
 import MarkdownRenderer from "../../components/Markdown/MarkdownRenderer";
+import AIChat from "../../components/CompanyInformation/AIChat";
+import AddTodoModal from "../../components/CompanyInformation/AddTodoModal";
 
 export default function ThirdPartyDetail() {
   const { serviceId } = useParams<{ serviceId: string }>();
   const navigate = useNavigate();
 
-  if (!service) return <p className="p-8">Service not found.</p>;
+  const [showAIChat, setShowAIChat] = useState(false);
+  const [showTodoModal, setShowTodoModal] = useState<
+    false | "documentation" | "clone_project"
+  >(false);
+
+  if (!service) {
+    return (
+      <div className="p-8 text-center">
+        <p className="text-gray-600">Service not found.</p>
+        <button
+          onClick={() => navigate("/third-partys")}
+          className="px-4 py-2 mt-4 text-white bg-blue-600 rounded-lg"
+        >
+          Back to Services
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-5xl p-8 mx-auto">
@@ -19,6 +39,7 @@ export default function ThirdPartyDetail() {
         Back to Services
       </button>
 
+      {/* Service Info */}
       <div className="p-8 mb-6 bg-white border border-gray-200 rounded-lg">
         <div className="flex items-start justify-between mb-6">
           <div>
@@ -30,7 +51,9 @@ export default function ThirdPartyDetail() {
                 {service.category}
               </span>
             </div>
+
             <p className="mb-4 text-gray-600">{service.description}</p>
+
             <div className="flex flex-wrap gap-2 mb-4">
               {service.tags.map((tag, idx) => (
                 <span
@@ -41,6 +64,7 @@ export default function ThirdPartyDetail() {
                 </span>
               ))}
             </div>
+
             <a
               href={service.officialSite}
               target="_blank"
@@ -53,18 +77,40 @@ export default function ThirdPartyDetail() {
           </div>
         </div>
 
-        <div className="flex gap-3 mb-8">
-          <button className="flex items-center gap-2 px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700">
+        {/* Actions */}
+        <div className="flex flex-wrap gap-3 mb-8">
+          <button
+            onClick={() => setShowAIChat(true)}
+            className="flex items-center gap-2 px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+          >
             <MessageCircle className="w-4 h-4" />
             Chat with AI
           </button>
+
+          <button
+            onClick={() => setShowTodoModal("documentation")}
+            className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            <Plus className="w-4 h-4" />
+            Add Todo: Explore Documentation
+          </button>
+
+          <button
+            onClick={() => setShowTodoModal("clone_project")}
+            className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            <Plus className="w-4 h-4" />
+            Add Todo: Build Clone Project
+          </button>
         </div>
 
+        {/* Content */}
         <div className="prose max-w-none">
           <MarkdownRenderer content={service.content} />
         </div>
       </div>
 
+      {/* Related */}
       <div className="p-6 bg-white border border-gray-200 rounded-lg">
         <h2 className="mb-4 text-xl font-bold text-gray-900">
           Related Services & Concepts
@@ -73,8 +119,8 @@ export default function ThirdPartyDetail() {
           {service.relatedConcepts.map((related) => (
             <button
               key={related.id}
-              className="w-full p-4 text-left transition-all bg-white border border-gray-200 rounded-lg cursor-pointer hover:border-green-400 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-green-300"
               onClick={() => navigate(`/third-partys/${related.id}`)}
+              className="w-full p-4 text-left bg-white border border-gray-200 rounded-lg hover:border-green-400 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-green-300 transition-all"
             >
               <h3 className="mb-1 font-semibold text-gray-900">
                 {related.name}
@@ -84,6 +130,22 @@ export default function ThirdPartyDetail() {
           ))}
         </div>
       </div>
+
+      {/* Modals */}
+      <AIChat
+        isOpen={showAIChat}
+        onClose={() => setShowAIChat(false)}
+        conceptName={service.name}
+      />
+
+      {showTodoModal && (
+        <AddTodoModal
+          isOpen
+          onClose={() => setShowTodoModal(false)}
+          conceptName={service.name}
+          todoType={showTodoModal}
+        />
+      )}
     </div>
   );
 }

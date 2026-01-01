@@ -35,7 +35,7 @@ export default function Profile() {
       : 100;
 
   return (
-    <div className="p-8 mx-auto max-w-7xl">
+    <div className="p-8 mx-auto max-w-6xl">
       <div className="p-8 bg-white border border-gray-200 rounded-lg">
         <div className="flex flex-col gap-8 mb-8">
           {/* Left Profile Summary */}
@@ -75,7 +75,7 @@ export default function Profile() {
           </div>
 
           {/* Profile Information */}
-          <div className="w-[120%] mx-auto space-y-4 ml-20 ">
+          <div className="w-[100%] mx-auto space-y-6 ml-4 ">
             {" "}
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div>
@@ -162,7 +162,7 @@ export default function Profile() {
       {/* Footer Actions */}
       <div className="flex gap-3 pt-6 border-t border-gray-200">
         <button
-          onClick={() => navigate("/badge-manager")}
+          onClick={() => navigate("/profile/badges")}
           className="flex items-center justify-center gap-2 px-6 py-2 font-medium transition-colors border border-gray-300 rounded-lg hover:bg-gray-50"
         >
           <Award className="w-5 h-5" />

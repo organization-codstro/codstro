@@ -11,6 +11,7 @@ export interface Project {
   project_effect: string;
   project_created_date: string;
   user_id: number;
+  project_status?: "planning" | "active"; // 기획중 | 진행중
 }
 
 export interface ProjectPage {
@@ -29,7 +30,7 @@ export interface Todo {
   todo_description: string;
   todo_start_date: string;
   todo_end_date: string;
-  todo_status: 'waiting' | 'in progress' | 'done';
+  todo_status: "waiting" | "in progress" | "done";
   todo_created_date: string;
   group_id?: number;
   project_id?: number;
@@ -48,8 +49,24 @@ export interface Meeting {
 
 export interface MeetingMessage {
   message_id: number;
-  sender: 'AI' | 'USER';
+  sender: "AI" | "USER";
   message: string;
   created_at: string;
   meeting_id: number;
+}
+
+export interface ProjectPlanningLog {
+  project_tasks_logs_id: number;
+  project_tasks_logs_sender: "AI" | "USER";
+  project_tasks_logs_message: string;
+  project_tasks_logs_created_at: string;
+  project_tasks_logs_meeting_index: number;
+  project_id: number;
+}
+
+export interface ProjectBasicInfo {
+  project_topic?: string;
+  desired_features?: string;
+  concepts_to_cover?: string;
+  other_info?: string;
 }

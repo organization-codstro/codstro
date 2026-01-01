@@ -206,16 +206,16 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       {/* Mobile Overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden"
+          className="fixed inset-0 z-30 bg-black bg-opacity-50 lg:hidden"
           onClick={onClose}
         />
       )}
 
       {/* Sidebar */}
       <div
-        className={`fixed left-0 top-0 h-screen bg-white shadow-xl z-50 transition-transform duration-300 ${
+        className={`fixed left-0 top-0 h-screen bg-white shadow-xl z-40 transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
-        } w-80 lg:translate-x-0 lg:static lg:shadow-none border-r border-purple-100`}
+        } w-80 lg:translate-x-0 lg:static lg:shadow-none lg:z-0 border-r border-purple-100`}
       >
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-purple-100">

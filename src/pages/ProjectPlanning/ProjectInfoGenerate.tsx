@@ -1,10 +1,14 @@
-import { useState } from "react";
-import { Todo, ProjectPage } from "../../types/ProjectPlanning/project";
+import { useState, useEffect } from "react";
+import {
+  Todo,
+  ProjectPage,
+  ProjectBasicInfo,
+} from "../../types/ProjectPlanning/project";
 import {
   pagesData,
   projectTodosData,
 } from "../../data/ProjectPlanning/project";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ProjectBasicInfoSection } from "../../components/ProjectPlanning/ProjectBasicInfoSection";
 import { ProjectPagesSection } from "../../components/ProjectPlanning/ProjectPagesSection";
 import { ProjectTasksSection } from "../../components/ProjectPlanning/ProjectTasksSection";
@@ -14,6 +18,17 @@ import { ProjectFooterActions } from "../../components/ProjectPlanning/ProjectFo
 
 export default function ProjectInfoGenerate() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const basicInfo = (location.state as { basicInfo?: ProjectBasicInfo })
+    ?.basicInfo;
+
+  useEffect(() => {
+    // 이전 단계 데이터가 없으면 첫 단계로 리다이렉트
+    if (!basicInfo) {
+      navigate("/projects/new", { replace: true });
+    }
+  }, [basicInfo, navigate]);
 
   const [projectName, setProjectName] = useState("AI Chat App");
   const [projectTopic, setProjectTopic] = useState(
@@ -67,6 +82,65 @@ export default function ProjectInfoGenerate() {
     setShowTodoForm(false);
   };
 
+  const updatePage = (
+    pageId: number,
+    updates: Partial<ProjectPage & { todos: Todo[] }>
+  ) => {
+    setPages((prev) =>
+      prev.map((page) =>
+        page.project_page_id === pageId ? { ...page, ...updates } : page
+      )
+    );
+  };
+
+  const updatePageTodo = (
+    pageId: number,
+    todoId: number,
+    updates: Partial<Todo>
+  ) => {
+    setPages((prev) =>
+      prev.map((page) => {
+        if (page.project_page_id === pageId) {
+          return {
+            ...page,
+            todos: page.todos.map((todo) =>
+              todo.todo_id === todoId ? { ...todo, ...updates } : todo
+            ),
+          };
+        }
+        return page;
+      })
+    );
+  };
+
+  const deletePageTodo = (pageId: number, todoId: number) => {
+    setPages((prev) =>
+      prev.map((page) => {
+        if (page.project_page_id === pageId) {
+          return {
+            ...page,
+            todos: page.todos.filter((todo) => todo.todo_id !== todoId),
+          };
+        }
+        return page;
+      })
+    );
+  };
+
+  const addPageTodo = (pageId: number, newTodo: Todo) => {
+    setPages((prev) =>
+      prev.map((page) => {
+        if (page.project_page_id === pageId) {
+          return {
+            ...page,
+            todos: [...page.todos, newTodo],
+          };
+        }
+        return page;
+      })
+    );
+  };
+
   const handleCreateProject = () => {
     // TODO: API 연동
     navigate("/projects"); // 생성 후 이동
@@ -75,7 +149,10 @@ export default function ProjectInfoGenerate() {
   return (
     <div className="flex-1 overflow-auto bg-gray-50">
       {/* Header */}
-      <ProjectHeaderSection />
+      <ProjectHeaderSection
+        title="Create New Project"
+        subtitle="Step 3: Review and edit project details"
+      />
 
       <div className="p-8 mx-auto max-w-7xl">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
@@ -105,6 +182,10 @@ export default function ProjectInfoGenerate() {
               expandedPage={expandedPage}
               setExpandedPage={setExpandedPage}
               getStatusColor={getStatusColor}
+              onUpdatePage={updatePage}
+              onUpdateTodo={updatePageTodo}
+              onDeleteTodo={deletePageTodo}
+              onAddTodo={addPageTodo}
             />
           </div>
 
@@ -122,7 +203,10 @@ export default function ProjectInfoGenerate() {
 
         {/* Footer */}
         <ProjectFooterActions
-          onBack={() => navigate("/projects/new")}
+          onSave={() => {
+            //todo : 저장하고 나가기 api 연결
+            navigate("/projects");
+          }}
           onSubmit={handleCreateProject}
         />
       </div>
