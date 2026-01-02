@@ -24,17 +24,14 @@ export interface ProjectPage {
 }
 
 export interface Todo {
-  todo_id: number;
-  todo_name: string;
-  todo_content: string;
-  todo_description: string;
-  todo_start_date: string;
-  todo_end_date: string;
-  todo_status: "waiting" | "in progress" | "done";
-  todo_created_date: string;
-  group_id?: number;
-  project_id?: number;
-  project_page_id?: number;
+  id: string;
+  field_id: string;
+  name: string;
+  description: string;
+  start_date: string;
+  end_date: string;
+  status: "pending" | "in-progress" | "completed";
+  created_at: string;
 }
 
 export interface Meeting {

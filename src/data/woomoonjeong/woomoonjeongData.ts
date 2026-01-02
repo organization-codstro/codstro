@@ -1,42 +1,8 @@
-import { RecommendedPin } from "../../types/Woomoonjeong/woomoonjeong";
-
-export interface Field {
-  id: string;
-  name: string;
-  type: "web" | "app" | "server" | "game" | "security" | "work" | "other";
-  description: string;
-  image?: string;
-  groups: Group[];
-  created_at: string;
-}
-
-export interface Group {
-  id: string;
-  name: string;
-  description: string;
-  pins: Pin[];
-  created_at: string;
-}
-
-export interface Pin {
-  id: string;
-  title: string;
-  description: string;
-  url: string;
-  tags: string[];
-  created_at: string;
-}
-
-export interface Todo {
-  id: string;
-  field_id: string;
-  name: string;
-  description: string;
-  start_date: string;
-  end_date: string;
-  status: "pending" | "in-progress" | "completed";
-  created_at: string;
-}
+import {
+  Field,
+  RecommendedPin,
+  Todo,
+} from "../../types/Woomoonjeong/woomoonjeong";
 
 export const fieldTypeColors = {
   web: "bg-red-100 text-red-700 border-red-200",
@@ -50,7 +16,7 @@ export const fieldTypeColors = {
 
 export const woomoonjeongData: Field[] = [
   {
-    id: "1",
+    id: 1,
     name: "Frontend Development",
     type: "web",
     description: "Web frontend technologies and frameworks",
@@ -58,13 +24,13 @@ export const woomoonjeongData: Field[] = [
     created_at: "2024-01-15T09:00:00Z",
     groups: [
       {
-        id: "1-1",
+        id: 1,
         name: "React Ecosystem",
         description: "React and related libraries",
         created_at: "2024-01-15T09:30:00Z",
         pins: [
           {
-            id: "1-1-1",
+            id: 1,
             title: "React Official Documentation",
             description: "Complete guide to React concepts and API",
             url: "https://react.dev",
@@ -72,7 +38,7 @@ export const woomoonjeongData: Field[] = [
             created_at: "2024-01-15T10:00:00Z",
           },
           {
-            id: "1-1-2",
+            id: 2,
             title: "Next.js Tutorial",
             description: "Learn Next.js with hands-on examples",
             url: "https://nextjs.org/learn",
@@ -82,13 +48,13 @@ export const woomoonjeongData: Field[] = [
         ],
       },
       {
-        id: "1-2",
+        id: 2,
         name: "CSS & Styling",
         description: "Modern CSS techniques and frameworks",
         created_at: "2024-01-17T11:00:00Z",
         pins: [
           {
-            id: "1-2-1",
+            id: 1,
             title: "Tailwind CSS Documentation",
             description: "Utility-first CSS framework",
             url: "https://tailwindcss.com/docs",
@@ -100,7 +66,7 @@ export const woomoonjeongData: Field[] = [
     ],
   },
   {
-    id: "2",
+    id: 2,
     name: "Mobile Development",
     type: "app",
     description: "iOS and Android app development",
@@ -108,13 +74,13 @@ export const woomoonjeongData: Field[] = [
     created_at: "2024-01-18T13:00:00Z",
     groups: [
       {
-        id: "2-1",
+        id: 1,
         name: "React Native",
         description: "Cross-platform mobile development",
         created_at: "2024-01-18T13:30:00Z",
         pins: [
           {
-            id: "2-1-1",
+            id: 1,
             title: "React Native Getting Started",
             description: "Official React Native setup guide",
             url: "https://reactnative.dev/docs/getting-started",
@@ -126,7 +92,7 @@ export const woomoonjeongData: Field[] = [
     ],
   },
   {
-    id: "3",
+    id: 3,
     name: "Backend Development",
     type: "server",
     description: "Server-side development and APIs",
@@ -134,13 +100,13 @@ export const woomoonjeongData: Field[] = [
     created_at: "2024-01-19T15:00:00Z",
     groups: [
       {
-        id: "3-1",
+        id: 1,
         name: "Node.js",
         description: "JavaScript runtime for server-side development",
         created_at: "2024-01-19T15:30:00Z",
         pins: [
           {
-            id: "3-1-1",
+            id: 1,
             title: "Express.js Guide",
             description: "Fast, unopinionated web framework for Node.js",
             url: "https://expressjs.com/en/guide/routing.html",
@@ -155,8 +121,8 @@ export const woomoonjeongData: Field[] = [
 
 export const todosData: Todo[] = [
   {
-    id: "t1",
-    field_id: "1",
+    id: 1,
+    field_id: 1,
     name: "Complete React Tutorial",
     description:
       "Finish the official React tutorial and build a tic-tac-toe game",
@@ -166,8 +132,8 @@ export const todosData: Todo[] = [
     created_at: "2024-01-20T09:00:00Z",
   },
   {
-    id: "t2",
-    field_id: "1",
+    id: 2,
+    field_id: 1,
     name: "Setup Tailwind CSS Project",
     description: "Create a new project with Tailwind CSS configuration",
     start_date: "2024-01-21",
@@ -176,8 +142,8 @@ export const todosData: Todo[] = [
     created_at: "2024-01-20T10:00:00Z",
   },
   {
-    id: "t3",
-    field_id: "2",
+    id: 3,
+    field_id: 2,
     name: "React Native Environment Setup",
     description: "Install and configure React Native development environment",
     start_date: "2024-01-19",
@@ -186,14 +152,59 @@ export const todosData: Todo[] = [
     created_at: "2024-01-19T08:00:00Z",
   },
   {
-    id: "t4",
-    field_id: "3",
+    id: 4,
+    field_id: 3,
     name: "Build REST API with Express",
     description: "Create a simple REST API using Express.js",
     start_date: "2024-01-23",
     end_date: "2024-01-25",
     status: "pending",
     created_at: "2024-01-20T11:00:00Z",
+  },
+  // 2026년 1월 2일 예시 데이터
+  {
+    id: 5,
+    field_id: 1,
+    name: "Learn TypeScript Fundamentals",
+    description:
+      "Study TypeScript basic types, interfaces, and generics for better code quality",
+    start_date: "2026-01-02",
+    end_date: "2026-01-02",
+    status: "pending",
+    created_at: "2026-01-01T09:00:00Z",
+  },
+  {
+    id: 6,
+    field_id: 1,
+    name: "Build Portfolio Website",
+    description:
+      "Create a personal portfolio website using React and showcase recent projects",
+    start_date: "2026-01-02",
+    end_date: "2026-01-05",
+    status: "in-progress",
+    created_at: "2026-01-01T10:00:00Z",
+  },
+  {
+    id: 7,
+    field_id: 2,
+    name: "Flutter App Development",
+    description:
+      "Start learning Flutter framework and build a simple mobile app",
+    start_date: "2026-01-02",
+    end_date: "2026-01-04",
+    status: "pending",
+    created_at: "2026-01-01T11:00:00Z",
+  },
+  {
+    id: 8,
+    field_id: 3,
+    name: "Database Design Practice",
+    description:
+      "Practice designing normalized database schemas for e-commerce applications",
+    start_date: "2026-01-02",
+    end_date: "2026-01-03",
+    status: "completed",
+    created_at: "2026-01-01T12:00:00Z",
   },
 ];
 
@@ -309,3 +320,4 @@ export const extendedRecommendedPins: RecommendedPin[] = [
     views: 320,
   },
 ];
+

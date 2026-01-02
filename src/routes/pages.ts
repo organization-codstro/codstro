@@ -8,6 +8,7 @@ export { default as Layout } from "../pages/Layout";
 
 /* ================= WOOMOONJEONG ================= */
 export { default as TodoManagement } from "../pages/Woomoonjeong/TodoManagement";
+export { default as TodoManagementDetail } from "../pages/Woomoonjeong/TodoManagementDetail";
 export { default as RecommendedDocumentsMain } from "../pages/Woomoonjeong/RecommendedDocumentsMain";
 
 /* ================= WOOMOONRO ================= */

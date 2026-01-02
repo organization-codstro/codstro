@@ -11,7 +11,7 @@ export const navigationData: NavigationItem[] = [
         id: "todo-management",
         title: "To-do Management",
         icon: "CheckSquare",
-        route: "/woomoonjeong/todo",
+        route: "/woomoonjeong",
       },
       {
         id: "documents-management",
