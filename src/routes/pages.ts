@@ -10,6 +10,7 @@ export { default as Layout } from "../pages/Layout";
 export { default as TodoManagement } from "../pages/Woomoonjeong/TodoManagement";
 export { default as TodoManagementDetail } from "../pages/Woomoonjeong/TodoManagementDetail";
 export { default as RecommendedDocumentsMain } from "../pages/Woomoonjeong/RecommendedDocumentsMain";
+export { default as FieldDetail } from "../pages/Woomoonjeong/FieldDetail";
 
 /* ================= WOOMOONRO ================= */
 export { default as WoomoonroMain } from "../pages/Woomoonro/WoomoonroMain";

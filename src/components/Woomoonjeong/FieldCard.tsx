@@ -1,4 +1,5 @@
-import { Star } from "lucide-react";
+import { ExternalLink } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { RecommendedField } from "../../types/Woomoonjeong/woomoonjeong";
 import { fieldTypeIcons } from "../../constants/fieldTypeIcons";
 import { fieldTypeColors } from "../../data/woomoonjeong/woomoonjeongData";
@@ -7,13 +8,46 @@ interface FieldCardProps {
   field: RecommendedField;
   isSaved: boolean;
   onToggleSave: () => void;
+  onAdd?: () => void;
 }
 
 const FieldCard: React.FC<FieldCardProps> = ({
   field,
   isSaved,
   onToggleSave,
+  onAdd,
 }) => {
+  const navigate = useNavigate();
+
+  const handleCardClick = (e: React.MouseEvent) => {
+    // 버튼 클릭 시에는 카드 클릭 이벤트가 발생하지 않도록
+    if (
+      (e.target as HTMLElement).closest("button") ||
+      (e.target as HTMLElement).closest("a")
+    ) {
+      return;
+    }
+    navigate(`/woomoonjeong/fields/${field.id}`);
+  };
+
+  const handleCardKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      if (
+        !(e.target as HTMLElement).closest("button") &&
+        !(e.target as HTMLElement).closest("a")
+      ) {
+        navigate(`/woomoonjeong/fields/${field.id}`);
+      }
+    }
+  };
+
+  const handleAddClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (onAdd) {
+      onAdd();
+    }
+  };
   const Icon = fieldTypeIcons[field.type];
 
   const bgColor =
@@ -47,17 +81,13 @@ const FieldCard: React.FC<FieldCardProps> = ({
       : "text-purple-600";
 
   return (
-    <div className="overflow-hidden transition-shadow bg-white border border-purple-100 shadow-sm rounded-xl hover:shadow-md">
-      {field.image && (
-        <div className="h-32 overflow-hidden bg-gray-200">
-          <img
-            src={field.image}
-            alt={field.name}
-            className="object-cover w-full h-full"
-          />
-        </div>
-      )}
-
+    <div
+      className="overflow-hidden transition-shadow bg-white border border-purple-100 shadow-sm rounded-xl hover:shadow-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#587CF0]"
+      onClick={handleCardClick}
+      onKeyDown={handleCardKeyDown}
+      role="button"
+      tabIndex={0}
+    >
       <div className="p-6">
         {/* Header */}
         <div className="flex items-start justify-between mb-3">
@@ -100,11 +130,11 @@ const FieldCard: React.FC<FieldCardProps> = ({
           </span>
 
           <button
-            onClick={onToggleSave}
+            onClick={handleAddClick}
             className="flex items-center gap-2 px-4 py-2 text-sm text-white transition-colors rounded-lg bg-[#587CF0] hover:bg-[#4a6de8]"
           >
-            <Star className="w-3 h-3" />
-            {isSaved ? "Saved" : "Save Field"}
+            <ExternalLink className="w-3 h-3" />
+            Add
           </button>
         </div>
       </div>

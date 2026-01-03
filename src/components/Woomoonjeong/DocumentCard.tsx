@@ -1,4 +1,4 @@
-import { Star, ExternalLink, Tag } from "lucide-react";
+import { ExternalLink, Tag } from "lucide-react";
 import { RecommendedPin } from "../../types/Woomoonjeong/woomoonjeong";
 import { fieldTypeIcons } from "../../constants/fieldTypeIcons";
 import { fieldTypeColors } from "../../data/woomoonjeong/woomoonjeongData";
@@ -7,43 +7,55 @@ interface DocumentCardProps {
   pin: RecommendedPin;
   isSaved: boolean;
   onToggleSave: () => void;
+  onAdd?: () => void;
 }
 
 const DocumentCard: React.FC<DocumentCardProps> = ({
   pin,
   isSaved,
   onToggleSave,
+  onAdd,
 }) => {
   const Icon = fieldTypeIcons[pin.field_type];
 
-  const renderStars = (rating: number) => (
-    <div className="flex items-center gap-1">
-      {[1, 2, 3, 4, 5].map((star) => (
-        <Star
-          key={star}
-          className={`h-3 w-3 ${
-            star <= rating ? "text-yellow-400 fill-current" : "text-gray-300"
-          }`}
-        />
-      ))}
-    </div>
-  );
+  const handleCardClick = (e: React.MouseEvent) => {
+    // 버튼 클릭 시에는 카드 클릭 이벤트가 발생하지 않도록
+    if (
+      (e.target as HTMLElement).closest("button") ||
+      (e.target as HTMLElement).closest("a")
+    ) {
+      return;
+    }
+    window.open(pin.url, "_blank", "noopener,noreferrer");
+  };
 
-  const getDifficultyColor = (difficulty?: string) => {
-    switch (difficulty) {
-      case "beginner":
-        return "bg-green-100 text-green-700 border-green-200";
-      case "intermediate":
-        return "bg-yellow-100 text-yellow-700 border-yellow-200";
-      case "advanced":
-        return "bg-red-100 text-red-700 border-red-200";
-      default:
-        return "bg-gray-100 text-gray-700 border-gray-200";
+  const handleCardKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      if (
+        !(e.target as HTMLElement).closest("button") &&
+        !(e.target as HTMLElement).closest("a")
+      ) {
+        window.open(pin.url, "_blank", "noopener,noreferrer");
+      }
+    }
+  };
+
+  const handleAddClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (onAdd) {
+      onAdd();
     }
   };
 
   return (
-    <div className="overflow-hidden transition-shadow bg-white border border-purple-100 shadow-sm rounded-xl hover:shadow-md">
+    <div
+      className="overflow-hidden transition-shadow bg-white border border-purple-100 shadow-sm rounded-xl hover:shadow-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#587CF0]"
+      onClick={handleCardClick}
+      onKeyDown={handleCardKeyDown}
+      role="button"
+      tabIndex={0}
+    >
       <div className="p-6">
         {/* Header */}
         <div className="flex items-start justify-between mb-3">
@@ -69,7 +81,7 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
             </div>
 
             <div className="flex-1">
-              <h3 className="text-sm font-semibold text-gray-800">
+              <h3 className="font-semibold text-gray-800 text-semibold">
                 {pin.title}
               </h3>
               <span
@@ -122,15 +134,13 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
           <span className="text-xs text-gray-500">
             {new Date(pin.created_at).toLocaleDateString()}
           </span>
-          <a
-            href={pin.url}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            onClick={handleAddClick}
             className="flex items-center gap-2 px-4 py-2 bg-[#587CF0] text-white text-sm rounded-lg hover:bg-[#4a6de8]"
           >
             <ExternalLink className="w-3 h-3" />
-            Visit
-          </a>
+            Add
+          </button>
         </div>
       </div>
     </div>

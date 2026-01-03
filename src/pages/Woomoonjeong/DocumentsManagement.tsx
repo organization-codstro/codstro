@@ -11,28 +11,33 @@ import {
   Trash2,
   FolderPlus,
   FileText,
+  Save,
+  X,
 } from "lucide-react";
 import {
-  woomoonjeongData,
+  woomoonjeongData as initialWoomoonjeongData,
   fieldTypeColors,
-  Field,
-  Group,
-  Pin,
 } from "../../data/woomoonjeong/woomoonjeongData";
+import { Field, Group, Pin } from "../../types/Woomoonjeong/woomoonjeong";
 
 const DocumentsManagement: React.FC = () => {
-  const [expandedFields, setExpandedFields] = useState<Set<string>>(
-    new Set(["1"])
+  const [woomoonjeongData, setWoomoonjeongData] = useState<Field[]>(
+    initialWoomoonjeongData
   );
-  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(
-    new Set(["1-1"])
+  const [expandedFields, setExpandedFields] = useState<Set<number>>(
+    new Set([1])
+  );
+  const [expandedGroups, setExpandedGroups] = useState<Set<number>>(
+    new Set([1])
   );
   const [selectedFieldType, setSelectedFieldType] = useState<
     "all" | "web" | "app" | "server" | "game" | "security" | "work" | "other"
   >("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [editingGroupId, setEditingGroupId] = useState<number | null>(null);
+  const [editingGroupName, setEditingGroupName] = useState<string>("");
 
-  const toggleField = (fieldId: string) => {
+  const toggleField = (fieldId: number) => {
     const newExpanded = new Set(expandedFields);
     if (newExpanded.has(fieldId)) {
       newExpanded.delete(fieldId);
@@ -42,7 +47,7 @@ const DocumentsManagement: React.FC = () => {
     setExpandedFields(newExpanded);
   };
 
-  const toggleGroup = (groupId: string) => {
+  const toggleGroup = (groupId: number) => {
     const newExpanded = new Set(expandedGroups);
     if (newExpanded.has(groupId)) {
       newExpanded.delete(groupId);
@@ -57,12 +62,12 @@ const DocumentsManagement: React.FC = () => {
     console.log("Add new field");
   };
 
-  const addGroup = (fieldId: string) => {
+  const addGroup = (fieldId: number) => {
     // In real app, this would open a modal to add group
     console.log("Add group to field:", fieldId);
   };
 
-  const addPin = (groupId: string) => {
+  const addPin = (groupId: number) => {
     // In real app, this would open a modal to add pin
     console.log("Add pin to group:", groupId);
   };
@@ -71,7 +76,7 @@ const DocumentsManagement: React.FC = () => {
     console.log("Edit field:", field.name);
   };
 
-  const deleteField = (fieldId: string) => {
+  const deleteField = (fieldId: number) => {
     if (
       confirm("이 분야를 삭제하시겠습니까? 모든 그룹과 핀이 함께 삭제됩니다.")
     ) {
@@ -80,20 +85,46 @@ const DocumentsManagement: React.FC = () => {
   };
 
   const editGroup = (group: Group) => {
-    console.log("Edit group:", group.name);
+    setEditingGroupId(group.id);
+    setEditingGroupName(group.name);
   };
 
-  const deleteGroup = (groupId: string) => {
+  const saveGroupName = (fieldId: number, groupId: number) => {
+    if (editingGroupName.trim()) {
+      setWoomoonjeongData((prev) =>
+        prev.map((field) => {
+          if (field.id === fieldId) {
+            return {
+              ...field,
+              groups: field.groups.map((group) =>
+                group.id === groupId
+                  ? { ...group, name: editingGroupName.trim() }
+                  : group
+              ),
+            };
+          }
+          return field;
+        })
+      );
+      // TODO: API 연동 - 그룹 이름 저장
+      console.log("Save group name:", editingGroupName);
+    }
+    setEditingGroupId(null);
+    setEditingGroupName("");
+  };
+
+  const cancelEditGroup = () => {
+    setEditingGroupId(null);
+    setEditingGroupName("");
+  };
+
+  const deleteGroup = (groupId: number) => {
     if (confirm("이 그룹을 삭제하시겠습니까? 모든 핀이 함께 삭제됩니다.")) {
       console.log("Delete group:", groupId);
     }
   };
 
-  const editPin = (pin: Pin) => {
-    console.log("Edit pin:", pin.title);
-  };
-
-  const deletePin = (pinId: string) => {
+  const deletePin = (pinId: number) => {
     if (confirm("이 핀을 삭제하시겠습니까?")) {
       console.log("Delete pin:", pinId);
     }
@@ -180,7 +211,7 @@ const DocumentsManagement: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <Filter className="w-4 h-4 text-gray-500" />
                   <span className="text-sm font-medium text-gray-700">
-                    Field Type:
+                    Group Type:
                   </span>
                   {(
                     [
@@ -266,27 +297,6 @@ const DocumentsManagement: React.FC = () => {
                           )}{" "}
                           pins
                         </span>
-                        <button
-                          onClick={() => addGroup(field.id)}
-                          className="p-1 text-gray-400 transition-colors hover:text-blue-500"
-                          title="Add Group"
-                        >
-                          <FolderPlus className="w-4 h-4" />
-                        </button>
-                        <button
-                          onClick={() => editField(field)}
-                          className="p-1 text-gray-400 transition-colors hover:text-blue-500"
-                          title="Edit Field"
-                        >
-                          <Edit3 className="w-4 h-4" />
-                        </button>
-                        <button
-                          onClick={() => deleteField(field.id)}
-                          className="p-1 text-gray-400 transition-colors hover:text-red-500"
-                          title="Delete Field"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
                       </div>
                     </div>
 
@@ -300,45 +310,95 @@ const DocumentsManagement: React.FC = () => {
                           >
                             {/* Group Header */}
                             <div className="flex items-center justify-between p-2 rounded hover:bg-gray-50">
-                              <div
-                                className="flex items-center flex-1 gap-2 cursor-pointer"
-                                onClick={() => toggleGroup(group.id)}
-                              >
-                                {expandedGroups.has(group.id) ? (
-                                  <ChevronDown className="w-3 h-3 text-gray-400" />
+                              <div className="flex items-center flex-1 gap-2">
+                                <div
+                                  className="flex items-center gap-2 cursor-pointer"
+                                  onClick={() => toggleGroup(group.id)}
+                                >
+                                  {expandedGroups.has(group.id) ? (
+                                    <ChevronDown className="w-3 h-3 text-gray-400" />
+                                  ) : (
+                                    <ChevronRight className="w-3 h-3 text-gray-400" />
+                                  )}
+                                </div>
+                                {editingGroupId === group.id ? (
+                                  <div className="flex items-center flex-1 gap-2">
+                                    <input
+                                      type="text"
+                                      value={editingGroupName}
+                                      onChange={(e) =>
+                                        setEditingGroupName(e.target.value)
+                                      }
+                                      onKeyDown={(e) => {
+                                        if (e.key === "Enter") {
+                                          saveGroupName(field.id, group.id);
+                                        } else if (e.key === "Escape") {
+                                          cancelEditGroup();
+                                        }
+                                      }}
+                                      className="flex-1 px-2 py-1 text-sm font-medium text-gray-700 border border-blue-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                      autoFocus
+                                      onClick={(e) => e.stopPropagation()}
+                                    />
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        saveGroupName(field.id, group.id);
+                                      }}
+                                      className="p-1 text-green-600 transition-colors rounded hover:bg-green-50"
+                                      title="Save"
+                                    >
+                                      <Save className="w-3 h-3" />
+                                    </button>
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        cancelEditGroup();
+                                      }}
+                                      className="p-1 text-gray-600 transition-colors rounded hover:bg-gray-100"
+                                      title="Cancel"
+                                    >
+                                      <X className="w-3 h-3" />
+                                    </button>
+                                  </div>
                                 ) : (
-                                  <ChevronRight className="w-3 h-3 text-gray-400" />
+                                  <h4
+                                    className="flex-1 font-medium text-gray-700 cursor-pointer"
+                                    onClick={() => toggleGroup(group.id)}
+                                  >
+                                    {group.name}
+                                  </h4>
                                 )}
-                                <h4 className="font-medium text-gray-700">
-                                  {group.name}
-                                </h4>
                               </div>
 
                               <div className="flex items-center gap-1">
                                 <span className="text-xs text-gray-500">
                                   {group.pins.length} pins
                                 </span>
-                                <button
-                                  onClick={() => addPin(group.id)}
-                                  className="p-1 text-gray-400 transition-colors hover:text-blue-500"
-                                  title="Add Pin"
-                                >
-                                  <Plus className="w-3 h-3" />
-                                </button>
-                                <button
-                                  onClick={() => editGroup(group)}
-                                  className="p-1 text-gray-400 transition-colors hover:text-blue-500"
-                                  title="Edit Group"
-                                >
-                                  <Edit3 className="w-3 h-3" />
-                                </button>
-                                <button
-                                  onClick={() => deleteGroup(group.id)}
-                                  className="p-1 text-gray-400 transition-colors hover:text-red-500"
-                                  title="Delete Group"
-                                >
-                                  <Trash2 className="w-3 h-3" />
-                                </button>
+                                {editingGroupId !== group.id && (
+                                  <>
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        editGroup(group);
+                                      }}
+                                      className="p-1 text-gray-400 transition-colors hover:text-blue-500"
+                                      title="Edit Group"
+                                    >
+                                      <Edit3 className="w-3 h-3" />
+                                    </button>
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        deleteGroup(group.id);
+                                      }}
+                                      className="p-1 text-gray-400 transition-colors hover:text-red-500"
+                                      title="Delete Group"
+                                    >
+                                      <Trash2 className="w-3 h-3" />
+                                    </button>
+                                  </>
+                                )}
                               </div>
                             </div>
 
@@ -346,9 +406,12 @@ const DocumentsManagement: React.FC = () => {
                             {expandedGroups.has(group.id) && (
                               <div className="mt-2 ml-4 space-y-2">
                                 {group.pins.map((pin) => (
-                                  <div
+                                  <a
                                     key={pin.id}
-                                    className="flex items-center justify-between p-3 transition-shadow bg-white border border-gray-100 rounded-lg hover:shadow-sm"
+                                    href={pin.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center justify-between p-3 transition-shadow bg-white border border-gray-100 rounded-lg cursor-pointer hover:shadow-sm"
                                   >
                                     <div className="flex-1">
                                       <div className="flex items-center gap-2 mb-1">
@@ -375,32 +438,20 @@ const DocumentsManagement: React.FC = () => {
 
                                     <div className="flex items-center gap-1 ml-4">
                                       <button
-                                        onClick={() => editPin(pin)}
-                                        className="p-1 text-gray-400 transition-colors hover:text-blue-500"
-                                        title="Edit Pin"
-                                      >
-                                        <Edit3 className="w-3 h-3" />
-                                      </button>
-                                      <button
-                                        onClick={() => deletePin(pin.id)}
+                                        onClick={(e) => {
+                                          e.preventDefault();
+                                          e.stopPropagation();
+                                          deletePin(pin.id);
+                                        }}
                                         className="p-1 text-gray-400 transition-colors hover:text-red-500"
                                         title="Delete Pin"
                                       >
                                         <Trash2 className="w-3 h-3" />
                                       </button>
-                                      <a
-                                        href={pin.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="p-1 text-gray-400 hover:text-[#587CF0] transition-colors"
-                                        title="Open Link"
-                                      >
-                                        <ExternalLink className="w-3 h-3" />
-                                      </a>
+                                      <ExternalLink className="w-3 h-3 text-gray-400" />
                                     </div>
-                                  </div>
+                                  </a>
                                 ))}
-
                                 {group.pins.length === 0 && (
                                   <div className="py-6 text-center text-gray-500">
                                     <FileText className="w-8 h-8 mx-auto mb-2 text-gray-300" />

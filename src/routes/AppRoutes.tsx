@@ -39,6 +39,10 @@ export default function AppRoutes() {
           path="/woomoonjeong/documents/recommended"
           element={<Page.RecommendedDocumentsMain />}
         />
+        <Route
+          path="/woomoonjeong/fields/:fieldId"
+          element={<Page.FieldDetail />}
+        />
 
         {/* ================= Woomoonro ================= */}
         <Route path="/woomoonro" element={<Page.WoomoonroMain />} />

@@ -1,25 +1,20 @@
 import React, { useState } from "react";
-import {
-  Star,
-  BookOpen,
-  Code,
-  Smartphone,
-  Server,
-  Gamepad2,
-  Shield,
-  Briefcase,
-  HelpCircle,
-} from "lucide-react";
+import { BookOpen } from "lucide-react";
 import {
   extendedRecommendedPins,
   woomoonjeongData,
 } from "../../data/woomoonjeong/woomoonjeongData";
-import { RecommendedField } from "../../types/Woomoonjeong/woomoonjeong";
+import {
+  RecommendedField,
+  RecommendedPin,
+} from "../../types/Woomoonjeong/woomoonjeong";
 import SearchInput from "../../components/Woomoonjeong/SearchInput";
 import ContentTypeFilter from "../../components/Woomoonjeong/ContentTypeFilter";
 import FilterSection from "../../components/Woomoonjeong/FilterSection";
 import FieldTypeFilter from "../../components/Woomoonjeong/FieldTypeFilter";
 import DocumentsGrid from "../../components/Woomoonjeong/DocumentsGrid";
+import AddDocumentModal from "../../components/Woomoonjeong/AddDocumentModal";
+import AddFieldModal from "../../components/Woomoonjeong/AddFieldModal";
 
 const RecommendedDocumentsMain: React.FC = () => {
   const [selectedFieldType, setSelectedFieldType] = useState<
@@ -31,6 +26,12 @@ const RecommendedDocumentsMain: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [savedPins, setSavedPins] = useState<Set<string>>(new Set());
   const [savedFields, setSavedFields] = useState<Set<number>>(new Set());
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [selectedPin, setSelectedPin] = useState<RecommendedPin | null>(null);
+  const [isAddFieldModalOpen, setIsAddFieldModalOpen] = useState(false);
+  const [selectedField, setSelectedField] = useState<RecommendedField | null>(
+    null
+  );
 
   // Convert existing fields to recommended fields format
   const recommendedFields: RecommendedField[] = woomoonjeongData.map(
@@ -98,7 +99,6 @@ const RecommendedDocumentsMain: React.FC = () => {
     );
   };
 
-  
   const toggleSaveField = (fieldId: number) => {
     const newSavedFields = new Set(savedFields);
     if (newSavedFields.has(fieldId)) {
@@ -114,6 +114,45 @@ const RecommendedDocumentsMain: React.FC = () => {
       fieldId,
       newSavedFields.has(fieldId) ? "saved" : "unsaved"
     );
+  };
+
+  const handleAddDocument = (pin: RecommendedPin) => {
+    setSelectedPin(pin);
+    setIsAddModalOpen(true);
+  };
+
+  const handleAddDocumentSubmit = (
+    fieldType: string,
+    groupId: number | null,
+    groupName: string
+  ) => {
+    // TODO: API 연동 - 문서 추가
+    console.log("Add document:", {
+      pin: selectedPin,
+      fieldType,
+      groupId,
+      groupName,
+    });
+    // 실제로는 API 호출하여 문서를 해당 그룹에 추가
+    alert(
+      `문서가 ${fieldType} 필드의 ${
+        groupId ? "기존 그룹" : `새 그룹 "${groupName}"`
+      }에 추가되었습니다.`
+    );
+  };
+
+  const handleAddField = (field: RecommendedField) => {
+    setSelectedField(field);
+    setIsAddFieldModalOpen(true);
+  };
+
+  const handleAddFieldSubmit = (fieldType: string) => {
+    // TODO: API 연동 - Field 추가
+    console.log("Add field:", {
+      field: selectedField,
+      fieldType,
+    });
+    alert(`Field가 ${fieldType} 타입으로 추가되었습니다.`);
   };
 
   return (
@@ -160,6 +199,8 @@ const RecommendedDocumentsMain: React.FC = () => {
           savedFields={savedFields}
           onToggleSavePin={toggleSavePin}
           onToggleSaveField={toggleSaveField}
+          onAddDocument={handleAddDocument}
+          onAddField={handleAddField}
         />
 
         {currentFilteredData.length === 0 && (
@@ -174,6 +215,32 @@ const RecommendedDocumentsMain: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* Add Document Modal */}
+      {selectedPin && (
+        <AddDocumentModal
+          isOpen={isAddModalOpen}
+          onClose={() => {
+            setIsAddModalOpen(false);
+            setSelectedPin(null);
+          }}
+          pin={selectedPin}
+          onAdd={handleAddDocumentSubmit}
+        />
+      )}
+
+      {/* Add Field Modal */}
+      {selectedField && (
+        <AddFieldModal
+          isOpen={isAddFieldModalOpen}
+          onClose={() => {
+            setIsAddFieldModalOpen(false);
+            setSelectedField(null);
+          }}
+          field={selectedField}
+          onAdd={handleAddFieldSubmit}
+        />
+      )}
     </div>
   );
 };

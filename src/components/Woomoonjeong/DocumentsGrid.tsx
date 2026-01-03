@@ -1,6 +1,8 @@
 import React from "react";
-import { RecommendedPin } from "../../types/Woomoonjeong/woomoonjeong";
-import { RecommendedField } from "../../types/Woomoonjeong/woomoonjeong";
+import {
+  RecommendedPin,
+  RecommendedField,
+} from "../../types/Woomoonjeong/woomoonjeong";
 import DocumentCard from "./DocumentCard";
 import FieldCard from "./FieldCard";
 
@@ -12,6 +14,8 @@ interface DocumentsGridProps {
   savedFields: Set<number>;
   onToggleSavePin: (id: string) => void;
   onToggleSaveField: (id: number) => void;
+  onAddDocument?: (pin: RecommendedPin) => void;
+  onAddField?: (field: RecommendedField) => void;
 }
 
 const DocumentsGrid: React.FC<DocumentsGridProps> = ({
@@ -22,6 +26,8 @@ const DocumentsGrid: React.FC<DocumentsGridProps> = ({
   savedFields,
   onToggleSavePin,
   onToggleSaveField,
+  onAddDocument,
+  onAddField,
 }) => {
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -32,6 +38,7 @@ const DocumentsGrid: React.FC<DocumentsGridProps> = ({
               pin={pin}
               isSaved={savedPins.has(pin.id)}
               onToggleSave={() => onToggleSavePin(pin.id)}
+              onAdd={onAddDocument ? () => onAddDocument(pin) : undefined}
             />
           ))
         : fields.map((field) => (
@@ -40,6 +47,7 @@ const DocumentsGrid: React.FC<DocumentsGridProps> = ({
               field={field}
               isSaved={savedFields.has(field.id)}
               onToggleSave={() => onToggleSaveField(field.id)}
+              onAdd={onAddField ? () => onAddField(field) : undefined}
             />
           ))}
     </div>
