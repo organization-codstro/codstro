@@ -270,68 +270,6 @@ const RecommendedStudyPlans: React.FC = () => {
           </div>
         </div>
 
-        {/* Statistics Banner */}
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-          <div className="p-4 bg-white border border-purple-100 rounded-lg shadow-sm">
-            <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-lg">
-                <BookOpen className="w-5 h-5 text-blue-600" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-600">Total Plans</p>
-                <p className="text-xl font-semibold text-gray-800">
-                  {recommendedStudyPlans.length}
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="p-4 bg-white border border-purple-100 rounded-lg shadow-sm">
-            <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center w-10 h-10 bg-yellow-100 rounded-lg">
-                <Star className="w-5 h-5 text-yellow-600" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-600">Bookmarked</p>
-                <p className="text-xl font-semibold text-gray-800">
-                  {bookmarks.size}
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="p-4 bg-white border border-purple-100 rounded-lg shadow-sm">
-            <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center w-10 h-10 bg-green-100 rounded-lg">
-                <TrendingUp className="w-5 h-5 text-green-600" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-600">Popular</p>
-                <p className="text-xl font-semibold text-gray-800">
-                  {
-                    recommendedStudyPlans.filter(
-                      (p) =>
-                        p.study_plan_name.includes("Web") ||
-                        p.study_plan_name.includes("Mobile")
-                    ).length
-                  }
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="p-4 bg-white border border-purple-100 rounded-lg shadow-sm">
-            <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center w-10 h-10 bg-purple-100 rounded-lg">
-                <Award className="w-5 h-5 text-purple-600" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-600">Expert Created</p>
-                <p className="text-xl font-semibold text-gray-800">
-                  {recommendedStudyPlans.length}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Study Plans List */}
         <div className="p-6 bg-white border border-purple-100 shadow-sm rounded-xl">
           <h2 className="mb-6 text-lg font-semibold text-gray-800">

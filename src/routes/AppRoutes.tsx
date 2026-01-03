@@ -62,7 +62,7 @@ export default function AppRoutes() {
 
         {/* 수정 (edit) */}
         <Route
-          path="/woomoonkyung/:planId/edit"
+          path="/woomoonkyung/edit/:planId"
           element={<Page.WoomoonkyungEdit />}
         />
 

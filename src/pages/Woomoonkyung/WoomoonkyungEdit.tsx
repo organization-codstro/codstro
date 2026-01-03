@@ -37,12 +37,12 @@ const WoomoonkyungEdit: React.FC = () => {
     // 실제 서비스에서는 API PUT 요청
     console.log("Update plan:", plan.study_plan_id, planData);
 
-    navigate(`/woomoonkyung/${plan.study_plan_id}`);
+    navigate(`/woomoonkyung/plan/${plan.study_plan_id}`);
   };
 
   /** 🔹 취소 */
   const handleCancel = () => {
-    navigate(`/woomoonkyung/${plan.study_plan_id}`);
+    navigate(`/woomoonkyung/plan/${plan.study_plan_id}`);
   };
 
   return (
@@ -50,12 +50,6 @@ const WoomoonkyungEdit: React.FC = () => {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-6">
-          <button
-            onClick={handleCancel}
-            className="text-sm text-gray-500 hover:text-gray-700"
-          >
-            ← Back
-          </button>
           <h1 className="mt-2 text-2xl font-bold text-gray-800">
             Edit Study Plan
           </h1>
