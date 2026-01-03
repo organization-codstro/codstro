@@ -72,26 +72,6 @@ const WoomoonkyungMain: React.FC = () => {
           </button>
         </div>
 
-        {/* Statistics */}
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-          <StatCard
-            icon={<BookOpen />}
-            label="Total Plans"
-            value={totalPlans}
-          />
-          <StatCard icon={<Clock />} label="Waiting" value={waitingPlans} />
-          <StatCard
-            icon={<TrendingUp />}
-            label="In Progress"
-            value={inProgressPlans}
-          />
-          <StatCard
-            icon={<CheckCircle2 />}
-            label="Completed"
-            value={completedPlans}
-          />
-        </div>
-
         {/* Study Plan List */}
         <div className="p-6 bg-white border border-purple-100 shadow-sm rounded-xl">
           <h2 className="mb-6 text-lg font-semibold text-gray-800">
@@ -131,8 +111,16 @@ const WoomoonkyungMain: React.FC = () => {
                         </p>
                       </div>
                       <div className="flex gap-1">
-                        <Edit3 className="w-4 h-4 text-gray-400" />
-                        <Trash2 className="w-4 h-4 text-gray-400" />
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            alert("공부계획이 삭제 되었습니다.");
+                          }}
+                          className="p-2 text-gray-400 transition-colors rounded hover:bg-white hover:text-red-500"
+                          title="Delete plan"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
                       </div>
                     </div>
 
@@ -141,7 +129,6 @@ const WoomoonkyungMain: React.FC = () => {
                         stateColors[plan.study_plans_state]
                       }`}
                     >
-                      {stateIcons[plan.study_plans_state]}
                       {plan.study_plans_state}
                     </span>
 

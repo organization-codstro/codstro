@@ -354,7 +354,6 @@ const StudyPlanArchive: React.FC = () => {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="flex items-center gap-3 text-2xl font-bold text-gray-800">
-              <Archive className="h-7 w-7 text-[#587CF0]" />
               Study Plans Archive
             </h1>
             <p className="text-gray-600">
@@ -371,73 +370,6 @@ const StudyPlanArchive: React.FC = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#587CF0] focus:border-transparent bg-white transition-all duration-200"
               />
-            </div>
-          </div>
-        </div>
-
-        {/* Statistics Banner */}
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-          <div className="p-4 bg-white border border-purple-100 rounded-lg shadow-sm">
-            <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-lg">
-                <Archive className="w-5 h-5 text-blue-600" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-600">Total Archived</p>
-                <p className="text-xl font-semibold text-gray-800">
-                  {archivedPlans.length}
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="p-4 bg-white border border-purple-100 rounded-lg shadow-sm">
-            <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center w-10 h-10 bg-green-100 rounded-lg">
-                <CheckCircle2 className="w-5 h-5 text-green-600" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-600">Completed</p>
-                <p className="text-xl font-semibold text-gray-800">
-                  {
-                    archivedPlans.filter((p) => p.study_plans_state === "done")
-                      .length
-                  }
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="p-4 bg-white border border-purple-100 rounded-lg shadow-sm">
-            <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center w-10 h-10 bg-yellow-100 rounded-lg">
-                <BookmarkCheck className="w-5 h-5 text-yellow-600" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-600">Bookmarked</p>
-                <p className="text-xl font-semibold text-gray-800">
-                  {
-                    archivedPlans.filter((p) =>
-                      isBookmarkedPlan(p.study_plan_id)
-                    ).length
-                  }
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="p-4 bg-white border border-purple-100 rounded-lg shadow-sm">
-            <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center w-10 h-10 bg-purple-100 rounded-lg">
-                <User className="w-5 h-5 text-purple-600" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-600">My Plans</p>
-                <p className="text-xl font-semibold text-gray-800">
-                  {
-                    archivedPlans.filter(
-                      (p) => !isRecommendedPlan(p.study_plan_id)
-                    ).length
-                  }
-                </p>
-              </div>
             </div>
           </div>
         </div>
@@ -510,7 +442,6 @@ const StudyPlanArchive: React.FC = () => {
                           stateColors[plan.study_plans_state]
                         }`}
                       >
-                        <span>{stateIcons[plan.study_plans_state]}</span>
                         {plan.study_plans_state}
                       </span>
                     </div>
