@@ -10,7 +10,6 @@ import {
   Filter,
   Search,
   Trash2,
-  Edit3,
   ChevronLeft,
   ChevronRight,
   Target,
@@ -27,6 +26,7 @@ const TodoListPage: React.FC = () => {
     "all" | "pending" | "in-progress" | "completed"
   >("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [todos, setTodos] = useState<Todo[]>(todosData);
 
   /* ---------------- Utils ---------------- */
 
@@ -52,11 +52,21 @@ const TodoListPage: React.FC = () => {
     }
   };
 
+  const toggleTodoStatus = (todoId: number) => {
+    setTodos((prev) =>
+      prev.map((todo) =>
+        todo.id === todoId
+          ? { ...todo, status: getNextStatus(todo.status) }
+          : todo
+      )
+    );
+  };
+
   /* ---------------- Data ---------------- */
 
   const getTodosForDate = (date: Date) => {
     const dateStr = date.toISOString().split("T")[0];
-    return todosData.filter(
+    return todos.filter(
       (todo) => todo.start_date <= dateStr && todo.end_date >= dateStr
     );
   };
@@ -81,6 +91,13 @@ const TodoListPage: React.FC = () => {
 
   const filteredTodos = getFilteredTodos();
   const todayTodos = getTodosForDate(selectedDate);
+
+  const statusCycle: Todo["status"][] = ["pending", "in-progress", "completed"];
+
+  const getNextStatus = (current: Todo["status"]) => {
+    const idx = statusCycle.indexOf(current);
+    return statusCycle[(idx + 1) % statusCycle.length];
+  };
 
   /* ---------------- Calendar ---------------- */
 
@@ -196,6 +213,9 @@ const TodoListPage: React.FC = () => {
               <div className="flex flex-wrap items-center gap-4">
                 <div className="flex items-center gap-2">
                   <Filter className="w-4 h-4 text-gray-500" />
+                  <span className="text-sm font-medium text-gray-700">
+                    Status:
+                  </span>
                   {(
                     ["all", "pending", "in-progress", "completed"] as const
                   ).map((status) => (
@@ -224,10 +244,9 @@ const TodoListPage: React.FC = () => {
                 </div>
               </div>
             </div>
-
             {/* List */}
-            <div className="p-6 bg-white border border-purple-100 rounded-xl">
-              <h2 className="mb-4 font-semibold text-gray-800">
+            <div className="p-6 bg-white border border-purple-100 shadow-sm rounded-xl">
+              <h2 className="mb-6 text-lg font-semibold text-gray-800">
                 All Todos for {selectedDate.toLocaleDateString()}
               </h2>
 
@@ -241,35 +260,73 @@ const TodoListPage: React.FC = () => {
               <div className="space-y-4">
                 {filteredTodos.map((todo) => (
                   <div
-                    onClick={() => navigate(`/woomoonjeong/todo/${todo.id}`)}
                     key={todo.id}
-                    className="flex gap-4 p-4 rounded-lg bg-gray-50 hover:bg-gray-100"
+                    onClick={() => navigate(`/woomoonjeong/todo/${todo.id}`)}
+                    className="flex items-start gap-4 p-4 transition-colors rounded-lg bg-gray-50 hover:bg-gray-100"
                   >
-                    {getStatusIcon(todo.status)}
-                    <div className="flex-1">
-                      <h3 className="font-medium text-gray-800">{todo.name}</h3>
-                      <p className="text-sm text-gray-600">
-                        {todo.description}
-                      </p>
-                      <span
-                        className={`inline-block mt-2 px-2 py-1 text-xs border rounded-full ${getStatusColor(
-                          todo.status
-                        )}`}
-                      >
-                        {todo.status.replace("-", " ")}
-                      </span>
+                    {/* ✅ 상태 아이콘 영역 (위치 보정) */}
+                    <div className="flex items-center gap-2 mt-1">
+                      {getStatusIcon(todo.status)}
                     </div>
 
-                    <div className="flex gap-2">
-                      <button
-                        className="text-gray-400 hover:text-red-500"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          alert("todo가 삭제 되었습니다.");
-                        }}
-                      >
-                        <Trash2 className="w-5 h-5" />
-                      </button>
+                    {/* ✅ 내용 영역 */}
+                    <div className="flex-1">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <h3 className="mb-1 font-medium text-gray-800">
+                            {todo.name}
+                          </h3>
+
+                          <p className="mb-2 text-sm text-gray-600">
+                            {todo.description}
+                          </p>
+
+                          {/* ✅ 메타 정보 라인 */}
+                          <div className="flex items-center gap-4 text-xs text-gray-500">
+                            <div className="flex items-center gap-1">
+                              <Calendar className="w-3 h-3" />
+                              <span>
+                                {todo.start_date} - {todo.end_date}
+                              </span>
+                            </div>
+
+                            <span
+                              className={`px-2 py-1 rounded-full border text-xs ${getStatusColor(
+                                todo.status
+                              )}`}
+                            >
+                              {todo.status.replace("-", " ")}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* ✅ 우측 액션 버튼 */}
+                        <div className="flex flex-col gap-1 ml-4">
+                          {/* 상태 변경 */}
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleTodoStatus(todo.id);
+                            }}
+                            className="p-2 text-gray-400 transition-colors rounded hover:bg-white hover:text-blue-500"
+                            title="Change status"
+                          >
+                            <PlayCircle className="w-4 h-4" />
+                          </button>
+
+                          {/* 삭제 */}
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              alert("todo가 삭제 되었습니다.");
+                            }}
+                            className="p-2 text-gray-400 transition-colors rounded hover:bg-white hover:text-red-500"
+                            title="Delete todo"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ))}
