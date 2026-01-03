@@ -228,7 +228,7 @@ const TodoListPage: React.FC = () => {
             {/* List */}
             <div className="p-6 bg-white border border-purple-100 rounded-xl">
               <h2 className="mb-4 font-semibold text-gray-800">
-                Todos for {selectedDate.toLocaleDateString()}
+                All Todos for {selectedDate.toLocaleDateString()}
               </h2>
 
               {filteredTodos.length === 0 && (

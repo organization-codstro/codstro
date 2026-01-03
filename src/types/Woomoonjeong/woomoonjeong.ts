@@ -57,3 +57,12 @@ export interface Todo {
   status: "pending" | "in-progress" | "completed";
   created_at: string;
 }
+
+export interface RecommendedField {
+  id: number;
+  name: string;
+  type: "web" | "app" | "server" | "game" | "security" | "work" | "other";
+  description: string;
+  image?: string;
+  created_at: string;
+}

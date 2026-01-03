@@ -30,7 +30,7 @@ export const woomoonjeongData: Field[] = [
         created_at: "2024-01-15T09:30:00Z",
         pins: [
           {
-            id: 1,
+            id: 2,
             title: "React Official Documentation",
             description: "Complete guide to React concepts and API",
             url: "https://react.dev",
@@ -38,7 +38,7 @@ export const woomoonjeongData: Field[] = [
             created_at: "2024-01-15T10:00:00Z",
           },
           {
-            id: 2,
+            id: 3,
             title: "Next.js Tutorial",
             description: "Learn Next.js with hands-on examples",
             url: "https://nextjs.org/learn",
@@ -320,4 +320,3 @@ export const extendedRecommendedPins: RecommendedPin[] = [
     views: 320,
   },
 ];
-
