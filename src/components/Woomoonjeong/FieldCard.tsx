@@ -48,37 +48,6 @@ const FieldCard: React.FC<FieldCardProps> = ({
       onAdd();
     }
   };
-  const Icon = fieldTypeIcons[field.type];
-
-  const bgColor =
-    field.type === "web"
-      ? "bg-red-100"
-      : field.type === "app"
-      ? "bg-orange-100"
-      : field.type === "server"
-      ? "bg-yellow-100"
-      : field.type === "game"
-      ? "bg-green-100"
-      : field.type === "security"
-      ? "bg-blue-100"
-      : field.type === "work"
-      ? "bg-indigo-100"
-      : "bg-purple-100";
-
-  const iconColor =
-    field.type === "web"
-      ? "text-red-600"
-      : field.type === "app"
-      ? "text-orange-600"
-      : field.type === "server"
-      ? "text-yellow-600"
-      : field.type === "game"
-      ? "text-green-600"
-      : field.type === "security"
-      ? "text-blue-600"
-      : field.type === "work"
-      ? "text-indigo-600"
-      : "text-purple-600";
 
   return (
     <div
@@ -92,21 +61,8 @@ const FieldCard: React.FC<FieldCardProps> = ({
         {/* Header */}
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center gap-3">
-            <div
-              className={`flex items-center justify-center w-10 h-10 rounded-lg ${bgColor}`}
-            >
-              <Icon className={`w-5 h-5 ${iconColor}`} />
-            </div>
-
             <div className="flex-1">
               <h3 className="font-semibold text-gray-800">{field.name}</h3>
-              <span
-                className={`inline-block px-2 py-1 mt-1 text-xs border rounded-full ${
-                  fieldTypeColors[field.type]
-                }`}
-              >
-                {field.type}
-              </span>
             </div>
           </div>
 

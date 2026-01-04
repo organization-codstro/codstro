@@ -1,10 +1,9 @@
 export interface RecommendedPin {
-  id: string;
+  id: number;
   title: string;
   description: string;
   url: string;
   tags: string[];
-  field_type: "web" | "app" | "server" | "game" | "security" | "work" | "other";
   created_at: string;
   difficulty?: "beginner" | "intermediate" | "advanced";
   rating?: number;
@@ -20,20 +19,18 @@ export interface TodoFormData {
   status: "pending" | "in-progress" | "completed";
 }
 
+export interface Group {
+  id: number;
+  type: "web" | "app" | "server" | "game" | "security" | "work" | "other";
+  description: string;
+  fields: Field[];
+  created_at: string;
+}
 export interface Field {
   id: number;
   name: string;
-  type: "web" | "app" | "server" | "game" | "security" | "work" | "other";
   description: string;
   image?: string;
-  groups: Group[];
-  created_at: string;
-}
-
-export interface Group {
-  id: number;
-  name: string;
-  description: string;
   pins: Pin[];
   created_at: string;
 }
@@ -61,8 +58,6 @@ export interface Todo {
 export interface RecommendedField {
   id: number;
   name: string;
-  type: "web" | "app" | "server" | "game" | "security" | "work" | "other";
   description: string;
-  image?: string;
   created_at: string;
 }

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import StudyPlanForm from "../../components/Woomoonkyung/StudyPlanForm";
-import { StudyPlan } from "../../data/Woomoonkyung/woomoonkyungData";
+import { StudyPlan } from "../../types/Woomoonkyung/StudyPlanNode";
 
 const WoomoonkyungCreate = () => {
   const navigate = useNavigate();
@@ -9,7 +9,8 @@ const WoomoonkyungCreate = () => {
     data: Omit<StudyPlan, "study_plan_id" | "study_plans_created_date">
   ) => {
     console.log("Create", data);
-    navigate("/woomoonkyung");
+    //todo : 공부 계획 1차 생성 api 연결 (생성하고 그 계획의 id 반환)
+    navigate(`/woomoonkyung/create/node/${1}`);
   };
 
   return (

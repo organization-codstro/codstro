@@ -9,7 +9,6 @@ import {
   Search,
   CreditCard as Edit3,
   Trash2,
-  FolderPlus,
   FileText,
   Save,
   X,
@@ -18,34 +17,32 @@ import {
   woomoonjeongData as initialWoomoonjeongData,
   fieldTypeColors,
 } from "../../data/woomoonjeong/woomoonjeongData";
-import { Field, Group, Pin } from "../../types/Woomoonjeong/woomoonjeong";
+import { Field, Group } from "../../types/Woomoonjeong/woomoonjeong";
+import CreateCustomFieldModal from "../../components/Woomoonjeong/CreateCustomFieldModal";
 
 const DocumentsManagement: React.FC = () => {
-  const [woomoonjeongData, setWoomoonjeongData] = useState<Field[]>(
-    initialWoomoonjeongData
+  // 인터페이스 구조에 따라 데이터를 Group[] 타입으로 관리합니다.
+  const [woomoonjeongData, setWoomoonjeongData] = useState<Group[]>(
+    initialWoomoonjeongData as unknown as Group[]
+  );
+
+  const [expandedGroups, setExpandedGroups] = useState<Set<number>>(
+    new Set([1])
   );
   const [expandedFields, setExpandedFields] = useState<Set<number>>(
     new Set([1])
   );
-  const [expandedGroups, setExpandedGroups] = useState<Set<number>>(
-    new Set([1])
-  );
-  const [selectedFieldType, setSelectedFieldType] = useState<
+
+  const [selectedGroupType, setSelectedGroupType] = useState<
     "all" | "web" | "app" | "server" | "game" | "security" | "work" | "other"
   >("all");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [editingGroupId, setEditingGroupId] = useState<number | null>(null);
-  const [editingGroupName, setEditingGroupName] = useState<string>("");
 
-  const toggleField = (fieldId: number) => {
-    const newExpanded = new Set(expandedFields);
-    if (newExpanded.has(fieldId)) {
-      newExpanded.delete(fieldId);
-    } else {
-      newExpanded.add(fieldId);
-    }
-    setExpandedFields(newExpanded);
-  };
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // 수정 대상이 Group에서 Field로 변경됨 (Field 인터페이스에 name이 있기 때문)
+  const [editingFieldId, setEditingFieldId] = useState<number | null>(null);
+  const [editingFieldName, setEditingFieldName] = useState<string>("");
+  const [isCreateFieldModalOpen, setIsCreateFieldModalOpen] = useState(false);
 
   const toggleGroup = (groupId: number) => {
     const newExpanded = new Set(expandedGroups);
@@ -57,70 +54,71 @@ const DocumentsManagement: React.FC = () => {
     setExpandedGroups(newExpanded);
   };
 
-  const addField = () => {
-    // In real app, this would open a modal or navigate to add field page
-    console.log("Add new field");
+  const toggleField = (fieldId: number) => {
+    const newExpanded = new Set(expandedFields);
+    if (newExpanded.has(fieldId)) {
+      newExpanded.delete(fieldId);
+    } else {
+      newExpanded.add(fieldId);
+    }
+    setExpandedFields(newExpanded);
   };
 
-  const addGroup = (fieldId: number) => {
-    // In real app, this would open a modal to add group
-    console.log("Add group to field:", fieldId);
+  const addGroup = () => {
+    console.log("Add new group");
   };
 
-  const addPin = (groupId: number) => {
-    // In real app, this would open a modal to add pin
-    console.log("Add pin to group:", groupId);
+  const addField = (groupId: number) => {
+    console.log("Add field to group:", groupId);
+  };
+
+  const addPin = (fieldId: number) => {
+    console.log("Add pin to field:", fieldId);
   };
 
   const editField = (field: Field) => {
-    console.log("Edit field:", field.name);
+    setEditingFieldId(field.id);
+    setEditingFieldName(field.name);
   };
 
-  const deleteField = (fieldId: number) => {
-    if (
-      confirm("이 분야를 삭제하시겠습니까? 모든 그룹과 핀이 함께 삭제됩니다.")
-    ) {
-      console.log("Delete field:", fieldId);
-    }
-  };
-
-  const editGroup = (group: Group) => {
-    setEditingGroupId(group.id);
-    setEditingGroupName(group.name);
-  };
-
-  const saveGroupName = (fieldId: number, groupId: number) => {
-    if (editingGroupName.trim()) {
+  const saveFieldName = (groupId: number, fieldId: number) => {
+    if (editingFieldName.trim()) {
       setWoomoonjeongData((prev) =>
-        prev.map((field) => {
-          if (field.id === fieldId) {
+        prev.map((group) => {
+          if (group.id === groupId) {
             return {
-              ...field,
-              groups: field.groups.map((group) =>
-                group.id === groupId
-                  ? { ...group, name: editingGroupName.trim() }
-                  : group
+              ...group,
+              fields: group.fields.map((field) =>
+                field.id === fieldId
+                  ? { ...field, name: editingFieldName.trim() }
+                  : field
               ),
             };
           }
-          return field;
+          return group;
         })
       );
-      // TODO: API 연동 - 그룹 이름 저장
-      console.log("Save group name:", editingGroupName);
     }
-    setEditingGroupId(null);
-    setEditingGroupName("");
+    setEditingFieldId(null);
+    setEditingFieldName("");
   };
 
-  const cancelEditGroup = () => {
-    setEditingGroupId(null);
-    setEditingGroupName("");
+  const cancelEditField = () => {
+    setEditingFieldId(null);
+    setEditingFieldName("");
   };
 
   const deleteGroup = (groupId: number) => {
-    if (confirm("이 그룹을 삭제하시겠습니까? 모든 핀이 함께 삭제됩니다.")) {
+    if (
+      confirm("이 그룹을 삭제하시겠습니까? 모든 필드와 핀이 함께 삭제됩니다.")
+    ) {
       console.log("Delete group:", groupId);
+    }
+  };
+
+  const deleteField = (fieldId: number) => {
+    if (confirm("이 필드를 삭제하시겠습니까? 모든 핀이 함께 삭제됩니다.")) {
+      console.log("Delete field:", fieldId);
     }
   };
 
@@ -130,32 +128,32 @@ const DocumentsManagement: React.FC = () => {
     }
   };
 
-  const filteredFields = woomoonjeongData.filter((field) => {
-    // Filter by field type
-    if (selectedFieldType !== "all" && field.type !== selectedFieldType)
+  const filteredGroups = woomoonjeongData.filter((group) => {
+    // 1. Group Type 필터링
+    if (selectedGroupType !== "all" && group.type !== selectedGroupType)
       return false;
 
-    // Filter by search query
+    // 2. 검색어 필터링 (Group description, Field name, Pin title/tags 검색)
     if (searchQuery) {
-      const searchLower = searchQuery.toLowerCase();
-      const fieldMatch =
-        field.name.toLowerCase().includes(searchLower) ||
-        field.description.toLowerCase().includes(searchLower);
-      const groupMatch = field.groups.some(
-        (group) =>
-          group.name.toLowerCase().includes(searchLower) ||
-          group.description.toLowerCase().includes(searchLower)
+      const q = searchQuery.toLowerCase();
+      const groupMatch = group.description.toLowerCase().includes(q);
+
+      const fieldMatch = group.fields.some(
+        (field) =>
+          field.name.toLowerCase().includes(q) ||
+          field.description.toLowerCase().includes(q)
       );
-      const pinMatch = field.groups.some((group) =>
-        group.pins.some(
+
+      const pinMatch = group.fields.some((field) =>
+        field.pins.some(
           (pin) =>
-            pin.title.toLowerCase().includes(searchLower) ||
-            pin.description.toLowerCase().includes(searchLower) ||
-            pin.tags.some((tag) => tag.toLowerCase().includes(searchLower))
+            pin.title.toLowerCase().includes(q) ||
+            pin.description.toLowerCase().includes(q) ||
+            pin.tags.some((tag) => tag.toLowerCase().includes(q))
         )
       );
 
-      if (!fieldMatch && !groupMatch && !pinMatch) return false;
+      return groupMatch || fieldMatch || pinMatch;
     }
 
     return true;
@@ -163,19 +161,19 @@ const DocumentsManagement: React.FC = () => {
 
   const getTotalPinsCount = () => {
     return woomoonjeongData.reduce(
-      (total, field) =>
+      (total, group) =>
         total +
-        field.groups.reduce(
-          (groupTotal, group) => groupTotal + group.pins.length,
+        group.fields.reduce(
+          (fieldTotal, field) => fieldTotal + field.pins.length,
           0
         ),
       0
     );
   };
 
-  const getTotalGroupsCount = () => {
+  const getTotalFieldsCount = () => {
     return woomoonjeongData.reduce(
-      (total, field) => total + field.groups.length,
+      (total, group) => total + group.fields.length,
       0
     );
   };
@@ -190,11 +188,11 @@ const DocumentsManagement: React.FC = () => {
               Documents Management
             </h1>
             <p className="text-gray-600">
-              Organize your learning documents by fields and groups
+              Organize your learning documents by groups and fields
             </p>
           </div>
           <button
-            onClick={addField}
+            onClick={() => setIsCreateFieldModalOpen(true)}
             className="px-4 py-2 bg-[#587CF0] text-white rounded-lg font-medium hover:bg-[#4a6de8] transition-colors flex items-center gap-2"
           >
             <Plus className="w-4 h-4" />
@@ -227,9 +225,9 @@ const DocumentsManagement: React.FC = () => {
                   ).map((type) => (
                     <button
                       key={type}
-                      onClick={() => setSelectedFieldType(type)}
+                      onClick={() => setSelectedGroupType(type)}
                       className={`px-3 py-1 text-sm rounded-lg transition-colors ${
-                        selectedFieldType === type
+                        selectedGroupType === type
                           ? "bg-[#587CF0] text-white"
                           : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                       }`}
@@ -246,7 +244,7 @@ const DocumentsManagement: React.FC = () => {
                     placeholder="Search documents..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="px-3 py-1 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#587CF0] focus:border-transparent"
+                    className="px-3 py-1 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#587CF0] focus:border-transparent outline-none"
                   />
                 </div>
               </div>
@@ -259,18 +257,18 @@ const DocumentsManagement: React.FC = () => {
               </h2>
 
               <div className="space-y-4">
-                {filteredFields.map((field) => (
+                {filteredGroups.map((group) => (
                   <div
-                    key={field.id}
+                    key={group.id}
                     className="overflow-hidden border border-gray-200 rounded-lg"
                   >
-                    {/* Field Header */}
+                    {/* Group Header (Top Level) */}
                     <div className="flex items-center justify-between p-4 transition-colors bg-gray-50 hover:bg-gray-100">
                       <div
                         className="flex items-center flex-1 gap-3 cursor-pointer"
-                        onClick={() => toggleField(field.id)}
+                        onClick={() => toggleGroup(group.id)}
                       >
-                        {expandedFields.has(field.id) ? (
+                        {expandedGroups.has(group.id) ? (
                           <ChevronDown className="w-4 h-4 text-gray-500" />
                         ) : (
                           <ChevronRight className="w-4 h-4 text-gray-500" />
@@ -278,62 +276,64 @@ const DocumentsManagement: React.FC = () => {
                         <div className="flex items-center gap-3">
                           <span
                             className={`px-3 py-1 text-sm rounded-full border ${
-                              fieldTypeColors[field.type]
+                              fieldTypeColors[group.type]
                             }`}
                           >
-                            {field.type}
+                            {group.type}
                           </span>
                           <h3 className="font-medium text-gray-800">
-                            {field.name}
+                            {group.description}
                           </h3>
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-4">
                         <span className="text-sm text-gray-500">
-                          {field.groups.reduce(
-                            (total, group) => total + group.pins.length,
-                            0
-                          )}{" "}
-                          pins
+                          {group.fields.length} fields
                         </span>
+                        <button
+                          onClick={() => deleteGroup(group.id)}
+                          className="p-1 text-gray-400 transition-colors hover:text-red-500"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
                       </div>
                     </div>
 
-                    {/* Field Content */}
-                    {expandedFields.has(field.id) && (
-                      <div className="p-4 space-y-3">
-                        {field.groups.map((group) => (
+                    {/* Group Content (Fields Level) */}
+                    {expandedGroups.has(group.id) && (
+                      <div className="p-4 space-y-3 bg-white">
+                        {group.fields.map((field) => (
                           <div
-                            key={group.id}
-                            className="pl-4 ml-4 border-l-2 border-gray-200"
+                            key={field.id}
+                            className="pl-4 ml-4 border-l-2 border-gray-100"
                           >
-                            {/* Group Header */}
+                            {/* Field Header */}
                             <div className="flex items-center justify-between p-2 rounded hover:bg-gray-50">
                               <div className="flex items-center flex-1 gap-2">
                                 <div
                                   className="flex items-center gap-2 cursor-pointer"
-                                  onClick={() => toggleGroup(group.id)}
+                                  onClick={() => toggleField(field.id)}
                                 >
-                                  {expandedGroups.has(group.id) ? (
+                                  {expandedFields.has(field.id) ? (
                                     <ChevronDown className="w-3 h-3 text-gray-400" />
                                   ) : (
                                     <ChevronRight className="w-3 h-3 text-gray-400" />
                                   )}
                                 </div>
-                                {editingGroupId === group.id ? (
+                                {editingFieldId === field.id ? (
                                   <div className="flex items-center flex-1 gap-2">
                                     <input
                                       type="text"
-                                      value={editingGroupName}
+                                      value={editingFieldName}
                                       onChange={(e) =>
-                                        setEditingGroupName(e.target.value)
+                                        setEditingFieldName(e.target.value)
                                       }
                                       onKeyDown={(e) => {
                                         if (e.key === "Enter") {
-                                          saveGroupName(field.id, group.id);
+                                          saveFieldName(group.id, field.id);
                                         } else if (e.key === "Escape") {
-                                          cancelEditGroup();
+                                          cancelEditField();
                                         }
                                       }}
                                       className="flex-1 px-2 py-1 text-sm font-medium text-gray-700 border border-blue-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -341,22 +341,16 @@ const DocumentsManagement: React.FC = () => {
                                       onClick={(e) => e.stopPropagation()}
                                     />
                                     <button
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        saveGroupName(field.id, group.id);
-                                      }}
-                                      className="p-1 text-green-600 transition-colors rounded hover:bg-green-50"
-                                      title="Save"
+                                      onClick={() =>
+                                        saveFieldName(group.id, field.id)
+                                      }
+                                      className="p-1 text-green-600 rounded hover:bg-green-50"
                                     >
                                       <Save className="w-3 h-3" />
                                     </button>
                                     <button
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        cancelEditGroup();
-                                      }}
-                                      className="p-1 text-gray-600 transition-colors rounded hover:bg-gray-100"
-                                      title="Cancel"
+                                      onClick={cancelEditField}
+                                      className="p-1 text-gray-600 rounded hover:bg-gray-100"
                                     >
                                       <X className="w-3 h-3" />
                                     </button>
@@ -364,36 +358,28 @@ const DocumentsManagement: React.FC = () => {
                                 ) : (
                                   <h4
                                     className="flex-1 font-medium text-gray-700 cursor-pointer"
-                                    onClick={() => toggleGroup(group.id)}
+                                    onClick={() => toggleField(field.id)}
                                   >
-                                    {group.name}
+                                    {field.name}
                                   </h4>
                                 )}
                               </div>
 
                               <div className="flex items-center gap-1">
-                                <span className="text-xs text-gray-500">
-                                  {group.pins.length} pins
+                                <span className="mr-2 text-xs text-gray-500">
+                                  {field.pins.length} pins
                                 </span>
-                                {editingGroupId !== group.id && (
+                                {!editingFieldId && (
                                   <>
                                     <button
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        editGroup(group);
-                                      }}
+                                      onClick={() => editField(field)}
                                       className="p-1 text-gray-400 transition-colors hover:text-blue-500"
-                                      title="Edit Group"
                                     >
                                       <Edit3 className="w-3 h-3" />
                                     </button>
                                     <button
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        deleteGroup(group.id);
-                                      }}
+                                      onClick={() => deleteField(field.id)}
                                       className="p-1 text-gray-400 transition-colors hover:text-red-500"
-                                      title="Delete Group"
                                     >
                                       <Trash2 className="w-3 h-3" />
                                     </button>
@@ -402,10 +388,10 @@ const DocumentsManagement: React.FC = () => {
                               </div>
                             </div>
 
-                            {/* Group Pins */}
-                            {expandedGroups.has(group.id) && (
+                            {/* Field Pins (Lowest Level) */}
+                            {expandedFields.has(field.id) && (
                               <div className="mt-2 ml-4 space-y-2">
-                                {group.pins.map((pin) => (
+                                {field.pins.map((pin) => (
                                   <a
                                     key={pin.id}
                                     href={pin.url}
@@ -420,14 +406,14 @@ const DocumentsManagement: React.FC = () => {
                                           {pin.title}
                                         </h5>
                                       </div>
-                                      <p className="mb-2 text-sm text-gray-600">
+                                      <p className="mb-2 text-sm text-gray-600 line-clamp-1">
                                         {pin.description}
                                       </p>
                                       <div className="flex items-center gap-2">
                                         {pin.tags.map((tag) => (
                                           <span
                                             key={tag}
-                                            className="flex items-center gap-1 px-2 py-1 text-xs text-gray-600 bg-gray-100 rounded"
+                                            className="flex items-center gap-1 px-2 py-0.5 text-[11px] text-gray-600 bg-gray-100 rounded"
                                           >
                                             <Tag className="w-2 h-2" />
                                             {tag}
@@ -436,7 +422,7 @@ const DocumentsManagement: React.FC = () => {
                                       </div>
                                     </div>
 
-                                    <div className="flex items-center gap-1 ml-4">
+                                    <div className="flex items-center gap-2 ml-4">
                                       <button
                                         onClick={(e) => {
                                           e.preventDefault();
@@ -444,7 +430,6 @@ const DocumentsManagement: React.FC = () => {
                                           deletePin(pin.id);
                                         }}
                                         className="p-1 text-gray-400 transition-colors hover:text-red-500"
-                                        title="Delete Pin"
                                       >
                                         <Trash2 className="w-3 h-3" />
                                       </button>
@@ -452,36 +437,19 @@ const DocumentsManagement: React.FC = () => {
                                     </div>
                                   </a>
                                 ))}
-                                {group.pins.length === 0 && (
-                                  <div className="py-6 text-center text-gray-500">
-                                    <FileText className="w-8 h-8 mx-auto mb-2 text-gray-300" />
-                                    <p className="text-sm">
-                                      No pins in this group
-                                    </p>
-                                    <button
-                                      onClick={() => addPin(group.id)}
-                                      className="text-xs text-[#587CF0] hover:underline mt-1"
-                                    >
-                                      Add your first pin
-                                    </button>
-                                  </div>
+                                {field.pins.length === 0 && (
+                                  <p className="py-2 text-xs italic text-center text-gray-400">
+                                    No pins in this field
+                                  </p>
                                 )}
                               </div>
                             )}
                           </div>
                         ))}
-
-                        {field.groups.length === 0 && (
-                          <div className="py-6 text-center text-gray-500">
-                            <FolderPlus className="w-8 h-8 mx-auto mb-2 text-gray-300" />
-                            <p className="text-sm">No groups in this field</p>
-                            <button
-                              onClick={() => addGroup(field.id)}
-                              className="text-xs text-[#587CF0] hover:underline mt-1"
-                            >
-                              Add your first group
-                            </button>
-                          </div>
+                        {group.fields.length === 0 && (
+                          <p className="py-2 text-sm text-center text-gray-500">
+                            No fields in this group
+                          </p>
                         )}
                       </div>
                     )}
@@ -489,14 +457,14 @@ const DocumentsManagement: React.FC = () => {
                 ))}
               </div>
 
-              {filteredFields.length === 0 && (
+              {filteredGroups.length === 0 && (
                 <div className="py-12 text-center">
                   <FileText className="w-12 h-12 mx-auto mb-4 text-gray-400" />
                   <h3 className="mb-2 text-lg font-medium text-gray-800">
                     No documents found
                   </h3>
                   <p className="text-gray-600">
-                    Try adjusting your filters or create a new field
+                    Try adjusting your filters or create a new group
                   </p>
                 </div>
               )}
@@ -505,20 +473,19 @@ const DocumentsManagement: React.FC = () => {
 
           {/* Sidebar */}
           <div className="space-y-6">
-            {/* Quick Stats */}
             <div className="p-6 bg-white border border-purple-100 shadow-sm rounded-xl">
               <h3 className="mb-4 font-semibold text-gray-800">Overview</h3>
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Total Fields</span>
+                  <span className="text-sm text-gray-600">Total Groups</span>
                   <span className="font-medium text-gray-800">
                     {woomoonjeongData.length}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Total Groups</span>
+                  <span className="text-sm text-gray-600">Total Fields</span>
                   <span className="font-medium text-gray-800">
-                    {getTotalGroupsCount()}
+                    {getTotalFieldsCount()}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
@@ -530,9 +497,8 @@ const DocumentsManagement: React.FC = () => {
               </div>
             </div>
 
-            {/* Field Types */}
             <div className="p-6 bg-white border border-purple-100 shadow-sm rounded-xl">
-              <h3 className="mb-4 font-semibold text-gray-800">Field Types</h3>
+              <h3 className="mb-4 font-semibold text-gray-800">Group Types</h3>
               <div className="space-y-2">
                 {[
                   "web",
@@ -567,7 +533,7 @@ const DocumentsManagement: React.FC = () => {
                       </span>
                     </div>
                     <span className="text-sm font-medium text-gray-800">
-                      {woomoonjeongData.filter((f) => f.type === type).length}
+                      {woomoonjeongData.filter((g) => g.type === type).length}
                     </span>
                   </div>
                 ))}
@@ -576,6 +542,14 @@ const DocumentsManagement: React.FC = () => {
           </div>
         </div>
       </div>
+      <CreateCustomFieldModal
+        isOpen={isCreateFieldModalOpen}
+        onClose={() => setIsCreateFieldModalOpen(false)}
+        onAdd={(groupType) => {
+          console.log("선택된 group type:", groupType);
+          setIsCreateFieldModalOpen(false);
+        }}
+      />
     </div>
   );
 };

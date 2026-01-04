@@ -1,17 +1,15 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import StudyPlanForm from "../../components/Woomoonkyung/StudyPlanForm";
-import {
-  StudyPlan,
-  studyPlans,
-} from "../../data/Woomoonkyung/woomoonkyungData";
+import { studyPlans } from "../../data/Woomoonkyung/woomoonkyungData";
+import { StudyPlan } from "../../types/Woomoonkyung/StudyPlanNode";
 
 const WoomoonkyungEdit: React.FC = () => {
   const { planId } = useParams<{ planId: string }>();
   const navigate = useNavigate();
 
   /** 🔹 수정 대상 플랜 찾기 */
-  const plan = studyPlans.find((p) => p.study_plan_id === planId);
+  const plan = studyPlans.find((p) => p.study_plan_id === Number(planId));
 
   /** 🔹 플랜이 없을 경우 (잘못된 접근) */
   if (!plan) {

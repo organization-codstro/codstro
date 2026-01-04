@@ -11,10 +11,9 @@ import {
 import SearchInput from "../../components/Woomoonjeong/SearchInput";
 import ContentTypeFilter from "../../components/Woomoonjeong/ContentTypeFilter";
 import FilterSection from "../../components/Woomoonjeong/FilterSection";
-import FieldTypeFilter from "../../components/Woomoonjeong/FieldTypeFilter";
 import DocumentsGrid from "../../components/Woomoonjeong/DocumentsGrid";
 import AddDocumentModal from "../../components/Woomoonjeong/AddDocumentModal";
-import AddFieldModal from "../../components/Woomoonjeong/AddFieldModal";
+import AddFieldModal from "../../components/Woomoonjeong/AssignRecommendedFieldModal";
 
 const RecommendedDocumentsMain: React.FC = () => {
   const [selectedFieldType, setSelectedFieldType] = useState<
@@ -24,7 +23,7 @@ const RecommendedDocumentsMain: React.FC = () => {
     "documents"
   );
   const [searchQuery, setSearchQuery] = useState("");
-  const [savedPins, setSavedPins] = useState<Set<string>>(new Set());
+  const [savedPins, setSavedPins] = useState<Set<number>>(new Set());
   const [savedFields, setSavedFields] = useState<Set<number>>(new Set());
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedPin, setSelectedPin] = useState<RecommendedPin | null>(null);
@@ -33,24 +32,17 @@ const RecommendedDocumentsMain: React.FC = () => {
     null
   );
 
-  // Convert existing fields to recommended fields format
-  const recommendedFields: RecommendedField[] = woomoonjeongData.map(
-    (field) => ({
-      id: field.id,
-      name: field.name,
-      type: field.type,
-      description: field.description,
-      image: field.image,
-      created_at: field.created_at,
-    })
+  const recommendedFields: RecommendedField[] = woomoonjeongData.flatMap(
+    (group) =>
+      group.fields.map((field) => ({
+        id: field.id,
+        name: field.name,
+        description: field.description,
+        created_at: field.created_at,
+      }))
   );
 
   const filteredPins = extendedRecommendedPins.filter((pin) => {
-    // Filter by field type
-    if (selectedFieldType !== "all" && pin.field_type !== selectedFieldType)
-      return false;
-
-    // Filter by search query
     if (
       searchQuery &&
       !pin.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
@@ -58,18 +50,14 @@ const RecommendedDocumentsMain: React.FC = () => {
       !pin.tags.some((tag) =>
         tag.toLowerCase().includes(searchQuery.toLowerCase())
       )
-    )
+    ) {
       return false;
+    }
 
     return true;
   });
 
   const filteredFields = recommendedFields.filter((field) => {
-    // Filter by field type
-    if (selectedFieldType !== "all" && field.type !== selectedFieldType)
-      return false;
-
-    // Filter by search query
     if (
       searchQuery &&
       !field.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
@@ -79,41 +67,20 @@ const RecommendedDocumentsMain: React.FC = () => {
 
     return true;
   });
+
   const currentFilteredData =
     contentType === "documents" ? filteredPins : filteredFields;
 
-  const toggleSavePin = (pinId: string) => {
-    const newSavedPins = new Set(savedPins);
-    if (newSavedPins.has(pinId)) {
-      newSavedPins.delete(pinId);
-    } else {
-      newSavedPins.add(pinId);
-    }
-    setSavedPins(newSavedPins);
-
-    // In real app, this would make an API call to save/unsave the pin
-    console.log(
-      "Toggle save pin:",
-      pinId,
-      newSavedPins.has(pinId) ? "saved" : "unsaved"
-    );
+  const toggleSavePin = (pinId: number) => {
+    const next = new Set(savedPins);
+    next.has(pinId) ? next.delete(pinId) : next.add(pinId);
+    setSavedPins(next);
   };
 
   const toggleSaveField = (fieldId: number) => {
-    const newSavedFields = new Set(savedFields);
-    if (newSavedFields.has(fieldId)) {
-      newSavedFields.delete(fieldId);
-    } else {
-      newSavedFields.add(fieldId);
-    }
-    setSavedFields(newSavedFields);
-
-    // In real app, this would make an API call to save/unsave the field
-    console.log(
-      "Toggle save field:",
-      fieldId,
-      newSavedFields.has(fieldId) ? "saved" : "unsaved"
-    );
+    const next = new Set(savedFields);
+    next.has(fieldId) ? next.delete(fieldId) : next.add(fieldId);
+    setSavedFields(next);
   };
 
   const handleAddDocument = (pin: RecommendedPin) => {
@@ -126,19 +93,7 @@ const RecommendedDocumentsMain: React.FC = () => {
     groupId: number | null,
     groupName: string
   ) => {
-    // TODO: API 연동 - 문서 추가
-    console.log("Add document:", {
-      pin: selectedPin,
-      fieldType,
-      groupId,
-      groupName,
-    });
-    // 실제로는 API 호출하여 문서를 해당 그룹에 추가
-    alert(
-      `문서가 ${fieldType} 필드의 ${
-        groupId ? "기존 그룹" : `새 그룹 "${groupName}"`
-      }에 추가되었습니다.`
-    );
+    console.log({ selectedPin, fieldType, groupId, groupName });
   };
 
   const handleAddField = (field: RecommendedField) => {
@@ -147,51 +102,37 @@ const RecommendedDocumentsMain: React.FC = () => {
   };
 
   const handleAddFieldSubmit = (fieldType: string) => {
-    // TODO: API 연동 - Field 추가
-    console.log("Add field:", {
-      field: selectedField,
-      fieldType,
-    });
-    alert(`Field가 ${fieldType} 타입으로 추가되었습니다.`);
+    console.log({ selectedField, fieldType });
   };
 
   return (
     <div className="p-8 bg-gray-50">
       <div className="max-w-6xl mx-auto space-y-6">
-        {/* Header */}
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-800">
               Recommended Documents
             </h1>
             <p className="text-gray-600">
-              Discover curated learning resources and fields, save them to your
-              collection
+              Discover curated learning resources and fields
             </p>
           </div>
-          <div className="flex items-center gap-3">
-            <SearchInput
-              value={searchQuery}
-              onChange={setSearchQuery}
-              placeholder="Search documents..."
-            />
-          </div>
+          <SearchInput
+            value={searchQuery}
+            onChange={setSearchQuery}
+            placeholder="Search documents..."
+          />
         </div>
 
-        {/* Filters */}
         <FilterSection>
           <ContentTypeFilter
             contentType={contentType}
             onChange={setContentType}
           />
-          <FieldTypeFilter
-            selectedFieldType={selectedFieldType}
-            onChange={setSelectedFieldType}
-          />
         </FilterSection>
 
-        {/* Documents Grid */}
         <DocumentsGrid
+          key={contentType}
           contentType={contentType}
           documents={filteredPins}
           fields={filteredFields}
@@ -204,9 +145,9 @@ const RecommendedDocumentsMain: React.FC = () => {
         />
 
         {currentFilteredData.length === 0 && (
-          <div className="p-12 text-center bg-white border border-purple-100 shadow-sm rounded-xl">
+          <div className="p-12 text-center bg-white border border-purple-100 rounded-xl">
             <BookOpen className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-            <h3 className="mb-2 text-lg font-medium text-gray-800">
+            <h3 className="text-lg font-medium text-gray-800">
               No {contentType} found
             </h3>
             <p className="text-gray-600">
@@ -216,7 +157,6 @@ const RecommendedDocumentsMain: React.FC = () => {
         )}
       </div>
 
-      {/* Add Document Modal */}
       {selectedPin && (
         <AddDocumentModal
           isOpen={isAddModalOpen}
@@ -229,7 +169,6 @@ const RecommendedDocumentsMain: React.FC = () => {
         />
       )}
 
-      {/* Add Field Modal */}
       {selectedField && (
         <AddFieldModal
           isOpen={isAddFieldModalOpen}

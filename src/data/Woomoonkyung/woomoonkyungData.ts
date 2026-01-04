@@ -1,39 +1,12 @@
 // Woomoonkyung Study Planning Data Types and Mock Data
 
-export interface StudyPlan {
-  study_plan_id: string;
-  study_plan_name: string;
-  study_plan_description: string;
-  study_plans_image_url?: string;
-  study_plans_start_date: string;
-  study_plans_end_date: string;
-  study_plans_is_archived: boolean;
-  study_plans_state: "waiting" | "in progress" | "done";
-  study_plans_created_date: string;
-  user_id: string;
-}
+import {
+  StudyPlan,
+  StudyPlanNode,
+  TechStack,
+} from "../../types/Woomoonkyung/StudyPlanNode";
 
-export interface StudyPlanNode {
-  study_plan_node_id: string;
-  study_plan_node_name: string;
-  description: string;
-  start_date: string;
-  end_date: string;
-  completed: boolean;
-  position: number;
-  created_date: string;
-  tech_stack_id: string;
-  study_plan_id: string;
-}
-
-export interface TechStack {
-  tech_stack_id: string;
-  tech_stack_name: string;
-  tech_stack_img_url?: string;
-  tech_stack_created_date: string;
-}
-
-// Mock Data
+// // Mock Data
 export const techStacks: TechStack[] = [
   {
     tech_stack_id: "1",
@@ -95,7 +68,7 @@ export const techStacks: TechStack[] = [
 
 export const studyPlans: StudyPlan[] = [
   {
-    study_plan_id: "1",
+    study_plan_id: 1,
     study_plan_name: "Frontend Development Mastery",
     study_plan_description:
       "Complete frontend development learning path from basics to advanced",
@@ -106,10 +79,10 @@ export const studyPlans: StudyPlan[] = [
     study_plans_is_archived: false,
     study_plans_state: "in progress",
     study_plans_created_date: "2024-01-15T09:00:00Z",
-    user_id: "user_1",
+    user_id: 1,
   },
   {
-    study_plan_id: "2",
+    study_plan_id: 2,
     study_plan_name: "Backend Development with Node.js",
     study_plan_description:
       "Learn server-side development with Node.js and databases",
@@ -120,10 +93,10 @@ export const studyPlans: StudyPlan[] = [
     study_plans_is_archived: false,
     study_plans_state: "waiting",
     study_plans_created_date: "2024-01-20T10:00:00Z",
-    user_id: "user_1",
+    user_id: 1,
   },
   {
-    study_plan_id: "3",
+    study_plan_id: 3,
     study_plan_name: "Python Programming Basics",
     study_plan_description:
       "Introduction to Python programming and data structures",
@@ -134,14 +107,14 @@ export const studyPlans: StudyPlan[] = [
     study_plans_is_archived: true,
     study_plans_state: "done",
     study_plans_created_date: "2023-09-25T08:00:00Z",
-    user_id: "user_1",
+    user_id: 1,
   },
 ];
 
 export const studyPlanNodes: StudyPlanNode[] = [
   // Frontend Development Mastery nodes
   {
-    study_plan_node_id: "1",
+    study_plan_node_id: 1,
     study_plan_node_name: "HTML Fundamentals",
     description: "Learn HTML structure, semantic elements, and best practices",
     start_date: "2024-01-15",
@@ -149,11 +122,13 @@ export const studyPlanNodes: StudyPlanNode[] = [
     completed: true,
     position: 1,
     created_date: "2024-01-15T09:00:00Z",
-    tech_stack_id: "7",
-    study_plan_id: "1",
+    tech_stack_id: 7,
+    study_plan_id: 1,
+    tech_stack_name: "HTML",
+    tech_stack_img_url: "https://cdn.simpleicons.org/html5/E34F26",
   },
   {
-    study_plan_node_id: "2",
+    study_plan_node_id: 2,
     study_plan_node_name: "CSS Styling",
     description: "Master CSS selectors, layouts, and responsive design",
     start_date: "2024-01-26",
@@ -161,11 +136,13 @@ export const studyPlanNodes: StudyPlanNode[] = [
     completed: true,
     position: 2,
     created_date: "2024-01-15T09:00:00Z",
-    tech_stack_id: "6",
-    study_plan_id: "1",
+    tech_stack_id: 6,
+    study_plan_id: 1,
+    tech_stack_name: "CSS",
+    tech_stack_img_url: "https://cdn.simpleicons.org/css/1572B6",
   },
   {
-    study_plan_node_id: "3",
+    study_plan_node_id: 3,
     study_plan_node_name: "JavaScript Basics",
     description: "Learn JavaScript fundamentals, DOM manipulation, and ES6+",
     start_date: "2024-02-11",
@@ -173,11 +150,13 @@ export const studyPlanNodes: StudyPlanNode[] = [
     completed: false,
     position: 3,
     created_date: "2024-01-15T09:00:00Z",
-    tech_stack_id: "1",
-    study_plan_id: "1",
+    tech_stack_id: 1,
+    study_plan_id: 1,
+    tech_stack_name: "JavaScript",
+    tech_stack_img_url: "https://cdn.simpleicons.org/javascript/F7DF1E",
   },
   {
-    study_plan_node_id: "4",
+    study_plan_node_id: 4,
     study_plan_node_name: "React Framework",
     description: "Build interactive UIs with React components and hooks",
     start_date: "2024-03-06",
@@ -185,12 +164,15 @@ export const studyPlanNodes: StudyPlanNode[] = [
     completed: false,
     position: 4,
     created_date: "2024-01-15T09:00:00Z",
-    tech_stack_id: "2",
-    study_plan_id: "1",
+    tech_stack_id: 2,
+    study_plan_id: 1,
+    tech_stack_name: "React",
+    tech_stack_img_url: "https://cdn.simpleicons.org/react/61DAFB",
   },
+
   // Backend Development nodes
   {
-    study_plan_node_id: "5",
+    study_plan_node_id: 5,
     study_plan_node_name: "Node.js Fundamentals",
     description: "Learn Node.js runtime and core modules",
     start_date: "2024-02-01",
@@ -198,11 +180,13 @@ export const studyPlanNodes: StudyPlanNode[] = [
     completed: false,
     position: 1,
     created_date: "2024-01-20T10:00:00Z",
-    tech_stack_id: "3",
-    study_plan_id: "2",
+    tech_stack_id: 3,
+    study_plan_id: 2,
+    tech_stack_name: "Node.js",
+    tech_stack_img_url: "https://cdn.simpleicons.org/nodedotjs/339933",
   },
   {
-    study_plan_node_id: "6",
+    study_plan_node_id: 6,
     study_plan_node_name: "Express.js Framework",
     description: "Build REST APIs with Express.js",
     start_date: "2024-02-21",
@@ -210,8 +194,10 @@ export const studyPlanNodes: StudyPlanNode[] = [
     completed: false,
     position: 2,
     created_date: "2024-01-20T10:00:00Z",
-    tech_stack_id: "3",
-    study_plan_id: "2",
+    tech_stack_id: 3,
+    study_plan_id: 2,
+    tech_stack_name: "Express",
+    tech_stack_img_url: "https://cdn.simpleicons.org/express/000000",
   },
 ];
 

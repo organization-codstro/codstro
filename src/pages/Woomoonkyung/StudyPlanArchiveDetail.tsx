@@ -1,7 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import {
   stateColors,
-  StudyPlan,
   studyPlanNodes,
   studyPlans,
 } from "../../data/Woomoonkyung/woomoonkyungData";
@@ -14,14 +13,17 @@ import {
   Target,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { StudyPlan } from "../../types/Woomoonkyung/StudyPlanNode";
 
 const WoomoonkyungDetail = () => {
   const { planId } = useParams<{ planId: string }>();
   const [selectedPlan, setSelectedPlan] = useState<StudyPlan | null>(null);
   const navigate = useNavigate();
 
-  const plan = studyPlans.find((p) => p.study_plan_id === planId);
-  const nodes = studyPlanNodes.filter((n) => n.study_plan_id === planId);
+  const plan = studyPlans.find((p) => p.study_plan_id === Number(planId));
+  const nodes = studyPlanNodes.filter(
+    (n) => n.study_plan_id === Number(planId)
+  );
   const completedNodes = nodes.filter((node) => node.completed).length;
   const totalNodes = nodes.length;
   const progressPercentage =

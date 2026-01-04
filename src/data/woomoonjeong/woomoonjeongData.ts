@@ -1,5 +1,6 @@
 import {
   Field,
+  Group,
   RecommendedPin,
   Todo,
 } from "../../types/Woomoonjeong/woomoonjeong";
@@ -14,15 +15,14 @@ export const fieldTypeColors = {
   other: "bg-purple-100 text-purple-700 border-purple-200",
 };
 
-export const woomoonjeongData: Field[] = [
+export const woomoonjeongData: Group[] = [
   {
     id: 1,
-    name: "Frontend Development",
     type: "web",
     description: "Web frontend technologies and frameworks",
-    image: "https://images.pexels.com/photos/270348/pexels-photo-270348.jpeg",
+
     created_at: "2024-01-15T09:00:00Z",
-    groups: [
+    fields: [
       {
         id: 1,
         name: "React Ecosystem",
@@ -67,12 +67,10 @@ export const woomoonjeongData: Field[] = [
   },
   {
     id: 2,
-    name: "Mobile Development",
     type: "app",
     description: "iOS and Android app development",
-    image: "https://images.pexels.com/photos/607812/pexels-photo-607812.jpeg",
     created_at: "2024-01-18T13:00:00Z",
-    groups: [
+    fields: [
       {
         id: 1,
         name: "React Native",
@@ -93,12 +91,10 @@ export const woomoonjeongData: Field[] = [
   },
   {
     id: 3,
-    name: "Backend Development",
     type: "server",
     description: "Server-side development and APIs",
-    image: "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg",
     created_at: "2024-01-19T15:00:00Z",
-    groups: [
+    fields: [
       {
         id: 1,
         name: "Node.js",
@@ -241,81 +237,69 @@ export const recommendedPins = [
 
 // Extended recommended pins data for demonstration
 export const extendedRecommendedPins: RecommendedPin[] = [
-  ...recommendedPins.map((pin) => ({
-    ...pin,
-    difficulty: "beginner" as const,
-    rating: Math.floor(Math.random() * 2) + 4, // 4-5 stars
-    views: Math.floor(Math.random() * 1000) + 100,
-  })),
   {
-    id: "r4",
+    id: 4,
     title: "TypeScript Handbook",
     description: "Complete guide to TypeScript for JavaScript developers",
     url: "https://www.typescriptlang.org/docs/",
     tags: ["typescript", "javascript", "types"],
-    field_type: "web" as const,
     created_at: "2024-01-20T15:00:00Z",
-    difficulty: "intermediate" as const,
+    difficulty: "intermediate",
     rating: 5,
     views: 850,
   },
   {
-    id: "r5",
+    id: 5,
     title: "Swift Programming Guide",
     description: "Apple's official Swift programming language guide",
     url: "https://docs.swift.org/swift-book/",
     tags: ["swift", "ios", "apple"],
-    field_type: "app" as const,
     created_at: "2024-01-20T16:00:00Z",
-    difficulty: "intermediate" as const,
+    difficulty: "intermediate",
     rating: 5,
     views: 650,
   },
   {
-    id: "r6",
+    id: 6,
     title: "Node.js Best Practices",
     description: "Collection of Node.js best practices and guidelines",
     url: "https://github.com/goldbergyoni/nodebestpractices",
     tags: ["nodejs", "backend", "best-practices"],
-    field_type: "server" as const,
     created_at: "2024-01-20T17:00:00Z",
-    difficulty: "advanced" as const,
+    difficulty: "advanced",
     rating: 5,
     views: 920,
   },
   {
-    id: "r7",
+    id: 7,
     title: "Unity Game Development",
     description: "Learn game development with Unity engine",
     url: "https://learn.unity.com/",
     tags: ["unity", "game-dev", "c#"],
-    field_type: "game" as const,
     created_at: "2024-01-20T18:00:00Z",
-    difficulty: "beginner" as const,
+    difficulty: "beginner",
     rating: 4,
     views: 750,
   },
   {
-    id: "r8",
+    id: 8,
     title: "OWASP Security Guide",
     description: "Web application security best practices",
     url: "https://owasp.org/www-project-web-security-testing-guide/",
     tags: ["security", "web", "owasp"],
-    field_type: "security" as const,
     created_at: "2024-01-20T19:00:00Z",
-    difficulty: "advanced" as const,
+    difficulty: "advanced",
     rating: 5,
     views: 480,
   },
   {
-    id: "r9",
+    id: 9,
     title: "Agile Development Methodology",
     description: "Understanding Agile and Scrum methodologies",
     url: "https://agilemanifesto.org/",
     tags: ["agile", "scrum", "methodology"],
-    field_type: "work" as const,
     created_at: "2024-01-20T20:00:00Z",
-    difficulty: "beginner" as const,
+    difficulty: "beginner",
     rating: 4,
     views: 320,
   },

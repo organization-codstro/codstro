@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Plus, Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { ChatRoom } from "../../types/AiChat/AiChat";
+import { ChatRoom } from "../../types/AiChat/aiChat";
 import { mockChatRooms } from "../../data/AiChat/mockData";
 
 interface ChatRoomsListProps {

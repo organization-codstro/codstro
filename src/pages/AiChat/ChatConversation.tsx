@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { ArrowLeft, Send, Smile } from "lucide-react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ChatRoom, ChatMessage } from "../../types/AiChat/AiChat";
+import { ChatRoom, ChatMessage } from "../../types/AiChat/aiChat";
 import { mockChatRooms, mockMessages } from "../../data/AiChat/mockData";
 
 export default function ChatConversation() {

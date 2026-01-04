@@ -9,25 +9,42 @@ interface AddFieldModalProps {
   onAdd: (fieldType: string) => void;
 }
 
-const AddFieldModal: React.FC<AddFieldModalProps> = ({
+type FieldGroupType =
+  | "web"
+  | "app"
+  | "server"
+  | "game"
+  | "security"
+  | "work"
+  | "other";
+
+const fieldTypes: FieldGroupType[] = [
+  "web",
+  "app",
+  "server",
+  "game",
+  "security",
+  "work",
+  "other",
+];
+
+const DEFAULT_GROUP_TYPE: FieldGroupType = "web";
+
+const AssignRecommendedFieldModal: React.FC<AddFieldModalProps> = ({
   isOpen,
   onClose,
   field,
   onAdd,
 }) => {
-  const [selectedGroupType, setSelectedGroupType] = useState<
-    "web" | "app" | "server" | "game" | "security" | "work" | "other"
-  >(field.type);
+  const [selectedGroupType, setSelectedGroupType] =
+    useState<FieldGroupType>(DEFAULT_GROUP_TYPE);
 
-  const fieldTypes: Array<
-    "web" | "app" | "server" | "game" | "security" | "work" | "other"
-  > = ["web", "app", "server", "game", "security", "work", "other"];
-
+  // 모달 열릴 때마다 초기값 리셋
   useEffect(() => {
     if (isOpen) {
-      setSelectedGroupType(field.type);
+      setSelectedGroupType(DEFAULT_GROUP_TYPE);
     }
-  }, [isOpen, field]);
+  }, [isOpen]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -106,4 +123,4 @@ const AddFieldModal: React.FC<AddFieldModalProps> = ({
   );
 };
 
-export default AddFieldModal;
+export default AssignRecommendedFieldModal;

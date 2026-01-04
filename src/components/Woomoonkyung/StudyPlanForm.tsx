@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ArrowLeft, Calendar, Image, Save, X } from "lucide-react";
-import { StudyPlan } from "../data/woomoonkyungData";
+import { StudyPlan } from "../../types/Woomoonkyung/StudyPlanNode";
 
 interface StudyPlanFormProps {
   mode: "create" | "edit";
@@ -352,24 +352,6 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
                 </div>
               </div>
             )}
-          </div>
-
-          {/* Archive Status */}
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              id="study_plans_is_archived"
-              name="study_plans_is_archived"
-              checked={formData.study_plans_is_archived}
-              onChange={handleInputChange}
-              className="h-4 w-4 text-[#587CF0] focus:ring-[#587CF0] border-gray-300 rounded"
-            />
-            <label
-              htmlFor="study_plans_is_archived"
-              className="block ml-2 text-sm text-gray-700"
-            >
-              이 계획을 아카이브에 보관
-            </label>
           </div>
 
           {/* Action Buttons */}

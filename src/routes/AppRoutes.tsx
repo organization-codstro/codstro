@@ -52,12 +52,6 @@ export default function AppRoutes() {
         {/* 목록 (list) */}
         <Route path="/woomoonkyung" element={<Page.WoomoonkyungMain />} />
 
-        {/* 생성 (create) */}
-        <Route
-          path="/woomoonkyung/create"
-          element={<Page.WoomoonkyungCreate />}
-        />
-
         {/* 상세 (list → 선택) */}
         <Route
           path="/woomoonkyung/plan/:planId"
@@ -70,10 +64,22 @@ export default function AppRoutes() {
           element={<Page.WoomoonkyungEdit />}
         />
 
+        {/* 생성 (create) */}
+        <Route
+          path="/woomoonkyung/create"
+          element={<Page.WoomoonkyungCreate />}
+        />
+
+        {/* 노드 생성 (create/node) */}
+        <Route
+          path="/woomoonkyung/create/node"
+          element={<Page.WoomoonkyungCreateNode />}
+        />
+
         {/* 노드 편집 (nodes) */}
         <Route
           path="/woomoonkyung/:planId/nodes"
-          element={<Page.WoomoonkyungNodes />}
+          element={<Page.WoomoonkyungEditNode />}
         />
 
         {/* 추천 */}

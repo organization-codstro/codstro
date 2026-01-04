@@ -24,9 +24,10 @@ export { default as StudyPlanArchive } from "../pages/Woomoonkyung/StudyPlanArch
 export { default as WoomoonkyungDetail } from "../pages/Woomoonkyung/WoomoonkyungDetail";
 export { default as WoomoonkyungCreate } from "../pages/Woomoonkyung/WoomoonkyungCreate";
 export { default as WoomoonkyungEdit } from "../pages/Woomoonkyung/WoomoonkyungEdit";
-export { default as WoomoonkyungNodes } from "../pages/Woomoonkyung/WoomoonkyungNodes";
 export { default as RecommendedStudyPlanDetail } from "../pages/Woomoonkyung/RecommendedStudyPlanDetail";
 export { default as StudyPlanArchiveDetail } from "../pages/Woomoonkyung/StudyPlanArchiveDetail";
+export { default as WoomoonkyungCreateNode } from "../pages/Woomoonkyung/WoomoonkyungCreateNode";
+export { default as WoomoonkyungEditNode } from "../pages/Woomoonkyung/WoomoonkyungEditNode";
 
 /* ================= COMPANY ================= */
 export { default as CompanyList } from "../pages/CompanyInformation/CompanyList";

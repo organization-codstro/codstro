@@ -106,11 +106,6 @@ const TodoManagementDetail: React.FC = () => {
                 {todo.status.replace("-", " ")}
               </span>
             </div>
-            {relatedField && (
-              <span className="px-3 py-1 text-sm text-blue-700 border border-blue-200 rounded-full bg-blue-50">
-                {relatedField.name}
-              </span>
-            )}
           </div>
 
           {/* Title */}

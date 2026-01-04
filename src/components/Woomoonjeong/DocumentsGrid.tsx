@@ -10,9 +10,9 @@ interface DocumentsGridProps {
   contentType: "documents" | "fields";
   documents: RecommendedPin[];
   fields: RecommendedField[];
-  savedPins: Set<string>;
+  savedPins: Set<number>;
   savedFields: Set<number>;
-  onToggleSavePin: (id: string) => void;
+  onToggleSavePin: (id: number) => void;
   onToggleSaveField: (id: number) => void;
   onAddDocument?: (pin: RecommendedPin) => void;
   onAddField?: (field: RecommendedField) => void;
