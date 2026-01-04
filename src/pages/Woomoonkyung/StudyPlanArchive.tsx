@@ -22,7 +22,6 @@ import {
   recommendedStudyPlanNodes,
   bookmarkedPlans,
   stateColors,
-  stateIcons,
 } from "../../data/Woomoonkyung/woomoonkyungData";
 
 const StudyPlanArchive: React.FC = () => {
@@ -226,7 +225,6 @@ const StudyPlanArchive: React.FC = () => {
                       stateColors[selectedPlan.study_plans_state]
                     }`}
                   >
-                    {stateIcons[selectedPlan.study_plans_state]}{" "}
                     {selectedPlan.study_plans_state}
                   </span>
                 </div>

@@ -10,12 +10,10 @@ import {
   ArrowRight,
 } from "lucide-react";
 import {
-  StudyPlan,
   StudyPlanNode,
   studyPlans,
   studyPlanNodes,
   stateColors,
-  stateIcons,
 } from "../../data/Woomoonkyung/woomoonkyungData";
 
 const RecommendedStudyPlanDetail: React.FC = () => {
@@ -98,7 +96,6 @@ const RecommendedStudyPlanDetail: React.FC = () => {
                   stateColors[selectedPlan.study_plans_state]
                 }`}
               >
-                {stateIcons[selectedPlan.study_plans_state]}{" "}
                 {selectedPlan.study_plans_state}
               </span>
             </div>

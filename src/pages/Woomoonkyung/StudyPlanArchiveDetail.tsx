@@ -1,7 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import {
   stateColors,
-  stateIcons,
   StudyPlan,
   studyPlanNodes,
   studyPlans,
@@ -101,7 +100,6 @@ const WoomoonkyungDetail = () => {
                     stateColors[selectedPlan.study_plans_state]
                   }`}
                 >
-                  {stateIcons[selectedPlan.study_plans_state]}{" "}
                   {selectedPlan.study_plans_state}
                 </span>
                 <button

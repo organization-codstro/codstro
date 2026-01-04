@@ -221,12 +221,6 @@ export const stateColors = {
   done: "bg-green-100 text-green-700 border-green-200",
 };
 
-export const stateIcons = {
-  waiting: "⏳",
-  "in progress": "🚀",
-  done: "✅",
-};
-
 export const bookmarkedPlans = [
   {
     study_plan_id: "plan_1",

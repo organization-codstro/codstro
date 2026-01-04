@@ -1,22 +1,10 @@
 import React from "react";
+import { Plus, Calendar, Target, Trash2 } from "lucide-react";
 import {
-  Plus,
-  Calendar,
-  Clock,
-  Target,
-  BookOpen,
-  TrendingUp,
-  CheckCircle2,
-  Edit3,
-  Trash2,
-} from "lucide-react";
-import {
-  StudyPlan,
   StudyPlanNode,
   studyPlans,
   studyPlanNodes,
   stateColors,
-  stateIcons,
 } from "../../data/Woomoonkyung/woomoonkyungData";
 import { useNavigate } from "react-router-dom";
 
