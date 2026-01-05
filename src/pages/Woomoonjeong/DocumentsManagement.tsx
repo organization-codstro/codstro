@@ -19,6 +19,7 @@ import {
 } from "../../data/woomoonjeong/woomoonjeongData";
 import { Field, Group } from "../../types/Woomoonjeong/woomoonjeong";
 import CreateCustomFieldModal from "../../components/Woomoonjeong/CreateCustomFieldModal";
+import CreateCustomDocumentModal from "../../components/Woomoonjeong/CreateCustomDocumentModal";
 
 const DocumentsManagement: React.FC = () => {
   // 인터페이스 구조에 따라 데이터를 Group[] 타입으로 관리합니다.
@@ -42,7 +43,11 @@ const DocumentsManagement: React.FC = () => {
   // 수정 대상이 Group에서 Field로 변경됨 (Field 인터페이스에 name이 있기 때문)
   const [editingFieldId, setEditingFieldId] = useState<number | null>(null);
   const [editingFieldName, setEditingFieldName] = useState<string>("");
+  //field 생성 모달
   const [isCreateFieldModalOpen, setIsCreateFieldModalOpen] = useState(false);
+  //문서 생성 모달
+  const [isCreateDocumentModalOpen, setIsCreateDocumentModalOpen] =
+    useState(false);
 
   const toggleGroup = (groupId: number) => {
     const newExpanded = new Set(expandedGroups);
@@ -62,18 +67,6 @@ const DocumentsManagement: React.FC = () => {
       newExpanded.add(fieldId);
     }
     setExpandedFields(newExpanded);
-  };
-
-  const addGroup = () => {
-    console.log("Add new group");
-  };
-
-  const addField = (groupId: number) => {
-    console.log("Add field to group:", groupId);
-  };
-
-  const addPin = (fieldId: number) => {
-    console.log("Add pin to field:", fieldId);
   };
 
   const editField = (field: Field) => {
@@ -191,13 +184,22 @@ const DocumentsManagement: React.FC = () => {
               Organize your learning documents by groups and fields
             </p>
           </div>
-          <button
-            onClick={() => setIsCreateFieldModalOpen(true)}
-            className="px-4 py-2 bg-[#587CF0] text-white rounded-lg font-medium hover:bg-[#4a6de8] transition-colors flex items-center gap-2"
-          >
-            <Plus className="w-4 h-4" />
-            Add Field
-          </button>
+          <div className="flex items-center justify-between gap-4">
+            <button
+              onClick={() => setIsCreateDocumentModalOpen(true)}
+              className="px-4 py-2 bg-[#587CF0] text-white rounded-lg font-medium hover:bg-[#4a6de8] transition-colors flex items-center gap-2"
+            >
+              <Plus className="w-4 h-4" />
+              Add document
+            </button>
+            <button
+              onClick={() => setIsCreateFieldModalOpen(true)}
+              className="px-4 py-2 bg-[#587CF0] text-white rounded-lg font-medium hover:bg-[#4a6de8] transition-colors flex items-center gap-2"
+            >
+              <Plus className="w-4 h-4" />
+              Add Field
+            </button>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
@@ -548,6 +550,15 @@ const DocumentsManagement: React.FC = () => {
         onAdd={(groupType) => {
           console.log("선택된 group type:", groupType);
           setIsCreateFieldModalOpen(false);
+        }}
+      />
+
+      <CreateCustomDocumentModal
+        isOpen={isCreateDocumentModalOpen}
+        onClose={() => setIsCreateDocumentModalOpen(false)}
+        onAdd={(documentInfo) => {
+          console.log("생성된 문서 정보:", documentInfo);
+          setIsCreateDocumentModalOpen(false);
         }}
       />
     </div>
