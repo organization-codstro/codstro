@@ -1,7 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import * as Page from "./pages";
-import TodoManagementCreate from "../pages/Woomoonjeong/TodoManagementCreate";
-import TodoManagementUpdate from "../pages/Woomoonjeong/TodoManagementUpdate";
 
 export default function AppRoutes() {
   return (
@@ -20,16 +18,12 @@ export default function AppRoutes() {
         {/* ================= Woomoonjeong ================= */}
         <Route path="/woomoonjeong" element={<Page.TodoManagement />} />
         <Route
-          path="/woomoonjeong/todos/new"
-          element={<TodoManagementCreate />}
-        />
-        <Route
           path="/woomoonjeong/todo/:todoId"
           element={<Page.TodoManagementDetail />}
         />
         <Route
           path="/woomoonjeong/todo/:todoId/edit"
-          element={<TodoManagementUpdate />}
+          element={<Page.TodoManagementUpdate />}
         />
         <Route
           path="/woomoonjeong/documents"
@@ -46,6 +40,10 @@ export default function AppRoutes() {
 
         {/* ================= Woomoonro ================= */}
         <Route path="/woomoonro" element={<Page.WoomoonroMain />} />
+        <Route
+          path="/woomoonro/project/:projectId"
+          element={<Page.ProjectDetailPage />}
+        />
         <Route path="/woomoonro/archive" element={<Page.WoomoonroArchive />} />
 
         {/* ================= Woomoonkyung ================= */}
@@ -72,7 +70,7 @@ export default function AppRoutes() {
 
         {/* 노드 생성 (create/node) */}
         <Route
-          path="/woomoonkyung/create/node"
+          path="/woomoonkyung/create/node/:planId"
           element={<Page.WoomoonkyungCreateNode />}
         />
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import StudyPlanForm from "../../components/Woomoonkyung/StudyPlanForm";
+import StudyPlanForm from "../../components/Woomoonkyung/Node/StudyPlanForm";
 import { studyPlans } from "../../data/Woomoonkyung/woomoonkyungData";
 import { StudyPlan } from "../../types/Woomoonkyung/StudyPlanNode";
 

@@ -1,14 +1,6 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import {
-  ArrowLeft,
-  Plus,
-  ExternalLink,
-  Tag,
-  FileText,
-  ChevronDown,
-  ChevronRight,
-} from "lucide-react";
+import { ArrowLeft, Plus, ExternalLink, Tag, FileText } from "lucide-react";
 import {
   woomoonjeongData,
   fieldTypeColors,
@@ -18,7 +10,7 @@ import {
   Pin,
   RecommendedField,
 } from "../../types/Woomoonjeong/woomoonjeong";
-import AssignRecommendedFieldModal from "./CreateCustomFieldModal";
+import AssignRecommendedFieldModal from "../../components/Woomoonjeong/DocumentsManagement/RecommendedCreateFieldModal";
 
 const FieldDetail: React.FC = () => {
   const { fieldId } = useParams<{ fieldId: string }>();
@@ -81,10 +73,10 @@ const FieldDetail: React.FC = () => {
                 </h1>
                 <span
                   className={`inline-block px-3 py-1 text-sm border rounded-full ${
-                    fieldTypeColors[group.type]
+                    fieldTypeColors[group.name]
                   }`}
                 >
-                  {group.type}
+                  {group.name}
                 </span>
               </div>
               <p className="mt-1 text-gray-600">{field.description}</p>

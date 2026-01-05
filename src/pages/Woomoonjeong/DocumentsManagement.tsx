@@ -18,8 +18,11 @@ import {
   fieldTypeColors,
 } from "../../data/woomoonjeong/woomoonjeongData";
 import { Field, Group, Pin } from "../../types/Woomoonjeong/woomoonjeong";
+//유저가 생성하는 필드 생성 모달
 import CreateCustomFieldModal from "../../components/Woomoonjeong/DocumentsManagement/CreateCustomFieldModal";
-import CreateCustomDocumentModal from "../../components/Woomoonjeong/CreateCustomDocumentModal";
+//문서 추가 모달
+import CreateCustomDocumentModal from "../../components/Woomoonjeong/DocumentsManagement/CreateDocumentModal";
+//수정 모달
 import EditDocumentModal from "../../components/Woomoonjeong/DocumentsManagement/EditDocumentModal";
 
 const DocumentsManagement: React.FC = () => {
@@ -139,7 +142,6 @@ const DocumentsManagement: React.FC = () => {
       }
     }
   };
-
 
   const filteredGroups = woomoonjeongData.filter((group) => {
     // 1. Group Type 필터링

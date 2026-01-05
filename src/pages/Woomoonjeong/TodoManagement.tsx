@@ -16,8 +16,9 @@ import {
 } from "lucide-react";
 import { todosData } from "../../data/woomoonjeong/woomoonjeongData";
 import { Todo } from "../../types/Woomoonjeong/woomoonjeong";
+import TodoManagementCreate from "../../components/Woomoonjeong/TodoManagement/TodoManagementCreate"; // 모달 컴포넌트 import
 
-const TodoListPage: React.FC = () => {
+const TodoManagement: React.FC = () => {
   const navigate = useNavigate();
 
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -27,6 +28,7 @@ const TodoListPage: React.FC = () => {
   >("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [todos, setTodos] = useState<Todo[]>(todosData);
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태
 
   /* ---------------- Utils ---------------- */
 
@@ -185,6 +187,12 @@ const TodoListPage: React.FC = () => {
 
   return (
     <div className="min-h-screen p-8 bg-gray-50">
+      {/* 모달 */}
+      <TodoManagementCreate
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+
       <div className="mx-auto space-y-6 max-w-7xl">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -197,7 +205,7 @@ const TodoListPage: React.FC = () => {
             </p>
           </div>
           <button
-            onClick={() => navigate("/woomoonjeong/todos/new")}
+            onClick={() => setIsModalOpen(true)} // 모달 열기
             className="flex items-center gap-2 px-4 py-2 bg-[#587CF0] text-white rounded-lg hover:bg-[#4a6de8]"
           >
             <Plus className="w-4 h-4" />
@@ -244,6 +252,7 @@ const TodoListPage: React.FC = () => {
                 </div>
               </div>
             </div>
+
             {/* List */}
             <div className="p-6 bg-white border border-purple-100 shadow-sm rounded-xl">
               <h2 className="mb-6 text-lg font-semibold text-gray-800">
@@ -264,24 +273,20 @@ const TodoListPage: React.FC = () => {
                     onClick={() => navigate(`/woomoonjeong/todo/${todo.id}`)}
                     className="flex items-start gap-4 p-4 transition-colors rounded-lg bg-gray-50 hover:bg-gray-100"
                   >
-                    {/* ✅ 상태 아이콘 영역 (위치 보정) */}
                     <div className="flex items-center gap-2 mt-1">
                       {getStatusIcon(todo.status)}
                     </div>
 
-                    {/* ✅ 내용 영역 */}
                     <div className="flex-1">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
                           <h3 className="mb-1 font-medium text-gray-800">
                             {todo.name}
                           </h3>
-
                           <p className="mb-2 text-sm text-gray-600">
                             {todo.description}
                           </p>
 
-                          {/* ✅ 메타 정보 라인 */}
                           <div className="flex items-center gap-4 text-xs text-gray-500">
                             <div className="flex items-center gap-1">
                               <Calendar className="w-3 h-3" />
@@ -300,9 +305,7 @@ const TodoListPage: React.FC = () => {
                           </div>
                         </div>
 
-                        {/* ✅ 우측 액션 버튼 */}
                         <div className="flex flex-col gap-1 ml-4">
-                          {/* 상태 변경 */}
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
@@ -314,7 +317,6 @@ const TodoListPage: React.FC = () => {
                             <PlayCircle className="w-4 h-4" />
                           </button>
 
-                          {/* 삭제 */}
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
@@ -336,7 +338,6 @@ const TodoListPage: React.FC = () => {
 
           {/* Sidebar */}
           <div className="space-y-6">
-            {/* Calendar */}
             <div className="p-6 bg-white border border-purple-100 rounded-xl">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="flex items-center gap-2 font-semibold text-gray-800">
@@ -368,7 +369,6 @@ const TodoListPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Day headers */}
               <div className="grid grid-cols-7 gap-1 mb-2">
                 {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => (
                   <div
@@ -380,11 +380,9 @@ const TodoListPage: React.FC = () => {
                 ))}
               </div>
 
-              {/* Calendar grid */}
               <div className="grid grid-cols-7 gap-1">{renderCalendar()}</div>
             </div>
 
-            {/* Summary */}
             <div className="p-6 bg-white border border-purple-100 rounded-xl">
               <h3 className="flex items-center gap-2 mb-4 font-semibold text-gray-800">
                 <Clock className="w-4 h-4 text-[#587CF0]" />
@@ -405,4 +403,4 @@ const TodoListPage: React.FC = () => {
   );
 };
 
-export default TodoListPage;
+export default TodoManagement;

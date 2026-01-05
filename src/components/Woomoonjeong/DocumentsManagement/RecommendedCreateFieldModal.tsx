@@ -1,6 +1,8 @@
+//시스템이 추천하는 필드 추가하는 모달
+
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import { RecommendedField } from "../../types/Woomoonjeong/woomoonjeong";
+import { RecommendedField } from "../../../types/Woomoonjeong/woomoonjeong";
 
 interface AddFieldModalProps {
   isOpen: boolean;

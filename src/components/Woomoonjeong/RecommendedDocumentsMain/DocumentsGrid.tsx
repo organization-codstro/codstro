@@ -2,7 +2,7 @@ import React from "react";
 import {
   RecommendedPin,
   RecommendedField,
-} from "../../types/Woomoonjeong/woomoonjeong";
+} from "../../../types/Woomoonjeong/woomoonjeong";
 import DocumentCard from "./DocumentCard";
 import FieldCard from "./FieldCard";
 

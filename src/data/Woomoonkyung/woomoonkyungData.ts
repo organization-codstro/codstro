@@ -80,6 +80,7 @@ export const studyPlans: StudyPlan[] = [
     study_plans_state: "in progress",
     study_plans_created_date: "2024-01-15T09:00:00Z",
     user_id: 1,
+    study_plan_is_recommendation: false,
   },
   {
     study_plan_id: 2,
@@ -94,6 +95,7 @@ export const studyPlans: StudyPlan[] = [
     study_plans_state: "waiting",
     study_plans_created_date: "2024-01-20T10:00:00Z",
     user_id: 1,
+    study_plan_is_recommendation: false,
   },
   {
     study_plan_id: 3,
@@ -108,6 +110,7 @@ export const studyPlans: StudyPlan[] = [
     study_plans_state: "done",
     study_plans_created_date: "2023-09-25T08:00:00Z",
     user_id: 1,
+    study_plan_is_recommendation: true,
   },
 ];
 
@@ -209,15 +212,15 @@ export const stateColors = {
 
 export const bookmarkedPlans = [
   {
-    study_plan_id: "plan_1",
+    study_plan_id: 1,
     is_bookmarked: true,
   },
   {
-    study_plan_id: "plan_2",
+    study_plan_id: 2,
     is_bookmarked: false,
   },
   {
-    study_plan_id: "plan_3",
+    study_plan_id: 3,
     is_bookmarked: true,
   },
 ];

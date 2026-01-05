@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ArrowLeft, Calendar, Image, Save, X } from "lucide-react";
-import { StudyPlan } from "../../types/Woomoonkyung/StudyPlanNode";
+import { StudyPlan } from "../../../types/Woomoonkyung/StudyPlanNode";
 
 interface StudyPlanFormProps {
   mode: "create" | "edit";
@@ -8,7 +8,7 @@ interface StudyPlanFormProps {
   onSave: (
     planData: Omit<StudyPlan, "study_plan_id" | "study_plans_created_date">
   ) => void;
-  onCancel: () => void;
+  onCancel?: () => void;
 }
 
 const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
@@ -18,6 +18,7 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
   onCancel,
 }) => {
   type StudyPlanState = "waiting" | "in progress" | "done";
+  console.log(onCancel);
 
   interface StudyPlanForm {
     study_plan_name: string;
@@ -27,7 +28,7 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
     study_plans_end_date: string;
     study_plans_is_archived: boolean;
     study_plans_state: StudyPlanState;
-    user_id: string;
+    user_id: number;
   }
 
   const [formData, setFormData] = useState<StudyPlanForm>({
@@ -38,7 +39,7 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
     study_plans_end_date: "",
     study_plans_is_archived: false,
     study_plans_state: "waiting", // ✅ 문자열 값
-    user_id: "user_1",
+    user_id: 1,
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -53,7 +54,7 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
         study_plans_end_date: existingPlan.study_plans_end_date,
         study_plans_is_archived: existingPlan.study_plans_is_archived,
         study_plans_state: existingPlan.study_plans_state,
-        user_id: existingPlan.user_id,
+        user_id: Number(existingPlan.user_id),
       });
     }
   }, [mode, existingPlan]);
@@ -114,15 +115,6 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
       onSave(formData);
     }
   };
-
-  const suggestedImages = [
-    "https://images.pexels.com/photos/270348/pexels-photo-270348.jpeg",
-    "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg",
-    "https://images.pexels.com/photos/11035380/pexels-photo-11035380.jpeg",
-    "https://images.pexels.com/photos/4164418/pexels-photo-4164418.jpeg",
-    "https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg",
-    "https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg",
-  ];
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
@@ -285,71 +277,46 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
             </select>
           </div>
 
-          {/* Image URL */}
+          {/* Image Upload */}
           <div>
-            <label
-              htmlFor="study_plans_image_url"
-              className="block mb-2 text-sm font-medium text-gray-700"
-            >
-              대표 이미지 URL
-            </label>
-            <div className="relative">
-              <Image className="absolute w-4 h-4 text-gray-400 transform -translate-y-1/2 left-3 top-1/2" />
-              <input
-                type="url"
-                id="study_plans_image_url"
-                name="study_plans_image_url"
-                value={formData.study_plans_image_url}
-                onChange={handleInputChange}
-                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#587CF0] focus:border-transparent transition-all"
-                placeholder="https://example.com/image.jpg"
-              />
-            </div>
-
-            {/* Suggested Images */}
-            <div className="mt-3">
-              <p className="mb-2 text-sm text-gray-600">추천 이미지:</p>
-              <div className="grid grid-cols-3 gap-2 md:grid-cols-6">
-                {suggestedImages.map((imageUrl, index) => (
-                  <button
-                    key={index}
-                    type="button"
-                    onClick={() =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        study_plans_image_url: imageUrl,
-                      }))
+            <div className="flex items-center gap-4">
+              {/* 커스텀 버튼 */}
+              <label className="flex items-center gap-2 px-4 py-2 text-white bg-[#587CF0] rounded-lg cursor-pointer hover:bg-[#4a6de8] transition-colors">
+                대표 이미지 선택
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onload = () => {
+                        setFormData((prev) => ({
+                          ...prev,
+                          study_plans_image_url: reader.result as string,
+                        }));
+                      };
+                      reader.readAsDataURL(file);
                     }
-                    className={`relative h-16 rounded-lg overflow-hidden border-2 transition-all ${
-                      formData.study_plans_image_url === imageUrl
-                        ? "border-[#587CF0] ring-2 ring-[#587CF0] ring-opacity-20"
-                        : "border-gray-200 hover:border-gray-300"
-                    }`}
-                  >
-                    <img
-                      src={imageUrl}
-                      alt={`Suggestion ${index + 1}`}
-                      className="object-cover w-full h-full"
-                    />
-                  </button>
-                ))}
-              </div>
+                  }}
+                />
+              </label>
+
+              {/* 파일 이름 표시 */}
+              {formData.study_plans_image_url && (
+                <span className="max-w-xs text-gray-600 truncate">선택됨</span>
+              )}
             </div>
 
-            {/* Image Preview */}
+            {/* 미리보기 */}
             {formData.study_plans_image_url && (
-              <div className="mt-3">
-                <p className="mb-2 text-sm text-gray-600">미리보기:</p>
-                <div className="relative w-full h-32 overflow-hidden border border-gray-200 rounded-lg">
-                  <img
-                    src={formData.study_plans_image_url}
-                    alt="Preview"
-                    className="object-cover w-full h-full"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).style.display = "none";
-                    }}
-                  />
-                </div>
+              <div className="w-48 h-32 mt-3 overflow-hidden border border-gray-200 rounded-lg">
+                <img
+                  src={formData.study_plans_image_url}
+                  alt="Preview"
+                  className="object-cover w-full h-full"
+                />
               </div>
             )}
           </div>

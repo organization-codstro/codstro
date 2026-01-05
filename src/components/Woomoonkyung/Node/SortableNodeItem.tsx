@@ -31,7 +31,7 @@ import {
   StudyPlanNode,
   TechStack,
   techStacks,
-} from "../../data/Woomoonkyung/woomoonkyungData";
+} from "../../../data/Woomoonkyung/woomoonkyungData";
 
 interface StudyPlanNodeEditorProps {
   studyPlan: StudyPlan;

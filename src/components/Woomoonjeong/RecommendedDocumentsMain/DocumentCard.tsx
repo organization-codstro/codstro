@@ -1,5 +1,5 @@
 import { ExternalLink, Tag } from "lucide-react";
-import { RecommendedPin } from "../../types/Woomoonjeong/woomoonjeong";
+import { RecommendedPin } from "../../../types/Woomoonjeong/woomoonjeong";
 
 interface DocumentCardProps {
   pin: RecommendedPin;

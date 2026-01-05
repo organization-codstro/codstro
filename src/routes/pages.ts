@@ -11,11 +11,13 @@ export { default as TodoManagement } from "../pages/Woomoonjeong/TodoManagement"
 export { default as TodoManagementDetail } from "../pages/Woomoonjeong/TodoManagementDetail";
 export { default as RecommendedDocumentsMain } from "../pages/Woomoonjeong/RecommendedDocumentsMain";
 export { default as FieldDetail } from "../pages/Woomoonjeong/FieldDetail";
+export { default as TodoManagementUpdate } from "../pages/Woomoonjeong/TodoManagementUpdate";
+export { default as DocumentsManagement } from "../pages/Woomoonjeong/DocumentsManagement";
 
 /* ================= WOOMOONRO ================= */
-export { default as WoomoonroMain } from "../pages/Woomoonro/WoomoonroMain";
+export { default as WoomoonroMain } from "../pages/Woomoonro/WoomoonroList";
 export { default as WoomoonroArchive } from "../pages/Woomoonro/WoomoonroArchive";
-export { default as DocumentsManagement } from "../pages/Woomoonjeong/DocumentsManagement";
+export { default as ProjectDetailPage } from "../pages/Woomoonro/ProjectDetailPage";
 
 /* ================= WOOMOONKYUNG ================= */
 export { default as WoomoonkyungMain } from "../pages/Woomoonkyung/WoomoonkyungMain";

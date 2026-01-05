@@ -17,14 +17,13 @@ import {
 } from "../../data/Woomoonkyung/studyPlanNodeData";
 //예시 데이터
 import { plan } from "../../data/Woomoonkyung/studyPlanData";
-import { existingNodes } from "../../data/Woomoonkyung/studyPlanNodeData";
 
-const WoomoonkyungEditNode = () => {
+const WoomoonkyungCreateNode = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
   // 상태 관리
-  const [nodes, setNodes] = useState<StudyPlanNode[]>(existingNodes);
+  const [nodes, setNodes] = useState<StudyPlanNode[]>([]);
   const [rightSidebarMode, setRightSidebarMode] = useState<
     "techStacks" | "editNode"
   >("techStacks");
@@ -46,28 +45,26 @@ const WoomoonkyungEditNode = () => {
   }, [deletePendingNodeId]);
 
   const nextNodeId =
-    nodes.length > 0
-      ? Math.max(...nodes.map((n) => n.study_plan_node_id)) + 1
-      : 1;
+    Math.max(0, ...(nodes?.map((n) => n.study_plan_node_id) || [])) + 1;
 
   // Tech Stack 추가 → 노드 생성 및 편집 모드 전환
   const handleAddTechStack = (techStack: (typeof mockTechStacks)[0]) => {
     const newNode: StudyPlanNode = {
       study_plan_node_id: nextNodeId,
-      study_plan_id: 1,
+      study_plan_id: 1, // 필요 시 동적 할당
       study_plan_node_name: techStack.tech_stack_name,
       description: "",
       start_date: "",
       end_date: "",
       completed: false,
-      position: nodes.length + 1,
+      position: nodes.length + 1, // 첫 노드는 1이 됨
       tech_stack_id: techStack.tech_stack_id,
       tech_stack_name: techStack.tech_stack_name,
       tech_stack_img_url: techStack.tech_stack_img_url,
-      created_date: "2020-10-02",
+      created_date: new Date().toISOString().split("T")[0], // 현재 날짜
     };
 
-    setNodes([...nodes, newNode]);
+    setNodes((prev) => [...prev, newNode]);
     setEditingNode(newNode);
     setRightSidebarMode("editNode");
   };
@@ -539,4 +536,4 @@ const WoomoonkyungEditNode = () => {
   );
 };
 
-export default WoomoonkyungEditNode;
+export default WoomoonkyungCreateNode;

@@ -21,12 +21,13 @@ const TodoManagementUpdate: React.FC = () => {
     status: "pending",
   });
 
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
   /** 기존 Todo 로드 */
   useEffect(() => {
     const foundTodo = todosData.find((t) => t.id === Number(todoId));
 
     if (!foundTodo) {
-      // todo가 없으면 목록으로 이동 (또는 에러 처리)
       navigate("/woomoonjeong/todo");
       return;
     }
@@ -48,33 +49,56 @@ const TodoManagementUpdate: React.FC = () => {
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
-    if (!formData) return;
-
     const { name, value } = e.target;
-    setFormData((prev) =>
-      prev
-        ? {
-            ...prev,
-            [name]: value,
-          }
-        : prev
-    );
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    // 입력 시작 시 기존 에러 제거
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = "Todo 이름을 입력해주세요.";
+    }
+
+    if (!formData.start_date) {
+      newErrors.start_date = "시작일을 선택해주세요.";
+    }
+
+    if (!formData.end_date) {
+      newErrors.end_date = "종료일을 선택해주세요.";
+    }
+
+    if (formData.start_date && formData.end_date) {
+      if (new Date(formData.start_date) > new Date(formData.end_date)) {
+        newErrors.end_date = "종료일은 시작일보다 늦어야 합니다.";
+      }
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!todo || !formData) return;
+    if (!todo) return;
 
-    console.log("UPDATE TODO:", {
-      id: todo.id,
-      ...formData,
-    });
-
-    navigate(`/woomoonjeong/todo/${todo.id}`);
+    if (validateForm()) {
+      console.log("UPDATE TODO:", { id: todo.id, ...formData });
+      navigate(`/woomoonjeong/todo/${todo.id}`);
+    }
   };
 
-  if (!formData) {
+  if (!todo) {
     return <div className="p-8 text-center text-gray-500">Loading todo...</div>;
   }
 
@@ -118,9 +142,14 @@ const TodoManagementUpdate: React.FC = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                required
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#587CF0]"
+                placeholder="Enter todo name..."
+                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#587CF0] transition-all ${
+                  errors.name ? "border-red-500" : "border-gray-200"
+                }`}
               />
+              {errors.name && (
+                <p className="mt-1 text-sm text-red-600">{errors.name}</p>
+              )}
             </div>
 
             {/* Description */}
@@ -133,7 +162,7 @@ const TodoManagementUpdate: React.FC = () => {
                 rows={4}
                 value={formData.description}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg resize-none focus:ring-2 focus:ring-[#587CF0]"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg resize-none focus:ring-2 focus:ring-[#587CF0] transition-all"
               />
             </div>
 
@@ -147,15 +176,11 @@ const TodoManagementUpdate: React.FC = () => {
                   <button
                     key={field}
                     type="button"
-                    onClick={
-                      () =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          field_id: index + 1,
-                        })) // 숫자로 저장
+                    onClick={() =>
+                      setFormData((prev) => ({ ...prev, field_id: index + 1 }))
                     }
                     className={`px-4 py-2 rounded-lg border transition-colors ${
-                      formData.field_id === index + 1 // 비교도 숫자로
+                      formData.field_id === index + 1
                         ? "bg-[#587CF0] text-white border-[#587CF0]"
                         : "bg-white text-gray-700 border-gray-200 hover:bg-gray-100"
                     }`}
@@ -177,9 +202,15 @@ const TodoManagementUpdate: React.FC = () => {
                   name="start_date"
                   value={formData.start_date}
                   onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#587CF0]"
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#587CF0] transition-all ${
+                    errors.start_date ? "border-red-500" : "border-gray-200"
+                  }`}
                 />
+                {errors.start_date && (
+                  <p className="mt-1 text-sm text-red-600">
+                    {errors.start_date}
+                  </p>
+                )}
               </div>
 
               <div>
@@ -191,9 +222,13 @@ const TodoManagementUpdate: React.FC = () => {
                   name="end_date"
                   value={formData.end_date}
                   onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#587CF0]"
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#587CF0] transition-all ${
+                    errors.end_date ? "border-red-500" : "border-gray-200"
+                  }`}
                 />
+                {errors.end_date && (
+                  <p className="mt-1 text-sm text-red-600">{errors.end_date}</p>
+                )}
               </div>
             </div>
 

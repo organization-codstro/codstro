@@ -1,21 +1,22 @@
+//메인 화면에서 추가하는 문서 생성 모달
+
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import { Pin, Field, Group } from "../../../types/Woomoonjeong/woomoonjeong";
+import { Group } from "../../../types/Woomoonjeong/woomoonjeong";
 import { woomoonjeongData } from "../../../data/woomoonjeong/woomoonjeongData";
 
 export interface AddDocumentPayload {
-  groupType: string;
+  groupName: "web" | "app" | "server" | "game" | "security" | "work" | "other";
   fieldName: string;
   documentName: string;
   documentUrl: string;
+  documentDescription: string;
   documentCategory: string;
-  documentNameDescription: string;
 }
 
-interface EditDocumentModalProps {
+interface CreateDocumentModalProps {
   isOpen: boolean;
   onClose: () => void;
-  pin: Pin; // 수정 대상 핀
   onAdd: (payload: AddDocumentPayload) => void;
 }
 
@@ -40,64 +41,33 @@ const fieldTypes: FieldGroupType[] = [
 
 const DEFAULT_GROUP_TYPE: FieldGroupType = "web";
 
-const EditDocumentModal: React.FC<EditDocumentModalProps> = ({
+const CreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
   isOpen,
   onClose,
-  pin,
   onAdd,
 }) => {
   const [documentName, setDocumentName] = useState("");
   const [documentUrl, setDocumentUrl] = useState("");
   const [description, setDescription] = useState("");
-
   const [categoryInput, setCategoryInput] = useState("");
   const [categories, setCategories] = useState<string[]>([]);
-
   const [selectedGroupType, setSelectedGroupType] =
     useState<FieldGroupType>(DEFAULT_GROUP_TYPE);
-
   const [fieldInfo, setFieldInfo] = useState("");
   const [fieldOptions, setFieldOptions] = useState<string[]>([]);
 
-  // pin.id 기준으로 그룹과 필드 찾기
-  const findPinDetails = (pinId: number) => {
-    for (const group of woomoonjeongData) {
-      for (const field of group.fields) {
-        const foundPin = field.pins.find((p) => p.id === pinId);
-        if (foundPin) {
-          return {
-            groupType: group.name as FieldGroupType,
-            fieldName: field.name,
-            fieldOptions: group.fields.map((f) => f.name),
-            pin: foundPin,
-          };
-        }
-      }
-    }
-    return null;
-  };
-
+  // 선택된 그룹의 필드 옵션
   useEffect(() => {
-    if (isOpen && pin) {
-      const result = findPinDetails(pin.id);
-      if (result) {
-        setDocumentName(result.pin.title);
-        setDocumentUrl(result.pin.url);
-        setDescription(result.pin.description);
-        setCategories(result.pin.tags ?? []);
-        setSelectedGroupType(result.groupType ?? DEFAULT_GROUP_TYPE);
-        setFieldInfo(result.fieldName ?? "");
-        setFieldOptions(result.fieldOptions ?? []);
-        setCategoryInput("");
-      }
-    }
-  }, [isOpen, pin]);
+    const selectedGroup: Group | undefined = woomoonjeongData.find(
+      (group) => group.name === selectedGroupType
+    );
+    setFieldOptions(selectedGroup?.fields.map((f) => f.name) ?? []);
+  }, [selectedGroupType]);
 
   /** ✅ 칩 추가 */
   const addCategory = () => {
     if (!categoryInput.trim()) return;
     if (categories.includes(categoryInput.trim())) return;
-
     setCategories((prev) => [...prev, categoryInput.trim()]);
     setCategoryInput("");
   };
@@ -114,9 +84,9 @@ const EditDocumentModal: React.FC<EditDocumentModalProps> = ({
     onAdd({
       documentName: documentName.trim(),
       documentUrl: documentUrl.trim(),
-      documentNameDescription: description.trim(),
+      documentDescription: description.trim(),
       documentCategory: categories.join(", "),
-      groupType: selectedGroupType,
+      groupName: selectedGroupType,
       fieldName: fieldInfo,
     });
 
@@ -130,7 +100,7 @@ const EditDocumentModal: React.FC<EditDocumentModalProps> = ({
       <div className="relative w-full max-w-lg p-6 bg-white shadow-lg rounded-xl">
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-gray-800">문서 수정</h2>
+          <h2 className="text-xl font-bold text-gray-800">문서 추가</h2>
           <button
             onClick={onClose}
             className="p-1 text-gray-400 rounded hover:text-gray-600 hover:bg-gray-100"
@@ -211,7 +181,12 @@ const EditDocumentModal: React.FC<EditDocumentModalProps> = ({
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     e.preventDefault();
-                    addCategory();
+                    const value = e.currentTarget.value.trim(); // 여기서 최신값 가져오기
+                    if (!value) return;
+                    if (!categories.includes(value)) {
+                      setCategories((prev) => [...prev, value]);
+                      setCategoryInput("");
+                    }
                   }
                 }}
               />
@@ -219,6 +194,12 @@ const EditDocumentModal: React.FC<EditDocumentModalProps> = ({
                 type="button"
                 onClick={addCategory}
                 className="px-3 py-2 text-sm text-white bg-[#587CF0] rounded-lg"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    addCategory();
+                  }
+                }}
               >
                 추가
               </button>
@@ -300,7 +281,7 @@ const EditDocumentModal: React.FC<EditDocumentModalProps> = ({
               type="submit"
               className="px-4 py-2 text-sm text-white bg-[#587CF0] rounded-lg"
             >
-              저장
+              추가
             </button>
           </div>
         </form>
@@ -309,4 +290,4 @@ const EditDocumentModal: React.FC<EditDocumentModalProps> = ({
   );
 };
 
-export default EditDocumentModal;
+export default CreateDocumentModal;

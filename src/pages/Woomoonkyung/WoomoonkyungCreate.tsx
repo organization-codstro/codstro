@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import StudyPlanForm from "../../components/Woomoonkyung/StudyPlanForm";
+import StudyPlanForm from "../../components/Woomoonkyung/Node/StudyPlanForm";
 import { StudyPlan } from "../../types/Woomoonkyung/StudyPlanNode";
 
 const WoomoonkyungCreate = () => {
@@ -15,11 +15,7 @@ const WoomoonkyungCreate = () => {
 
   return (
     <div className="p-8 bg-gray-50">
-      <StudyPlanForm
-        mode="create"
-        onSave={handleSave}
-        onCancel={() => navigate("/woomoonkyung")}
-      />
+      <StudyPlanForm mode="create" onSave={handleSave} />
     </div>
   );
 };

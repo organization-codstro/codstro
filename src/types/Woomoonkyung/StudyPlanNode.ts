@@ -9,6 +9,7 @@ export interface StudyPlan {
   study_plans_state: "waiting" | "in progress" | "done";
   study_plans_created_date: string;
   user_id: number;
+  study_plan_is_recommendation: boolean;
 }
 
 export interface StudyPlanNode {

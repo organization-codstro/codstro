@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  Star,
   BookOpen,
   Calendar,
   Target,
@@ -9,36 +8,39 @@ import {
   Bookmark,
   BookmarkCheck,
   Search,
-  TrendingUp,
   Award,
   ArrowRight,
 } from "lucide-react";
 import {
-  StudyPlan,
-  StudyPlanNode,
   studyPlans as recommendedStudyPlans,
   studyPlanNodes as recommendedStudyPlanNodes,
   bookmarkedPlans,
   stateColors,
 } from "../../data/Woomoonkyung/woomoonkyungData";
+import {
+  StudyPlan,
+  StudyPlanNode,
+} from "../../types/Woomoonkyung/StudyPlanNode";
 
 const RecommendedStudyPlans: React.FC = () => {
   const [selectedPlan, setSelectedPlan] = useState<StudyPlan | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [bookmarks, setBookmarks] = useState<Set<string>>(
+  const [bookmarks, setBookmarks] = useState<Set<number>>(
     new Set(
-      bookmarkedPlans.filter((b) => b.is_bookmarked).map((b) => b.study_plan_id)
+      bookmarkedPlans
+        .filter((b) => b.is_bookmarked)
+        .map((b) => Number(b.study_plan_id))
     )
   );
   const navigate = useNavigate();
 
-  const getNodesForPlan = (planId: string): StudyPlanNode[] => {
+  const getNodesForPlan = (planId: number): StudyPlanNode[] => {
     return recommendedStudyPlanNodes
-      .filter((node) => node.study_plan_id === planId)
+      .filter((node) => node.study_plan_id === Number(planId))
       .sort((a, b) => a.position - b.position);
   };
 
-  const getTotalNodesCount = (planId: string): number => {
+  const getTotalNodesCount = (planId: number): number => {
     return getNodesForPlan(planId).length;
   };
 
@@ -46,12 +48,12 @@ const RecommendedStudyPlans: React.FC = () => {
     navigate(`/woomoonkyung/recommended/${plan.study_plan_id}`);
   };
 
-  const handleBackToList = (selectedPlanId: string) => {
+  const handleBackToList = (selectedPlanId: number) => {
     setSelectedPlan(null);
     navigate(`/woomoonkyung/${selectedPlanId}`);
   };
 
-  const toggleBookmark = (planId: string) => {
+  const toggleBookmark = (planId: number) => {
     const newBookmarks = new Set(bookmarks);
     if (newBookmarks.has(planId)) {
       newBookmarks.delete(planId);
@@ -310,26 +312,8 @@ const RecommendedStudyPlans: React.FC = () => {
                           e.stopPropagation();
                           toggleBookmark(plan.study_plan_id);
                         }}
-                        className={`p-1 rounded transition-colors ${
-                          isBookmarked
-                            ? "text-yellow-500"
-                            : "text-gray-400 hover:text-yellow-500"
-                        }`}
-                      >
-                        {isBookmarked ? (
-                          <BookmarkCheck className="w-4 h-4" />
-                        ) : (
-                          <Bookmark className="w-4 h-4" />
-                        )}
-                      </button>
-                    </div>
-
-                    {/* System Badge */}
-                    <div className="mb-3">
-                      <span className="inline-flex items-center gap-1 px-2 py-1 text-xs text-blue-700 bg-blue-100 border border-blue-200 rounded-full">
-                        <Award className="w-3 h-3" />
-                        System Recommended
-                      </span>
+                        className={`p-1 rounded transition-colors `}
+                      ></button>
                     </div>
 
                     {/* Stats */}

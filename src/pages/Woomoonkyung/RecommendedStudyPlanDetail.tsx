@@ -10,21 +10,23 @@ import {
   ArrowRight,
 } from "lucide-react";
 import {
-  StudyPlanNode,
   studyPlans,
   studyPlanNodes,
   stateColors,
 } from "../../data/Woomoonkyung/woomoonkyungData";
+import { StudyPlanNode } from "../../types/Woomoonkyung/StudyPlanNode";
 
 const RecommendedStudyPlanDetail: React.FC = () => {
   const navigate = useNavigate();
   const { planId } = useParams<{ planId: string }>();
 
-  const selectedPlan = studyPlans.find((plan) => plan.study_plan_id === planId);
+  const selectedPlan = studyPlans.find(
+    (plan) => plan.study_plan_id === Number(planId)
+  );
 
-  const getNodesForPlan = (planId: string): StudyPlanNode[] => {
+  const getNodesForPlan = (planId: number): StudyPlanNode[] => {
     return studyPlanNodes
-      .filter((node) => node.study_plan_id === planId)
+      .filter((node) => node.study_plan_id === Number(planId))
       .sort((a, b) => a.position - b.position);
   };
 

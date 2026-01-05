@@ -1,4 +1,4 @@
-// 사용자 직접 생성
+// 사용자 직접 생성하는 필드
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
 

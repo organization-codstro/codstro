@@ -1,18 +1,27 @@
-// 사용자 직접 생성
+//시스템이 추천하는 문서 추가 모달
+
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
+import {
+  Group,
+  RecommendedPin,
+} from "../../../types/Woomoonjeong/woomoonjeong";
+import { woomoonjeongData } from "../../../data/woomoonjeong/woomoonjeongData";
 
-interface AddFieldModalProps {
+export interface RecommendedCreateDocumentModalPayload {
+  groupName: "web" | "app" | "server" | "game" | "security" | "work" | "other";
+  fieldName: string;
+  documentName: string;
+  documentUrl: string;
+  documentDescription: string;
+  documentCategory: string;
+}
+
+interface CreateDocumentModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onAdd: (payload: {
-    groupType: string;
-    fieldName: string;
-    documentUrl: string;
-    documentName: string;
-    documentCategory: string;
-    documentNameDescription: string;
-  }) => void;
+  pin: RecommendedPin;
+  onAdd: (payload: RecommendedCreateDocumentModalPayload) => void;
 }
 
 type FieldGroupType =
@@ -36,66 +45,53 @@ const fieldTypes: FieldGroupType[] = [
 
 const DEFAULT_GROUP_TYPE: FieldGroupType = "web";
 
-// 예시 분야 정보 (dropdown)
-const fieldInfoOptions = [
-  "Frontend",
-  "Backend",
-  "DevOps",
-  "AI",
-  "Database",
-  "Security",
-];
-
-const CreateCustomDocumentModal: React.FC<AddFieldModalProps> = ({
+const RecommendedCreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
   isOpen,
   onClose,
+  pin,
   onAdd,
 }) => {
-  const [documentName, setDocumentName] = useState("");
-  const [documentUrl, setDocumentUrl] = useState("");
-  const [description, setDescription] = useState("");
-
+  const [documentName, setDocumentName] = useState(pin.title);
+  const [documentUrl, setDocumentUrl] = useState(pin.url);
+  const [description, setDescription] = useState(pin.description);
   const [categoryInput, setCategoryInput] = useState("");
-  const [categories, setCategories] = useState<string[]>([]);
-
+  const [categories, setCategories] = useState<string[]>(pin.tags);
   const [selectedGroupType, setSelectedGroupType] =
     useState<FieldGroupType>(DEFAULT_GROUP_TYPE);
-
   const [fieldInfo, setFieldInfo] = useState("");
+  const [fieldOptions, setFieldOptions] = useState<string[]>([]);
 
+  // 선택된 그룹의 필드 옵션
   useEffect(() => {
-    if (isOpen) {
-      setDocumentName("");
-      setDocumentUrl("");
-      setDescription("");
-      setCategoryInput("");
-      setCategories([]);
-      setSelectedGroupType(DEFAULT_GROUP_TYPE);
-      setFieldInfo("");
-    }
-  }, [isOpen]);
+    const selectedGroup: Group | undefined = woomoonjeongData.find(
+      (group) => group.name === selectedGroupType
+    );
+    setFieldOptions(selectedGroup?.fields.map((f) => f.name) ?? []);
+  }, [selectedGroupType]);
 
+  /** ✅ 칩 추가 */
   const addCategory = () => {
     if (!categoryInput.trim()) return;
+    if (categories.includes(categoryInput.trim())) return;
     setCategories((prev) => [...prev, categoryInput.trim()]);
     setCategoryInput("");
   };
 
+  /** ✅ 칩 제거 */
   const removeCategory = (value: string) => {
     setCategories((prev) => prev.filter((c) => c !== value));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!documentName.trim()) return;
 
     onAdd({
       documentName: documentName.trim(),
       documentUrl: documentUrl.trim(),
-      documentNameDescription: description.trim(),
+      documentDescription: description.trim(),
       documentCategory: categories.join(", "),
-      groupType: selectedGroupType,
+      groupName: selectedGroupType,
       fieldName: fieldInfo,
     });
 
@@ -129,6 +125,12 @@ const CreateCustomDocumentModal: React.FC<AddFieldModalProps> = ({
               onChange={(e) => setDocumentName(e.target.value)}
               className="w-full px-3 py-2 text-sm border rounded-lg"
               required
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  addCategory();
+                }
+              }}
             />
           </div>
 
@@ -142,6 +144,13 @@ const CreateCustomDocumentModal: React.FC<AddFieldModalProps> = ({
               onChange={(e) => setDocumentUrl(e.target.value)}
               className="w-full px-3 py-2 text-sm border rounded-lg"
               placeholder="https://..."
+              required
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  addCategory();
+                }
+              }}
             />
           </div>
 
@@ -155,10 +164,16 @@ const CreateCustomDocumentModal: React.FC<AddFieldModalProps> = ({
               onChange={(e) => setDescription(e.target.value)}
               rows={3}
               className="w-full px-3 py-2 text-sm border rounded-lg resize-none"
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  addCategory();
+                }
+              }}
             />
           </div>
 
-          {/* 문서 카테고리 */}
+          {/* 문서 카테고리 (칩 UI) */}
           <div>
             <label className="block mb-1 text-sm font-medium text-gray-700">
               문서 카테고리
@@ -168,11 +183,28 @@ const CreateCustomDocumentModal: React.FC<AddFieldModalProps> = ({
                 value={categoryInput}
                 onChange={(e) => setCategoryInput(e.target.value)}
                 className="flex-1 px-3 py-2 text-sm border rounded-lg"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    const value = e.currentTarget.value.trim(); // 여기서 최신값 가져오기
+                    if (!value) return;
+                    if (!categories.includes(value)) {
+                      setCategories((prev) => [...prev, value]);
+                      setCategoryInput("");
+                    }
+                  }
+                }}
               />
               <button
                 type="button"
                 onClick={addCategory}
                 className="px-3 py-2 text-sm text-white bg-[#587CF0] rounded-lg"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    addCategory();
+                  }
+                }}
               >
                 추가
               </button>
@@ -222,7 +254,7 @@ const CreateCustomDocumentModal: React.FC<AddFieldModalProps> = ({
             </div>
           </div>
 
-          {/* 분야 정보 */}
+          {/* 분야 정보 (fieldOptions 기반으로 선택) */}
           <div>
             <label className="block mb-1 text-sm font-medium text-gray-700">
               분야 정보
@@ -233,9 +265,9 @@ const CreateCustomDocumentModal: React.FC<AddFieldModalProps> = ({
               className="w-full px-3 py-2 text-sm border rounded-lg"
             >
               <option value="">선택하세요</option>
-              {fieldInfoOptions.map((info) => (
-                <option key={info} value={info}>
-                  {info}
+              {fieldOptions.map((name) => (
+                <option key={name} value={name}>
+                  {name}
                 </option>
               ))}
             </select>
@@ -263,4 +295,4 @@ const CreateCustomDocumentModal: React.FC<AddFieldModalProps> = ({
   );
 };
 
-export default CreateCustomDocumentModal;
+export default RecommendedCreateDocumentModal;

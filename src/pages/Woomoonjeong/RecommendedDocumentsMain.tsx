@@ -8,12 +8,13 @@ import {
   RecommendedField,
   RecommendedPin,
 } from "../../types/Woomoonjeong/woomoonjeong";
-import SearchInput from "../../components/Woomoonjeong/SearchInput";
-import ContentTypeFilter from "../../components/Woomoonjeong/ContentTypeFilter";
-import FilterSection from "../../components/Woomoonjeong/FilterSection";
-import DocumentsGrid from "../../components/Woomoonjeong/DocumentsGrid";
-import AddDocumentModal from "../../components/Woomoonjeong/DocumentsManagement/AddDocumentModal";
-import AddFieldModal from "../../components/Woomoonjeong/AssignRecommendedFieldModal";
+import SearchInput from "../../components/Woomoonjeong/RecommendedDocumentsMain/SearchInput";
+import ContentTypeFilter from "../../components/Woomoonjeong/RecommendedDocumentsMain/ContentTypeFilter";
+import FilterSection from "../../components/Woomoonjeong/RecommendedDocumentsMain/FilterSection";
+import DocumentsGrid from "../../components/Woomoonjeong/RecommendedDocumentsMain/DocumentsGrid";
+//시스템이 추천하는 필드 추가하는 모달
+import AssignRecommendedFieldModal from "../../components/Woomoonjeong/DocumentsManagement/RecommendedCreateFieldModal";
+import RecommendedCreateDocumentModal from "../../components/Woomoonjeong/RecommendedDocumentsMain/RecommendedCreateDocumentModal";
 
 const RecommendedDocumentsMain: React.FC = () => {
   const [selectedFieldType, setSelectedFieldType] = useState<
@@ -88,7 +89,7 @@ const RecommendedDocumentsMain: React.FC = () => {
     setIsAddModalOpen(true);
   };
 
-  const handleAddDocumentSubmit = (params: {
+  const handleAddDocumentSubmit = (payload: {
     groupName:
       | "web"
       | "app"
@@ -97,11 +98,13 @@ const RecommendedDocumentsMain: React.FC = () => {
       | "security"
       | "work"
       | "other";
-    fieldId?: number | null;
-    newFieldName?: string;
-    documentId: number;
+    fieldName: string;
+    documentName: string;
+    documentUrl: string;
+    documentDescription: string;
+    documentCategory: string;
   }) => {
-    console.log(params);
+    console.log(payload);
   };
 
   const handleAddField = (field: RecommendedField) => {
@@ -166,7 +169,7 @@ const RecommendedDocumentsMain: React.FC = () => {
       </div>
 
       {selectedPin && (
-        <AddDocumentModal
+        <RecommendedCreateDocumentModal
           isOpen={isAddModalOpen}
           onClose={() => {
             setIsAddModalOpen(false);
@@ -178,7 +181,7 @@ const RecommendedDocumentsMain: React.FC = () => {
       )}
 
       {selectedField && (
-        <AddFieldModal
+        <AssignRecommendedFieldModal
           isOpen={isAddFieldModalOpen}
           onClose={() => {
             setIsAddFieldModalOpen(false);
