@@ -1,4 +1,4 @@
-// 시스템 추천 → 그룹 선택
+// 시스템 추천 → 그룹 선택 항때 나오는 모달
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import { RecommendedField } from "../../types/Woomoonjeong/woomoonjeong";

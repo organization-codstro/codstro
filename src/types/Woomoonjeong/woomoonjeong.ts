@@ -21,7 +21,7 @@ export interface TodoFormData {
 
 export interface Group {
   id: number;
-  type: "web" | "app" | "server" | "game" | "security" | "work" | "other";
+  name: "web" | "app" | "server" | "game" | "security" | "work" | "other";
   description: string;
   fields: Field[];
   created_at: string;

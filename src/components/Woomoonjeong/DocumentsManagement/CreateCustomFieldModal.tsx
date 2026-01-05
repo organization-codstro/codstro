@@ -116,7 +116,7 @@ const CreateCustomFieldModal: React.FC<AddFieldModalProps> = ({
           {/* Group Type Selection */}
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-700">
-              Group Type
+             그룹
             </label>
             <div className="grid grid-cols-2 gap-2">
               {fieldTypes.map((type) => (

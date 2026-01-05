@@ -18,7 +18,7 @@ export const fieldTypeColors = {
 export const woomoonjeongData: Group[] = [
   {
     id: 1,
-    type: "web",
+    name: "web",
     description: "Web frontend technologies and frameworks",
 
     created_at: "2024-01-15T09:00:00Z",
@@ -30,7 +30,7 @@ export const woomoonjeongData: Group[] = [
         created_at: "2024-01-15T09:30:00Z",
         pins: [
           {
-            id: 2,
+            id: 1,
             title: "React Official Documentation",
             description: "Complete guide to React concepts and API",
             url: "https://react.dev",
@@ -38,7 +38,7 @@ export const woomoonjeongData: Group[] = [
             created_at: "2024-01-15T10:00:00Z",
           },
           {
-            id: 3,
+            id: 2,
             title: "Next.js Tutorial",
             description: "Learn Next.js with hands-on examples",
             url: "https://nextjs.org/learn",
@@ -54,7 +54,7 @@ export const woomoonjeongData: Group[] = [
         created_at: "2024-01-17T11:00:00Z",
         pins: [
           {
-            id: 1,
+            id: 3,
             title: "Tailwind CSS Documentation",
             description: "Utility-first CSS framework",
             url: "https://tailwindcss.com/docs",
@@ -67,18 +67,18 @@ export const woomoonjeongData: Group[] = [
   },
   {
     id: 2,
-    type: "app",
+    name: "app",
     description: "iOS and Android app development",
     created_at: "2024-01-18T13:00:00Z",
     fields: [
       {
-        id: 1,
+        id: 3,
         name: "React Native",
         description: "Cross-platform mobile development",
         created_at: "2024-01-18T13:30:00Z",
         pins: [
           {
-            id: 1,
+            id: 4,
             title: "React Native Getting Started",
             description: "Official React Native setup guide",
             url: "https://reactnative.dev/docs/getting-started",
@@ -91,18 +91,18 @@ export const woomoonjeongData: Group[] = [
   },
   {
     id: 3,
-    type: "server",
+    name: "server",
     description: "Server-side development and APIs",
     created_at: "2024-01-19T15:00:00Z",
     fields: [
       {
-        id: 1,
+        id: 4,
         name: "Node.js",
         description: "JavaScript runtime for server-side development",
         created_at: "2024-01-19T15:30:00Z",
         pins: [
           {
-            id: 1,
+            id: 5,
             title: "Express.js Guide",
             description: "Fast, unopinionated web framework for Node.js",
             url: "https://expressjs.com/en/guide/routing.html",

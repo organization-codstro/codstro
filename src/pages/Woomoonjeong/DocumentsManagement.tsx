@@ -17,9 +17,10 @@ import {
   woomoonjeongData as initialWoomoonjeongData,
   fieldTypeColors,
 } from "../../data/woomoonjeong/woomoonjeongData";
-import { Field, Group } from "../../types/Woomoonjeong/woomoonjeong";
-import CreateCustomFieldModal from "../../components/Woomoonjeong/CreateCustomFieldModal";
+import { Field, Group, Pin } from "../../types/Woomoonjeong/woomoonjeong";
+import CreateCustomFieldModal from "../../components/Woomoonjeong/DocumentsManagement/CreateCustomFieldModal";
 import CreateCustomDocumentModal from "../../components/Woomoonjeong/CreateCustomDocumentModal";
+import EditDocumentModal from "../../components/Woomoonjeong/DocumentsManagement/EditDocumentModal";
 
 const DocumentsManagement: React.FC = () => {
   // 인터페이스 구조에 따라 데이터를 Group[] 타입으로 관리합니다.
@@ -48,6 +49,12 @@ const DocumentsManagement: React.FC = () => {
   //문서 생성 모달
   const [isCreateDocumentModalOpen, setIsCreateDocumentModalOpen] =
     useState(false);
+
+  const [editingPin, setEditingPin] = useState<{
+    pin: Pin;
+    group: Group;
+    field: Field;
+  } | null>(null);
 
   const toggleGroup = (groupId: number) => {
     const newExpanded = new Set(expandedGroups);
@@ -121,9 +128,22 @@ const DocumentsManagement: React.FC = () => {
     }
   };
 
+  const editPin = (pinId: number) => {
+    for (const group of woomoonjeongData) {
+      for (const field of group.fields) {
+        const pin = field.pins.find((p) => p.id === pinId);
+        if (pin) {
+          setEditingPin({ pin, group, field });
+          return;
+        }
+      }
+    }
+  };
+
+
   const filteredGroups = woomoonjeongData.filter((group) => {
     // 1. Group Type 필터링
-    if (selectedGroupType !== "all" && group.type !== selectedGroupType)
+    if (selectedGroupType !== "all" && group.name !== selectedGroupType)
       return false;
 
     // 2. 검색어 필터링 (Group description, Field name, Pin title/tags 검색)
@@ -278,10 +298,10 @@ const DocumentsManagement: React.FC = () => {
                         <div className="flex items-center gap-3">
                           <span
                             className={`px-3 py-1 text-sm rounded-full border ${
-                              fieldTypeColors[group.type]
+                              fieldTypeColors[group.name]
                             }`}
                           >
-                            {group.type}
+                            {group.name}
                           </span>
                           <h3 className="font-medium text-gray-800">
                             {group.description}
@@ -429,6 +449,16 @@ const DocumentsManagement: React.FC = () => {
                                         onClick={(e) => {
                                           e.preventDefault();
                                           e.stopPropagation();
+                                          editPin(pin.id);
+                                        }}
+                                        className="p-1 text-gray-400 transition-colors hover:text-blue-500"
+                                      >
+                                        <Edit3 className="w-3 h-3" />
+                                      </button>
+                                      <button
+                                        onClick={(e) => {
+                                          e.preventDefault();
+                                          e.stopPropagation();
                                           deletePin(pin.id);
                                         }}
                                         className="p-1 text-gray-400 transition-colors hover:text-red-500"
@@ -535,7 +565,7 @@ const DocumentsManagement: React.FC = () => {
                       </span>
                     </div>
                     <span className="text-sm font-medium text-gray-800">
-                      {woomoonjeongData.filter((g) => g.type === type).length}
+                      {woomoonjeongData.filter((g) => g.name === type).length}
                     </span>
                   </div>
                 ))}
@@ -561,6 +591,18 @@ const DocumentsManagement: React.FC = () => {
           setIsCreateDocumentModalOpen(false);
         }}
       />
+
+      {editingPin && (
+        <EditDocumentModal
+          isOpen={!!editingPin}
+          onClose={() => setEditingPin(null)}
+          pin={editingPin.pin}
+          onAdd={(documentInfo) => {
+            console.log("수정된 문서 정보:", documentInfo);
+            setIsCreateDocumentModalOpen(false);
+          }}
+        />
+      )}
     </div>
   );
 };

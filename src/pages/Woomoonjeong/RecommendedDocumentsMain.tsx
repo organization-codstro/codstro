@@ -12,7 +12,7 @@ import SearchInput from "../../components/Woomoonjeong/SearchInput";
 import ContentTypeFilter from "../../components/Woomoonjeong/ContentTypeFilter";
 import FilterSection from "../../components/Woomoonjeong/FilterSection";
 import DocumentsGrid from "../../components/Woomoonjeong/DocumentsGrid";
-import AddDocumentModal from "../../components/Woomoonjeong/AddDocumentModal";
+import AddDocumentModal from "../../components/Woomoonjeong/DocumentsManagement/AddDocumentModal";
 import AddFieldModal from "../../components/Woomoonjeong/AssignRecommendedFieldModal";
 
 const RecommendedDocumentsMain: React.FC = () => {
@@ -88,12 +88,20 @@ const RecommendedDocumentsMain: React.FC = () => {
     setIsAddModalOpen(true);
   };
 
-  const handleAddDocumentSubmit = (
-    fieldType: string,
-    groupId: number | null,
-    groupName: string
-  ) => {
-    console.log({ selectedPin, fieldType, groupId, groupName });
+  const handleAddDocumentSubmit = (params: {
+    groupName:
+      | "web"
+      | "app"
+      | "server"
+      | "game"
+      | "security"
+      | "work"
+      | "other";
+    fieldId?: number | null;
+    newFieldName?: string;
+    documentId: number;
+  }) => {
+    console.log(params);
   };
 
   const handleAddField = (field: RecommendedField) => {
