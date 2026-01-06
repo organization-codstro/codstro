@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { ArrowLeft, Calendar, Image, Save, X } from "lucide-react";
-import { StudyPlan } from "../../../types/Woomoonkyung/StudyPlanNode";
+import { ArrowLeft, Calendar, Save, X } from "lucide-react";
+import {
+  StudyPlan,
+  StudyPlanFormFormData,
+} from "../../../types/Woomoonkyung/StudyPlanNode";
 
 interface StudyPlanFormProps {
   mode: "create" | "edit";
@@ -17,29 +20,16 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
   onSave,
   onCancel,
 }) => {
-  type StudyPlanState = "waiting" | "in progress" | "done";
-  console.log(onCancel);
-
-  interface StudyPlanForm {
-    study_plan_name: string;
-    study_plan_description: string;
-    study_plans_image_url: string;
-    study_plans_start_date: string;
-    study_plans_end_date: string;
-    study_plans_is_archived: boolean;
-    study_plans_state: StudyPlanState;
-    user_id: number;
-  }
-
-  const [formData, setFormData] = useState<StudyPlanForm>({
+  const [formData, setFormData] = useState<StudyPlanFormFormData>({
     study_plan_name: "",
     study_plan_description: "",
     study_plans_image_url: "",
     study_plans_start_date: "",
     study_plans_end_date: "",
     study_plans_is_archived: false,
-    study_plans_state: "waiting", // ✅ 문자열 값
-    user_id: 1,
+    study_plans_state: "waiting",
+    user_id: 1, // 실제 환경에서는 로그인된 유저 ID
+    study_plan_is_recommendation: false, // 인터페이스 필수값 추가
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -55,6 +45,7 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
         study_plans_is_archived: existingPlan.study_plans_is_archived,
         study_plans_state: existingPlan.study_plans_state,
         user_id: Number(existingPlan.user_id),
+        study_plan_is_recommendation: existingPlan.study_plan_is_recommendation,
       });
     }
   }, [mode, existingPlan]);
@@ -65,13 +56,13 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
     >
   ) => {
     const { name, value, type } = e.target;
+
     setFormData((prev) => ({
       ...prev,
       [name]:
         type === "checkbox" ? (e.target as HTMLInputElement).checked : value,
     }));
 
-    // Clear error when user starts typing
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
@@ -80,21 +71,14 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.study_plan_name.trim()) {
+    if (!formData.study_plan_name.trim())
       newErrors.study_plan_name = "계획 이름을 입력해주세요.";
-    }
-
-    if (!formData.study_plan_description.trim()) {
+    if (!formData.study_plan_description.trim())
       newErrors.study_plan_description = "계획 설명을 입력해주세요.";
-    }
-
-    if (!formData.study_plans_start_date) {
+    if (!formData.study_plans_start_date)
       newErrors.study_plans_start_date = "시작일을 선택해주세요.";
-    }
-
-    if (!formData.study_plans_end_date) {
+    if (!formData.study_plans_end_date)
       newErrors.study_plans_end_date = "종료일을 선택해주세요.";
-    }
 
     if (formData.study_plans_start_date && formData.study_plans_end_date) {
       if (
@@ -118,7 +102,6 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      {/* Header */}
       <div className="flex items-center gap-4">
         <button
           onClick={onCancel}
@@ -138,24 +121,18 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
         </div>
       </div>
 
-      {/* Form */}
       <div className="p-8 bg-white border border-purple-100 shadow-sm rounded-xl">
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Plan Name */}
           <div>
-            <label
-              htmlFor="study_plan_name"
-              className="block mb-2 text-sm font-medium text-gray-700"
-            >
+            <label className="block mb-2 text-sm font-medium text-gray-700">
               계획 이름 *
             </label>
             <input
               type="text"
-              id="study_plan_name"
               name="study_plan_name"
               value={formData.study_plan_name}
               onChange={handleInputChange}
-              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#587CF0] focus:border-transparent transition-all ${
+              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#587CF0] outline-none transition-all ${
                 errors.study_plan_name ? "border-red-300" : "border-gray-200"
               }`}
               placeholder="예: Frontend Development Mastery"
@@ -167,21 +144,16 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
             )}
           </div>
 
-          {/* Plan Description */}
           <div>
-            <label
-              htmlFor="study_plan_description"
-              className="block mb-2 text-sm font-medium text-gray-700"
-            >
+            <label className="block mb-2 text-sm font-medium text-gray-700">
               계획 설명 *
             </label>
             <textarea
-              id="study_plan_description"
               name="study_plan_description"
               value={formData.study_plan_description}
               onChange={handleInputChange}
               rows={4}
-              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#587CF0] focus:border-transparent transition-all resize-none ${
+              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#587CF0] outline-none transition-all resize-none ${
                 errors.study_plan_description
                   ? "border-red-300"
                   : "border-gray-200"
@@ -195,24 +167,19 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
             )}
           </div>
 
-          {/* Date Range */}
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div>
-              <label
-                htmlFor="study_plans_start_date"
-                className="block mb-2 text-sm font-medium text-gray-700"
-              >
+              <label className="block mb-2 text-sm font-medium text-gray-700">
                 시작일 *
               </label>
               <div className="relative">
                 <Calendar className="absolute w-4 h-4 text-gray-400 transform -translate-y-1/2 left-3 top-1/2" />
                 <input
                   type="date"
-                  id="study_plans_start_date"
                   name="study_plans_start_date"
                   value={formData.study_plans_start_date}
                   onChange={handleInputChange}
-                  className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#587CF0] focus:border-transparent transition-all ${
+                  className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#587CF0] outline-none transition-all ${
                     errors.study_plans_start_date
                       ? "border-red-300"
                       : "border-gray-200"
@@ -227,21 +194,17 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
             </div>
 
             <div>
-              <label
-                htmlFor="study_plans_end_date"
-                className="block mb-2 text-sm font-medium text-gray-700"
-              >
+              <label className="block mb-2 text-sm font-medium text-gray-700">
                 종료일 *
               </label>
               <div className="relative">
                 <Calendar className="absolute w-4 h-4 text-gray-400 transform -translate-y-1/2 left-3 top-1/2" />
                 <input
                   type="date"
-                  id="study_plans_end_date"
                   name="study_plans_end_date"
                   value={formData.study_plans_end_date}
                   onChange={handleInputChange}
-                  className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#587CF0] focus:border-transparent transition-all ${
+                  className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#587CF0] outline-none transition-all ${
                     errors.study_plans_end_date
                       ? "border-red-300"
                       : "border-gray-200"
@@ -256,20 +219,15 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
             </div>
           </div>
 
-          {/* Plan State */}
           <div>
-            <label
-              htmlFor="study_plans_state"
-              className="block mb-2 text-sm font-medium text-gray-700"
-            >
+            <label className="block mb-2 text-sm font-medium text-gray-700">
               계획 상태
             </label>
             <select
-              id="study_plans_state"
               name="study_plans_state"
               value={formData.study_plans_state}
               onChange={handleInputChange}
-              className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#587CF0] focus:border-transparent transition-all"
+              className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#587CF0] outline-none bg-white transition-all"
             >
               <option value="waiting">대기 중</option>
               <option value="in progress">진행 중</option>
@@ -277,39 +235,28 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
             </select>
           </div>
 
-          {/* Image Upload */}
           <div>
-            <div className="flex items-center gap-4">
-              {/* 커스텀 버튼 */}
-              <label className="flex items-center gap-2 px-4 py-2 text-white bg-[#587CF0] rounded-lg cursor-pointer hover:bg-[#4a6de8] transition-colors">
-                대표 이미지 선택
-                <input
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (file) {
-                      const reader = new FileReader();
-                      reader.onload = () => {
-                        setFormData((prev) => ({
-                          ...prev,
-                          study_plans_image_url: reader.result as string,
-                        }));
-                      };
-                      reader.readAsDataURL(file);
-                    }
-                  }}
-                />
-              </label>
-
-              {/* 파일 이름 표시 */}
-              {formData.study_plans_image_url && (
-                <span className="max-w-xs text-gray-600 truncate">선택됨</span>
-              )}
-            </div>
-
-            {/* 미리보기 */}
+            <label className="flex items-center gap-2 px-4 py-2 text-white bg-[#587CF0] rounded-lg cursor-pointer hover:bg-[#4a6de8] transition-colors w-fit">
+              대표 이미지 선택
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                      setFormData((prev) => ({
+                        ...prev,
+                        study_plans_image_url: reader.result as string,
+                      }));
+                    };
+                    reader.readAsDataURL(file);
+                  }
+                }}
+              />
+            </label>
             {formData.study_plans_image_url && (
               <div className="w-48 h-32 mt-3 overflow-hidden border border-gray-200 rounded-lg">
                 <img
@@ -321,7 +268,6 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
             )}
           </div>
 
-          {/* Action Buttons */}
           <div className="flex items-center justify-end gap-4 pt-6 border-t border-gray-200">
             <button
               type="button"
@@ -333,7 +279,7 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
             </button>
             <button
               type="submit"
-              className="px-6 py-3 bg-[#587CF0] text-white rounded-lg hover:bg-[#4a6de8] transition-colors flex items-center gap-2"
+              className="px-6 py-3 bg-[#587CF0] text-white rounded-lg hover:bg-[#4a6de8] transition-colors shadow-sm flex items-center gap-2"
             >
               <Save className="w-4 h-4" />
               {mode === "create" ? "계획 생성" : "변경사항 저장"}

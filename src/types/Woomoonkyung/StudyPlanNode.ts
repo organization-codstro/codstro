@@ -47,3 +47,18 @@ export interface CteateStudyPlanNode {
   tech_stack_name: string;
   tech_stack_img_url: string;
 }
+
+//SortableNodeItem 에서 사용하는 폼 데이터 인터페이스
+export interface SortableNodeItemNodeFormData {
+  study_plan_node_name: string;
+  description: string;
+  start_date: string;
+  end_date: string;
+  completed: boolean;
+  position: number;
+  tech_stack_id: number;
+}
+
+// StudyPlanForm 폼 내부에서 사용할 데이터 타입 정의 (StudyPlan 인터페이스 기반)
+export interface StudyPlanFormFormData
+  extends Omit<StudyPlan, "study_plan_id" | "study_plans_created_date"> {}
