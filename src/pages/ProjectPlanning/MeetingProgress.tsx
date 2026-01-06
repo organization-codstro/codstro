@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Send, Save, FileText, LogOut, ArrowLeft } from "lucide-react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface Message {
   sender: "AI" | "USER";
@@ -23,7 +25,10 @@ export default function MeetingProgress() {
   const [input, setInput] = useState("");
 
   const handleSend = () => {
-    if (!input.trim()) return;
+    if (!input.trim()) {
+      toast.warning("메시지를 입력해주세요.", { position: "top-right" });
+      return;
+    }
 
     const now = new Date().toLocaleTimeString("en-US", {
       hour: "2-digit",
@@ -57,18 +62,55 @@ export default function MeetingProgress() {
   };
 
   const handleSaveMeeting = () => {
-    // TODO : 회의 저장
-    alert("회의가 저장되었습니다.");
+    // TODO: 회의 저장 API
+    toast.success("회의가 저장되었습니다.", {
+      position: "top-right",
+    });
   };
 
   const handleEndMeeting = () => {
-    // TODO: 회의 종료(회의 삭제) API
-    const isDelete = confirm(
-      "회의를.삭제하시겠습니까? 관련된 모든 정보가 삭제 됩니다."
+    toast(
+      ({ closeToast }) => (
+        <div>
+          <p className="mb-3 font-semibold">회의를 삭제하시겠습니까?</p>
+          <p className="mb-4 text-sm text-gray-600">
+            관련된 모든 정보가 삭제됩니다.
+          </p>
+          <div className="flex justify-end gap-2">
+            <button
+              onClick={() => {
+                closeToast();
+                toast.info("회의 삭제가 취소되었습니다.", {
+                  position: "top-right",
+                });
+              }}
+              className="px-3 py-1 text-sm border rounded"
+            >
+              취소
+            </button>
+            <button
+              onClick={() => {
+                closeToast();
+                // TODO: 회의 삭제 API
+                toast.success("회의가 삭제되었습니다.", {
+                  position: "top-right",
+                });
+                navigate("/projects/meetings");
+              }}
+              className="px-3 py-1 text-sm text-white bg-red-500 rounded"
+            >
+              삭제
+            </button>
+          </div>
+        </div>
+      ),
+      {
+        position: "top-right",
+        autoClose: false,
+        closeOnClick: false,
+        closeButton: false,
+      }
     );
-    if (isDelete) {
-      alert("회의가 삭제되었습니다.");
-    }
   };
 
   return (
@@ -77,9 +119,8 @@ export default function MeetingProgress() {
       <div className="px-8 py-4 bg-white border-b border-gray-200">
         <div className="flex items-center justify-between max-w-6xl mx-auto">
           <div className="flex items-center gap-3">
-            {/* Back Arrow */}
             <button
-              onClick={() => navigate("/projects/meetings")} // 이전 페이지로 이동
+              onClick={() => navigate("/projects/meetings")}
               className="p-2 rounded-full hover:bg-gray-100"
             >
               <ArrowLeft className="w-5 h-5 text-gray-600" />
@@ -102,7 +143,7 @@ export default function MeetingProgress() {
               <span>Materials</span>
             </button>
             <button
-              onClick={handleEndMeeting}
+              onClick={handleSaveMeeting}
               className="flex items-center px-4 py-2 space-x-2 text-white rounded-lg"
               style={{ backgroundColor: "#587CF0" }}
             >

@@ -15,7 +15,7 @@ import {
   Target,
   Check,
 } from "lucide-react";
-import { toast, ToastContainer } from "react-toastify"; // Toast 추가
+import { toast } from "react-toastify"; // Toast 추가
 import "react-toastify/dist/ReactToastify.css"; // Toast 스타일 추가
 import { todosData } from "../../data/woomoonjeong/woomoonjeongData";
 import { Todo } from "../../types/Woomoonjeong/woomoonjeong";
@@ -224,9 +224,6 @@ const TodoManagement: React.FC = () => {
 
   return (
     <div className="min-h-screen p-8 bg-gray-50" onClick={handleOutsideClick}>
-      {/* Toast 컨테이너 설정 */}
-      <ToastContainer limit={3} />
-
       <TodoManagementCreate
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FileText, Trash2 } from "lucide-react";
 import { mockUserInterviews } from "../../data/CompanyInformation/mockData";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function InterviewHistory() {
@@ -37,20 +37,6 @@ export default function InterviewHistory() {
       className="min-h-screen p-8 bg-gray-50"
       onClick={() => setDeletePendingId(null)}
     >
-      {/* 1. 토스트 위치를 top-right로 명시적 설정 */}
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
           <h1 className="mb-2 text-3xl font-bold text-gray-900">

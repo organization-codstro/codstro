@@ -1,7 +1,9 @@
-import { ArrowLeft, Save, Sparkles } from 'lucide-react';
-import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { note } from '../../data/Concepts/notes';
+import { ArrowLeft, Save, Sparkles } from "lucide-react";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { note } from "../../data/Concepts/notes";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function NoteCreate() {
   const { noteId } = useParams<{ noteId: string }>();
@@ -9,20 +11,22 @@ export default function NoteCreate() {
 
   const existingNote = note;
 
-  const [title, setTitle] = useState(existingNote?.title || '');
-  const [selectedConcepts, setSelectedConcepts] = useState<string[]>(existingNote?.concepts || []);
-  const [content, setContent] = useState(existingNote?.content || '');
+  const [title, setTitle] = useState(existingNote?.title || "");
+  const [selectedConcepts, setSelectedConcepts] = useState<string[]>(
+    existingNote?.concepts || []
+  );
+  const [content, setContent] = useState(existingNote?.content || "");
   const [showConceptSelector, setShowConceptSelector] = useState(true);
 
   const availableConcepts = [
-    { id: '1', name: 'React', type: 'library' },
-    { id: '2', name: 'REST API', type: 'concept' },
-    { id: '3', name: 'JavaScript', type: 'concept' },
-    { id: '4', name: 'TypeScript', type: 'library' },
-    { id: '5', name: 'Node.js', type: 'library' },
-    { id: '6', name: 'Git', type: 'tool' },
-    { id: '7', name: 'Docker', type: 'tool' },
-    { id: '8', name: 'AWS', type: 'service' },
+    { id: "1", name: "React", type: "library" },
+    { id: "2", name: "REST API", type: "concept" },
+    { id: "3", name: "JavaScript", type: "concept" },
+    { id: "4", name: "TypeScript", type: "library" },
+    { id: "5", name: "Node.js", type: "library" },
+    { id: "6", name: "Git", type: "tool" },
+    { id: "7", name: "Docker", type: "tool" },
+    { id: "8", name: "AWS", type: "service" },
   ];
 
   const handleConceptToggle = (conceptName: string) => {
@@ -34,18 +38,40 @@ export default function NoteCreate() {
   };
 
   const handleGenerateWithAI = () => {
-    alert('AI generation feature - this will generate initial content based on selected concepts');
+    toast.info(
+      "AI generation feature: 선택한 개념을 기반으로 초기 콘텐츠를 생성합니다.",
+      {
+        position: "top-right",
+      }
+    );
   };
 
   const handleSave = () => {
-    alert('Note saved successfully!');
-    navigate('/notes');
+    if (!title.trim()) {
+      toast.warning("노트 제목을 입력해주세요.", {
+        position: "top-right",
+      });
+      return;
+    }
+
+    if (!content.trim()) {
+      toast.warning("노트 내용을 입력해주세요.", {
+        position: "top-right",
+      });
+      return;
+    }
+
+    toast.success("노트가 성공적으로 저장되었습니다!", {
+      position: "top-right",
+    });
+
+    navigate("/notes");
   };
 
   return (
     <div className="max-w-6xl p-8 mx-auto">
       <button
-        onClick={() => navigate('/notes')}
+        onClick={() => navigate("/notes")}
         className="flex items-center gap-2 mb-6 text-gray-600 hover:text-gray-900"
       >
         <ArrowLeft className="w-5 h-5" />
@@ -54,11 +80,13 @@ export default function NoteCreate() {
 
       <div className="p-8 bg-white border border-gray-200 rounded-lg">
         <h1 className="mb-6 text-3xl font-bold text-gray-900">
-          {existingNote ? 'Edit Note' : 'Create New Note'}
+          {existingNote ? "Edit Note" : "Create New Note"}
         </h1>
 
         <div className="mb-6">
-          <label className="block mb-2 text-sm font-medium text-gray-700">Note Title</label>
+          <label className="block mb-2 text-sm font-medium text-gray-700">
+            Note Title
+          </label>
           <input
             type="text"
             value={title}
@@ -81,6 +109,7 @@ export default function NoteCreate() {
                 Hide
               </button>
             </div>
+
             <div className="grid grid-cols-2 gap-3 mb-4 md:grid-cols-4">
               {availableConcepts.map((concept) => (
                 <button
@@ -88,15 +117,18 @@ export default function NoteCreate() {
                   onClick={() => handleConceptToggle(concept.name)}
                   className={`p-3 rounded-lg border-2 transition-all ${
                     selectedConcepts.includes(concept.name)
-                      ? 'border-blue-500 bg-blue-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                      ? "border-blue-500 bg-blue-50"
+                      : "border-gray-200 hover:border-gray-300"
                   }`}
                 >
                   <div className="text-sm font-semibold">{concept.name}</div>
-                  <div className="text-xs text-gray-500 capitalize">{concept.type}</div>
+                  <div className="text-xs text-gray-500 capitalize">
+                    {concept.type}
+                  </div>
                 </button>
               ))}
             </div>
+
             {selectedConcepts.length > 0 && (
               <button
                 onClick={handleGenerateWithAI}
@@ -120,7 +152,9 @@ export default function NoteCreate() {
 
         <div className="mb-6">
           <div className="flex items-center justify-between mb-2">
-            <label className="block text-sm font-medium text-gray-700">Content</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Content
+            </label>
             <span className="text-xs text-gray-500">Markdown supported</span>
           </div>
           <textarea
@@ -140,7 +174,7 @@ export default function NoteCreate() {
             Save Note
           </button>
           <button
-            onClick={() => navigate('/notes')}
+            onClick={() => navigate("/notes")}
             className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
           >
             Cancel

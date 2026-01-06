@@ -14,6 +14,8 @@ import {
   StudyPlan,
 } from "../../types/Woomoonkyung/StudyPlanNode";
 import ArchiveStudyPlanCard from "../../components/Woomoonkyung/StudyPlanArchive/ArchiveStudyPlanCard";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const StudyPlanArchive: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -21,12 +23,10 @@ const StudyPlanArchive: React.FC = () => {
 
   // 1. 노드 데이터를 가져오는 함수 (내부에서 추천 여부 판단)
   const getNodesForPlan = (planId: number): StudyPlanNode[] => {
-    // studyPlans 또는 recommendedStudyPlans에서 해당 계획을 찾습니다.
     const plan =
       studyPlans.find((p) => p.study_plan_id === planId) ||
       recommendedStudyPlans.find((p) => p.study_plan_id === planId);
 
-    // 추천 계획(study_plan_is_recommendation: true)이면 추천 노드 소스를 사용합니다.
     const nodesSource = plan?.study_plan_is_recommendation
       ? recommendedStudyPlanNodes
       : studyPlanNodes;
@@ -36,7 +36,7 @@ const StudyPlanArchive: React.FC = () => {
       .sort((a, b) => a.position - b.position);
   };
 
-  // 2. 통계 계산 헬퍼 (기존처럼 ID만 넘겨서 처리)
+  // 2. 통계 계산
   const getStats = (planId: number) => {
     const nodes = getNodesForPlan(planId);
     const total = nodes.length;
@@ -45,11 +45,12 @@ const StudyPlanArchive: React.FC = () => {
     return { total, completed, progress };
   };
 
-  // 3. 보관된 계획 필터링 (완료된 내 계획 + 북마크한 추천 계획)
+  // 3. 보관된 계획
   const getArchivedPlans = (): StudyPlan[] => {
     const completedUserPlans = studyPlans.filter(
       (plan) => plan.study_plans_state === "done"
     );
+
     const bookmarkedRecommendedPlans = recommendedStudyPlans.filter((plan) =>
       bookmarkedPlans.some(
         (bookmark) =>
@@ -63,7 +64,11 @@ const StudyPlanArchive: React.FC = () => {
 
   const handleDeletePlan = (e: React.MouseEvent, id: number) => {
     e.stopPropagation();
-    alert("공부계획이 삭제 되었습니다.");
+
+    // 실제 앱에서는 API 호출
+    toast.success("공부 계획이 삭제되었습니다.", {
+      position: "top-right",
+    });
   };
 
   const filteredPlans = getArchivedPlans().filter((plan) => {
@@ -86,8 +91,9 @@ const StudyPlanArchive: React.FC = () => {
             </h1>
             <p className="text-gray-600">완료된 내 계획을 확인하세요</p>
           </div>
+
           <div className="relative">
-            <Search className="absolute w-4 h-4 text-gray-400 transform -translate-y-1/2 left-3 top-1/2" />
+            <Search className="absolute w-4 h-4 text-gray-400 -translate-y-1/2 left-3 top-1/2" />
             <input
               type="text"
               placeholder="Search archived plans..."

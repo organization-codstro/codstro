@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Trash2, TrendingUp } from "lucide-react";
 import { mockUserMatchingHistory } from "../../data/CompanyInformation/mockData";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function MatchingHistory() {
@@ -50,9 +50,6 @@ export default function MatchingHistory() {
       className="min-h-screen p-8 bg-gray-50"
       onClick={() => setDeletePendingId(null)} // 바탕 클릭 시 대기 해제
     >
-      {/* 토스트 위치 우측 상단 고정 */}
-      <ToastContainer position="top-right" autoClose={2000} theme="light" />
-
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
           <h1 className="mb-2 text-3xl font-bold text-gray-900">

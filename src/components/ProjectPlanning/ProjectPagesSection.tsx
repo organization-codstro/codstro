@@ -9,7 +9,7 @@ import {
   Trash2,
 } from "lucide-react"; // Trash2 추가
 import { ProjectPage, Todo } from "../../types/ProjectPlanning/project";
-import { toast, ToastContainer } from "react-toastify"; // 토스트 추가
+import { toast } from "react-toastify"; // 토스트 추가
 import "react-toastify/dist/ReactToastify.css";
 
 interface ProjectPagesSectionProps {
@@ -157,7 +157,6 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
       className="p-6 bg-white border border-gray-200 rounded-lg"
       onClick={() => setDeletePending(null)}
     >
-      <ToastContainer position="top-right" autoClose={2000} />
       <h2 className="mb-4 text-lg font-semibold text-gray-900">
         Project Pages
       </h2>

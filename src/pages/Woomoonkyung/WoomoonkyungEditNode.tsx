@@ -18,6 +18,7 @@ import {
 //예시 데이터
 import { plan } from "../../data/Woomoonkyung/studyPlanData";
 import { existingNodes } from "../../data/Woomoonkyung/studyPlanNodeData";
+import { toast } from "react-toastify";
 
 const WoomoonkyungEditNode = () => {
   const navigate = useNavigate();
@@ -34,6 +35,21 @@ const WoomoonkyungEditNode = () => {
   );
   const [draggedItem, setDraggedItem] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const [validationErrors, setValidationErrors] = useState<{
+    name: boolean;
+    startDate: boolean;
+    endDate: boolean;
+  }>({
+    name: false,
+    startDate: false,
+    endDate: false,
+  });
+
+  // 에러 개별 초기화 함수
+  const clearError = (field: keyof typeof validationErrors) => {
+    setValidationErrors((prev) => ({ ...prev, [field]: false }));
+  };
 
   // 삭제 대기 상태 자동 해제 (3초)
   useEffect(() => {
@@ -76,34 +92,45 @@ const WoomoonkyungEditNode = () => {
   const handleNodeClick = (node: StudyPlanNode) => {
     setEditingNode(node);
     setRightSidebarMode("editNode");
+    setValidationErrors({ name: false, startDate: false, endDate: false });
   };
 
   // 노드 편집 저장
   const handleSaveEdit = () => {
-    if (editingNode) {
-      // 필수 값 검증
-      if (!editingNode.start_date || !editingNode.end_date) {
-        alert("시작일과 종료일은 필수 입력 항목입니다.");
-        return;
-      }
+    if (!editingNode) return;
 
-      setNodes((prevNodes) =>
-        prevNodes.map((node) =>
-          node.study_plan_node_id === editingNode.study_plan_node_id
-            ? editingNode
-            : node
-        )
-      );
+    // ✅ 필수 값 검증 (이름, 시작일, 종료일)
+    const nameError = !editingNode.study_plan_node_name.trim();
+    const startDateError = !editingNode.start_date;
+    const endDateError = !editingNode.end_date;
 
-      setRightSidebarMode("techStacks");
-      setEditingNode(null);
+    if (nameError || startDateError || endDateError) {
+      setValidationErrors({
+        name: nameError,
+        startDate: startDateError,
+        endDate: endDateError,
+      });
+      return;
     }
+
+    setNodes((prevNodes) =>
+      prevNodes.map((node) =>
+        node.study_plan_node_id === editingNode.study_plan_node_id
+          ? editingNode
+          : node
+      )
+    );
+
+    setRightSidebarMode("techStacks");
+    setEditingNode(null);
+    setValidationErrors({ name: false, startDate: false, endDate: false });
   };
 
   // 편집 취소
   const handleCancelEdit = () => {
     setRightSidebarMode("techStacks");
     setEditingNode(null);
+    setValidationErrors({ name: false, startDate: false, endDate: false });
   };
 
   // 삭제 처리 (2단계: 첫 클릭 → 빨간색, 두 번째 클릭 → 삭제)
@@ -170,8 +197,11 @@ const WoomoonkyungEditNode = () => {
   const handleCreatePlan = () => {
     // TODO: 서버에 저장
     console.log("Creating study plan with nodes:", nodes);
-    // navigate to next page or success page
-    alert("공부 계획이 생성되었습니다!");
+
+    toast.success("공부 계획이 생성되었습니다!", {
+      position: "top-right",
+      autoClose: 3000,
+    });
   };
 
   // 다른 곳 클릭 시 삭제 대기 상태 해제
@@ -449,15 +479,25 @@ const WoomoonkyungEditNode = () => {
                   <input
                     type="text"
                     value={editingNode.study_plan_node_name}
-                    onChange={(e) =>
+                    onChange={(e) => {
                       setEditingNode({
                         ...editingNode,
                         study_plan_node_name: e.target.value,
-                      })
-                    }
+                      });
+                      clearError("name");
+                    }}
                     placeholder="예: JavaScript 기초"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#587CF0] focus:border-transparent transition-all"
+                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none transition-all ${
+                      validationErrors.name
+                        ? "border-red-500 bg-red-50 focus:ring-red-100"
+                        : "border-gray-300 focus:ring-2 focus:ring-[#587CF0]"
+                    }`}
                   />
+                  {validationErrors.name && (
+                    <p className="mt-1 text-xs font-medium text-red-500">
+                      노드 이름을 입력해 주세요.
+                    </p>
+                  )}
                 </div>
 
                 {/* Description */}
@@ -487,14 +527,24 @@ const WoomoonkyungEditNode = () => {
                   <input
                     type="date"
                     value={editingNode.start_date}
-                    onChange={(e) =>
+                    onChange={(e) => {
                       setEditingNode({
                         ...editingNode,
                         start_date: e.target.value,
-                      })
-                    }
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#587CF0] focus:border-transparent transition-all"
+                      });
+                      clearError("startDate");
+                    }}
+                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none transition-all ${
+                      validationErrors.startDate
+                        ? "border-red-500 bg-red-50 focus:ring-red-100"
+                        : "border-gray-300 focus:ring-2 focus:ring-[#587CF0]"
+                    }`}
                   />
+                  {validationErrors.startDate && (
+                    <p className="mt-1 text-xs font-medium text-red-500">
+                      시작일을 선택해 주세요.
+                    </p>
+                  )}
                 </div>
 
                 {/* End Date */}
@@ -505,21 +555,31 @@ const WoomoonkyungEditNode = () => {
                   <input
                     type="date"
                     value={editingNode.end_date}
-                    onChange={(e) =>
+                    onChange={(e) => {
                       setEditingNode({
                         ...editingNode,
                         end_date: e.target.value,
-                      })
-                    }
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#587CF0] focus:border-transparent transition-all"
+                      });
+                      clearError("endDate");
+                    }}
+                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none transition-all ${
+                      validationErrors.endDate
+                        ? "border-red-500 bg-red-50 focus:ring-red-100"
+                        : "border-gray-300 focus:ring-2 focus:ring-[#587CF0]"
+                    }`}
                   />
+                  {validationErrors.endDate && (
+                    <p className="mt-1 text-xs font-medium text-red-500">
+                      종료일을 선택해 주세요.
+                    </p>
+                  )}
                 </div>
 
                 {/* Action Buttons */}
                 <div className="pt-4 space-y-3">
                   <button
                     onClick={handleSaveEdit}
-                    className="w-full py-3 bg-[#587CF0] text-white rounded-lg hover:bg-[#4a6de8] transition-all font-semibold shadow-md hover:shadow-lg transform hover:scale-[1.02]"
+                    className="w-full py-3 bg-[#587CF0] text-white rounded-lg hover:bg-[#4a6de8] transition-all font-semibold shadow-md"
                   >
                     저장
                   </button>

@@ -35,7 +35,7 @@ export { default as WoomoonkyungEditNode } from "../pages/Woomoonkyung/Woomoonky
 export { default as CompanyList } from "../pages/CompanyInformation/CompanyList";
 export { default as CompanyDetail } from "../pages/CompanyInformation/CompanyDetail";
 export { default as CompanyMatch } from "../pages/CompanyInformation/CompanyMatch";
-export { default as MockInterview } from "../pages/CompanyInformation/MockInterview";
+export { default as MockInterview } from "../pages/CompanyInformation/InterviewDetail";
 export { default as Bookmarks } from "../pages/CompanyInformation/Bookmarks";
 export { default as InterviewHistory } from "../pages/CompanyInformation/InterviewHistory";
 export { default as InterviewHistoryDetail } from "../pages/CompanyInformation/InterviewHistoryDetail";

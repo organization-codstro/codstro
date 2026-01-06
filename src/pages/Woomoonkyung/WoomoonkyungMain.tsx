@@ -9,6 +9,7 @@ import {
   stateColors,
 } from "../../data/Woomoonkyung/woomoonkyungData";
 import { StudyPlanNode } from "../../types/Woomoonkyung/StudyPlanNode";
+import { toast } from "react-toastify";
 
 const WoomoonkyungMain: React.FC = () => {
   const navigate = useNavigate();
@@ -38,9 +39,11 @@ const WoomoonkyungMain: React.FC = () => {
   // 삭제 핸들러
   const handleDeletePlan = (e: React.MouseEvent, id: number) => {
     e.stopPropagation();
-    if (window.confirm("정말 이 공부 계획을 삭제하시겠습니까?")) {
-      alert("공부계획이 삭제되었습니다.");
-    }
+
+    // TODO: 삭제 API 호출
+    toast.success("공부 계획이 삭제되었습니다.", {
+      position: "top-right",
+    });
   };
 
   // 필터링: 내가 만든 계획(recommendation: false)이면서 진행 중(in progress)인 것들

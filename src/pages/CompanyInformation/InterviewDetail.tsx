@@ -6,8 +6,10 @@ import {
 } from "../../data/CompanyInformation/mockData";
 import ReactMarkdown from "../../components/CompanyInformation/ReactMarkdown";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-export default function MockInterview() {
+export default function InterviewDetail() {
   /* ===============================
      URL 파라미터 & 네비게이션
   =============================== */
@@ -64,7 +66,9 @@ export default function MockInterview() {
 
   const handleSubmitAnswer = () => {
     if (!answer.trim()) {
-      alert("답변을 입력해주세요.");
+      toast.warning("답변을 입력해주세요.", {
+        position: "top-right",
+      });
       return;
     }
 
@@ -75,11 +79,17 @@ export default function MockInterview() {
 
     setFeedback(mockFeedback);
     setShowingFeedback(true);
+
+    toast.success("답변이 제출되었습니다.", {
+      position: "top-right",
+    });
   };
 
   const handleNextQuestion = () => {
     if (isLastQuestion) {
-      alert("모든 질문을 완료했습니다!");
+      toast.success("모든 질문을 완료했습니다!", {
+        position: "top-right",
+      });
       navigate(`/companies/${numericCompanyId}`);
     } else {
       setCurrentQuestionIndex((prev) => prev + 1);

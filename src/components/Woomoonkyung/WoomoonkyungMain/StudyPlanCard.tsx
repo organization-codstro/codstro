@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Calendar, Target, Trash2, Award, User } from "lucide-react";
 import { StudyPlan } from "../../../types/Woomoonkyung/StudyPlanNode";
 
@@ -22,6 +22,31 @@ const StudyPlanCard: React.FC<StudyPlanCardProps> = ({
   onDeleteClick,
 }) => {
   const isPlanRecommended = plan.study_plan_is_recommendation;
+
+  // [추가] 삭제 대기 상태 (해당 카드 내에서만 관리)
+  const [isDeletePending, setIsDeletePending] = useState(false);
+
+  // [추가] 3초 타이머: 대기 상태 자동 해제
+  useEffect(() => {
+    if (isDeletePending) {
+      const timer = setTimeout(() => setIsDeletePending(false), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [isDeletePending]);
+
+  // [추가] 2단계 삭제 핸들러
+  const handleSafeDelete = (e: React.MouseEvent) => {
+    e.stopPropagation(); // 카드 클릭 이벤트 방지
+
+    if (isDeletePending) {
+      // 2차 클릭: 실제 삭제 수행
+      onDeleteClick(e, plan.study_plan_id);
+      setIsDeletePending(false);
+    } else {
+      // 1차 클릭: 대기 상태로 전환
+      setIsDeletePending(true);
+    }
+  };
 
   return (
     <div
@@ -49,10 +74,16 @@ const StudyPlanCard: React.FC<StudyPlanCardProps> = ({
               {plan.study_plan_description}
             </p>
           </div>
+
+          {/* [수정] 삭제 버튼: 상태에 따라 스타일 변경 */}
           <button
-            onClick={(e) => onDeleteClick(e, plan.study_plan_id)}
-            className="p-2 ml-2 text-gray-400 transition-colors rounded hover:bg-red-50 hover:text-red-500"
-            title="Delete plan"
+            onClick={handleSafeDelete}
+            className={`p-2 ml-2 transition-all duration-200 rounded border ${
+              isDeletePending
+                ? "bg-red-500 text-white border-red-500 shadow-sm scale-110"
+                : "text-gray-400 border-transparent hover:bg-red-50 hover:text-red-500"
+            }`}
+            title={isDeletePending ? "한 번 더 눌러서 삭제" : "Delete plan"}
           >
             <Trash2 className="w-4 h-4" />
           </button>

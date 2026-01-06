@@ -8,7 +8,6 @@ import {
   Bookmark,
   BookmarkCheck,
   Search,
-  Award,
   ArrowRight,
 } from "lucide-react";
 import {
@@ -21,6 +20,8 @@ import {
   StudyPlan,
   StudyPlanNode,
 } from "../../types/Woomoonkyung/StudyPlanNode";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const RecommendedStudyPlans: React.FC = () => {
   const [selectedPlan, setSelectedPlan] = useState<StudyPlan | null>(null);
@@ -57,18 +58,22 @@ const RecommendedStudyPlans: React.FC = () => {
     const newBookmarks = new Set(bookmarks);
     if (newBookmarks.has(planId)) {
       newBookmarks.delete(planId);
+      toast.info("북마크가 해제되었습니다.", { position: "top-right" });
     } else {
       newBookmarks.add(planId);
+      toast.success("북마크에 추가되었습니다.", { position: "top-right" });
     }
     setBookmarks(newBookmarks);
-    // In real app, this would make an API call
-    console.log("Toggle bookmark for plan:", planId);
   };
 
   const addToMyPlans = (plan: StudyPlan) => {
-    // In real app, this would copy the plan to user's plans
-    console.log("Adding plan to my plans:", plan.study_plan_name);
-    alert(`"${plan.study_plan_name}" 계획이 나의 계획으로 추가되었습니다!`);
+    // 실제 앱에서는 API 호출
+    toast.success(
+      `"${plan.study_plan_name}" 계획이 나의 계획에 추가되었습니다!`,
+      {
+        position: "top-right",
+      }
+    );
   };
 
   const filteredPlans = recommendedStudyPlans.filter((plan) => {
@@ -82,165 +87,6 @@ const RecommendedStudyPlans: React.FC = () => {
       return false;
     return true;
   });
-
-  // If a plan is selected, show detail view
-  if (selectedPlan) {
-    const nodes = getNodesForPlan(selectedPlan.study_plan_id);
-    const totalNodes = nodes.length;
-    const isBookmarked = bookmarks.has(selectedPlan.study_plan_id);
-
-    return (
-      <div className="p-8 bg-gray-50">
-        <div className="max-w-6xl mx-auto space-y-6">
-          {/* Back Button */}
-          <button
-            onClick={() => handleBackToList(selectedPlan.study_plan_id)}
-            className="flex items-center gap-2 text-[#587CF0] hover:text-[#4a6de8] transition-colors"
-          >
-            <ArrowRight className="w-4 h-4 rotate-180" />
-            Back to Recommended Plans
-          </button>
-
-          {/* Plan Header */}
-          <div className="overflow-hidden bg-white border border-purple-100 shadow-sm rounded-xl">
-            {selectedPlan.study_plans_image_url && (
-              <div className="h-48 overflow-hidden bg-gray-200">
-                <img
-                  src={selectedPlan.study_plans_image_url}
-                  alt={selectedPlan.study_plan_name}
-                  className="object-cover w-full h-full"
-                />
-              </div>
-            )}
-
-            <div className="p-6">
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-2">
-                    <h1 className="text-2xl font-bold text-gray-800">
-                      {selectedPlan.study_plan_name}
-                    </h1>
-                    <span className="px-2 py-1 text-sm text-blue-700 bg-blue-100 border border-blue-200 rounded-full">
-                      System Recommended
-                    </span>
-                  </div>
-                  <p className="mb-4 text-gray-600">
-                    {selectedPlan.study_plan_description}
-                  </p>
-
-                  <div className="flex items-center gap-4 text-sm text-gray-500">
-                    <div className="flex items-center gap-1">
-                      <Calendar className="w-4 h-4" />
-                      <span>
-                        {new Date(
-                          selectedPlan.study_plans_start_date
-                        ).toLocaleDateString()}{" "}
-                        -{" "}
-                        {new Date(
-                          selectedPlan.study_plans_end_date
-                        ).toLocaleDateString()}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Target className="w-4 h-4" />
-                      <span>{totalNodes} learning nodes</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <span
-                    className={`px-3 py-1 text-sm rounded-full border ${
-                      stateColors[selectedPlan.study_plans_state]
-                    }`}
-                  >
-                    {selectedPlan.study_plans_state}
-                  </span>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={() => toggleBookmark(selectedPlan.study_plan_id)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-                    isBookmarked
-                      ? "bg-yellow-100 text-yellow-700 border border-yellow-200"
-                      : "bg-gray-100 text-gray-700 border border-gray-200 hover:bg-yellow-50 hover:text-yellow-600"
-                  }`}
-                >
-                  {isBookmarked ? (
-                    <BookmarkCheck className="w-4 h-4" />
-                  ) : (
-                    <Bookmark className="w-4 h-4" />
-                  )}
-                  {isBookmarked ? "Bookmarked" : "Bookmark"}
-                </button>
-                <button
-                  onClick={() => addToMyPlans(selectedPlan)}
-                  className="flex items-center gap-2 px-4 py-2 bg-[#587CF0] text-white rounded-lg hover:bg-[#4a6de8] transition-colors"
-                >
-                  <Download className="w-4 h-4" />
-                  Add to My Plans
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Study Plan Nodes */}
-          <div className="p-6 bg-white border border-purple-100 shadow-sm rounded-xl">
-            <h3 className="mb-6 text-lg font-semibold text-gray-800">
-              Learning Path
-            </h3>
-
-            <div className="space-y-4">
-              {nodes.map((node, index) => (
-                <div
-                  key={node.study_plan_node_id}
-                  className="p-4 bg-white border-2 border-gray-200 rounded-lg"
-                >
-                  <div className="flex items-start gap-3">
-                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-[#587CF0] text-white text-sm font-medium">
-                      {node.position}
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="mb-2 font-semibold text-gray-800">
-                        {node.study_plan_node_name}
-                      </h4>
-                      <p className="mb-3 text-sm text-gray-600">
-                        {node.description}
-                      </p>
-                      <div className="flex items-center gap-4 text-xs text-gray-500">
-                        <div className="flex items-center gap-1">
-                          <Calendar className="w-3 h-3" />
-                          <span>
-                            {new Date(node.start_date).toLocaleDateString()} -{" "}
-                            {new Date(node.end_date).toLocaleDateString()}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {nodes.length === 0 && (
-              <div className="py-12 text-center">
-                <BookOpen className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-                <h3 className="mb-2 text-lg font-medium text-gray-800">
-                  No learning nodes configured
-                </h3>
-                <p className="text-gray-600">
-                  This study plan doesn't have detailed learning steps yet.
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   // Main list view
   return (

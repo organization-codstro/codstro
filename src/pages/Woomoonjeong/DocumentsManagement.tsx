@@ -25,7 +25,7 @@ import CreateCustomFieldModal from "../../components/Woomoonjeong/DocumentsManag
 import CreateCustomDocumentModal from "../../components/Woomoonjeong/DocumentsManagement/CreateDocumentModal";
 //수정 모달
 import EditDocumentModal from "../../components/Woomoonjeong/DocumentsManagement/EditDocumentModal";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 const DocumentsManagement: React.FC = () => {
   // 인터페이스 구조에 따라 데이터를 Group[] 타입으로 관리합니다.
@@ -250,7 +250,6 @@ const DocumentsManagement: React.FC = () => {
 
   return (
     <div className="p-8 bg-gray-50" onClick={() => setDeletePending(null)}>
-      <ToastContainer position="top-right" autoClose={2000} />
       <div className="mx-auto space-y-6 max-w-7xl">
         {/* Header */}
         <div className="flex items-center justify-between">
