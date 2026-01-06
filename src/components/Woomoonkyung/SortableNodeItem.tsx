@@ -40,13 +40,13 @@ import {
 } from "@dnd-kit/sortable";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { techStacks } from "../../../data/Woomoonkyung/woomoonkyungData";
 import {
   SortableNodeItemNodeFormData,
   StudyPlan,
   StudyPlanNode,
-  TechStack,
-} from "../../../types/Woomoonkyung/StudyPlanNode";
+} from "../../types/Woomoonkyung/StudyPlanNode";
+import { techStacks } from "../../data/Woomoonkyung/woomoonkyungData";
+import { TechStack } from "../../types/Woomoonjeong/SortableNodeItem/sortableNodeItem";
 
 interface StudyPlanNodeEditorProps {
   studyPlan: StudyPlan;

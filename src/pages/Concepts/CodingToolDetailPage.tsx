@@ -62,21 +62,21 @@ export default function BasicConceptDetail() {
         <div className="flex gap-3 mb-8">
           <button
             onClick={() => setShowAIChat(true)}
-            className="flex items-center gap-2 px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700"
           >
             <MessageCircle className="w-4 h-4" />
             Chat with AI
           </button>
           <button
             onClick={() => setShowTodoModal("documentation")}
-            className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 transition-colors border border-gray-300 rounded-lg hover:bg-gray-50"
           >
             <MessageCircle className="w-4 h-4" />
             Add Todo: Explore Documentation
           </button>
           <button
             onClick={() => setShowTodoModal("clone_project")}
-            className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 transition-colors border border-gray-300 rounded-lg hover:bg-gray-50"
           >
             <MessageCircle className="w-4 h-4" />
             Add Todo: Build Clone Project

@@ -1,12 +1,10 @@
 // 사용자 직접 생성하는 필드
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import {
-  FieldGroupType,
-  FieldGroupTypes,
-} from "../../../constants/Woomoonjeong/Woomoonjeong";
 import { AddFieldModalProps } from "../../../types/Woomoonjeong/CreateCustomFieldModal/Props";
-import { DEFAULT_GROUP_TYPE } from "./constants/CreateCustomFieldModal";
+import { DEFAULT_GROUP_TYPE } from "../../../constants/Woomoonjeong/DocumentsManagementPage/CreateCustomFieldModal";
+import { GroupType } from "../../../types/Woomoonjeong/woomoonjeong";
+import { GroupTypes } from "../../../constants/Woomoonjeong/Woomoonjeong";
 
 const CreateCustomFieldModal: React.FC<AddFieldModalProps> = ({
   isOpen,
@@ -16,7 +14,7 @@ const CreateCustomFieldModal: React.FC<AddFieldModalProps> = ({
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [selectedGroupType, setSelectedGroupType] =
-    useState<FieldGroupType>(DEFAULT_GROUP_TYPE);
+    useState<GroupType>(DEFAULT_GROUP_TYPE);
 
   // 폼 검증 에러 상태
   const [errors, setErrors] = useState<Record<string, boolean>>({});
@@ -120,7 +118,7 @@ const CreateCustomFieldModal: React.FC<AddFieldModalProps> = ({
               그룹
             </label>
             <div className="grid grid-cols-2 gap-2">
-              {FieldGroupTypes.map((type) => (
+              {GroupTypes.map((type) => (
                 <button
                   key={type}
                   type="button"

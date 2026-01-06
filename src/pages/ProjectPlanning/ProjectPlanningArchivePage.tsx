@@ -12,7 +12,7 @@ const ProjectPlanningArchive = () => {
     <div className="flex-1 overflow-auto bg-gray-50">
       {/* Header */}
       <div className="px-8 py-6 bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto max-w-7xl">
           <h1 className="text-3xl font-bold text-gray-900">
             Archived Projects
           </h1>
@@ -24,7 +24,7 @@ const ProjectPlanningArchive = () => {
       <div className="p-8 mx-auto max-w-7xl">
         {archivedProjects.length === 0 ? (
           <div className="p-12 text-center bg-white border-2 border-gray-300 border-dashed rounded-lg">
-            <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full bg-gray-100">
+            <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full">
               <Calendar className="w-8 h-8 text-gray-400" />
             </div>
             <h3 className="mb-2 text-lg font-medium text-gray-900">

@@ -1,7 +1,7 @@
 import React from "react";
 import { Plus, Archive } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import StudyPlanCard from "../../components/Woomoonkyung/WoomoonkyungMain/StudyPlanCard"; // 분리한 컴포넌트 임포트
+import StudyPlanCard from "../../components/Woomoonkyung/WoomoonkyungMainPage/StudyPlanCard"; // 분리한 컴포넌트 임포트
 import {
   studyPlans,
   studyPlanNodes,

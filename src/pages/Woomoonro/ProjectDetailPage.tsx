@@ -25,7 +25,7 @@ import {
   statusColors,
   projectGroups,
 } from "../../data/woomoonro/woomoonroData";
-import { Project, UserProject } from "../../types/woomoonro/woomoonro";
+import { Project, UserProject } from "../../types/Woomoonro/woomoonro";
 
 const ProjectDetailPage: React.FC = () => {
   // 1. 라우터 관련 훅

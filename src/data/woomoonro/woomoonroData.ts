@@ -3,7 +3,7 @@ import {
   UserProject,
   ProjectTodo,
   ProjectGroup,
-} from "../../types/woomoonro/woomoonro";
+} from "../../types/Woomoonro/woomoonro";
 
 export const difficultyColors = {
   beginner: "bg-green-100 text-green-700 border-green-200",

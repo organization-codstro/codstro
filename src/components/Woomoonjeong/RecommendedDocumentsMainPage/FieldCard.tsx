@@ -1,9 +1,6 @@
 import { ExternalLink } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { RecommendedField } from "../../../types/Woomoonjeong/woomoonjeong";
-import { fieldTypeIcons } from "./constants/fieldTypeIcons";
-import { fieldTypeColors } from "../../../data/woomoonjeong/woomoonjeongData";
-
 interface FieldCardProps {
   field: RecommendedField;
   isSaved: boolean;

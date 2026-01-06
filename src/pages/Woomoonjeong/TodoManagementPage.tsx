@@ -19,7 +19,7 @@ import { toast } from "react-toastify"; // Toast 추가
 import "react-toastify/dist/ReactToastify.css"; // Toast 스타일 추가
 import { todosData } from "../../data/woomoonjeong/woomoonjeongData";
 import { Todo } from "../../types/Woomoonjeong/woomoonjeong";
-import TodoManagementCreate from "../../components/Woomoonjeong/TodoManagement/CreateTodoManagementModal";
+import TodoManagementCreate from "../../components/Woomoonjeong/TodoManagementPage/CreateTodoManagementModal";
 
 const TodoManagement: React.FC = () => {
   const navigate = useNavigate();

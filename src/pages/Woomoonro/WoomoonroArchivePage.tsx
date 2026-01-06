@@ -16,7 +16,7 @@ import {
   archivedProjectsData,
   archivedUserProjectsData as initialArchivedUserProjectsData,
 } from "../../data/woomoonro/woomoonroData";
-import { UserProject } from "../../types/woomoonro/woomoonro";
+import { UserProject } from "../../types/Woomoonro/woomoonro";
 import ProjectGrid from "../../components/woomoonro/ProjectGrid";
 
 // 타입 정의
@@ -31,7 +31,7 @@ const WoomoonroArchiveList: React.FC = () => {
     useState<DifficultyType>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<"date" | "title" | "difficulty">("date");
-  
+
   // 북마크 상태 관리를 위한 state 추가
   const [archivedUserProjectsData, setArchivedUserProjectsData] = useState(
     initialArchivedUserProjectsData

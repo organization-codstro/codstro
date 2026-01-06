@@ -27,13 +27,6 @@ export interface StudyPlanNode {
   tech_stack_img_url: string;
 }
 
-export interface TechStack {
-  tech_stack_id: string;
-  tech_stack_name: string;
-  tech_stack_img_url?: string;
-  tech_stack_created_date: string;
-}
-
 /***WoomoonkyungCreateNode에서 사용하는  node 인터페이스 */
 export interface CteateStudyPlanNode {
   study_plan_node_id: string;

@@ -8,13 +8,13 @@ import {
   RecommendedField,
   RecommendedPin,
 } from "../../types/Woomoonjeong/woomoonjeong";
-import SearchInput from "../../components/Woomoonjeong/RecommendedDocumentsMain/SearchInput";
-import ContentTypeFilter from "../../components/Woomoonjeong/RecommendedDocumentsMain/ContentTypeFilter";
-import FilterSection from "../../components/Woomoonjeong/RecommendedDocumentsMain/FilterSection";
-import DocumentsGrid from "../../components/Woomoonjeong/RecommendedDocumentsMain/DocumentsGrid";
+import SearchInput from "../../components/Woomoonjeong/RecommendedDocumentsMainPage/SearchInput";
+import ContentTypeFilter from "../../components/Woomoonjeong/RecommendedDocumentsMainPage/ContentTypeFilter";
+import FilterSection from "../../components/Woomoonjeong/RecommendedDocumentsMainPage/FilterSection";
+import DocumentsGrid from "../../components/Woomoonjeong/RecommendedDocumentsMainPage/DocumentsGrid";
 //시스템이 추천하는 필드 추가하는 모달
-import AssignRecommendedFieldModal from "../../components/Woomoonjeong/DocumentsManagement/RecommendedCreateFieldModal";
-import RecommendedCreateDocumentModal from "../../components/Woomoonjeong/RecommendedDocumentsMain/RecommendedCreateDocumentModal";
+import AssignRecommendedFieldModal from "../../components/Woomoonjeong/DocumentsManagementPage/RecommendedCreateFieldModal";
+import RecommendedCreateDocumentModal from "../../components/Woomoonjeong/RecommendedDocumentsMainPage/RecommendedCreateDocumentModal";
 
 const RecommendedDocumentsMain: React.FC = () => {
   const [selectedFieldType, setSelectedFieldType] = useState<

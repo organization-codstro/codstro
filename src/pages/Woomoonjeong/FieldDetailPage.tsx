@@ -10,7 +10,7 @@ import {
   Pin,
   RecommendedField,
 } from "../../types/Woomoonjeong/woomoonjeong";
-import AssignRecommendedFieldModal from "../../components/Woomoonjeong/DocumentsManagement/RecommendedCreateFieldModal";
+import AssignRecommendedFieldModal from "../../components/Woomoonjeong/DocumentsManagementPage/RecommendedCreateFieldModal";
 
 const FieldDetail: React.FC = () => {
   const { fieldId } = useParams<{ fieldId: string }>();

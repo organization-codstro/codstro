@@ -13,7 +13,7 @@ import {
   StudyPlanNode,
   StudyPlan,
 } from "../../types/Woomoonkyung/StudyPlanNode";
-import ArchiveStudyPlanCard from "../../components/Woomoonkyung/StudyPlanArchive/ArchiveStudyPlanCard";
+import ArchiveStudyPlanCard from "../../components/Woomoonkyung/StudyPlanArchivePage/ArchiveStudyPlanCard";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

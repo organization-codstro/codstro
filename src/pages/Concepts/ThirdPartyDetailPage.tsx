@@ -81,7 +81,7 @@ export default function ThirdPartyDetail() {
         <div className="flex flex-wrap gap-3 mb-8">
           <button
             onClick={() => setShowAIChat(true)}
-            className="flex items-center gap-2 px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700"
           >
             <MessageCircle className="w-4 h-4" />
             Chat with AI
@@ -89,7 +89,7 @@ export default function ThirdPartyDetail() {
 
           <button
             onClick={() => setShowTodoModal("documentation")}
-            className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 transition-colors border border-gray-300 rounded-lg hover:bg-gray-50"
           >
             <Plus className="w-4 h-4" />
             Add Todo: Explore Documentation
@@ -97,7 +97,7 @@ export default function ThirdPartyDetail() {
 
           <button
             onClick={() => setShowTodoModal("clone_project")}
-            className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 transition-colors border border-gray-300 rounded-lg hover:bg-gray-50"
           >
             <Plus className="w-4 h-4" />
             Add Todo: Build Clone Project
@@ -120,7 +120,7 @@ export default function ThirdPartyDetail() {
             <button
               key={related.id}
               onClick={() => navigate(`/third-partys/${related.id}`)}
-              className="w-full p-4 text-left bg-white border border-gray-200 rounded-lg hover:border-green-400 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-green-300 transition-all"
+              className="w-full p-4 text-left transition-all bg-white border border-gray-200 rounded-lg hover:border-green-400 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-green-300"
             >
               <h3 className="mb-1 font-semibold text-gray-900">
                 {related.name}

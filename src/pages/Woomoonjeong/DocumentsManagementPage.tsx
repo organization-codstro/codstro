@@ -20,11 +20,11 @@ import {
 } from "../../data/woomoonjeong/woomoonjeongData";
 import { Field, Group, Pin } from "../../types/Woomoonjeong/woomoonjeong";
 //유저가 생성하는 필드 생성 모달
-import CreateCustomFieldModal from "../../components/Woomoonjeong/DocumentsManagement/CreateCustomFieldModal";
+import CreateCustomFieldModal from "../../components/Woomoonjeong/DocumentsManagementPage/CreateCustomFieldModal";
 //문서 추가 모달
-import CreateCustomDocumentModal from "../../components/Woomoonjeong/DocumentsManagement/CreateDocumentModal";
+import CreateCustomDocumentModal from "../../components/Woomoonjeong/DocumentsManagementPage/CreateDocumentModal";
 //수정 모달
-import EditDocumentModal from "../../components/Woomoonjeong/DocumentsManagement/EditDocumentModal";
+import EditDocumentModal from "../../components/Woomoonjeong/DocumentsManagementPage/EditDocumentModal";
 import { toast } from "react-toastify";
 
 const DocumentsManagement: React.FC = () => {

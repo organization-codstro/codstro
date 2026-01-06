@@ -1,3 +1,14 @@
+//필드 설정할때 표시할수 있는 그룹의 종류
+
+export type GroupType =
+  | "web"
+  | "app"
+  | "server"
+  | "game"
+  | "security"
+  | "work"
+  | "other";
+
 export interface RecommendedPin {
   id: number;
   title: string;

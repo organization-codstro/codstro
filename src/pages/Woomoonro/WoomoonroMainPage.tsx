@@ -1,26 +1,14 @@
 import React, { useState } from "react";
-import {
-  Code,
-  Clock,
-  ExternalLink,
-  Filter,
-  Search,
-  CheckCircle2,
-  Circle,
-  Bookmark,
-  BookmarkCheck,
-  Calendar,
-  Github,
-} from "lucide-react";
+import { Code, Filter } from "lucide-react";
 import {
   projectsData,
   userProjectsData as initialUserProjectsData,
 } from "../../data/woomoonro/woomoonroData";
 import { useNavigate } from "react-router-dom";
-import { UserProject } from "../../types/woomoonro/woomoonro";
+import { UserProject } from "../../types/Woomoonro/woomoonro";
 import ProjectGrid from "../../components/woomoonro/ProjectGrid";
 
-const WoomoonroList = () => {
+const WoomoonroMainPage = () => {
   const navigate = useNavigate();
 
   const [selectedFilter, setSelectedFilter] = useState<
@@ -177,4 +165,4 @@ const WoomoonroList = () => {
   );
 };
 
-export default WoomoonroList;
+export default WoomoonroMainPage;

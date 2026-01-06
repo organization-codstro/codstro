@@ -1,13 +1,6 @@
-export type FieldGroupType =
-  | "web"
-  | "app"
-  | "server"
-  | "game"
-  | "security"
-  | "work"
-  | "other";
+import { GroupType } from "../../types/Woomoonjeong/woomoonjeong";
 
-export const FieldGroupTypes: FieldGroupType[] = [
+export const GroupTypes: GroupType[] = [
   "web",
   "app",
   "server",

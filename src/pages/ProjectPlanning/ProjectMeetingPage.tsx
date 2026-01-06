@@ -100,7 +100,7 @@ export default function ProjectMeeting() {
 
       {/* Meeting Type Tabs */}
       <div className="px-8 py-4 bg-white border-b border-gray-200">
-        <div className="flex items-center space-x-4 max-w-6xl mx-auto">
+        <div className="flex items-center max-w-6xl mx-auto space-x-4">
           <button
             onClick={() => setSelectedType("all")}
             className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${

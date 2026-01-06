@@ -1,6 +1,5 @@
 import { X, Calendar, AlertCircle, FolderOpen } from "lucide-react";
 import { useState } from "react";
-// React-Toastify 임포트
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

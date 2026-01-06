@@ -35,7 +35,7 @@ export default function Profile() {
       : 100;
 
   return (
-    <div className="p-8 mx-auto max-w-6xl">
+    <div className="max-w-6xl p-8 mx-auto">
       <div className="p-8 bg-white border border-gray-200 rounded-lg">
         <div className="flex flex-col gap-8 mb-8">
           {/* Left Profile Summary */}
