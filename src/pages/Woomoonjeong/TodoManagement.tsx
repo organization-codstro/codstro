@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Calendar,
@@ -13,10 +13,13 @@ import {
   ChevronLeft,
   ChevronRight,
   Target,
+  Check,
 } from "lucide-react";
+import { toast, ToastContainer } from "react-toastify"; // Toast 추가
+import "react-toastify/dist/ReactToastify.css"; // Toast 스타일 추가
 import { todosData } from "../../data/woomoonjeong/woomoonjeongData";
 import { Todo } from "../../types/Woomoonjeong/woomoonjeong";
-import TodoManagementCreate from "../../components/Woomoonjeong/TodoManagement/CreateTodoManagementModal"; // 모달 컴포넌트 import
+import TodoManagementCreate from "../../components/Woomoonjeong/TodoManagement/CreateTodoManagementModal";
 
 const TodoManagement: React.FC = () => {
   const navigate = useNavigate();
@@ -28,7 +31,20 @@ const TodoManagement: React.FC = () => {
   >("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [todos, setTodos] = useState<Todo[]>(todosData);
-  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // 핵심 1: 삭제 대기 상태 관리
+  const [deletePendingId, setDeletePendingId] = useState<number | null>(null);
+
+  // 핵심 2: 삭제 대기 상태 자동 해제 (3초)
+  useEffect(() => {
+    if (deletePendingId !== null) {
+      const timer = setTimeout(() => {
+        setDeletePendingId(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [deletePendingId]);
 
   /* ---------------- Utils ---------------- */
 
@@ -62,6 +78,30 @@ const TodoManagement: React.FC = () => {
           : todo
       )
     );
+  };
+
+  // 핵심 3: 2단계 삭제 핸들러 + Toast 알림
+  const handleDeleteClick = (e: React.MouseEvent, todoId: number) => {
+    e.stopPropagation(); // 카드 클릭 시 상세 페이지 이동 방지
+
+    if (deletePendingId === todoId) {
+      // 2차 클릭: 실제 삭제
+      setTodos((prev) => prev.filter((t) => t.id !== todoId));
+      setDeletePendingId(null);
+
+      // Toast 알림 (우측 상단 기본값)
+      toast.success("Todo가 성공적으로 삭제되었습니다.", {
+        position: "top-right",
+        autoClose: 2000,
+      });
+    } else {
+      // 1차 클릭: 대기 모드 진입
+      setDeletePendingId(todoId);
+    }
+  };
+
+  const handleOutsideClick = () => {
+    if (deletePendingId) setDeletePendingId(null);
   };
 
   /* ---------------- Data ---------------- */
@@ -135,7 +175,6 @@ const TodoManagement: React.FC = () => {
 
     const days = [];
 
-    // empty cells
     for (let i = 0; i < firstDay; i++) {
       days.push(<div key={`empty-${i}`} className="h-8" />);
     }
@@ -183,11 +222,11 @@ const TodoManagement: React.FC = () => {
     return days;
   };
 
-  /* ---------------- UI ---------------- */
-
   return (
-    <div className="min-h-screen p-8 bg-gray-50">
-      {/* 모달 */}
+    <div className="min-h-screen p-8 bg-gray-50" onClick={handleOutsideClick}>
+      {/* Toast 컨테이너 설정 */}
+      <ToastContainer limit={3} />
+
       <TodoManagementCreate
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -205,7 +244,7 @@ const TodoManagement: React.FC = () => {
             </p>
           </div>
           <button
-            onClick={() => setIsModalOpen(true)} // 모달 열기
+            onClick={() => setIsModalOpen(true)}
             className="flex items-center gap-2 px-4 py-2 bg-[#587CF0] text-white rounded-lg hover:bg-[#4a6de8]"
           >
             <Plus className="w-4 h-4" />
@@ -214,7 +253,6 @@ const TodoManagement: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
-          {/* Main */}
           <div className="space-y-6 lg:col-span-3">
             {/* Filters */}
             <div className="p-6 bg-white border border-purple-100 rounded-xl">
@@ -247,7 +285,7 @@ const TodoManagement: React.FC = () => {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search todos..."
-                    className="px-3 py-1 border rounded-lg"
+                    className="px-3 py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#587CF0]"
                   />
                 </div>
               </div>
@@ -271,7 +309,11 @@ const TodoManagement: React.FC = () => {
                   <div
                     key={todo.id}
                     onClick={() => navigate(`/woomoonjeong/todo/${todo.id}`)}
-                    className="flex items-start gap-4 p-4 transition-colors rounded-lg bg-gray-50 hover:bg-gray-100"
+                    className={`flex items-start gap-4 p-4 transition-all duration-300 rounded-lg border-2 ${
+                      deletePendingId === todo.id
+                        ? "bg-red-50 border-red-200"
+                        : "bg-gray-50 border-transparent hover:bg-gray-100"
+                    }`}
                   >
                     <div className="flex items-center gap-2 mt-1">
                       {getStatusIcon(todo.status)}
@@ -280,10 +322,16 @@ const TodoManagement: React.FC = () => {
                     <div className="flex-1">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
-                          <h3 className="mb-1 font-medium text-gray-800">
+                          <h3
+                            className={`mb-1 font-medium ${
+                              deletePendingId === todo.id
+                                ? "text-red-700"
+                                : "text-gray-800"
+                            }`}
+                          >
                             {todo.name}
                           </h3>
-                          <p className="mb-2 text-sm text-gray-600">
+                          <p className="max-w-md mb-2 text-sm text-gray-600 truncate">
                             {todo.description}
                           </p>
 
@@ -305,7 +353,7 @@ const TodoManagement: React.FC = () => {
                           </div>
                         </div>
 
-                        <div className="flex flex-col gap-1 ml-4">
+                        <div className="flex flex-col gap-2 ml-4">
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
@@ -317,15 +365,25 @@ const TodoManagement: React.FC = () => {
                             <PlayCircle className="w-4 h-4" />
                           </button>
 
+                          {/* 2단계 삭제 버튼 */}
                           <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              alert("todo가 삭제 되었습니다.");
-                            }}
-                            className="p-2 text-gray-400 transition-colors rounded hover:bg-white hover:text-red-500"
-                            title="Delete todo"
+                            onClick={(e) => handleDeleteClick(e, todo.id)}
+                            className={`p-2 rounded-lg transition-all duration-200 flex items-center justify-center ${
+                              deletePendingId === todo.id
+                                ? "bg-red-500 text-white scale-110 shadow-md"
+                                : "text-gray-400 hover:text-red-500 hover:bg-white"
+                            }`}
+                            title={
+                              deletePendingId === todo.id
+                                ? "Confirm Delete"
+                                : "Delete todo"
+                            }
                           >
-                            <Trash2 className="w-4 h-4" />
+                            {deletePendingId === todo.id ? (
+                              <Check className="w-4 h-4" />
+                            ) : (
+                              <Trash2 className="w-4 h-4" />
+                            )}
                           </button>
                         </div>
                       </div>
@@ -383,17 +441,16 @@ const TodoManagement: React.FC = () => {
               <div className="grid grid-cols-7 gap-1">{renderCalendar()}</div>
             </div>
 
-            <div className="p-6 bg-white border border-purple-100 rounded-xl">
-              <h3 className="flex items-center gap-2 mb-4 font-semibold text-gray-800">
+            <div className="p-6 text-center bg-white border border-purple-100 rounded-xl">
+              <h3 className="flex items-center justify-center gap-2 mb-4 font-semibold text-gray-800">
                 <Clock className="w-4 h-4 text-[#587CF0]" />
-                Selected Date Summary
+                Summary
               </h3>
-
-              <p className="text-2xl font-bold text-center">
+              <p className="text-3xl font-bold text-[#587CF0]">
                 {todayTodos.length}
               </p>
-              <p className="text-sm text-center text-gray-500">
-                {todayTodos.length !== 1}
+              <p className="mt-1 text-sm text-gray-500">
+                Tasks for selected day
               </p>
             </div>
           </div>

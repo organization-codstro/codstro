@@ -84,9 +84,7 @@ const StudyPlanArchive: React.FC = () => {
               <Archive className="text-[#587CF0]" />
               Study Plans Archive
             </h1>
-            <p className="text-gray-600">
-              완료된 내 계획과 보관된 추천 계획들을 확인하세요
-            </p>
+            <p className="text-gray-600">완료된 내 계획을 확인하세요</p>
           </div>
           <div className="relative">
             <Search className="absolute w-4 h-4 text-gray-400 transform -translate-y-1/2 left-3 top-1/2" />

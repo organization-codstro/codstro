@@ -18,7 +18,7 @@ export default function CompanyList() {
 
   const handleCompanySelect = (companyId: number) => {
     setSelectedCompanyId(companyId);
-    navigate(`detail/${companyId}`);
+    navigate(`/companies/${companyId}`);
   };
 
   const toggleBookmark = (companyId: number, e: React.MouseEvent) => {

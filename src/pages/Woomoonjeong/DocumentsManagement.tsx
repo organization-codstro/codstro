@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Plus,
   ChevronDown,
@@ -12,6 +12,7 @@ import {
   FileText,
   Save,
   X,
+  Check,
 } from "lucide-react";
 import {
   woomoonjeongData as initialWoomoonjeongData,
@@ -24,6 +25,7 @@ import CreateCustomFieldModal from "../../components/Woomoonjeong/DocumentsManag
 import CreateCustomDocumentModal from "../../components/Woomoonjeong/DocumentsManagement/CreateDocumentModal";
 //수정 모달
 import EditDocumentModal from "../../components/Woomoonjeong/DocumentsManagement/EditDocumentModal";
+import { toast, ToastContainer } from "react-toastify";
 
 const DocumentsManagement: React.FC = () => {
   // 인터페이스 구조에 따라 데이터를 Group[] 타입으로 관리합니다.
@@ -58,6 +60,18 @@ const DocumentsManagement: React.FC = () => {
     group: Group;
     field: Field;
   } | null>(null);
+
+  const [deletePending, setDeletePending] = useState<{
+    type: "group" | "field" | "pin";
+    id: number;
+  } | null>(null);
+
+  useEffect(() => {
+    if (deletePending) {
+      const timer = setTimeout(() => setDeletePending(null), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [deletePending]);
 
   const toggleGroup = (groupId: number) => {
     const newExpanded = new Set(expandedGroups);
@@ -193,8 +207,50 @@ const DocumentsManagement: React.FC = () => {
     );
   };
 
+  // 통합 삭제 핸들러
+  const handleDeleteAction = (
+    e: React.MouseEvent,
+    type: "group" | "field" | "pin",
+    id: number
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    // 2차 클릭: 이미 대기 중인 ID를 다시 누른 경우 -> 실제 삭제
+    if (deletePending?.type === type && deletePending?.id === id) {
+      if (type === "group") {
+        setWoomoonjeongData((prev) => prev.filter((g) => g.id !== id));
+        toast.success("그룹이 삭제되었습니다.");
+      } else if (type === "field") {
+        setWoomoonjeongData((prev) =>
+          prev.map((g) => ({
+            ...g,
+            fields: g.fields.filter((f) => f.id !== id),
+          }))
+        );
+        toast.success("필드가 삭제되었습니다.");
+      } else if (type === "pin") {
+        setWoomoonjeongData((prev) =>
+          prev.map((g) => ({
+            ...g,
+            fields: g.fields.map((f) => ({
+              ...f,
+              pins: f.pins.filter((p) => p.id !== id),
+            })),
+          }))
+        );
+        toast.success("문서가 삭제되었습니다.");
+      }
+      setDeletePending(null); // 상태 초기화
+    } else {
+      // 1차 클릭: 삭제 대기 상태로 변경
+      setDeletePending({ type, id });
+    }
+  };
+
   return (
-    <div className="p-8 bg-gray-50">
+    <div className="p-8 bg-gray-50" onClick={() => setDeletePending(null)}>
+      <ToastContainer position="top-right" autoClose={2000} />
       <div className="mx-auto space-y-6 max-w-7xl">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -316,10 +372,22 @@ const DocumentsManagement: React.FC = () => {
                           {group.fields.length} fields
                         </span>
                         <button
-                          onClick={() => deleteGroup(group.id)}
-                          className="p-1 text-gray-400 transition-colors hover:text-red-500"
+                          onClick={(e) =>
+                            handleDeleteAction(e, "group", group.id)
+                          }
+                          className={`p-1 transition-all duration-200 ${
+                            deletePending?.type === "group" &&
+                            deletePending?.id === group.id
+                              ? "text-red-600 scale-110" // 대기 중일 때 빨간색으로 강조
+                              : "text-gray-400 hover:text-red-500"
+                          }`}
                         >
-                          <Trash2 className="w-4 h-4" />
+                          {deletePending?.type === "group" &&
+                          deletePending?.id === group.id ? (
+                            <Check className="w-4 h-4" /> // 대기 중일 땐 체크 아이콘
+                          ) : (
+                            <Trash2 className="w-4 h-4" />
+                          )}
                         </button>
                       </div>
                     </div>
@@ -402,10 +470,22 @@ const DocumentsManagement: React.FC = () => {
                                       <Edit3 className="w-3 h-3" />
                                     </button>
                                     <button
-                                      onClick={() => deleteField(field.id)}
-                                      className="p-1 text-gray-400 transition-colors hover:text-red-500"
+                                      onClick={(e) =>
+                                        handleDeleteAction(e, "field", field.id)
+                                      }
+                                      className={`p-1 transition-all ${
+                                        deletePending?.type === "field" &&
+                                        deletePending?.id === field.id
+                                          ? "text-red-600 scale-125"
+                                          : "text-gray-400 hover:text-red-500"
+                                      }`}
                                     >
-                                      <Trash2 className="w-3 h-3" />
+                                      {deletePending?.type === "field" &&
+                                      deletePending?.id === field.id ? (
+                                        <Check className="w-3 h-3" />
+                                      ) : (
+                                        <Trash2 className="w-3 h-3" />
+                                      )}
                                     </button>
                                   </>
                                 )}
@@ -458,14 +538,22 @@ const DocumentsManagement: React.FC = () => {
                                         <Edit3 className="w-3 h-3" />
                                       </button>
                                       <button
-                                        onClick={(e) => {
-                                          e.preventDefault();
-                                          e.stopPropagation();
-                                          deletePin(pin.id);
-                                        }}
-                                        className="p-1 text-gray-400 transition-colors hover:text-red-500"
+                                        onClick={(e) =>
+                                          handleDeleteAction(e, "pin", pin.id)
+                                        }
+                                        className={`p-1 transition-all ${
+                                          deletePending?.type === "pin" &&
+                                          deletePending?.id === pin.id
+                                            ? "text-red-600 scale-125"
+                                            : "text-gray-400 hover:text-red-500"
+                                        }`}
                                       >
-                                        <Trash2 className="w-3 h-3" />
+                                        {deletePending?.type === "pin" &&
+                                        deletePending?.id === pin.id ? (
+                                          <Check className="w-3 h-3" />
+                                        ) : (
+                                          <Trash2 className="w-3 h-3" />
+                                        )}
                                       </button>
                                       <ExternalLink className="w-3 h-3 text-gray-400" />
                                     </div>
