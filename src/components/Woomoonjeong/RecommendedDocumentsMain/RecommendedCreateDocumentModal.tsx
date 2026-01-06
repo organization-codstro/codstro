@@ -1,4 +1,4 @@
-//시스템이 추천하는 문서 추가 모달
+// 시스템이 추천하는 문서 추가 모달
 
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
@@ -61,12 +61,18 @@ const RecommendedCreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
   const [fieldInfo, setFieldInfo] = useState("");
   const [fieldOptions, setFieldOptions] = useState<string[]>([]);
 
+  // 폼 검증 에러 상태
+  const [errors, setErrors] = useState<Record<string, boolean>>({});
+
   // 선택된 그룹의 필드 옵션
   useEffect(() => {
     const selectedGroup: Group | undefined = woomoonjeongData.find(
       (group) => group.name === selectedGroupType
     );
     setFieldOptions(selectedGroup?.fields.map((f) => f.name) ?? []);
+
+    // 그룹 변경 시 분야 에러 초기화
+    setErrors((prev) => ({ ...prev, fieldInfo: false }));
   }, [selectedGroupType]);
 
   /** ✅ 칩 추가 */
@@ -82,9 +88,22 @@ const RecommendedCreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
     setCategories((prev) => prev.filter((c) => c !== value));
   };
 
+  /** ✅ 폼 유효성 검사 (보더 및 문구 강조) */
+  const validateForm = () => {
+    const newErrors: Record<string, boolean> = {};
+
+    if (!documentName.trim()) newErrors.documentName = true;
+    if (!documentUrl.trim()) newErrors.documentUrl = true;
+    if (!fieldInfo) newErrors.fieldInfo = true;
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!documentName.trim()) return;
+
+    if (!validateForm()) return;
 
     onAdd({
       documentName: documentName.trim(),
@@ -118,40 +137,52 @@ const RecommendedCreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
           {/* 문서 이름 */}
           <div>
             <label className="block mb-1 text-sm font-medium text-gray-700">
-              문서 이름
+              문서 이름 <span className="text-red-500">*</span>
             </label>
             <input
               value={documentName}
-              onChange={(e) => setDocumentName(e.target.value)}
-              className="w-full px-3 py-2 text-sm border rounded-lg"
-              required
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  addCategory();
-                }
+              onChange={(e) => {
+                setDocumentName(e.target.value);
+                if (errors.documentName)
+                  setErrors((prev) => ({ ...prev, documentName: false }));
               }}
+              className={`w-full px-3 py-2 text-sm border rounded-lg focus:ring-2 outline-none transition-all ${
+                errors.documentName
+                  ? "border-red-500 focus:ring-red-200"
+                  : "border-gray-200 focus:ring-[#587CF0]"
+              }`}
             />
+            {errors.documentName && (
+              <p className="mt-1 text-xs text-red-500">
+                문서 이름을 입력해주세요.
+              </p>
+            )}
           </div>
 
           {/* 문서 URL */}
           <div>
             <label className="block mb-1 text-sm font-medium text-gray-700">
-              문서 URL
+              문서 URL <span className="text-red-500">*</span>
             </label>
             <input
               value={documentUrl}
-              onChange={(e) => setDocumentUrl(e.target.value)}
-              className="w-full px-3 py-2 text-sm border rounded-lg"
-              placeholder="https://..."
-              required
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  addCategory();
-                }
+              onChange={(e) => {
+                setDocumentUrl(e.target.value);
+                if (errors.documentUrl)
+                  setErrors((prev) => ({ ...prev, documentUrl: false }));
               }}
+              className={`w-full px-3 py-2 text-sm border rounded-lg focus:ring-2 outline-none transition-all ${
+                errors.documentUrl
+                  ? "border-red-500 focus:ring-red-200"
+                  : "border-gray-200 focus:ring-[#587CF0]"
+              }`}
+              placeholder="https://..."
             />
+            {errors.documentUrl && (
+              <p className="mt-1 text-xs text-red-500">
+                문서 URL을 입력해주세요.
+              </p>
+            )}
           </div>
 
           {/* 문서 설명 */}
@@ -163,13 +194,7 @@ const RecommendedCreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={3}
-              className="w-full px-3 py-2 text-sm border rounded-lg resize-none"
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  addCategory();
-                }
-              }}
+              className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg resize-none focus:ring-2 focus:ring-[#587CF0] outline-none"
             />
           </div>
 
@@ -182,29 +207,19 @@ const RecommendedCreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
               <input
                 value={categoryInput}
                 onChange={(e) => setCategoryInput(e.target.value)}
-                className="flex-1 px-3 py-2 text-sm border rounded-lg"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    const value = e.currentTarget.value.trim(); // 여기서 최신값 가져오기
-                    if (!value) return;
-                    if (!categories.includes(value)) {
-                      setCategories((prev) => [...prev, value]);
-                      setCategoryInput("");
-                    }
-                  }
-                }}
-              />
-              <button
-                type="button"
-                onClick={addCategory}
-                className="px-3 py-2 text-sm text-white bg-[#587CF0] rounded-lg"
+                className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#587CF0] outline-none"
+                placeholder="키워드 입력 후 엔터"
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     e.preventDefault();
                     addCategory();
                   }
                 }}
+              />
+              <button
+                type="button"
+                onClick={addCategory}
+                className="px-3 py-2 text-sm text-white bg-[#587CF0] rounded-lg hover:bg-[#4a6cd8] transition-colors"
               >
                 추가
               </button>
@@ -215,13 +230,13 @@ const RecommendedCreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
                 {categories.map((c) => (
                   <span
                     key={c}
-                    className="flex items-center gap-1 px-2 py-1 text-xs bg-gray-100 rounded"
+                    className="flex items-center gap-1 px-2 py-1 text-xs text-gray-700 bg-gray-100 border border-gray-200 rounded"
                   >
                     {c}
                     <button
                       type="button"
                       onClick={() => removeCategory(c)}
-                      className="text-gray-400 hover:text-gray-600"
+                      className="ml-1 font-bold text-gray-400 hover:text-gray-600"
                     >
                       ×
                     </button>
@@ -236,19 +251,19 @@ const RecommendedCreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
             <label className="block mb-2 text-sm font-medium text-gray-700">
               그룹
             </label>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-4 gap-2">
               {fieldTypes.map((type) => (
                 <button
                   key={type}
                   type="button"
                   onClick={() => setSelectedGroupType(type)}
-                  className={`px-3 py-2 text-sm rounded-lg border ${
+                  className={`px-2 py-2 text-xs font-medium rounded-lg border transition-all ${
                     selectedGroupType === type
-                      ? "bg-[#587CF0] text-white"
-                      : "bg-white text-gray-700"
+                      ? "bg-[#587CF0] text-white border-[#587CF0]"
+                      : "bg-white text-gray-600 border-gray-200 hover:border-gray-300"
                   }`}
                 >
-                  {type}
+                  {type.toUpperCase()}
                 </button>
               ))}
             </div>
@@ -257,34 +272,47 @@ const RecommendedCreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
           {/* 분야 정보 (fieldOptions 기반으로 선택) */}
           <div>
             <label className="block mb-1 text-sm font-medium text-gray-700">
-              분야 정보
+              분야 정보 <span className="text-red-500">*</span>
             </label>
             <select
               value={fieldInfo}
-              onChange={(e) => setFieldInfo(e.target.value)}
-              className="w-full px-3 py-2 text-sm border rounded-lg"
+              onChange={(e) => {
+                setFieldInfo(e.target.value);
+                if (errors.fieldInfo)
+                  setErrors((prev) => ({ ...prev, fieldInfo: false }));
+              }}
+              className={`w-full px-3 py-2 text-sm border rounded-lg focus:ring-2 outline-none transition-all ${
+                errors.fieldInfo
+                  ? "border-red-500 focus:ring-red-200"
+                  : "border-gray-200 focus:ring-[#587CF0]"
+              }`}
             >
-              <option value="">선택하세요</option>
+              <option value="">분야를 선택하세요</option>
               {fieldOptions.map((name) => (
                 <option key={name} value={name}>
                   {name}
                 </option>
               ))}
             </select>
+            {errors.fieldInfo && (
+              <p className="mt-1 text-xs text-red-500">
+                해당 그룹의 분야를 선택해주세요.
+              </p>
+            )}
           </div>
 
           {/* Actions */}
-          <div className="flex justify-end gap-2 pt-4">
+          <div className="flex justify-end gap-2 pt-4 border-t border-gray-100">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-sm border rounded-lg"
+              className="px-4 py-2 text-sm font-medium text-gray-600 transition-colors border border-gray-200 rounded-lg hover:bg-gray-50"
             >
               취소
             </button>
             <button
               type="submit"
-              className="px-4 py-2 text-sm text-white bg-[#587CF0] rounded-lg"
+              className="px-6 py-2 text-sm font-bold text-white bg-[#587CF0] rounded-lg hover:bg-[#4a6cd8] shadow-md transition-all active:scale-95"
             >
               추가
             </button>

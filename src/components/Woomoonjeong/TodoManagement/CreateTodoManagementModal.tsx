@@ -106,7 +106,7 @@ const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
           {/* Todo Name */}
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-700">
-              Todo Name
+              문서 이름 <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
@@ -141,7 +141,7 @@ const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
           {/* Field */}
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-700">
-              Related Field
+              Related Field <span className="text-red-500">*</span>
             </label>
             <div className="flex flex-wrap gap-2">
               {formFieldData.map((field, index) => (
@@ -167,7 +167,7 @@ const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-700">
-                Start Date *
+                Start Date <span className="text-red-500">*</span>
               </label>
               <input
                 type="date"
@@ -185,7 +185,7 @@ const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
 
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-700">
-                End Date *
+                End Date <span className="text-red-500">*</span>
               </label>
               <input
                 type="date"
@@ -205,7 +205,7 @@ const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
           {/* Status */}
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-700">
-              Status
+              Status <span className="text-red-500">*</span>
             </label>
             <select
               name="status"

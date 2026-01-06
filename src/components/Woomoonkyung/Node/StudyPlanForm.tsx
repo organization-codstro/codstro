@@ -29,7 +29,7 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
     study_plans_is_archived: false,
     study_plans_state: "waiting",
     user_id: 1, // 실제 환경에서는 로그인된 유저 ID
-    study_plan_is_recommendation: false, // 인터페이스 필수값 추가
+    study_plan_is_recommendation: false,
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -71,10 +71,12 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
+    // 계획 이름은 여전히 필수
     if (!formData.study_plan_name.trim())
       newErrors.study_plan_name = "계획 이름을 입력해주세요.";
-    if (!formData.study_plan_description.trim())
-      newErrors.study_plan_description = "계획 설명을 입력해주세요.";
+
+    // ✅ 계획 설명 필수 체크 삭제
+
     if (!formData.study_plans_start_date)
       newErrors.study_plans_start_date = "시작일을 선택해주세요.";
     if (!formData.study_plans_end_date)
@@ -123,17 +125,20 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
 
       <div className="p-8 bg-white border border-purple-100 shadow-sm rounded-xl">
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* 계획 이름 - 필수 */}
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-700">
-              계획 이름 *
+              계획 이름 <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
               name="study_plan_name"
               value={formData.study_plan_name}
               onChange={handleInputChange}
-              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#587CF0] outline-none transition-all ${
-                errors.study_plan_name ? "border-red-300" : "border-gray-200"
+              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 outline-none transition-all ${
+                errors.study_plan_name
+                  ? "border-red-500 focus:ring-red-200"
+                  : "border-gray-200 focus:ring-[#587CF0]"
               }`}
               placeholder="예: Frontend Development Mastery"
             />
@@ -144,33 +149,26 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
             )}
           </div>
 
+          {/* 계획 설명 - ✅ 비필수로 변경 */}
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-700">
-              계획 설명 *
+              계획 설명
             </label>
             <textarea
               name="study_plan_description"
               value={formData.study_plan_description}
               onChange={handleInputChange}
               rows={4}
-              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#587CF0] outline-none transition-all resize-none ${
-                errors.study_plan_description
-                  ? "border-red-300"
-                  : "border-gray-200"
-              }`}
+              className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#587CF0] outline-none transition-all resize-none"
               placeholder="이 공부 계획에 대한 자세한 설명을 입력해주세요..."
             />
-            {errors.study_plan_description && (
-              <p className="mt-1 text-sm text-red-600">
-                {errors.study_plan_description}
-              </p>
-            )}
           </div>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            {/* 시작일 - 필수 */}
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-700">
-                시작일 *
+                시작일 <span className="text-red-500">*</span>
               </label>
               <div className="relative">
                 <Calendar className="absolute w-4 h-4 text-gray-400 transform -translate-y-1/2 left-3 top-1/2" />
@@ -179,10 +177,10 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
                   name="study_plans_start_date"
                   value={formData.study_plans_start_date}
                   onChange={handleInputChange}
-                  className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#587CF0] outline-none transition-all ${
+                  className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 outline-none transition-all ${
                     errors.study_plans_start_date
-                      ? "border-red-300"
-                      : "border-gray-200"
+                      ? "border-red-500 focus:ring-red-200"
+                      : "border-gray-200 focus:ring-[#587CF0]"
                   }`}
                 />
               </div>
@@ -193,9 +191,10 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
               )}
             </div>
 
+            {/* 종료일 - 필수 */}
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-700">
-                종료일 *
+                종료일 <span className="text-red-500">*</span>
               </label>
               <div className="relative">
                 <Calendar className="absolute w-4 h-4 text-gray-400 transform -translate-y-1/2 left-3 top-1/2" />
@@ -204,10 +203,10 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
                   name="study_plans_end_date"
                   value={formData.study_plans_end_date}
                   onChange={handleInputChange}
-                  className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#587CF0] outline-none transition-all ${
+                  className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 outline-none transition-all ${
                     errors.study_plans_end_date
-                      ? "border-red-300"
-                      : "border-gray-200"
+                      ? "border-red-500 focus:ring-red-200"
+                      : "border-gray-200 focus:ring-[#587CF0]"
                   }`}
                 />
               </div>

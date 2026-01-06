@@ -14,9 +14,7 @@ import {
 } from "lucide-react";
 import {
   projectsData,
-  userProjectsData,
-  difficultyColors,
-  statusColors,
+  userProjectsData as initialUserProjectsData,
 } from "../../data/woomoonro/woomoonroData";
 import { useNavigate } from "react-router-dom";
 import { UserProject } from "../../types/woomoonro/woomoonro";
@@ -33,12 +31,24 @@ const WoomoonroList = () => {
   >("all");
   const [searchQuery, setSearchQuery] = useState("");
 
+  // 올바른 데이터를 state로 관리
+  const [userProjectsData, setUserProjectsData] = useState(
+    initialUserProjectsData
+  );
+
   const getUserProject = (projectId: number): UserProject | undefined => {
     return userProjectsData.find((up) => up.project_id === projectId);
   };
 
-  const toggleBookmark = (projectId: number) => {
-    console.log("Toggle bookmark for project:", projectId);
+  // 북마크 토글 함수
+  const handleToggleBookmark = (projectId: number) => {
+    setUserProjectsData((prevData) =>
+      prevData.map((userProject) =>
+        userProject.project_id === projectId
+          ? { ...userProject, is_bookmarked: !userProject.is_bookmarked }
+          : userProject
+      )
+    );
   };
 
   const updateProjectStatus = (
@@ -149,6 +159,7 @@ const WoomoonroList = () => {
               projects={filteredProjects}
               getUserProject={getUserProject}
               onCardClick={(id) => navigate(`/woomoonro/project/${id}`)}
+              onToggleBookmark={handleToggleBookmark}
             />
 
             {filteredProjects.length === 0 && (

@@ -14,9 +14,7 @@ import {
 } from "lucide-react";
 import {
   archivedProjectsData,
-  archivedUserProjectsData,
-  difficultyColors,
-  statusColors,
+  archivedUserProjectsData as initialArchivedUserProjectsData,
 } from "../../data/woomoonro/woomoonroData";
 import { UserProject } from "../../types/woomoonro/woomoonro";
 import ProjectGrid from "../../components/woomoonro/ProjectGrid";
@@ -33,10 +31,25 @@ const WoomoonroArchiveList: React.FC = () => {
     useState<DifficultyType>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<"date" | "title" | "difficulty">("date");
+  
+  // 북마크 상태 관리를 위한 state 추가
+  const [archivedUserProjectsData, setArchivedUserProjectsData] = useState(
+    initialArchivedUserProjectsData
+  );
 
-  // id 타입을 number로 수정
   const getUserProject = (projectId: number): UserProject | undefined => {
     return archivedUserProjectsData.find((up) => up.project_id === projectId);
+  };
+
+  // 북마크 토글 함수
+  const handleToggleBookmark = (projectId: number) => {
+    setArchivedUserProjectsData((prevData) =>
+      prevData.map((userProject) =>
+        userProject.project_id === projectId
+          ? { ...userProject, is_bookmarked: !userProject.is_bookmarked }
+          : userProject
+      )
+    );
   };
 
   const filteredProjects = archivedProjectsData
@@ -178,6 +191,7 @@ const WoomoonroArchiveList: React.FC = () => {
           projects={filteredProjects}
           getUserProject={getUserProject}
           onCardClick={(id) => navigate(`/woomoonro/project/${id}`)}
+          onToggleBookmark={handleToggleBookmark}
         />
       </div>
     </div>

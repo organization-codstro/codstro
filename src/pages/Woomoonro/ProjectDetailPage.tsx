@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import {
   projectsData,
-  userProjectsData,
+  userProjectsData as initialUserProjectsData,
   projectTodosData,
   difficultyColors,
   statusColors,
@@ -36,6 +36,9 @@ const ProjectDetailPage: React.FC = () => {
   const [project, setProject] = useState<Project | null>(null);
   const [userProject, setUserProject] = useState<UserProject | undefined>(
     undefined
+  );
+  const [userProjectsData, setUserProjectsData] = useState(
+    initialUserProjectsData
   );
   const [activeTab, setActiveTab] = useState<
     "overview" | "todos" | "groups" | "notes"
@@ -64,20 +67,32 @@ const ProjectDetailPage: React.FC = () => {
         navigate("/woomoonro");
       }
     }
-  }, [projectId, navigate]);
+  }, [projectId, navigate, userProjectsData]);
 
   console.log(project);
 
   if (!project) return null;
 
-  // 4. 기능 핸들러 (기존 로직 유지)
+  // 4. 기능 핸들러
   const onBack = () => navigate("/woomoonro");
-  const onToggleBookmark = (id: number) =>
-    //todo : 북마크 함수 호출
-    console.log("Toggle bookmark for project:", id);
-  const onUpdateStatus = (id: number, status: UserProject["status"]) =>
+
+  const onToggleBookmark = (id: number) => {
+    setUserProjectsData((prevData) =>
+      prevData.map((up) =>
+        up.project_id === id ? { ...up, is_bookmarked: !up.is_bookmarked } : up
+      )
+    );
+
+    // userProject state도 업데이트
+    setUserProject((prev) =>
+      prev ? { ...prev, is_bookmarked: !prev.is_bookmarked } : prev
+    );
+  };
+
+  const onUpdateStatus = (id: number, status: UserProject["status"]) => {
     //todo : 북마크 상태 변경 api 호출
     console.log("Update project status:", id, status);
+  };
 
   // Mock data/기능들
   const currentProjectTodos = projectTodosData.filter(
@@ -107,12 +122,12 @@ const ProjectDetailPage: React.FC = () => {
         </div>
         <button
           onClick={() => onToggleBookmark(project.id)}
-          className="p-2 text-gray-400 transition-colors hover:text-yellow-500"
+          className="p-2 transition-all rounded-lg hover:bg-gray-100 hover:scale-110"
         >
           {userProject?.is_bookmarked ? (
             <BookmarkCheck className="w-6 h-6 text-yellow-500" />
           ) : (
-            <Bookmark className="w-6 h-6" />
+            <Bookmark className="w-6 h-6 text-gray-400 hover:text-gray-600" />
           )}
         </button>
       </div>

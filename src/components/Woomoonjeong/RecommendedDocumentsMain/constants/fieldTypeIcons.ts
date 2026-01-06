@@ -8,7 +8,8 @@ import {
   HelpCircle,
 } from "lucide-react";
 
-export type FieldType =
+//필드 설정할때 표시할수 있는 그룹의 종류
+type FieldGroupType =
   | "web"
   | "app"
   | "server"
@@ -17,7 +18,8 @@ export type FieldType =
   | "work"
   | "other";
 
-export const fieldTypeIcons: Record<FieldType, React.ElementType> = {
+//필드당 아이콘 표시할때 사용되는 아이콘
+export const fieldTypeIcons: Record<FieldGroupType, React.ElementType> = {
   web: Code,
   app: Smartphone,
   server: Server,

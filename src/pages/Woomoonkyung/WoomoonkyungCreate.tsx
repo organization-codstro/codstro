@@ -15,7 +15,11 @@ const WoomoonkyungCreate = () => {
 
   return (
     <div className="p-8 bg-gray-50">
-      <StudyPlanForm mode="create" onSave={handleSave} />
+      <StudyPlanForm
+        mode="create"
+        onSave={handleSave}
+        onCancel={() => navigate("/woomoonkyung")}
+      />
     </div>
   );
 };

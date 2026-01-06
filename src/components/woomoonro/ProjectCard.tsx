@@ -6,7 +6,6 @@ import {
   CheckCircle2,
   Github,
   ExternalLink,
-  Archive,
   Bookmark,
 } from "lucide-react";
 import {
@@ -20,9 +19,20 @@ interface ProjectCardProps {
   project: Project;
   userProject?: UserProject;
   onClick: (id: number) => void;
+  onToggleBookmark: (projectId: number) => void;
 }
 
-const ProjectCard = ({ project, userProject, onClick }: ProjectCardProps) => {
+const ProjectCard = ({
+  project,
+  userProject,
+  onClick,
+  onToggleBookmark,
+}: ProjectCardProps) => {
+  const handleBookmarkClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // 카드 클릭 이벤트 전파 방지
+    onToggleBookmark(project.id);
+  };
+
   return (
     <div
       className="overflow-hidden transition-shadow bg-white border border-purple-100 shadow-sm cursor-pointer rounded-xl hover:shadow-md"
@@ -50,13 +60,17 @@ const ProjectCard = ({ project, userProject, onClick }: ProjectCardProps) => {
               {project.description}
             </p>
           </div>
-          <div className="flex items-center gap-1">
+          <button
+            onClick={handleBookmarkClick}
+            className="flex items-center gap-1 transition-colors hover:scale-110"
+            aria-label={userProject?.is_bookmarked ? "북마크 해제" : "북마크"}
+          >
             {userProject?.is_bookmarked ? (
               <BookmarkCheck className="w-6 h-6 text-yellow-500" />
             ) : (
-              <Bookmark className="w-6 h-6" />
+              <Bookmark className="w-6 h-6 text-gray-400 hover:text-gray-600" />
             )}
-          </div>
+          </button>
         </div>
 
         {/* Badges */}

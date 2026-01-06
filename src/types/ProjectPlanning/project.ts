@@ -24,10 +24,12 @@ export interface ProjectPage {
 }
 
 export interface Todo {
-  id: string;
-  field_id: string;
+  id: number;
+  field_id?: number;
+  project_page_id?: number;
   name: string;
-  description: string;
+  description?: string;
+  content: string;
   start_date: string;
   end_date: string;
   status: "pending" | "in-progress" | "completed";

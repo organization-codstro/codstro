@@ -28,8 +28,10 @@ export default function ProjectBasicInfoInput() {
     other_info: "",
   });
 
+  // 에러 상태 관리
+  const [errors, setErrors] = useState<Record<string, boolean>>({});
+
   useEffect(() => {
-    // 기존 프로젝트 정보가 있으면 폼에 채우기
     if (existingProject) {
       setBasicInfo({
         project_topic: existingProject.project_topic || "",
@@ -42,24 +44,34 @@ export default function ProjectBasicInfoInput() {
 
   const handleInputChange = (field: keyof ProjectBasicInfo, value: string) => {
     setBasicInfo((prev) => ({ ...prev, [field]: value }));
+    // 입력 시 해당 필드 에러 해제
+    if (errors[field]) {
+      setErrors((prev) => ({ ...prev, [field]: false }));
+    }
+  };
+
+  /** ✅ 폼 유효성 검사 (붉은 보더 표시용) */
+  const validateForm = () => {
+    const newErrors: Record<string, boolean> = {};
+
+    if (!basicInfo.project_topic?.trim()) {
+      newErrors.project_topic = true;
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleNext = () => {
-    // 다음 단계로 이동하면서 기초 정보 전달
+    // 2차 검증 실행
+    if (!validateForm()) return;
+
     navigate("/projects/new/chat", {
       state: {
         basicInfo,
-        projectId, // 수정 모드인 경우 projectId 전달
+        projectId,
       },
     });
-  };
-
-  const isFormValid = () => {
-    return (
-      basicInfo.project_topic?.trim() !== "" ||
-      basicInfo.desired_features?.trim() !== "" ||
-      basicInfo.concepts_to_cover?.trim() !== ""
-    );
   };
 
   return (
@@ -81,7 +93,7 @@ export default function ProjectBasicInfoInput() {
       {/* Form */}
       <div className="max-w-4xl p-8 mx-auto">
         <div className="p-8 space-y-6 bg-white border border-gray-200 rounded-lg">
-          {/* 프로젝트 주제 */}
+          {/* 프로젝트 주제 - 필수 항목 */}
           <div>
             <label
               htmlFor="project_topic"
@@ -97,11 +109,21 @@ export default function ProjectBasicInfoInput() {
                 handleInputChange("project_topic", e.target.value)
               }
               placeholder="예: AI 기반 채팅 애플리케이션"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
+                errors.project_topic
+                  ? "border-red-500 focus:ring-red-200"
+                  : "border-gray-300 focus:ring-blue-500"
+              }`}
             />
-            <p className="mt-1 text-sm text-gray-500">
-              만들고 싶은 프로젝트의 주제나 아이디어를 입력해주세요
-            </p>
+            {errors.project_topic ? (
+              <p className="mt-1 text-xs text-red-500">
+                프로젝트 주제를 입력해주세요.
+              </p>
+            ) : (
+              <p className="mt-1 text-sm text-gray-500">
+                만들고 싶은 프로젝트의 주제나 아이디어를 입력해주세요
+              </p>
+            )}
           </div>
 
           {/* 하고 싶은 기능 */}
@@ -175,7 +197,7 @@ export default function ProjectBasicInfoInput() {
           <button
             type="button"
             onClick={() => navigate("/projects")}
-            className="px-6 py-3 font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"
+            className="px-6 py-3 font-medium text-gray-700 transition-colors border border-gray-300 rounded-lg hover:bg-gray-50"
           >
             Cancel
           </button>
@@ -184,8 +206,7 @@ export default function ProjectBasicInfoInput() {
             <button
               type="button"
               onClick={handleNext}
-              disabled={!isFormValid()}
-              className="flex items-center px-6 py-3 space-x-2 font-medium text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center px-6 py-3 space-x-2 font-medium text-white transition-all rounded-lg shadow-md active:scale-95"
               style={{ backgroundColor: "#587CF0" }}
             >
               <span>Next: AI Chat</span>

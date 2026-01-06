@@ -7,12 +7,14 @@ interface ProjectGridProps {
   projects: Project[];
   getUserProject: (id: number) => UserProject | undefined;
   onCardClick: (id: number) => void;
+  onToggleBookmark: (projectId: number) => void;
 }
 
 const ProjectGrid = ({
   projects,
   getUserProject,
   onCardClick,
+  onToggleBookmark,
 }: ProjectGridProps) => {
   if (projects.length === 0) {
     return (
@@ -33,6 +35,7 @@ const ProjectGrid = ({
           project={project}
           userProject={getUserProject(project.id)}
           onClick={onCardClick}
+          onToggleBookmark={onToggleBookmark}
         />
       ))}
     </div>

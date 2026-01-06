@@ -66,15 +66,13 @@ export default function ProjectInfoGenerate() {
 
   const updateProjectTodo = (todoId: number, updates: Partial<Todo>) => {
     setProjectTodos((prev) =>
-      prev.map((todo) =>
-        todo.todo_id === todoId ? { ...todo, ...updates } : todo
-      )
+      prev.map((todo) => (todo.id === todoId ? { ...todo, ...updates } : todo))
     );
     setEditingTodoId(null);
   };
 
   const deleteProjectTodo = (todoId: number) => {
-    setProjectTodos((prev) => prev.filter((todo) => todo.todo_id !== todoId));
+    setProjectTodos((prev) => prev.filter((todo) => todo.id !== todoId));
   };
 
   const addProjectTodo = (newTodo: Todo) => {
@@ -104,7 +102,7 @@ export default function ProjectInfoGenerate() {
           return {
             ...page,
             todos: page.todos.map((todo) =>
-              todo.todo_id === todoId ? { ...todo, ...updates } : todo
+              todo.id === todoId ? { ...todo, ...updates } : todo
             ),
           };
         }
@@ -119,7 +117,7 @@ export default function ProjectInfoGenerate() {
         if (page.project_page_id === pageId) {
           return {
             ...page,
-            todos: page.todos.filter((todo) => todo.todo_id !== todoId),
+            todos: page.todos.filter((todo) => todo.id !== todoId),
           };
         }
         return page;

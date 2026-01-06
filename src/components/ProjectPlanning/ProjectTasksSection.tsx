@@ -45,10 +45,10 @@ export const ProjectTasksSection: React.FC<ProjectTasksSectionProps> = ({
         ) : (
           projectTodos.map((todo) => (
             <ProjectTodoItem
-              key={todo.todo_id}
+              key={todo.id}
               todo={todo}
-              isEditing={editingTodoId === todo.todo_id}
-              onEdit={() => setEditingTodoId(todo.todo_id)}
+              isEditing={editingTodoId === todo.id}
+              onEdit={() => setEditingTodoId(todo.id)}
               onCancelEdit={() => setEditingTodoId(null)}
               onUpdate={updateProjectTodo}
               onDelete={deleteProjectTodo}

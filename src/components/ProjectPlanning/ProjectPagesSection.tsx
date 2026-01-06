@@ -11,7 +11,11 @@ interface ProjectPagesSectionProps {
     pageId: number,
     updates: Partial<ProjectPage & { todos: Todo[] }>
   ) => void;
-  onUpdateTodo?: (pageId: number, todoId: number, updates: Partial<Todo>) => void;
+  onUpdateTodo?: (
+    pageId: number,
+    todoId: number,
+    updates: Partial<Todo>
+  ) => void;
   onDeleteTodo?: (pageId: number, todoId: number) => void;
   onAddTodo?: (pageId: number, newTodo: Todo) => void;
 }
@@ -31,9 +35,8 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
     pageId: number;
     todoId: number;
   } | null>(null);
-  const [editedPages, setEditedPages] = useState<
-    Array<ProjectPage & { todos: Todo[] }>
-  >(pages);
+  const [editedPages, setEditedPages] =
+    useState<Array<ProjectPage & { todos: Todo[] }>>(pages);
 
   React.useEffect(() => {
     setEditedPages(pages);
@@ -49,9 +52,7 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
     const originalPage = pages.find((p) => p.project_page_id === pageId);
     if (originalPage) {
       setEditedPages((prev) =>
-        prev.map((p) =>
-          p.project_page_id === pageId ? originalPage : p
-        )
+        prev.map((p) => (p.project_page_id === pageId ? originalPage : p))
       );
     }
   };
@@ -71,12 +72,11 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
   ) => {
     setEditedPages((prev) =>
       prev.map((page) =>
-        page.project_page_id === pageId
-          ? { ...page, [field]: value }
-          : page
+        page.project_page_id === pageId ? { ...page, [field]: value } : page
       )
     );
   };
+  console.log(onUpdatePage);
 
   const updateTodoField = (
     pageId: number,
@@ -90,7 +90,7 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
           return {
             ...page,
             todos: page.todos.map((todo) =>
-              todo.todo_id === todoId ? { ...todo, [field]: value } : todo
+              todo.id === todoId ? { ...todo, [field]: value } : todo
             ),
           };
         }
@@ -120,7 +120,7 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
 
   const handleSaveEditTodo = (pageId: number, todoId: number) => {
     const page = editedPages.find((p) => p.project_page_id === pageId);
-    const todo = page?.todos.find((t) => t.todo_id === todoId);
+    const todo = page?.todos.find((t) => t.id === todoId);
     if (todo && onUpdateTodo) {
       onUpdateTodo(pageId, todoId, todo);
     }
@@ -135,7 +135,7 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
           if (page.project_page_id === pageId) {
             return {
               ...page,
-              todos: page.todos.filter((t) => t.todo_id !== todoId),
+              todos: page.todos.filter((t) => t.id !== todoId),
             };
           }
           return page;
@@ -163,7 +163,7 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
               <div className="flex items-center justify-between p-4 bg-gray-50">
                 <button
                   type="button"
-                  className="flex-1 text-left transition-colors hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded"
+                  className="flex-1 text-left transition-colors rounded hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400"
                   onClick={() =>
                     setExpandedPage(isExpanded ? null : page.project_page_id)
                   }
@@ -216,16 +216,16 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                     )}
                   </div>
                 </button>
-                <div className="flex items-center ml-2 space-x-2">
+                <div className="flex items-center ml-2 space-x-2 shrink-0">
                   {isEditing ? (
-                    <>
+                    <div className="flex items-center space-x-1">
                       <button
                         type="button"
                         onClick={(e) => {
                           e.stopPropagation();
                           handleSaveEdit(page.project_page_id);
                         }}
-                        className="p-2 text-green-600 transition-colors rounded hover:bg-green-50"
+                        className="p-2 text-green-600 rounded-md bg-green-50 hover:bg-green-100"
                         title="Save"
                       >
                         <Save className="w-4 h-4" />
@@ -236,12 +236,12 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                           e.stopPropagation();
                           handleCancelEdit(page.project_page_id);
                         }}
-                        className="p-2 text-gray-600 transition-colors rounded hover:bg-gray-100"
+                        className="p-2 text-red-600 rounded-md bg-red-50 hover:bg-red-100"
                         title="Cancel"
                       >
                         <X className="w-4 h-4" />
                       </button>
-                    </>
+                    </div>
                   ) : (
                     <button
                       type="button"
@@ -249,8 +249,8 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                         e.stopPropagation();
                         handleStartEdit(page.project_page_id);
                       }}
-                      className="p-2 text-gray-600 transition-colors rounded hover:bg-gray-100"
-                      title="Edit"
+                      className="p-2 text-blue-600 transition-all bg-white border border-gray-200 rounded-md shadow-sm hover:bg-blue-50"
+                      title="Edit Page"
                     >
                       <Edit2 className="w-4 h-4" />
                     </button>
@@ -333,18 +333,18 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                             type="button"
                             onClick={() => {
                               const newTodo: Todo = {
-                                todo_id: Date.now(),
-                                todo_name: "New Task",
-                                todo_content: "",
-                                todo_description: "",
-                                todo_start_date: new Date()
+                                id: Date.now(),
+                                name: "New Task",
+                                content: "",
+                                description: "",
+                                start_date: new Date()
                                   .toISOString()
                                   .split("T")[0],
-                                todo_end_date: new Date()
+                                end_date: new Date()
                                   .toISOString()
                                   .split("T")[0],
-                                todo_status: "waiting",
-                                todo_created_date: new Date()
+                                status: "pending",
+                                created_at: new Date()
                                   .toISOString()
                                   .split("T")[0],
                                 project_page_id: page.project_page_id,
@@ -368,11 +368,11 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                         {page.todos.map((todo) => {
                           const isEditingTodo =
                             editingTodoId?.pageId === page.project_page_id &&
-                            editingTodoId?.todoId === todo.todo_id;
+                            editingTodoId?.todoId === todo.id;
 
                           return (
                             <div
-                              key={todo.todo_id}
+                              key={todo.id}
                               className="p-3 border border-gray-200 rounded"
                             >
                               <div className="flex items-start justify-between mb-2">
@@ -380,12 +380,12 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                                   {isEditingTodo ? (
                                     <input
                                       type="text"
-                                      value={todo.todo_name}
+                                      value={todo.name}
                                       onChange={(e) =>
                                         updateTodoField(
                                           page.project_page_id,
-                                          todo.todo_id,
-                                          "todo_name",
+                                          todo.id,
+                                          "name",
                                           e.target.value
                                         )
                                       }
@@ -393,17 +393,17 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                                     />
                                   ) : (
                                     <span className="text-sm font-medium text-gray-900">
-                                      {todo.todo_name}
+                                      {todo.name}
                                     </span>
                                   )}
                                   {isEditingTodo ? (
                                     <textarea
-                                      value={todo.todo_description}
+                                      value={todo.description}
                                       onChange={(e) =>
                                         updateTodoField(
                                           page.project_page_id,
-                                          todo.todo_id,
-                                          "todo_description",
+                                          todo.id,
+                                          "description",
                                           e.target.value
                                         )
                                       }
@@ -412,20 +412,20 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                                     />
                                   ) : (
                                     <p className="mt-1 text-xs text-gray-600">
-                                      {todo.todo_description}
+                                      {todo.description}
                                     </p>
                                   )}
                                 </div>
-                                <div className="flex items-center space-x-2 ml-2">
+                                <div className="flex items-center ml-2 space-x-2">
                                   {isEditingTodo ? (
                                     <>
                                       <select
-                                        value={todo.todo_status}
+                                        value={todo.status}
                                         onChange={(e) =>
                                           updateTodoField(
                                             page.project_page_id,
-                                            todo.todo_id,
-                                            "todo_status",
+                                            todo.id,
+                                            "status",
                                             e.target.value
                                           )
                                         }
@@ -442,10 +442,10 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                                         onClick={() =>
                                           handleSaveEditTodo(
                                             page.project_page_id,
-                                            todo.todo_id
+                                            todo.id
                                           )
                                         }
-                                        className="p-1 text-green-600 hover:bg-green-50 rounded"
+                                        className="p-1 text-green-600 rounded hover:bg-green-50"
                                         title="Save"
                                       >
                                         <Save className="w-3 h-3" />
@@ -453,7 +453,7 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                                       <button
                                         type="button"
                                         onClick={handleCancelEditTodo}
-                                        className="p-1 text-gray-600 hover:bg-gray-100 rounded"
+                                        className="p-1 text-gray-600 rounded hover:bg-gray-100"
                                         title="Cancel"
                                       >
                                         <X className="w-3 h-3" />
@@ -464,10 +464,10 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                                           onClick={() =>
                                             handleDeleteTodo(
                                               page.project_page_id,
-                                              todo.todo_id
+                                              todo.id
                                             )
                                           }
-                                          className="p-1 text-red-600 hover:bg-red-50 rounded"
+                                          className="p-1 text-red-600 rounded hover:bg-red-50"
                                           title="Delete"
                                         >
                                           <X className="w-3 h-3" />
@@ -478,10 +478,10 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                                     <>
                                       <span
                                         className={`px-2 py-1 rounded text-xs text-white ${getStatusColor(
-                                          todo.todo_status
+                                          todo.status
                                         )}`}
                                       >
-                                        {todo.todo_status}
+                                        {todo.status}
                                       </span>
                                       {isEditing && (
                                         <button
@@ -489,10 +489,10 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                                           onClick={() =>
                                             handleStartEditTodo(
                                               page.project_page_id,
-                                              todo.todo_id
+                                              todo.id
                                             )
                                           }
-                                          className="p-1 text-gray-600 hover:bg-gray-100 rounded"
+                                          className="p-1 text-gray-600 rounded hover:bg-gray-100"
                                           title="Edit"
                                         >
                                           <Edit2 className="w-3 h-3" />
@@ -511,12 +511,12 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                                     </label>
                                     <input
                                       type="date"
-                                      value={todo.todo_start_date}
+                                      value={todo.start_date}
                                       onChange={(e) =>
                                         updateTodoField(
                                           page.project_page_id,
-                                          todo.todo_id,
-                                          "todo_start_date",
+                                          todo.id,
+                                          "start_date",
                                           e.target.value
                                         )
                                       }
@@ -529,12 +529,12 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                                     </label>
                                     <input
                                       type="date"
-                                      value={todo.todo_end_date}
+                                      value={todo.end_date}
                                       onChange={(e) =>
                                         updateTodoField(
                                           page.project_page_id,
-                                          todo.todo_id,
-                                          "todo_end_date",
+                                          todo.id,
+                                          "end_date",
                                           e.target.value
                                         )
                                       }
@@ -546,7 +546,7 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                                 <div className="flex items-center mt-2 space-x-2 text-xs text-gray-500">
                                   <Calendar className="w-3 h-3" />
                                   <span>
-                                    {todo.todo_start_date} - {todo.todo_end_date}
+                                    {todo.start_date} - {todo.end_date}
                                   </span>
                                 </div>
                               )}

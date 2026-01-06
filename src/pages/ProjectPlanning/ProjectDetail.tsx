@@ -56,7 +56,7 @@ export default function ProjectDetail() {
           </h2>
           <button
             onClick={() => navigate("/projects")}
-            className="mt-4 px-6 py-2 font-medium text-white rounded-lg"
+            className="px-6 py-2 mt-4 font-medium text-white rounded-lg"
             style={{ backgroundColor: "#587CF0" }}
           >
             Back to Projects
@@ -128,7 +128,7 @@ export default function ProjectDetail() {
           return {
             ...page,
             todos: page.todos.map((todo) =>
-              todo.todo_id === todoId ? { ...todo, ...updates } : todo
+              todo.id === todoId ? { ...todo, ...updates } : todo
             ),
           };
         }
@@ -143,7 +143,7 @@ export default function ProjectDetail() {
         if (page.project_page_id === pageId) {
           return {
             ...page,
-            todos: page.todos.filter((todo) => todo.todo_id !== todoId),
+            todos: page.todos.filter((todo) => todo.id !== todoId),
           };
         }
         return page;
@@ -191,12 +191,12 @@ export default function ProjectDetail() {
                     {project.project_name}
                   </h1>
                   {isPlanning ? (
-                    <span className="px-3 py-1 text-sm font-medium text-orange-700 bg-orange-100 rounded-full flex items-center space-x-1">
+                    <span className="flex items-center px-3 py-1 space-x-1 text-sm font-medium text-orange-700 bg-orange-100 rounded-full">
                       <Clock className="w-4 h-4" />
                       <span>Planning</span>
                     </span>
                   ) : (
-                    <span className="px-3 py-1 text-sm font-medium text-blue-700 bg-blue-100 rounded-full flex items-center space-x-1">
+                    <span className="flex items-center px-3 py-1 space-x-1 text-sm font-medium text-blue-700 bg-blue-100 rounded-full">
                       <Play className="w-4 h-4" />
                       <span>Active</span>
                     </span>
@@ -256,7 +256,7 @@ export default function ProjectDetail() {
       <div className="p-8 mx-auto max-w-7xl">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Main Content */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="space-y-6 lg:col-span-2">
             {/* Project Info */}
             {isActive && isEditing ? (
               <ProjectBasicInfoSection
@@ -349,7 +349,7 @@ export default function ProjectDetail() {
                     </label>
                     <div className="flex items-center mt-2 space-x-2">
                       <div
-                        className="w-8 h-8 rounded-full border border-gray-300"
+                        className="w-8 h-8 border border-gray-300 rounded-full"
                         style={{ backgroundColor: project.project_main_color }}
                       />
                       <span className="text-gray-900">
@@ -411,16 +411,16 @@ export default function ProjectDetail() {
                             </span>
                           </div>
                           {page.todos && page.todos.length > 0 && (
-                            <div className="mt-3 ml-4 border-l-2 border-gray-200 pl-3">
-                              <p className="text-xs font-medium text-gray-500 mb-2">
+                            <div className="pl-3 mt-3 ml-4 border-l-2 border-gray-200">
+                              <p className="mb-2 text-xs font-medium text-gray-500">
                                 Tasks ({page.todos.length})
                               </p>
                               {page.todos.map((todo) => (
                                 <div
-                                  key={todo.todo_id}
+                                  key={todo.id}
                                   className="mb-2 text-sm text-gray-700"
                                 >
-                                  • {todo.todo_name}
+                                  • {todo.name}
                                 </div>
                               ))}
                             </div>
@@ -435,7 +435,7 @@ export default function ProjectDetail() {
 
             {/* Planning Status Message */}
             {isPlanning && (
-              <div className="p-6 bg-orange-50 border border-orange-200 rounded-lg">
+              <div className="p-6 border border-orange-200 rounded-lg bg-orange-50">
                 <div className="flex items-start space-x-3">
                   <Clock className="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" />
                   <div>
@@ -452,7 +452,7 @@ export default function ProjectDetail() {
                           state: { projectId: project.project_id },
                         })
                       }
-                      className="mt-3 px-4 py-2 text-sm font-medium text-white rounded-lg"
+                      className="px-4 py-2 mt-3 text-sm font-medium text-white rounded-lg"
                       style={{ backgroundColor: "#587CF0" }}
                     >
                       Continue Planning
@@ -482,25 +482,19 @@ export default function ProjectDetail() {
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-gray-600">Completed</span>
                       <span className="font-medium text-green-600">
-                        {todos.filter((t) => t.todo_status === "done").length}
+                        {todos.filter((t) => t.status === "completed").length}
                       </span>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-gray-600">In Progress</span>
                       <span className="font-medium text-yellow-600">
-                        {
-                          todos.filter((t) => t.todo_status === "in progress")
-                            .length
-                        }
+                        {todos.filter((t) => t.status === "in-progress").length}
                       </span>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-gray-600">Waiting</span>
                       <span className="font-medium text-gray-600">
-                        {
-                          todos.filter((t) => t.todo_status === "waiting")
-                            .length
-                        }
+                        {todos.filter((t) => t.status === "pending").length}
                       </span>
                     </div>
                   </div>

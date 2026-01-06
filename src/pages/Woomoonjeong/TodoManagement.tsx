@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import { todosData } from "../../data/woomoonjeong/woomoonjeongData";
 import { Todo } from "../../types/Woomoonjeong/woomoonjeong";
-import TodoManagementCreate from "../../components/Woomoonjeong/TodoManagement/TodoManagementCreate"; // 모달 컴포넌트 import
+import TodoManagementCreate from "../../components/Woomoonjeong/TodoManagement/CreateTodoManagementModal"; // 모달 컴포넌트 import
 
 const TodoManagement: React.FC = () => {
   const navigate = useNavigate();

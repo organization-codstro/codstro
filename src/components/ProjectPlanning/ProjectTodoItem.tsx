@@ -28,7 +28,7 @@ export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
   }, [todo, isEditing]);
 
   const handleSave = () => {
-    onUpdate(todo.todo_id, editedTodo);
+    onUpdate(todo.id, editedTodo);
     onCancelEdit();
   };
 
@@ -50,9 +50,9 @@ export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
         <div className="space-y-3">
           <input
             type="text"
-            value={editedTodo.todo_name}
+            value={editedTodo.name}
             onChange={(e) =>
-              setEditedTodo({ ...editedTodo, todo_name: e.target.value })
+              setEditedTodo({ ...editedTodo, name: e.target.value })
             }
             placeholder="Task name"
             className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-400"
@@ -60,9 +60,9 @@ export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
           />
 
           <textarea
-            value={editedTodo.todo_content}
+            value={editedTodo.content}
             onChange={(e) =>
-              setEditedTodo({ ...editedTodo, todo_content: e.target.value })
+              setEditedTodo({ ...editedTodo, content: e.target.value })
             }
             placeholder="Task content"
             rows={2}
@@ -71,11 +71,11 @@ export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
           />
 
           <textarea
-            value={editedTodo.todo_description}
+            value={editedTodo.description}
             onChange={(e) =>
               setEditedTodo({
                 ...editedTodo,
-                todo_description: e.target.value,
+                description: e.target.value,
               })
             }
             placeholder="Task description"
@@ -91,11 +91,11 @@ export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
               </label>
               <input
                 type="date"
-                value={editedTodo.todo_start_date}
+                value={editedTodo.start_date}
                 onChange={(e) =>
                   setEditedTodo({
                     ...editedTodo,
-                    todo_start_date: e.target.value,
+                    start_date: e.target.value,
                   })
                 }
                 className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-400"
@@ -109,11 +109,11 @@ export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
               </label>
               <input
                 type="date"
-                value={editedTodo.todo_end_date}
+                value={editedTodo.end_date}
                 onChange={(e) =>
                   setEditedTodo({
                     ...editedTodo,
-                    todo_end_date: e.target.value,
+                    end_date: e.target.value,
                   })
                 }
                 className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-400"
@@ -124,11 +124,11 @@ export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
 
           <div className="flex items-center justify-between">
             <select
-              value={editedTodo.todo_status}
+              value={editedTodo.status}
               onChange={(e) =>
                 setEditedTodo({
                   ...editedTodo,
-                  todo_status: e.target.value as Todo["todo_status"],
+                  status: e.target.value as Todo["status"],
                 })
               }
               className="px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-400"
@@ -145,7 +145,7 @@ export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
                 onClick={(e) => {
                   e.stopPropagation();
                   if (window.confirm("정말 삭제하시겠습니까?")) {
-                    onDelete(todo.todo_id);
+                    onDelete(todo.id);
                   }
                 }}
                 className="p-2 text-red-600 rounded hover:bg-red-50"
@@ -178,23 +178,23 @@ export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
       ) : (
         <div className="cursor-pointer">
           <div className="flex items-center justify-between mb-2">
-            <h4 className="font-medium text-gray-900">{todo.todo_name}</h4>
+            <h4 className="font-medium text-gray-900">{todo.name}</h4>
             <span
               className={`px-2 py-1 rounded text-xs text-white ${getStatusColor(
-                todo.todo_status
+                todo.start_date
               )}`}
             >
-              {todo.todo_status}
+              {todo.start_date}
             </span>
           </div>
 
-          <p className="mb-2 text-sm text-gray-600">{todo.todo_content}</p>
-          <p className="mb-2 text-xs text-gray-500">{todo.todo_description}</p>
+          <p className="mb-2 text-sm text-gray-600">{todo.content}</p>
+          <p className="mb-2 text-xs text-gray-500">{todo.description}</p>
 
           <div className="flex items-center space-x-2 text-xs text-gray-500">
             <Calendar className="w-3 h-3" />
             <span>
-              {todo.todo_start_date} - {todo.todo_end_date}
+              {todo.start_date} - {todo.end_date}
             </span>
           </div>
         </div>
