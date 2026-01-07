@@ -1,10 +1,10 @@
 // 사용자 직접 생성하는 필드
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import { AddFieldModalProps } from "../../../types/Woomoonjeong/CreateCustomFieldModal/Props";
-import { DEFAULT_GROUP_TYPE } from "../../../constants/Woomoonjeong/DocumentsManagementPage/CreateCustomFieldModal";
-import { GroupType } from "../../../types/Woomoonjeong/woomoonjeong";
-import { GroupTypes } from "../../../constants/Woomoonjeong/Woomoonjeong";
+import { AddFieldModalProps } from "../../../../types/Woomoonjeong/CreateCustomFieldModal/Props";
+import { DEFAULT_GROUP_TYPE } from "../../../../constants/Woomoonjeong/DocumentsManagementPage/CreateCustomFieldModal";
+import { GroupType } from "../../../../types/Woomoonjeong/woomoonjeong";
+import { GroupTypes } from "../../../../constants/Woomoonjeong/Woomoonjeong";
 
 const CreateCustomFieldModal: React.FC<AddFieldModalProps> = ({
   isOpen,

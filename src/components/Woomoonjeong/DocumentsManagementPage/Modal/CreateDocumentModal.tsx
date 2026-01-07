@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import { Group } from "../../../types/Woomoonjeong/woomoonjeong";
-import { woomoonjeongData } from "../../../data/woomoonjeong/woomoonjeongData";
+import { Group } from "../../../../types/Woomoonjeong/woomoonjeong";
+import { woomoonjeongData } from "../../../../data/woomoonjeong/woomoonjeongData";
 
 export interface AddDocumentPayload {
   groupName: "web" | "app" | "server" | "game" | "security" | "work" | "other";

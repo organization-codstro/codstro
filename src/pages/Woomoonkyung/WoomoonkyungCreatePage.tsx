@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { StudyPlan } from "../../types/Woomoonkyung/StudyPlanNode";
-import StudyPlanForm from "../../components/Woomoonkyung/WoomoonkyungCreatePage/StudyPlanForm";
+import StudyPlanForm from "../../components/Woomoonkyung/StudyPlanForm";
 
 const WoomoonkyungCreate = () => {
   const navigate = useNavigate();

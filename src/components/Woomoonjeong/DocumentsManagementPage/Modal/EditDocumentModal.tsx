@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import { Pin, Field, Group } from "../../../types/Woomoonjeong/woomoonjeong";
-import { woomoonjeongData } from "../../../data/woomoonjeong/woomoonjeongData";
+import { Pin } from "../../../../types/Woomoonjeong/woomoonjeong";
+import { woomoonjeongData } from "../../../../data/woomoonjeong/woomoonjeongData";
 
 export interface AddDocumentPayload {
   groupType: string;

@@ -5,6 +5,7 @@ import {
   woomoonjeongData,
 } from "../../data/woomoonjeong/woomoonjeongData";
 import {
+  GroupType,
   RecommendedField,
   RecommendedPin,
 } from "../../types/Woomoonjeong/woomoonjeong";
@@ -13,7 +14,7 @@ import ContentTypeFilter from "../../components/Woomoonjeong/RecommendedDocument
 import FilterSection from "../../components/Woomoonjeong/RecommendedDocumentsMainPage/FilterSection";
 import DocumentsGrid from "../../components/Woomoonjeong/RecommendedDocumentsMainPage/DocumentsGrid";
 //시스템이 추천하는 필드 추가하는 모달
-import AssignRecommendedFieldModal from "../../components/Woomoonjeong/DocumentsManagementPage/RecommendedCreateFieldModal";
+import AssignRecommendedFieldModal from "../../components/Woomoonjeong/RecommendedCreateFieldModal";
 import RecommendedCreateDocumentModal from "../../components/Woomoonjeong/RecommendedDocumentsMainPage/RecommendedCreateDocumentModal";
 
 const RecommendedDocumentsMain: React.FC = () => {
@@ -90,14 +91,7 @@ const RecommendedDocumentsMain: React.FC = () => {
   };
 
   const handleAddDocumentSubmit = (payload: {
-    groupName:
-      | "web"
-      | "app"
-      | "server"
-      | "game"
-      | "security"
-      | "work"
-      | "other";
+    groupName: GroupType;
     fieldName: string;
     documentName: string;
     documentUrl: string;

@@ -2,43 +2,28 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { studyPlans } from "../../data/Woomoonkyung/woomoonkyungData";
 import { StudyPlan } from "../../types/Woomoonkyung/StudyPlanNode";
-import StudyPlanForm from "../../components/Woomoonkyung/WoomoonkyungCreatePage/StudyPlanForm";
+import StudyPlanForm from "../../components/Woomoonkyung/StudyPlanForm";
+import PlanNotFound from "../../components/Woomoonkyung/WoomoonkyungEditPage/PlanNotFound";
+import PageHeader from "../../components/Woomoonkyung/WoomoonkyungEditPage/PageHeader";
 
 const WoomoonkyungEdit: React.FC = () => {
   const { planId } = useParams<{ planId: string }>();
   const navigate = useNavigate();
 
-  /** 🔹 수정 대상 플랜 찾기 */
   const plan = studyPlans.find((p) => p.study_plan_id === Number(planId));
 
-  /** 🔹 플랜이 없을 경우 (잘못된 접근) */
+  /** 🔹 플랜이 없을 경우 처리 */
   if (!plan) {
-    return (
-      <div className="p-8">
-        <h2 className="text-xl font-semibold text-red-500">
-          Study plan not found
-        </h2>
-        <button
-          className="mt-4 text-blue-500 underline"
-          onClick={() => navigate("/woomoonkyung")}
-        >
-          Back to list
-        </button>
-      </div>
-    );
+    return <PlanNotFound message="해당 공부 계획을 찾을 수 없습니다." />;
   }
 
-  /** 🔹 저장 처리 */
   const handleSave = (
     planData: Omit<StudyPlan, "study_plan_id" | "study_plans_created_date">
   ) => {
-    // 실제 서비스에서는 API PUT 요청
     console.log("Update plan:", plan.study_plan_id, planData);
-
     navigate(`/woomoonkyung/plan/${plan.study_plan_id}`);
   };
 
-  /** 🔹 취소 */
   const handleCancel = () => {
     navigate(`/woomoonkyung/plan/${plan.study_plan_id}`);
   };
@@ -46,16 +31,12 @@ const WoomoonkyungEdit: React.FC = () => {
   return (
     <div className="min-h-screen p-8 bg-gray-50">
       <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="mb-6">
-          <h1 className="mt-2 text-2xl font-bold text-gray-800">
-            Edit Study Plan
-          </h1>
-          <p className="text-gray-600">Update your study plan information</p>
-        </div>
+        <PageHeader
+          title="Edit Study Plan"
+          description="Update your study plan information and keep your goals on track."
+        />
 
-        {/* Form */}
-        <div className="p-6 bg-white border border-purple-100 shadow-sm rounded-xl">
+        <div className="p-8 bg-white border border-purple-100 shadow-xl rounded-2xl">
           <StudyPlanForm
             mode="edit"
             existingPlan={plan}

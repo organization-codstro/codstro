@@ -3,7 +3,7 @@ import { ArrowLeft, Calendar, Save, X } from "lucide-react";
 import {
   StudyPlan,
   StudyPlanFormFormData,
-} from "../../../types/Woomoonkyung/StudyPlanNode";
+} from "../../types/Woomoonkyung/StudyPlanNode";
 
 interface StudyPlanFormProps {
   mode: "create" | "edit";

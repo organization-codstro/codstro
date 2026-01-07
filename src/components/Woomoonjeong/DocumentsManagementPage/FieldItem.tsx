@@ -1,0 +1,136 @@
+import React, { useState } from "react";
+import {
+  ChevronDown,
+  ChevronRight,
+  Save,
+  X,
+  Edit3,
+  Trash2,
+  Check,
+} from "lucide-react";
+import PinItem from "./PinItem";
+import { Field, Group } from "../../../types/Woomoonjeong/woomoonjeong";
+
+interface FieldItemProps {
+  field: Field;
+  group: Group;
+  isExpanded: boolean;
+  onToggle: () => void;
+  onSaveName: (groupId: number, fieldId: number, newName: string) => void;
+  onDeleteAction: (
+    e: React.MouseEvent,
+    type: "field" | "pin",
+    id: number
+  ) => void;
+  deletePending: { type: string; id: number } | null;
+  onEditPin: (pinId: number) => void;
+}
+
+const FieldItem: React.FC<FieldItemProps> = ({
+  field,
+  group,
+  isExpanded,
+  onToggle,
+  onSaveName,
+  onDeleteAction,
+  deletePending,
+  onEditPin,
+}) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [tempName, setTempName] = useState(field.name);
+
+  const handleSave = () => {
+    onSaveName(group.id, field.id, tempName);
+    setIsEditing(false);
+  };
+
+  return (
+    <div className="pl-4 ml-4 border-l-2 border-gray-100">
+      <div className="flex items-center justify-between p-2 rounded hover:bg-gray-50">
+        <div className="flex items-center flex-1 gap-2">
+          <div className="cursor-pointer" onClick={onToggle}>
+            {isExpanded ? (
+              <ChevronDown className="w-3 h-3 text-gray-400" />
+            ) : (
+              <ChevronRight className="w-3 h-3 text-gray-400" />
+            )}
+          </div>
+          {isEditing ? (
+            <div className="flex items-center flex-1 gap-2">
+              <input
+                value={tempName}
+                onChange={(e) => setTempName(e.target.value)}
+                className="flex-1 px-2 py-1 text-sm border border-blue-300 rounded outline-none"
+                autoFocus
+              />
+              <button onClick={handleSave} className="text-green-600">
+                <Save className="w-3 h-3" />
+              </button>
+              <button onClick={() => setIsEditing(false)}>
+                <X className="w-3 h-3" />
+              </button>
+            </div>
+          ) : (
+            <h4
+              className="flex-1 font-medium text-gray-700 cursor-pointer"
+              onClick={onToggle}
+            >
+              {field.name}
+            </h4>
+          )}
+        </div>
+        <div className="flex items-center gap-1">
+          <span className="mr-2 text-xs text-gray-500">
+            {field.pins.length} pins
+          </span>
+          {!isEditing && (
+            <>
+              <button
+                onClick={() => setIsEditing(true)}
+                className="text-gray-400 hover:text-blue-500"
+              >
+                <Edit3 className="w-3 h-3" />
+              </button>
+              <button
+                onClick={(e) => onDeleteAction(e, "field", field.id)}
+                className={`p-1 ${
+                  deletePending?.type === "field" &&
+                  deletePending?.id === field.id
+                    ? "text-red-600"
+                    : "text-gray-400"
+                }`}
+              >
+                {deletePending?.type === "field" &&
+                deletePending?.id === field.id ? (
+                  <Check className="w-3 h-3" />
+                ) : (
+                  <Trash2 className="w-3 h-3" />
+                )}
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+      {isExpanded && (
+        <div className="mt-2 ml-4 space-y-2">
+          {field.pins.map((pin) => (
+            <PinItem
+              key={pin.id}
+              pin={pin}
+              isDeletePending={
+                deletePending?.type === "pin" && deletePending?.id === pin.id
+              }
+              onEdit={(e) => {
+                e.preventDefault();
+                onEditPin(pin.id);
+              }}
+              onDelete={(e) => onDeleteAction(e, "pin", pin.id)}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default FieldItem;

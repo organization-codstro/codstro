@@ -1,16 +1,18 @@
 import React, { useState } from "react";
-import { Code, Filter } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import {
   projectsData,
-  userProjectsData as initialUserProjectsData,
+  userProjectsData as initialData,
 } from "../../data/woomoonro/woomoonroData";
-import { useNavigate } from "react-router-dom";
-import { UserProject } from "../../types/Woomoonro/woomoonro";
-import ProjectGrid from "../../components/woomoonro/ProjectGrid/ProjectGrid";
+import ProjectGrid from "../../components/Woomoonro/ProjectGrid/ProjectGrid";
+import PageHeader from "../../components/Woomoonkyung/WoomoonkyungEditPage/PageHeader";
+import ProjectFilters from "../../components/Woomoonro/WoomoonroMainPage/ProjectFilters";
+import NoResults from "../../components/Woomoonro/WoomoonroMainPage/NoResults";
 
 const WoomoonroMainPage = () => {
   const navigate = useNavigate();
 
+  // 1. 필터 및 데이터 상태
   const [selectedFilter, setSelectedFilter] = useState<
     "all" | "bookmarked" | "in_progress" | "completed"
   >("all");
@@ -18,37 +20,25 @@ const WoomoonroMainPage = () => {
     "all" | "beginner" | "intermediate" | "advanced"
   >("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [userProjectsData, setUserProjectsData] = useState(initialData);
 
-  // 올바른 데이터를 state로 관리
-  const [userProjectsData, setUserProjectsData] = useState(
-    initialUserProjectsData
-  );
+  // 2. 헬퍼 함수
+  const getUserProject = (projectId: number) =>
+    userProjectsData.find((up) => up.project_id === projectId);
 
-  const getUserProject = (projectId: number): UserProject | undefined => {
-    return userProjectsData.find((up) => up.project_id === projectId);
-  };
-
-  // 북마크 토글 함수
   const handleToggleBookmark = (projectId: number) => {
-    setUserProjectsData((prevData) =>
-      prevData.map((userProject) =>
-        userProject.project_id === projectId
-          ? { ...userProject, is_bookmarked: !userProject.is_bookmarked }
-          : userProject
+    setUserProjectsData((prev) =>
+      prev.map((up) =>
+        up.project_id === projectId
+          ? { ...up, is_bookmarked: !up.is_bookmarked }
+          : up
       )
     );
   };
 
-  const updateProjectStatus = (
-    projectId: number,
-    status: UserProject["status"]
-  ) => {
-    console.log("Update project status:", projectId, status);
-  };
-
+  // 3. 필터링 로직
   const filteredProjects = projectsData.filter((project) => {
     const userProject = getUserProject(project.id);
-
     if (
       selectedFilter === "bookmarked" &&
       (!userProject || !userProject.is_bookmarked)
@@ -71,94 +61,41 @@ const WoomoonroMainPage = () => {
       return false;
     if (
       searchQuery &&
-      !project.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
-      !project.description.toLowerCase().includes(searchQuery.toLowerCase())
+      !project.title.toLowerCase().includes(searchQuery.toLowerCase())
     )
       return false;
-
     return true;
   });
 
   return (
     <div className="min-h-screen p-8 bg-gray-50">
-      <div className="mx-auto space-y-6 max-w-7xl">
+      <div className="mx-auto space-y-8 max-w-7xl">
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-800">Woomoonro</h1>
-            <p className="text-gray-600">
-              Discover and manage clone coding projects
-            </p>
-          </div>
-        </div>
+        <PageHeader
+          title="Woomoonro"
+          description="Discover and manage clone coding projects to level up your skills."
+        />
 
-        <div className="flex flex-col items-center w-full">
-          <div className="w-full space-y-6">
-            {/* Filters */}
-            <div className="p-6 bg-white border border-purple-100 shadow-sm rounded-xl w-fit">
-              <div className="flex flex-wrap items-center gap-4">
-                <div className="flex items-center gap-2">
-                  <Filter className="w-4 h-4 text-gray-500" />
-                  <span className="text-sm font-medium text-gray-700">
-                    Status:
-                  </span>
-                  {(
-                    ["all", "bookmarked", "in_progress", "completed"] as const
-                  ).map((f) => (
-                    <button
-                      key={f}
-                      onClick={() => setSelectedFilter(f)}
-                      className={`px-3 py-1 text-sm rounded-lg transition-colors ${
-                        selectedFilter === f
-                          ? "bg-[#587CF0] text-white"
-                          : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                      }`}
-                    >
-                      {f.replace("_", " ")}
-                    </button>
-                  ))}
-                </div>
+        <div className="space-y-6">
+          {/* Filters Section */}
+          <ProjectFilters
+            selectedFilter={selectedFilter}
+            setSelectedFilter={setSelectedFilter}
+            selectedDifficulty={selectedDifficulty}
+            setSelectedDifficulty={setSelectedDifficulty}
+          />
 
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium text-gray-700">
-                    Difficulty:
-                  </span>
-                  {(
-                    ["all", "beginner", "intermediate", "advanced"] as const
-                  ).map((d) => (
-                    <button
-                      key={d}
-                      onClick={() => setSelectedDifficulty(d)}
-                      className={`px-3 py-1 text-sm rounded-lg transition-colors ${
-                        selectedDifficulty === d
-                          ? "bg-[#587CF0] text-white"
-                          : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                      }`}
-                    >
-                      {d}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Projects Grid */}
+          {/* Projects Content */}
+          {filteredProjects.length > 0 ? (
             <ProjectGrid
               projects={filteredProjects}
               getUserProject={getUserProject}
               onCardClick={(id) => navigate(`/woomoonro/project/${id}`)}
               onToggleBookmark={handleToggleBookmark}
             />
-
-            {filteredProjects.length === 0 && (
-              <div className="p-12 text-center bg-white border border-purple-100 shadow-sm rounded-xl">
-                <Code className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-                <h3 className="text-lg font-medium text-gray-800">
-                  No projects found
-                </h3>
-              </div>
-            )}
-          </div>
+          ) : (
+            <NoResults />
+          )}
         </div>
       </div>
     </div>

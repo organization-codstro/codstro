@@ -1,9 +1,9 @@
 // Woomoonkyung Study Planning Data Types and Mock Data
 
+import { TechStack } from "../../types/Woomoonjeong/SortableNodeItem/sortableNodeItem";
 import {
   StudyPlan,
   StudyPlanNode,
-  TechStack,
 } from "../../types/Woomoonkyung/StudyPlanNode";
 
 // // Mock Data
