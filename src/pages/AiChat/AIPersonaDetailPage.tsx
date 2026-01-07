@@ -1,25 +1,30 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Calendar, MessageCircle } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { mockAIPersonas } from "../../data/AiChat/mockData";
+
+// 분리했던 컴포넌트들을 import 합니다.
+// (실제 프로젝트 구조에 맞게 경로를 수정해 주세요)
+import { PersonaHero } from "../../components/AiChat/AIPersonaDetailPage/PersonaHero";
+import { PersonaInfoCard } from "../../components/AiChat/AIPersonaDetailPage/PersonaInfoCard";
+import { NotFoundState } from "../../components/AiChat/AIPersonaDetailPage/NotFoundState";
 
 export default function AIPersonaDetail() {
   const { personaId } = useParams<{ personaId: string }>();
   const navigate = useNavigate();
 
+  // 1. 데이터 찾기 로직
   const persona = mockAIPersonas.find(
     (p) => p.ai_persona_id === Number(personaId)
   );
 
+  // 2. 예외 처리 (데이터가 없을 때)
   if (!persona) {
-    return (
-      <div className="flex items-center justify-center h-screen bg-gray-50">
-        <p className="text-gray-500">Persona not found</p>
-      </div>
-    );
+    return <NotFoundState message="Persona not found" />;
   }
 
   return (
     <div className="flex flex-col h-screen bg-gray-50">
+      {/* 상단 헤더 섹션 (직관적이어서 바로 유지하거나 별도 분리 가능) */}
       <div className="p-4 bg-white border-b border-gray-200">
         <div className="flex items-center gap-3">
           <button
@@ -33,89 +38,31 @@ export default function AIPersonaDetail() {
       </div>
 
       <div className="flex-1 overflow-y-auto">
-        <div className="p-8 bg-white border-b border-gray-100">
-          <div className="flex flex-col items-center text-center">
-            <div
-              className="flex items-center justify-center w-32 h-32 mb-6 text-4xl font-bold text-white rounded-full"
-              style={{ backgroundColor: "#587CF0" }}
-            >
-              {persona.ai_persona_name.charAt(0)}
-            </div>
+        {/* 히어로 섹션: 아바타 및 기본 정보 */}
+        <PersonaHero
+          name={persona.ai_persona_name}
+          gender={persona.ai_persona_gender}
+          age={persona.ai_persona_age}
+          createdDate={persona.ai_persona_created_date}
+          onChatClick={() => navigate(`/ai-chat/${persona.ai_persona_id}`)}
+        />
 
-            <h2 className="mb-2 text-3xl font-bold text-gray-900">
-              {persona.ai_persona_name}
-            </h2>
-
-            <div className="flex items-center gap-2 mb-4">
-              <span
-                className="px-4 py-1.5 rounded-full text-sm font-medium"
-                style={{ backgroundColor: "#E8EFFE", color: "#587CF0" }}
-              >
-                {persona.ai_persona_gender}
-              </span>
-              <span className="px-4 py-1.5 rounded-full text-sm font-medium bg-gray-100 text-gray-700">
-                {persona.ai_persona_age} years old
-              </span>
-            </div>
-
-            <div className="flex items-center gap-2 mb-6 text-sm text-gray-500">
-              <Calendar size={16} />
-              <span>
-                Joined{" "}
-                {new Date(persona.ai_persona_created_date).toLocaleDateString()}
-              </span>
-            </div>
-
-            <button
-              onClick={() => navigate(`/ai-chat/:roomId`)}
-              className="flex items-center gap-2 px-6 py-3 font-medium text-white transition-opacity rounded-full hover:opacity-90"
-              style={{ backgroundColor: "#587CF0" }}
-            >
-              <MessageCircle size={20} />
-              Start Chat
-            </button>
-          </div>
-        </div>
-
+        {/* 상세 정보 리스트 섹션 */}
         <div className="p-6 space-y-6">
-          <div className="p-6 bg-white border border-gray-100 rounded-xl">
-            <h3 className="flex items-center gap-2 mb-3 font-bold text-gray-900">
-              <span
-                className="w-1 h-5 rounded-full"
-                style={{ backgroundColor: "#587CF0" }}
-              ></span>
-              Personality
-            </h3>
-            <p className="leading-relaxed text-gray-700">
-              {persona.ai_persona_personality}
-            </p>
-          </div>
+          <PersonaInfoCard
+            title="Personality"
+            content={persona.ai_persona_personality}
+          />
 
-          <div className="p-6 bg-white border border-gray-100 rounded-xl">
-            <h3 className="flex items-center gap-2 mb-3 font-bold text-gray-900">
-              <span
-                className="w-1 h-5 rounded-full"
-                style={{ backgroundColor: "#587CF0" }}
-              ></span>
-              Conversation Topics
-            </h3>
-            <p className="leading-relaxed text-gray-700">
-              {persona.ai_persona_preferred_features}
-            </p>
-          </div>
+          <PersonaInfoCard
+            title="Conversation Topics"
+            content={persona.ai_persona_preferred_features}
+          />
 
-          <div className="p-6 bg-white border border-gray-100 rounded-xl">
-            <h3 className="flex items-center gap-2 mb-3 font-bold text-gray-900">
-              <span
-                className="w-1 h-5 rounded-full"
-                style={{ backgroundColor: "#587CF0" }}
-              ></span>
-              Speech Style
-            </h3>
-            <p className="leading-relaxed text-gray-700">
-              {persona.ai_persona_speech_style}
-            </p>
-          </div>
+          <PersonaInfoCard
+            title="Speech Style"
+            content={persona.ai_persona_speech_style}
+          />
         </div>
       </div>
     </div>
