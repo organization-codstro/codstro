@@ -44,8 +44,7 @@ export default function ChatRoomsList() {
       <div className="flex gap-2 px-4 py-3 overflow-x-auto bg-white border-b border-gray-100">
         <button
           onClick={() => navigate("/ai-chat/friends")}
-          className="px-4 py-2 text-sm font-medium transition-colors rounded-full whitespace-nowrap"
-          style={{ backgroundColor: "#E8EFFE", color: "#587CF0" }}
+          className="px-4 py-2 text-sm font-medium text-gray-700 transition-colors bg-gray-100 rounded-full hover:bg-gray-200 whitespace-nowrap"
         >
           Friend Collection
         </button>
