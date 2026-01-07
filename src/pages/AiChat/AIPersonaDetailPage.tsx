@@ -1,5 +1,4 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
 import { mockAIPersonas } from "../../data/AiChat/mockData";
 
 // 분리했던 컴포넌트들을 import 합니다.
@@ -7,6 +6,7 @@ import { mockAIPersonas } from "../../data/AiChat/mockData";
 import { PersonaHero } from "../../components/AiChat/AIPersonaDetailPage/PersonaHero";
 import { PersonaInfoCard } from "../../components/AiChat/AIPersonaDetailPage/PersonaInfoCard";
 import { NotFoundState } from "../../components/AiChat/AIPersonaDetailPage/NotFoundState";
+import { DetailHeader } from "../../components/AiChat/AIPersonaDetailPage/DetailHeader";
 
 export default function AIPersonaDetail() {
   const { personaId } = useParams<{ personaId: string }>();
@@ -24,18 +24,7 @@ export default function AIPersonaDetail() {
 
   return (
     <div className="flex flex-col h-screen bg-gray-50">
-      {/* 상단 헤더 섹션 (직관적이어서 바로 유지하거나 별도 분리 가능) */}
-      <div className="p-4 bg-white border-b border-gray-200">
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => navigate("/ai-chat/friends")}
-            className="p-2 transition-colors rounded-full hover:bg-gray-100"
-          >
-            <ArrowLeft size={20} />
-          </button>
-          <h1 className="text-xl font-bold text-gray-800">Profile</h1>
-        </div>
-      </div>
+      <DetailHeader onBack={() => navigate("/ai-chat/friends")} />
 
       <div className="flex-1 overflow-y-auto">
         {/* 히어로 섹션: 아바타 및 기본 정보 */}

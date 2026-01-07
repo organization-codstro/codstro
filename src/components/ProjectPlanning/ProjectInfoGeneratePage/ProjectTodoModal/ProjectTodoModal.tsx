@@ -1,7 +1,7 @@
 import React from "react";
 import { X } from "lucide-react";
-import { Todo } from "../../types/ProjectPlanning/project";
 import { TodoForm } from "./TodoForm";
+import { Todo } from "../../../../types/ProjectPlanning/project";
 
 interface ProjectTodoModalProps {
   isOpen: boolean;

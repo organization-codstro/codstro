@@ -1,63 +1,46 @@
-import { Search, Filter } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { services } from "../../data/Concepts/thirdPartyServices";
+import ConceptListHeader from "../../components/Concepts/ConceptListHeader";
+import ConceptSearchBar from "../../components/Concepts/ConceptSearchBar";
+import ConceptGrid from "../../components/Concepts/ConceptGrid";
+import ThirdPartyCard from "../../components/Concepts/ThirdPartyListPage/ThirdPartyCard";
+
 
 export default function ThirdPartyList() {
   const navigate = useNavigate();
 
+  const handleServiceClick = (id: string) => {
+    navigate(`/third-partys/${id}`);
+  };
+
   return (
     <div className="p-8 mx-auto max-w-7xl">
-      <div className="mb-8">
-        <h1 className="mb-2 text-3xl font-bold text-gray-900">
-          Third-party Services
-        </h1>
-        <p className="text-gray-600">
-          External services to enhance your applications
-        </p>
-      </div>
+      {/* 1. 헤더 섹션 */}
+      <ConceptListHeader
+        title="Third-party Services"
+        description="External services to enhance your applications"
+      />
 
-      <div className="flex gap-4 mb-6">
-        <div className="relative flex-1">
-          <Search className="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-3 top-1/2" />
-          <input
-            type="text"
-            placeholder="Search services..."
-            className="w-full py-2 pl-10 pr-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-        <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
-          <Filter className="w-5 h-5" />
-          Filter
-        </button>
-      </div>
+      {/* 2. 검색 및 필터 바 */}
+      <ConceptSearchBar
+        onSearchChange={(val) => console.log("Service Search:", val)}
+        onFilterClick={() => console.log("Service Filter Click")}
+      />
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {/* 3. 서비스 카드 그리드 리스트 */}
+      <ConceptGrid>
         {services.map((service) => (
-          <button
+          <ThirdPartyCard
             key={service.id}
-            onClick={() => navigate(`/third-partys/${service.id}`)}
-            className="w-full p-6 text-left transition-shadow bg-white border border-gray-200 rounded-lg cursor-pointer hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
-          >
-            <div className="flex items-start justify-between mb-3">
-              <h3 className="text-xl font-bold text-gray-900">
-                {service.name}
-              </h3>
-            </div>
-            <p className="mb-4 text-sm text-gray-600">{service.description}</p>
-            <div className="mb-3 text-xs text-gray-500">{service.category}</div>
-            <div className="flex flex-wrap gap-2">
-              {service.tags.map((tag, idx) => (
-                <span
-                  key={idx}
-                  className="px-2 py-1 text-xs text-orange-600 rounded-full bg-orange-50"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </button>
+            id={service.id}
+            name={service.name}
+            description={service.description}
+            category={service.category}
+            tags={service.tags}
+            onClick={handleServiceClick}
+          />
         ))}
-      </div>
+      </ConceptGrid>
     </div>
   );
 }

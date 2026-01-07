@@ -1,6 +1,6 @@
 import React from "react";
 import { Calendar, Trash2, X, Check } from "lucide-react";
-import { Todo } from "../../types/ProjectPlanning/project";
+import { Todo } from "../../../../types/ProjectPlanning/project";
 
 interface ProjectTodoItemProps {
   todo: Todo;

@@ -1,6 +1,6 @@
 import React from "react";
 import { Plus } from "lucide-react";
-import { Todo } from "../../types/ProjectPlanning/project";
+import { Todo } from "../../../../types/ProjectPlanning/project";
 import { ProjectTodoItem } from "./ProjectTodoItem";
 
 interface ProjectTasksSectionProps {

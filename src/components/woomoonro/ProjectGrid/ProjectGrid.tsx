@@ -1,4 +1,4 @@
-import { Project, UserProject } from "../../types/Woomoonro/woomoonro";
+import { Project, UserProject } from "../../../types/Woomoonro/woomoonro";
 import { Archive } from "lucide-react";
 import ProjectCard from "./ProjectCard";
 

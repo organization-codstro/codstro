@@ -11,8 +11,8 @@ import {
 import {
   difficultyColors,
   statusColors,
-} from "../../data/woomoonro/woomoonroData";
-import { Project, UserProject } from "../../types/Woomoonro/woomoonro";
+} from "../../../data/woomoonro/woomoonroData";
+import { Project, UserProject } from "../../../types/Woomoonro/woomoonro";
 
 // --- ProjectCard 컴포넌트 ---
 interface ProjectCardProps {

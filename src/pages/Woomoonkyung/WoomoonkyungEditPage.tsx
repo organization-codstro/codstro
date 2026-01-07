@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { studyPlans } from "../../data/Woomoonkyung/woomoonkyungData";
 import { StudyPlan } from "../../types/Woomoonkyung/StudyPlanNode";
-import StudyPlanForm from "../../components/Woomoonkyung/StudyPlanForm";
+import StudyPlanForm from "../../components/Woomoonkyung/WoomoonkyungCreatePage/StudyPlanForm";
 
 const WoomoonkyungEdit: React.FC = () => {
   const { planId } = useParams<{ planId: string }>();

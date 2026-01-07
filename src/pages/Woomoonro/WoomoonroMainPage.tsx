@@ -6,7 +6,7 @@ import {
 } from "../../data/woomoonro/woomoonroData";
 import { useNavigate } from "react-router-dom";
 import { UserProject } from "../../types/Woomoonro/woomoonro";
-import ProjectGrid from "../../components/woomoonro/ProjectGrid";
+import ProjectGrid from "../../components/woomoonro/ProjectGrid/ProjectGrid";
 
 const WoomoonroMainPage = () => {
   const navigate = useNavigate();

@@ -11,10 +11,10 @@ import {
 import { useNavigate, useLocation } from "react-router-dom";
 import { ProjectBasicInfoSection } from "../../components/ProjectPlanning/ProjectBasicInfoSection";
 import { ProjectPagesSection } from "../../components/ProjectPlanning/ProjectPagesSection";
-import { ProjectTasksSection } from "../../components/ProjectPlanning/ProjectTasksSection";
-import { ProjectTodoModal } from "../../components/ProjectPlanning/ProjectTodoModal";
-import { ProjectHeaderSection } from "../../components/ProjectPlanning/ProjectHeaderSection";
-import { ProjectFooterActions } from "../../components/ProjectPlanning/ProjectFooterActions";
+import { ProjectTasksSection } from "../../components/ProjectPlanning/ProjectInfoGeneratePage/ProjectTasksSection/ProjectTasksSection";
+import { ProjectHeaderSection } from "../../components/ProjectPlanning/ProjectInfoGeneratePage/ProjectHeaderSection";
+import { ProjectFooterActions } from "../../components/ProjectPlanning/ProjectInfoGeneratePage/ProjectFooterActions";
+import { ProjectTodoModal } from "../../components/ProjectPlanning/ProjectInfoGeneratePage/ProjectTodoModal/ProjectTodoModal";
 
 export default function ProjectInfoGenerate() {
   const navigate = useNavigate();

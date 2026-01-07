@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { ArrowLeft, Search, UserPlus } from "lucide-react";
 import { mockAIPersonas } from "../../data/AiChat/mockData";
 import { useNavigate } from "react-router-dom";
 import { SearchForm } from "../../components/AiChat/AddFriendPage/SearchForm";
