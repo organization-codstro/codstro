@@ -1,8 +1,6 @@
 import { Users } from "lucide-react";
+import { CollectionEmptyStateProps } from "../../../types/AiChat/AIPersonasCollectionPage/CollectionEmptyState";
 
-interface CollectionEmptyStateProps {
-  message?: string;
-}
 
 export function CollectionEmptyState({
   message = "No AI friends available yet",

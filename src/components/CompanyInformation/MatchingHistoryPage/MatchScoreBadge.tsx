@@ -1,8 +1,5 @@
 import { TrendingUp } from "lucide-react";
-
-interface MatchScoreBadgeProps {
-  rate: number;
-}
+import { MatchScoreBadgeProps } from "../../../types/CompanyInformation/MatchingHistoryPage/MatchScoreBadge";
 
 export const MatchScoreBadge = ({ rate }: MatchScoreBadgeProps) => {
   const getMatchColor = (score: number) => {

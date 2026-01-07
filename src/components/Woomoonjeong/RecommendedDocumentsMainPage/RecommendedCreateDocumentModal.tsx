@@ -2,62 +2,22 @@
 
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import {
-  Group,
-  RecommendedPin,
-} from "../../../types/Woomoonjeong/woomoonjeong";
+import { Group, GroupType } from "../../../types/Woomoonjeong/woomoonjeong";
 import { woomoonjeongData } from "../../../data/woomoonjeong/woomoonjeongData";
+import { DEFAULT_GROUP_TYPE } from "../../../constants/Woomoonjeong/DocumentsManagementPage/CreateCustomFieldModal";
+import { RecommendedCreateDocumentModalProps } from "../../../types/Woomoonjeong/RecommendedDocumentsMainPage/RecommendedCreateDocumentModal";
+import { GroupTypes } from "../../../constants/Woomoonjeong/Woomoonjeong";
 
-export interface RecommendedCreateDocumentModalPayload {
-  groupName: "web" | "app" | "server" | "game" | "security" | "work" | "other";
-  fieldName: string;
-  documentName: string;
-  documentUrl: string;
-  documentDescription: string;
-  documentCategory: string;
-}
-
-interface CreateDocumentModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  pin: RecommendedPin;
-  onAdd: (payload: RecommendedCreateDocumentModalPayload) => void;
-}
-
-type FieldGroupType =
-  | "web"
-  | "app"
-  | "server"
-  | "game"
-  | "security"
-  | "work"
-  | "other";
-
-const fieldTypes: FieldGroupType[] = [
-  "web",
-  "app",
-  "server",
-  "game",
-  "security",
-  "work",
-  "other",
-];
-
-const DEFAULT_GROUP_TYPE: FieldGroupType = "web";
-
-const RecommendedCreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
-  isOpen,
-  onClose,
-  pin,
-  onAdd,
-}) => {
+const RecommendedCreateDocumentModal: React.FC<
+  RecommendedCreateDocumentModalProps
+> = ({ isOpen, onClose, pin, onAdd }) => {
   const [documentName, setDocumentName] = useState(pin.title);
   const [documentUrl, setDocumentUrl] = useState(pin.url);
   const [description, setDescription] = useState(pin.description);
   const [categoryInput, setCategoryInput] = useState("");
   const [categories, setCategories] = useState<string[]>(pin.tags);
   const [selectedGroupType, setSelectedGroupType] =
-    useState<FieldGroupType>(DEFAULT_GROUP_TYPE);
+    useState<GroupType>(DEFAULT_GROUP_TYPE);
   const [fieldInfo, setFieldInfo] = useState("");
   const [fieldOptions, setFieldOptions] = useState<string[]>([]);
 
@@ -252,7 +212,7 @@ const RecommendedCreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
               그룹
             </label>
             <div className="grid grid-cols-4 gap-2">
-              {fieldTypes.map((type) => (
+              {GroupTypes.map((type) => (
                 <button
                   key={type}
                   type="button"

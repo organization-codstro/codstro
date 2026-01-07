@@ -1,10 +1,5 @@
 import { Award, Edit2 } from "lucide-react";
-
-interface ProfileFooterProps {
-  onManageBadges: () => void;
-  onNotices: () => void;
-  onEditProfile: () => void;
-}
+import { ProfileFooterProps } from "../../../types/Profile/ProfilePage/ProfileFooter";
 
 export default function ProfileFooter({
   onManageBadges,

@@ -1,12 +1,5 @@
 import React from "react";
-import { Group } from "../../../types/Woomoonjeong/woomoonjeong";
-
-
-interface ManagementSidebarProps {
-  data: Group[];
-  totalFields: number;
-  totalPins: number;
-}
+import { ManagementSidebarProps } from "../../../types/Woomoonjeong/DocumentsManagementPage/ManagementSidebar";
 
 const ManagementSidebar: React.FC<ManagementSidebarProps> = ({
   data,

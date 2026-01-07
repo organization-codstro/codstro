@@ -1,8 +1,8 @@
-interface EmptyNotesStateProps {
-  onCreateClick: () => void;
-}
+import { EmptyNotesStateProps } from "../../../types/Concepts/NotesListPage/EmptyNotesState";
 
-export default function EmptyNotesState({ onCreateClick }: EmptyNotesStateProps) {
+export default function EmptyNotesState({
+  onCreateClick,
+}: EmptyNotesStateProps) {
   return (
     <div className="py-12 text-center">
       <p className="mb-4 text-gray-500">No notes yet</p>

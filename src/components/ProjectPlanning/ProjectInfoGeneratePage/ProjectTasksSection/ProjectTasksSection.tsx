@@ -1,17 +1,7 @@
 import React from "react";
 import { Plus } from "lucide-react";
-import { Todo } from "../../../../types/ProjectPlanning/project";
 import { ProjectTodoItem } from "./ProjectTodoItem";
-
-interface ProjectTasksSectionProps {
-  projectTodos: Todo[];
-  editingTodoId: number | null;
-  setEditingTodoId: (id: number | null) => void;
-  updateProjectTodo: (todoId: number, updates: Partial<Todo>) => void;
-  deleteProjectTodo: (todoId: number) => void;
-  getStatusColor: (status: string) => string;
-  onAddClick: () => void;
-}
+import { ProjectTasksSectionProps } from "../../../../types/ProjectPlanning/ProjectInfoGeneratePage/ProjectTasksSection/ProjectTasksSection";
 
 export const ProjectTasksSection: React.FC<ProjectTasksSectionProps> = ({
   projectTodos,

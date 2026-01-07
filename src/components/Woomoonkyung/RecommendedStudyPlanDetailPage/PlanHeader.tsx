@@ -7,17 +7,7 @@ import {
   Download,
 } from "lucide-react";
 import StatusBadge from "../StatusBadge";
-
-interface PlanHeaderProps {
-  name: string;
-  description: string;
-  imageUrl?: string;
-  startDate: string;
-  endDate: string;
-  nodeCount: number;
-  state: "waiting" | "in progress" | "done";
-  isBookmarked: boolean;
-}
+import { PlanHeaderProps } from "../../../types/Woomoonkyung/RecommendedStudyPlanDetailPage/PlanHeader";
 
 const PlanHeader: React.FC<PlanHeaderProps> = ({
   name,

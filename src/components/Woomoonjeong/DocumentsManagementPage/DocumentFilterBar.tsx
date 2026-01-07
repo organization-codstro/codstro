@@ -1,12 +1,7 @@
 import React from "react";
 import { Filter, Search } from "lucide-react";
-
-interface DocumentFilterBarProps {
-  selectedGroupType: string;
-  onSelectType: (type: any) => void;
-  searchQuery: string;
-  onSearchChange: (query: string) => void;
-}
+import { DocumentFilterBarProps } from "../../../types/Woomoonjeong/DocumentsManagementPage/DocumentFilterBar";
+import { GroupTypes } from "../../../constants/Woomoonjeong/Woomoonjeong";
 
 const DocumentFilterBar: React.FC<DocumentFilterBarProps> = ({
   selectedGroupType,
@@ -14,17 +9,6 @@ const DocumentFilterBar: React.FC<DocumentFilterBarProps> = ({
   searchQuery,
   onSearchChange,
 }) => {
-  const types = [
-    "all",
-    "web",
-    "app",
-    "server",
-    "game",
-    "security",
-    "work",
-    "other",
-  ] as const;
-
   return (
     <div className="p-6 bg-white border border-purple-100 shadow-sm rounded-xl">
       <div className="flex flex-wrap items-center gap-4">
@@ -32,7 +16,7 @@ const DocumentFilterBar: React.FC<DocumentFilterBarProps> = ({
           <Filter className="w-4 h-4 text-gray-500" />
           <span className="text-sm font-medium text-gray-700">Group Type:</span>
           <div className="flex flex-wrap gap-2">
-            {types.map((type) => (
+            {GroupTypes.map((type) => (
               <button
                 key={type}
                 onClick={() => onSelectType(type)}

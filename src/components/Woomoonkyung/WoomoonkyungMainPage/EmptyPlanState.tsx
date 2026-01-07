@@ -1,10 +1,5 @@
 import React from "react";
-
-interface EmptyPlanStateProps {
-  message: string;
-  actionLabel: string;
-  onActionClick: () => void;
-}
+import { EmptyPlanStateProps } from "../../../types/Woomoonkyung/WoomoonkyungMainPage/EmptyPlanState";
 
 const EmptyPlanState: React.FC<EmptyPlanStateProps> = ({
   message,

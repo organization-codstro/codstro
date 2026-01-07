@@ -1,7 +1,4 @@
-interface NoteEditorProps {
-  value: string;
-  onChange: (val: string) => void;
-}
+import { NoteEditorProps } from "../../../types/Concepts/NoteCreatePage/NoteEditor";
 
 export default function NoteEditor({ value, onChange }: NoteEditorProps) {
   return (

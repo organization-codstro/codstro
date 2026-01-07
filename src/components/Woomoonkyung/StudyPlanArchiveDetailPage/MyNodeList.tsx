@@ -1,11 +1,7 @@
 import React from "react";
 import MyNodeItem from "./MyNodeItem";
-import { StudyPlanNode } from "../../../types/Woomoonkyung/StudyPlanNode";
 import EmptyState from "../RecommendedStudyPlansPage/EmptyState";
-
-interface MyNodeListProps {
-  nodes: StudyPlanNode[];
-}
+import { MyNodeListProps } from "../../../types/Woomoonkyung/StudyPlanArchiveDetailPage/MyNodeList";
 
 const MyNodeList: React.FC<MyNodeListProps> = ({ nodes }) => {
   return (

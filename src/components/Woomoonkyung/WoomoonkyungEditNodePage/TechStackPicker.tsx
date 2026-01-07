@@ -1,18 +1,6 @@
 import React from "react";
 import { Search, X } from "lucide-react";
-
-interface TechStack {
-  tech_stack_id: number;
-  tech_stack_name: string;
-  tech_stack_img_url: string;
-}
-
-interface TechStackPickerProps {
-  techStacks: TechStack[];
-  searchQuery: string;
-  onSearchChange: (query: string) => void;
-  onAddStack: (stack: TechStack) => void;
-}
+import { TechStackPickerProps } from "../../../types/Woomoonkyung/WoomoonkyungEditNodePage/TechStackPicker";
 
 const TechStackPicker: React.FC<TechStackPickerProps> = ({
   techStacks,

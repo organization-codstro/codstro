@@ -1,11 +1,4 @@
-interface NavButton {
-  label: string;
-  onClick: () => void;
-}
-
-interface ChatListNavProps {
-  buttons: NavButton[];
-}
+import { ChatListNavProps } from "../../../types/AiChat/ChatRoomsListPage/ChatListNav";
 
 export function ChatListNav({ buttons }: ChatListNavProps) {
   return (

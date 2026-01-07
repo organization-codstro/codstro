@@ -1,8 +1,5 @@
 import React from "react";
-
-interface FilterSectionProps {
-  children: React.ReactNode;
-}
+import { FilterSectionProps } from "../../../types/Woomoonjeong/RecommendedDocumentsMainPage/FilterSection";
 
 const FilterSection: React.FC<FilterSectionProps> = ({ children }) => {
   return (

@@ -1,8 +1,5 @@
 import { useNavigate } from "react-router-dom";
-
-interface NotFoundViewProps {
-  message?: string;
-}
+import { NotFoundViewProps } from "../../../types/CompanyInformation/NotFoundView";
 
 export const LibraryNotFound = ({
   message = "Library not found.",

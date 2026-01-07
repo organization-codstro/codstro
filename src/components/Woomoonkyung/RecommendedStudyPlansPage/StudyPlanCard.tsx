@@ -6,17 +6,7 @@ import {
   Bookmark,
   BookmarkCheck,
 } from "lucide-react";
-import { StudyPlan } from "../../../types/Woomoonkyung/StudyPlanNode";
-
-
-interface StudyPlanCardProps {
-  plan: StudyPlan;
-  totalNodes: number;
-  isBookmarked: boolean;
-  onCardClick: (plan: StudyPlan) => void;
-  onToggleBookmark: (planId: number) => void;
-  onAddToMyPlans: (plan: StudyPlan) => void;
-}
+import { StudyPlanCardProps } from "../../../types/Woomoonkyung/RecommendedStudyPlansPage/StudyPlanCard";
 
 const StudyPlanCard: React.FC<StudyPlanCardProps> = ({
   plan,

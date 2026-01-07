@@ -1,10 +1,6 @@
 import React from "react";
 import { ArrowLeft, CreditCard as Edit3 } from "lucide-react";
-
-interface TodoDetailHeaderProps {
-  onBack: () => void;
-  onEdit: () => void;
-}
+import { TodoDetailHeaderProps } from "../../../types/Woomoonjeong/TodoManagementDetailPage/TodoDetailHeader";
 
 const TodoDetailHeader: React.FC<TodoDetailHeaderProps> = ({
   onBack,

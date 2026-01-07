@@ -2,12 +2,9 @@ import { ArrowLeft, Calendar, Bookmark } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { notices } from "../../data/Notice/notice";
 
-
-
 export default function NoticesList() {
   const navigate = useNavigate();
 
-  
   const getCategoryColor = (category: string) => {
     const colors: Record<string, string> = {
       Update: "bg-blue-100 text-blue-800",

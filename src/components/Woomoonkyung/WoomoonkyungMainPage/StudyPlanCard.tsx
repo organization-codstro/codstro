@@ -1,16 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Calendar, Target, Trash2, Award, User } from "lucide-react";
-import { StudyPlan } from "../../../types/Woomoonkyung/StudyPlanNode";
-
-interface StudyPlanCardProps {
-  plan: StudyPlan;
-  completedNodes: number;
-  totalNodes: number;
-  progress: number;
-  stateColors: Record<string, string>;
-  onPlanClick: (id: number) => void;
-  onDeleteClick: (e: React.MouseEvent, id: number) => void;
-}
+import { StudyPlanCardProps } from "../../../types/Woomoonkyung/WoomoonkyungMainPage/StudyPlanCard";
 
 const StudyPlanCard: React.FC<StudyPlanCardProps> = ({
   plan,

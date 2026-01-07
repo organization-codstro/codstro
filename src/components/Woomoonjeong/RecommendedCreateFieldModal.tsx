@@ -2,35 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import { RecommendedField } from "../../types/Woomoonjeong/woomoonjeong";
-
-interface AddFieldModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  field: RecommendedField;
-  onAdd: (fieldType: string) => void;
-}
-
-type FieldGroupType =
-  | "web"
-  | "app"
-  | "server"
-  | "game"
-  | "security"
-  | "work"
-  | "other";
-
-const fieldTypes: FieldGroupType[] = [
-  "web",
-  "app",
-  "server",
-  "game",
-  "security",
-  "work",
-  "other",
-];
-
-const DEFAULT_GROUP_TYPE: FieldGroupType = "web";
+import { GroupType } from "../../types/Woomoonjeong/woomoonjeong";
+import { DEFAULT_GROUP_TYPE } from "../../constants/Woomoonjeong/DocumentsManagementPage/CreateCustomFieldModal";
+import { GroupTypes } from "../../constants/Woomoonjeong/Woomoonjeong";
+import { AddFieldModalProps } from "../../types/Woomoonjeong/RecommendedCreateFieldModal";
 
 const AssignRecommendedFieldModal: React.FC<AddFieldModalProps> = ({
   isOpen,
@@ -39,7 +14,7 @@ const AssignRecommendedFieldModal: React.FC<AddFieldModalProps> = ({
   onAdd,
 }) => {
   const [selectedGroupType, setSelectedGroupType] =
-    useState<FieldGroupType>(DEFAULT_GROUP_TYPE);
+    useState<GroupType>(DEFAULT_GROUP_TYPE);
 
   // 모달 열릴 때마다 초기값 리셋
   useEffect(() => {
@@ -86,7 +61,7 @@ const AssignRecommendedFieldModal: React.FC<AddFieldModalProps> = ({
               Group Type
             </label>
             <div className="grid grid-cols-2 gap-2">
-              {fieldTypes.map((type) => (
+              {GroupTypes.map((type) => (
                 <button
                   key={type}
                   type="button"

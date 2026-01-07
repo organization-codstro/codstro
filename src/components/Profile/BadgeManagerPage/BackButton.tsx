@@ -1,9 +1,5 @@
 import { ArrowLeft } from "lucide-react";
-
-interface BackButtonProps {
-  onClick: () => void;
-  label?: string;
-}
+import { BackButtonProps } from "../../../types/Profile/BadgeManagerPage/BackButton";
 
 export default function BackButton({
   onClick,

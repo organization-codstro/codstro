@@ -3,19 +3,7 @@ import { Calendar, Target, Edit3 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import StatusBadge from "../StatusBadge";
 import ProgressBar from "../../ProgressBar";
-
-interface PlanDetailHeaderProps {
-  planId: string;
-  name: string;
-  description: string;
-  imageUrl?: string;
-  startDate: string;
-  endDate: string;
-  state: "done" | "in progress" | "waiting";
-  completedNodes: number;
-  totalNodes: number;
-  progressPercentage: number;
-}
+import { PlanDetailHeaderProps } from "../../../types/Woomoonkyung/StudyPlanArchiveDetailPage/PlanDetailHeader";
 
 const PlanDetailHeader: React.FC<PlanDetailHeaderProps> = ({
   planId,

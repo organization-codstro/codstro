@@ -1,18 +1,8 @@
+//개념을 ai와 이야기를 할때 사용되는 화면
+
 import { X, Send } from "lucide-react";
 import { useState } from "react";
-
-interface AIChatProps {
-  isOpen: boolean;
-  onClose: () => void;
-  conceptName: string;
-}
-
-interface Message {
-  id: string;
-  sender: "user" | "ai";
-  text: string;
-  timestamp: Date;
-}
+import { AIChatProps, Message } from "../../types/CompanyInformation/AIChat";
 
 export default function AIChat({ isOpen, onClose, conceptName }: AIChatProps) {
   const [messages, setMessages] = useState<Message[]>([
@@ -60,7 +50,7 @@ export default function AIChat({ isOpen, onClose, conceptName }: AIChatProps) {
     <>
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-30 z-40 transition-opacity"
+          className="fixed inset-0 z-40 transition-opacity bg-black bg-opacity-30"
           onClick={onClose}
         />
       )}
@@ -74,19 +64,19 @@ export default function AIChat({ isOpen, onClose, conceptName }: AIChatProps) {
           <div className="flex items-center justify-between p-6 border-b border-gray-200">
             <div>
               <h2 className="text-xl font-bold text-gray-900">AI Assistant</h2>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="mt-1 text-sm text-gray-600">
                 Learning about {conceptName}
               </p>
             </div>
             <button
               onClick={onClose}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              className="p-2 transition-colors rounded-lg hover:bg-gray-100"
             >
               <X className="w-5 h-5 text-gray-600" />
             </button>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-6 space-y-4">
+          <div className="flex-1 p-6 space-y-4 overflow-y-auto">
             {messages.map((message) => (
               <div
                 key={message.id}
@@ -119,25 +109,25 @@ export default function AIChat({ isOpen, onClose, conceptName }: AIChatProps) {
             ))}
           </div>
 
-          <div className="border-t border-gray-200 p-4 bg-gray-50">
+          <div className="p-4 border-t border-gray-200 bg-gray-50">
             <div className="flex gap-2">
               <textarea
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Type your question..."
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
                 rows={3}
               />
               <button
                 onClick={handleSendMessage}
                 disabled={!inputValue.trim()}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center"
+                className="flex items-center justify-center px-4 py-2 text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
               >
                 <Send className="w-4 h-4" />
               </button>
             </div>
-            <p className="text-xs text-gray-500 mt-2">
+            <p className="mt-2 text-xs text-gray-500">
               This conversation is temporary and won't be saved.
             </p>
           </div>

@@ -1,10 +1,4 @@
-import { LucideIcon } from "lucide-react";
-
-interface InfoFieldProps {
-  label: string;
-  value: string;
-  icon?: LucideIcon;
-}
+import { InfoFieldProps } from "../../../types/Profile/ProfilePage/InfoField";
 
 export default function InfoField({
   label,

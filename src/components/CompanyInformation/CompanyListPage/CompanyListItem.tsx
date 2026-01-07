@@ -1,12 +1,5 @@
 import { Building2, Bookmark, ExternalLink } from "lucide-react";
-import { Company } from "../../../types/CompanyInformation/company";
-
-interface CompanyListItemProps {
-  company: Company;
-  isBookmarked: boolean;
-  onToggleBookmark: (id: number, e: React.MouseEvent) => void;
-  onSelect: (id: number) => void;
-}
+import { CompanyListItemProps } from "../../../types/CompanyInformation/CompanyListPage/CompanyListItem";
 
 export function CompanyListItem({
   company,

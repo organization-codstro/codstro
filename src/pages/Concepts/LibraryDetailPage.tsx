@@ -8,11 +8,10 @@ import MarkdownRenderer from "../../components/Markdown/MarkdownRenderer";
 import RelatedItemGrid from "../../components/Concepts/CodingToolDetailPage/RelatedItemGrid";
 import AIChat from "../../components/CompanyInformation/AIChat";
 import AddTodoModal from "../../components/CompanyInformation/AddTodoModal";
-
+import { LibraryNotFound } from "../../components/Concepts/LibraryDetailPage/LibraryNotFound";
 
 export default function LibraryDetail() {
   const { libraryId } = useParams<{ libraryId: string }>();
-  const navigate = useNavigate();
   const [showAIChat, setShowAIChat] = useState(false);
   const [showTodoModal, setShowTodoModal] = useState<
     false | "documentation" | "clone_project"
@@ -20,7 +19,7 @@ export default function LibraryDetail() {
 
   // 데이터 예외 처리
   if (!library) {
-    
+    <LibraryNotFound />;
   }
 
   return (

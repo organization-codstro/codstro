@@ -1,14 +1,7 @@
 import React from "react";
 import { FilterGroup } from "../FilterGroup";
+import { ArchiveFiltersProps } from "../../../types/Woomoonro/WoomoonroArchivePage/ArchiveFilters";
 
-interface ArchiveFiltersProps {
-  selectedFilter: string;
-  setSelectedFilter: (v: any) => void;
-  selectedDifficulty: string;
-  setSelectedDifficulty: (v: any) => void;
-  sortBy: string;
-  setSortBy: (v: any) => void;
-}
 
 const ArchiveFilters: React.FC<ArchiveFiltersProps> = ({
   selectedFilter,

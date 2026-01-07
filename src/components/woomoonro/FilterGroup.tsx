@@ -1,9 +1,4 @@
-interface FilterGroupProps {
-  label: string;
-  current: string;
-  options: string[];
-  onChange: (val: any) => void;
-}
+import { FilterGroupProps } from "../../types/Woomoonro/FilterGroup";
 
 export const FilterGroup = ({
   label,

@@ -1,10 +1,7 @@
 import { Award } from "lucide-react";
+import { ProfileHeaderProps } from "../../../types/Profile/ProfilePage/ProfileHeader";
 
-interface ProfileHeaderProps {
-  name: string;
-  levelName: string;
-  levelDescription: string;
-}
+
 
 export default function ProfileHeader({
   name,

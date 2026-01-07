@@ -12,15 +12,9 @@ import {
   difficultyColors,
   statusColors,
 } from "../../../data/woomoonro/woomoonroData";
-import { Project, UserProject } from "../../../types/Woomoonro/woomoonro";
+import { ProjectCardProps } from "../../../types/Woomoonro/ProjectGrid/ProjectCard";
 
 // --- ProjectCard 컴포넌트 ---
-interface ProjectCardProps {
-  project: Project;
-  userProject?: UserProject;
-  onClick: (id: number) => void;
-  onToggleBookmark: (projectId: number) => void;
-}
 
 const ProjectCard = ({
   project,

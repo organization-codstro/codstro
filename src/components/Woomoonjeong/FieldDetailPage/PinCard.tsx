@@ -1,10 +1,6 @@
 import React from "react";
 import { FileText, Tag, ExternalLink } from "lucide-react";
-import { Pin } from "../../../types/Woomoonjeong/woomoonjeong";
-
-interface PinCardProps {
-  pin: Pin;
-}
+import { PinCardProps } from "../../../types/Woomoonjeong/FieldDetailPage/PinCard";
 
 const PinCard: React.FC<PinCardProps> = ({ pin }) => (
   <a

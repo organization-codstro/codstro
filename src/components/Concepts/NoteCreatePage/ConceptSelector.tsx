@@ -1,18 +1,5 @@
 import { Sparkles } from "lucide-react";
-
-interface Concept {
-  id: string;
-  name: string;
-  type: string;
-}
-
-interface ConceptSelectorProps {
-  availableConcepts: Concept[];
-  selectedConcepts: string[];
-  onToggle: (name: string) => void;
-  onHide: () => void;
-  onGenerateAI: () => void;
-}
+import { ConceptSelectorProps } from "../../../types/Concepts/NoteCreatePage/ConceptSelector";
 
 export default function ConceptSelector({
   availableConcepts,

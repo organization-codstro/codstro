@@ -1,12 +1,5 @@
 import { Zap } from "lucide-react";
-
-interface LevelProgressProps {
-  points: number;
-  progressPercentage: number;
-  pointsToNextLevel: number;
-  currentLevelName: string;
-  nextLevelName?: string;
-}
+import { LevelProgressProps } from "../../../types/Profile/ProfilePage/LevelProgress";
 
 export default function LevelProgress({
   points,

@@ -1,10 +1,6 @@
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
-interface BackButtonProps {
-  to: string;
-  label?: string;
-}
+import { BackButtonProps } from "../../types/Concepts/BackButton";
 
 export default function BackButton({
   to,

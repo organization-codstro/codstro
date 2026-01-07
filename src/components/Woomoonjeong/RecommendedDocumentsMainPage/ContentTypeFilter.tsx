@@ -1,10 +1,6 @@
 import React from "react";
 import { Filter } from "lucide-react";
-
-interface ContentTypeFilterProps {
-  contentType: "documents" | "fields";
-  onChange: (type: "documents" | "fields") => void;
-}
+import { ContentTypeFilterProps } from "../../../types/Woomoonjeong/RecommendedDocumentsMainPage/ContentTypeFilter";
 
 const ContentTypeFilter: React.FC<ContentTypeFilterProps> = ({
   contentType,

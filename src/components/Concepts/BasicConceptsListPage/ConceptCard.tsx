@@ -1,11 +1,4 @@
-interface ConceptCardProps {
-  id: string;
-  name: string;
-  description: string;
-  category: string;
-  tags: string[];
-  onClick: (id: string) => void;
-}
+import { ConceptCardProps } from "../../../types/Concepts/BasicConceptsListPage/ConceptCard";
 
 export default function ConceptCard({
   id,

@@ -1,21 +1,7 @@
 //공식 문서 링크 리스트
 
 import { ExternalLink } from "lucide-react";
-
-interface Site {
-  name: string;
-  url: string;
-  desc: string;
-}
-
-interface DocCategory {
-  category: string;
-  sites: Site[];
-}
-
-interface DocumentationSectionProps {
-  data: DocCategory[];
-}
+import { DocumentationSectionProps } from "../../../types/Concepts/ConceptMainPage/DocumentationSection";
 
 export default function DocumentationSection({
   data,

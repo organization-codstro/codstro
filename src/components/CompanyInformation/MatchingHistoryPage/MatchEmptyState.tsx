@@ -1,8 +1,5 @@
 import { TrendingUp } from "lucide-react";
-
-interface MatchEmptyStateProps {
-  message?: string;
-}
+import { MatchEmptyStateProps } from "../../../types/CompanyInformation/MatchingHistoryPage/MatchEmptyState";
 
 export const MatchEmptyState = ({
   message = "아직 매칭 기록이 없습니다",

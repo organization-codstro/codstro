@@ -1,7 +1,4 @@
-interface NoteTitleInputProps {
-  value: string;
-  onChange: (val: string) => void;
-}
+import { NoteTitleInputProps } from "../../../types/Concepts/NoteCreatePage/NoteTitleInput";
 
 export default function NoteTitleInput({
   value,

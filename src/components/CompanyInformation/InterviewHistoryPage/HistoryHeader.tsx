@@ -1,7 +1,4 @@
-interface HistoryHeaderProps {
-  title: string;
-  description: string;
-}
+import { HistoryHeaderProps } from "../../../types/CompanyInformation/InterviewHistoryPage/HistoryHeader";
 
 export const HistoryHeader = ({ title, description }: HistoryHeaderProps) => {
   return (

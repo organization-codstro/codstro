@@ -1,11 +1,8 @@
 import React from "react";
 import { CheckCircle2, PlayCircle, Circle } from "lucide-react";
-import { Todo } from "../../../types/Woomoonjeong/woomoonjeong";
+import { TodoStatusBadgeProps } from "../../../types/Woomoonjeong/TodoManagementDetailPage/TodoStatusBadge";
 
 
-interface TodoStatusBadgeProps {
-  status: Todo["status"];
-}
 
 const TodoStatusBadge: React.FC<TodoStatusBadgeProps> = ({ status }) => {
   const config = {

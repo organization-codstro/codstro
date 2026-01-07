@@ -1,10 +1,6 @@
 //노트의 메타데이터 표시
 
-interface NoteDetailHeaderProps {
-  title: string;
-  concepts: string[];
-  lastUpdated: string;
-}
+import { NoteDetailHeaderProps } from "../../../types/Concepts/NoteDetailPage/NoteDetailHeader";
 
 export default function NoteDetailHeader({
   title,

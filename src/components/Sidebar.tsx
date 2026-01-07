@@ -47,8 +47,9 @@ import {
   ListChecks,
 } from "lucide-react";
 import { navigationData } from "../data/navigationData";
-import { NavigationItem } from "../types/type";
 import Logo from "../assets/images/Logo.svg";
+import { NavigationItem } from "../types/Sidebar/sidebar";
+import { SidebarProps } from "../types/Sidebar";
 
 const iconMap = {
   CheckSquare,
@@ -95,11 +96,6 @@ const iconMap = {
   Clock,
   ListChecks,
 };
-
-interface SidebarProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());

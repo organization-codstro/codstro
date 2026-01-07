@@ -1,10 +1,6 @@
 import { useState } from "react";
-import { Todo } from "../../types/ProjectPlanning/project";
-
-interface TodoFormProps {
-  onAdd: (todo: Todo) => void;
-  onCancel: () => void;
-}
+import { Todo } from "../../../../types/ProjectPlanning/project";
+import { TodoFormProps } from "../../../../types/ProjectPlanning/ProjectInfoGeneratePage/ProjectTodoModal/TodoForm";
 
 export function TodoForm({ onAdd, onCancel }: TodoFormProps) {
   const [name, setName] = useState("");
@@ -22,18 +18,18 @@ export function TodoForm({ onAdd, onCancel }: TodoFormProps) {
     if (!name.trim()) return;
 
     const newTodo: Todo = {
-      todo_id:
+      id:
         Math.max(
           0,
           ...Array.from({ length: 100 }, (_, i) => Math.random() * 1000)
         ) + 1,
-      todo_name: name,
-      todo_content: content,
-      todo_description: description,
-      todo_start_date: startDate,
-      todo_end_date: endDate,
-      todo_status: "waiting",
-      todo_created_date: new Date().toISOString().split("T")[0],
+      name: name,
+      content: content,
+      description: description,
+      start_date: startDate,
+      end_date: endDate,
+      status: "pending",
+      created_at: new Date().toISOString().split("T")[0],
     };
 
     onAdd(newTodo);

@@ -1,17 +1,6 @@
 import { FileText } from "lucide-react";
 import { DeleteButton } from "../DeleteButton";
-
-interface InterviewCardProps {
-  interview: {
-    id: number;
-    company_qna_question: string;
-    company_user_qna_answer: string;
-    company_user_qna_create_date: string;
-  };
-  isPending: boolean;
-  onDelete: (e: React.MouseEvent) => void;
-  onClick: () => void;
-}
+import { InterviewCardProps } from "../../../types/CompanyInformation/InterviewHistoryPage/InterviewCard";
 
 export const InterviewCard = ({
   interview,

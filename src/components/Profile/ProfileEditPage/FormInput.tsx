@@ -1,14 +1,4 @@
-import { LucideIcon } from "lucide-react";
-
-interface FormInputProps {
-  label: string;
-  value: string;
-  type?: string;
-  icon: LucideIcon;
-  disabled?: boolean;
-  helperText?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
+import { FormInputProps } from "../../../types/Profile/ProfileEditPage/FormInput";
 
 export default function FormInput({
   label,

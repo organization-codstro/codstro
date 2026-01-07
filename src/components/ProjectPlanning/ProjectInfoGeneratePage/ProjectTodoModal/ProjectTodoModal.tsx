@@ -1,13 +1,7 @@
 import React from "react";
 import { X } from "lucide-react";
 import { TodoForm } from "./TodoForm";
-import { Todo } from "../../../../types/ProjectPlanning/project";
-
-interface ProjectTodoModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onAdd: (todo: Todo) => void;
-}
+import { ProjectTodoModalProps } from "../../../../types/ProjectPlanning/ProjectInfoGeneratePage/ProjectTodoModal/ProjectTodoModal";
 
 export const ProjectTodoModal: React.FC<ProjectTodoModalProps> = ({
   isOpen,

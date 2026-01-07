@@ -1,12 +1,6 @@
 import React from "react";
 import { Search } from "lucide-react";
-
-interface SearchInputProps {
-  value: string;
-  onChange: (value: string) => void;
-  placeholder?: string;
-  className?: string;
-}
+import { SearchInputProps } from "../../../types/Woomoonjeong/RecommendedDocumentsMainPage/SearchInput";
 
 const SearchInput: React.FC<SearchInputProps> = ({
   value,

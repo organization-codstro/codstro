@@ -1,9 +1,5 @@
 import { Trash2 } from "lucide-react";
-
-interface DeleteButtonProps {
-  isPending: boolean;
-  onClick: (e: React.MouseEvent) => void;
-}
+import { DeleteButtonProps } from "../../types/CompanyInformation/DeleteButton";
 
 export const DeleteButton = ({ isPending, onClick }: DeleteButtonProps) => {
   return (

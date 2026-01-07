@@ -1,10 +1,6 @@
 import React from "react";
 import { Calendar, CheckCircle2 } from "lucide-react";
-import { StudyPlanNode } from "../../../types/Woomoonkyung/StudyPlanNode";
-
-interface MyNodeItemProps {
-  node: StudyPlanNode;
-}
+import { MyNodeItemProps } from "../../../types/Woomoonkyung/StudyPlanArchiveDetailPage/MyNodeItem";
 
 const MyNodeItem: React.FC<MyNodeItemProps> = ({ node }) => {
   const isCompleted = node.completed;

@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { studyPlans } from "../../data/Woomoonkyung/woomoonkyungData";
-import { StudyPlan } from "../../types/Woomoonkyung/StudyPlanNode";
+import { StudyPlan } from "../../types/Woomoonkyung/Woomoonkyung";
 import StudyPlanForm from "../../components/Woomoonkyung/StudyPlanForm";
 import PlanNotFound from "../../components/Woomoonkyung/WoomoonkyungEditPage/PlanNotFound";
 import PageHeader from "../../components/Woomoonkyung/WoomoonkyungEditPage/PageHeader";

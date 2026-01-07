@@ -1,19 +1,6 @@
 import React from "react";
 import { GripVertical, Calendar, Trash2 } from "lucide-react";
-import { StudyPlanNode } from "../../../types/Woomoonkyung/StudyPlanNode";
-
-interface DraggableNodeItemProps {
-  node: StudyPlanNode;
-  index: number;
-  isDragging: boolean;
-  isEditing: boolean;
-  deletePending: boolean;
-  onDragStart: (e: React.DragEvent, index: number) => void;
-  onDragOver: (e: React.DragEvent, index: number) => void;
-  onDragEnd: () => void;
-  onClick: () => void;
-  onDeleteClick: (e: React.MouseEvent, nodeId: number) => void;
-}
+import { DraggableNodeItemProps } from "../../../types/Woomoonkyung/WoomoonkyungEditNodePage/DraggableNodeItem";
 
 const DraggableNodeItem: React.FC<DraggableNodeItemProps> = ({
   node,

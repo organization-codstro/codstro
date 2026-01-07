@@ -1,11 +1,8 @@
 import React from "react";
 import { BookOpen } from "lucide-react";
-import { StudyPlanNode } from "../../../types/Woomoonkyung/StudyPlanNode";
+import { StudyPlanNode } from "../../../types/Woomoonkyung/Woomoonkyung";
 import NodeItem from "./NodeItem";
-
-interface NodeListProps {
-  nodes: StudyPlanNode[];
-}
+import { NodeListProps } from "../../../types/Woomoonkyung/RecommendedStudyPlanDetailPage/NodeList";
 
 const NodeList: React.FC<NodeListProps> = ({ nodes }) => {
   return (

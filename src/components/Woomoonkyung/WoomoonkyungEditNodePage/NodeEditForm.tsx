@@ -1,14 +1,6 @@
 import React from "react";
 import { X } from "lucide-react";
-import { StudyPlanNode } from "../../../types/Woomoonkyung/StudyPlanNode";
-
-interface NodeEditFormProps {
-  node: StudyPlanNode;
-  errors: { name: boolean; startDate: boolean; endDate: boolean };
-  onChange: (updatedNode: StudyPlanNode) => void;
-  onSave: () => void;
-  onCancel: () => void;
-}
+import { NodeEditFormProps } from "../../../types/Woomoonkyung/WoomoonkyungEditNodePage/NodeEditForm";
 
 const NodeEditForm: React.FC<NodeEditFormProps> = ({
   node,

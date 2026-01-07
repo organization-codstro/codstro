@@ -1,9 +1,10 @@
+//mbit main 페이지, 지금은 사용하지 않음
+
 import { TrendingUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { recommendedConcepts } from "../../data/Concepts/recommendedConcepts";
 import { documentationSites } from "../../data/Concepts/documentationSites";
 import ConceptListHeader from "../../components/Concepts/ConceptListHeader";
-import RecommendedConceptCard from "../../components/Concepts/ConceptMainPage/RecommendedConceptCard";
 import DocumentationSection from "../../components/Concepts/ConceptMainPage/DocumentationSection";
 import RecommendedGrid from "../../components/Concepts/ConceptMainPage/RecommendedGrid";
 

@@ -1,12 +1,5 @@
 import { ExternalLink } from "lucide-react";
-
-interface CompanyInfoSectionProps {
-  description: string;
-  values: string;
-  website: string;
-  createdDate: string;
-  updatedDate: string;
-}
+import { CompanyInfoSectionProps } from "../../../types/CompanyInformation/CompanyDetailPage/CompanyInfoSection";
 
 export function CompanyInfoSection({
   description,

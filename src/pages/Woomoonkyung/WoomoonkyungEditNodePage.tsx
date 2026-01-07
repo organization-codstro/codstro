@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, FileText, Plus } from "lucide-react";
 import { toast } from "react-toastify";
-import { StudyPlanNode } from "../../types/Woomoonkyung/StudyPlanNode";
+import { StudyPlanNode } from "../../types/Woomoonkyung/Woomoonkyung";
 import {
   mockPlanInfo,
   mockTechStacks,

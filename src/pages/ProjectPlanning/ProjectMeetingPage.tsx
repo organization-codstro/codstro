@@ -1,16 +1,14 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Plus, MessageSquare, Calendar, ChevronRight } from "lucide-react";
+import { MessageSquare } from "lucide-react";
+import {
+  MeetingListItem,
+  MeetingType,
+} from "../../types/ProjectPlanning/ProjectMeetingPage/ProjectMeetingPage";
+import { MeetingHeader } from "../../components/ProjectPlanning/ProjectMeetingPage/MeetingHeader";
+import { MeetingTab } from "../../components/ProjectPlanning/ProjectMeetingPage/MeetingTab";
+import { MeetingItemCard } from "../../components/ProjectPlanning/ProjectMeetingPage/MeetingItemCard";
 
-interface MeetingListItem {
-  meeting_id: number;
-  meeting_name: string;
-  meeting_purpose: string;
-  meeting_created_date: string;
-  type: "feature" | "free";
-}
-
-type MeetingType = "feature" | "free" | "all";
 
 export default function ProjectMeeting() {
   const { projectId } = useParams<{ projectId: string }>();
@@ -18,6 +16,7 @@ export default function ProjectMeeting() {
 
   const [selectedType, setSelectedType] = useState<MeetingType>("all");
 
+  // Mock Data
   const [meetings] = useState<MeetingListItem[]>([
     {
       meeting_id: 1,
@@ -50,97 +49,49 @@ export default function ProjectMeeting() {
     },
   ]);
 
-  const ongoingMeetings = meetings.filter((m) => m.type === "feature");
-  const completedMeetings = meetings.filter((m) => m.type === "free");
+  const featureMeetings = meetings.filter((m) => m.type === "feature");
+  const freeMeetings = meetings.filter((m) => m.type === "free");
 
-  // 선택된 타입에 따라 필터링
-  const getFilteredMeetings = () => {
-    switch (selectedType) {
-      case "feature":
-        return ongoingMeetings;
-      case "free":
-        return completedMeetings;
-      case "all":
-      default:
-        return meetings;
-    }
-  };
-
-  const filteredMeetings = getFilteredMeetings();
-
-  const handleCreateMeeting = () => {
-    navigate(`/projects/meetings/new`);
-  };
-
-  const handleSelectMeeting = (meetingId: number) => {
-    navigate(`/projects/meetings/${meetingId}`);
-  };
+  const filteredMeetings = meetings.filter((m) => {
+    if (selectedType === "all") return true;
+    return m.type === selectedType;
+  });
 
   return (
     <div className="flex-1 overflow-auto bg-gray-50">
-      {/* Header */}
-      <div className="px-8 py-6 bg-white border-b border-gray-200">
-        <div className="flex items-center justify-between max-w-6xl mx-auto">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">Meetings</h1>
-            <p className="mt-1 text-gray-600">
-              Project #{projectId} · Manage meetings
-            </p>
-          </div>
-          <button
-            onClick={handleCreateMeeting}
-            className="flex items-center px-6 py-3 space-x-2 font-medium text-white rounded-lg hover:opacity-90"
-            style={{ backgroundColor: "#587CF0" }}
-          >
-            <Plus className="w-5 h-5" />
-            <span>New Meeting</span>
-          </button>
-        </div>
-      </div>
+      <MeetingHeader
+        projectId={projectId}
+        onCreate={() => navigate(`/projects/meetings/new`)}
+      />
 
-      {/* Meeting Type Tabs */}
+      {/* Tabs Section */}
       <div className="px-8 py-4 bg-white border-b border-gray-200">
         <div className="flex items-center max-w-6xl mx-auto space-x-4">
-          <button
-            onClick={() => setSelectedType("all")}
-            className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
-              selectedType === "all"
-                ? "text-white"
-                : "text-gray-700 bg-gray-100 hover:bg-gray-200"
-            }`}
-            style={selectedType === "all" ? { backgroundColor: "#587CF0" } : {}}
-          >
-            All Meetings ({meetings.length})
-          </button>
-          <button
-            onClick={() => setSelectedType("feature")}
-            className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
-              selectedType === "feature"
-                ? "text-white"
-                : "text-gray-700 bg-gray-100 hover:bg-gray-200"
-            }`}
-            style={
-              selectedType === "feature" ? { backgroundColor: "#587CF0" } : {}
-            }
-          >
-            Feature Meetings ({ongoingMeetings.length})
-          </button>
-          <button
-            onClick={() => setSelectedType("free")}
-            className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
-              selectedType === "free"
-                ? "text-white"
-                : "text-gray-700 bg-gray-100 hover:bg-gray-200"
-            }`}
-            style={
-              selectedType === "free" ? { backgroundColor: "#587CF0" } : {}
-            }
-          >
-            Free Meetings ({completedMeetings.length})
-          </button>
+          <MeetingTab
+            label="All Meetings"
+            count={meetings.length}
+            type="all"
+            selectedType={selectedType}
+            onClick={setSelectedType}
+          />
+          <MeetingTab
+            label="Feature Meetings"
+            count={featureMeetings.length}
+            type="feature"
+            selectedType={selectedType}
+            onClick={setSelectedType}
+          />
+          <MeetingTab
+            label="Free Meetings"
+            count={freeMeetings.length}
+            type="free"
+            selectedType={selectedType}
+            onClick={setSelectedType}
+          />
         </div>
       </div>
 
+      {/* List Section */}
       <div className="max-w-6xl p-8 mx-auto">
         {filteredMeetings.length === 0 ? (
           <div className="p-12 text-center bg-white border-2 border-gray-300 border-dashed rounded-lg">
@@ -149,55 +100,22 @@ export default function ProjectMeeting() {
               No meetings found
             </h3>
             <p className="text-gray-600">
-              {(() => {
-                if (selectedType === "feature") {
-                  return "No ongoing feature meetings";
-                }
-                if (selectedType === "free") {
-                  return "No completed free meetings";
-                }
-                return "No meetings available";
-              })()}
+              {selectedType === "feature"
+                ? "No ongoing feature meetings"
+                : selectedType === "free"
+                ? "No completed free meetings"
+                : "No meetings available"}
             </p>
           </div>
         ) : (
           <div className="space-y-3">
-            {filteredMeetings.map((meeting) => {
-              return (
-                <div
-                  key={meeting.meeting_id}
-                  onClick={() => handleSelectMeeting(meeting.meeting_id)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      handleSelectMeeting(meeting.meeting_id);
-                    }
-                  }}
-                  role="button"
-                  tabIndex={0}
-                  className={`p-6 bg-white border rounded-lg cursor-pointer hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 `}
-                >
-                  <div className="flex justify-between">
-                    <div>
-                      <div className="flex items-center mb-2 space-x-3">
-                        <MessageSquare className={`w-5 h-5 `} />
-                        <h3 className="text-lg font-semibold">
-                          {meeting.meeting_name}
-                        </h3>
-                      </div>
-                      <p className="mb-2 text-gray-600">
-                        {meeting.meeting_purpose}
-                      </p>
-                      <div className="flex items-center text-sm text-gray-500">
-                        <Calendar className="w-4 h-4 mr-1" />
-                        {meeting.meeting_created_date}
-                      </div>
-                    </div>
-                    <ChevronRight className="w-6 h-6 mt-1 text-gray-400" />
-                  </div>
-                </div>
-              );
-            })}
+            {filteredMeetings.map((meeting) => (
+              <MeetingItemCard
+                key={meeting.meeting_id}
+                meeting={meeting}
+                onClick={(id) => navigate(`/projects/meetings/${id}`)}
+              />
+            ))}
           </div>
         )}
       </div>

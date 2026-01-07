@@ -1,12 +1,5 @@
 import { Calendar, MessageCircle } from "lucide-react";
-
-interface PersonaHeroProps {
-  name: string;
-  gender: string;
-  age: number;
-  createdDate: string;
-  onChatClick: () => void;
-}
+import { PersonaHeroProps } from "../../../types/AiChat/AIPersonaDetailPage/PersonaHero";
 
 export function PersonaHero({
   name,

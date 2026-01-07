@@ -1,11 +1,4 @@
-interface ThirdPartyCardProps {
-  id: string;
-  name: string;
-  description: string;
-  category: string;
-  tags: string[];
-  onClick: (id: string) => void;
-}
+import { ThirdPartyCardProps } from "../../../types/Concepts/ThirdPartyListPage/ThirdPartyCard";
 
 export default function ThirdPartyCard({
   id,

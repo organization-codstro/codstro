@@ -1,10 +1,5 @@
 import React from "react";
-
-interface TodoInfoSectionProps {
-  label: string;
-  children: React.ReactNode;
-  className?: string;
-}
+import { TodoInfoSectionProps } from "../../../types/Woomoonjeong/TodoManagementDetailPage/TodoInfoSection";
 
 const TodoInfoSection: React.FC<TodoInfoSectionProps> = ({
   label,

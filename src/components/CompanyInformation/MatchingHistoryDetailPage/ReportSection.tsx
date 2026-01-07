@@ -1,10 +1,5 @@
+import { ReportSectionProps } from "../../../types/CompanyInformation/MatchingHistoryDetailPage/ReportSection";
 import MarkdownRenderer from "../../Markdown/MarkdownRenderer";
-
-interface ReportSectionProps {
-  title: string;
-  content: string;
-  isLast?: boolean;
-}
 
 export const ReportSection = ({
   title,

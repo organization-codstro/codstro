@@ -1,15 +1,9 @@
 import { Project, UserProject } from "../../../types/Woomoonro/woomoonro";
 import { Archive } from "lucide-react";
 import ProjectCard from "./ProjectCard";
+import { ProjectGridProps } from "../../../types/Woomoonro/ProjectGrid/ProjectGrid";
 
 // --- ProjectGrid 컴포넌트 ---
-interface ProjectGridProps {
-  projects: Project[];
-  getUserProject: (id: number) => UserProject | undefined;
-  onCardClick: (id: number) => void;
-  onToggleBookmark: (projectId: number) => void;
-}
-
 const ProjectGrid = ({
   projects,
   getUserProject,

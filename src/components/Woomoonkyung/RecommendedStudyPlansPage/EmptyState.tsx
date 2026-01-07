@@ -1,10 +1,7 @@
 import React from "react";
 import { BookOpen } from "lucide-react";
+import { EmptyStateProps } from "../../../types/Woomoonkyung/RecommendedStudyPlansPage/EmptyState";
 
-interface EmptyStateProps {
-  title: string;
-  description: string;
-}
 
 const EmptyState: React.FC<EmptyStateProps> = ({ title, description }) => {
   return (

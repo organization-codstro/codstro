@@ -1,44 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import { Pin } from "../../../../types/Woomoonjeong/woomoonjeong";
+import { GroupType } from "../../../../types/Woomoonjeong/woomoonjeong";
 import { woomoonjeongData } from "../../../../data/woomoonjeong/woomoonjeongData";
+import { EditDocumentModalProps } from "../../../../types/Woomoonjeong/DocumentsManagementPage/Modal/EditDocumentModal";
+import { DEFAULT_GROUP_TYPE } from "../../../../constants/Woomoonjeong/DocumentsManagementPage/CreateCustomFieldModal";
+import { GroupTypes } from "../../../../constants/Woomoonjeong/Woomoonjeong";
 
-export interface AddDocumentPayload {
-  groupType: string;
-  fieldName: string;
-  documentName: string;
-  documentUrl: string;
-  documentCategory: string;
-  documentNameDescription: string;
-}
-
-interface EditDocumentModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  pin: Pin; // 수정 대상 핀
-  onAdd: (payload: AddDocumentPayload) => void;
-}
-
-type FieldGroupType =
-  | "web"
-  | "app"
-  | "server"
-  | "game"
-  | "security"
-  | "work"
-  | "other";
-
-const fieldTypes: FieldGroupType[] = [
-  "web",
-  "app",
-  "server",
-  "game",
-  "security",
-  "work",
-  "other",
-];
-
-const DEFAULT_GROUP_TYPE: FieldGroupType = "web";
 
 const EditDocumentModal: React.FC<EditDocumentModalProps> = ({
   isOpen,
@@ -54,7 +21,7 @@ const EditDocumentModal: React.FC<EditDocumentModalProps> = ({
   const [categories, setCategories] = useState<string[]>([]);
 
   const [selectedGroupType, setSelectedGroupType] =
-    useState<FieldGroupType>(DEFAULT_GROUP_TYPE);
+    useState<GroupType>(DEFAULT_GROUP_TYPE);
 
   const [fieldInfo, setFieldInfo] = useState("");
   const [fieldOptions, setFieldOptions] = useState<string[]>([]);
@@ -66,7 +33,7 @@ const EditDocumentModal: React.FC<EditDocumentModalProps> = ({
         const foundPin = field.pins.find((p) => p.id === pinId);
         if (foundPin) {
           return {
-            groupType: group.name as FieldGroupType,
+            groupType: group.name as GroupType,
             fieldName: field.name,
             fieldOptions: group.fields.map((f) => f.name),
             pin: foundPin,
@@ -251,7 +218,7 @@ const EditDocumentModal: React.FC<EditDocumentModalProps> = ({
               그룹
             </label>
             <div className="grid grid-cols-2 gap-2">
-              {fieldTypes.map((type) => (
+              {GroupTypes.map((type) => (
                 <button
                   key={type}
                   type="button"

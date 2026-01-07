@@ -1,12 +1,6 @@
 import { Building2, Bookmark, ArrowLeft } from "lucide-react";
+import { CompanyDetailHeaderProps } from "../../../types/CompanyInformation/CompanyDetailPage/CompanyDetailHeader";
 
-interface CompanyDetailHeaderProps {
-  name: string;
-  industry: string;
-  isBookmarked: boolean;
-  onBack: () => void;
-  onBookmarkToggle: () => void;
-}
 
 export function CompanyDetailHeader({
   name,

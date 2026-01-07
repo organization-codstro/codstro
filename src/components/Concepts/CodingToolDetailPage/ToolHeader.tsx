@@ -1,13 +1,5 @@
 import { CheckCircle } from "lucide-react";
-
-interface ToolHeaderProps {
-  name: string;
-  category: string;
-  description: string;
-  tags: string[];
-  isUnderstood: boolean;
-  onToggleUnderstood?: () => void;
-}
+import { ToolHeaderProps } from "../../../types/Concepts/CodingToolDetailPage/ToolHeader";
 
 export default function ToolHeader({
   name,

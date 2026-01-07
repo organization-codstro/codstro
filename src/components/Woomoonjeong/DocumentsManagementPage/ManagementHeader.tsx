@@ -1,10 +1,7 @@
 import React from "react";
 import { Plus } from "lucide-react";
+import { ManagementHeaderProps } from "../../../types/Woomoonjeong/DocumentsManagementPage/ManagementHeader";
 
-interface ManagementHeaderProps {
-  onCreateDocument: () => void;
-  onCreateField: () => void;
-}
 
 const ManagementHeader: React.FC<ManagementHeaderProps> = ({
   onCreateDocument,

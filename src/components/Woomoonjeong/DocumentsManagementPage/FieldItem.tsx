@@ -9,22 +9,7 @@ import {
   Check,
 } from "lucide-react";
 import PinItem from "./PinItem";
-import { Field, Group } from "../../../types/Woomoonjeong/woomoonjeong";
-
-interface FieldItemProps {
-  field: Field;
-  group: Group;
-  isExpanded: boolean;
-  onToggle: () => void;
-  onSaveName: (groupId: number, fieldId: number, newName: string) => void;
-  onDeleteAction: (
-    e: React.MouseEvent,
-    type: "field" | "pin",
-    id: number
-  ) => void;
-  deletePending: { type: string; id: number } | null;
-  onEditPin: (pinId: number) => void;
-}
+import { FieldItemProps } from "../../../types/Woomoonjeong/DocumentsManagementPage/FieldItem";
 
 const FieldItem: React.FC<FieldItemProps> = ({
   field,

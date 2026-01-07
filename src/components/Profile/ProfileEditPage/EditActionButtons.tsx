@@ -1,11 +1,5 @@
 import { Save } from "lucide-react";
-
-interface EditActionButtonsProps {
-  onCancel: () => void;
-  onSave: () => void;
-  saveLabel?: string;
-  cancelLabel?: string;
-}
+import { EditActionButtonsProps } from "../../../types/Profile/ProfileEditPage/EditActionButtons";
 
 export default function EditActionButtons({
   onCancel,

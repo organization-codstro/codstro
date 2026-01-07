@@ -1,10 +1,7 @@
 import { ArrowRight } from "lucide-react";
+import { CreateRoomFooterProps } from "../../../types/AiChat/CreateChatRoomPage/CreateRoomFooter";
 
-interface CreateRoomFooterProps {
-  step: number;
-  isValid: boolean;
-  onNext: () => void;
-}
+
 
 export function CreateRoomFooter({
   step,

@@ -1,17 +1,7 @@
 import React from "react";
+import { TodoInputFieldProps } from "../../../types/Woomoonjeong/TodoManagementUpdate/TodoInputField";
 
-interface Props {
-  label: string;
-  name: string;
-  type?: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<any>) => void;
-  error?: string;
-  placeholder?: string;
-  required?: boolean;
-}
-
-const TodoInputField: React.FC<Props> = ({
+const TodoInputField: React.FC<TodoInputFieldProps> = ({
   label,
   name,
   type = "text",

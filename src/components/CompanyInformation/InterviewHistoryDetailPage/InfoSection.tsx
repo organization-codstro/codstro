@@ -1,8 +1,4 @@
-interface InfoSectionProps {
-  title: string;
-  content: string;
-  variant?: "default" | "gray" | "blue";
-}
+import { InfoSectionProps } from "../../../types/CompanyInformation/InterviewHistoryDetailPage/InfoSection";
 
 export const InfoSection = ({
   title,

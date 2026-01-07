@@ -1,9 +1,5 @@
 import { ArrowLeft } from "lucide-react";
-
-interface DetailHeaderProps {
-  title?: string;
-  onBack: () => void;
-}
+import { DetailHeaderProps } from "../../../types/AiChat/AIPersonaDetailPage/DetailHeader";
 
 export function DetailHeader({ title = "Profile", onBack }: DetailHeaderProps) {
   return (

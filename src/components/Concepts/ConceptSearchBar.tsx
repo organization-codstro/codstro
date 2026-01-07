@@ -1,9 +1,6 @@
 import { Search, Filter } from "lucide-react";
+import { ConceptSearchBarProps } from "../../types/Concepts/ConceptSearchBar";
 
-interface ConceptSearchBarProps {
-  onSearchChange?: (value: string) => void;
-  onFilterClick?: () => void;
-}
 
 export default function ConceptSearchBar({
   onSearchChange,

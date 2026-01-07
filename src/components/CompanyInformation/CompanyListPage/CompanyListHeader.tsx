@@ -1,7 +1,4 @@
-interface CompanyListHeaderProps {
-  title?: string;
-  description?: string;
-}
+import { CompanyListHeaderProps } from "../../../types/CompanyInformation/CompanyListPage/CompanyListHeader";
 
 export function CompanyListHeader({
   title = "회사 정보",

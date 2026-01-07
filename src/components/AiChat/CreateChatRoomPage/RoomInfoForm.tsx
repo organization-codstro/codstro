@@ -1,14 +1,7 @@
-interface RoomData {
-  name: string;
-  type: "daily" | "project";
-  topics: string;
-  isMain: boolean;
-}
-
-interface RoomInfoFormProps {
-  data: RoomData;
-  onChange: (data: RoomData) => void;
-}
+import {
+  RoomData,
+  RoomInfoFormProps,
+} from "../../../types/AiChat/CreateChatRoomPage/RoomInfoForm";
 
 export function RoomInfoForm({ data, onChange }: RoomInfoFormProps) {
   const updateField = (field: keyof RoomData, value: any) => {

@@ -1,9 +1,6 @@
 import React from "react";
+import { ProgressBarProps } from "../types/ProgressBar";
 
-interface ProgressBarProps {
-  percentage: number;
-  label?: string;
-}
 
 const ProgressBar: React.FC<ProgressBarProps> = ({ percentage, label }) => {
   const roundedPercentage = Math.round(percentage);

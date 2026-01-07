@@ -1,8 +1,4 @@
-import { ChatMessage } from "../../../types/AiChat/aiChat";
-
-interface MessageBubbleProps {
-  message: ChatMessage;
-}
+import { MessageBubbleProps } from "../../../types/AiChat/ChatConversation/MessageBubble";
 
 export function MessageBubble({ message }: MessageBubbleProps) {
   const isUser = message.chat_message_sender === "USER";

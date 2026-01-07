@@ -1,10 +1,4 @@
-interface CollectionCardProps {
-  name: string;
-  gender: string;
-  personality: string;
-  preferredFeatures: string;
-  onClick: () => void;
-}
+import { CollectionCardProps } from "../../../types/AiChat/AIPersonasCollectionPage/CollectionCard";
 
 export function CollectionCard({
   name,

@@ -1,26 +1,15 @@
 import React, { useState } from "react";
-import { ArrowLeft, Save, X } from "lucide-react";
+import {  Save, X } from "lucide-react";
 import { woomoonjeongData } from "../../../data/woomoonjeong/woomoonjeongData";
 import { TodoFormData } from "../../../types/Woomoonjeong/woomoonjeong";
+import { TodoManagementCreateProps } from "../../../types/Woomoonjeong/TodoManagementPage/CreateTodoManagementModal";
+import { GroupTypes } from "../../../constants/Woomoonjeong/Woomoonjeong";
 
-interface TodoManagementCreateProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
 
 const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
   isOpen,
   onClose,
 }) => {
-  const formFieldData: string[] = [
-    "web",
-    "app",
-    "server",
-    "game",
-    "security",
-    "work",
-    "other",
-  ];
 
   const [formData, setFormData] = useState<TodoFormData>({
     name: "",
@@ -144,7 +133,7 @@ const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
               Related Field <span className="text-red-500">*</span>
             </label>
             <div className="flex flex-wrap gap-2">
-              {formFieldData.map((field, index) => (
+              {GroupTypes.map((field, index) => (
                 <button
                   key={field}
                   type="button"

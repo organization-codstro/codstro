@@ -1,12 +1,5 @@
 import { ExternalLink, Tag } from "lucide-react";
-import { RecommendedPin } from "../../../types/Woomoonjeong/woomoonjeong";
-
-interface DocumentCardProps {
-  pin: RecommendedPin;
-  isSaved: boolean;
-  onToggleSave: () => void;
-  onAdd?: () => void;
-}
+import { DocumentCardProps } from "../../../types/Woomoonjeong/RecommendedDocumentsMainPage/DocumentCard";
 
 const DocumentCard: React.FC<DocumentCardProps> = ({
   pin,

@@ -1,7 +1,4 @@
-interface ConceptListHeaderProps {
-  title: string;
-  description: string;
-}
+import { ConceptListHeaderProps } from "../../types/Concepts/ConceptListHeader";
 
 export default function ConceptListHeader({
   title,

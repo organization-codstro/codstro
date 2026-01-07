@@ -1,12 +1,6 @@
 import React from "react";
 import { Plus, Archive } from "lucide-react";
-
-interface DashboardHeaderProps {
-  title: string;
-  description: string;
-  onArchiveClick: () => void;
-  onCreateClick: () => void;
-}
+import { DashboardHeaderProps } from "../../../types/Woomoonkyung/WoomoonkyungMainPage/DashboardHeader";
 
 const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   title,

@@ -1,10 +1,5 @@
 import { ArrowLeft } from "lucide-react";
-
-interface CollectionHeaderProps {
-  title?: string;
-  description?: string;
-  onBack: () => void;
-}
+import { CollectionHeaderProps } from "../../../types/AiChat/AIPersonasCollectionPage/CollectionHeader";
 
 export function CollectionHeader({
   title = "Friend Collection",

@@ -1,17 +1,6 @@
 import React from "react";
 import { Clock, Github, ExternalLink } from "lucide-react";
-
-interface ProjectInfoGridProps {
-  difficulty: string;
-  difficultyColor: string;
-  status?: string;
-  statusColor?: string;
-  estimatedHours: number;
-  techStack: string[];
-  tags: string[];
-  githubUrl?: string;
-  demoUrl?: string;
-}
+import { ProjectInfoGridProps } from "../../../types/Woomoonro/ProjectDetailPage/ProjectInfoGrid";
 
 const ProjectInfoGrid: React.FC<ProjectInfoGridProps> = ({
   difficulty,

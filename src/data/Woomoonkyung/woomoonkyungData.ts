@@ -4,7 +4,7 @@ import { TechStack } from "../../types/Woomoonjeong/SortableNodeItem/sortableNod
 import {
   StudyPlan,
   StudyPlanNode,
-} from "../../types/Woomoonkyung/StudyPlanNode";
+} from "../../types/Woomoonkyung/Woomoonkyung";
 
 // // Mock Data
 export const techStacks: TechStack[] = [

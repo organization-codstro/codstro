@@ -1,8 +1,4 @@
-interface ProfileAvatarProps {
-  name: string;
-  size?: string;
-  backgroundColor?: string;
-}
+import { ProfileAvatarProps } from "../../../types/Profile/ProfileEditPage/ProfileAvatar";
 
 export default function ProfileAvatar({
   name,

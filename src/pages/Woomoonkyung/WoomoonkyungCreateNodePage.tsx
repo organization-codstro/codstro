@@ -10,7 +10,7 @@ import {
   X,
   Search,
 } from "lucide-react";
-import { StudyPlanNode } from "../../types/Woomoonkyung/StudyPlanNode";
+import { StudyPlanNode } from "../../types/Woomoonkyung/Woomoonkyung";
 import {
   mockPlanInfo,
   mockTechStacks,

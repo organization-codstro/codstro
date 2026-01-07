@@ -2,44 +2,11 @@
 
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import { Group } from "../../../../types/Woomoonjeong/woomoonjeong";
+import { Group, GroupType } from "../../../../types/Woomoonjeong/woomoonjeong";
 import { woomoonjeongData } from "../../../../data/woomoonjeong/woomoonjeongData";
-
-export interface AddDocumentPayload {
-  groupName: "web" | "app" | "server" | "game" | "security" | "work" | "other";
-  fieldName: string;
-  documentName: string;
-  documentUrl: string;
-  documentDescription: string;
-  documentCategory: string;
-}
-
-interface CreateDocumentModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onAdd: (payload: AddDocumentPayload) => void;
-}
-
-type FieldGroupType =
-  | "web"
-  | "app"
-  | "server"
-  | "game"
-  | "security"
-  | "work"
-  | "other";
-
-const fieldTypes: FieldGroupType[] = [
-  "web",
-  "app",
-  "server",
-  "game",
-  "security",
-  "work",
-  "other",
-];
-
-const DEFAULT_GROUP_TYPE: FieldGroupType = "web";
+import { DEFAULT_GROUP_TYPE } from "../../../../constants/Woomoonjeong/DocumentsManagementPage/CreateCustomFieldModal";
+import { GroupTypes } from "../../../../constants/Woomoonjeong/Woomoonjeong";
+import { CreateDocumentModalProps } from "../../../../types/Woomoonjeong/DocumentsManagementPage/Modal/CreateDocumentModal";
 
 const CreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
   isOpen,
@@ -52,7 +19,7 @@ const CreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
   const [categoryInput, setCategoryInput] = useState("");
   const [categories, setCategories] = useState<string[]>([]);
   const [selectedGroupType, setSelectedGroupType] =
-    useState<FieldGroupType>(DEFAULT_GROUP_TYPE);
+    useState<GroupType>(DEFAULT_GROUP_TYPE);
   const [fieldInfo, setFieldInfo] = useState("");
   const [fieldOptions, setFieldOptions] = useState<string[]>([]);
 
@@ -266,7 +233,7 @@ const CreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
               그룹 선택
             </label>
             <div className="grid grid-cols-4 gap-2">
-              {fieldTypes.map((type) => (
+              {GroupTypes.map((type) => (
                 <button
                   key={type}
                   type="button"

@@ -1,11 +1,5 @@
 import { ArrowLeft } from "lucide-react";
-
-interface InterviewHeaderProps {
-  companyName: string;
-  currentIndex: number;
-  totalCount: number;
-  onBack: () => void;
-}
+import { InterviewHeaderProps } from "../../../types/CompanyInformation/InterviewDetailPage/InterviewHeader";
 
 export function InterviewHeader({
   companyName,

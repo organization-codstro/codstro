@@ -1,12 +1,5 @@
 import { ExternalLink } from "lucide-react";
-
-interface ThirdPartyHeaderProps {
-  name: string;
-  category: string;
-  description: string;
-  tags: string[];
-  officialSite: string;
-}
+import { ThirdPartyHeaderProps } from "../../../types/Concepts/ThirdPartyDetailPage/ThirdPartyHeader";
 
 export default function ThirdPartyHeader({
   name,

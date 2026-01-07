@@ -1,14 +1,6 @@
+import { RecommendedConceptProps } from "../../../types/Concepts/ConceptMainPage/RecommendedConceptCard";
+
 //추천 카드 개별 요소
-
-interface RecommendedConceptProps {
-  id: string;
-  type: string;
-  title: string;
-  category: string;
-  tags: string[];
-  onClick: (type: string, id: string) => void;
-}
-
 export default function RecommendedConceptCard({
   id,
   type,

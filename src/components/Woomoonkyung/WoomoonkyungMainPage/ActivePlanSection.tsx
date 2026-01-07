@@ -1,9 +1,5 @@
 import React from "react";
-
-interface ActivePlanSectionProps {
-  count: number;
-  children: React.ReactNode;
-}
+import { ActivePlanSectionProps } from "../../../types/Woomoonkyung/WoomoonkyungMainPage/ActivePlanSection";
 
 const ActivePlanSection: React.FC<ActivePlanSectionProps> = ({
   count,

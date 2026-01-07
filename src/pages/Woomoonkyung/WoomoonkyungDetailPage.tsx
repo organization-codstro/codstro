@@ -4,7 +4,7 @@ import {
   studyPlans,
   studyPlanNodes,
 } from "../../data/Woomoonkyung/woomoonkyungData";
-import { StudyPlan } from "../../types/Woomoonkyung/StudyPlanNode";
+import { StudyPlan } from "../../types/Woomoonkyung/Woomoonkyung";
 import BackButton from "../../components/Woomoonkyung/RecommendedStudyPlanDetailPage/BackButton";
 import PlanDetailHeader from "../../components/Woomoonkyung/StudyPlanArchiveDetailPage/PlanDetailHeader";
 import MyNodeList from "../../components/Woomoonkyung/StudyPlanArchiveDetailPage/MyNodeList";

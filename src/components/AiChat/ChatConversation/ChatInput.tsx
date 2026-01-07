@@ -1,10 +1,6 @@
 import { Smile, Send } from "lucide-react";
+import { ChatInputProps } from "../../../types/AiChat/ChatConversation/ChatInput";
 
-interface ChatInputProps {
-  value: string;
-  onChange: (val: string) => void;
-  onSend: () => void;
-}
 
 export function ChatInput({ value, onChange, onSend }: ChatInputProps) {
   const handleKeyPress = (e: React.KeyboardEvent) => {

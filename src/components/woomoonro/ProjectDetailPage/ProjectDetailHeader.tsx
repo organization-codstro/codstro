@@ -1,13 +1,6 @@
 import React from "react";
 import { ArrowLeft, Bookmark, BookmarkCheck } from "lucide-react";
-
-interface ProjectDetailHeaderProps {
-  title: string;
-  description: string;
-  isBookmarked: boolean;
-  onBack: () => void;
-  onToggleBookmark: () => void;
-}
+import { ProjectDetailHeaderProps } from "../../../types/Woomoonro/ProjectDetailPage/ProjectDetailHeader";
 
 const ProjectDetailHeader: React.FC<ProjectDetailHeaderProps> = ({
   title,

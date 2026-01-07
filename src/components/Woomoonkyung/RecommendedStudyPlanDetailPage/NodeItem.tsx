@@ -1,10 +1,6 @@
 import React from "react";
 import { Calendar } from "lucide-react";
-import { StudyPlanNode } from "../../../types/Woomoonkyung/StudyPlanNode";
-
-interface NodeItemProps {
-  node: StudyPlanNode;
-}
+import { NodeItemProps } from "../../../types/Woomoonkyung/RecommendedStudyPlanDetailPage/NodeItem";
 
 const NodeItem: React.FC<NodeItemProps> = ({ node }) => {
   return (

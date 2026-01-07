@@ -1,17 +1,6 @@
 import { MatchScoreBadge } from "./MatchScoreBadge";
 import { DeleteButton } from "../DeleteButton"; // 이전에 만든 것 재사용
-
-interface MatchingCardProps {
-  match: {
-    company_user_matche_id: number;
-    company_user_matche_name: string;
-    company_user_matche_created_date: string;
-    match_rate: number;
-  };
-  isPending: boolean;
-  onDelete: (e: React.MouseEvent) => void;
-  onClick: () => void;
-}
+import { MatchingCardProps } from "../../../types/CompanyInformation/MatchingHistoryPage/MatchingCard";
 
 export const MatchingCard = ({
   match,

@@ -1,11 +1,5 @@
 import { CheckCircle } from "lucide-react";
-import { Badge } from "../../../data/Profile/badge";
-
-interface BadgeCardProps {
-  badge: Badge;
-  onClick: () => void;
-  isDisplayed?: boolean;
-}
+import { BadgeCardProps } from "../../../types/Profile/BadgeManagerPage/BadgeCard";
 
 export default function BadgeCard({
   badge,

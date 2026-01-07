@@ -1,12 +1,7 @@
 import React from "react";
+import { FieldSelectorProps } from "../../../types/Woomoonjeong/TodoManagementUpdate/FieldSelector";
 
-interface Props {
-  fields: string[];
-  selectedId: number;
-  onSelect: (id: number) => void;
-}
-
-const FieldSelector: React.FC<Props> = ({ fields, selectedId, onSelect }) => (
+const FieldSelector: React.FC<FieldSelectorProps> = ({ fields, selectedId, onSelect }) => (
   <div>
     <label className="block mb-2 text-sm font-medium text-gray-700">
       Related Field

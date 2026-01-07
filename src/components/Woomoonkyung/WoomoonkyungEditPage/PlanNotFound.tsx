@@ -1,11 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { AlertCircle, ArrowLeft } from "lucide-react";
-
-interface PlanNotFoundProps {
-  message?: string;
-  backToPath?: string;
-}
+import { PlanNotFoundProps } from "../../../types/Woomoonkyung/WoomoonkyungEditPage/PlanNotFound";
 
 const PlanNotFound: React.FC<PlanNotFoundProps> = ({
   message = "Study plan not found",

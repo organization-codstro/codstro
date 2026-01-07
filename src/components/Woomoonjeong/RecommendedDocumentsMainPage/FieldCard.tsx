@@ -1,12 +1,6 @@
 import { ExternalLink } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { RecommendedField } from "../../../types/Woomoonjeong/woomoonjeong";
-interface FieldCardProps {
-  field: RecommendedField;
-  isSaved: boolean;
-  onToggleSave: () => void;
-  onAdd?: () => void;
-}
+import { FieldCardProps } from "../../../types/Woomoonjeong/RecommendedDocumentsMainPage/FieldCard";
 
 const FieldCard: React.FC<FieldCardProps> = ({
   field,

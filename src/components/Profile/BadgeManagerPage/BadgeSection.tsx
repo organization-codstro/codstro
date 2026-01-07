@@ -1,11 +1,5 @@
 import React from "react";
-
-interface BadgeSectionProps {
-  title: string;
-  count: number;
-  children: React.ReactNode;
-  className?: string;
-}
+import { BadgeSectionProps } from "../../../types/Profile/BadgeManagerPage/BadgeSection";
 
 export default function BadgeSection({
   title,

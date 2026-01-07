@@ -1,9 +1,5 @@
 import React from "react";
-
-interface ProjectHeaderSectionProps {
-  title?: string;
-  subtitle?: string;
-}
+import { ProjectHeaderSectionProps } from "../../../types/ProjectPlanning/ProjectInfoGeneratePage/ProjectHeaderSection";
 
 export const ProjectHeaderSection: React.FC<ProjectHeaderSectionProps> = ({
   title = "Create New Project",

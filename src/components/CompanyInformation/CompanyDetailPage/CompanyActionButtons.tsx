@@ -1,9 +1,6 @@
 import { TrendingUp, FileQuestion } from "lucide-react";
+import { CompanyActionButtonsProps } from "../../../types/CompanyInformation/CompanyDetailPage/CompanyActionButtons";
 
-interface CompanyActionButtonsProps {
-  onAnalysisClick: () => void;
-  onInterviewClick: () => void;
-}
 
 export function CompanyActionButtons({
   onAnalysisClick,

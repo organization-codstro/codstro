@@ -1,14 +1,4 @@
-interface Friend {
-  ai_persona_id: number;
-  ai_persona_name: string;
-  ai_persona_personality: string;
-}
-
-interface FriendSelectorProps {
-  friends: Friend[];
-  selectedIds: number[];
-  onToggle: (id: number) => void;
-}
+import { FriendSelectorProps } from "../../../types/AiChat/CreateChatRoomPage/FriendSelector";
 
 export function FriendSelector({
   friends,

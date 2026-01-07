@@ -171,7 +171,7 @@ export default function AppRoutes() {
         <Route path="/ai-chat/add-friend" element={<Page.AddFriend />} />
 
         {/* ================= MBIT ================= */}
-        <Route path="/mbit" element={<Page.MbitHome />} />
+        {/* <Route path="/mbit" element={<Page.MbitHome />} /> */}
         <Route path="/mbit/fortune" element={<Page.TodayFortune />} />
         <Route
           path="/mbit/fortune-encyclopedia"

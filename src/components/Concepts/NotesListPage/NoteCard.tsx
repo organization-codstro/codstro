@@ -1,13 +1,5 @@
 import { Calendar } from "lucide-react";
-
-interface NoteCardProps {
-  id: string;
-  title: string;
-  preview: string;
-  concepts: string[];
-  lastUpdated: string;
-  onClick: (id: string) => void;
-}
+import { NoteCardProps } from "../../../types/Concepts/NotesListPage/NoteCard";
 
 export default function NoteCard({
   id,

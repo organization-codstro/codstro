@@ -5,18 +5,7 @@ import {
 } from "../../../types/Woomoonjeong/woomoonjeong";
 import DocumentCard from "./DocumentCard";
 import FieldCard from "./FieldCard";
-
-interface DocumentsGridProps {
-  contentType: "documents" | "fields";
-  documents: RecommendedPin[];
-  fields: RecommendedField[];
-  savedPins: Set<number>;
-  savedFields: Set<number>;
-  onToggleSavePin: (id: number) => void;
-  onToggleSaveField: (id: number) => void;
-  onAddDocument?: (pin: RecommendedPin) => void;
-  onAddField?: (field: RecommendedField) => void;
-}
+import { DocumentsGridProps } from "../../../types/Woomoonjeong/RecommendedDocumentsMainPage/DocumentsGrid";
 
 const DocumentsGrid: React.FC<DocumentsGridProps> = ({
   contentType,

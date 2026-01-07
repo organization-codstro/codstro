@@ -1,7 +1,4 @@
-interface PersonaInfoCardProps {
-  title: string;
-  content: string;
-}
+import { PersonaInfoCardProps } from "../../../types/AiChat/AIPersonaDetailPage/PersonaInfoCard";
 
 export function PersonaInfoCard({ title, content }: PersonaInfoCardProps) {
   return (

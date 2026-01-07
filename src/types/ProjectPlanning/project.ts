@@ -69,3 +69,9 @@ export interface ProjectBasicInfo {
   concepts_to_cover?: string;
   other_info?: string;
 }
+
+export interface Message {
+  sender: "AI" | "USER";
+  message: string;
+  timestamp: string;
+}

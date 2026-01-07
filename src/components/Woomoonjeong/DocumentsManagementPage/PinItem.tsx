@@ -7,15 +7,7 @@ import {
   ExternalLink,
   Check,
 } from "lucide-react";
-import { Pin } from "../../../types/Woomoonjeong/woomoonjeong";
-
-
-interface PinItemProps {
-  pin: Pin;
-  isDeletePending: boolean;
-  onEdit: (e: React.MouseEvent) => void;
-  onDelete: (e: React.MouseEvent) => void;
-}
+import { PinItemProps } from "../../../types/Woomoonjeong/DocumentsManagementPage/PinItem";
 
 const PinItem: React.FC<PinItemProps> = ({
   pin,

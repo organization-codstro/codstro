@@ -1,11 +1,5 @@
 import React from "react";
-
-interface StatCardProps {
-  icon: React.ReactNode;
-  label: string;
-  value: number;
-  bgColor: string;
-}
+import { StatCardProps } from "../../../types/Woomoonro/WoomoonroArchivePage/StatCard";
 
 export const StatCard = ({ icon, label, value, bgColor }: StatCardProps) => (
   <div className="p-4 bg-white border border-purple-100 rounded-lg shadow-sm">

@@ -1,7 +1,4 @@
-interface BookmarkHeaderProps {
-  title?: string;
-  description?: string;
-}
+import { BookmarkHeaderProps } from "../../../types/CompanyInformation/BookmarksPage/BookmarkHeader";
 
 export function BookmarkHeader({
   title = "관심있는 회사",

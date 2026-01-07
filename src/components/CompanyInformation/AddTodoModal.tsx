@@ -2,21 +2,7 @@ import { X, Calendar, AlertCircle, FolderOpen } from "lucide-react";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-interface AddTodoModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  conceptName: string;
-  todoType: "documentation" | "clone_project" | "custom";
-}
-
-interface TodoForm {
-  title: string;
-  group: string;
-  description: string;
-  dueDate: string;
-  priority: "low" | "medium" | "high";
-}
+import { AddTodoModalProps, TodoForm } from "../../types/CompanyInformation/AddTodoModal";
 
 export default function AddTodoModal({
   isOpen,

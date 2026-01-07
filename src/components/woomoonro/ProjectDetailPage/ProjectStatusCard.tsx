@@ -1,13 +1,6 @@
 import React from "react";
 import ProgressBar from "../../ProgressBar";
-
-interface ProjectStatusCardProps {
-  currentStatus: string;
-  onStatusChange: (status: any) => void;
-  completedTodos: number;
-  totalTodos: number;
-  progressPercentage: number;
-}
+import { ProjectStatusCardProps } from "../../../types/Woomoonro/ProjectDetailPage/ProjectStatusCard";
 
 const ProjectStatusCard: React.FC<ProjectStatusCardProps> = ({
   currentStatus,

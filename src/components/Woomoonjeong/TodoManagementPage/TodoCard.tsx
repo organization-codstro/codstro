@@ -8,16 +8,9 @@ import {
   Check,
 } from "lucide-react";
 import { Todo } from "../../../types/Woomoonjeong/woomoonjeong";
+import { TodoCardProps } from "../../../types/Woomoonjeong/TodoManagementPage/TodoCard";
 
-interface Props {
-  todo: Todo;
-  isDeletePending: boolean;
-  onNavigate: () => void;
-  onToggleStatus: (e: React.MouseEvent) => void;
-  onDeleteClick: (e: React.MouseEvent) => void;
-}
-
-const TodoCard: React.FC<Props> = ({
+const TodoCard: React.FC<TodoCardProps> = ({
   todo,
   isDeletePending,
   onNavigate,

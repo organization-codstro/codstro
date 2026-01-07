@@ -1,9 +1,7 @@
 import { MessageCircle, Plus } from "lucide-react";
+import { LibraryActionButtonsProps } from "../../../types/Concepts/LibraryDetailPage/LibraryActionButtons";
 
-interface LibraryActionButtonsProps {
-  onShowAIChat: () => void;
-  onAddTodo: (type: "documentation" | "clone_project") => void;
-}
+
 
 export default function LibraryActionButtons({
   onShowAIChat,

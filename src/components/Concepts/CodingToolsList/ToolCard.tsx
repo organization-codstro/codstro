@@ -1,11 +1,5 @@
-interface ToolCardProps {
-  id: string;
-  name: string;
-  description: string;
-  category: string;
-  tags: string[];
-  onClick: (id: string) => void;
-}
+import { ToolCardProps } from "../../../types/Concepts/CodingToolsList/ToolCard";
+
 
 export default function ToolCard({
   id,

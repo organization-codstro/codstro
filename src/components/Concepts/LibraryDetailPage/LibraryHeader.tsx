@@ -1,12 +1,5 @@
 import { ExternalLink } from "lucide-react";
-
-interface LibraryHeaderProps {
-  name: string;
-  language: string;
-  description: string;
-  tags: string[];
-  officialSite: string;
-}
+import { LibraryHeaderProps } from "../../../types/Concepts/LibraryDetailPage/LibraryHeader";
 
 export default function LibraryHeader({
   name,

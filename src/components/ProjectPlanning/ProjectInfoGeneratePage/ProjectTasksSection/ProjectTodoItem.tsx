@@ -1,16 +1,7 @@
 import React from "react";
 import { Calendar, Trash2, X, Check } from "lucide-react";
 import { Todo } from "../../../../types/ProjectPlanning/project";
-
-interface ProjectTodoItemProps {
-  todo: Todo;
-  isEditing: boolean;
-  onEdit: () => void;
-  onCancelEdit: () => void;
-  onUpdate: (todoId: number, updates: Partial<Todo>) => void;
-  onDelete: (todoId: number) => void;
-  getStatusColor: (status: string) => string;
-}
+import { ProjectTodoItemProps } from "../../../../types/ProjectPlanning/ProjectInfoGeneratePage/ProjectTasksSection/ProjectTodoItem";
 
 export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
   todo,

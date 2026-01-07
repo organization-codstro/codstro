@@ -1,18 +1,5 @@
 import { UserPlus } from "lucide-react";
-
-interface Persona {
-  ai_persona_id: number;
-  ai_persona_name: string;
-  ai_persona_personality: string;
-}
-
-interface PersonaCardProps {
-  persona: Persona;
-  isFriend: boolean;
-  onToggleFriend?: (id: number) => void;
-  onViewProfile: (id: number) => void;
-  variant?: "horizontal" | "vertical";
-}
+import { PersonaCardProps } from "../../../types/AiChat/AddFriendPage/PersonaCard";
 
 export function PersonaCard({
   persona,

@@ -4,16 +4,9 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+import { TodoCalendarProps } from "../../../types/Woomoonjeong/TodoManagementPage/TodoCalendar";
 
-interface Props {
-  calendarDate: Date;
-  selectedDate: Date;
-  onNavigate: (direction: "prev" | "next") => void;
-  onSelectDate: (date: Date) => void;
-  getTodoCount: (date: Date) => number;
-}
-
-const TodoCalendar: React.FC<Props> = ({
+const TodoCalendar: React.FC<TodoCalendarProps> = ({
   calendarDate,
   selectedDate,
   onNavigate,

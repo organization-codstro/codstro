@@ -1,10 +1,5 @@
 import { Plus } from "lucide-react";
-
-interface NotesListHeaderProps {
-  title: string;
-  description: string;
-  onCreateClick: () => void;
-}
+import { NotesListHeaderProps } from "../../../types/Concepts/NotesListPage/NotesListHeader";
 
 export default function NotesListHeader({
   title,

@@ -3,13 +3,7 @@ import {
   Bookmark as BookmarkIcon,
   ExternalLink,
 } from "lucide-react";
-import { Company } from "../../../types/CompanyInformation/company";
-
-interface BookmarkCardProps {
-  company: Company;
-  onRemove: (id: number, e: React.MouseEvent) => void;
-  onClick: (id: number) => void;
-}
+import { BookmarkCardProps } from "../../../types/CompanyInformation/BookmarksPage/BookmarkCard";
 
 export function BookmarkCard({
   company,

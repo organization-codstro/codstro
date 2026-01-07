@@ -1,8 +1,4 @@
-import { ReactNode } from "react";
-
-interface ConceptGridProps {
-  children: ReactNode;
-}
+import { ConceptGridProps } from "../../types/Concepts/ConceptGrid";
 
 export default function ConceptGrid({ children }: ConceptGridProps) {
   return (

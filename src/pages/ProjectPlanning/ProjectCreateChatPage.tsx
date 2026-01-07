@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
-import { Send, ArrowRight } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ProjectBasicInfo } from "../../types/ProjectPlanning/project";
+import { ProjectChatHeader } from "../../components/ProjectPlanning/ProjectCreateChatPage/ProjectChatHeader";
+import { ProjectChatMessage } from "../../components/ProjectPlanning/ProjectCreateChatPage/ProjectChatMessage";
+import { ProjectChatInput } from "../../components/ProjectPlanning/ProjectCreateChatPage/ProjectChatInput";
 
 export default function ProjectCreateChat() {
   const navigate = useNavigate();
@@ -49,11 +51,11 @@ export default function ProjectCreateChat() {
   const handleSend = () => {
     if (!input.trim()) return;
 
-    const newMessages = [...messages, { sender: "USER", message: input }];
-
-    setMessages(newMessages);
+    const userMsg = { sender: "USER", message: input };
+    setMessages((prev) => [...prev, userMsg]);
     setInput("");
 
+    // AI 응답 시뮬레이션
     setTimeout(() => {
       setMessages((prev) => [
         ...prev,
@@ -72,96 +74,38 @@ export default function ProjectCreateChat() {
         basicInfo,
         chatHistory: messages,
       },
-      replace: true, // 뒤로가기 방지
+      replace: true,
     });
   };
 
   const handleBack = () => {
-    // todo : 단계 저장 api 연결
+    // todo: 단계 저장 API 연결
     navigate("/projects");
   };
 
   return (
     <div className="flex flex-col flex-1 min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="px-8 py-6 bg-white border-b border-gray-200">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-2xl font-bold text-gray-900">
-            Create New Project
-          </h1>
-          <p className="mt-1 text-gray-600">
-            Step 2: Discuss your project idea with AI
-          </p>
-        </div>
-      </div>
+      <ProjectChatHeader />
 
-      {/* Chat */}
       <div className="flex-1 overflow-auto">
         <div className="max-w-4xl p-8 mx-auto space-y-4">
           {messages.map((msg, idx) => (
-            <div
+            <ProjectChatMessage
               key={`msg-${idx}-${msg.sender}`}
-              className={`flex ${
-                msg.sender === "USER" ? "justify-end" : "justify-start"
-              }`}
-            >
-              <div
-                className={`max-w-2xl px-6 py-4 rounded-2xl ${
-                  msg.sender === "USER"
-                    ? "text-white"
-                    : "bg-white border border-gray-200 text-gray-900"
-                }`}
-                style={
-                  msg.sender === "USER" ? { backgroundColor: "#587CF0" } : {}
-                }
-              >
-                <p className="text-sm leading-relaxed">{msg.message}</p>
-              </div>
-            </div>
+              sender={msg.sender}
+              message={msg.message}
+            />
           ))}
         </div>
       </div>
 
-      {/* Input */}
-      <div className="p-6 bg-white border-t border-gray-200">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex items-center mb-4 space-x-4">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSend()}
-              placeholder="Type your message..."
-              className="flex-1 px-6 py-3 border border-gray-300 rounded-full focus:outline-none focus:border-blue-400"
-            />
-            <button
-              onClick={handleSend}
-              className="p-3 text-white transition-all rounded-full hover:opacity-90"
-              style={{ backgroundColor: "#587CF0" }}
-            >
-              <Send className="w-5 h-5" />
-            </button>
-          </div>
-
-          <div className="flex justify-between">
-            <button
-              onClick={handleBack}
-              className="px-6 py-2 font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"
-            >
-              Save
-            </button>
-
-            <button
-              onClick={handleNext}
-              className="flex items-center px-6 py-2 space-x-2 font-medium text-white rounded-lg"
-              style={{ backgroundColor: "#587CF0" }}
-            >
-              <span>Next: Generate Project Info</span>
-              <ArrowRight className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
-      </div>
+      <ProjectChatInput
+        input={input}
+        setInput={setInput}
+        onSend={handleSend}
+        onNext={handleNext}
+        onBack={handleBack}
+      />
     </div>
   );
 }

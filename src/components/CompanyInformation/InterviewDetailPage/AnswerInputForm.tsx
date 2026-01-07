@@ -1,9 +1,4 @@
-interface AnswerInputFormProps {
-  question: string;
-  answer: string;
-  onAnswerChange: (value: string) => void;
-  onSubmit: () => void;
-}
+import { AnswerInputFormProps } from "../../../types/CompanyInformation/InterviewDetailPage/AnswerInputForm";
 
 export function AnswerInputForm({
   question,

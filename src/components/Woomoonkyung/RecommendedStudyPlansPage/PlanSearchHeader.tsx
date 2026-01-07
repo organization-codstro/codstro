@@ -1,10 +1,8 @@
 import React from "react";
 import { Search } from "lucide-react";
+import { PlanSearchHeaderProps } from "../../../types/Woomoonkyung/RecommendedStudyPlansPage/PlanSearchHeader";
 
-interface PlanSearchHeaderProps {
-  searchQuery: string;
-  setSearchQuery: (query: string) => void;
-}
+
 
 const PlanSearchHeader: React.FC<PlanSearchHeaderProps> = ({
   searchQuery,

@@ -1,11 +1,7 @@
 import { CheckCircle, Info, X } from "lucide-react";
-import { Badge } from "../../../data/Profile/badge";
+import { Badge } from "../../../types/Profile/Profile";
+import { BadgeDetailModalProps } from "../../../types/Profile/BadgeManagerPage/BadgeDetailModal";
 
-interface BadgeDetailModalProps {
-  badge: Badge;
-  onClose: () => void;
-  onSetDisplay: (badgeName: string) => void;
-}
 
 export default function BadgeDetailModal({
   badge,

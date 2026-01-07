@@ -1,13 +1,5 @@
 import { CheckCircle } from "lucide-react";
-
-interface ConceptHeaderProps {
-  name: string;
-  category: string;
-  description: string;
-  tags: string[];
-  isUnderstood: boolean;
-  onToggleUnderstood?: () => void;
-}
+import { ConceptHeaderProps } from "../../../types/Concepts/BasicConceptDetailPage/ConceptHeader";
 
 export default function ConceptHeader({
   name,

@@ -1,9 +1,7 @@
 import React from "react";
 import { stateColors } from "../../data/Woomoonkyung/woomoonkyungData";
+import { StatusBadgeProps } from "../../types/Woomoonkyung/StatusBadge";
 
-interface StatusBadgeProps {
-  state: "waiting" | "in progress" | "done";
-}
 
 const StatusBadge: React.FC<StatusBadgeProps> = ({ state }) => {
   return (

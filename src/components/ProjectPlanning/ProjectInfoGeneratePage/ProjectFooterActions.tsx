@@ -1,11 +1,6 @@
 import React from "react";
 import { Save } from "lucide-react";
-
-interface ProjectFooterActionsProps {
-  onSave: () => void;
-  onSubmit: () => void;
-  submitLabel?: string;
-}
+import { ProjectFooterActionsProps } from "../../../types/ProjectPlanning/ProjectInfoGeneratePage/ProjectFooterActions";
 
 export const ProjectFooterActions: React.FC<ProjectFooterActionsProps> = ({
   onSave,

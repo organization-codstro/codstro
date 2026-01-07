@@ -1,10 +1,5 @@
 import { TrendingUp, ArrowLeft } from "lucide-react";
-
-interface MatchSummaryCardProps {
-  companyName: string;
-  matchRate: number;
-  onBack: () => void;
-}
+import { MatchSummaryCardProps } from "../../../types/CompanyInformation/CompanyMatchPage/MatchSummaryCard";
 
 export function MatchSummaryCard({
   companyName,

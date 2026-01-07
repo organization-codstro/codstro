@@ -1,12 +1,5 @@
 import { ArrowLeft } from "lucide-react";
-
-type ViewType = "my-friends" | "browse" | "search";
-
-interface HeaderProps {
-  view: ViewType;
-  setView: (view: ViewType) => void;
-  onBack: () => void;
-}
+import { HeaderProps, ViewType } from "../../../types/AiChat/AddFriendPage/AddFriendHeader";
 
 export function AddFriendHeader({ view, setView, onBack }: HeaderProps) {
   const tabs: { id: ViewType; label: string }[] = [

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { StudyPlan } from "../../types/Woomoonkyung/StudyPlanNode";
+import { StudyPlan } from "../../types/Woomoonkyung/Woomoonkyung";
 import StudyPlanForm from "../../components/Woomoonkyung/StudyPlanForm";
 
 const WoomoonkyungCreate = () => {

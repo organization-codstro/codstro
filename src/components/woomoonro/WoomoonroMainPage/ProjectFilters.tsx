@@ -1,13 +1,9 @@
 import React from "react";
 import { Filter } from "lucide-react";
 import { FilterGroup } from "../FilterGroup";
+import { ProjectFiltersProps } from "../../../types/Woomoonro/WoomoonroMainPage/ProjectFilters";
 
-interface ProjectFiltersProps {
-  selectedFilter: string;
-  setSelectedFilter: (val: any) => void;
-  selectedDifficulty: string;
-  setSelectedDifficulty: (val: any) => void;
-}
+
 
 const ProjectFilters: React.FC<ProjectFiltersProps> = ({
   selectedFilter,
