@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ProjectPage } from "../../types/ProjectPlanning/project";
 import { MeetingHeader } from "../../components/ProjectPlanning/MeetingCreatePage/MeetingHeader";
 import { MeetingTypeSelector } from "../../components/ProjectPlanning/MeetingCreatePage/MeetingTypeSelector";
 import { ProjectPageItem } from "../../components/ProjectPlanning/MeetingCreatePage/ProjectPageItem";
+import { projectPages } from "../../data/ProjectPlanning/projectPages";
 
 export default function MeetingCreate() {
   const navigate = useNavigate();
@@ -15,25 +15,6 @@ export default function MeetingCreate() {
   );
   const [meetingPurpose, setMeetingPurpose] = useState("");
   const [selectedPages, setSelectedPages] = useState<number[]>([]);
-
-  const projectPages: ProjectPage[] = [
-    {
-      project_page_id: 1,
-      project_page_name: "Authentication",
-      project_page_role: "User Management",
-      project_page_function: "Login, Signup, Password Reset",
-      project_page_is_complete: false,
-      project_id: 1,
-    },
-    {
-      project_page_id: 2,
-      project_page_name: "Chat Interface",
-      project_page_role: "Messaging",
-      project_page_function: "Send messages, display chat history",
-      project_page_is_complete: false,
-      project_id: 1,
-    },
-  ];
 
   const togglePageSelection = (id: number) => {
     setSelectedPages((prev) =>

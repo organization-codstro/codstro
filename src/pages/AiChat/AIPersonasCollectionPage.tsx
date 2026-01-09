@@ -1,8 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
 import { mockAIPersonas } from "../../data/AiChat/mockData";
-
-// 분리했던 컴포넌트들을 import 합니다.
 import { CollectionCard } from "../../components/AiChat/AIPersonasCollectionPage/CollectionCard";
 import { CollectionEmptyState } from "../../components/AiChat/AIPersonasCollectionPage/CollectionEmptyState";
 import { CollectionHeader } from "../../components/AiChat/AIPersonasCollectionPage/CollectionHeader";

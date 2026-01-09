@@ -1,0 +1,78 @@
+import { supabase } from "../../db/supabase/supabase";
+
+/**
+ * 채팅방 목록 조회 및 메인 리스트 관리를 위한 서비스
+ */
+export const ChatListService = {
+  /**
+   * [채팅방 목록 조회]
+   * 유저가 참여 중인 모든 채팅방을 가져옵니다.
+   * 각 방의 마지막 메시지 미리보기를 위해 daily_new_chats와 chat_messages를 참조할 수 있습니다.
+   * 참조 테이블: chat_rooms, daily_new_chats
+   */
+  async getChatRooms(userId: number) {
+    const { data, error } = await supabase
+      .from("chat_rooms")
+      .select(
+        `
+        *,
+        daily_new_chats (
+          daily_new_chats
+        )
+      `
+      )
+      .eq("user_id", userId)
+      .order("chat_room_created_date", { ascending: false });
+
+    if (error) throw new Error(`[getChatRooms Error]: ${error.message}`);
+
+    // daily_new_chats가 없을 경우를 대비해 데이터를 가공하여 반환할 수 있습니다.
+    return data;
+  },
+
+  /**
+   * [채팅방 검색]
+   * 채팅방 이름 또는 주제어를 통해 참여 중인 방을 검색합니다.
+   * 참조 테이블: chat_rooms
+   */
+  async searchChatRooms(userId: number, searchTerm: string) {
+    const { data, error } = await supabase
+      .from("chat_rooms")
+      .select("*")
+      .eq("user_id", userId)
+      .or(
+        `chat_room_name.ilike.%${searchTerm}%,chat_room_topics.ilike.%${searchTerm}%`
+      );
+
+    if (error) throw new Error(`[searchChatRooms Error]: ${error.message}`);
+    return data;
+  },
+
+  /**
+   * [채팅방 생성]
+   * 새로운 채팅 세션을 생성합니다. (예: 일상 대화 혹은 프로젝트 대화)
+   * 참조 테이블: chat_rooms
+   */
+  async createChatRoom(params: {
+    userId: number;
+    roomName: string;
+    roomType: "daily" | "project";
+    topics: string;
+  }) {
+    const { data, error } = await supabase
+      .from("chat_rooms")
+      .insert([
+        {
+          user_id: params.userId,
+          chat_room_name: params.roomName,
+          chat_room_type: params.roomType,
+          chat_room_topics: params.topics,
+          chat_rooms_unconfirmed: 0,
+        },
+      ])
+      .select();
+
+    if (error) throw new Error(`[createChatRoom Error]: ${error.message}`);
+    return data[0];
+  },
+};

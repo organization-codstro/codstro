@@ -1,0 +1,55 @@
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_ANON_KEY!);
+
+/**
+ * [함수 역할]: 특정 유저가 북마크(관심 등록)한 회사들의 상세 목록을 가져옵니다.
+ * [참조 테이블]: user_favorite_companies, companys
+ * [비고]: JOIN 쿼리를 사용하여 회사 정보를 한 번에 가져옵니다.
+ */
+export const getBookmarkedCompanies = async (userId: number) => {
+  try {
+    const { data, error } = await supabase
+      .from('user_favorite_companies')
+      .select(`
+        companie_id,
+        companys:companie_id (
+          company_id,
+          company_name,
+          company_industry,
+          companie_description,
+          company_website,
+          company_values
+        )
+      `)
+      .eq('user_id', userId);
+
+    if (error) throw error;
+
+    // 중첩된 객체 구조를 평탄화하여 반환
+    return data.map((item: any) => item.companys);
+  } catch (error) {
+    console.error('Error fetching bookmarks:', error);
+    throw error;
+  }
+};
+
+/**
+ * [함수 역할]: 유저의 북마크를 삭제합니다.
+ * [참조 테이블]: user_favorite_companies
+ */
+export const removeBookmark = async (userId: number, companyId: number) => {
+  try {
+    const { error } = await supabase
+      .from('user_favorite_companies')
+      .delete()
+      .eq('user_id', userId)
+      .eq('companie_id', companyId);
+
+    if (error) throw error;
+    return true;
+  } catch (error) {
+    console.error('Error removing bookmark:', error);
+    throw error;
+  }
+};

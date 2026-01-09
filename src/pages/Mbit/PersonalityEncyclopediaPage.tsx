@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { personalities, Personality } from "../../data/Mbit/personalityData";
+import { personalities } from "../../data/Mbit/personalityData";
 import PersonalityDetail from "../../components/Mbit/PersonalityEncyclopediaPage/PersonalityDetail";
 import PersonalityCard from "../../components/Mbit/PersonalityEncyclopediaPage/PersonalityCard";
+import { Personality } from "../../types/Mbit/Mbit";
 
 const PersonalityEncyclopedia: React.FC = () => {
   const [selectedPersonality, setSelectedPersonality] =

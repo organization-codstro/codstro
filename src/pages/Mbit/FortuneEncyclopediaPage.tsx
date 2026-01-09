@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { fortunes, Fortune } from "../../data/Mbit/fortuneData";
+import { fortunes } from "../../data/Mbit/fortuneData";
 import FortuneDetail from "../../components/Mbit/FortuneEncyclopediaPage/FortuneDetail";
 import FortuneList from "../../components/Mbit/FortuneEncyclopediaPage/FortuneList";
+import { Fortune } from "../../types/Mbit/Mbit";
 
 
 const FortuneEncyclopedia: React.FC = () => {

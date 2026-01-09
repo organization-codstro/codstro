@@ -1,0 +1,146 @@
+import { supabase } from "../../db/supabase/supabase";
+
+/**
+ * [할일 관리 메인 서비스]
+ * 할일 목록 조회, 날짜별 필터링, 상태 변경 및 삭제를 담당합니다.
+ * 참조 테이블: todos
+ */
+export const TodoManagementService = {
+  /**
+   * [날짜 범위 내 할일 조회]
+   * 특정 날짜가 포함된(start_date <= date <= end_date) 할일 목록을 가져옵니다.
+   * 캘린더 점 표시나 일일 목록 조회 시 사용됩니다.
+   * 참조 테이블: todos
+   */
+  async getTodosByDate(date: Date) {
+    try {
+      const dateStr = date.toISOString().split("T")[0];
+
+      const { data, error } = await supabase
+        .from("todos")
+        .select("*")
+        .lte("todo_start_date", dateStr)
+        .gte("todo_end_date", dateStr)
+        .order("todo_created_date", { ascending: false });
+
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error("[TodoManagementService - getTodosByDate]:", error);
+      throw error;
+    }
+  },
+
+  /**
+   * [월별 할일 개수 조회]
+   * 캘린더의 한 달 치 데이터를 로드하여 날짜별 할일 유무(카운트)를 파악합니다.
+   * 참조 테이블: todos
+   */
+  async getMonthlyTodoCount(year: number, month: number) {
+    try {
+      const startDate = new Date(year, month, 1).toISOString().split("T")[0];
+      const endDate = new Date(year, month + 1, 0).toISOString().split("T")[0];
+
+      const { data, error } = await supabase
+        .from("todos")
+        .select("todo_start_date, todo_end_date")
+        .or(`todo_start_date.lte.${endDate}, todo_end_date.gte.${startDate}`);
+
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error("[TodoManagementService - getMonthlyTodoCount]:", error);
+      throw error;
+    }
+  },
+
+  /**
+   * [필터링된 할일 검색]
+   * 상태값 필터링 및 텍스트 검색을 Supabase 쿼리 레벨에서 처리합니다.
+   * 참조 테이블: todos
+   */
+  async searchTodos(params: { status?: string; query?: string; date?: Date }) {
+    try {
+      let request = supabase.from("todos").select("*");
+
+      if (params.date) {
+        const dateStr = params.date.toISOString().split("T")[0];
+        request = request
+          .lte("todo_start_date", dateStr)
+          .gte("todo_end_date", dateStr);
+      }
+
+      if (params.status && params.status !== "all") {
+        // Mock 상태값을 DB 상태값으로 매핑
+        const statusMap: Record<string, string> = {
+          pending: "waiting",
+          "in-progress": "in progress",
+          completed: "done",
+        };
+        request = request.eq(
+          "todo_status",
+          statusMap[params.status] || params.status
+        );
+      }
+
+      if (params.query) {
+        request = request.ilike("todo_name", `%${params.query}%`);
+      }
+
+      const { data, error } = await request.order("todo_start_date", {
+        ascending: true,
+      });
+
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error("[TodoManagementService - searchTodos]:", error);
+      throw error;
+    }
+  },
+
+  /**
+   * [할일 상태 토글]
+   * 현재 상태를 확인하여 다음 순차적 상태로 변경합니다.
+   * 참조 테이블: todos
+   */
+  async toggleTodoStatus(todoId: number, currentStatus: string) {
+    try {
+      let nextStatus = "waiting";
+      if (currentStatus === "waiting") nextStatus = "in progress";
+      else if (currentStatus === "in progress") nextStatus = "done";
+      else if (currentStatus === "done") nextStatus = "waiting";
+
+      const { data, error } = await supabase
+        .from("todos")
+        .update({ todo_status: nextStatus })
+        .eq("todo_id", todoId)
+        .select()
+        .single();
+
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error("[TodoManagementService - toggleTodoStatus]:", error);
+      throw error;
+    }
+  },
+
+  /**
+   * [할일 삭제]
+   * 참조 테이블: todos
+   */
+  async deleteTodo(todoId: number) {
+    try {
+      const { error } = await supabase
+        .from("todos")
+        .delete()
+        .eq("todo_id", todoId);
+
+      if (error) throw error;
+    } catch (error) {
+      console.error("[TodoManagementService - deleteTodo]:", error);
+      throw error;
+    }
+  },
+};

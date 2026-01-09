@@ -7,3 +7,11 @@ export interface Badge {
   earnedDate?: string;
   requirement: string;
 }
+
+export interface UserLevel {
+  id: string;
+  name: string;
+  description: string;
+  requiredPoints: number;
+  adminOnly?: boolean;
+}

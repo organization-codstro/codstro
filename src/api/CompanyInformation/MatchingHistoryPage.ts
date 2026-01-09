@@ -1,0 +1,73 @@
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_ANON_KEY!);
+
+/**
+ * [함수 역할]: 특정 유저의 모든 AI 매칭 이력 리스트를 조회합니다.
+ * [참조 테이블]: company_user_matches, companys
+ * [설명]: 
+ * - 매칭 ID, 매칭 이름(회사명-날짜), 매칭 점수, 생성일 등을 가져옵니다.
+ * - 최신순(created_date DESC)으로 정렬하여 사용자에게 보여줍니다.
+ */
+export const getUserMatchingList = async (userId: number) => {
+  try {
+    const { data, error } = await supabase
+      .from('company_user_matches')
+      .select(`
+        company_user_matche_id,
+        company_user_matche_name,
+        match_rate,
+        company_user_matche_created_date,
+        company_id
+      `)
+      .eq('user_id', userId)
+      .order('company_user_matche_created_date', { ascending: false });
+
+    if (error) throw error;
+    return data;
+  } catch (error) {
+    console.error('Error fetching matching history list:', error);
+    throw error;
+  }
+};
+
+/**
+ * [함수 역할]: 특정 매칭 기록을 DB에서 영구 삭제합니다.
+ * [참조 테이블]: company_user_matches
+ */
+export const deleteMatchingRecord = async (matchingId: number) => {
+  try {
+    const { error } = await supabase
+      .from('company_user_matches')
+      .delete()
+      .eq('company_user_matche_id', matchingId);
+
+    if (error) throw error;
+    return true;
+  } catch (error) {
+    console.error('Error deleting matching record:', error);
+    throw error;
+  }
+};
+
+/**
+ * [함수 역할]: 특정 유저의 평균 매칭 점수를 계산합니다. (대시보드용 확장 기능)
+ * [참조 테이블]: company_user_matches
+ */
+export const getAverageMatchRate = async (userId: number) => {
+  try {
+    const { data, error } = await supabase
+      .from('company_user_matches')
+      .select('match_rate')
+      .eq('user_id', userId);
+
+    if (error) throw error;
+    if (!data || data.length === 0) return 0;
+
+    const sum = data.reduce((acc, curr) => acc + Number(curr.match_rate), 0);
+    return (sum / data.length).toFixed(2);
+  } catch (error) {
+    console.error('Error calculating average match rate:', error);
+    return 0;
+  }
+};

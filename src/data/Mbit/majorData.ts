@@ -1,21 +1,6 @@
 import { Code, Database, Smartphone, Brain } from 'lucide-react';
+import { Major } from '../../types/Mbit/Mbit';
 
-export interface Major {
-  id: number;
-  name: string;
-  icon: any;
-  description: string;
-  color: string;
-  detailedDescription: string;
-  focus: string;
-  careers: string;
-  keySkills: string[];
-  learningPath: string[];
-  salaryRange: string;
-  jobOutlook: string;
-  famousCompanies: string[];
-  dayInLife: string[];
-}
 
 export const majors: Major[] = [
   {

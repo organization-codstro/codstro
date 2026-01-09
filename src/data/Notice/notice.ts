@@ -1,12 +1,4 @@
-interface Notice {
-  id: string;
-  title: string;
-  category: string;
-  date: string;
-  preview: string;
-  isPinned: boolean;
-  isNew: boolean;
-}
+import { Notice } from "../../types/Notice/Notice";
 
 export const notices: Notice[] = [
   {

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { majors, Major } from "../../data/Mbit/majorData";
+import { majors } from "../../data/Mbit/majorData";
 import MajorDetail from "../../components/Mbit/MajorEncyclopediaPage/MajorDetail";
 import MajorList from "../../components/Mbit/MajorEncyclopediaPage/MajorList";
+import { Major } from "../../types/Mbit/Mbit";
 
 
 const MajorEncyclopedia: React.FC = () => {

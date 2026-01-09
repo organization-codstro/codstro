@@ -1,12 +1,5 @@
-export interface Fortune {
-  id: number;
-  code: number;
-  name: string;
-  summary: string;
-  description: string;
-  categoryMessage: string;
-  color: string;
-}
+import { Fortune } from "../../types/Mbit/Mbit";
+
 
 export const fortunes: Fortune[] = [
   {

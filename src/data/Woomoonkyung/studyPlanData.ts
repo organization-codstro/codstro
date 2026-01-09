@@ -15,4 +15,5 @@ export const plan: StudyPlan = {
   study_plans_created_date: "2024-12-20",
   study_plans_image_url: "",
   study_plans_is_archived: false,
+  study_plan_is_recommendation: false,
 };
