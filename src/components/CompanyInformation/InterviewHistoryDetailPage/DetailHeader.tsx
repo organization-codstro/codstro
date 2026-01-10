@@ -1,5 +1,5 @@
 import { CheckCircle } from "lucide-react";
-import { DetailHeaderProps } from "../../../types/CompanyInformation/InterviewHistoryDetailPage/DetailHeader";
+import { DetailHeaderProps } from "../../../types/pages/CompanyInformation/InterviewHistoryDetailPage/DetailHeader";
 
 export const DetailHeader = ({ date }: DetailHeaderProps) => {
   const formattedDate = new Date(date).toLocaleDateString("ko-KR");

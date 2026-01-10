@@ -1,6 +1,6 @@
 import { Play, Clock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { Project } from "../../types/ProjectPlanning/project";
+import { Project } from "../../types/pages/ProjectPlanning/project";
 import {
   activeProjectsData,
   planningProjectsData,

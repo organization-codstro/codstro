@@ -1,4 +1,4 @@
-import { NoteEditorProps } from "../../../types/Concepts/NoteCreatePage/NoteEditor";
+import { NoteEditorProps } from "../../../types/pages/Concepts/NoteCreatePage/NoteEditor";
 
 export default function NoteEditor({ value, onChange }: NoteEditorProps) {
   return (

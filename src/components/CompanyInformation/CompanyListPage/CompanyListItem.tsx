@@ -1,5 +1,5 @@
 import { Building2, Bookmark, ExternalLink } from "lucide-react";
-import { CompanyListItemProps } from "../../../types/CompanyInformation/CompanyListPage/CompanyListItem";
+import { CompanyListItemProps } from "../../../types/pages/CompanyInformation/CompanyListPage/CompanyListItem";
 
 export function CompanyListItem({
   company,

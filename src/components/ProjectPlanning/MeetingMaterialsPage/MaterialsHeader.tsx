@@ -1,5 +1,5 @@
 import { ArrowLeft, Edit2, Save } from "lucide-react";
-import { MaterialsHeaderProps } from "../../../types/ProjectPlanning/MeetingMaterialsPage/MaterialsHeader";
+import { MaterialsHeaderProps } from "../../../types/pages/ProjectPlanning/MeetingMaterialsPage/MaterialsHeader";
 
 
 export const MaterialsHeader = ({

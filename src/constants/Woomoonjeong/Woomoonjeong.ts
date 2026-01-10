@@ -1,4 +1,4 @@
-import { GroupType } from "../../types/Woomoonjeong/woomoonjeong";
+import { GroupType } from "../../types/pages/Woomoonjeong/woomoonjeong";
 
 export const GroupTypes: GroupType[] = [
   "web",

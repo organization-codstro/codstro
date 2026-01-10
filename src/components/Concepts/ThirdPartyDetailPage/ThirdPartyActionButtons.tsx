@@ -1,5 +1,5 @@
 import { MessageCircle, Plus } from "lucide-react";
-import { ThirdPartyActionButtonsProps } from "../../../types/Concepts/ThirdPartyDetailPage/ThirdPartyActionButtons";
+import { ThirdPartyActionButtonsProps } from "../../../types/pages/Concepts/ThirdPartyDetailPage/ThirdPartyActionButtons";
 
 export default function ThirdPartyActionButtons({
   onShowAIChat,

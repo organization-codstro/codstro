@@ -5,7 +5,7 @@ import BackButton from "../../components/Profile/BadgeManagerPage/BackButton";
 import BadgeSection from "../../components/Profile/BadgeManagerPage/BadgeSection";
 import BadgeCard from "../../components/Profile/BadgeManagerPage/BadgeCard";
 import BadgeDetailModal from "../../components/Profile/BadgeManagerPage/BadgeDetailModal";
-import { Badge } from "../../types/Profile/Profile";
+import { Badge } from "../../types/pages/Profile/Profile";
 
 export default function BadgeManager() {
   const navigate = useNavigate();

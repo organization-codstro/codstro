@@ -1,4 +1,4 @@
-import { CollectionCardProps } from "../../../types/AiChat/AIPersonasCollectionPage/CollectionCard";
+import { CollectionCardProps } from "../../../types/pages/AiChat/AIPersonasCollectionPage/CollectionCard";
 
 export function CollectionCard({
   name,

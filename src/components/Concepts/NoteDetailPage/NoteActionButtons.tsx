@@ -1,7 +1,7 @@
 //편집과 삭제 기능을 모아둔 버튼 컴포넌트
 
 import { Edit, Trash2 } from "lucide-react";
-import { NoteActionButtonsProps } from "../../../types/Concepts/NoteDetailPage/NoteActionButtons";
+import { NoteActionButtonsProps } from "../../../types/pages/Concepts/NoteDetailPage/NoteActionButtons";
 
 export default function NoteActionButtons({
   onEdit,

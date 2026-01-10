@@ -1,4 +1,4 @@
-import { InfoSectionProps } from "../../../types/CompanyInformation/InterviewHistoryDetailPage/InfoSection";
+import { InfoSectionProps } from "../../../types/pages/CompanyInformation/InterviewHistoryDetailPage/InfoSection";
 
 export const InfoSection = ({
   title,

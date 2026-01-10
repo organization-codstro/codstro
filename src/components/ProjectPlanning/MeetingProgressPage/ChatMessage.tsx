@@ -1,4 +1,4 @@
-import { ChatMessageProps } from "../../../types/ProjectPlanning/MeetingProgressPage/ChatMessage";
+import { ChatMessageProps } from "../../../types/pages/ProjectPlanning/MeetingProgressPage/ChatMessage";
 
 export const ChatMessage = ({ message }: ChatMessageProps) => {
   const isUser = message.sender === "USER";

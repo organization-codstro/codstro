@@ -1,5 +1,5 @@
 import { TrendingUp } from "lucide-react";
-import { TrendingSectionProps } from "../../../types/ProjectPlanning/ProjectMainPage/TrendingSection";
+import { TrendingSectionProps } from "../../../types/pages/ProjectPlanning/ProjectMainPage/TrendingSection";
 
 export const TrendingSection = ({ news }: TrendingSectionProps) => (
   <div className="mt-8">

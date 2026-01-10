@@ -1,6 +1,6 @@
 import { TrendingUp } from "lucide-react";
 import RecommendedConceptCard from "./RecommendedConceptCard";
-import { RecommendedGridProps } from "../../../types/Concepts/ConceptMainPage/RecommendedGrid";
+import { RecommendedGridProps } from "../../../types/pages/Concepts/ConceptMainPage/RecommendedGrid";
 
 export default function RecommendedGrid({
   title = "Recommended For You",

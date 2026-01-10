@@ -1,4 +1,4 @@
-import { FormInputProps } from "../../../types/Profile/ProfileEditPage/FormInput";
+import { FormInputProps } from "../../../types/pages/Profile/ProfileEditPage/FormInput";
 
 export default function FormInput({
   label,

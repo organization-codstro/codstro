@@ -2,7 +2,10 @@
 
 import { X, Send } from "lucide-react";
 import { useState } from "react";
-import { AIChatProps, Message } from "../../types/CompanyInformation/AIChat";
+import {
+  AIChatProps,
+  Message,
+} from "../../types/pages/CompanyInformation/AIChat";
 
 export default function AIChat({ isOpen, onClose, conceptName }: AIChatProps) {
   const [messages, setMessages] = useState<Message[]>([

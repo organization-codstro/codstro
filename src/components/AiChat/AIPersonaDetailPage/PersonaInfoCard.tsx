@@ -1,4 +1,4 @@
-import { PersonaInfoCardProps } from "../../../types/AiChat/AIPersonaDetailPage/PersonaInfoCard";
+import { PersonaInfoCardProps } from "../../../types/pages/AiChat/AIPersonaDetailPage/PersonaInfoCard";
 
 export function PersonaInfoCard({ title, content }: PersonaInfoCardProps) {
   return (

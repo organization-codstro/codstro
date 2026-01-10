@@ -1,7 +1,7 @@
 import React from "react";
 import { Plus } from "lucide-react";
 import { ProjectTodoItem } from "./ProjectTodoItem";
-import { ProjectTasksSectionProps } from "../../../../types/ProjectPlanning/ProjectInfoGeneratePage/ProjectTasksSection/ProjectTasksSection";
+import { ProjectTasksSectionProps } from "../../../../types/pages/ProjectPlanning/ProjectInfoGeneratePage/ProjectTasksSection/ProjectTasksSection";
 
 export const ProjectTasksSection: React.FC<ProjectTasksSectionProps> = ({
   projectTodos,

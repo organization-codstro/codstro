@@ -1,16 +1,11 @@
 import { supabase } from "../../db/supabase/supabase";
-import { SupabaseDatabase } from "../../types/db/supabase/table";
-
-// DB 타입을 편리하게 사용하기 위한 별칭 정의
-type CloneCoding = SupabaseDatabase['public']['Tables']['clone_codings']['Row'];
-type UserCloneCoding = SupabaseDatabase['public']['Tables']['user_clone_codings']['Row'];
+import { CloneCodings } from "../../types/db/supabase/table";
 
 /**
  * [아카이브 서비스]
  * 유저의 북마크 목록, 진행 상태 통계 및 필터링된 프로젝트 리스트를 관리합니다.
  */
 export const ArchiveService = {
-  
   /**
    * [북마크된 프로젝트 리스트 조회]
    * 특정 유저가 북마크(is_bookmarked: true)한 프로젝트들만 가져옵니다.
@@ -21,10 +16,12 @@ export const ArchiveService = {
     try {
       const { data, error } = await supabase
         .from("user_clone_codings")
-        .select(`
+        .select(
+          `
           *,
           clone_codings:clone_coding_id (*)
-        `)
+        `
+        )
         .eq("user_id", userId)
         .eq("user_clone_codings_is_bookmarked", true);
 
@@ -41,7 +38,7 @@ export const ArchiveService = {
           started_at: item.user_clone_codings_started_at,
           completed_at: item.user_clone_codings_completed_at,
         },
-        project: item.clone_codings as unknown as CloneCoding,
+        project: item.clone_codings as unknown as CloneCodings,
       }));
     } catch (error) {
       console.error("[getBookmarkedProjects Error]:", error);
@@ -67,9 +64,15 @@ export const ArchiveService = {
 
       const stats = {
         total: data.length,
-        completed: data.filter(d => d.user_clone_codings_status === 'completed').length,
-        in_progress: data.filter(d => d.user_clone_codings_status === 'in_progress').length,
-        not_started: data.filter(d => d.user_clone_codings_status === 'not_started').length,
+        completed: data.filter(
+          (d) => d.user_clone_codings_status === "completed"
+        ).length,
+        in_progress: data.filter(
+          (d) => d.user_clone_codings_status === "in_progress"
+        ).length,
+        not_started: data.filter(
+          (d) => d.user_clone_codings_status === "not_started"
+        ).length,
       };
 
       return stats;
@@ -82,21 +85,26 @@ export const ArchiveService = {
   /**
    * [아카이브 내 검색 및 필터링]
    * 사용자가 입력한 검색어, 난이도, 상태 필터를 적용하여 서버 사이드에서 데이터를 가져옵니다.
-   * (참고: 데이터 양이 적을 경우 getBookmarkedProjects 결과로 클라이언트 사이드 필터링을 권장하지만, 
+   * (참고: 데이터 양이 적을 경우 getBookmarkedProjects 결과로 클라이언트 사이드 필터링을 권장하지만,
    * 확장성을 위해 Supabase 쿼리 예시를 작성합니다.)
    */
-  async getFilteredArchive(userId: number, filters: {
-    status?: string;
-    difficulty?: string;
-    searchQuery?: string;
-  }) {
+  async getFilteredArchive(
+    userId: number,
+    filters: {
+      status?: string;
+      difficulty?: string;
+      searchQuery?: string;
+    }
+  ) {
     try {
       let query = supabase
         .from("user_clone_codings")
-        .select(`
+        .select(
+          `
           *,
           clone_codings:clone_coding_id (*)
-        `)
+        `
+        )
         .eq("user_id", userId)
         .eq("user_clone_codings_is_bookmarked", true);
 
@@ -105,7 +113,7 @@ export const ArchiveService = {
         query = query.eq("user_clone_codings_status", filters.status);
       }
 
-      // 난이도 및 제목 검색은 JOIN된 테이블 기반이므로 
+      // 난이도 및 제목 검색은 JOIN된 테이블 기반이므로
       // 데이터가 많지 않다면 getBookmarkedProjects 호출 후 클라이언트에서 filter하는 것이 성능상 유리할 수 있습니다.
       // 만약 DB 레벨에서 처리하려면 .innerJoin 등을 고려해야 합니다.
 
@@ -136,5 +144,5 @@ export const ArchiveService = {
       console.error("[removeBookmark Error]:", error);
       throw error;
     }
-  }
+  },
 };

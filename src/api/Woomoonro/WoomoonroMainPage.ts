@@ -1,10 +1,4 @@
 import { supabase } from "../../db/supabase/supabase";
-import { SupabaseDatabase } from "../../types/db/supabase/table";
-
-// DB 타입을 편리하게 사용하기 위한 별칭 정의
-type CloneCoding = SupabaseDatabase["public"]["Tables"]["clone_codings"]["Row"];
-type UserCloneCoding =
-  SupabaseDatabase["public"]["Tables"]["user_clone_codings"]["Row"];
 
 /**
  * [메인 프로젝트 서비스]

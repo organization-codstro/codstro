@@ -1,8 +1,5 @@
-import {
-  Group,
-  RecommendedPin,
-  Todo,
-} from "../../types/Woomoonjeong/woomoonjeong";
+import { Group, RecommendedPin, Todo } from "../../types/pages/Woomoonjeong/woomoonjeong";
+
 
 export const fieldTypeColors = {
   web: "bg-red-100 text-red-700 border-red-200",

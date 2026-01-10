@@ -1,5 +1,5 @@
 import React from "react";
-import { ProjectBasicInfoSectionProps } from "../../types/ProjectPlanning/ProjectBasicInfoSection";
+import { ProjectBasicInfoSectionProps } from "../../types/pages/ProjectPlanning/ProjectBasicInfoSection";
 
 export const ProjectBasicInfoSection: React.FC<
   ProjectBasicInfoSectionProps

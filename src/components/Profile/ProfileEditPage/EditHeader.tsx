@@ -1,5 +1,5 @@
 import { X } from "lucide-react";
-import { EditHeaderProps } from "../../../types/Profile/ProfileEditPage/EditHeader";
+import { EditHeaderProps } from "../../../types/pages/Profile/ProfileEditPage/EditHeader";
 
 export default function EditHeader({ title, onClose }: EditHeaderProps) {
   return (

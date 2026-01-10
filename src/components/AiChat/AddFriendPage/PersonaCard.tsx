@@ -1,5 +1,5 @@
 import { UserPlus } from "lucide-react";
-import { PersonaCardProps } from "../../../types/AiChat/AddFriendPage/PersonaCard";
+import { PersonaCardProps } from "../../../types/pages/AiChat/AddFriendPage/PersonaCard";
 
 export function PersonaCard({
   persona,

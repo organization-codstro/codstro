@@ -1,5 +1,5 @@
 import React from "react";
-import { TodoInfoSectionProps } from "../../../types/Woomoonjeong/TodoManagementDetailPage/TodoInfoSection";
+import { TodoInfoSectionProps } from "../../../types/pages/Woomoonjeong/TodoManagementDetailPage/TodoInfoSection";
 
 const TodoInfoSection: React.FC<TodoInfoSectionProps> = ({
   label,

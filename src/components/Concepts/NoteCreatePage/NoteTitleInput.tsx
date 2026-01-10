@@ -1,4 +1,4 @@
-import { NoteTitleInputProps } from "../../../types/Concepts/NoteCreatePage/NoteTitleInput";
+import { NoteTitleInputProps } from "../../../types/pages/Concepts/NoteCreatePage/NoteTitleInput";
 
 export default function NoteTitleInput({
   value,

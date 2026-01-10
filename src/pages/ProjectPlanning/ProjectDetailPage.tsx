@@ -5,7 +5,7 @@ import {
   ProjectPage,
   Todo,
   Project,
-} from "../../types/ProjectPlanning/project";
+} from "../../types/pages/ProjectPlanning/project";
 import {
   activeProjectsData,
   planningProjectsData,

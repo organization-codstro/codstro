@@ -1,6 +1,6 @@
 import { MatchScoreBadge } from "./MatchScoreBadge";
 import { DeleteButton } from "../DeleteButton"; // 이전에 만든 것 재사용
-import { MatchingCardProps } from "../../../types/CompanyInformation/MatchingHistoryPage/MatchingCard";
+import { MatchingCardProps } from "../../../types/pages/CompanyInformation/MatchingHistoryPage/MatchingCard";
 
 export const MatchingCard = ({
   match,

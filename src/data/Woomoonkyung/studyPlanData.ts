@@ -1,4 +1,5 @@
-import { StudyPlan } from "../../types/Woomoonkyung/Woomoonkyung";
+import { StudyPlan } from "../../types/pages/Woomoonkyung/Woomoonkyung";
+
 
 /* =========================
      🔹 예시 Study Plan 데이터

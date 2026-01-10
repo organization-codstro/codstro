@@ -1,5 +1,5 @@
 import { Calendar } from "lucide-react";
-import { ProjectInfoViewProps } from "../../../types/ProjectPlanning/ProjectDetailPage/ProjectInfoView";
+import { ProjectInfoViewProps } from "../../../types/pages/ProjectPlanning/ProjectDetailPage/ProjectInfoView";
 
 export const ProjectInfoView = ({ project }: ProjectInfoViewProps) => {
   return (

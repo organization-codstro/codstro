@@ -1,5 +1,5 @@
 import { Sparkles } from "lucide-react";
-import { ConceptSelectorProps } from "../../../types/Concepts/NoteCreatePage/ConceptSelector";
+import { ConceptSelectorProps } from "../../../types/pages/Concepts/NoteCreatePage/ConceptSelector";
 
 export default function ConceptSelector({
   availableConcepts,

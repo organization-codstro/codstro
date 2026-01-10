@@ -1,5 +1,5 @@
 import React from "react";
-import { PageHeaderProps } from "../../../types/Woomoonkyung/WoomoonkyungEditPage/PageHeader";
+import { PageHeaderProps } from "../../../types/pages/Woomoonkyung/WoomoonkyungEditPage/PageHeader";
 
 const PageHeader: React.FC<PageHeaderProps> = ({ title, description }) => {
   return (

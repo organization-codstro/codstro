@@ -1,5 +1,5 @@
 import { Award, Edit2 } from "lucide-react";
-import { ProfileFooterProps } from "../../../types/Profile/ProfilePage/ProfileFooter";
+import { ProfileFooterProps } from "../../../types/pages/Profile/ProfilePage/ProfileFooter";
 
 export default function ProfileFooter({
   onManageBadges,

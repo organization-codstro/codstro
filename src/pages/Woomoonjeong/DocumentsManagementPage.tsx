@@ -13,7 +13,6 @@ import {
   woomoonjeongData as initialData,
   fieldTypeColors,
 } from "../../data/woomoonjeong/woomoonjeongData";
-import { Field, Group, Pin } from "../../types/Woomoonjeong/woomoonjeong";
 
 // 기존 모달 컴포넌트
 import CreateCustomFieldModal from "../../components/Woomoonjeong/DocumentsManagementPage/Modal/CreateCustomFieldModal";
@@ -23,6 +22,7 @@ import ManagementHeader from "../../components/Woomoonjeong/DocumentsManagementP
 import DocumentFilterBar from "../../components/Woomoonjeong/DocumentsManagementPage/DocumentFilterBar";
 import FieldItem from "../../components/Woomoonjeong/DocumentsManagementPage/FieldItem";
 import ManagementSidebar from "../../components/Woomoonjeong/DocumentsManagementPage/ManagementSidebar";
+import { Field, Group, Pin } from "../../types/pages/Woomoonjeong/woomoonjeong";
 
 const DocumentsManagement: React.FC = () => {
   // --- 상태 관리 ---

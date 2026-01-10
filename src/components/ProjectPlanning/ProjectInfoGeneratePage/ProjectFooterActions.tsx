@@ -1,6 +1,6 @@
 import React from "react";
 import { Save } from "lucide-react";
-import { ProjectFooterActionsProps } from "../../../types/ProjectPlanning/ProjectInfoGeneratePage/ProjectFooterActions";
+import { ProjectFooterActionsProps } from "../../../types/pages/ProjectPlanning/ProjectInfoGeneratePage/ProjectFooterActions";
 
 export const ProjectFooterActions: React.FC<ProjectFooterActionsProps> = ({
   onSave,

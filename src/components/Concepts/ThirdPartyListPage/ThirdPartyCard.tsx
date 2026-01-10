@@ -1,4 +1,4 @@
-import { ThirdPartyCardProps } from "../../../types/Concepts/ThirdPartyListPage/ThirdPartyCard";
+import { ThirdPartyCardProps } from "../../../types/pages/Concepts/ThirdPartyListPage/ThirdPartyCard";
 
 export default function ThirdPartyCard({
   id,

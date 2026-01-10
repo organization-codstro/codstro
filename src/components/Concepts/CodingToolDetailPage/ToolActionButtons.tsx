@@ -1,6 +1,5 @@
 import { MessageCircle } from "lucide-react";
-import { ToolActionButtonsProps } from "../../../types/Concepts/CodingToolDetailPage/ToolActionButtons";
-
+import { ToolActionButtonsProps } from "../../../types/pages/Concepts/CodingToolDetailPage/ToolActionButtons";
 
 export default function ToolActionButtons({
   onShowAIChat,

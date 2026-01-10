@@ -1,5 +1,5 @@
 import { Search } from "lucide-react";
-import { SearchFormProps } from "../../../types/AiChat/AddFriendPage/SearchForm";
+import { SearchFormProps } from "../../../types/pages/AiChat/AddFriendPage/SearchForm";
 
 export function SearchForm({ form, setForm, onSearch }: SearchFormProps) {
   return (

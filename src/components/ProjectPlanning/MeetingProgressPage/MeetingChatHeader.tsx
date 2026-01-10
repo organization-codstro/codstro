@@ -1,5 +1,5 @@
 import { ArrowLeft, FileText, Save, LogOut } from "lucide-react";
-import { MeetingChatHeaderProps } from "../../../types/ProjectPlanning/MeetingProgressPage/MeetingChatHeader";
+import { MeetingChatHeaderProps } from "../../../types/pages/ProjectPlanning/MeetingProgressPage/MeetingChatHeader";
 
 export const MeetingChatHeader = ({
   meetingId,

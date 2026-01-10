@@ -1,6 +1,6 @@
 import { CheckCircle, ArrowRight } from "lucide-react";
 import MarkdownRenderer from "../../Markdown/MarkdownRenderer";
-import { FeedbackViewProps } from "../../../types/CompanyInformation/InterviewDetailPage/FeedbackView";
+import { FeedbackViewProps } from "../../../types/pages/CompanyInformation/InterviewDetailPage/FeedbackView";
 
 export function FeedbackView({ feedback, isLast, onNext }: FeedbackViewProps) {
   return (
@@ -8,7 +8,9 @@ export function FeedbackView({ feedback, isLast, onNext }: FeedbackViewProps) {
       <div className="mb-8">
         <div className="flex items-center gap-2 p-4 mb-6 rounded-lg bg-green-50">
           <CheckCircle className="text-green-500" size={24} />
-          <h2 className="text-xl font-bold text-gray-800">AI 피드백 분석 결과</h2>
+          <h2 className="text-xl font-bold text-gray-800">
+            AI 피드백 분석 결과
+          </h2>
         </div>
         <div className="prose max-w-none">
           <MarkdownRenderer content={feedback} />

@@ -1,4 +1,4 @@
-import { AnswerInputFormProps } from "../../../types/CompanyInformation/InterviewDetailPage/AnswerInputForm";
+import { AnswerInputFormProps } from "../../../types/pages/CompanyInformation/InterviewDetailPage/AnswerInputForm";
 
 export function AnswerInputForm({
   question,

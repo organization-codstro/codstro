@@ -1,5 +1,5 @@
 import { ExternalLink } from "lucide-react";
-import { CompanyInfoSectionProps } from "../../../types/CompanyInformation/CompanyDetailPage/CompanyInfoSection";
+import { CompanyInfoSectionProps } from "../../../types/pages/CompanyInformation/CompanyDetailPage/CompanyInfoSection";
 
 export function CompanyInfoSection({
   description,

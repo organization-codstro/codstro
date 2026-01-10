@@ -1,4 +1,8 @@
-import { AIPersona, ChatRoom, ChatMessage } from "../../types/AiChat/aiChat";
+import {
+  AIPersona,
+  ChatRoom,
+  ChatMessage,
+} from "../../types/pages/AiChat/aiChat";
 
 export const mockAIPersonas: AIPersona[] = [
   {

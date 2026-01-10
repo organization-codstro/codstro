@@ -1,5 +1,5 @@
 import { Zap } from "lucide-react";
-import { LevelProgressProps } from "../../../types/Profile/ProfilePage/LevelProgress";
+import { LevelProgressProps } from "../../../types/pages/Profile/ProfilePage/LevelProgress";
 
 export default function LevelProgress({
   points,

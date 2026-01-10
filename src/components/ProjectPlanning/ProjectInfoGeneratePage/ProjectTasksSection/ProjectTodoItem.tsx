@@ -1,7 +1,7 @@
 import React from "react";
 import { Calendar, Trash2, X, Check } from "lucide-react";
-import { Todo } from "../../../../types/ProjectPlanning/project";
-import { ProjectTodoItemProps } from "../../../../types/ProjectPlanning/ProjectInfoGeneratePage/ProjectTasksSection/ProjectTodoItem";
+import { Todo } from "../../../../types/pages/ProjectPlanning/project";
+import { ProjectTodoItemProps } from "../../../../types/pages/ProjectPlanning/ProjectInfoGeneratePage/ProjectTasksSection/ProjectTodoItem";
 
 export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
   todo,

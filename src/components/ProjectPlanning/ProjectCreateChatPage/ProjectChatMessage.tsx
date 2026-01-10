@@ -1,4 +1,4 @@
-import { ProjectChatMessageProps } from "../../../types/ProjectPlanning/ProjectCreateChatPage/ProjectChatMessage";
+import { ProjectChatMessageProps } from "../../../types/pages/ProjectPlanning/ProjectCreateChatPage/ProjectChatMessage";
 
 export const ProjectChatMessage = ({ sender, message }: ProjectChatMessageProps) => {
   const isUser = sender === "USER";

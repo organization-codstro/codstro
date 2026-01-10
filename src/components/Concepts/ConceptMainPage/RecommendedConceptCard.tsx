@@ -1,4 +1,4 @@
-import { RecommendedConceptProps } from "../../../types/Concepts/ConceptMainPage/RecommendedConceptCard";
+import { RecommendedConceptProps } from "../../../types/pages/Concepts/ConceptMainPage/RecommendedConceptCard";
 
 //추천 카드 개별 요소
 export default function RecommendedConceptCard({

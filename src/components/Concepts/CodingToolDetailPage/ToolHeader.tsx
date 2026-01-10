@@ -1,5 +1,5 @@
 import { CheckCircle } from "lucide-react";
-import { ToolHeaderProps } from "../../../types/Concepts/CodingToolDetailPage/ToolHeader";
+import { ToolHeaderProps } from "../../../types/pages/Concepts/CodingToolDetailPage/ToolHeader";
 
 export default function ToolHeader({
   name,

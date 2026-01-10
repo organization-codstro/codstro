@@ -1,5 +1,5 @@
 import { Calendar } from "lucide-react";
-import { ProjectCardProps } from "../../types/ProjectPlanning/ProjectCard";
+import { ProjectCardProps } from "../../types/pages/ProjectPlanning/ProjectCard";
 
 export const ProjectCard = ({
   project,

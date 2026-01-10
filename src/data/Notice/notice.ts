@@ -1,4 +1,4 @@
-import { Notice } from "../../types/Notice/Notice";
+import { Notice } from "../../types/pages/Notice/Notice";
 
 export const notices: Notice[] = [
   {

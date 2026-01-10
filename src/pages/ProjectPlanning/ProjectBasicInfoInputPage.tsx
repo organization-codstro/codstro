@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { ProjectBasicInfo, Project } from "../../types/ProjectPlanning/project";
+import { ProjectBasicInfo, Project } from "../../types/pages/ProjectPlanning/project";
 import {
   activeProjectsData,
   planningProjectsData,

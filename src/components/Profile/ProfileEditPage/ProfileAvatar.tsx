@@ -1,4 +1,4 @@
-import { ProfileAvatarProps } from "../../../types/Profile/ProfileEditPage/ProfileAvatar";
+import { ProfileAvatarProps } from "../../../types/pages/Profile/ProfileEditPage/ProfileAvatar";
 
 export default function ProfileAvatar({
   name,

@@ -3,7 +3,8 @@ export type StoragePath =
   | "user_profiles"
   | "chat_images"
   | "emoticons"
-  | "plans";
+  | "plans"
+  | "profiles";
 
 export interface UploadResult {
   url: string;

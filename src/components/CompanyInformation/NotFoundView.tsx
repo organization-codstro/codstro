@@ -1,4 +1,4 @@
-import { NotFoundViewProps } from "../../types/CompanyInformation/NotFoundView";
+import { NotFoundViewProps } from "../../types/pages/CompanyInformation/NotFoundView";
 
 export const NotFoundView = ({
   message = "Interview not found",

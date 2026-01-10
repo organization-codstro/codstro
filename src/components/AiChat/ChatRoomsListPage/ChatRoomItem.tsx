@@ -1,4 +1,4 @@
-import { ChatRoomItemProps } from "../../../types/AiChat/ChatRoomsListPage/ChatRoomItem";
+import { ChatRoomItemProps } from "../../../types/pages/AiChat/ChatRoomsListPage/ChatRoomItem";
 
 export function ChatRoomItem({ room, onClick }: ChatRoomItemProps) {
   return (

@@ -1,6 +1,6 @@
 //노트의 메타데이터 표시
 
-import { NoteDetailHeaderProps } from "../../../types/Concepts/NoteDetailPage/NoteDetailHeader";
+import { NoteDetailHeaderProps } from "../../../types/pages/Concepts/NoteDetailPage/NoteDetailHeader";
 
 export default function NoteDetailHeader({
   title,

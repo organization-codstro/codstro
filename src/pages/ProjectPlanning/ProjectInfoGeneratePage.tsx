@@ -3,7 +3,7 @@ import {
   Todo,
   ProjectPage,
   ProjectBasicInfo,
-} from "../../types/ProjectPlanning/project";
+} from "../../types/pages/ProjectPlanning/project";
 import {
   pagesData,
   projectTodosData,

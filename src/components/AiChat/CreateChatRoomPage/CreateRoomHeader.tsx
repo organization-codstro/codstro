@@ -1,5 +1,5 @@
 import { ArrowLeft } from "lucide-react";
-import { CreateRoomHeaderProps } from "../../../types/AiChat/CreateChatRoomPage/CreateRoomHeader";
+import { CreateRoomHeaderProps } from "../../../types/pages/AiChat/CreateChatRoomPage/CreateRoomHeader";
 
 export function CreateRoomHeader({ step, onBack }: CreateRoomHeaderProps) {
   return (

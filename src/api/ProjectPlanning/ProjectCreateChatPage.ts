@@ -1,5 +1,5 @@
 import { supabase } from "../../db/supabase/supabase";
-import { generateAiContent } from "../../db/gemini/gemini";
+import { generateAiContent } from "../Gemini/Gemini";
 
 /**
  * [ProjectChatService]

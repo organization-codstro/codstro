@@ -1,5 +1,5 @@
 import { Trash2 } from "lucide-react";
-import { DeleteButtonProps } from "../../types/CompanyInformation/DeleteButton";
+import { DeleteButtonProps } from "../../types/pages/CompanyInformation/DeleteButton";
 
 export const DeleteButton = ({ isPending, onClick }: DeleteButtonProps) => {
   return (

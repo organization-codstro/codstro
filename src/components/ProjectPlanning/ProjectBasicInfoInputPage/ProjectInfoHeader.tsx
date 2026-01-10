@@ -1,4 +1,4 @@
-import { ProjectInfoHeaderProps } from "../../../types/ProjectPlanning/ProjectBasicInfoInputPage/ProjectInfoHeader";
+import { ProjectInfoHeaderProps } from "../../../types/pages/ProjectPlanning/ProjectBasicInfoInputPage/ProjectInfoHeader";
 
 export const ProjectInfoHeader = ({ isEditMode }: ProjectInfoHeaderProps) => {
   return (

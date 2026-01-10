@@ -1,5 +1,5 @@
 import { CheckCircle, MessageSquare } from "lucide-react";
-import { MeetingTypeSelectorProps } from "../../../types/ProjectPlanning/MeetingCreatePage/MeetingTypeSelector";
+import { MeetingTypeSelectorProps } from "../../../types/pages/ProjectPlanning/MeetingCreatePage/MeetingTypeSelector";
 
 export const MeetingTypeSelector = ({ selectedType, onSelect }: MeetingTypeSelectorProps) => {
   const types = [

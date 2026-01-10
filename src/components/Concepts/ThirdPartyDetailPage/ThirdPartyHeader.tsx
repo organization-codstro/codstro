@@ -1,5 +1,5 @@
 import { ExternalLink } from "lucide-react";
-import { ThirdPartyHeaderProps } from "../../../types/Concepts/ThirdPartyDetailPage/ThirdPartyHeader";
+import { ThirdPartyHeaderProps } from "../../../types/pages/Concepts/ThirdPartyDetailPage/ThirdPartyHeader";
 
 export default function ThirdPartyHeader({
   name,

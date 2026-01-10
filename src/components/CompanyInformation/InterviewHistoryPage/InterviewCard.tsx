@@ -1,6 +1,6 @@
 import { FileText } from "lucide-react";
 import { DeleteButton } from "../DeleteButton";
-import { InterviewCardProps } from "../../../types/CompanyInformation/InterviewHistoryPage/InterviewCard";
+import { InterviewCardProps } from "../../../types/pages/CompanyInformation/InterviewHistoryPage/InterviewCard";
 
 export const InterviewCard = ({
   interview,

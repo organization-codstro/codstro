@@ -1,4 +1,4 @@
-import { InfoFieldProps } from "../../../types/Profile/ProfilePage/InfoField";
+import { InfoFieldProps } from "../../../types/pages/Profile/ProfilePage/InfoField";
 
 export default function InfoField({
   label,

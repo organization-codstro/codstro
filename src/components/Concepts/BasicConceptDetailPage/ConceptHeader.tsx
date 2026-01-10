@@ -1,5 +1,5 @@
 import { CheckCircle } from "lucide-react";
-import { ConceptHeaderProps } from "../../../types/Concepts/BasicConceptDetailPage/ConceptHeader";
+import { ConceptHeaderProps } from "../../../types/pages/Concepts/BasicConceptDetailPage/ConceptHeader";
 
 export default function ConceptHeader({
   name,

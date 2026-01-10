@@ -1,10 +1,8 @@
 // Woomoonkyung Study Planning Data Types and Mock Data
 
-import { TechStack } from "../../types/Woomoonjeong/SortableNodeItem/sortableNodeItem";
-import {
-  StudyPlan,
-  StudyPlanNode,
-} from "../../types/Woomoonkyung/Woomoonkyung";
+import { TechStack } from "../../types/pages/Woomoonjeong/SortableNodeItem/sortableNodeItem";
+import { StudyPlan, StudyPlanNode } from "../../types/pages/Woomoonkyung/Woomoonkyung";
+
 
 // // Mock Data
 export const techStacks: TechStack[] = [

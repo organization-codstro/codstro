@@ -1,5 +1,5 @@
 import { Plus } from "lucide-react";
-import { MeetingHeaderProps } from "../../../types/ProjectPlanning/ProjectMeetingPage/MeetingHeader";
+import { MeetingHeaderProps } from "../../../types/pages/ProjectPlanning/ProjectMeetingPage/MeetingHeader";
 
 
 export const MeetingHeader = ({ projectId, onCreate }: MeetingHeaderProps) => (

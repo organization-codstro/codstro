@@ -1,5 +1,5 @@
 import { supabase } from "../../db/supabase/supabase";
-import { Badge } from "../../types/Profile/Profile";
+import { Badge } from "../../types/pages/Profile/Profile";
 
 /**
  * [배지 서비스]
@@ -72,13 +72,4 @@ export const BadgeService = {
     }
   },
 
-  /**
-   * [AI 기반 배지 획득 축하 메시지 생성]
-   * 새로운 배지를 획득했을 때 Gemini를 통해 동기부여 메시지를 생성합니다.
-   */
-  async getAiCongratulation(badgeName: string): Promise<string> {
-    const prompt = `User just earned the "${badgeName}" badge. Write a short, encouraging congratulation message in 2 sentences.`;
-    const { generateAiContent } = await import("./AiService"); // 순환 참조 방지용 dynamic import 예시
-    return await generateAiContent(prompt);
-  },
 };

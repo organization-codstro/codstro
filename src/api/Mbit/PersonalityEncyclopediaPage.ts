@@ -1,5 +1,5 @@
 import { supabase } from "../../db/supabase/supabase";
-import { Personality } from "../../types/Mbit/Mbit";
+import { Personality } from "../../types/pages/Mbit/Mbit";
 
 /**
  * [PersonalityService]

@@ -1,4 +1,4 @@
-import { ProjectStatsSidebarProps } from "../../../types/ProjectPlanning/ProjectDetailPage/ProjectStatsSidebar";
+import { ProjectStatsSidebarProps } from "../../../types/pages/ProjectPlanning/ProjectDetailPage/ProjectStatsSidebar";
 
 
 export const ProjectStatsSidebar = ({

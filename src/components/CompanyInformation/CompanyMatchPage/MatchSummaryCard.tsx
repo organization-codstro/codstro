@@ -1,5 +1,5 @@
 import { TrendingUp, ArrowLeft } from "lucide-react";
-import { MatchSummaryCardProps } from "../../../types/CompanyInformation/CompanyMatchPage/MatchSummaryCard";
+import { MatchSummaryCardProps } from "../../../types/pages/CompanyInformation/CompanyMatchPage/MatchSummaryCard";
 
 export function MatchSummaryCard({
   companyName,

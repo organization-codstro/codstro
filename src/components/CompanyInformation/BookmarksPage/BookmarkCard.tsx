@@ -3,7 +3,7 @@ import {
   Bookmark as BookmarkIcon,
   ExternalLink,
 } from "lucide-react";
-import { BookmarkCardProps } from "../../../types/CompanyInformation/BookmarksPage/BookmarkCard";
+import { BookmarkCardProps } from "../../../types/pages/CompanyInformation/BookmarksPage/BookmarkCard";
 
 export function BookmarkCard({
   company,

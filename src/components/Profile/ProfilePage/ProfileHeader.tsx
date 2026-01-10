@@ -1,5 +1,5 @@
 import { Award } from "lucide-react";
-import { ProfileHeaderProps } from "../../../types/Profile/ProfilePage/ProfileHeader";
+import { ProfileHeaderProps } from "../../../types/pages/Profile/ProfilePage/ProfileHeader";
 
 
 

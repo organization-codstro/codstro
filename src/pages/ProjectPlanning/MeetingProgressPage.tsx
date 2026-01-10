@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Message } from "../../types/ProjectPlanning/project";
+import { Message } from "../../types/pages/ProjectPlanning/project";
 import { MeetingChatHeader } from "../../components/ProjectPlanning/MeetingProgressPage/MeetingChatHeader";
 import { ChatMessage } from "../../components/ProjectPlanning/MeetingProgressPage/ChatMessage";
 import { ChatInput } from "../../components/AiChat/ChatConversation/ChatInput";

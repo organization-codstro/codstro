@@ -1,4 +1,4 @@
-import { ConceptCardProps } from "../../../types/Concepts/BasicConceptsListPage/ConceptCard";
+import { ConceptCardProps } from "../../../types/pages/Concepts/BasicConceptsListPage/ConceptCard";
 
 export default function ConceptCard({
   id,

@@ -1,5 +1,5 @@
 import { Save } from "lucide-react";
-import { EditActionButtonsProps } from "../../../types/Profile/ProfileEditPage/EditActionButtons";
+import { EditActionButtonsProps } from "../../../types/pages/Profile/ProfileEditPage/EditActionButtons";
 
 export default function EditActionButtons({
   onCancel,

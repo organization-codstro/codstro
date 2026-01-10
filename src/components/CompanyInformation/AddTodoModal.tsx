@@ -2,7 +2,10 @@ import { X, Calendar, AlertCircle, FolderOpen } from "lucide-react";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { AddTodoModalProps, TodoForm } from "../../types/CompanyInformation/AddTodoModal";
+import {
+  AddTodoModalProps,
+  TodoForm,
+} from "../../types/pages/CompanyInformation/AddTodoModal";
 
 export default function AddTodoModal({
   isOpen,

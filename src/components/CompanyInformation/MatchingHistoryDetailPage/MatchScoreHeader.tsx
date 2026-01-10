@@ -1,5 +1,5 @@
 import { TrendingUp } from "lucide-react";
-import { MatchScoreHeaderProps } from "../../../types/CompanyInformation/MatchingHistoryDetailPage/MatchScoreHeader";
+import { MatchScoreHeaderProps } from "../../../types/pages/CompanyInformation/MatchingHistoryDetailPage/MatchScoreHeader";
 
 export const MatchScoreHeader = ({ rate, name }: MatchScoreHeaderProps) => {
   // 점수에 따른 색상 계산 로직을 컴포넌트 내부로 캡슐화

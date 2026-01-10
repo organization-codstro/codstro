@@ -1,4 +1,4 @@
-import { EmptyNotesStateProps } from "../../../types/Concepts/NotesListPage/EmptyNotesState";
+import { EmptyNotesStateProps } from "../../../types/pages/Concepts/NotesListPage/EmptyNotesState";
 
 export default function EmptyNotesState({
   onCreateClick,

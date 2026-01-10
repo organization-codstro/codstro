@@ -1,4 +1,4 @@
-import { UserLevel } from "../../types/Profile/Profile";
+import { UserLevel } from "../../types/pages/Profile/Profile";
 
 export const USER_LEVELS: UserLevel[] = [
   {

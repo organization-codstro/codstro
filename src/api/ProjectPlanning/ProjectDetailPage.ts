@@ -3,7 +3,7 @@ import {
   Project,
   ProjectPage,
   Todo,
-} from "../../types/ProjectPlanning/project";
+} from "../../types/pages/ProjectPlanning/project";
 
 /**
  * [ProjectDetailService]

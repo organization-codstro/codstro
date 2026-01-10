@@ -1,7 +1,7 @@
 import React from "react";
 import { X } from "lucide-react";
 import { TodoForm } from "./TodoForm";
-import { ProjectTodoModalProps } from "../../../../types/ProjectPlanning/ProjectInfoGeneratePage/ProjectTodoModal/ProjectTodoModal";
+import { ProjectTodoModalProps } from "../../../../types/pages/ProjectPlanning/ProjectInfoGeneratePage/ProjectTodoModal/ProjectTodoModal";
 
 export const ProjectTodoModal: React.FC<ProjectTodoModalProps> = ({
   isOpen,

@@ -1,6 +1,6 @@
 import React from "react";
 import { stateColors } from "../../data/Woomoonkyung/woomoonkyungData";
-import { StatusBadgeProps } from "../../types/Woomoonkyung/StatusBadge";
+import { StatusBadgeProps } from "../../types/pages/Woomoonkyung/StatusBadge";
 
 
 const StatusBadge: React.FC<StatusBadgeProps> = ({ state }) => {

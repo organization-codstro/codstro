@@ -1,4 +1,4 @@
-import { EditableFieldProps } from "../../../types/ProjectPlanning/MeetingMaterialsPage/EditableField";
+import { EditableFieldProps } from "../../../types/pages/ProjectPlanning/MeetingMaterialsPage/EditableField";
 
 export const EditableField = ({
   isEditing,

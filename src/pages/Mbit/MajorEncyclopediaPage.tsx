@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { majors } from "../../data/Mbit/majorData";
 import MajorDetail from "../../components/Mbit/MajorEncyclopediaPage/MajorDetail";
 import MajorList from "../../components/Mbit/MajorEncyclopediaPage/MajorList";
-import { Major } from "../../types/Mbit/Mbit";
-
+import { Major } from "../../types/pages/Mbit/Mbit";
 
 const MajorEncyclopedia: React.FC = () => {
   const [selectedMajor, setSelectedMajor] = useState<Major | null>(null);

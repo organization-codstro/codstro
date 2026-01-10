@@ -1,6 +1,5 @@
 import { TrendingUp, FileQuestion } from "lucide-react";
-import { CompanyActionButtonsProps } from "../../../types/CompanyInformation/CompanyDetailPage/CompanyActionButtons";
-
+import { CompanyActionButtonsProps } from "../../../types/pages/CompanyInformation/CompanyDetailPage/CompanyActionButtons";
 
 export function CompanyActionButtons({
   onAnalysisClick,

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { RelatedConceptGridProps } from "../../../types/Concepts/BasicConceptDetailPage/RelatedConceptGrid";
+import { RelatedConceptGridProps } from "../../../types/pages/Concepts/BasicConceptDetailPage/RelatedConceptGrid";
 
 export default function RelatedConceptGrid({
   relatedConcepts,

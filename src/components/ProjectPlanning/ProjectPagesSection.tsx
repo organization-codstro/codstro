@@ -8,10 +8,10 @@ import {
   X,
   Trash2,
 } from "lucide-react";
-import { ProjectPage, Todo } from "../../types/ProjectPlanning/project";
+import { ProjectPage, Todo } from "../../types/pages/ProjectPlanning/project";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { ProjectPagesSectionProps } from "../../types/ProjectPlanning/ProjectPagesSection";
+import { ProjectPagesSectionProps } from "../../types/pages/ProjectPlanning/ProjectPagesSection";
 
 export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
   pages,

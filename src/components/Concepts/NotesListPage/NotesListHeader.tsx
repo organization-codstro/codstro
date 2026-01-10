@@ -1,5 +1,5 @@
 import { Plus } from "lucide-react";
-import { NotesListHeaderProps } from "../../../types/Concepts/NotesListPage/NotesListHeader";
+import { NotesListHeaderProps } from "../../../types/pages/Concepts/NotesListPage/NotesListHeader";
 
 export default function NotesListHeader({
   title,

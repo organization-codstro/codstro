@@ -1,4 +1,4 @@
-import { FriendSelectorProps } from "../../../types/AiChat/CreateChatRoomPage/FriendSelector";
+import { FriendSelectorProps } from "../../../types/pages/AiChat/CreateChatRoomPage/FriendSelector";
 
 export function FriendSelector({
   friends,

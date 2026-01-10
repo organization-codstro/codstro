@@ -1,5 +1,5 @@
 import { CheckCircle } from "lucide-react";
-import { BadgeCardProps } from "../../../types/Profile/BadgeManagerPage/BadgeCard";
+import { BadgeCardProps } from "../../../types/pages/Profile/BadgeManagerPage/BadgeCard";
 
 export default function BadgeCard({
   badge,

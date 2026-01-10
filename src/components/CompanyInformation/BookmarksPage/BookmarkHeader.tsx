@@ -1,4 +1,4 @@
-import { BookmarkHeaderProps } from "../../../types/CompanyInformation/BookmarksPage/BookmarkHeader";
+import { BookmarkHeaderProps } from "../../../types/pages/CompanyInformation/BookmarksPage/BookmarkHeader";
 
 export function BookmarkHeader({
   title = "관심있는 회사",

@@ -1,5 +1,5 @@
 import { ArrowLeft } from "lucide-react";
-import { ChatHeaderProps } from "../../../types/AiChat/ChatConversation/ChatHeader";
+import { ChatHeaderProps } from "../../../types/pages/AiChat/ChatConversation/ChatHeader";
 
 export function ChatHeader({ roomName, topics, onBack }: ChatHeaderProps) {
   return (

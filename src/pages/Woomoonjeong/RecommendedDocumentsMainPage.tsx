@@ -4,11 +4,6 @@ import {
   extendedRecommendedPins,
   woomoonjeongData,
 } from "../../data/woomoonjeong/woomoonjeongData";
-import {
-  GroupType,
-  RecommendedField,
-  RecommendedPin,
-} from "../../types/Woomoonjeong/woomoonjeong";
 import SearchInput from "../../components/Woomoonjeong/RecommendedDocumentsMainPage/SearchInput";
 import ContentTypeFilter from "../../components/Woomoonjeong/RecommendedDocumentsMainPage/ContentTypeFilter";
 import FilterSection from "../../components/Woomoonjeong/RecommendedDocumentsMainPage/FilterSection";
@@ -16,6 +11,7 @@ import DocumentsGrid from "../../components/Woomoonjeong/RecommendedDocumentsMai
 //시스템이 추천하는 필드 추가하는 모달
 import AssignRecommendedFieldModal from "../../components/Woomoonjeong/RecommendedCreateFieldModal";
 import RecommendedCreateDocumentModal from "../../components/Woomoonjeong/RecommendedDocumentsMainPage/RecommendedCreateDocumentModal";
+import { GroupType, RecommendedField, RecommendedPin } from "../../types/pages/Woomoonjeong/woomoonjeong";
 
 const RecommendedDocumentsMain: React.FC = () => {
   const [selectedFieldType, setSelectedFieldType] = useState<

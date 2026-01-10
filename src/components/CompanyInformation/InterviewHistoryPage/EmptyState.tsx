@@ -1,5 +1,5 @@
 import { FileText } from "lucide-react";
-import { EmptyStateProps } from "../../../types/CompanyInformation/InterviewHistoryPage/EmptyState";
+import { EmptyStateProps } from "../../../types/pages/CompanyInformation/InterviewHistoryPage/EmptyState";
 
 export const EmptyState = ({
   message = "아직 질문 기록이 없습니다",

@@ -1,5 +1,5 @@
 import { MessageSquare, Calendar, ChevronRight } from "lucide-react";
-import { MeetingItemCardProps } from "../../../types/ProjectPlanning/ProjectMeetingPage/MeetingItemCard";
+import { MeetingItemCardProps } from "../../../types/pages/ProjectPlanning/ProjectMeetingPage/MeetingItemCard";
 
 export const MeetingItemCard = ({ meeting, onClick }: MeetingItemCardProps) => {
   const handleKeyDown = (e: React.KeyboardEvent) => {

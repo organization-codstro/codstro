@@ -1,4 +1,4 @@
-import { ChatListNavProps } from "../../../types/AiChat/ChatRoomsListPage/ChatListNav";
+import { ChatListNavProps } from "../../../types/pages/AiChat/ChatRoomsListPage/ChatListNav";
 
 export function ChatListNav({ buttons }: ChatListNavProps) {
   return (

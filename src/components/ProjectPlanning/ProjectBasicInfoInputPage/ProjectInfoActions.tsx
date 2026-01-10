@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import { ProjectInfoActionsProps } from "../../../types/ProjectPlanning/ProjectBasicInfoInputPage/ProjectInfoActions";
+import { ProjectInfoActionsProps } from "../../../types/pages/ProjectPlanning/ProjectBasicInfoInputPage/ProjectInfoActions";
 
 export const ProjectInfoActions = ({ onCancel, onNext }: ProjectInfoActionsProps) => {
   return (

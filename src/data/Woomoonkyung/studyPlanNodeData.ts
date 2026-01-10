@@ -1,4 +1,5 @@
-import { StudyPlanNode } from "../../types/Woomoonkyung/Woomoonkyung";
+import { StudyPlanNode } from "../../types/pages/Woomoonkyung/Woomoonkyung";
+
 
 /* =========================
    🔹 예시 Study Plan Node 데이터

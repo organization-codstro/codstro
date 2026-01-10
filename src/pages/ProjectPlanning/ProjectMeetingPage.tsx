@@ -4,7 +4,7 @@ import { MessageSquare } from "lucide-react";
 import {
   MeetingListItem,
   MeetingType,
-} from "../../types/ProjectPlanning/ProjectMeetingPage/ProjectMeetingPage";
+} from "../../types/pages/ProjectPlanning/ProjectMeetingPage/ProjectMeetingPage";
 import { MeetingHeader } from "../../components/ProjectPlanning/ProjectMeetingPage/MeetingHeader";
 import { MeetingTab } from "../../components/ProjectPlanning/ProjectMeetingPage/MeetingTab";
 import { MeetingItemCard } from "../../components/ProjectPlanning/ProjectMeetingPage/MeetingItemCard";

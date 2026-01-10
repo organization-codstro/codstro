@@ -1,5 +1,4 @@
-import { ToolCardProps } from "../../../types/Concepts/CodingToolsList/ToolCard";
-
+import { ToolCardProps } from "../../../types/pages/Concepts/CodingToolsList/ToolCard";
 
 export default function ToolCard({
   id,

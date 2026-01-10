@@ -7,7 +7,7 @@ export interface RecommendedMaterial {
   title: string;
   type: MaterialType;
   category: string;
-  tags: string[];
+  tags?: string[];
 }
 
 export interface DocumentationSite {

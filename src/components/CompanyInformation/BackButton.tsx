@@ -1,5 +1,5 @@
 import { ArrowLeft } from "lucide-react";
-import { BackButtonProps } from "../../types/CompanyInformation/BackButton";
+import { BackButtonProps } from "../../types/pages/CompanyInformation/BackButton";
 
 export const BackButton = ({ onClick }: BackButtonProps) => {
   return (

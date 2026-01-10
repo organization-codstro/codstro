@@ -28,6 +28,8 @@ dist-ssr
 .vscode/
 api-todo/
 todo.md
+src/db/supabase/table
 
 기록지.md
 finish.md
+

@@ -1,4 +1,4 @@
-import { MeetingTabProps } from "../../../types/ProjectPlanning/ProjectMeetingPage/MeetingTab";
+import { MeetingTabProps } from "../../../types/pages/ProjectPlanning/ProjectMeetingPage/MeetingTab";
 
 export const MeetingTab = ({
   label,

@@ -1,7 +1,7 @@
 //공식 문서 링크 리스트
 
 import { ExternalLink } from "lucide-react";
-import { DocumentationSectionProps } from "../../../types/Concepts/ConceptMainPage/DocumentationSection";
+import { DocumentationSectionProps } from "../../../types/pages/Concepts/ConceptMainPage/DocumentationSection";
 
 export default function DocumentationSection({
   data,

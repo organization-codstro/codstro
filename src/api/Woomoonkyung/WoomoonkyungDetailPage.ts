@@ -1,4 +1,4 @@
-import { supabase } from "../db/supabase/supabase";
+import { supabase } from "../../db/supabase/supabase";
 
 /**
  * [우문경 공부 계획 상세 서비스]
@@ -24,13 +24,15 @@ export const WoomoonkyungDetailService = {
       // 2. 해당 계획에 속한 노드(study_plan_nodes) 리스트 조회
       const { data: nodes, error: nodesError } = await supabase
         .from("study_plan_nodes")
-        .select(`
+        .select(
+          `
           *,
           tech_stacks (
             tech_stack_name,
             tech_stack_img_url
           )
-        `)
+        `
+        )
         .eq("study_plan_id", planId)
         .order("position", { ascending: true });
 
@@ -86,7 +88,10 @@ export const WoomoonkyungDetailService = {
    * @param planId 계획 ID
    * @param newState 변경할 상태값
    */
-  async updatePlanState(planId: number, newState: "waiting" | "in progress" | "done") {
+  async updatePlanState(
+    planId: number,
+    newState: "waiting" | "in progress" | "done"
+  ) {
     try {
       const { data, error } = await supabase
         .from("study_plans")
@@ -101,5 +106,5 @@ export const WoomoonkyungDetailService = {
       console.error("[updatePlanState Error]:", error);
       throw error;
     }
-  }
+  },
 };

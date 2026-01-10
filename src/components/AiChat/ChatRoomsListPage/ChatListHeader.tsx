@@ -1,5 +1,5 @@
 import { Plus, Search } from "lucide-react";
-import { ChatListHeaderProps } from "../../../types/AiChat/ChatRoomsListPage/ChatListHeader";
+import { ChatListHeaderProps } from "../../../types/pages/AiChat/ChatRoomsListPage/ChatListHeader";
 
 export function ChatListHeader({
   onSearchChange,

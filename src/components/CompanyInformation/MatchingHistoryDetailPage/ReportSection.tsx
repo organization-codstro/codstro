@@ -1,4 +1,4 @@
-import { ReportSectionProps } from "../../../types/CompanyInformation/MatchingHistoryDetailPage/ReportSection";
+import { ReportSectionProps } from "../../../types/pages/CompanyInformation/MatchingHistoryDetailPage/ReportSection";
 import MarkdownRenderer from "../../Markdown/MarkdownRenderer";
 
 export const ReportSection = ({

@@ -1,4 +1,4 @@
-import { ProjectPageItemProps } from "../../../types/ProjectPlanning/MeetingCreatePage/ProjectPageItem";
+import { ProjectPageItemProps } from "../../../types/pages/ProjectPlanning/MeetingCreatePage/ProjectPageItem";
 
 
 export const ProjectPageItem = ({ page, isSelected, onToggle }: ProjectPageItemProps) => {

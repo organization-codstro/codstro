@@ -1,5 +1,5 @@
 import { Plus } from "lucide-react";
-import { ProjectListHeaderProps } from "../../../types/ProjectPlanning/ProjectMainPage/ProjectListHeader";
+import { ProjectListHeaderProps } from "../../../types/pages/ProjectPlanning/ProjectMainPage/ProjectListHeader";
 
 export const ProjectListHeader = ({ onNewProject }: ProjectListHeaderProps) => (
   <div className="flex items-center justify-between mb-8">

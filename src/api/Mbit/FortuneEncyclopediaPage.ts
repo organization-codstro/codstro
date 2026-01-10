@@ -1,5 +1,5 @@
 import { supabase } from "../../db/supabase/supabase";
-import { Fortune } from "../../types/Mbit/Mbit";
+import { Fortune } from "../../types/pages/Mbit/Mbit";
 
 /**
  * [FortuneService]

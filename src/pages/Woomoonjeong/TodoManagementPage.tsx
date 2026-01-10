@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Filter, Search, Target, Clock } from "lucide-react";
 import { todosData } from "../../data/woomoonjeong/woomoonjeongData";
-import { Todo } from "../../types/Woomoonjeong/woomoonjeong";
+import { Todo } from "../../types/pages/Woomoonjeong/woomoonjeong";
 import TodoManagementCreate from "../../components/Woomoonjeong/TodoManagementPage/CreateTodoManagementModal";
 import TodoManagementHeader from "../../components/Woomoonjeong/TodoManagementPage/TodoManagementHeader";
 import TodoCard from "../../components/Woomoonjeong/TodoManagementPage/TodoCard";

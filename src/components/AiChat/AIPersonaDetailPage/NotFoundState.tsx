@@ -1,4 +1,4 @@
-import { NotFoundStateProps } from "../../../types/AiChat/AIPersonaDetailPage/NotFoundState";
+import { NotFoundStateProps } from "../../../types/pages/AiChat/AIPersonaDetailPage/NotFoundState";
 
 export function NotFoundState({
   message = "Persona not found",

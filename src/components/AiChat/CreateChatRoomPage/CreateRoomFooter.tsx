@@ -1,7 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import { CreateRoomFooterProps } from "../../../types/AiChat/CreateChatRoomPage/CreateRoomFooter";
-
-
+import { CreateRoomFooterProps } from "../../../types/pages/AiChat/CreateChatRoomPage/CreateRoomFooter";
 
 export function CreateRoomFooter({
   step,

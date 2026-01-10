@@ -1,4 +1,4 @@
-import { EmptyProjectStateProps } from "../../types/ProjectPlanning/EmptyProjectState";
+import { EmptyProjectStateProps } from "../../types/pages/ProjectPlanning/EmptyProjectState";
 
 export const EmptyProjectState = ({
   Icon,

@@ -1,4 +1,4 @@
-import { ConceptGridProps } from "../../types/Concepts/ConceptGrid";
+import { ConceptGridProps } from "../../types/pages/Concepts/ConceptGrid";
 
 export default function ConceptGrid({ children }: ConceptGridProps) {
   return (

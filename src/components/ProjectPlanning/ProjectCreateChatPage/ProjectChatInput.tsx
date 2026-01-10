@@ -1,5 +1,5 @@
 import { Send, ArrowRight } from "lucide-react";
-import { ProjectChatInputProps } from "../../../types/ProjectPlanning/ProjectCreateChatPage/ProjectChatInput";
+import { ProjectChatInputProps } from "../../../types/pages/ProjectPlanning/ProjectCreateChatPage/ProjectChatInput";
 
 export const ProjectChatInput = ({
   input,

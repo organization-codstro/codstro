@@ -1,4 +1,4 @@
-import { ReportFooterProps } from "../../../types/CompanyInformation/MatchingHistoryDetailPage/ReportFooter";
+import { ReportFooterProps } from "../../../types/pages/CompanyInformation/MatchingHistoryDetailPage/ReportFooter";
 
 export const ReportFooter = ({ date }: ReportFooterProps) => {
   const formattedDate = new Date(date).toLocaleDateString("ko-KR");

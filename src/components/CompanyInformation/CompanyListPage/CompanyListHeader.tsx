@@ -1,4 +1,4 @@
-import { CompanyListHeaderProps } from "../../../types/CompanyInformation/CompanyListPage/CompanyListHeader";
+import { CompanyListHeaderProps } from "../../../types/pages/CompanyInformation/CompanyListPage/CompanyListHeader";
 
 export function CompanyListHeader({
   title = "회사 정보",

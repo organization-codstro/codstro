@@ -147,7 +147,7 @@ export const ProjectMeetingService = {
    * 회의 시작 시 Gemini의 첫 메시지를 로그에 기록합니다.
    */
   async generateMeetingGuide(roomId: string, purpose: string, detail: string) {
-    const prompt = `회의 목적: ${purpose}\n상세 정보: ${params.detail}\n위 내용을 바탕으로 회의를 시작하기 위한 가이드를 작성해줘.`;
+    const prompt = `회의 목적: ${purpose}\n상세 정보: ${detail}\n위 내용을 바탕으로 회의를 시작하기 위한 가이드를 작성해줘.`;
     const aiResponse = await generateAiContent(prompt);
 
     const { data, error } = await supabase

@@ -1,4 +1,4 @@
-import { MatchInfoFooterProps } from "../../../types/CompanyInformation/CompanyMatchPage/MatchInfoFooter";
+import { MatchInfoFooterProps } from "../../../types/pages/CompanyInformation/CompanyMatchPage/MatchInfoFooter";
 
 export function MatchInfoFooter({ createdDate }: MatchInfoFooterProps) {
   return (

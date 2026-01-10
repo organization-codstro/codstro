@@ -1,5 +1,5 @@
 import { Calendar, MessageCircle } from "lucide-react";
-import { PersonaHeroProps } from "../../../types/AiChat/AIPersonaDetailPage/PersonaHero";
+import { PersonaHeroProps } from "../../../types/pages/AiChat/AIPersonaDetailPage/PersonaHero";
 
 export function PersonaHero({
   name,

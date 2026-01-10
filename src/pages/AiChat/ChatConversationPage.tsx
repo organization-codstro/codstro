@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ChatRoom, ChatMessage } from "../../types/AiChat/aiChat";
+import { ChatRoom, ChatMessage } from "../../types/pages/AiChat/aiChat";
 import { mockChatRooms, mockMessages } from "../../data/AiChat/mockData";
 import { ChatHeader } from "../../components/AiChat/ChatConversation/ChatHeader";
 import { MessageBubble } from "../../components/AiChat/ChatConversation/MessageBubble";

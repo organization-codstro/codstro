@@ -1,11 +1,7 @@
 import { supabase } from "../../db/supabase/supabase";
-import { SupabaseDatabase } from "../../types/db/supabase/supabase";
-
-
-// Supabase 테이블 타입 추출 (DB 타입 정의가 되어있다는 가정)
-type CloneCoding = SupabaseDatabase['public']['Tables']['clone_codings']['Row'];
-type UserCloneCoding = SupabaseDatabase['public']['Tables']['user_clone_codings']['Row'];
-type ProjectTodo = SupabaseDatabase['public']['Tables']['project_todos']['Row'];
+import { CloneCodings, UserCloneCodings } from "../../types/db/supabase/table";
+import { ProjectTodo } from "../../types/pages/Woomoonro/woomoonro";
+import { generateAiContent } from "../Gemini/Gemini";
 
 export const CloneCodingService = {
   /**
@@ -13,7 +9,7 @@ export const CloneCodingService = {
    * clone_coding_id를 기준으로 프로젝트의 모든 메타데이터를 가져옵니다.
    * 참조 테이블: clone_codings
    */
-  async getProjectDetail(projectId: number): Promise<CloneCoding | null> {
+  async getProjectDetail(projectId: number): Promise<CloneCodings | null> {
     const { data, error } = await supabase
       .from("clone_codings")
       .select("*")
@@ -32,7 +28,7 @@ export const CloneCodingService = {
    * 특정 유저가 해당 프로젝트를 진행 중인지, 북마크 했는지 정보를 가져옵니다.
    * 참조 테이블: user_clone_codings
    */
-  async getUserProjectStatus(userId: number, projectId: number): Promise<UserCloneCoding | null> {
+  async getUserProjectStatus(userId: number, projectId: number): Promise<UserCloneCodings | null> {
     const { data, error } = await supabase
       .from("user_clone_codings")
       .select("*")

@@ -1,4 +1,4 @@
-import { ProjectInputFieldProps } from "../../../types/ProjectPlanning/ProjectBasicInfoInputPage/ProjectInputField";
+import { ProjectInputFieldProps } from "../../../types/pages/ProjectPlanning/ProjectBasicInfoInputPage/ProjectInputField";
 
 
 export const ProjectInputField = ({

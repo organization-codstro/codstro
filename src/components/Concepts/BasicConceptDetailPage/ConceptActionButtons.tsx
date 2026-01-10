@@ -1,5 +1,5 @@
 import { MessageCircle } from "lucide-react";
-import { ConceptActionButtonsProps } from "../../../types/Concepts/BasicConceptDetailPage/ConceptActionButtons";
+import { ConceptActionButtonsProps } from "../../../types/pages/Concepts/BasicConceptDetailPage/ConceptActionButtons";
 
 export default function ConceptActionButtons({
   onShowAIChat,

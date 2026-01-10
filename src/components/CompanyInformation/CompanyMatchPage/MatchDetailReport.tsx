@@ -1,5 +1,5 @@
 import ReactMarkdown from "react-markdown";
-import { MatchDetailReportProps } from "../../../types/CompanyInformation/CompanyMatchPage/MatchDetailReport";
+import { MatchDetailReportProps } from "../../../types/pages/CompanyInformation/CompanyMatchPage/MatchDetailReport";
 
 export function MatchDetailReport({
   reason,

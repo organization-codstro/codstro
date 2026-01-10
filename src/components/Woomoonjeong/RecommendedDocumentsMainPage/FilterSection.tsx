@@ -1,5 +1,5 @@
 import React from "react";
-import { FilterSectionProps } from "../../../types/Woomoonjeong/RecommendedDocumentsMainPage/FilterSection";
+import { FilterSectionProps } from "../../../types/pages/Woomoonjeong/RecommendedDocumentsMainPage/FilterSection";
 
 const FilterSection: React.FC<FilterSectionProps> = ({ children }) => {
   return (
