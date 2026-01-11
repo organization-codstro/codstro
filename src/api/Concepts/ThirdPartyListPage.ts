@@ -1,13 +1,5 @@
 import { supabase } from "../../db/supabase/supabase";
-
-export interface ThirdPartySummary {
-  id: number;
-  name: string;
-  description: string;
-  category: string[];
-  tags: string[]; // DB의 category 배열을 UI용 tags로 매핑
-  representative_image_url?: string;
-}
+import { ThirdPartySummaryResponse } from "../../types/api/Concepts/ThirdPartyListPage";
 
 /**
  * [ThirdPartyListService]
@@ -18,7 +10,7 @@ export const ThirdPartyListService = {
   /**
    * [조회] 모든 서드파티 서비스 리스트를 최신순으로 가져옵니다.
    */
-  async getServices(): Promise<ThirdPartySummary[]> {
+  async getServices(): Promise<ThirdPartySummaryResponse[]> {
     const { data, error } = await supabase
       .from("third_party_services_description_materials")
       .select(
@@ -46,7 +38,7 @@ export const ThirdPartyListService = {
    * [검색] 서비스 이름 또는 설명에서 키워드를 검색합니다.
    * @param keyword 검색어
    */
-  async searchServices(keyword: string): Promise<ThirdPartySummary[]> {
+  async searchServices(keyword: string): Promise<ThirdPartySummaryResponse[]> {
     const { data, error } = await supabase
       .from("third_party_services_description_materials")
       .select(
@@ -79,7 +71,7 @@ export const ThirdPartyListService = {
    */
   async filterServicesByCategory(
     categoryName: string
-  ): Promise<ThirdPartySummary[]> {
+  ): Promise<ThirdPartySummaryResponse[]> {
     const { data, error } = await supabase
       .from("third_party_services_description_materials")
       .select(

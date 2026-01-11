@@ -1,31 +1,12 @@
 import { supabase } from "../../db/supabase/supabase";
-
-/**
- * [공지사항 서비스 타입 정의]
- * DB 스키마 기준에 맞춰 타입 정의
- */
-export type NoticeType = "update" | "maintenance" | "event" | "general";
-
-export interface Notice {
-  notices_id: number;
-  notices_title: string;
-  notice_content: string;
-  notice_type: NoticeType;
-  notice_created_date: string;
-  notice_updated_date: string;
-}
-
-export interface NoticeReadStatus {
-  is_read: boolean;
-  read_at: string;
-}
+import { NoticeResponse } from "../../types/api/Notice/NoticeDetailPage";
 
 export const NoticeService = {
   /**
    * [모든 공지사항 목록 조회]
    * 'notices' 테이블의 모든 데이터를 최신순으로 가져옵니다.
    */
-  async getNotices(): Promise<Notice[]> {
+  async getNotices(): Promise<NoticeResponse[]> {
     try {
       const { data, error } = await supabase
         .from("notices")
@@ -45,7 +26,7 @@ export const NoticeService = {
    * @param noticeId 조회할 공지의 UUID
    * 'notices' 테이블에서 ID가 일치하는 단일 행을 반환합니다.
    */
-  async getNoticeById(noticeId: string): Promise<Notice | null> {
+  async getNoticeById(noticeId: string): Promise<NoticeResponse | null> {
     try {
       const { data, error } = await supabase
         .from("notices")

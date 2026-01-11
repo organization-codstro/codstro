@@ -1,22 +1,5 @@
 import { supabase } from "../../db/supabase/supabase";
-
-interface RelatedItem {
-  id: string;
-  name: string;
-  type: "concept" | "tool" | "library" | "package_manager" | "third_party";
-}
-
-interface ToolDetail {
-  id: number;
-  name: string;
-  category: string[];
-  tags: string[]; // category 데이터를 tags로 활용
-  description: string;
-  content: string;
-  officialSite: string | null;
-  isUnderstood: boolean;
-  relatedConcepts: RelatedItem[];
-}
+import { ToolDetailResponse } from "../../types/api/Concepts/CodingToolDetailPage";
 
 /**
  * [ToolDetailService]
@@ -27,7 +10,10 @@ export const ToolDetailService = {
   /**
    * [조회] 특정 코딩 툴의 상세 정보와 해당 유저의 학습 상태를 가져옵니다.
    */
-  async getToolDetail(toolId: string, userId: number): Promise<ToolDetail> {
+  async getToolDetail(
+    toolId: string,
+    userId: number
+  ): Promise<ToolDetailResponse> {
     // 1. 코딩 툴 기본 데이터 조회
     const { data: toolData, error: toolError } = await supabase
       .from("tool_description_materials")

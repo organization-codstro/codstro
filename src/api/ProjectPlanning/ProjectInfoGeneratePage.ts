@@ -1,9 +1,5 @@
 import { supabase } from "../../db/supabase/supabase";
-import {
-  Project,
-  ProjectPage,
-  Todo,
-} from "../../types/pages/ProjectPlanning/project";
+import { ProjectPageResponse, ProjectResponse, TodoResponse } from "../../types/api/ProjectPlanning/ProjectDetailPage";
 
 /**
  * [ProjectFinalizeService]
@@ -17,9 +13,9 @@ export const ProjectFinalizeService = {
    */
   async savePlanningDraft(params: {
     projectId: number;
-    basicInfo: Partial<Project>;
-    pages: Array<ProjectPage & { todos: Todo[] }>;
-    projectTodos: Todo[];
+    basicInfo: Partial<ProjectResponse>;
+    pages: Array<ProjectPageResponse & { todos: TodoResponse[] }>;
+    projectTodos: TodoResponse[];
   }) {
     try {
       // 1. 기본 정보 업데이트
@@ -57,27 +53,23 @@ export const ProjectFinalizeService = {
         if (pageError) throw pageError;
 
         if (page.todos.length > 0) {
-          await supabase
-            .from("project_todos")
-            .upsert(
-              page.todos.map((t) => ({
-                ...t,
-                project_page_id: savedPage.project_page_id,
-              }))
-            );
+          await supabase.from("project_todos").upsert(
+            page.todos.map((t) => ({
+              ...t,
+              project_page_id: savedPage.project_page_id,
+            }))
+          );
         }
       }
 
       // 3. 프로젝트 전체 할 일(Project Todos) 저장
       if (params.projectTodos.length > 0) {
-        await supabase
-          .from("project_todos")
-          .upsert(
-            params.projectTodos.map((t) => ({
-              ...t,
-              project_id: params.projectId,
-            }))
-          );
+        await supabase.from("project_todos").upsert(
+          params.projectTodos.map((t) => ({
+            ...t,
+            project_id: params.projectId,
+          }))
+        );
       }
 
       return { success: true };

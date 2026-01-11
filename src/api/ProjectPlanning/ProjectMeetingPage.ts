@@ -1,8 +1,6 @@
 import { supabase } from "../../db/supabase/supabase";
-import {
-  MeetingListItem,
-  MeetingType,
-} from "../../types/ProjectPlanning/ProjectMeetingPage/ProjectMeetingPage";
+import { MeetingListItem, MeetingType } from "../../types/api/ProjectPlanning/ProjectMeetingPage";
+
 
 /**
  * [ProjectMeetingListService]

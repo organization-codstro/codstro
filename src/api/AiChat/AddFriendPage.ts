@@ -1,6 +1,8 @@
 import { supabase } from "../../db/supabase/supabase";
-import { AddFriendParams } from "../../types/api/AiChat/AddFriendPage";
-import { AiPersonas } from "../../types/db/supabase/table";
+import {
+  AddFriendParams,
+  GetMyFriendsDataType,
+} from "../../types/api/AiChat/AddFriendPage";
 
 /**
  * 친구 찾기 및 유저 AI 설정 관리 서비스
@@ -23,15 +25,10 @@ export const FriendService = {
       )
       .eq("user_id", userId);
 
-    type DataType = Array<{
-      user_ai_setting_id: number;
-      ai_personas: AiPersonas;
-    }>;
-
     if (error) throw new Error(`[getMyFriends Error]: ${error.message}`);
 
     // ai_personas 정보만 추출하여 반환하거나 구조화
-    return (data as unknown as DataType).map((item) => ({
+    return (data as unknown as GetMyFriendsDataType).map((item) => ({
       ...item.ai_personas,
       user_ai_setting_id: item.user_ai_setting_id,
     }));

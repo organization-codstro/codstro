@@ -1,27 +1,15 @@
 import { supabase } from "../../db/supabase/supabase";
-
-/**
- * [공지사항 목록 관련 서비스]
- * 테이블: notices, user_notice_reads
- */
-
-export type NoticeType = "update" | "maintenance" | "event" | "general";
-
-export interface NoticeListItem {
-  notices_id: string;
-  notices_title: string;
-  notice_content: string; // preview 대용으로 앞부분 사용
-  notice_type: NoticeType;
-  notice_created_date: string;
-  is_pinned: boolean; // 중요 공지 여부 (기존 Mock 데이터의 isPinned 대응)
-}
+import {
+  NoticeListItemResponse,
+  NoticeTypeProps,
+} from "../../types/api/Notice/NoticesListPage";
 
 export const NoticeListService = {
   /**
    * [전체 공지사항 목록 조회]
    * 상단 고정(is_pinned) 우선, 그 다음 최신순(created_at)으로 정렬하여 가져옵니다.
    */
-  async getAllNotices(): Promise<NoticeListItem[]> {
+  async getAllNotices(): Promise<NoticeListItemResponse[]> {
     try {
       const { data, error } = await supabase
         .from("notices")
@@ -51,7 +39,9 @@ export const NoticeListService = {
    * [카테고리별 공지사항 필터링]
    * @param type 공지 타입 (update, maintenance 등)
    */
-  async getNoticesByType(type: NoticeType): Promise<NoticeListItem[]> {
+  async getNoticesByType(
+    type: NoticeTypeProps
+  ): Promise<NoticeListItemResponse[]> {
     try {
       const { data, error } = await supabase
         .from("notices")

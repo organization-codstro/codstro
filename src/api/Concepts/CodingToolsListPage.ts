@@ -1,13 +1,5 @@
 import { supabase } from "../../db/supabase/supabase";
-
-interface ToolSummary {
-  id: number;
-  name: string;
-  description: string;
-  category: string[];
-  tags: string[]; // DB의 category 배열을 tags로 매핑
-  representative_image_url?: string;
-}
+import { ToolSummaryResponse } from "../../types/api/Concepts/CodingToolsListPage";
 
 /**
  * [ToolListService]
@@ -18,7 +10,7 @@ export const ToolListService = {
   /**
    * [조회] 모든 코딩 툴 리스트를 최신등록순으로 가져옵니다.
    */
-  async getTools(): Promise<ToolSummary[]> {
+  async getTools(): Promise<ToolSummaryResponse[]> {
     const { data, error } = await supabase
       .from("tool_description_materials")
       .select(
@@ -44,7 +36,7 @@ export const ToolListService = {
    * [검색] 툴 이름 또는 설명에서 키워드를 검색합니다.
    * @param keyword 유저 입력 검색어
    */
-  async searchTools(keyword: string): Promise<ToolSummary[]> {
+  async searchTools(keyword: string): Promise<ToolSummaryResponse[]> {
     const { data, error } = await supabase
       .from("tool_description_materials")
       .select(
@@ -74,7 +66,9 @@ export const ToolListService = {
    * [필터링] 특정 카테고리(IDE, Version Control 등)에 해당하는 툴만 필터링합니다.
    * @param categoryName 필터링할 카테고리 문자열
    */
-  async filterToolsByCategory(categoryName: string): Promise<ToolSummary[]> {
+  async filterToolsByCategory(
+    categoryName: string
+  ): Promise<ToolSummaryResponse[]> {
     const { data, error } = await supabase
       .from("tool_description_materials")
       .select(

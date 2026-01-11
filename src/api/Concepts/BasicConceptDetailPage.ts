@@ -1,22 +1,5 @@
 import { supabase } from "../../db/supabase/supabase";
-
-//이 타입은 나중에 분리
-interface RelatedConcept {
-  id: string;
-  name: string;
-  type: string;
-}
-
-interface ConceptDetail {
-  id: string;
-  name: string;
-  category: string;
-  tags: string[];
-  isUnderstood: boolean;
-  description: string;
-  content: string;
-  relatedConcepts: RelatedConcept[];
-}
+import { ConceptDetailResponse } from "../../types/api/Concepts/BasicConceptDetailPage";
 
 /**
  * [ConceptDetailService]
@@ -30,7 +13,7 @@ export const ConceptDetailService = {
   async getConceptDetail(
     conceptId: string,
     userId: string
-  ): Promise<ConceptDetail> {
+  ): Promise<ConceptDetailResponse> {
     // 1. 개념 본문 데이터 조회
     const { data: material, error: materialError } = await supabase
       .from("concept_description_materials")

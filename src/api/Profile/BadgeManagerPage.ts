@@ -1,5 +1,5 @@
 import { supabase } from "../../db/supabase/supabase";
-import { Badge } from "../../types/pages/Profile/Profile";
+import { BadgeResponse } from "../../types/api/Profile/BadgeManagerPage";
 
 /**
  * [배지 서비스]
@@ -12,7 +12,7 @@ export const BadgeService = {
    * @param userId 조회할 유저의 ID
    * @returns 배지 정보와 획득 여부가 포함된 Badge 배열
    */
-  async getUserBadges(userId: number): Promise<Badge[]> {
+  async getUserBadges(userId: number): Promise<BadgeResponse[]> {
     try {
       // 1. 전체 배지 목록 가져오기
       const { data: allBadges, error: badgeError } = await supabase
@@ -71,5 +71,4 @@ export const BadgeService = {
       throw error;
     }
   },
-
 };

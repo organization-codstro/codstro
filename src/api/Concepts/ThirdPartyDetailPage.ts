@@ -1,22 +1,5 @@
 import { supabase } from "../../db/supabase/supabase";
-
-export interface RelatedItem {
-  id: string;
-  name: string;
-  type: "concept" | "tool" | "library" | "service";
-}
-
-export interface ThirdPartyDetail {
-  id: number;
-  name: string;
-  category: string[];
-  tags: string[]; // category 배열을 tags로 매핑
-  officialSite: string | null;
-  description: string;
-  content: string;
-  isUnderstood: boolean;
-  relatedConcepts: RelatedItem[];
-}
+import { ThirdPartyDetailResponse } from "../../types/api/Concepts/ThirdPartyDetailPage";
 
 /**
  * [ThirdPartyDetailService]
@@ -30,7 +13,7 @@ export const ThirdPartyDetailService = {
   async getServiceDetail(
     serviceId: string,
     userId: number
-  ): Promise<ThirdPartyDetail> {
+  ): Promise<ThirdPartyDetailResponse> {
     // 1. 서비스 상세 데이터 조회 (스키마 컬럼 매핑)
     const { data: serviceData, error: serviceError } = await supabase
       .from("third_party_services_description_materials")

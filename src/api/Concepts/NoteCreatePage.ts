@@ -1,18 +1,5 @@
 import { supabase } from "../../db/supabase/supabase";
-
-export interface NoteDetail {
-  id?: number;
-  title: string;
-  content: string;
-  labels: string[]; // concepts 목록을 labels로 활용
-  userId: number;
-}
-
-export interface AvailableConcept {
-  id: string;
-  name: string;
-  type: string;
-}
+import { NoteDetailPropos } from "../../types/api/Concepts/NoteCreatePage";
 
 /**
  * [NoteService]
@@ -38,7 +25,7 @@ export const NoteService = {
    * [생성/수정] 노트를 저장하고 선택된 개념들과의 관계를 설정합니다.
    * 트랜잭션 처리를 위해 연달아 실행합니다.
    */
-  async saveNote(noteData: NoteDetail, conceptIds: number[]) {
+  async saveNote(noteData: NoteDetailPropos, conceptIds: number[]) {
     const isEditing = !!noteData.id;
 
     // 1. 노트 본문 저장 (notes 테이블)

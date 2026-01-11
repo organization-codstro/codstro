@@ -1,5 +1,6 @@
 import { supabase } from "../../db/supabase/supabase";
-import { Project } from "../../types/ProjectPlanning/project";
+import { Project } from "../../types/api/ProjectPlanning/ProjectPlanningArchivePage";
+
 
 /**
  * [ProjectArchiveService]

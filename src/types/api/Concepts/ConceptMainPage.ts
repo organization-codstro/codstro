@@ -1,0 +1,20 @@
+export type MaterialType = "concept" | "tool" | "library" | "service";
+
+export interface RecommendedMaterialResponse {
+  id: number;
+  title: string;
+  type: MaterialType;
+  category: string;
+  tags?: string[];
+}
+
+export interface DocumentationSite {
+  name: string;
+  url: string;
+  desc: string;
+}
+
+export interface DocumentationCategoryResponse {
+  category: string;
+  sites: DocumentationSite[];
+}

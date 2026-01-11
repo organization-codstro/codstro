@@ -1,9 +1,9 @@
 import { supabase } from "../../db/supabase/supabase";
 import {
-  Project,
-  ProjectPage,
-  Todo,
-} from "../../types/pages/ProjectPlanning/project";
+  ProjectPageResponse,
+  ProjectResponse,
+  TodoResponse,
+} from "../../types/api/ProjectPlanning/ProjectDetailPage";
 
 /**
  * [ProjectDetailService]
@@ -50,7 +50,7 @@ export const ProjectDetailService = {
         .eq("project_id", projectId);
 
       if (error) throw error;
-      return data as Array<ProjectPage & { todos: Todo[] }>;
+      return data as Array<ProjectPageResponse & { todos: TodoResponse[] }>;
     } catch (error) {
       console.error("[getProjectPagesWithTodos Error]:", error);
       throw error;
@@ -64,7 +64,7 @@ export const ProjectDetailService = {
   async updateProjectInfo(
     projectId: number,
     isPlanning: boolean,
-    updates: Partial<Project>
+    updates: Partial<ProjectResponse>
   ) {
     const table = isPlanning ? "project_plannings" : "projects";
     try {
@@ -97,7 +97,9 @@ export const ProjectDetailService = {
    * [페이지 및 할 일 일괄 저장]
    * 편집 모드에서 수정된 페이지 정보와 할 일들을 저장합니다.
    */
-  async saveProjectStructure(pages: Array<ProjectPage & { todos: Todo[] }>) {
+  async saveProjectStructure(
+    pages: Array<ProjectPageResponse & { todos: TodoResponse[] }>
+  ) {
     try {
       for (const page of pages) {
         // 1. 페이지 정보 업데이트

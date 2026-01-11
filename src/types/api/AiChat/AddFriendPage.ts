@@ -1,3 +1,5 @@
+import { AiPersonas } from "../../db/supabase/table";
+
 export interface AddFriendParams {
   userId: number;
   personaId: number;
@@ -6,3 +8,8 @@ export interface AddFriendParams {
   aiSelfAwareness?: boolean;
   serviceIntegration?: boolean;
 }
+
+export type GetMyFriendsDataType = Array<{
+  user_ai_setting_id: number;
+  ai_personas: AiPersonas;
+}>;

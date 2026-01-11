@@ -1,25 +1,8 @@
 import { supabase } from "../../db/supabase/supabase";
-
-export type MaterialType = "concept" | "tool" | "library" | "service";
-
-export interface RecommendedMaterial {
-  id: number;
-  title: string;
-  type: MaterialType;
-  category: string;
-  tags?: string[];
-}
-
-export interface DocumentationSite {
-  name: string;
-  url: string;
-  desc: string;
-}
-
-export interface DocumentationCategory {
-  category: string;
-  sites: DocumentationSite[];
-}
+import {
+  DocumentationCategoryResponse,
+  RecommendedMaterialResponse,
+} from "../../types/api/Concepts/ConceptMainPage";
 
 /**
  * [ConceptMainService]
@@ -31,7 +14,7 @@ export const ConceptMainService = {
    * 여러 테이블에서 최신/인기 데이터를 취합합니다. (스키마 기준)
    * 테이블: concept_..., tool_..., librarie_..., third_party_...
    */
-  async getRecommendedMaterials(): Promise<RecommendedMaterial[]> {
+  async getRecommendedMaterials(): Promise<RecommendedMaterialResponse[]> {
     // 1. 각 테이블에서 최신 데이터를 병렬로 가져옵니다.
     const [concepts, tools, libraries, services] = await Promise.all([
       supabase
@@ -61,7 +44,7 @@ export const ConceptMainService = {
     ]);
 
     // 2. 통합 결과 생성 (데이터 가공)
-    const combined: RecommendedMaterial[] = [
+    const combined: RecommendedMaterialResponse[] = [
       ...(concepts.data || []).map((item) => ({
         ...item,
         type: "concept" as const,
@@ -91,36 +74,11 @@ export const ConceptMainService = {
    * [조회] 문서 자원(Documentation Sites) 데이터를 가져옵니다.
    * 별도의 DB 테이블이 없다면 정적 데이터를 반환하거나, 'external_resources' 테이블을 참조하도록 구성합니다.
    */
-  async getDocumentationSites(): Promise<DocumentationCategory[]> {
+  async getDocumentationSites(): Promise<DocumentationCategoryResponse[]> {
     // 현재는 예시 데이터를 기준으로 반환하며, 추후 DB 연동 시 supabase.from('docs').select('*') 로 대체 가능합니다.
-    return [
-      {
-        category: "Standards",
-        sites: [
-          {
-            name: "RFC Editor",
-            url: "https://www.rfc-editor.org/",
-            desc: "Internet Standards",
-          },
-          { name: "W3C", url: "https://www.w3.org/", desc: "Web Standards" },
-        ],
-      },
-      {
-        category: "Official Docs",
-        sites: [
-          {
-            name: "MDN Web Docs",
-            url: "https://developer.mozilla.org/",
-            desc: "Web Technologies",
-          },
-          {
-            name: "React Docs",
-            url: "https://react.dev/",
-            desc: "React Documentation",
-          },
-        ],
-      },
-    ];
+    const { data, error } = await supabase.from("docs").select("*");
+    if (error) throw new Error(error.message);
+    return data as DocumentationCategoryResponse[];
   },
 
   /**

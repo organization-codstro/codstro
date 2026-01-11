@@ -1,13 +1,5 @@
 import { supabase } from "../../db/supabase/supabase";
-
-interface ConceptSummary {
-  id: number;
-  name: string;
-  description: string;
-  category: string[];
-  tags: string[]; // DB의 category 필드를 tags로 활용하거나 content에서 추출
-  representative_image_url?: string;
-}
+import { ConceptSummaryResponse } from "../../types/api/Concepts/BasicConceptsListPage";
 
 /**
  * [ConceptListService]
@@ -19,7 +11,7 @@ export const ConceptListService = {
    * [조회] 전체 개념 리스트를 가져옵니다.
    * 기본적으로 최신순으로 정렬합니다.
    */
-  async getConcepts(): Promise<ConceptSummary[]> {
+  async getConcepts(): Promise<ConceptSummaryResponse[]> {
     const { data, error } = await supabase
       .from("concept_description_materials")
       .select(
@@ -46,7 +38,7 @@ export const ConceptListService = {
    * [검색] 키워드를 통해 제목 또는 설명에서 개념을 검색합니다.
    * @param keyword 검색어
    */
-  async searchConcepts(keyword: string): Promise<ConceptSummary[]> {
+  async searchConcepts(keyword: string): Promise<ConceptSummaryResponse[]> {
     const { data, error } = await supabase
       .from("concept_description_materials")
       .select(
@@ -76,7 +68,7 @@ export const ConceptListService = {
    * [필터] 특정 카테고리에 속한 개념들만 필터링합니다.
    * @param category 카테고리 명 (예: 'Web Development')
    */
-  async filterByCategory(category: string): Promise<ConceptSummary[]> {
+  async filterByCategory(category: string): Promise<ConceptSummaryResponse[]> {
     const { data, error } = await supabase
       .from("concept_description_materials")
       .select(

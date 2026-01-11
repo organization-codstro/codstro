@@ -1,23 +1,5 @@
 import { supabase } from "../../db/supabase/supabase";
-
-export interface RelatedItem {
-  id: string;
-  name: string;
-  type: "concept" | "tool" | "library" | "service";
-}
-
-export interface LibraryDetail {
-  id: number;
-  name: string;
-  language: string;
-  category: string[];
-  tags: string[]; // category 배열을 tags로 활용
-  officialSite: string | null;
-  description: string;
-  content: string;
-  isUnderstood: boolean;
-  relatedConcepts: RelatedItem[];
-}
+import { LibraryDetailResponse } from "../../types/api/Concepts/LibraryDetailPage";
 
 /**
  * [LibraryDetailService]
@@ -31,7 +13,7 @@ export const LibraryDetailService = {
   async getLibraryDetail(
     libraryId: string,
     userId: number
-  ): Promise<LibraryDetail> {
+  ): Promise<LibraryDetailResponse> {
     // 1. 라이브러리 상세 데이터 조회 (테이블 기준 컬럼 매핑)
     const { data: libraryData, error: libraryError } = await supabase
       .from("librarie_description_materials")

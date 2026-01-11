@@ -1,5 +1,5 @@
 import { supabase } from "../../db/supabase/supabase";
-import { CloneCodings } from "../../types/db/supabase/table";
+import { CloneCodingsResponse } from "../../types/api/Woomoonro/WoomoonroArchivePage";
 
 /**
  * [아카이브 서비스]
@@ -38,7 +38,7 @@ export const ArchiveService = {
           started_at: item.user_clone_codings_started_at,
           completed_at: item.user_clone_codings_completed_at,
         },
-        project: item.clone_codings as unknown as CloneCodings,
+        project: item.clone_codings as unknown as CloneCodingsResponse,
       }));
     } catch (error) {
       console.error("[getBookmarkedProjects Error]:", error);
