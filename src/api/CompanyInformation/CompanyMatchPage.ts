@@ -1,10 +1,15 @@
-import { createClient } from "@supabase/supabase-js";
+import { supabase } from "../../db/supabase/supabase";
 import { generateAiContent } from "../Gemini/Gemini";
-
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_ANON_KEY!
-);
+import {
+  GetCompanyMatchDetailParams,
+  GetCompanyMatchDetailResponse,
+  GetAllUserMatchesParams,
+  GetAllUserMatchesResponse,
+  CreateMatchResultParams,
+  CreateMatchResultResponse,
+  GenerateAiMatchReportParams,
+  GenerateAiMatchReportResponse,
+} from "../../types/api/CompanyInformation/CompanyMatchPage";
 
 /**
  * [함수 역할]: 특정 유저와 특정 회사의 AI 매칭 상세 결과(점수, 분석 내용, 개선 제안 등)를 조회합니다.
@@ -12,9 +17,8 @@ const supabase = createClient(
  * [설명]: 회사의 이름과 매칭 데이터를 함께 가져오기 위해 JOIN 쿼리를 사용합니다.
  */
 export const getCompanyMatchDetail = async (
-  userId: number,
-  companyId: number
-) => {
+  params: GetCompanyMatchDetailParams
+): Promise<GetCompanyMatchDetailResponse> => {
   try {
     const { data, error } = await supabase
       .from("company_user_matches")
@@ -26,9 +30,9 @@ export const getCompanyMatchDetail = async (
         )
       `
       )
-      .eq("user_id", userId)
-      .eq("company_id", companyId)
-      .maybeSingle(); // 결과가 없어도 에러를 던지지 않고 null 반환
+      .eq("user_id", params.userId)
+      .eq("company_id", params.companyId)
+      .maybeSingle();
 
     if (error) throw error;
     return data;
@@ -43,7 +47,9 @@ export const getCompanyMatchDetail = async (
  * [참조 테이블]: company_user_matches
  * [설명]: 매칭 리스트 페이지 등에서 전체적인 현황을 보여줄 때 사용합니다.
  */
-export const getAllUserMatches = async (userId: number) => {
+export const getAllUserMatches = async (
+  params: GetAllUserMatchesParams
+): Promise<GetAllUserMatchesResponse> => {
   try {
     const { data, error } = await supabase
       .from("company_user_matches")
@@ -59,7 +65,7 @@ export const getAllUserMatches = async (userId: number) => {
         )
       `
       )
-      .eq("user_id", userId)
+      .eq("user_id", params.userId)
       .order("company_user_matche_created_date", { ascending: false });
 
     if (error) throw error;
@@ -75,27 +81,22 @@ export const getAllUserMatches = async (userId: number) => {
  * [참조 테이블]: company_user_matches
  * [설명]: AI 분석이 완료된 후 결과를 DB에 기록할 때 사용합니다.
  */
-export const createMatchResult = async (matchData: {
-  userId: number;
-  companyId: number;
-  companyName: string;
-  matchRate: number;
-  reason: string;
-  suggestions: string;
-}) => {
+export const createMatchResult = async (
+  params: CreateMatchResultParams
+): Promise<CreateMatchResultResponse> => {
   try {
     const { data, error } = await supabase
       .from("company_user_matches")
       .insert([
         {
-          user_id: matchData.userId,
-          company_id: matchData.companyId,
+          user_id: params.userId,
+          company_id: params.companyId,
           company_user_matche_name: `${
-            matchData.companyName
+            params.companyName
           } - ${new Date().toLocaleDateString()}`,
-          match_rate: matchData.matchRate,
-          company_user_matche_reason: matchData.reason,
-          company_user_matche_suggestions: matchData.suggestions,
+          match_rate: params.matchRate,
+          company_user_matche_reason: params.reason,
+          company_user_matche_suggestions: params.suggestions,
           company_user_matche_created_date: new Date().toISOString(),
         },
       ])
@@ -115,15 +116,13 @@ export const createMatchResult = async (matchData: {
  * [활용 페이지]: CompanyMatch
  */
 export const generateAiMatchReport = async (
-  companyName: string,
-  companyValues: string,
-  userMajor: string
-) => {
+  params: GenerateAiMatchReportParams
+): Promise<GenerateAiMatchReportResponse> => {
   const prompt = `
     당신은 전문 커리어 컨설턴트입니다. 
-    회사명: ${companyName}
-    회사가치: ${companyValues}
-    유저전공: ${userMajor}
+    회사명: ${params.companyName}
+    회사가치: ${params.companyValues}
+    유저전공: ${params.userMajor}
     
     위 정보를 바탕으로 유저와 회사의 매칭 분석 리포트를 마크다운 형식으로 작성해주세요.
     내용에는 ## Strengths, ## Good Fits, ## Areas to Develop를 포함하고, 

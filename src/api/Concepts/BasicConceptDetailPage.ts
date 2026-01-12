@@ -1,19 +1,26 @@
 import { supabase } from "../../db/supabase/supabase";
-import { ConceptDetailResponse } from "../../types/api/Concepts/BasicConceptDetailPage";
+import {
+  GetConceptDetailParams,
+  ToggleUnderstoodStatusParams,
+  AskAIChatParams,
+  AddConceptTodoParams,
+  ConceptDetailResponse,
+} from "../../types/api/Concepts/BasicConceptDetailPage";
 
 /**
- * [ConceptDetailService]
+ * [BasicConceptDetailService]
  * 개념 상세 페이지의 데이터 로딩, 상태 변경, AI 연동을 담당합니다.
  */
-export const ConceptDetailService = {
+export const BasicConceptDetailService = {
   /**
    * [조회] 특정 개념의 상세 정보와 학습 상태를 가져옵니다.
    * 참조 테이블: concept_description_materials, user_concepts
    */
   async getConceptDetail(
-    conceptId: string,
-    userId: string
+    params: GetConceptDetailParams
   ): Promise<ConceptDetailResponse> {
+    const { conceptId, userId } = params;
+
     // 1. 개념 본문 데이터 조회
     const { data: material, error: materialError } = await supabase
       .from("concept_description_materials")
@@ -40,14 +47,13 @@ export const ConceptDetailService = {
       .eq("concept_description_material_id", conceptId)
       .single();
 
-    // 3. 연관 개념 데이터 조회 (가정: note_concept 테이블이나 별도 매핑 테이블 참조)
-    // 여기서는 목 데이터 구조에 맞춰 빈 배열 또는 기본 로직으로 처리
+    // 3. 연관 개념 데이터 조회
     const relatedConcepts: any[] = [];
 
     return {
       ...material,
       isUnderstood: !!userStatus,
-      relatedConcepts: relatedConcepts,
+      relatedConcepts,
     };
   },
 
@@ -56,12 +62,11 @@ export const ConceptDetailService = {
    * 참조 테이블: user_concepts
    */
   async toggleUnderstoodStatus(
-    userId: string,
-    conceptId: string,
-    currentStatus: boolean
-  ) {
+    params: ToggleUnderstoodStatusParams
+  ): Promise<boolean> {
+    const { userId, conceptId, currentStatus } = params;
+
     if (currentStatus) {
-      // 이미 이해함 상태라면 레코드 삭제
       const { error } = await supabase
         .from("user_concepts")
         .delete()
@@ -71,11 +76,10 @@ export const ConceptDetailService = {
       if (error) throw error;
       return false;
     } else {
-      // 미이해 상태라면 레코드 삽입
       const { error } = await supabase.from("user_concepts").insert({
         user_id: userId,
         concept_description_material_id: conceptId,
-        user_concept_is_starred: false, // 기본값
+        user_concept_is_starred: false,
       });
 
       if (error) throw error;
@@ -85,10 +89,10 @@ export const ConceptDetailService = {
 
   /**
    * [AI 서비스] Gemini API를 사용하여 개념에 대한 질문에 답변합니다.
-   * @param conceptName 현재 보고 있는 개념 이름
-   * @param userQuestion 유저의 질문 내용
    */
-  async askAIChat(conceptName: string, userQuestion: string) {
+  async askAIChat(params: AskAIChatParams): Promise<string> {
+    const { conceptName, userQuestion } = params;
+
     try {
       const response = await fetch("/api/gemini/chat", {
         method: "POST",
@@ -108,10 +112,11 @@ export const ConceptDetailService = {
   },
 
   /**
-   * [Todo 생성] Firebase 등에 이미지를 업로드한 후, 해당 개념을 Todo 리스트에 등록합니다.
-   * (구조상 DB 처리는 Supabase에서 진행)
+   * [Todo 생성] 개념을 Todo 리스트에 등록합니다.
    */
-  async addConceptTodo(userId: string, conceptId: string, type: string) {
+  async addConceptTodo(params: AddConceptTodoParams): Promise<boolean> {
+    const { userId, conceptId, type } = params;
+
     const { error } = await supabase.from("notes").insert({
       user_id: userId,
       note_title: `[할일] ${type} 학습하기`,

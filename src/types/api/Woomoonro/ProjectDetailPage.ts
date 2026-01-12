@@ -34,3 +34,34 @@ export interface ProjectTodoResponse {
   due_date?: string;
   created_at: string;
 }
+
+export interface GetProjectDetailParams {
+  projectId: number;
+}
+
+export interface GetUserProjectStatusParams {
+  userId: number;
+  projectId: number;
+}
+
+export interface ToggleBookmarkParams {
+  userId: number;
+  projectId: number;
+  currentStatus: boolean;
+}
+
+export interface UpdateProjectStatusParams {
+  userId: number;
+  projectId: number;
+  status: "not_started" | "in_progress" | "completed";
+}
+
+export interface GetProjectTodosParams {
+  userId: number;
+  projectId: number;
+}
+
+export interface GenerateProjectGuideParams {
+  projectTitle: string;
+  techStack: string[];
+}

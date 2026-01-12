@@ -1,4 +1,9 @@
 import { supabase } from "../../db/supabase/supabase";
+import {
+  GetActiveProjectsParams,
+  GetPlanningProjectsParams,
+  DeterminePlanningStepParams,
+} from "../../types/api/ProjectPlanning/ProjectMainPage";
 
 /**
  * [ProjectMainService]
@@ -10,12 +15,12 @@ export const ProjectMainService = {
    * 확정되어 projects 테이블에 저장된 프로젝트 목록을 가져옵니다.
    * @table projects
    */
-  async getActiveProjects(userId: number) {
+  async getActiveProjects(params: GetActiveProjectsParams) {
     try {
       const { data, error } = await supabase
         .from("projects")
         .select("*")
-        .eq("user_id", userId)
+        .eq("user_id", params.userId)
         .order("project_created_date", { ascending: false });
 
       if (error) throw error;
@@ -33,12 +38,12 @@ export const ProjectMainService = {
    * 아직 기획 단계에 있어 project_plannings 테이블에 있는 목록을 가져옵니다.
    * @table project_plannings
    */
-  async getPlanningProjects(userId: number) {
+  async getPlanningProjects(params: GetPlanningProjectsParams) {
     try {
       const { data, error } = await supabase
         .from("project_plannings")
         .select("*")
-        .eq("user_id", userId)
+        .eq("user_id", params.userId)
         .order("project_created_date", { ascending: false });
 
       if (error) throw error;
@@ -59,13 +64,13 @@ export const ProjectMainService = {
    * 기획 중인 프로젝트를 클릭했을 때, 저장된 필드 상태에 따라 이동할 단계를 결정합니다.
    * @param project 기획 중인 프로젝트 객체
    */
-  async determinePlanningStep(projectId: number) {
+  async determinePlanningStep(params: DeterminePlanningStepParams) {
     try {
       // 1. 프로젝트 상세 데이터 조회
       const { data: project, error: projError } = await supabase
         .from("project_plannings")
         .select("*")
-        .eq("project_id", projectId)
+        .eq("project_id", params.projectId)
         .single();
 
       if (projError) throw projError;
@@ -74,7 +79,7 @@ export const ProjectMainService = {
       const { count: logCount, error: logError } = await supabase
         .from("project_planning_logs")
         .select("*", { count: "exact", head: true })
-        .eq("project_id", projectId);
+        .eq("project_id", params.projectId);
 
       if (logError) throw logError;
 

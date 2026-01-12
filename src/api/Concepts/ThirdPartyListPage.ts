@@ -1,5 +1,12 @@
+// ThirdPartyListService.ts
 import { supabase } from "../../db/supabase/supabase";
-import { ThirdPartySummaryResponse } from "../../types/api/Concepts/ThirdPartyListPage";
+import { generateAiContent } from "../Gemini/Gemini";
+import {
+  ThirdPartySummaryResponse,
+  SearchServicesParams,
+  FilterServicesByCategoryParams,
+  GetAIServiceStackAdviceParams,
+} from "../../types/api/Concepts/ThirdPartyListPage";
 
 /**
  * [ThirdPartyListService]
@@ -30,15 +37,18 @@ export const ThirdPartyListService = {
 
     return (data || []).map((item) => ({
       ...item,
-      tags: item.category || [], // 테이블의 category 배열을 tags로 활용
+      tags: item.category || [],
     }));
   },
 
   /**
    * [검색] 서비스 이름 또는 설명에서 키워드를 검색합니다.
-   * @param keyword 검색어
    */
-  async searchServices(keyword: string): Promise<ThirdPartySummaryResponse[]> {
+  async searchServices(
+    params: SearchServicesParams
+  ): Promise<ThirdPartySummaryResponse[]> {
+    const { keyword } = params;
+
     const { data, error } = await supabase
       .from("third_party_services_description_materials")
       .select(
@@ -67,11 +77,12 @@ export const ThirdPartyListService = {
 
   /**
    * [필터링] 특정 카테고리에 해당하는 서비스만 필터링합니다.
-   * @param categoryName 카테고리 명 (예: 'Backend as a Service')
    */
   async filterServicesByCategory(
-    categoryName: string
+    params: FilterServicesByCategoryParams
   ): Promise<ThirdPartySummaryResponse[]> {
+    const { categoryName } = params;
+
     const { data, error } = await supabase
       .from("third_party_services_description_materials")
       .select(
@@ -99,17 +110,16 @@ export const ThirdPartyListService = {
    * [AI 제안] Gemini API를 사용하여 프로젝트 규모나 성격에 맞는
    * 최적의 서드파티 인프라 조합을 제안받습니다.
    */
-  async getAIServiceStackAdvice(projectBrief: string) {
+  async getAIServiceStackAdvice(
+    params: GetAIServiceStackAdviceParams
+  ): Promise<string> {
+    const { projectBrief } = params;
+
     try {
-      const response = await fetch("/api/gemini/service-stack", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          prompt: `${projectBrief} 프로젝트에 적합한 유료/무료 서드파티 서비스 스택을 추천해줘.`,
-        }),
-      });
-      const data = await response.json();
-      return data.advice;
+      const response = await generateAiContent(
+        `${projectBrief} 프로젝트에 적합한 유료/무료 서드파티 서비스 스택을 추천해줘.`
+      );
+      return response;
     } catch (error) {
       console.error("AI Service Advice Error:", error);
       return "추천 정보를 가져올 수 없습니다.";

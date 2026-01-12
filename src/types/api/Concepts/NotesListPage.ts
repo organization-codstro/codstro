@@ -5,3 +5,20 @@ export interface NoteSummaryResponse {
   lastUpdated: string; // created_date
   preview: string; // note_description 또는 content 요약
 }
+
+/**
+ * [GetUserNotesParams]
+ * 유저 노트 목록 조회 파라미터
+ */
+export interface GetUserNotesParams {
+  userId: number;
+}
+
+/**
+ * [SearchUserNotesParams]
+ * 유저 노트 검색 파라미터
+ */
+export interface SearchUserNotesParams {
+  userId: number;
+  keyword: string;
+}

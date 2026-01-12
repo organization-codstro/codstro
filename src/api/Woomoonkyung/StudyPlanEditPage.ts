@@ -1,0 +1,97 @@
+// ===========================
+// WoomoonkyungEditService API 파일
+// ===========================
+import { supabase } from "../../db/supabase/supabase";
+import { FirebaseStorageService } from "../Image/FirebaseStorageService";
+import {
+  GetPlanForEditParams,
+  UpdateStudyPlanParams,
+  DeleteStudyPlanParams,
+  StudyPlanInfo,
+} from "../../types/api/Woomoonkyung/StudyPlanEditPage";
+
+/**
+ * [우문경 공부 계획 수정 서비스]
+ * 기존 공부 계획의 정보를 조회하고, 이미지 업로드를 포함한 수정을 담당합니다.
+ */
+export const WoomoonkyungEditService = {
+  /**
+   * [수정용 계획 데이터 단일 조회]
+   */
+  async getPlanForEdit(params: GetPlanForEditParams): Promise<StudyPlanInfo> {
+    try {
+      const { planId } = params;
+
+      const { data, error } = await supabase
+        .from("study_plans")
+        .select("*")
+        .eq("study_plan_id", planId)
+        .single();
+
+      if (error) throw error;
+      return data as StudyPlanInfo;
+    } catch (error) {
+      console.error("[getPlanForEdit Error]:", error);
+      throw error;
+    }
+  },
+
+  /**
+   * [공부 계획 정보 업데이트]
+   */
+  async updateStudyPlan(params: UpdateStudyPlanParams): Promise<StudyPlanInfo> {
+    try {
+      const { planId, planData, imageFile } = params;
+      let imageUrl = planData.study_plan_image_url;
+
+      if (imageFile) {
+        const uploadResult = await FirebaseStorageService.uploadImage(
+          imageFile,
+          "plans"
+        );
+        imageUrl = uploadResult.url;
+      }
+
+      const { data, error } = await supabase
+        .from("study_plans")
+        .update({
+          study_plan_name: planData.study_plan_name,
+          study_plan_description: planData.study_plan_description,
+          study_plan_image_url: imageUrl,
+          study_plan_start_date: planData.study_plan_start_date,
+          study_plan_end_date: planData.study_plan_end_date,
+          study_plan_state: planData.study_plan_state,
+          study_plan_is_archived: planData.study_plan_is_archived,
+        })
+        .eq("study_plan_id", planId)
+        .select()
+        .single();
+
+      if (error) throw error;
+      return data as StudyPlanInfo;
+    } catch (error) {
+      console.error("[updateStudyPlan Error]:", error);
+      throw error;
+    }
+  },
+
+  /**
+   * [공부 계획 삭제]
+   */
+  async deleteStudyPlan(params: DeleteStudyPlanParams): Promise<boolean> {
+    try {
+      const { planId } = params;
+
+      const { error } = await supabase
+        .from("study_plans")
+        .delete()
+        .eq("study_plan_id", planId);
+
+      if (error) throw error;
+      return true;
+    } catch (error) {
+      console.error("[deleteStudyPlan Error]:", error);
+      throw error;
+    }
+  },
+};

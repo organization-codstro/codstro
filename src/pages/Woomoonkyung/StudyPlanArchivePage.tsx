@@ -9,13 +9,13 @@ import {
   bookmarkedPlans,
   stateColors,
 } from "../../data/Woomoonkyung/woomoonkyungData";
-import {
-  StudyPlanNode,
-  StudyPlan,
-} from "../../types/Woomoonkyung/Woomoonkyung";
 import ArchiveStudyPlanCard from "../../components/Woomoonkyung/StudyPlanArchivePage/ArchiveStudyPlanCard";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {
+  StudyPlan,
+  StudyPlanNode,
+} from "../../types/pages/Woomoonkyung/Woomoonkyung";
 
 const StudyPlanArchive: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");

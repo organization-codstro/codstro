@@ -1,3 +1,15 @@
+export interface SearchConceptsParams {
+  keyword: string;
+}
+
+export interface FilterByCategoryParams {
+  category: string;
+}
+
+export interface GetRecommendedKeywordsParams {
+  userInterests: string[];
+}
+
 export interface ConceptSummaryResponse {
   id: number;
   name: string;

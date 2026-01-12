@@ -1,12 +1,24 @@
-
 import { useEffect, useState } from "react";
-import { StudyPlanNodeEditorProps } from "../../types/Woomoonkyung/StudyPlanNodeEditor";
-import { SortableNodeItemNodeFormData } from "../../types/Woomoonkyung/WoomoonkyungMainPage/SortableNodeItem";
 import { techStacks } from "../../data/Woomoonkyung/woomoonkyungData";
-import { closestCenter, DndContext, DragEndEvent, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
-import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import {
+  closestCenter,
+  DndContext,
+  DragEndEvent,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { ArrowLeft, Calendar, FileText, Plus, Save, X } from "lucide-react";
 import { SortableNodeItem } from "./SortableNodeItem";
+import { StudyPlanNodeEditorProps } from "../../types/pages/Woomoonkyung/StudyPlanNodeEditor";
+import { SortableNodeItemNodeFormData } from "../../types/pages/Woomoonkyung/StudyPlanMainPage/SortableNodeItem";
 
 const StudyPlanNodeEditor: React.FC<StudyPlanNodeEditorProps> = ({
   studyPlan,

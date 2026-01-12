@@ -1,4 +1,4 @@
-export interface Project {
+export interface CloneCodingProject {
   id: number;
   title: string;
   description: string;
@@ -12,7 +12,7 @@ export interface Project {
   created_at: string;
 }
 
-export interface UserProject {
+export interface UserCloneCodingProject {
   id: number;
   user_id: number;
   project_id: number;
@@ -47,4 +47,3 @@ export interface ProjectTodo {
   due_date?: string;
   created_at: string;
 }
-

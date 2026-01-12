@@ -1,10 +1,15 @@
 import { supabase } from "../../db/supabase/supabase";
+import {
+  SignInParams,
+  SignInResponse,
+  GetCurrentUserResponse,
+} from "../../types/api/Auth/LoginPage";
 
 /**
  * [AuthService]
  * 사용자의 인증 정보 및 세션을 관리하는 서비스 레이어입니다.
  */
-export const AuthService = {
+export const LoginService = {
   /**
    * [로그인]
    * @param email 사용자 이메일
@@ -12,11 +17,11 @@ export const AuthService = {
    * @table auth.users (Supabase 내부 테이블 사용)
    * @returns 로그인 성공 시 user 객체 반환
    */
-  async signIn(email: string, password: string) {
+  async signIn(params: SignInParams): Promise<SignInResponse> {
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+        email: params.email,
+        password: params.password,
       });
 
       if (error) throw error;
@@ -35,7 +40,7 @@ export const AuthService = {
    * [현재 세션 확인]
    * 앱 로드 시 현재 로그인된 상태인지 체크합니다.
    */
-  async getCurrentUser() {
+  async getCurrentUser(): Promise<GetCurrentUserResponse> {
     const {
       data: { session },
       error,

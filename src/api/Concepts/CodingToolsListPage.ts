@@ -1,12 +1,17 @@
 import { supabase } from "../../db/supabase/supabase";
-import { ToolSummaryResponse } from "../../types/api/Concepts/CodingToolsListPage";
+import {
+  SearchToolsParams,
+  FilterToolsByCategoryParams,
+  GetAIToolSuggestionsParams,
+  ToolSummaryResponse,
+} from "../../types/api/Concepts/CodingToolsListPage";
 
 /**
- * [ToolListService]
+ * [CodingToolsListService]
  * 코딩 툴 리스트 조회, 검색 및 카테고리 필터링을 담당합니다.
  * 참조 테이블: tool_description_materials
  */
-export const ToolListService = {
+export const CodingToolsListService = {
   /**
    * [조회] 모든 코딩 툴 리스트를 최신등록순으로 가져옵니다.
    */
@@ -28,15 +33,16 @@ export const ToolListService = {
 
     return (data || []).map((item) => ({
       ...item,
-      tags: item.category || [], // 테이블 스키마에 따라 category 배열을 tags로 사용
+      tags: item.category || [],
     }));
   },
 
   /**
    * [검색] 툴 이름 또는 설명에서 키워드를 검색합니다.
-   * @param keyword 유저 입력 검색어
    */
-  async searchTools(keyword: string): Promise<ToolSummaryResponse[]> {
+  async searchTools(params: SearchToolsParams): Promise<ToolSummaryResponse[]> {
+    const { keyword } = params;
+
     const { data, error } = await supabase
       .from("tool_description_materials")
       .select(
@@ -48,7 +54,6 @@ export const ToolListService = {
         representative_image_url:tool_description_material_representative_image_url
       `
       )
-      // ilike를 사용하여 대소문자 구분 없이 부분 일치 검색
       .or(
         `tool_description_material_name.ilike.%${keyword}%,tool_description_material_description.ilike.%${keyword}%`
       )
@@ -63,12 +68,13 @@ export const ToolListService = {
   },
 
   /**
-   * [필터링] 특정 카테고리(IDE, Version Control 등)에 해당하는 툴만 필터링합니다.
-   * @param categoryName 필터링할 카테고리 문자열
+   * [필터링] 특정 카테고리에 해당하는 툴만 필터링합니다.
    */
   async filterToolsByCategory(
-    categoryName: string
+    params: FilterToolsByCategoryParams
   ): Promise<ToolSummaryResponse[]> {
+    const { categoryName } = params;
+
     const { data, error } = await supabase
       .from("tool_description_materials")
       .select(
@@ -80,7 +86,6 @@ export const ToolListService = {
         representative_image_url:tool_description_material_representative_image_url
       `
       )
-      // Postgres 배열 컬럼 내 특정 요소 포함 여부 확인
       .contains("tool_description_material_category", [categoryName]);
 
     if (error) throw new Error(error.message);
@@ -94,7 +99,11 @@ export const ToolListService = {
   /**
    * [AI 제안] Gemini API를 사용하여 현재 검색어와 관련된 인기 있는 툴 키워드를 추천합니다.
    */
-  async getAIToolSuggestions(keyword: string) {
+  async getAIToolSuggestions(
+    params: GetAIToolSuggestionsParams
+  ): Promise<string[]> {
+    const { keyword } = params;
+
     try {
       const response = await fetch("/api/gemini/tool-suggestions", {
         method: "POST",
@@ -102,7 +111,7 @@ export const ToolListService = {
         body: JSON.stringify({ currentSearch: keyword }),
       });
       const data = await response.json();
-      return data.suggestions; // ['WebStorm', 'Sublime Text' 등]
+      return data.suggestions;
     } catch (error) {
       console.error("AI Suggestion Error:", error);
       return [];

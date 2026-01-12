@@ -1,3 +1,8 @@
+export interface GetToolDetailParams {
+  toolId: string;
+  userId: number;
+}
+
 interface RelatedItem {
   id: string;
   name: string;
@@ -14,4 +19,21 @@ export interface ToolDetailResponse {
   officialSite: string | null;
   isUnderstood: boolean;
   relatedConcepts: RelatedItem[];
+}
+
+export interface ToggleToolUnderstoodParams {
+  userId: number;
+  toolId: string;
+  currentStatus: boolean;
+}
+
+export interface GetToolAIAdviceParams {
+  toolName: string;
+  prompt: string;
+}
+
+export interface AddToolTodoParams {
+  userId: number;
+  toolName: string;
+  type: string;
 }

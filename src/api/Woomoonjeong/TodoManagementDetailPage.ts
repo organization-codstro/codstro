@@ -1,22 +1,29 @@
 import { supabase } from "../../db/supabase/supabase";
+import {
+  GetTodoDetailParams,
+  UpdateTodoStatusParams,
+  UpdateTodoParams,
+  DeleteTodoParams,
+  CreateTodoParams,
+} from "../../types/api/Woomoonjeong/TodoManagementDetailPage";
 
 /**
  * [할일 관리 서비스]
  * 개인 할일 및 프로젝트 할일을 통합 관리합니다.
  * 참조 테이블: todos
  */
-export const TodoService = {
+export const TodoManagementDetailService = {
   /**
    * [할일 상세 정보 조회]
    * todoId를 기반으로 특정 할일의 상세 내용을 가져옵니다.
    * 참조 테이블: todos
    */
-  async getTodoDetail(todoId: number) {
+  async getTodoDetail(params: GetTodoDetailParams) {
     try {
       const { data, error } = await supabase
         .from("todos")
         .select("*")
-        .eq("todo_id", todoId)
+        .eq("todo_id", params.todoId)
         .single();
 
       if (error) throw error;
@@ -53,15 +60,12 @@ export const TodoService = {
    * (waiting / in progress / done)
    * 참조 테이블: todos
    */
-  async updateTodoStatus(
-    todoId: number,
-    status: "waiting" | "in progress" | "done"
-  ) {
+  async updateTodoStatus(params: UpdateTodoStatusParams) {
     try {
       const { data, error } = await supabase
         .from("todos")
-        .update({ todo_status: status })
-        .eq("todo_id", todoId)
+        .update({ todo_status: params.status })
+        .eq("todo_id", params.todoId)
         .select()
         .single();
 
@@ -78,22 +82,12 @@ export const TodoService = {
    * 이름, 내용, 기간 등 할일 정보를 업데이트합니다.
    * 참조 테이블: todos
    */
-  async updateTodo(
-    todoId: number,
-    payload: {
-      todo_name?: string;
-      todo_content?: string;
-      todo_description?: string;
-      todo_start_date?: string;
-      todo_end_date?: string;
-      todo_status?: string;
-    }
-  ) {
+  async updateTodo(params: UpdateTodoParams) {
     try {
       const { data, error } = await supabase
         .from("todos")
-        .update(payload)
-        .eq("todo_id", todoId)
+        .update(params.payload)
+        .eq("todo_id", params.todoId)
         .select()
         .single();
 
@@ -109,12 +103,12 @@ export const TodoService = {
    * [할일 삭제]
    * 참조 테이블: todos
    */
-  async deleteTodo(todoId: number) {
+  async deleteTodo(params: DeleteTodoParams) {
     try {
       const { error } = await supabase
         .from("todos")
         .delete()
-        .eq("todo_id", todoId);
+        .eq("todo_id", params.todoId);
 
       if (error) throw error;
     } catch (error) {
@@ -127,15 +121,7 @@ export const TodoService = {
    * [할일 생성]
    * 참조 테이블: todos
    */
-  async createTodo(payload: {
-    todo_name: string;
-    todo_content: string;
-    todo_description: string;
-    todo_start_date: string;
-    todo_end_date: string;
-    group_id?: number;
-    project_id?: number;
-  }) {
+  async createTodo(payload: CreateTodoParams) {
     try {
       const { data, error } = await supabase
         .from("todos")

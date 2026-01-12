@@ -1,21 +1,34 @@
 import { supabase } from "../../db/supabase/supabase";
+import {
+  GetCompanyListResponse,
+  GetUserBookmarkedIdsParams,
+  GetUserBookmarkedIdsResponse,
+  AddBookmarkParams,
+  AddBookmarkResponse,
+  RemoveBookmarkParams,
+  RemoveBookmarkResponse,
+  ToggleBookmarkInDBParams,
+  ToggleBookmarkInDBResponse,
+} from "../../types/api/CompanyInformation/CompanyListPage";
 
 /**
  * [함수 역할]: 전체 회사 리스트를 조회합니다.
  * [참조 테이블]: companys
  * [설명]: 목록 화면에 필요한 기본 정보들을 최신 업데이트 순으로 가져옵니다.
  */
-export const getCompanyList = async () => {
+export const getCompanyList = async (): Promise<GetCompanyListResponse> => {
   try {
     const { data, error } = await supabase
-      .from('companys')
-      .select('company_id, company_name, company_industry, companie_description, company_values, company_website, company_update_date')
-      .order('company_update_date', { ascending: false });
+      .from("companys")
+      .select(
+        "company_id, company_name, company_industry, companie_description, company_values, company_website, company_update_date"
+      )
+      .order("company_update_date", { ascending: false });
 
     if (error) throw error;
     return data;
   } catch (error) {
-    console.error('Error fetching company list:', error);
+    console.error("Error fetching company list:", error);
     throw error;
   }
 };
@@ -25,18 +38,20 @@ export const getCompanyList = async () => {
  * [참조 테이블]: user_favorite_companies
  * [설명]: 리스트에서 각 카드의 북마크 활성화 여부(isBookmarked)를 판단하기 위해 사용합니다.
  */
-export const getUserBookmarkedIds = async (userId: number): Promise<number[]> => {
+export const getUserBookmarkedIds = async (
+  params: GetUserBookmarkedIdsParams
+): Promise<GetUserBookmarkedIdsResponse> => {
   try {
     const { data, error } = await supabase
-      .from('user_favorite_companies')
-      .select('companie_id')
-      .eq('user_id', userId);
+      .from("user_favorite_companies")
+      .select("companie_id")
+      .eq("user_id", params.userId);
 
     if (error) throw error;
     // id 배열 형태로 변환하여 반환
     return data.map((item) => item.companie_id);
   } catch (error) {
-    console.error('Error fetching user bookmark IDs:', error);
+    console.error("Error fetching user bookmark IDs:", error);
     return [];
   }
 };
@@ -45,22 +60,22 @@ export const getUserBookmarkedIds = async (userId: number): Promise<number[]> =>
  * [함수 역할]: 특정 회사를 관심 목록에 추가(북마크 등록)합니다.
  * [참조 테이블]: user_favorite_companies
  */
-export const addBookmark = async (userId: number, companyId: number) => {
+export const addBookmark = async (
+  params: AddBookmarkParams
+): Promise<AddBookmarkResponse> => {
   try {
-    const { error } = await supabase
-      .from('user_favorite_companies')
-      .insert([
-        { 
-          user_id: userId, 
-          companie_id: companyId,
-          user_favorite_companie_created_date: new Date().toISOString()
-        }
-      ]);
+    const { error } = await supabase.from("user_favorite_companies").insert([
+      {
+        user_id: params.userId,
+        companie_id: params.companyId,
+        user_favorite_companie_created_date: new Date().toISOString(),
+      },
+    ]);
 
     if (error) throw error;
     return true;
   } catch (error) {
-    console.error('Error adding bookmark:', error);
+    console.error("Error adding bookmark:", error);
     throw error;
   }
 };
@@ -69,18 +84,20 @@ export const addBookmark = async (userId: number, companyId: number) => {
  * [함수 역할]: 특정 회사를 관심 목록에서 제거(북마크 해제)합니다.
  * [참조 테이블]: user_favorite_companies
  */
-export const removeBookmark = async (userId: number, companyId: number) => {
+export const removeBookmark = async (
+  params: RemoveBookmarkParams
+): Promise<RemoveBookmarkResponse> => {
   try {
     const { error } = await supabase
-      .from('user_favorite_companies')
+      .from("user_favorite_companies")
       .delete()
-      .eq('user_id', userId)
-      .eq('companie_id', companyId);
+      .eq("user_id", params.userId)
+      .eq("companie_id", params.companyId);
 
     if (error) throw error;
     return true;
   } catch (error) {
-    console.error('Error removing bookmark:', error);
+    console.error("Error removing bookmark:", error);
     throw error;
   }
 };
@@ -89,10 +106,18 @@ export const removeBookmark = async (userId: number, companyId: number) => {
  * [함수 역할]: 현재 상태에 따라 북마크를 추가하거나 삭제합니다. (Toggle 기능)
  * [비고]: UI의 toggleBookmark 핸들러 내에서 호출하여 DB와 상태를 동기화합니다.
  */
-export const toggleBookmarkInDB = async (userId: number, companyId: number, isCurrentlyBookmarked: boolean) => {
-  if (isCurrentlyBookmarked) {
-    return await removeBookmark(userId, companyId);
+export const toggleBookmarkInDB = async (
+  params: ToggleBookmarkInDBParams
+): Promise<ToggleBookmarkInDBResponse> => {
+  if (params.isCurrentlyBookmarked) {
+    return await removeBookmark({
+      userId: params.userId,
+      companyId: params.companyId,
+    });
   } else {
-    return await addBookmark(userId, companyId);
+    return await addBookmark({
+      userId: params.userId,
+      companyId: params.companyId,
+    });
   }
 };

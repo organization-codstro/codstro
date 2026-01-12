@@ -1,10 +1,10 @@
 import { supabase } from "../../db/supabase/supabase";
 import {
   NoticeListItemResponse,
-  NoticeTypeProps,
+  GetNoticesByTypeParams,
 } from "../../types/api/Notice/NoticesListPage";
 
-export const NoticeListService = {
+export const NoticesListService = {
   /**
    * [전체 공지사항 목록 조회]
    * 상단 고정(is_pinned) 우선, 그 다음 최신순(created_at)으로 정렬하여 가져옵니다.
@@ -23,7 +23,6 @@ export const NoticeListService = {
           is_pinned
         `
         )
-        // 1순위: 고정된 공지 먼저, 2순위: 최신순
         .order("is_pinned", { ascending: false })
         .order("notice_created_date", { ascending: false });
 
@@ -37,16 +36,16 @@ export const NoticeListService = {
 
   /**
    * [카테고리별 공지사항 필터링]
-   * @param type 공지 타입 (update, maintenance 등)
+   * @param params 공지 타입
    */
   async getNoticesByType(
-    type: NoticeTypeProps
+    params: GetNoticesByTypeParams
   ): Promise<NoticeListItemResponse[]> {
     try {
       const { data, error } = await supabase
         .from("notices")
         .select("*")
-        .eq("notice_type", type)
+        .eq("notice_type", params.type)
         .order("notice_created_date", { ascending: false });
 
       if (error) throw error;
@@ -66,6 +65,6 @@ export const NoticeListService = {
     const created = new Date(createdDate);
     const diffTime = Math.abs(today.getTime() - created.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays <= 3; // 3일 이내면 true
+    return diffDays <= 3;
   },
 };

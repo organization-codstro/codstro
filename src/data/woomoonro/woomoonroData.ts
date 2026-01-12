@@ -1,9 +1,9 @@
 import {
-  Project,
-  UserProject,
+  CloneCodingProject,
+  UserCloneCodingProject,
   ProjectTodo,
   ProjectGroup,
-} from "../../types/Woomoonro/woomoonro";
+} from "../../types/pages/Woomoonro/woomoonro";
 
 export const difficultyColors = {
   beginner: "bg-green-100 text-green-700 border-green-200",
@@ -17,7 +17,7 @@ export const statusColors = {
   completed: "bg-green-100 text-green-700 border-green-200",
 };
 
-export const projectsData: Project[] = [
+export const projectsData: CloneCodingProject[] = [
   {
     id: 1,
     title: "Todo List App",
@@ -104,7 +104,7 @@ export const projectsData: Project[] = [
   },
 ];
 
-export const userProjectsData: UserProject[] = [
+export const userProjectsData: UserCloneCodingProject[] = [
   {
     id: 1,
     user_id: 1,
@@ -215,7 +215,7 @@ export const projectGroupsData: ProjectGroup[] = [
 ];
 
 // Archive용 확장된 프로젝트 데이터
-export const archivedProjectsData: Project[] = [
+export const archivedProjectsData: CloneCodingProject[] = [
   {
     id: 1,
     title: "Todo List App",
@@ -331,7 +331,7 @@ export const archivedProjectsData: Project[] = [
 ];
 
 // Archive용 사용자 프로젝트 데이터 (모두 북마크됨)
-export const archivedUserProjectsData: UserProject[] = [
+export const archivedUserProjectsData: UserCloneCodingProject[] = [
   {
     id: 1,
     user_id: 1,

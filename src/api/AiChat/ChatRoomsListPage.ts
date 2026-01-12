@@ -1,16 +1,27 @@
+// services/ChatListService.ts
 import { supabase } from "../../db/supabase/supabase";
+import {
+  GetChatRoomsParams,
+  GetChatRoomsResponse,
+  SearchChatRoomsParams,
+  SearchChatRoomsResponse,
+  CreateChatRoomParams,
+  CreateChatRoomResponse,
+} from "../../types/api/AiChat/ChatRoomsListPage";
 
 /**
  * 채팅방 목록 조회 및 메인 리스트 관리를 위한 서비스
  */
-export const ChatListService = {
+export const ChatRoomsListService = {
   /**
    * [채팅방 목록 조회]
    * 유저가 참여 중인 모든 채팅방을 가져옵니다.
    * 각 방의 마지막 메시지 미리보기를 위해 daily_new_chats와 chat_messages를 참조할 수 있습니다.
    * 참조 테이블: chat_rooms, daily_new_chats
    */
-  async getChatRooms(userId: number) {
+  async getChatRooms(
+    params: GetChatRoomsParams
+  ): Promise<GetChatRoomsResponse> {
     const { data, error } = await supabase
       .from("chat_rooms")
       .select(
@@ -21,7 +32,7 @@ export const ChatListService = {
         )
       `
       )
-      .eq("user_id", userId)
+      .eq("user_id", params.userId)
       .order("chat_room_created_date", { ascending: false });
 
     if (error) throw new Error(`[getChatRooms Error]: ${error.message}`);
@@ -35,13 +46,15 @@ export const ChatListService = {
    * 채팅방 이름 또는 주제어를 통해 참여 중인 방을 검색합니다.
    * 참조 테이블: chat_rooms
    */
-  async searchChatRooms(userId: number, searchTerm: string) {
+  async searchChatRooms(
+    params: SearchChatRoomsParams
+  ): Promise<SearchChatRoomsResponse> {
     const { data, error } = await supabase
       .from("chat_rooms")
       .select("*")
-      .eq("user_id", userId)
+      .eq("user_id", params.userId)
       .or(
-        `chat_room_name.ilike.%${searchTerm}%,chat_room_topics.ilike.%${searchTerm}%`
+        `chat_room_name.ilike.%${params.searchTerm}%,chat_room_topics.ilike.%${params.searchTerm}%`
       );
 
     if (error) throw new Error(`[searchChatRooms Error]: ${error.message}`);
@@ -53,12 +66,9 @@ export const ChatListService = {
    * 새로운 채팅 세션을 생성합니다. (예: 일상 대화 혹은 프로젝트 대화)
    * 참조 테이블: chat_rooms
    */
-  async createChatRoom(params: {
-    userId: number;
-    roomName: string;
-    roomType: "daily" | "project";
-    topics: string;
-  }) {
+  async createChatRoom(
+    params: CreateChatRoomParams
+  ): Promise<CreateChatRoomResponse> {
     const { data, error } = await supabase
       .from("chat_rooms")
       .insert([

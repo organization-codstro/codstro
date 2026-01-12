@@ -1,17 +1,23 @@
-import { supabase } from "../../db/supabase/supabase"; // 설정된 경로에 맞게 조정하세요
+import { supabase } from "../../db/supabase/supabase";
 import { FirebaseStorageService } from "../Image/FirebaseStorageService";
+import {
+  GetStudyPlanByIdParams,
+  GetNodesByPlanIdParams,
+  CreateStudyPlanParams,
+  ToggleNodeCompletionParams,
+} from "../../types/api/Woomoonkyung/RecommendedStudyPlanDetailPage";
 
 /**
  * [공부 계획 서비스]
  * 공부 계획(study_plans) 및 세부 노드(study_plan_nodes)의 CRUD를 담당합니다.
  */
-export const StudyPlanService = {
+export const RecommendedStudyPlanDetailService = {
   /**
    * [단일 공부 계획 상세 조회]
    * @param planId 조회할 계획의 ID
    * @returns study_plans 테이블의 단일 레코드
    */
-  async getStudyPlanById(planId: number) {
+  async getStudyPlanById(planId: GetStudyPlanByIdParams) {
     try {
       const { data, error } = await supabase
         .from("study_plans")
@@ -22,7 +28,7 @@ export const StudyPlanService = {
       if (error) throw error;
       return data;
     } catch (error) {
-      console.error("[getStudyPlanById Error]:", error);
+      console.error("[RecommendedStudyPlanDetailService - getStudyPlanById Error]:", error);
       throw error;
     }
   },
@@ -32,9 +38,8 @@ export const StudyPlanService = {
    * @param planId 해당 계획의 ID
    * @returns position 순으로 정렬된 노드 및 연관된 기술 스택 정보
    */
-  async getNodesByPlanId(planId: number) {
+  async getNodesByPlanId(planId: GetNodesByPlanIdParams) {
     try {
-      // study_plan_nodes와 tech_stacks를 조인하여 가져옵니다.
       const { data, error } = await supabase
         .from("study_plan_nodes")
         .select(
@@ -52,7 +57,7 @@ export const StudyPlanService = {
       if (error) throw error;
       return data;
     } catch (error) {
-      console.error("[getNodesByPlanId Error]:", error);
+      console.error("[RecommendedStudyPlanDetailService - getNodesByPlanId Error]:", error);
       throw error;
     }
   },
@@ -72,7 +77,7 @@ export const StudyPlanService = {
       if (error) throw error;
       return data;
     } catch (error) {
-      console.error("[getRecommendedPlans Error]:", error);
+      console.error("[RecommendedStudyPlanDetailService - getRecommendedPlans Error]:", error);
       throw error;
     }
   },
@@ -82,25 +87,23 @@ export const StudyPlanService = {
    * @param planData 계획 데이터
    * @param imageFile 첨부 이미지 (선택)
    */
-  async createStudyPlan(planData: any, imageFile?: File) {
+  async createStudyPlan(params: CreateStudyPlanParams) {
     try {
       let imageUrl = null;
 
-      // 1. 이미지가 있다면 파이어베이스에 먼저 업로드
-      if (imageFile) {
+      if (params.imageFile) {
         const uploadResult = await FirebaseStorageService.uploadImage(
-          imageFile,
+          params.imageFile,
           "plans"
         );
         imageUrl = uploadResult.url;
       }
 
-      // 2. Supabase DB 저장
       const { data, error } = await supabase
         .from("study_plans")
         .insert([
           {
-            ...planData,
+            ...params.planData,
             study_plan_image_url: imageUrl,
             study_plan_created_date: new Date().toISOString(),
           },
@@ -110,7 +113,7 @@ export const StudyPlanService = {
       if (error) throw error;
       return data;
     } catch (error) {
-      console.error("[createStudyPlan Error]:", error);
+      console.error("[RecommendedStudyPlanDetailService - createStudyPlan Error]:", error);
       throw error;
     }
   },
@@ -120,18 +123,18 @@ export const StudyPlanService = {
    * @param nodeId 노드 ID
    * @param isCompleted 완료 여부
    */
-  async toggleNodeCompletion(nodeId: string, isCompleted: boolean) {
+  async toggleNodeCompletion(params: ToggleNodeCompletionParams) {
     try {
       const { data, error } = await supabase
         .from("study_plan_nodes")
-        .update({ completed: isCompleted })
-        .eq("study_plan_node_id", nodeId)
+        .update({ completed: params.isCompleted })
+        .eq("study_plan_node_id", params.nodeId)
         .select();
 
       if (error) throw error;
       return data;
     } catch (error) {
-      console.error("[toggleNodeCompletion Error]:", error);
+      console.error("[RecommendedStudyPlanDetailService - toggleNodeCompletion Error]:", error);
       throw error;
     }
   },

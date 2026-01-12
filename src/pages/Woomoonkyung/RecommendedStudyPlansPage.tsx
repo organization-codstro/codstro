@@ -6,10 +6,10 @@ import {
   studyPlanNodes as recommendedStudyPlanNodes,
   bookmarkedPlans,
 } from "../../data/Woomoonkyung/woomoonkyungData";
-import { StudyPlan } from "../../types/Woomoonkyung/Woomoonkyung";
 import PlanSearchHeader from "../../components/Woomoonkyung/RecommendedStudyPlansPage/PlanSearchHeader";
 import StudyPlanCard from "../../components/Woomoonkyung/RecommendedStudyPlansPage/StudyPlanCard";
 import EmptyState from "../../components/Woomoonkyung/RecommendedStudyPlansPage/EmptyState";
+import { StudyPlan } from "../../types/pages/Woomoonkyung/Woomoonkyung";
 
 const RecommendedStudyPlans: React.FC = () => {
   const navigate = useNavigate();

@@ -15,21 +15,21 @@ export { default as TodoManagementUpdate } from "../pages/Woomoonjeong/TodoManag
 export { default as DocumentsManagement } from "../pages/Woomoonjeong/DocumentsManagementPage";
 
 /* ================= WOOMOONRO ================= */
-export { default as WoomoonroMain } from "../pages/Woomoonro/WoomoonroMainPage";
-export { default as WoomoonroArchive } from "../pages/Woomoonro/WoomoonroArchivePage";
-export { default as ProjectDetailPage } from "../pages/Woomoonro/ProjectDetailPage";
+export { default as WoomoonroMain } from "../pages/Woomoonro/CloneCodingProjectMainPage";
+export { default as WoomoonroArchive } from "../pages/Woomoonro/CloneCodingProjectArchivePage";
+export { default as ProjectDetailPage } from "../pages/Woomoonro/CloneCodingProjectDetailPage";
 
 /* ================= WOOMOONKYUNG ================= */
-export { default as WoomoonkyungMain } from "../pages/Woomoonkyung/WoomoonkyungMainPage";
+export { default as WoomoonkyungMain } from "../pages/Woomoonkyung/StudyPlanMainPage";
 export { default as RecommendedStudyPlans } from "../pages/Woomoonkyung/RecommendedStudyPlansPage";
 export { default as StudyPlanArchive } from "../pages/Woomoonkyung/StudyPlanArchivePage";
-export { default as WoomoonkyungDetail } from "../pages/Woomoonkyung/WoomoonkyungDetailPage";
-export { default as WoomoonkyungCreate } from "../pages/Woomoonkyung/WoomoonkyungCreatePage";
-export { default as WoomoonkyungEdit } from "../pages/Woomoonkyung/WoomoonkyungEditPage";
+export { default as WoomoonkyungDetail } from "../pages/Woomoonkyung/StudyPlanDetailPage";
+export { default as WoomoonkyungCreate } from "../pages/Woomoonkyung/StudyPlanCreatePage";
+export { default as WoomoonkyungEdit } from "../pages/Woomoonkyung/StudyPlanEditPage";
 export { default as RecommendedStudyPlanDetail } from "../pages/Woomoonkyung/RecommendedStudyPlanDetailPage";
 export { default as StudyPlanArchiveDetail } from "../pages/Woomoonkyung/StudyPlanArchiveDetailPage";
-export { default as WoomoonkyungCreateNode } from "../pages/Woomoonkyung/WoomoonkyungCreateNodePage";
-export { default as WoomoonkyungEditNode } from "../pages/Woomoonkyung/WoomoonkyungEditNodePage";
+export { default as WoomoonkyungCreateNode } from "../pages/Woomoonkyung/StudyPlanCreateNodePage";
+export { default as WoomoonkyungEditNode } from "../pages/Woomoonkyung/StudyPlanEditNodePage";
 
 /* ================= COMPANY ================= */
 export { default as CompanyList } from "../pages/CompanyInformation/CompanyListPage";

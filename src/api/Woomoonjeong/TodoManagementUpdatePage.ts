@@ -1,22 +1,26 @@
 import { supabase } from "../../db/supabase/supabase";
+import {
+  GetTodoForEditParams,
+  UpdateTodoParams,
+} from "../../types/api/Woomoonjeong/TodoManagementUpdatePage";
 
 /**
  * [할일 수정 및 폼 관리 서비스]
  * 특정 할일의 데이터를 불러오고, 사용자가 수정한 내용을 DB에 반영합니다.
  * 참조 테이블: todos, fields
  */
-export const TodoUpdateService = {
+export const TodoManagementUpdateService = {
   /**
    * [수정용 초기 데이터 로드]
    * 수정 페이지 진입 시 해당 todoId의 현재 데이터를 가져옵니다.
    * 참조 테이블: todos
    */
-  async getTodoForEdit(todoId: number) {
+  async getTodoForEdit(params: GetTodoForEditParams) {
     try {
       const { data, error } = await supabase
         .from("todos")
         .select("*")
-        .eq("todo_id", todoId)
+        .eq("todo_id", params.todoId)
         .single();
 
       if (error) throw error;
@@ -33,7 +37,7 @@ export const TodoUpdateService = {
         display_status: statusMap[data.todo_status] || data.todo_status,
       };
     } catch (error) {
-      console.error("[TodoUpdateService - getTodoForEdit]:", error);
+      console.error("[TodoManagementUpdateService - getTodoForEdit]:", error);
       throw error;
     }
   },
@@ -43,17 +47,7 @@ export const TodoUpdateService = {
    * 폼에서 입력된 데이터를 DB 규칙에 맞게 변환하여 저장합니다.
    * 참조 테이블: todos
    */
-  async updateTodo(
-    todoId: number,
-    formData: {
-      name: string;
-      description: string;
-      field_id: number;
-      start_date: string;
-      end_date: string;
-      status: string;
-    }
-  ) {
+  async updateTodo(params: UpdateTodoParams) {
     try {
       // 컴포넌트의 상태값을 DB enum/text 규칙으로 매핑
       const statusMap: Record<string, string> = {
@@ -65,22 +59,23 @@ export const TodoUpdateService = {
       const { data, error } = await supabase
         .from("todos")
         .update({
-          todo_name: formData.name,
-          todo_description: formData.description,
-          todo_content: formData.description, // content와 description이 공존하므로 동일하게 처리
-          field_id: formData.field_id,
-          todo_start_date: formData.start_date,
-          todo_end_date: formData.end_date,
-          todo_status: statusMap[formData.status] || formData.status,
+          todo_name: params.formData.name,
+          todo_description: params.formData.description,
+          todo_content: params.formData.description, // content와 description이 공존하므로 동일하게 처리
+          field_id: params.formData.field_id,
+          todo_start_date: params.formData.start_date,
+          todo_end_date: params.formData.end_date,
+          todo_status:
+            statusMap[params.formData.status] || params.formData.status,
         })
-        .eq("todo_id", todoId)
+        .eq("todo_id", params.todoId)
         .select()
         .single();
 
       if (error) throw error;
       return data;
     } catch (error) {
-      console.error("[TodoUpdateService - updateTodo]:", error);
+      console.error("[TodoManagementUpdateService - updateTodo]:", error);
       throw error;
     }
   },
@@ -99,7 +94,7 @@ export const TodoUpdateService = {
       if (error) throw error;
       return data;
     } catch (error) {
-      console.error("[TodoUpdateService - getAvailableFields]:", error);
+      console.error("[TodoManagementUpdateService - getAvailableFields]:", error);
       throw error;
     }
   },

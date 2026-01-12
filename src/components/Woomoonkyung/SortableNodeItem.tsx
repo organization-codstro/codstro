@@ -25,8 +25,8 @@ import {
 } from "lucide-react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { TechStack } from "../../types/Woomoonjeong/SortableNodeItem/sortableNodeItem";
-import { SortableNodeItemNodeFormData } from "../../types/Woomoonkyung/WoomoonkyungMainPage/SortableNodeItem";
+import { SortableNodeItemNodeFormData } from "../../types/pages/Woomoonkyung/StudyPlanMainPage/SortableNodeItem";
+import { TechStack } from "../../types/pages/Woomoonjeong/SortableNodeItem/sortableNodeItem";
 
 export const SortableNodeItem: React.FC<{
   node: SortableNodeItemNodeFormData & { id: number };

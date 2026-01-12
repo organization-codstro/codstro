@@ -1,22 +1,20 @@
 import { supabase } from "../../db/supabase/supabase";
-import { ProjectPageResponse, ProjectResponse, TodoResponse } from "../../types/api/ProjectPlanning/ProjectDetailPage";
+import {
+  SavePlanningDraftParams,
+  FinalizeProjectParams,
+} from "../../types/api/ProjectPlanning/ProjectInfoGeneratePage";
 
 /**
- * [ProjectFinalizeService]
+ * [ProjectInfoGenerateService]
  * 기획 마지막 단계에서 최종 정보를 저장하고 프로젝트를 확정(Active)으로 전환합니다.
  */
-export const ProjectFinalizeService = {
+export const ProjectInfoGenerateService = {
   /**
    * [중간 저장]
    * 사용자가 수정한 모든 기획 정보(기본정보, 페이지, 할 일)를 기획 테이블에 임시 저장합니다.
    * @table project_plannings, project_planning_pages, project_todos
    */
-  async savePlanningDraft(params: {
-    projectId: number;
-    basicInfo: Partial<ProjectResponse>;
-    pages: Array<ProjectPageResponse & { todos: TodoResponse[] }>;
-    projectTodos: TodoResponse[];
-  }) {
+  async savePlanningDraft(params: SavePlanningDraftParams) {
     try {
       // 1. 기본 정보 업데이트
       const { error: infoError } = await supabase
@@ -84,13 +82,13 @@ export const ProjectFinalizeService = {
    * 기획 완료된 프로젝트를 'projects' 테이블로 복사하고 기획 테이블에서 정리합니다.
    * @table project_plannings -> projects
    */
-  async finalizeProject(projectId: number) {
+  async finalizeProject(params: FinalizeProjectParams) {
     try {
       // 1. 기획 데이터 가져오기
       const { data: planningData, error: fetchError } = await supabase
         .from("project_plannings")
         .select("*")
-        .eq("project_id", projectId)
+        .eq("project_id", params.projectId)
         .single();
 
       if (fetchError) throw fetchError;
@@ -122,18 +120,18 @@ export const ProjectFinalizeService = {
       await supabase
         .from("project_planning_pages")
         .update({ project_id: newProject.project_id })
-        .eq("project_id", projectId);
+        .eq("project_id", params.projectId);
 
       await supabase
         .from("project_todos")
         .update({ project_id: newProject.project_id })
-        .eq("project_id", projectId);
+        .eq("project_id", params.projectId);
 
       // 4. 기존 기획 레코드 삭제 (Cascade 설정 권장)
       await supabase
         .from("project_plannings")
         .delete()
-        .eq("project_id", projectId);
+        .eq("project_id", params.projectId);
 
       return newProject;
     } catch (error) {

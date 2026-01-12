@@ -13,7 +13,7 @@ import {
   Target,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { StudyPlan } from "../../types/Woomoonkyung/Woomoonkyung";
+import { StudyPlan } from "../../types/pages/Woomoonkyung/Woomoonkyung";
 
 const WoomoonkyungDetail = () => {
   const { planId } = useParams<{ planId: string }>();

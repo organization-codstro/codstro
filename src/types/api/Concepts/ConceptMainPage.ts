@@ -18,3 +18,7 @@ export interface DocumentationCategoryResponse {
   category: string;
   sites: DocumentationSite[];
 }
+
+export interface GetAIRoadmapSuggestionsParams {
+  userInterests: string[];
+}

@@ -13,3 +13,18 @@ export interface Project {
   user_id: number;
   project_status?: "planning" | "active"; // 기획중 | 진행중
 }
+
+/**
+ * [아카이브된 프로젝트 목록 조회 파라미터]
+ */
+export interface GetArchivedProjectsParams {
+  userId: number;
+}
+
+/**
+ * [프로젝트 복구 또는 기간 연장 파라미터]
+ */
+export interface ExtendProjectPeriodParams {
+  projectId: number;
+  newEndDate: string;
+}

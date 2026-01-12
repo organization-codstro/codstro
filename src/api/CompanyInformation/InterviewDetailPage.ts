@@ -1,16 +1,30 @@
 import { supabase } from "../../db/supabase/supabase";
 import { generateAiContent } from "../Gemini/Gemini";
+import {
+  GetCompanyQuestionsParams,
+  GetCompanyQuestionsResponse,
+  GetCompanyInfoParams,
+  GetCompanyInfoResponse,
+  SaveUserInterviewResponseParams,
+  SaveUserInterviewResponseResponse,
+  GetUserInterviewHistoryParams,
+  GetUserInterviewHistoryResponse,
+  GenerateAiInterviewFeedbackParams,
+  GenerateAiInterviewFeedbackResponse,
+} from "../../types/api/CompanyInformation/InterviewDetailPage";
 
 /**
  * [함수 역할]: 특정 회사의 면접 질문(QnA) 리스트를 가져옵니다.
  * [참조 테이블]: company_qnas
  */
-export const getCompanyQuestions = async (companyId: number) => {
+export const getCompanyQuestions = async (
+  params: GetCompanyQuestionsParams
+): Promise<GetCompanyQuestionsResponse> => {
   try {
     const { data, error } = await supabase
       .from("company_qnas")
       .select("*")
-      .eq("company_id", companyId)
+      .eq("company_id", params.companyId)
       .order("company_qna_created_date", { ascending: true });
 
     if (error) throw error;
@@ -25,12 +39,14 @@ export const getCompanyQuestions = async (companyId: number) => {
  * [함수 역할]: 특정 회사의 기본 정보를 조회합니다. (헤더 표시용)
  * [참조 테이블]: companys
  */
-export const getCompanyInfo = async (companyId: number) => {
+export const getCompanyInfo = async (
+  params: GetCompanyInfoParams
+): Promise<GetCompanyInfoResponse> => {
   try {
     const { data, error } = await supabase
       .from("companys")
       .select("company_name")
-      .eq("company_id", companyId)
+      .eq("company_id", params.companyId)
       .single();
 
     if (error) throw error;
@@ -46,13 +62,9 @@ export const getCompanyInfo = async (companyId: number) => {
  * [참조 테이블]: company_user_qnas
  * [설명]: 스키마 정의에 따라 질문 텍스트와 답변, 평가 내용을 함께 기록합니다.
  */
-export const saveUserInterviewResponse = async (params: {
-  userId: number;
-  questionId: string; // UUID
-  questionText: string;
-  userAnswer: string;
-  evaluation: string;
-}) => {
+export const saveUserInterviewResponse = async (
+  params: SaveUserInterviewResponseParams
+): Promise<SaveUserInterviewResponseResponse> => {
   try {
     const { data, error } = await supabase
       .from("company_user_qnas")
@@ -82,9 +94,8 @@ export const saveUserInterviewResponse = async (params: {
  * [참조 테이블]: company_user_qnas
  */
 export const getUserInterviewHistory = async (
-  userId: number,
-  companyId: number
-) => {
+  params: GetUserInterviewHistoryParams
+): Promise<GetUserInterviewHistoryResponse> => {
   try {
     const { data, error } = await supabase
       .from("company_user_qnas")
@@ -94,8 +105,8 @@ export const getUserInterviewHistory = async (
         company_qnas!inner(company_id)
       `
       )
-      .eq("user_id", userId)
-      .eq("company_qnas.company_id", companyId);
+      .eq("user_id", params.userId)
+      .eq("company_qnas.company_id", params.companyId);
 
     if (error) throw error;
     return data;
@@ -110,13 +121,12 @@ export const getUserInterviewHistory = async (
  * [활용 페이지]: InterviewDetail
  */
 export const generateAiInterviewFeedback = async (
-  question: string,
-  answer: string
-) => {
+  params: GenerateAiInterviewFeedbackParams
+): Promise<GenerateAiInterviewFeedbackResponse> => {
   const prompt = `
     당신은 면접관입니다. 다음 질문에 대한 지원자의 답변을 평가해주세요.
-    질문: ${question}
-    답변: ${answer}
+    질문: ${params.question}
+    답변: ${params.answer}
     
     답변의 강점과 보완점을 마크다운 형식으로 상세히 적어주세요. 
     전문적이고 격려하는 말투를 사용하세요.

@@ -1,11 +1,20 @@
 import { supabase } from "../../db/supabase/supabase";
 import { generateAiContent } from "../Gemini/Gemini";
+import {
+  GetPlanningPagesParams,
+  GetMeetingDetailsParams,
+  CreateMeetingRoomParams,
+  UpdateMeetingRoomParams,
+  UpdateMeetingSummaryParams,
+  GenerateMeetingGuideParams,
+  GenerateAndSaveSummaryParams,
+} from "../../types/api/ProjectPlanning/MeetingMaterialsPage";
 
 /**
  * [ProjectMeetingService]
  * 프로젝트 기획 회의와 관련된 모든 DB 작업 및 AI 연동을 담당합니다.
  */
-export const ProjectMeetingService = {
+export const MeetingMaterialsService = {
   // ==========================================
   // 1. 조회 (Read) 관련 함수
   // ==========================================
@@ -15,11 +24,11 @@ export const ProjectMeetingService = {
    * 회의 생성 시 참조할 페이지 목록을 가져옵니다.
    * @table project_planning_pages
    */
-  async getPlanningPages(projectId: number) {
+  async getPlanningPages(params: GetPlanningPagesParams) {
     const { data, error } = await supabase
       .from("project_planning_pages")
       .select("*")
-      .eq("project_id", projectId);
+      .eq("project_id", params.projectId);
 
     if (error) throw error;
     return data;
@@ -30,13 +39,13 @@ export const ProjectMeetingService = {
    * 특정 회의실의 기본 정보와 가장 최근의 요약본을 함께 가져옵니다.
    * @table project_meeting_rooms, project_meeting_summarys
    */
-  async getMeetingDetails(roomId: string) {
+  async getMeetingDetails(params: GetMeetingDetailsParams) {
     try {
       // 회의실 정보 조회
       const { data: room, error: roomError } = await supabase
         .from("project_meeting_rooms")
         .select("*")
-        .eq("project_meeting_room_id", roomId)
+        .eq("project_meeting_room_id", params.roomId)
         .single();
 
       if (roomError) throw roomError;
@@ -45,14 +54,14 @@ export const ProjectMeetingService = {
       const { data: summary } = await supabase
         .from("project_meeting_summarys")
         .select("*")
-        .eq("project_meeting_room_id", roomId)
+        .eq("project_meeting_room_id", params.roomId)
         .order("project_meeting_summary_meeting_index", { ascending: false })
         .limit(1)
         .single();
 
       return { room, summary: summary || null };
     } catch (error) {
-      console.error("[getMeetingDetails Error]:", error);
+      console.error("[MeetingMaterialsService.getMeetingDetails Error]:", error);
       throw error;
     }
   },
@@ -66,12 +75,7 @@ export const ProjectMeetingService = {
    * 새로운 회의 세션을 생성합니다.
    * @table project_meeting_rooms
    */
-  async createMeetingRoom(params: {
-    projectId: number;
-    purpose: string;
-    detail: string;
-    roomType: "Feature" | "Free";
-  }) {
+  async createMeetingRoom(params: CreateMeetingRoomParams) {
     const roomId = `room_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
     const { data, error } = await supabase
       .from("project_meeting_rooms")
@@ -98,22 +102,15 @@ export const ProjectMeetingService = {
    * 이름(날짜), 목적, 상세 내용을 수정합니다.
    * @table project_meeting_rooms
    */
-  async updateMeetingRoom(
-    roomId: string,
-    updates: {
-      purpose?: string;
-      detail?: string;
-      date?: string;
-    }
-  ) {
+  async updateMeetingRoom(params: UpdateMeetingRoomParams) {
     const { data, error } = await supabase
       .from("project_meeting_rooms")
       .update({
-        project__meeting_purpose: updates.purpose,
-        project_meeting_detail: updates.detail,
-        project_tasks_logs_created_date: updates.date,
+        project__meeting_purpose: params.updates.purpose,
+        project_meeting_detail: params.updates.detail,
+        project_tasks_logs_created_date: params.updates.date,
       })
-      .eq("project_meeting_room_id", roomId)
+      .eq("project_meeting_room_id", params.roomId)
       .select()
       .single();
 
@@ -126,11 +123,11 @@ export const ProjectMeetingService = {
    * 유저가 에디터에서 수정한 요약 내용을 저장합니다.
    * @table project_meeting_summarys
    */
-  async updateMeetingSummary(summaryId: string, summaryText: string) {
+  async updateMeetingSummary(params: UpdateMeetingSummaryParams) {
     const { data, error } = await supabase
       .from("project_meeting_summarys")
-      .update({ "project meeting summary": summaryText })
-      .eq("project_meeting_summary_id", summaryId)
+      .update({ "project meeting summary": params.summaryText })
+      .eq("project_meeting_summary_id", params.summaryId)
       .select()
       .single();
 
@@ -146,15 +143,15 @@ export const ProjectMeetingService = {
    * [AI 첫 가이드 생성 및 로그 저장]
    * 회의 시작 시 Gemini의 첫 메시지를 로그에 기록합니다.
    */
-  async generateMeetingGuide(roomId: string, purpose: string, detail: string) {
-    const prompt = `회의 목적: ${purpose}\n상세 정보: ${detail}\n위 내용을 바탕으로 회의를 시작하기 위한 가이드를 작성해줘.`;
+  async generateMeetingGuide(params: GenerateMeetingGuideParams) {
+    const prompt = `회의 목적: ${params.purpose}\n상세 정보: ${params.detail}\n위 내용을 바탕으로 회의를 시작하기 위한 가이드를 작성해줘.`;
     const aiResponse = await generateAiContent(prompt);
 
     const { data, error } = await supabase
       .from("project_tasks_logs")
       .insert([
         {
-          project_meeting_room_id: roomId,
+          project_meeting_room_id: params.roomId,
           project_tasks_log_sender: "AI",
           project_tasks_log_message: aiResponse,
           project_tasks_log_meeting_index: 1,
@@ -172,12 +169,12 @@ export const ProjectMeetingService = {
    * [AI 자동 요약 생성 및 Upsert]
    * 대화 로그를 기반으로 요약을 생성하여 저장합니다.
    */
-  async generateAndSaveSummary(roomId: string, meetingIndex: number) {
+  async generateAndSaveSummary(params: GenerateAndSaveSummaryParams) {
     // 1. 대화 로그 가져오기
     const { data: logs } = await supabase
       .from("project_tasks_logs")
       .select("project_tasks_log_sender, project_tasks_log_message")
-      .eq("project_meeting_room_id", roomId)
+      .eq("project_meeting_room_id", params.roomId)
       .order("project_tasks_log_created_at", { ascending: true });
 
     const history = logs
@@ -194,10 +191,10 @@ export const ProjectMeetingService = {
     const { data, error } = await supabase
       .from("project_meeting_summarys")
       .upsert({
-        project_meeting_summary_id: `sum_${roomId}_idx_${meetingIndex}`,
-        project_meeting_room_id: roomId,
+        project_meeting_summary_id: `sum_${params.roomId}_idx_${params.meetingIndex}`,
+        project_meeting_room_id: params.roomId,
         "project meeting summary": summaryResult,
-        project_meeting_summary_meeting_index: meetingIndex,
+        project_meeting_summary_meeting_index: params.meetingIndex,
       })
       .select()
       .single();

@@ -1,6 +1,10 @@
 import { supabase } from "../../db/supabase/supabase";
-import { MeetingListItem, MeetingType } from "../../types/api/ProjectPlanning/ProjectMeetingPage";
-
+import {
+  MeetingListItem,
+  MeetingType,
+  GetMeetingListParams,
+  GetMeetingsByTypeParams,
+} from "../../types/api/ProjectPlanning/ProjectMeetingPage";
 
 /**
  * [ProjectMeetingListService]
@@ -12,7 +16,7 @@ export const ProjectMeetingListService = {
    * 특정 프로젝트에 속한 모든 회의실 데이터를 가져옵니다.
    * @table project_meeting_rooms
    */
-  async getMeetingList(projectId: string) {
+  async getMeetingList(params: GetMeetingListParams) {
     try {
       const { data, error } = await supabase
         .from("project_meeting_rooms")
@@ -25,7 +29,7 @@ export const ProjectMeetingListService = {
           type:project_meeting_room_type
         `
         )
-        .eq("project_id", projectId)
+        .eq("project_id", params.projectId)
         .order("project_tasks_logs_created_at", { ascending: false });
 
       if (error) throw error;
@@ -45,8 +49,9 @@ export const ProjectMeetingListService = {
    * [타입별 회의 목록 필터링 조회 (서버측 필터링 필요 시)]
    * 전체를 불러와서 클라이언트에서 필터링할 수도 있지만, 데이터가 많을 경우 사용합니다.
    */
-  async getMeetingsByType(projectId: string, type: MeetingType) {
-    if (type === "all") return this.getMeetingList(projectId);
+  async getMeetingsByType(params: GetMeetingsByTypeParams) {
+    if (params.type === "all")
+      return this.getMeetingList({ projectId: params.projectId });
 
     try {
       const { data, error } = await supabase
@@ -60,10 +65,10 @@ export const ProjectMeetingListService = {
           type:project_meeting_room_type
         `
         )
-        .eq("project_id", projectId)
+        .eq("project_id", params.projectId)
         .eq(
           "project_meeting_room_type",
-          type.charAt(0).toUpperCase() + type.slice(1)
+          params.type.charAt(0).toUpperCase() + params.type.slice(1)
         ) // 'feature' -> 'Feature'
         .order("project_tasks_logs_created_at", { ascending: false });
 

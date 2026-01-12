@@ -1,4 +1,11 @@
 import { supabase } from "../../db/supabase/supabase";
+import {
+  GetTodosByDateParams,
+  GetMonthlyTodoCountParams,
+  SearchTodosParams,
+  ToggleTodoStatusParams,
+  DeleteTodoParams,
+} from "../../types/api/Woomoonjeong/TodoManagementPage";
 
 /**
  * [할일 관리 메인 서비스]
@@ -12,9 +19,9 @@ export const TodoManagementService = {
    * 캘린더 점 표시나 일일 목록 조회 시 사용됩니다.
    * 참조 테이블: todos
    */
-  async getTodosByDate(date: Date) {
+  async getTodosByDate(params: GetTodosByDateParams) {
     try {
-      const dateStr = date.toISOString().split("T")[0];
+      const dateStr = params.date.toISOString().split("T")[0];
 
       const { data, error } = await supabase
         .from("todos")
@@ -36,10 +43,14 @@ export const TodoManagementService = {
    * 캘린더의 한 달 치 데이터를 로드하여 날짜별 할일 유무(카운트)를 파악합니다.
    * 참조 테이블: todos
    */
-  async getMonthlyTodoCount(year: number, month: number) {
+  async getMonthlyTodoCount(params: GetMonthlyTodoCountParams) {
     try {
-      const startDate = new Date(year, month, 1).toISOString().split("T")[0];
-      const endDate = new Date(year, month + 1, 0).toISOString().split("T")[0];
+      const startDate = new Date(params.year, params.month, 1)
+        .toISOString()
+        .split("T")[0];
+      const endDate = new Date(params.year, params.month + 1, 0)
+        .toISOString()
+        .split("T")[0];
 
       const { data, error } = await supabase
         .from("todos")
@@ -59,7 +70,7 @@ export const TodoManagementService = {
    * 상태값 필터링 및 텍스트 검색을 Supabase 쿼리 레벨에서 처리합니다.
    * 참조 테이블: todos
    */
-  async searchTodos(params: { status?: string; query?: string; date?: Date }) {
+  async searchTodos(params: SearchTodosParams) {
     try {
       let request = supabase.from("todos").select("*");
 
@@ -104,17 +115,17 @@ export const TodoManagementService = {
    * 현재 상태를 확인하여 다음 순차적 상태로 변경합니다.
    * 참조 테이블: todos
    */
-  async toggleTodoStatus(todoId: number, currentStatus: string) {
+  async toggleTodoStatus(params: ToggleTodoStatusParams) {
     try {
       let nextStatus = "waiting";
-      if (currentStatus === "waiting") nextStatus = "in progress";
-      else if (currentStatus === "in progress") nextStatus = "done";
-      else if (currentStatus === "done") nextStatus = "waiting";
+      if (params.currentStatus === "waiting") nextStatus = "in progress";
+      else if (params.currentStatus === "in progress") nextStatus = "done";
+      else if (params.currentStatus === "done") nextStatus = "waiting";
 
       const { data, error } = await supabase
         .from("todos")
         .update({ todo_status: nextStatus })
-        .eq("todo_id", todoId)
+        .eq("todo_id", params.todoId)
         .select()
         .single();
 
@@ -130,12 +141,12 @@ export const TodoManagementService = {
    * [할일 삭제]
    * 참조 테이블: todos
    */
-  async deleteTodo(todoId: number) {
+  async deleteTodo(params: DeleteTodoParams) {
     try {
       const { error } = await supabase
         .from("todos")
         .delete()
-        .eq("todo_id", todoId);
+        .eq("todo_id", params.todoId);
 
       if (error) throw error;
     } catch (error) {

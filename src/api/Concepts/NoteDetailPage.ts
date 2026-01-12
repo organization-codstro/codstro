@@ -1,5 +1,10 @@
 import { supabase } from "../../db/supabase/supabase";
-import { NoteDetailResponse } from "../../types/api/Concepts/NoteDetailPage";
+import {
+  GetNoteDetailParams,
+  DeleteNoteDetailParams,
+  SummarizeNoteWithAIParams,
+  NoteDetailResponse,
+} from "../../types/api/Concepts/NoteDetailPage";
 
 /**
  * [NoteDetailService]
@@ -10,7 +15,9 @@ export const NoteDetailService = {
   /**
    * [조회] 특정 ID의 노트 상세 정보와 연결된 개념들을 가져옵니다.
    */
-  async getNoteDetail(noteId: string): Promise<NoteDetailResponse> {
+  async getNoteDetail(
+    params: GetNoteDetailParams
+  ): Promise<NoteDetailResponse> {
     // 1. 노트 기본 정보 조회
     const { data: note, error } = await supabase
       .from("notes")
@@ -24,13 +31,12 @@ export const NoteDetailService = {
         userId:user_id
       `
       )
-      .eq("note_id", noteId)
+      .eq("note_id", params.noteId)
       .single();
 
     if (error) throw new Error(error.message);
 
-    // 2. 연결된 개념(Related Concepts) 정보 조회 (note_concept 테이블 조인)
-    // 필요 시 note_concept를 통해 각 설명 자료 테이블의 제목을 가져오는 쿼리를 추가할 수 있습니다.
+    // 2. 연결된 개념(Related Concepts) 정보 조회
     const { data: concepts } = await supabase
       .from("note_concept")
       .select(
@@ -40,7 +46,7 @@ export const NoteDetailService = {
         librarie_description_materials(librarie_description_material_name)
       `
       )
-      .eq("note_id", noteId);
+      .eq("note_id", params.noteId);
 
     return {
       ...note,
@@ -52,12 +58,12 @@ export const NoteDetailService = {
    * [삭제] 노트를 삭제합니다.
    * (스키마에 ON DELETE CASCADE가 설정되어 있지 않다면 note_concept 관계를 먼저 삭제해야 합니다.)
    */
-  async deleteNote(noteId: string): Promise<boolean> {
-    // 1. 관계 테이블 데이터 우선 삭제 (참조 무결성 유지)
+  async deleteNote(params: DeleteNoteDetailParams): Promise<boolean> {
+    // 1. 관계 테이블 데이터 우선 삭제
     const { error: relError } = await supabase
       .from("note_concept")
       .delete()
-      .eq("note_id", noteId);
+      .eq("note_id", params.noteId);
 
     if (relError) throw new Error(relError.message);
 
@@ -65,7 +71,7 @@ export const NoteDetailService = {
     const { error: noteError } = await supabase
       .from("notes")
       .delete()
-      .eq("note_id", noteId);
+      .eq("note_id", params.noteId);
 
     if (noteError) throw new Error(noteError.message);
 
@@ -73,16 +79,16 @@ export const NoteDetailService = {
   },
 
   /**
-   * [AI 서비스] 노트 내용을 분석하여 관련 키워드를 추출하거나 요약본을 생성합니다.
+   * [AI 서비스] 노트 내용을 분석하여 요약본을 생성합니다.
    * Gemini API를 활용합니다.
    */
-  async summarizeNoteWithAI(content: string) {
+  async summarizeNoteWithAI(params: SummarizeNoteWithAIParams) {
     try {
       const response = await fetch("/api/gemini/summarize", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          prompt: `다음 학습 노트 내용을 3줄로 요약해줘: ${content.substring(
+          prompt: `다음 학습 노트 내용을 3줄로 요약해줘: ${params.content.substring(
             0,
             1000
           )}`,

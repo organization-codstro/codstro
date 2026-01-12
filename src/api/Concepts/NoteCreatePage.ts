@@ -1,20 +1,26 @@
 import { supabase } from "../../db/supabase/supabase";
-import { NoteDetailPropos } from "../../types/api/Concepts/NoteCreatePage";
+
+import {
+  GetNoteByIdParams,
+  SaveNoteParams,
+  GenerateNoteContentParams,
+  DeleteNoteParams,
+} from "../../types/api/Concepts/NoteCreatePage";
 
 /**
- * [NoteService]
+ * [NoteCreateService]
  * 개인 학습 노트의 생성, 수정, 조회 및 AI 본문 생성을 담당합니다.
  * 참조 테이블: notes, note_concept
  */
-export const NoteService = {
+export const NoteCreateService = {
   /**
    * [조회] 특정 유저의 단일 노트 상세 내용을 가져옵니다.
    */
-  async getNoteById(noteId: string) {
+  async getNoteById(params: GetNoteByIdParams) {
     const { data, error } = await supabase
       .from("notes")
       .select("*")
-      .eq("note_id", noteId)
+      .eq("note_id", params.noteId)
       .single();
 
     if (error) throw new Error(error.message);
@@ -25,18 +31,19 @@ export const NoteService = {
    * [생성/수정] 노트를 저장하고 선택된 개념들과의 관계를 설정합니다.
    * 트랜잭션 처리를 위해 연달아 실행합니다.
    */
-  async saveNote(noteData: NoteDetailPropos, conceptIds: number[]) {
-    const isEditing = !!noteData.id;
+  async saveNote(params: SaveNoteParams) {
+    const { id, title, content, labels, userId, conceptIds } = params;
+    const isEditing = !!id;
 
     // 1. 노트 본문 저장 (notes 테이블)
     const { data: note, error: noteError } = await supabase
       .from("notes")
       .upsert({
-        note_id: noteData.id, // 존재하면 수정, 없으면 생성
-        note_title: noteData.title,
-        note_content: noteData.content,
-        note_labels: noteData.labels,
-        user_id: noteData.userId,
+        note_id: id, // 존재하면 수정, 없으면 생성
+        note_title: title,
+        note_content: content,
+        note_labels: labels,
+        user_id: userId,
         created_date: new Date().toISOString().split("T")[0],
       })
       .select()
@@ -75,13 +82,13 @@ export const NoteService = {
    * [AI 서비스] 선택된 개념 키워드들을 기반으로 노트의 초안 마크다운을 생성합니다.
    * Gemini API를 사용합니다.
    */
-  async generateNoteContent(concepts: string[]) {
+  async generateNoteContent(params: GenerateNoteContentParams) {
     try {
       const response = await fetch("/api/gemini/generate-note", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          prompt: `${concepts.join(
+          prompt: `${params.concepts.join(
             ", "
           )} 개념들을 포함한 학습 노트 초안을 마크다운 형식으로 작성해줘.`,
         }),
@@ -89,7 +96,7 @@ export const NoteService = {
 
       if (!response.ok) throw new Error("AI 생성에 실패했습니다.");
       const data = await response.json();
-      return data.content; // 생성된 마크다운 본문
+      return data.content;
     } catch (error) {
       console.error("Gemini Note Generation Error:", error);
       throw error;
@@ -99,11 +106,11 @@ export const NoteService = {
   /**
    * [삭제] 노트를 삭제합니다. (CASCADE 설정 시 note_concept도 자동 삭제됨)
    */
-  async deleteNote(noteId: number) {
+  async deleteNote(params: DeleteNoteParams) {
     const { error } = await supabase
       .from("notes")
       .delete()
-      .eq("note_id", noteId);
+      .eq("note_id", params.noteId);
 
     if (error) throw error;
     return true;

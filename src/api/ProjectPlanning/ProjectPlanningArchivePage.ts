@@ -1,6 +1,9 @@
 import { supabase } from "../../db/supabase/supabase";
-import { Project } from "../../types/api/ProjectPlanning/ProjectPlanningArchivePage";
-
+import {
+  Project,
+  GetArchivedProjectsParams,
+  ExtendProjectPeriodParams,
+} from "../../types/api/ProjectPlanning/ProjectPlanningArchivePage";
 
 /**
  * [ProjectArchiveService]
@@ -12,14 +15,14 @@ export const ProjectArchiveService = {
    * project_end_date가 현재 날짜보다 이전인 프로젝트를 가져옵니다.
    * @table projects
    */
-  async getArchivedProjects(userId: number) {
+  async getArchivedProjects(params: GetArchivedProjectsParams) {
     try {
       const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD 형식
 
       const { data, error } = await supabase
         .from("projects")
         .select("*")
-        .eq("user_id", userId)
+        .eq("user_id", params.userId)
         .lt("project_end_date", today) // Less Than (마감일 < 오늘)
         .order("project_end_date", { ascending: false });
 
@@ -40,12 +43,12 @@ export const ProjectArchiveService = {
    * [프로젝트 복구 또는 기간 연장 (선택 사항)]
    * 아카이브된 프로젝트의 마감일을 수정하여 다시 활성화할 때 사용합니다.
    */
-  async extendProjectPeriod(projectId: number, newEndDate: string) {
+  async extendProjectPeriod(params: ExtendProjectPeriodParams) {
     try {
       const { data, error } = await supabase
         .from("projects")
-        .update({ project_end_date: newEndDate })
-        .eq("project_id", projectId)
+        .update({ project_end_date: params.newEndDate })
+        .eq("project_id", params.projectId)
         .select()
         .single();
 

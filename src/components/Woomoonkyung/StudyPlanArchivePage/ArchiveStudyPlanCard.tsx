@@ -1,6 +1,6 @@
 import React from "react";
 import { Calendar, Target, Trash2, Award, User } from "lucide-react";
-import { StudyPlanCardProps } from "../../../types/Woomoonkyung/StudyPlanArchivePage/ArchiveStudyPlanCard";
+import { StudyPlanCardProps } from "../../../types/pages/Woomoonkyung/StudyPlanArchivePage/ArchiveStudyPlanCard";
 
 const ArchiveStudyPlanCard: React.FC<StudyPlanCardProps> = ({
   plan,

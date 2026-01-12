@@ -1,4 +1,4 @@
-import { FilterGroupProps } from "../../types/Woomoonro/FilterGroup";
+import { FilterGroupProps } from "../../types/pages/Woomoonro/FilterGroup";
 
 export const FilterGroup = ({
   label,

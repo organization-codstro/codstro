@@ -1,4 +1,12 @@
 import { supabase } from "../../db/supabase/supabase";
+import {
+  GetMatchingHistoryDetailParams,
+  GetMatchingHistoryDetailResponse,
+  UpdateMatchingHistoryNameParams,
+  UpdateMatchingHistoryNameResponse,
+  DeleteMatchingHistoryParams,
+  DeleteMatchingHistoryResponse,
+} from "../../types/api/CompanyInformation/MatchingHistoryDetailPage";
 
 /**
  * [함수 역할]: 특정 AI 매칭 이력의 상세 데이터(매칭 점수, 리포트 내용, 제안 사항 등)를 조회합니다.
@@ -7,7 +15,11 @@ import { supabase } from "../../db/supabase/supabase";
  * - 매칭 고유 ID(company_user_matche_id)를 사용하여 상세 리포트 데이터를 가져옵니다.
  * - match_rate(점수), reason(분석 내용), suggestions(개선 제안) 필드를 포함합니다.
  */
-export const getMatchingHistoryDetail = async (matchingId: number) => {
+export const getMatchingHistoryDetail = async (
+  params: GetMatchingHistoryDetailParams
+): Promise<GetMatchingHistoryDetailResponse> => {
+  const { matchingId } = params;
+
   try {
     const { data, error } = await supabase
       .from("company_user_matches")
@@ -39,9 +51,10 @@ export const getMatchingHistoryDetail = async (matchingId: number) => {
  * [참조 테이블]: company_user_matches
  */
 export const updateMatchingHistoryName = async (
-  matchingId: number,
-  newName: string
-) => {
+  params: UpdateMatchingHistoryNameParams
+): Promise<UpdateMatchingHistoryNameResponse> => {
+  const { matchingId, newName } = params;
+
   try {
     const { data, error } = await supabase
       .from("company_user_matches")
@@ -50,7 +63,7 @@ export const updateMatchingHistoryName = async (
       .select();
 
     if (error) throw error;
-    return data;
+    return data ?? [];
   } catch (error) {
     console.error("Error updating matching history name:", error);
     throw error;
@@ -61,7 +74,11 @@ export const updateMatchingHistoryName = async (
  * [함수 역할]: 특정 매칭 기록을 삭제합니다.
  * [참조 테이블]: company_user_matches
  */
-export const deleteMatchingHistory = async (matchingId: number) => {
+export const deleteMatchingHistory = async (
+  params: DeleteMatchingHistoryParams
+): Promise<DeleteMatchingHistoryResponse> => {
+  const { matchingId } = params;
+
   try {
     const { error } = await supabase
       .from("company_user_matches")

@@ -1,56 +1,75 @@
 import { supabase } from "../../db/supabase/supabase";
-import { Major } from "../../types/pages/Mbit/Mbit";
+import {
+  MajorQuestionResponse,
+  GetMajorResultDetailParams,
+  Major,
+} from "../../types/api/Mbit/MajorTestPage";
 
 /**
  * [MajorTestService]
- * 전공 테스트 질문 로드 및 결과 계산 후 상세 데이터 조회를 담당합니다.
+ * 전공 테스트 질문 로드 및 결과 계산 후 상세 데이터 조회
  */
 export const MajorTestService = {
   /**
-   * [전공 테스트 질문지 로드]
-   * 테이블: major_questions
-   * 역할: DB에 저장된 전공 적합성 검사 질문과 선택지 데이터를 가져옵니다.
+   * [전공 테스트 질문지 조회]
+   * table: major_questions
    */
-  async getMajorQuestions() {
-    try {
-      const { data, error } = await supabase
-        .from("major_questions")
-        .select("*")
-        .order("major_question_id", { ascending: true });
+  async getMajorQuestions(): Promise<MajorQuestionResponse[]> {
+    const { data, error } = await supabase
+      .from("major_questions")
+      .select(
+        `
+        id:major_question_id,
+        question:major_question_content,
+        options:major_question_options
+        `
+      )
+      .order("major_question_id", { ascending: true });
 
-      if (error) throw error;
-
-      // DB 데이터를 컴포넌트 형식에 맞게 매핑
-      return data.map((q) => ({
-        id: q.major_question_id,
-        question: q.major_question_content,
-        // options는 DB에 JSONB 타입으로 저장하거나 별도 매핑 테이블을 권장합니다.
-        options: q.major_question_options,
-      }));
-    } catch (error) {
-      console.error("[MajorTestService Error]:", error);
-      throw new Error("질문지를 불러오지 못했습니다.");
-    }
+    if (error) throw error;
+    return data || [];
   },
 
   /**
-   * [테스트 결과 전공 상세 정보 조회]
-   * 테이블: majors
-   * 역할: 계산된 전공 이름(예: 'Frontend')을 바탕으로 실제 DB의 전공 상세 정보를 가져옵니다.
+   * [테스트 결과 전공 상세 조회]
+   * table: majors
    */
-  async getMajorResultDetail(majorName: string): Promise<Major | null> {
+  async getMajorResultDetail(
+    params: GetMajorResultDetailParams
+  ): Promise<Major | null> {
+    const { majorName } = params;
+
     const { data, error } = await supabase
       .from("majors")
-      .select("*")
-      .ilike("major_name", `%${majorName}%`) // 이름 기반 검색
+      .select(
+        `
+        id:major_id,
+        name:major_name,
+        description:major_description,
+        detailedDescription:major_detailed_description,
+        focus:major_focus,
+        careers:major_careers,
+        color:major_color,
+        salaryRange:major_salary_range,
+        jobOutlook:major_job_outlook,
+        keySkills:major_key_skills,
+        learningPath:major_learning_path,
+        famousCompanies:major_famous_companies,
+        dayInLife:major_day_in_life
+        `
+      )
+      .ilike("major_name", `%${majorName}%`)
       .single();
 
-    if (error) {
-      console.error("Result fetch error:", error);
-      return null;
-    }
+    if (error || !data) return null;
 
-    // 이전 MajorService에서 정의한 매핑 로직 적용 (생략 가능)
-    return data as unknown as Major;
+    return {
+      ...data,
+      icon: null,
+      keySkills: data.keySkills || [],
+      learningPath: data.learningPath || [],
+      famousCompanies: data.famousCompanies || [],
+      dayInLife: data.dayInLife || [],
+    };
   },
 };

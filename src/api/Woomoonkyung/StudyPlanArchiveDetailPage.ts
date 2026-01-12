@@ -1,15 +1,22 @@
 import { supabase } from "../../db/supabase/supabase";
+import {
+  GetPlanDetailParams,
+  GetPlanNodesParams,
+  ToggleNodeAndSyncStatusParams,
+  UpdatePlanParams,
+  DeletePlanParams,
+} from "../../types/api/Woomoonkyung/StudyPlanArchiveDetailPage";
 
 /**
  * [우문경 상세 및 아카이브 서비스]
  * 공부 계획의 상세 조회, 수정, 삭제 및 노드 진행률에 따른 상태 자동 동기화를 담당합니다.
  */
-export const WoomoonkyungService = {
+export const StudyPlanArchiveDetailService = {
   /**
    * [공부 계획 상세 정보 조회]
    * @param planId 조회할 계획의 고유 ID
    */
-  async getPlanDetail(planId: number) {
+  async getPlanDetail(planId: GetPlanDetailParams) {
     try {
       const { data, error } = await supabase
         .from("study_plans")
@@ -20,7 +27,7 @@ export const WoomoonkyungService = {
       if (error) throw error;
       return data;
     } catch (error) {
-      console.error("[getPlanDetail Error]:", error);
+      console.error("[StudyPlanArchiveDetailService - getPlanDetail Error]:", error);
       throw error;
     }
   },
@@ -29,7 +36,7 @@ export const WoomoonkyungService = {
    * [공부 계획 세부 노드 리스트 조회]
    * @param planId 계획 ID
    */
-  async getPlanNodes(planId: number) {
+  async getPlanNodes(planId: GetPlanNodesParams) {
     try {
       const { data, error } = await supabase
         .from("study_plan_nodes")
@@ -48,7 +55,7 @@ export const WoomoonkyungService = {
       if (error) throw error;
       return data;
     } catch (error) {
-      console.error("[getPlanNodes Error]:", error);
+      console.error("[StudyPlanArchiveDetailPageService - getPlanNodes Error]:", error);
       throw error;
     }
   },
@@ -61,29 +68,22 @@ export const WoomoonkyungService = {
    * @param nodeId 수정할 노드 ID (UUID)
    * @param completed 완료 여부
    */
-  async toggleNodeAndSyncStatus(
-    planId: number,
-    nodeId: string,
-    completed: boolean
-  ) {
+  async toggleNodeAndSyncStatus(params: ToggleNodeAndSyncStatusParams) {
     try {
-      // 1. 노드 상태 업데이트
       const { error: nodeUpdateError } = await supabase
         .from("study_plan_nodes")
-        .update({ completed })
-        .eq("study_plan_node_id", nodeId);
+        .update({ completed: params.completed })
+        .eq("study_plan_node_id", params.nodeId);
 
       if (nodeUpdateError) throw nodeUpdateError;
 
-      // 2. 해당 플랜의 모든 노드 완료 현황 파악
       const { data: nodes, error: fetchError } = await supabase
         .from("study_plan_nodes")
         .select("completed")
-        .eq("study_plan_id", planId);
+        .eq("study_plan_id", params.planId);
 
       if (fetchError) throw fetchError;
 
-      // 3. 진행률 기반 비즈니스 로직 결정
       const total = nodes.length;
       const completedCount = nodes.filter((n) => n.completed).length;
 
@@ -95,20 +95,18 @@ export const WoomoonkyungService = {
         newState = "done";
       }
 
-      // 4. 부모 플랜(study_plans) 상태 업데이트
       const { data: updatedPlan, error: planUpdateError } = await supabase
         .from("study_plans")
         .update({ study_plan_state: newState })
-        .eq("study_plan_id", planId)
+        .eq("study_plan_id", params.planId)
         .select()
         .single();
 
       if (planUpdateError) throw planUpdateError;
 
-      // 최종적으로 업데이트된 플랜 정보 반환
       return { updatedPlan, completedCount, total };
     } catch (error) {
-      console.error("[toggleNodeAndSyncStatus Error]:", error);
+      console.error("[StudyPlanArchiveDetailPageService - toggleNodeAndSyncStatus Error]:", error);
       throw error;
     }
   },
@@ -118,30 +116,19 @@ export const WoomoonkyungService = {
    * @param planId 수정할 계획 ID
    * @param updates 수정할 데이터 필드들
    */
-  async updatePlan(
-    planId: number,
-    updates: Partial<{
-      study_plan_name: string;
-      study_plan_description: string;
-      study_plan_state: string;
-      study_plan_start_date: string;
-      study_plan_end_date: string;
-      study_plan_image_url: string;
-      study_plan_is_archived: boolean;
-    }>
-  ) {
+  async updatePlan(params: UpdatePlanParams) {
     try {
       const { data, error } = await supabase
         .from("study_plans")
-        .update(updates)
-        .eq("study_plan_id", planId)
+        .update(params.updates)
+        .eq("study_plan_id", params.planId)
         .select()
         .single();
 
       if (error) throw error;
       return data;
     } catch (error) {
-      console.error("[updatePlan Error]:", error);
+      console.error("[StudyPlanArchiveDetailService - updatePlan Error]:", error);
       throw error;
     }
   },
@@ -150,7 +137,7 @@ export const WoomoonkyungService = {
    * [공부 계획 삭제]
    * @param planId 삭제할 계획 ID
    */
-  async deletePlan(planId: number) {
+  async deletePlan(planId: DeletePlanParams) {
     try {
       const { error } = await supabase
         .from("study_plans")
@@ -160,7 +147,7 @@ export const WoomoonkyungService = {
       if (error) throw error;
       return true;
     } catch (error) {
-      console.error("[deletePlan Error]:", error);
+      console.error("[StudyPlanArchiveDetailService - deletePlan Error]:", error);
       throw error;
     }
   },

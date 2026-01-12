@@ -1,11 +1,11 @@
 import { supabase } from "../../db/supabase/supabase";
-import { Major } from "../../types/pages/Mbit/Mbit";
+import { Major } from "../../types/api/Mbit/MajorEncyclopediaPage";
 
 /**
- * [MajorService]
+ * [MajorEncyclopediaService]
  * 전공 도감 및 전공 관련 데이터 처리를 담당하는 서비스
  */
-export const MajorService = {
+export const MajorEncyclopediaService = {
   /**
    * [전공 목록 조회]
    * 테이블: majors

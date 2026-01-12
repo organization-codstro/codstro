@@ -1,4 +1,8 @@
 import { supabase } from "../../db/supabase/supabase";
+import {
+  GetUserFullProfileParams,
+  GetUserFullProfileResponse,
+} from "../../types/api/Profile/ProfilePage";
 
 /**
  * [프로필 메인 서비스]
@@ -10,13 +14,15 @@ export const ProfileService = {
    * [유저 프로필 및 레벨 정보 통합 조회]
    * @param userId 조회할 유저의 ID
    */
-  async getUserFullProfile(userId: number) {
+  async getUserFullProfile(
+    params: GetUserFullProfileParams
+  ): Promise<GetUserFullProfileResponse> {
     try {
       // 1. 유저 기본 정보 조회
       const { data: user, error: userError } = await supabase
         .from("users")
         .select("*")
-        .eq("user_id", userId)
+        .eq("user_id", params.userId)
         .single();
 
       if (userError) throw userError;
@@ -57,7 +63,7 @@ export const ProfileService = {
           joinDate: user.user_join_date,
           points: currentPoints,
           profileUrl: user.user_profile_url,
-          selectedBadge: user.user_level_id, // 혹은 별도 획득 배지 컬럼
+          selectedBadge: user.user_level_id,
         },
         levelInfo: {
           currentLevel: {

@@ -1,0 +1,23 @@
+/**
+ * [분야 상세 정보 조회 파라미터]
+ */
+export interface GetFieldDetailWithPinsParams {
+  fieldId: number;
+}
+
+/**
+ * [분야 그룹 할당 파라미터]
+ */
+export interface AssignFieldToGroupParams {
+  field_name: string;
+  field_description: string;
+  group_id: number;
+  field_is_recommendation: boolean;
+}
+
+/**
+ * [핀 조회 파라미터]
+ */
+export interface GetPinByIdParams {
+  pinId: number;
+}

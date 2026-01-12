@@ -1,22 +1,29 @@
 import { supabase } from "../../db/supabase/supabase";
-import { Fortune } from "../../types/pages/Mbit/Mbit";
+import {
+  GetOrDrawTodayFortuneParams,
+  DeveloperFortuneRecord,
+  Fortune,
+} from "../../types/api/Mbit/TodayFortunePage";
 
 /**
- * [FortuneService]
+ * [TodayFortuneService]
  * 오늘의 운세 뽑기 및 당일 운세 기록 관리를 담당하는 서비스
  */
-export const FortuneService = {
+export const TodayFortuneService = {
   /**
    * [오늘의 운세 조회 및 생성]
    * 테이블: user_fortune, developer_fortunes
    * 역할: 유저가 오늘 이미 뽑은 운세가 있는지 확인하고, 없으면 새로 뽑아 DB에 저장합니다.
    */
-  async getOrDrawTodayFortune(userId: string): Promise<Fortune> {
+  async getOrDrawTodayFortune(
+    params: GetOrDrawTodayFortuneParams
+  ): Promise<Fortune> {
+    const { userId } = params;
     const today = new Date().toISOString().split("T")[0];
 
     try {
       // 1. 오늘 이미 뽑은 기록이 있는지 확인
-      const { data: existingRecord, error: fetchError } = await supabase
+      const { data: existingRecord } = await supabase
         .from("user_fortune")
         .select(
           `
@@ -36,20 +43,22 @@ export const FortuneService = {
         .maybeSingle();
 
       if (existingRecord?.developer_fortunes) {
-        return this.mapToFortune(existingRecord.developer_fortunes);
+        const fortune = existingRecord
+          .developer_fortunes[0] as DeveloperFortuneRecord;
+        return this.mapToFortune(fortune);
       }
 
-      // 2. 기록이 없다면 전체 운세 중 랜덤으로 하나 선택
-      const { data: allFortunes, error: allErr } = await supabase
+      // 2. 전체 운세 조회 후 랜덤 선택
+      const { data: allFortunes, error } = await supabase
         .from("developer_fortunes")
         .select("*");
 
-      if (allErr || !allFortunes) throw allErr;
+      if (error || !allFortunes) throw error;
 
       const randomFortune =
         allFortunes[Math.floor(Math.random() * allFortunes.length)];
 
-      // 3. 선택된 운세를 유저의 오늘 운세로 저장
+      // 3. 유저 오늘 운세로 저장
       const { error: insertError } = await supabase
         .from("user_fortune")
         .insert({
@@ -60,7 +69,7 @@ export const FortuneService = {
 
       if (insertError) throw insertError;
 
-      return this.mapToFortune(randomFortune);
+      return this.mapToFortune(randomFortune as DeveloperFortuneRecord);
     } catch (error) {
       console.error("[FortuneService Error]:", error);
       throw new Error("오늘의 운세를 가져오는데 실패했습니다.");
@@ -70,7 +79,7 @@ export const FortuneService = {
   /**
    * DB 데이터를 프론트엔드 Fortune 타입으로 변환
    */
-  mapToFortune(data: any): Fortune {
+  mapToFortune(data: DeveloperFortuneRecord): Fortune {
     return {
       id: data.developer_fortune_id,
       code: data.fortune_code,

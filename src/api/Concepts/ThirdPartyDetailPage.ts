@@ -1,5 +1,13 @@
+// ThirdPartyDetailService.ts
 import { supabase } from "../../db/supabase/supabase";
-import { ThirdPartyDetailResponse } from "../../types/api/Concepts/ThirdPartyDetailPage";
+import { generateAiContent } from "../Gemini/Gemini";
+import {
+  GetServiceDetailParams,
+  ToggleServiceUnderstoodParams,
+  AskServiceAIParams,
+  AddServiceTodoParams,
+  ThirdPartyDetailResponse,
+} from "../../types/api/Concepts/ThirdPartyDetailPage";
 
 /**
  * [ThirdPartyDetailService]
@@ -11,9 +19,10 @@ export const ThirdPartyDetailService = {
    * [조회] 특정 서드파티 서비스의 상세 데이터와 현재 사용자의 학습 상태를 가져옵니다.
    */
   async getServiceDetail(
-    serviceId: string,
-    userId: number
+    params: GetServiceDetailParams
   ): Promise<ThirdPartyDetailResponse> {
+    const { serviceId, userId } = params;
+
     // 1. 서비스 상세 데이터 조회 (스키마 컬럼 매핑)
     const { data: serviceData, error: serviceError } = await supabase
       .from("third_party_services_description_materials")
@@ -41,7 +50,6 @@ export const ThirdPartyDetailService = {
       .single();
 
     // 3. 연관 아이템 조회 (가정: 매핑 테이블 또는 content 내 키워드 기반)
-    // 현재는 빈 배열로 반환 로직 구성
     const relatedItems: any[] = [];
 
     return {
@@ -57,10 +65,10 @@ export const ThirdPartyDetailService = {
    * 참조 테이블: user_concepts
    */
   async toggleServiceUnderstood(
-    userId: number,
-    serviceId: string,
-    currentStatus: boolean
-  ) {
+    params: ToggleServiceUnderstoodParams
+  ): Promise<boolean> {
+    const { userId, serviceId, currentStatus } = params;
+
     if (currentStatus) {
       // 이해함 취소
       const { error } = await supabase
@@ -77,7 +85,6 @@ export const ThirdPartyDetailService = {
         user_id: userId,
         third_party_services_description_material_id: parseInt(serviceId),
         user_concept_is_starred: false,
-        // 다른 FK들은 기본값(1) 처리 (스키마 대응)
         concept_description_material_id: 1,
         tool_description_material_id: 1,
         librarie_description_material_id: 1,
@@ -92,17 +99,14 @@ export const ThirdPartyDetailService = {
   /**
    * [AI 서비스] Gemini API를 사용하여 해당 서비스 도입 시의 장단점이나 비용 구조 등을 질문합니다.
    */
-  async askServiceAI(serviceName: string, question: string) {
+  async askServiceAI(params: AskServiceAIParams): Promise<string> {
+    const { serviceName, question } = params;
+
     try {
-      const response = await fetch("/api/gemini/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          prompt: `서드파티 서비스 [${serviceName}]에 대한 전문적인 질문입니다: ${question}`,
-        }),
-      });
-      const data = await response.json();
-      return data.answer;
+      const response = await generateAiContent(
+        `서드파티 서비스 [${serviceName}]에 대한 전문적인 질문입니다: ${question}`
+      );
+      return response;
     } catch (error) {
       console.error("Gemini Service Error:", error);
       throw error;
@@ -112,7 +116,9 @@ export const ThirdPartyDetailService = {
   /**
    * [Todo 추가] 서비스 연동 실습 등 학습 과제를 개인 노트에 등록합니다.
    */
-  async addServiceTodo(userId: number, serviceName: string, type: string) {
+  async addServiceTodo(params: AddServiceTodoParams): Promise<boolean> {
+    const { userId, serviceName, type } = params;
+
     const { error } = await supabase.from("notes").insert({
       user_id: userId,
       note_title: `[실습] ${serviceName} 연동하기 (${type})`,

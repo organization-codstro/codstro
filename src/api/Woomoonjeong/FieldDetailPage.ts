@@ -1,4 +1,9 @@
 import { supabase } from "../../db/supabase/supabase";
+import {
+  GetFieldDetailWithPinsParams,
+  AssignFieldToGroupParams,
+  GetPinByIdParams,
+} from "../../types/api/Woomoonjeong/FieldDetailPage";
 
 /**
  * [분야 상세 및 핀 관리 서비스]
@@ -11,7 +16,7 @@ export const FieldDetailService = {
    * 그리고 그 분야에 포함된 모든 핀(Pins) 목록을 한 번에 조회합니다.
    * 참조 테이블: fields, groups, pins
    */
-  async getFieldDetailWithPins(fieldId: number) {
+  async getFieldDetailWithPins(params: GetFieldDetailWithPinsParams) {
     try {
       const { data, error } = await supabase
         .from("fields")
@@ -28,7 +33,7 @@ export const FieldDetailService = {
           )
         `
         )
-        .eq("field_id", fieldId)
+        .eq("field_id", params.fieldId)
         .single();
 
       if (error) throw error;
@@ -45,12 +50,7 @@ export const FieldDetailService = {
    * (기존 Mock의 onAdd 기능 대응)
    * 참조 테이블: fields
    */
-  async assignFieldToGroup(payload: {
-    field_name: string;
-    field_description: string;
-    group_id: number;
-    field_is_recommendation: boolean;
-  }) {
+  async assignFieldToGroup(payload: AssignFieldToGroupParams) {
     try {
       const { data, error } = await supabase
         .from("fields")
@@ -79,12 +79,12 @@ export const FieldDetailService = {
    * 특정 핀의 정보를 단일 조회합니다.
    * 참조 테이블: pins
    */
-  async getPinById(pinId: number) {
+  async getPinById(params: GetPinByIdParams) {
     try {
       const { data, error } = await supabase
         .from("pins")
         .select("*")
-        .eq("pin_id", pinId)
+        .eq("pin_id", params.pinId)
         .single();
 
       if (error) throw error;

@@ -1,5 +1,10 @@
 import { supabase } from "../../db/supabase/supabase";
-import { LibrarySummaryResponse } from "../../types/api/Concepts/LibrariesListPage";
+import {
+  LibrarySummaryResponse,
+  SearchLibrariesParams,
+  FilterLibrariesParams,
+  GetAILibraryStackRecommendationParams,
+} from "../../types/api/Concepts/LibrariesListPage";
 
 /**
  * [LibraryListService]
@@ -31,15 +36,18 @@ export const LibraryListService = {
 
     return (data || []).map((item) => ({
       ...item,
-      tags: item.category || [], // 테이블의 카테고리 배열을 tags로 활용
+      tags: item.category || [],
     }));
   },
 
   /**
-   * [검색] 라이브러리 이름 또는 포함된 언어(JavaScript, Python 등)로 검색합니다.
-   * @param keyword 검색어
+   * [검색] 라이브러리 이름 또는 포함된 언어로 검색합니다.
    */
-  async searchLibraries(keyword: string): Promise<LibrarySummaryResponse[]> {
+  async searchLibraries(
+    params: SearchLibrariesParams
+  ): Promise<LibrarySummaryResponse[]> {
+    const { keyword } = params;
+
     const { data, error } = await supabase
       .from("librarie_description_materials")
       .select(
@@ -67,13 +75,12 @@ export const LibraryListService = {
 
   /**
    * [필터] 특정 언어 또는 카테고리로 라이브러리를 필터링합니다.
-   * @param column 필터링할 컬럼 ('language' 또는 'category')
-   * @param value 필터링할 값
    */
   async filterLibraries(
-    column: "language" | "category",
-    value: string
+    params: FilterLibrariesParams
   ): Promise<LibrarySummaryResponse[]> {
+    const { column, value } = params;
+
     let query = supabase.from("librarie_description_materials").select(`
         id:librarie_description_material_id,
         name:librarie_description_material_name,
@@ -108,7 +115,11 @@ export const LibraryListService = {
   /**
    * [AI 추천] Gemini API를 사용하여 특정 프로젝트 성격에 맞는 라이브러리 조합을 추천받습니다.
    */
-  async getAILibraryStackRecommendation(projectType: string) {
+  async getAILibraryStackRecommendation(
+    params: GetAILibraryStackRecommendationParams
+  ): Promise<string[]> {
+    const { projectType } = params;
+
     try {
       const response = await fetch("/api/gemini/stack-recommend", {
         method: "POST",
