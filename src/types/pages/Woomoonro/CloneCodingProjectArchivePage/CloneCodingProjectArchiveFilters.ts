@@ -1,4 +1,4 @@
-export interface ArchiveFiltersProps {
+export interface CloneCodingProjectArchiveFiltersProps {
   selectedFilter: string;
   setSelectedFilter: (v: any) => void;
   selectedDifficulty: string;

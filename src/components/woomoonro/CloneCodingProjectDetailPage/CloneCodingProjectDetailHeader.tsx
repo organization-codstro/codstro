@@ -1,8 +1,8 @@
 import React from "react";
 import { ArrowLeft, Bookmark, BookmarkCheck } from "lucide-react";
-import { ProjectDetailHeaderProps } from "../../../types/Woomoonro/ProjectDetailPage/ProjectDetailHeader";
+import { CloneCodingProjectDetailHeaderProps } from "../../../types/pages/Woomoonro/CloneCodingProjectDetailPage/CloneCodingProjectDetailHeader";
 
-const ProjectDetailHeader: React.FC<ProjectDetailHeaderProps> = ({
+const ProjectDetailHeader: React.FC<CloneCodingProjectDetailHeaderProps> = ({
   title,
   description,
   isBookmarked,

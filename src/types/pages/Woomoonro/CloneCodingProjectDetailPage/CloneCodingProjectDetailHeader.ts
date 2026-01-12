@@ -1,4 +1,4 @@
-export interface ProjectDetailHeaderProps {
+export interface CloneCodingProjectDetailHeaderProps {
   title: string;
   description: string;
   isBookmarked: boolean;

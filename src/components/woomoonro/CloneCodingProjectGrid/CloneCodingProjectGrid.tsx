@@ -1,6 +1,6 @@
 import { Archive } from "lucide-react";
 import ProjectCard from "./CloneCodingProjectCard";
-import { ProjectGridProps } from "../../../types/pages/Woomoonro/CloneCodingProjectGrid/CloneCodingProjectGrid";
+import { CloneCodingProjectGridProps } from "../../../types/pages/Woomoonro/CloneCodingProjectGrid/CloneCodingProjectGrid";
 
 // --- ProjectGrid 컴포넌트 ---
 const ProjectGrid = ({
@@ -8,7 +8,7 @@ const ProjectGrid = ({
   getUserProject,
   onCardClick,
   onToggleBookmark,
-}: ProjectGridProps) => {
+}: CloneCodingProjectGridProps) => {
   if (projects.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center p-20 bg-white border border-gray-300 border-dashed rounded-xl">

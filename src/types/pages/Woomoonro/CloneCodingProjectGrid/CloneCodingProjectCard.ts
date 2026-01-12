@@ -1,7 +1,6 @@
 import { CloneCodingProject, UserCloneCodingProject } from "../woomoonro";
 
-
-export interface ProjectCardProps {
+export interface CloneCodingProjectCardProps {
   project: CloneCodingProject;
   userProject?: UserCloneCodingProject;
   onClick: (id: number) => void;

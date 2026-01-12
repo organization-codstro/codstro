@@ -1,4 +1,4 @@
-export interface ProjectStatusCardProps {
+export interface CloneCodingProjectStatusCardProps {
   currentStatus: string;
   onStatusChange: (status: any) => void;
   completedTodos: number;

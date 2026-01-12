@@ -1,4 +1,4 @@
-export interface StatCardProps {
+export interface CloneCodingProjectStatCardProps {
   icon: React.ReactNode;
   label: string;
   value: number;

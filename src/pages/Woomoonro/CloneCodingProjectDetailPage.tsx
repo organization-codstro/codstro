@@ -7,9 +7,9 @@ import {
   difficultyColors,
   statusColors,
 } from "../../data/woomoonro/woomoonroData";
-import ProjectDetailHeader from "../../components/Woomoonro/CloneCodingProjectDetailPage/ProjectDetailHeader";
-import ProjectInfoGrid from "../../components/Woomoonro/CloneCodingProjectDetailPage/ProjectInfoGrid";
-import ProjectStatusCard from "../../components/Woomoonro/CloneCodingProjectDetailPage/ProjectStatusCard";
+import ProjectDetailHeader from "../../components/Woomoonro/CloneCodingProjectDetailPage/CloneCodingProjectDetailHeader";
+import ProjectInfoGrid from "../../components/Woomoonro/CloneCodingProjectDetailPage/CloneCodingProjectInfoGrid";
+import ProjectStatusCard from "../../components/Woomoonro/CloneCodingProjectDetailPage/CloneCodingProjectStatusCard";
 import {
   CloneCodingProject,
   UserCloneCodingProject,

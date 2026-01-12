@@ -1,7 +1,11 @@
-import React from "react";
-import { StatCardProps } from "../../../types/Woomoonro/WoomoonroArchivePage/StatCard";
+import { CloneCodingProjectStatCardProps } from "../../../types/pages/Woomoonro/CloneCodingProjectArchivePage/CloneCodingProjectStatCard";
 
-export const StatCard = ({ icon, label, value, bgColor }: StatCardProps) => (
+export const StatCard = ({
+  icon,
+  label,
+  value,
+  bgColor,
+}: CloneCodingProjectStatCardProps) => (
   <div className="p-4 bg-white border border-purple-100 rounded-lg shadow-sm">
     <div className="flex items-center gap-3">
       <div

@@ -10,7 +10,7 @@ import {
   UpdateProjectStatusParams,
   GetProjectTodosParams,
   GenerateProjectGuideParams,
-} from "../../types/api/Woomoonro/ProjectDetailPage";
+} from "../../types/api/Woomoonro/CloneCodingProjectDetailPage";
 
 export const CloneCodingService = {
   async getProjectDetail(

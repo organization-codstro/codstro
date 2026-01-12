@@ -1,9 +1,8 @@
 import React from "react";
 import { FilterGroup } from "../FilterGroup";
-import { ArchiveFiltersProps } from "../../../types/Woomoonro/WoomoonroArchivePage/ArchiveFilters";
+import { CloneCodingProjectArchiveFiltersProps } from "../../../types/pages/Woomoonro/CloneCodingProjectArchivePage/CloneCodingProjectArchiveFilters";
 
-
-const ArchiveFilters: React.FC<ArchiveFiltersProps> = ({
+const ArchiveFilters: React.FC<CloneCodingProjectArchiveFiltersProps> = ({
   selectedFilter,
   setSelectedFilter,
   selectedDifficulty,

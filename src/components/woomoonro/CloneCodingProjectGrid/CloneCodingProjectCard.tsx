@@ -12,7 +12,7 @@ import {
   difficultyColors,
   statusColors,
 } from "../../../data/woomoonro/woomoonroData";
-import { ProjectCardProps } from "../../../types/pages/Woomoonro/CloneCodingProjectGrid/CloneCodingProjectCard";
+import { CloneCodingProjectCardProps } from "../../../types/pages/Woomoonro/CloneCodingProjectGrid/CloneCodingProjectCard";
 
 // --- ProjectCard 컴포넌트 ---
 
@@ -21,7 +21,7 @@ const ProjectCard = ({
   userProject,
   onClick,
   onToggleBookmark,
-}: ProjectCardProps) => {
+}: CloneCodingProjectCardProps) => {
   const handleBookmarkClick = (e: React.MouseEvent) => {
     e.stopPropagation(); // 카드 클릭 이벤트 전파 방지
     onToggleBookmark(project.id);

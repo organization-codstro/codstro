@@ -1,8 +1,8 @@
 import React from "react";
 import ProgressBar from "../../ProgressBar";
-import { ProjectStatusCardProps } from "../../../types/Woomoonro/ProjectDetailPage/ProjectStatusCard";
+import { CloneCodingProjectStatusCardProps } from "../../../types/pages/Woomoonro/CloneCodingProjectDetailPage/CloneCodingProjectStatusCard";
 
-const ProjectStatusCard: React.FC<ProjectStatusCardProps> = ({
+const ProjectStatusCard: React.FC<CloneCodingProjectStatusCardProps> = ({
   currentStatus,
   onStatusChange,
   completedTodos,

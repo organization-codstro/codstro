@@ -12,8 +12,8 @@ import {
   archivedUserProjectsData as initialData,
 } from "../../data/woomoonro/woomoonroData";
 import ProjectGrid from "../../components/Woomoonro/CloneCodingProjectGrid/CloneCodingProjectGrid";
-import { StatCard } from "../../components/Woomoonro/CloneCodingProjectArchivePage/StatCard";
-import ArchiveFilters from "../../components/Woomoonro/CloneCodingProjectArchivePage/ArchiveFilters";
+import { StatCard } from "../../components/Woomoonro/CloneCodingProjectArchivePage/CloneCodingProjectStatCard";
+import ArchiveFilters from "../../components/Woomoonro/CloneCodingProjectArchivePage/CloneCodingProjectArchiveFilters";
 
 const WoomoonroArchiveList: React.FC = () => {
   const navigate = useNavigate();

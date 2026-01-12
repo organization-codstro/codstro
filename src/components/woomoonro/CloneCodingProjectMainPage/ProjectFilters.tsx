@@ -1,11 +1,9 @@
 import React from "react";
 import { Filter } from "lucide-react";
 import { FilterGroup } from "../FilterGroup";
-import { ProjectFiltersProps } from "../../../types/Woomoonro/WoomoonroMainPage/ProjectFilters";
+import { CloneCodingProjectFiltersProps } from "../../../types/pages/Woomoonro/CloneCodingProjectMainPage/CloneCodingProjectFilters";
 
-
-
-const ProjectFilters: React.FC<ProjectFiltersProps> = ({
+const ProjectFilters: React.FC<CloneCodingProjectFiltersProps> = ({
   selectedFilter,
   setSelectedFilter,
   selectedDifficulty,
