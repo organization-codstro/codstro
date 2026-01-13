@@ -9,7 +9,7 @@ import TodoManagementHeader from "../../components/Woomoonjeong/TodoManagementPa
 import TodoCard from "../../components/Woomoonjeong/TodoManagementPage/TodoCard";
 import TodoCalendar from "../../components/Woomoonjeong/TodoManagementPage/TodoCalendar";
 
-const TodoManagement: React.FC = () => {
+export default function TodoManagementPage() {
   const navigate = useNavigate();
   const [todos, setTodos] = useState<Todo[]>(todosData);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -154,6 +154,4 @@ const TodoManagement: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default TodoManagement;
+}

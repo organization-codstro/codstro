@@ -7,7 +7,7 @@ import { MeetingChatHeader } from "../../components/ProjectPlanning/MeetingProgr
 import { ChatMessage } from "../../components/ProjectPlanning/MeetingProgressPage/ChatMessage";
 import { ChatInput } from "../../components/AiChat/ChatConversation/ChatInput";
 
-export default function MeetingProgress() {
+export default function MeetingProgressPage() {
   const { meetingId } = useParams<{ meetingId: string }>();
   const navigate = useNavigate();
 

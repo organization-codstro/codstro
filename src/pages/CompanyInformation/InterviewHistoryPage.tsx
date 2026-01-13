@@ -7,7 +7,7 @@ import { HistoryHeader } from "../../components/CompanyInformation/InterviewHist
 import { EmptyState } from "../../components/CompanyInformation/InterviewHistoryPage/EmptyState";
 import { InterviewCard } from "../../components/CompanyInformation/InterviewHistoryPage/InterviewCard";
 
-export default function InterviewHistory() {
+export default function InterviewHistoryPage() {
   const navigate = useNavigate();
   const [interviews, setInterviews] = useState(mockUserInterviews);
   const [deletePendingId, setDeletePendingId] = useState<number | null>(null);

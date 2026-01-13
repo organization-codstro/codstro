@@ -5,7 +5,7 @@ import { SearchForm } from "../../components/AiChat/AddFriendPage/SearchForm";
 import { PersonaCard } from "../../components/AiChat/AddFriendPage/PersonaCard";
 import { AddFriendHeader } from "../../components/AiChat/AddFriendPage/AddFriendHeader";
 
-export default function AddFriend() {
+export default function AddFriendPage() {
   const navigate = useNavigate();
   const [view, setView] = useState<"my-friends" | "browse" | "search">(
     "my-friends"

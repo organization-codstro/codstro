@@ -4,7 +4,7 @@ import { ChatListHeader } from "../../components/AiChat/ChatRoomsListPage/ChatLi
 import { ChatListNav } from "../../components/AiChat/ChatRoomsListPage/ChatListNav";
 import { ChatRoomItem } from "../../components/AiChat/ChatRoomsListPage/ChatRoomItem";
 
-export default function ChatRoomsList() {
+export default function ChatRoomsListPage() {
   const navigate = useNavigate();
 
   // 데이터 (나중에 API 연결 시 이 부분만 수정하면 됩니다)

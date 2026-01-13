@@ -5,8 +5,7 @@ import PersonalityTestResult from "../../components/Mbit/PersonalityTestPage/Per
 import PersonalityTestQuestion from "../../components/Mbit/PersonalityTestPage/PersonalityTestQuestion";
 import PersonalityTestProgress from "../../components/Mbit/PersonalityTestPage/PersonalityTestProgress";
 
-
-const PersonalityTest: React.FC = () => {
+export default function PersonalityTestPage() {
   const [started, setStarted] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
@@ -58,6 +57,4 @@ const PersonalityTest: React.FC = () => {
       )}
     </div>
   );
-};
-
-export default PersonalityTest;
+}

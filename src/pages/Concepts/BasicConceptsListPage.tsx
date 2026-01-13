@@ -5,7 +5,7 @@ import ConceptSearchBar from "../../components/Concepts/ConceptSearchBar";
 import ConceptGrid from "../../components/Concepts/ConceptGrid";
 import ConceptCard from "../../components/Concepts/BasicConceptsListPage/ConceptCard";
 
-export default function BasicConceptsList() {
+export default function BasicConceptsListPage() {
   const navigate = useNavigate();
 
   // 상세 페이지 이동 핸들러

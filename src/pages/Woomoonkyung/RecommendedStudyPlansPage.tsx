@@ -11,7 +11,7 @@ import StudyPlanCard from "../../components/Woomoonkyung/RecommendedStudyPlansPa
 import EmptyState from "../../components/Woomoonkyung/RecommendedStudyPlansPage/EmptyState";
 import { StudyPlan } from "../../types/pages/Woomoonkyung/Woomoonkyung";
 
-const RecommendedStudyPlans: React.FC = () => {
+export default function RecommendedStudyPlansPage() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [bookmarks, setBookmarks] = useState<Set<number>>(
@@ -98,6 +98,4 @@ const RecommendedStudyPlans: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default RecommendedStudyPlans;
+}

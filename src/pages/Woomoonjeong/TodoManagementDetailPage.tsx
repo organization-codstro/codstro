@@ -6,8 +6,7 @@ import TodoDetailHeader from "../../components/Woomoonjeong/TodoManagementDetail
 import TodoStatusBadge from "../../components/Woomoonjeong/TodoManagementDetailPage/TodoStatusBadge";
 import TodoInfoSection from "../../components/Woomoonjeong/TodoManagementDetailPage/TodoInfoSection";
 
-
-const TodoManagementDetail: React.FC = () => {
+export default function TodoManagementDetailPage() {
   const { todoId } = useParams<{ todoId: string }>();
   const navigate = useNavigate();
 
@@ -88,6 +87,4 @@ const TodoManagementDetail: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default TodoManagementDetail;
+}

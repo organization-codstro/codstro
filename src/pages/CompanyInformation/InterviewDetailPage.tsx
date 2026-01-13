@@ -10,7 +10,7 @@ import { InterviewHeader } from "../../components/CompanyInformation/InterviewDe
 import { AnswerInputForm } from "../../components/CompanyInformation/InterviewDetailPage/AnswerInputForm";
 import { FeedbackView } from "../../components/CompanyInformation/InterviewDetailPage/FeedbackView";
 
-export default function InterviewDetail() {
+export default function InterviewDetailPage() {
   const { companyId } = useParams<{ companyId: string }>();
   const navigate = useNavigate();
   const numericCompanyId = Number(companyId);

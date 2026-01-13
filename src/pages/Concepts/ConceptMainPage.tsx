@@ -8,7 +8,7 @@ import ConceptListHeader from "../../components/Concepts/ConceptListHeader";
 import DocumentationSection from "../../components/Concepts/ConceptMainPage/DocumentationSection";
 import RecommendedGrid from "../../components/Concepts/ConceptMainPage/RecommendedGrid";
 
-export default function ConceptMain() {
+export default function ConceptMainPage() {
   const navigate = useNavigate();
 
   // 타입별 라우팅 처리 로직

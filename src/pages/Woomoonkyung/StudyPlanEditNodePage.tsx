@@ -12,7 +12,7 @@ import DraggableNodeItem from "../../components/Woomoonkyung/StudyPlanEditNodePa
 import TechStackPicker from "../../components/Woomoonkyung/StudyPlanEditNodePage/TechStackPicker";
 import NodeEditForm from "../../components/Woomoonkyung/StudyPlanEditNodePage/NodeEditForm";
 
-const WoomoonkyungEditNode: React.FC = () => {
+export default function StudyPlanEditNodePage() {
   const navigate = useNavigate();
   const [nodes, setNodes] = useState<StudyPlanNode[]>(existingNodes);
   const [rightSidebarMode, setRightSidebarMode] = useState<
@@ -197,6 +197,4 @@ const WoomoonkyungEditNode: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default WoomoonkyungEditNode;
+}

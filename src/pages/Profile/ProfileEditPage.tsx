@@ -7,8 +7,7 @@ import ProfileAvatar from "../../components/Profile/ProfileEditPage/ProfileAvata
 import FormInput from "../../components/Profile/ProfileEditPage/FormInput";
 import EditActionButtons from "../../components/Profile/ProfileEditPage/EditActionButtons";
 
-
-export default function ProfileEdit() {
+export default function ProfileEditPage() {
   const navigate = useNavigate();
 
   // 상태 관리

@@ -6,7 +6,7 @@ import { MatchScoreHeader } from "../../components/CompanyInformation/MatchingHi
 import { ReportSection } from "../../components/CompanyInformation/MatchingHistoryDetailPage/ReportSection";
 import { ReportFooter } from "../../components/CompanyInformation/MatchingHistoryDetailPage/ReportFooter";
 
-export default function MatchingHistoryDetail() {
+export default function MatchingHistoryDetailPage() {
   const navigate = useNavigate();
   const { matchingId } = useParams<{ matchingId: string }>();
 

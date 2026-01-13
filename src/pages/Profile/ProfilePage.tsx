@@ -9,7 +9,7 @@ import InfoField from "../../components/Profile/ProfilePage/InfoField";
 import LevelProgress from "../../components/Profile/ProfilePage/LevelProgress";
 import ProfileFooter from "../../components/Profile/ProfilePage/ProfileFooter";
 
-export default function Profile() {
+export default function ProfilePage() {
   const navigate = useNavigate();
 
   // 실제로는 API나 전역 상태에서 가져올 데이터

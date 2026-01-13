@@ -8,7 +8,7 @@ import { CompanyDetailHeader } from "../../components/CompanyInformation/Company
 import { CompanyInfoSection } from "../../components/CompanyInformation/CompanyDetailPage/CompanyInfoSection";
 import { CompanyActionButtons } from "../../components/CompanyInformation/CompanyDetailPage/CompanyActionButtons";
 
-export default function CompanyDetail() {
+export default function CompanyDetailPage() {
   const { companyId } = useParams<{ companyId: string }>();
   const navigate = useNavigate();
   const numericCompanyId = Number(companyId);

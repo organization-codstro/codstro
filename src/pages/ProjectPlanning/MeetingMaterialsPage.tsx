@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { MaterialsHeader } from "../../components/ProjectPlanning/MeetingMaterialsPage/MaterialsHeader";
 import { EditableField } from "../../components/ProjectPlanning/MeetingMaterialsPage/EditableField";
 
-export default function MeetingMaterials() {
+export default function MeetingMaterialsPage() {
   const { meetingId } = useParams<{ meetingId: string }>();
   const navigate = useNavigate();
 

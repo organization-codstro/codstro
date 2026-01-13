@@ -8,7 +8,7 @@ import ToolCard from "../../components/Concepts/CodingToolsList/ToolCard";
 // 분리/재사용 컴포넌트들
 
 
-export default function CodingToolsList() {
+export default function CodingToolsListPage() {
   const navigate = useNavigate();
 
   // 상세 페이지 이동 핸들러

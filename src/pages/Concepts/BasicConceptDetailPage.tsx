@@ -11,7 +11,7 @@ import ConceptHeader from "../../components/Concepts/BasicConceptDetailPage/Conc
 import ConceptActionButtons from "../../components/Concepts/BasicConceptDetailPage/ConceptActionButtons";
 import RelatedConceptGrid from "../../components/Concepts/BasicConceptDetailPage/RelatedConceptGrid";
 
-export default function BasicConceptDetail() {
+export default function BasicConceptDetailPage() {
   const { conceptId } = useParams<{ conceptId: string }>();
 
   // 모달 및 채팅 상태 관리

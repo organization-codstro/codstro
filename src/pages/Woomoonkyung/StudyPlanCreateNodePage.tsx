@@ -18,7 +18,7 @@ import {
 import { plan } from "../../data/Woomoonkyung/studyPlanData";
 import { toast } from "react-toastify";
 
-const StudyPlanCreateNode = () => {
+export default function StudyPlanCreateNodePage() {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -571,6 +571,4 @@ const StudyPlanCreateNode = () => {
       </div>
     </div>
   );
-};
-
-export default StudyPlanCreateNode;
+}

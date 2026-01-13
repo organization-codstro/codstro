@@ -16,7 +16,7 @@ import { ProjectHeaderSection } from "../../components/ProjectPlanning/ProjectIn
 import { ProjectFooterActions } from "../../components/ProjectPlanning/ProjectInfoGeneratePage/ProjectFooterActions";
 import { ProjectTodoModal } from "../../components/ProjectPlanning/ProjectInfoGeneratePage/ProjectTodoModal/ProjectTodoModal";
 
-export default function ProjectInfoGenerate() {
+export default function ProjectInfoGeneratePage() {
   const navigate = useNavigate();
   const location = useLocation();
 

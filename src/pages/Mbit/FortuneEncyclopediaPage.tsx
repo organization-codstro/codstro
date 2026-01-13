@@ -4,7 +4,7 @@ import FortuneDetail from "../../components/Mbit/FortuneEncyclopediaPage/Fortune
 import FortuneList from "../../components/Mbit/FortuneEncyclopediaPage/FortuneList";
 import { Fortune } from "../../types/pages/Mbit/Mbit";
 
-const FortuneEncyclopedia: React.FC = () => {
+export default function FortuneEncyclopediaPage() {
   const [selectedFortune, setSelectedFortune] = useState<Fortune | null>(null);
 
   return (
@@ -26,4 +26,4 @@ const FortuneEncyclopedia: React.FC = () => {
   );
 };
 
-export default FortuneEncyclopedia;
+

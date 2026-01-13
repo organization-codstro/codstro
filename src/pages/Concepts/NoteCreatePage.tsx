@@ -9,7 +9,7 @@ import NoteTitleInput from "../../components/Concepts/NoteCreatePage/NoteTitleIn
 import ConceptSelector from "../../components/Concepts/NoteCreatePage/ConceptSelector";
 import NoteEditor from "../../components/Concepts/NoteCreatePage/NoteEditor";
 
-export default function NoteCreate() {
+export default function NoteCreatePage() {
   const { noteId } = useParams<{ noteId: string }>();
   const navigate = useNavigate();
 

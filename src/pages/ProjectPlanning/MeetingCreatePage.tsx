@@ -5,7 +5,7 @@ import { MeetingTypeSelector } from "../../components/ProjectPlanning/MeetingCre
 import { ProjectPageItem } from "../../components/ProjectPlanning/MeetingCreatePage/ProjectPageItem";
 import { projectPages } from "../../data/ProjectPlanning/projectPages";
 
-export default function MeetingCreate() {
+export default function MeetingCreatePage() {
   const navigate = useNavigate();
   const [meetingType, setMeetingType] = useState<"feature" | "free" | null>(
     null

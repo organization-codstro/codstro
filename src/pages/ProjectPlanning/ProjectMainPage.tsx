@@ -11,7 +11,7 @@ import { EmptyProjectState } from "../../components/ProjectPlanning/EmptyProject
 import { ProjectCard } from "../../components/ProjectPlanning/ProjectCard";
 import { TrendingSection } from "../../components/ProjectPlanning/ProjectMainPage/TrendingSection";
 
-export default function ProjectMain() {
+export default function ProjectMainPage() {
   const navigate = useNavigate();
 
   const activeProjects: Project[] = activeProjectsData;

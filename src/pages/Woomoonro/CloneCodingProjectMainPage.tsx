@@ -9,7 +9,7 @@ import PageHeader from "../../components/Woomoonkyung/StudyPlanEditPage/PageHead
 import ProjectFilters from "../../components/Woomoonro/CloneCodingProjectMainPage/ProjectFilters";
 import NoResults from "../../components/Woomoonro/CloneCodingProjectMainPage/NoResults";
 
-const WoomoonroMainPage = () => {
+export default function CloneCodingProjectMainPage() {
   const navigate = useNavigate();
 
   // 1. 필터 및 데이터 상태
@@ -100,6 +100,4 @@ const WoomoonroMainPage = () => {
       </div>
     </div>
   );
-};
-
-export default WoomoonroMainPage;
+}

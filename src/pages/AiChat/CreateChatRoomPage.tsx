@@ -6,7 +6,7 @@ import { RoomInfoForm } from "../../components/AiChat/CreateChatRoomPage/RoomInf
 import { FriendSelector } from "../../components/AiChat/CreateChatRoomPage/FriendSelector";
 import { CreateRoomFooter } from "../../components/AiChat/CreateChatRoomPage/CreateRoomFooter";
 
-export default function CreateChatRoom() {
+export default function CreateChatRoomPage() {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
 

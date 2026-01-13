@@ -6,7 +6,7 @@ import StudyPlanForm from "../../components/Woomoonkyung/StudyPlanForm";
 import PlanNotFound from "../../components/Woomoonkyung/StudyPlanEditPage/PlanNotFound";
 import PageHeader from "../../components/Woomoonkyung/StudyPlanEditPage/PageHeader";
 
-const WoomoonkyungEdit: React.FC = () => {
+export default function StudyPlanEditPage() {
   const { planId } = useParams<{ planId: string }>();
   const navigate = useNavigate();
 
@@ -47,6 +47,4 @@ const WoomoonkyungEdit: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default WoomoonkyungEdit;
+}

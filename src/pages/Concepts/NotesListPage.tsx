@@ -6,7 +6,7 @@ import ConceptGrid from "../../components/Concepts/ConceptGrid";
 import NoteCard from "../../components/Concepts/NotesListPage/NoteCard";
 import EmptyNotesState from "../../components/Concepts/NotesListPage/EmptyNotesState";
 
-export default function NotesList() {
+export default function NotesListPage() {
   const navigate = useNavigate();
 
   const handleCreateClick = () => navigate("/notes/create");

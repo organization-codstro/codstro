@@ -15,7 +15,7 @@ import {
   UserCloneCodingProject,
 } from "../../types/pages/Woomoonro/woomoonro";
 
-const ProjectDetailPage: React.FC = () => {
+export default function CloneCodingProjectDetailPage() {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
 
@@ -118,6 +118,4 @@ const ProjectDetailPage: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default ProjectDetailPage;
+}

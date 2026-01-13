@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { ProjectBasicInfo, Project } from "../../types/pages/ProjectPlanning/project";
+import {
+  ProjectBasicInfo,
+  Project,
+} from "../../types/pages/ProjectPlanning/project";
 import {
   activeProjectsData,
   planningProjectsData,
@@ -9,8 +12,7 @@ import { ProjectInfoHeader } from "../../components/ProjectPlanning/ProjectBasic
 import { ProjectInputField } from "../../components/ProjectPlanning/ProjectBasicInfoInputPage/ProjectInputField";
 import { ProjectInfoActions } from "../../components/ProjectPlanning/ProjectBasicInfoInputPage/ProjectInfoActions";
 
-
-export default function ProjectBasicInfoInput() {
+export default function ProjectBasicInfoInputPage() {
   const navigate = useNavigate();
   const location = useLocation();
 

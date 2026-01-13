@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { StudyPlan } from "../../types/pages/Woomoonkyung/Woomoonkyung";
 import StudyPlanForm from "../../components/Woomoonkyung/StudyPlanForm";
 
-const WoomoonkyungCreate = () => {
+export default function StudyPlanCreatePage() {
   const navigate = useNavigate();
 
   const handleSave = (
@@ -22,6 +22,4 @@ const WoomoonkyungCreate = () => {
       />
     </div>
   );
-};
-
-export default WoomoonkyungCreate;
+}

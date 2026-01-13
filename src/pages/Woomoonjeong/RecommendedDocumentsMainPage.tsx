@@ -11,9 +11,13 @@ import DocumentsGrid from "../../components/Woomoonjeong/RecommendedDocumentsMai
 //시스템이 추천하는 필드 추가하는 모달
 import AssignRecommendedFieldModal from "../../components/Woomoonjeong/RecommendedCreateFieldModal";
 import RecommendedCreateDocumentModal from "../../components/Woomoonjeong/RecommendedDocumentsMainPage/RecommendedCreateDocumentModal";
-import { GroupType, RecommendedField, RecommendedPin } from "../../types/pages/Woomoonjeong/woomoonjeong";
+import {
+  GroupType,
+  RecommendedField,
+  RecommendedPin,
+} from "../../types/pages/Woomoonjeong/woomoonjeong";
 
-const RecommendedDocumentsMain: React.FC = () => {
+export default function RecommendedDocumentsMainPage() {
   const [selectedFieldType, setSelectedFieldType] = useState<
     "all" | "web" | "app" | "server" | "game" | "security" | "work" | "other"
   >("all");
@@ -183,6 +187,4 @@ const RecommendedDocumentsMain: React.FC = () => {
       )}
     </div>
   );
-};
-
-export default RecommendedDocumentsMain;
+}

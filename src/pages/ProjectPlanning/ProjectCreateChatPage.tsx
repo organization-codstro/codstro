@@ -5,7 +5,7 @@ import { ProjectChatHeader } from "../../components/ProjectPlanning/ProjectCreat
 import { ProjectChatMessage } from "../../components/ProjectPlanning/ProjectCreateChatPage/ProjectChatMessage";
 import { ProjectChatInput } from "../../components/ProjectPlanning/ProjectCreateChatPage/ProjectChatInput";
 
-export default function ProjectCreateChat() {
+export default function ProjectCreateChatPage() {
   const navigate = useNavigate();
   const location = useLocation();
 

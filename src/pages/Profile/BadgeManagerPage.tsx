@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {  badges } from "../../data/Profile/badge";
+import { badges } from "../../data/Profile/badge";
 import BackButton from "../../components/Profile/BadgeManagerPage/BackButton";
 import BadgeSection from "../../components/Profile/BadgeManagerPage/BadgeSection";
 import BadgeCard from "../../components/Profile/BadgeManagerPage/BadgeCard";
 import BadgeDetailModal from "../../components/Profile/BadgeManagerPage/BadgeDetailModal";
 import { Badge } from "../../types/pages/Profile/Profile";
 
-export default function BadgeManager() {
+export default function BadgeManagerPage() {
   const navigate = useNavigate();
 
   // 상태 관리

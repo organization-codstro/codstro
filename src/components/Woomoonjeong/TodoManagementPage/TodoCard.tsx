@@ -7,8 +7,8 @@ import {
   Trash2,
   Check,
 } from "lucide-react";
-import { Todo } from "../../../types/Woomoonjeong/woomoonjeong";
-import { TodoCardProps } from "../../../types/Woomoonjeong/TodoManagementPage/TodoCard";
+import { TodoCardProps } from "../../../types/pages/Woomoonjeong/TodoManagementPage/TodoCard";
+import { Todo } from "../../../types/pages/Woomoonjeong/woomoonjeong";
 
 const TodoCard: React.FC<TodoCardProps> = ({
   todo,

@@ -6,7 +6,7 @@ import { ChatHeader } from "../../components/AiChat/ChatConversation/ChatHeader"
 import { MessageBubble } from "../../components/AiChat/ChatConversation/MessageBubble";
 import { ChatInput } from "../../components/AiChat/ChatConversation/ChatInput";
 
-export default function ChatConversation() {
+export default function ChatConversationPage() {
   const { roomId } = useParams<{ roomId: string }>();
   const navigate = useNavigate();
   const roomIdNum = Number(roomId);

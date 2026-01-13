@@ -7,7 +7,7 @@ import { MatchSummaryCard } from "../../components/CompanyInformation/CompanyMat
 import { MatchDetailReport } from "../../components/CompanyInformation/CompanyMatchPage/MatchDetailReport";
 import { MatchInfoFooter } from "../../components/CompanyInformation/CompanyMatchPage/MatchInfoFooter";
 
-export default function CompanyMatch() {
+export default function CompanyMatchPage() {
   const { companyId } = useParams<{ companyId: string }>();
   const navigate = useNavigate();
   const numericCompanyId = Number(companyId);

@@ -15,7 +15,7 @@ import {
 import { useEffect, useState } from "react";
 import { StudyPlan } from "../../types/pages/Woomoonkyung/Woomoonkyung";
 
-const WoomoonkyungDetail = () => {
+export default function StudyPlanArchiveDetailPage() {
   const { planId } = useParams<{ planId: string }>();
   const [selectedPlan, setSelectedPlan] = useState<StudyPlan | null>(null);
   const navigate = useNavigate();
@@ -205,6 +205,4 @@ const WoomoonkyungDetail = () => {
       </div>
     </div>
   );
-};
-
-export default WoomoonkyungDetail;
+}

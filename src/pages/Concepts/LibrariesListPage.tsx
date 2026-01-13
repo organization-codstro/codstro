@@ -6,7 +6,7 @@ import ConceptGrid from "../../components/Concepts/ConceptGrid";
 import LibraryCard from "../../components/Concepts/LibrariesListPage/LibraryCard";
 
 
-export default function LibrariesList() {
+export default function LibrariesListPage() {
   const navigate = useNavigate();
 
   const handleLibraryClick = (id: string) => {

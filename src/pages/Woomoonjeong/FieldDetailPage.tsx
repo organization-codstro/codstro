@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   woomoonjeongData,
@@ -8,7 +8,7 @@ import AssignRecommendedFieldModal from "../../components/Woomoonjeong/Recommend
 import FieldDetailHeader from "../../components/Woomoonjeong/FieldDetailPage/FieldDetailHeader";
 import PinList from "../../components/Woomoonjeong/FieldDetailPage/PinList";
 
-const FieldDetail: React.FC = () => {
+export default function FieldDetailPage() {
   const { fieldId } = useParams<{ fieldId: string }>();
   const navigate = useNavigate();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -68,6 +68,4 @@ const FieldDetail: React.FC = () => {
       />
     </div>
   );
-};
-
-export default FieldDetail;
+}

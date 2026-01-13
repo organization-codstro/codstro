@@ -12,7 +12,7 @@ import DashboardHeader from "../../components/Woomoonkyung/StudyPlanMainPage/Das
 import ActivePlanSection from "../../components/Woomoonkyung/StudyPlanMainPage/ActivePlanSection";
 import EmptyPlanState from "../../components/Woomoonkyung/StudyPlanMainPage/EmptyPlanState";
 
-const WoomoonkyungMain: React.FC = () => {
+export default function StudyPlanMainPage() {
   const navigate = useNavigate();
 
   // 🔹 통계 및 데이터 로직 (부모에서 관리)
@@ -88,6 +88,4 @@ const WoomoonkyungMain: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default WoomoonkyungMain;
+}

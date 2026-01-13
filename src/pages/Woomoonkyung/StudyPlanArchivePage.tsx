@@ -17,7 +17,7 @@ import {
   StudyPlanNode,
 } from "../../types/pages/Woomoonkyung/Woomoonkyung";
 
-const StudyPlanArchive: React.FC = () => {
+export default function StudyPlanArchivePage() {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
@@ -146,6 +146,4 @@ const StudyPlanArchive: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default StudyPlanArchive;
+}

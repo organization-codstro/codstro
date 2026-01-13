@@ -8,7 +8,7 @@ import { PersonaInfoCard } from "../../components/AiChat/AIPersonaDetailPage/Per
 import { NotFoundState } from "../../components/AiChat/AIPersonaDetailPage/NotFoundState";
 import { DetailHeader } from "../../components/AiChat/AIPersonaDetailPage/DetailHeader";
 
-export default function AIPersonaDetail() {
+export default function AIPersonaDetailPage() {
   const { personaId } = useParams<{ personaId: string }>();
   const navigate = useNavigate();
 

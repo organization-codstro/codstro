@@ -6,7 +6,7 @@ import { InfoSection } from "../../components/CompanyInformation/InterviewHistor
 import { DetailHeader } from "../../components/CompanyInformation/InterviewHistoryDetailPage/DetailHeader";
 
 
-export default function InterviewHistoryDetail() {
+export default function InterviewHistoryDetailPage() {
   const navigate = useNavigate();
   const { interviewId } = useParams<{ interviewId: string }>();
 

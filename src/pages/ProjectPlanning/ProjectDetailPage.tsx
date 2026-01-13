@@ -19,7 +19,7 @@ import { ProjectInfoView } from "../../components/ProjectPlanning/ProjectDetailP
 import { ProjectPagesView } from "../../components/ProjectPlanning/ProjectDetailPage/ProjectPagesView";
 import { ProjectStatsSidebar } from "../../components/ProjectPlanning/ProjectDetailPage/ProjectStatsSidebar";
 
-export default function ProjectDetail() {
+export default function ProjectDetailPage() {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
 

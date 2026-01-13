@@ -4,7 +4,7 @@ import MajorDetail from "../../components/Mbit/MajorEncyclopediaPage/MajorDetail
 import MajorList from "../../components/Mbit/MajorEncyclopediaPage/MajorList";
 import { Major } from "../../types/pages/Mbit/Mbit";
 
-const MajorEncyclopedia: React.FC = () => {
+export default function MajorEncyclopediaPage() {
   const [selectedMajor, setSelectedMajor] = useState<Major | null>(null);
 
   return (
@@ -26,4 +26,4 @@ const MajorEncyclopedia: React.FC = () => {
   );
 };
 
-export default MajorEncyclopedia;
+

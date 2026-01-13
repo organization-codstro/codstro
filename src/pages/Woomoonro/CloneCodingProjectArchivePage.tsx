@@ -15,7 +15,7 @@ import ProjectGrid from "../../components/Woomoonro/CloneCodingProjectGrid/Clone
 import { StatCard } from "../../components/Woomoonro/CloneCodingProjectArchivePage/CloneCodingProjectStatCard";
 import ArchiveFilters from "../../components/Woomoonro/CloneCodingProjectArchivePage/CloneCodingProjectArchiveFilters";
 
-const WoomoonroArchiveList: React.FC = () => {
+export default function CloneCodingProjectArchivePage() {
   const navigate = useNavigate();
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [selectedDifficulty, setSelectedDifficulty] = useState("all");
@@ -146,6 +146,4 @@ const WoomoonroArchiveList: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default WoomoonroArchiveList;
+}

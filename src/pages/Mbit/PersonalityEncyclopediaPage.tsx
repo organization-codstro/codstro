@@ -4,7 +4,7 @@ import PersonalityDetail from "../../components/Mbit/PersonalityEncyclopediaPage
 import PersonalityCard from "../../components/Mbit/PersonalityEncyclopediaPage/PersonalityCard";
 import { Personality } from "../../types/pages/Mbit/Mbit";
 
-const PersonalityEncyclopedia: React.FC = () => {
+export default function PersonalityEncyclopediaPage() {
   const [selectedPersonality, setSelectedPersonality] =
     useState<Personality | null>(null);
 
@@ -39,6 +39,4 @@ const PersonalityEncyclopedia: React.FC = () => {
       )}
     </div>
   );
-};
-
-export default PersonalityEncyclopedia;
+}

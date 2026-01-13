@@ -8,7 +8,7 @@ import BackButton from "../../components/Concepts/BackButton";
 import PlanHeader from "../../components/Woomoonkyung/RecommendedStudyPlanDetailPage/PlanHeader";
 import NodeList from "../../components/Woomoonkyung/RecommendedStudyPlanDetailPage/NodeList";
 
-const RecommendedStudyPlanDetail: React.FC = () => {
+export default function RecommendedStudyPlanDetailPage() {
   const { planId } = useParams<{ planId: string }>();
 
   const selectedPlan = studyPlans.find(
@@ -48,6 +48,4 @@ const RecommendedStudyPlanDetail: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default RecommendedStudyPlanDetail;
+}

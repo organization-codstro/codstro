@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { notice } from "../../data/Notice/notice";
 
-export default function NoticeDetail() {
+export default function NoticeDetailPage() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const [isBookmarked, setIsBookmarked] = useState(false);

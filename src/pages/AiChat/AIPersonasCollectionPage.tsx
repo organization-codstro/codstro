@@ -4,7 +4,7 @@ import { CollectionCard } from "../../components/AiChat/AIPersonasCollectionPage
 import { CollectionEmptyState } from "../../components/AiChat/AIPersonasCollectionPage/CollectionEmptyState";
 import { CollectionHeader } from "../../components/AiChat/AIPersonasCollectionPage/CollectionHeader";
 
-export default function AIPersonasCollection() {
+export default function AIPersonasCollectionPage() {
   const navigate = useNavigate();
   const personas = mockAIPersonas;
 

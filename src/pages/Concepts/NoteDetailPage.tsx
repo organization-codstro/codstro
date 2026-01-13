@@ -5,7 +5,7 @@ import NoteDetailHeader from "../../components/Concepts/NoteDetailPage/NoteDetai
 import NoteActionButtons from "../../components/Concepts/NoteDetailPage/NoteActionButtons";
 import MarkdownRenderer from "../../components/Markdown/MarkdownRenderer";
 
-export default function NoteDetail() {
+export default function NoteDetailPage() {
   const { noteId } = useParams<{ noteId: string }>();
   const navigate = useNavigate();
 

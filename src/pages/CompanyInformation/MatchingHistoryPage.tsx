@@ -7,8 +7,7 @@ import { HistoryHeader } from "../../components/CompanyInformation/InterviewHist
 import { MatchEmptyState } from "../../components/CompanyInformation/MatchingHistoryPage/MatchEmptyState";
 import { MatchingCard } from "../../components/CompanyInformation/MatchingHistoryPage/MatchingCard";
 
-
-export default function MatchingHistory() {
+export default function MatchingHistoryPage() {
   const navigate = useNavigate();
   const [history, setHistory] = useState(mockUserMatchingHistory);
   const [deletePendingId, setDeletePendingId] = useState<number | null>(null);

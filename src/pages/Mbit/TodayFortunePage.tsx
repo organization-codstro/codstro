@@ -4,8 +4,7 @@ import FortuneDrawIntro from "../../components/Mbit/TodayFortunePage/FortuneDraw
 import FortuneResultCard from "../../components/Mbit/TodayFortunePage/FortuneResultCard";
 import FortuneActionButtons from "../../components/Mbit/TodayFortunePage/FortuneActionButtons";
 
-
-const TodayFortune: React.FC = () => {
+export default function TodayFortunePage() {
   const [currentFortune, setCurrentFortune] = useState<
     (typeof fortunes)[0] | null
   >(null);
@@ -38,6 +37,4 @@ const TodayFortune: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default TodayFortune;
+}

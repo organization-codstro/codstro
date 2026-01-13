@@ -10,7 +10,7 @@ import AIChat from "../../components/CompanyInformation/AIChat";
 import AddTodoModal from "../../components/CompanyInformation/AddTodoModal";
 
 
-export default function ThirdPartyDetail() {
+export default function ThirdPartyDetailPage() {
   const { serviceId } = useParams<{ serviceId: string }>();
   const navigate = useNavigate();
 

@@ -6,7 +6,7 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function CompanyList() {
+export default function CompanyListPage() {
   const navigate = useNavigate();
 
   const [selectedCompanyId, setSelectedCompanyId] = useState<number | null>(

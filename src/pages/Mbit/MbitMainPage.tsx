@@ -1,8 +1,7 @@
-import React from "react";
 import { Sparkles, Users, GraduationCap, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const MbitHome: React.FC<{}> = () => {
+export default function MbitMainPage() {
   const navigate = useNavigate();
 
   return (
@@ -81,6 +80,4 @@ const MbitHome: React.FC<{}> = () => {
       </div>
     </div>
   );
-};
-
-export default MbitHome;
+}

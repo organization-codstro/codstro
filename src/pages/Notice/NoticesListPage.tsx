@@ -2,7 +2,7 @@ import { ArrowLeft, Calendar, Bookmark } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { notices } from "../../data/Notice/notice";
 
-export default function NoticesList() {
+export default function NoticesListPage() {
   const navigate = useNavigate();
 
   const getCategoryColor = (category: string) => {

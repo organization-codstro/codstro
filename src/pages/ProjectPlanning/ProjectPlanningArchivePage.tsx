@@ -5,7 +5,7 @@ import { EmptyProjectState } from "../../components/ProjectPlanning/EmptyProject
 import { ProjectCard } from "../../components/ProjectPlanning/ProjectCard";
 import { ArchiveHeader } from "../../components/ProjectPlanning/ProjectPlanningArchivePage/ArchiveHeader";
 
-const ProjectPlanningArchive = () => {
+export default function ProjectPlanningArchivePage() {
   const navigate = useNavigate();
 
   // TODO: API 연동 - 실제 아카이브된 프로젝트 데이터 가져오기
@@ -42,6 +42,4 @@ const ProjectPlanningArchive = () => {
       </div>
     </div>
   );
-};
-
-export default ProjectPlanningArchive;
+}

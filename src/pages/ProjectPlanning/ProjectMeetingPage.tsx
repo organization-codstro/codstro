@@ -10,7 +10,7 @@ import { MeetingTab } from "../../components/ProjectPlanning/ProjectMeetingPage/
 import { MeetingItemCard } from "../../components/ProjectPlanning/ProjectMeetingPage/MeetingItemCard";
 
 
-export default function ProjectMeeting() {
+export default function ProjectMeetingPage() {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
 

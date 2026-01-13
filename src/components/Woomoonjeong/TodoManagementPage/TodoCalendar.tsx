@@ -4,7 +4,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import { TodoCalendarProps } from "../../../types/Woomoonjeong/TodoManagementPage/TodoCalendar";
+import { TodoCalendarProps } from "../../../types/pages/Woomoonjeong/TodoManagementPage/TodoCalendar";
 
 const TodoCalendar: React.FC<TodoCalendarProps> = ({
   calendarDate,

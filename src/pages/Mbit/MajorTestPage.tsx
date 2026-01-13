@@ -5,7 +5,7 @@ import TestResult from "../../components/Mbit/MajorTestPage/TestResult";
 import TestProgress from "../../components/Mbit/MajorTestPage/TestProgress";
 import TestQuestion from "../../components/Mbit/MajorTestPage/TestQuestion";
 
-const MajorTest: React.FC = () => {
+export default function MajorTestPage() {
   const [started, setStarted] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [majorScores, setMajorScores] = useState<Record<string, number>>({});
@@ -60,6 +60,4 @@ const MajorTest: React.FC = () => {
       )}
     </div>
   );
-};
-
-export default MajorTest;
+}

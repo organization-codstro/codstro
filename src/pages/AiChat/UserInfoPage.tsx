@@ -5,7 +5,7 @@ import { UserInfoHeader } from "../../components/AiChat/UserInfoPage/UserInfoHea
 import { UserRecordCard } from "../../components/AiChat/UserInfoPage/UserRecordCard";
 import { UserInfoNotice } from "../../components/AiChat/UserInfoPage/UserInfoNotice";
 
-export default function UserInfo() {
+export default function UserInfoPage() {
   const navigate = useNavigate();
 
   // 상태 관리

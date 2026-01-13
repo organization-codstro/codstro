@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, Save, X } from "lucide-react";
 import { todosData } from "../../data/woomoonjeong/woomoonjeongData";
-import { TodoFormData, Todo } from "../../types/Woomoonjeong/woomoonjeong";
 import TodoInputField from "../../components/Woomoonjeong/TodoManagementUpdate/TodoInputField";
 import FieldSelector from "../../components/Woomoonjeong/TodoManagementUpdate/FieldSelector";
+import {
+  Todo,
+  TodoFormData,
+} from "../../types/pages/Woomoonjeong/woomoonjeong";
 
-
-const TodoManagementUpdate: React.FC = () => {
+export default function TodoManagementUpdatePage() {
   const navigate = useNavigate();
   const { todoId } = useParams<{ todoId: string }>();
 
@@ -177,6 +179,4 @@ const TodoManagementUpdate: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default TodoManagementUpdate;
+}

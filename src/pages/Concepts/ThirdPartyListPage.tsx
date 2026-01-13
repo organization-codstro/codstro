@@ -6,7 +6,7 @@ import ConceptGrid from "../../components/Concepts/ConceptGrid";
 import ThirdPartyCard from "../../components/Concepts/ThirdPartyListPage/ThirdPartyCard";
 
 
-export default function ThirdPartyList() {
+export default function ThirdPartyListPage() {
   const navigate = useNavigate();
 
   const handleServiceClick = (id: string) => {

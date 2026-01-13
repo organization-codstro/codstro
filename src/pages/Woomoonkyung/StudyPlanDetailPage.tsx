@@ -9,7 +9,7 @@ import BackButton from "../../components/Woomoonkyung/RecommendedStudyPlanDetail
 import PlanDetailHeader from "../../components/Woomoonkyung/StudyPlanArchiveDetailPage/PlanDetailHeader";
 import MyNodeList from "../../components/Woomoonkyung/StudyPlanArchiveDetailPage/MyNodeList";
 
-const WoomoonkyungDetail: React.FC = () => {
+export default function StudyPlanDetailPage() {
   const { planId } = useParams<{ planId: string }>();
   const [selectedPlan, setSelectedPlan] = useState<StudyPlan | null>(null);
 
@@ -55,6 +55,4 @@ const WoomoonkyungDetail: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default WoomoonkyungDetail;
+}

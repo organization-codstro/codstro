@@ -10,7 +10,7 @@ import AIChat from "../../components/CompanyInformation/AIChat";
 import AddTodoModal from "../../components/CompanyInformation/AddTodoModal";
 import { LibraryNotFound } from "../../components/Concepts/LibraryDetailPage/LibraryNotFound";
 
-export default function LibraryDetail() {
+export default function LibraryDetailPage() {
   const { libraryId } = useParams<{ libraryId: string }>();
   const [showAIChat, setShowAIChat] = useState(false);
   const [showTodoModal, setShowTodoModal] = useState<
