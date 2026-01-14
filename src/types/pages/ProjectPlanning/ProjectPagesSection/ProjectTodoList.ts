@@ -1,0 +1,16 @@
+import { Todo } from "../project";
+
+export interface ProjectTodoListProps {
+  isEditing: boolean;
+  pageId: string;
+  todos: Todo[];
+  editingTodoId: { pageId: string; todoId: string } | null;
+  deletePendingId: string | undefined;
+  getStatusColor: (status: string) => string;
+  onAddTodo?: (pageId: string, todo: Todo) => void;
+  onUpdateTodoField: (todoId: string, field: keyof Todo, value: string) => void;
+  onStartEditTodo: (todoId: string) => void;
+  onSaveTodo: (todoId: string, todo: Todo) => void;
+  onCancelEditTodo: () => void;
+  onDeleteTodoAction: (e: React.MouseEvent, todoId: string) => void;
+}

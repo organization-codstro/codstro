@@ -10,7 +10,7 @@ import {
 } from "../../data/ProjectPlanning/project";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ProjectBasicInfoSection } from "../../components/ProjectPlanning/ProjectBasicInfoSection";
-import { ProjectPagesSection } from "../../components/ProjectPlanning/ProjectPagesSection";
+import { ProjectPagesSection } from "../../components/ProjectPlanning/ProjectPagesSection/ProjectPagesSection";
 import { ProjectTasksSection } from "../../components/ProjectPlanning/ProjectInfoGeneratePage/ProjectTasksSection/ProjectTasksSection";
 import { ProjectHeaderSection } from "../../components/ProjectPlanning/ProjectInfoGeneratePage/ProjectHeaderSection";
 import { ProjectFooterActions } from "../../components/ProjectPlanning/ProjectInfoGeneratePage/ProjectFooterActions";

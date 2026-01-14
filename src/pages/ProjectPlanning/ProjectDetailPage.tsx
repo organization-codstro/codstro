@@ -13,7 +13,7 @@ import {
   projectTodosData,
 } from "../../data/ProjectPlanning/project";
 import { ProjectBasicInfoSection } from "../../components/ProjectPlanning/ProjectBasicInfoSection";
-import { ProjectPagesSection } from "../../components/ProjectPlanning/ProjectPagesSection";
+import { ProjectPagesSection } from "../../components/ProjectPlanning/ProjectPagesSection/ProjectPagesSection";
 import { ProjectDetailHeader } from "../../components/ProjectPlanning/ProjectDetailPage/ProjectDetailHeader";
 import { ProjectInfoView } from "../../components/ProjectPlanning/ProjectDetailPage/ProjectInfoView";
 import { ProjectPagesView } from "../../components/ProjectPlanning/ProjectDetailPage/ProjectPagesView";
