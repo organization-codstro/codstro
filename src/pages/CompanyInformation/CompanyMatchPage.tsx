@@ -10,12 +10,19 @@ import { MatchInfoFooter } from "../../components/CompanyInformation/CompanyMatc
 export default function CompanyMatchPage() {
   const { companyId } = useParams<{ companyId: string }>();
   const navigate = useNavigate();
-  const numericCompanyId = Number(companyId);
 
-  const company = mockCompanies.find((c) => c.company_id === numericCompanyId);
-  const match = mockMatches[numericCompanyId];
+  if (!companyId) {
+    return (
+      <div className="p-8 font-medium text-center text-gray-500">
+        Data not found
+      </div>
+    );
+  }
 
-  if (!company || !match) {
+  const company = mockCompanies.find((c) => c.company_id == companyId);
+  const match = mockMatches[companyId];
+
+  if (!company) {
     return (
       <div className="p-8 font-medium text-center text-gray-500">
         Data not found
@@ -31,7 +38,7 @@ export default function CompanyMatchPage() {
           <MatchSummaryCard
             companyName={company.company_name}
             matchRate={match.match_rate}
-            onBack={() => navigate(`/companies/${numericCompanyId}`)}
+            onBack={() => navigate(`/companies/${companyId}`)}
           />
 
           {/* 2. 상세 리포트 섹션 */}

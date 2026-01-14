@@ -10,5 +10,5 @@ export interface DraggableNodeItemProps {
   onDragOver: (e: React.DragEvent, index: number) => void;
   onDragEnd: () => void;
   onClick: () => void;
-  onDeleteClick: (e: React.MouseEvent, nodeId: number) => void;
+  onDeleteClick: (e: React.MouseEvent, nodeId: string) => void;
 }

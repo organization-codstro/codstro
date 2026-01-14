@@ -11,7 +11,7 @@ export default function MatchingHistoryDetailPage() {
   const { matchingId } = useParams<{ matchingId: string }>();
 
   const match = mockUserMatchingHistory.find(
-    (m) => m.company_user_matche_id === Number(matchingId)
+    (m) => m.company_user_matche_id === matchingId
   );
 
   if (!match) {

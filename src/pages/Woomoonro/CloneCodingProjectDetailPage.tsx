@@ -29,13 +29,12 @@ export default function CloneCodingProjectDetailPage() {
 
   useEffect(() => {
     if (projectId) {
-      const numericId = Number(projectId);
-      const foundProject = projectsData.find((p) => p.id === numericId);
+      const foundProject = projectsData.find((p) => p.id === projectId);
 
       if (foundProject) {
         setProject(foundProject);
         setUserProject(
-          userProjectsData.find((up) => up.project_id === numericId)
+          userProjectsData.find((up) => up.project_id === projectId)
         );
       } else {
         navigate("/woomoonro");

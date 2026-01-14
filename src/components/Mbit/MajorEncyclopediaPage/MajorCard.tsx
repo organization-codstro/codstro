@@ -1,10 +1,5 @@
 import React from "react";
-import { Major } from "../../../data/Mbit/majorData";
-
-interface MajorCardProps {
-  major: Major;
-  onClick: (major: Major) => void;
-}
+import { MajorCardProps } from "../../../types/pages/Mbit/MajorEncyclopediaPage/MajorCard";
 
 const MajorCard: React.FC<MajorCardProps> = ({ major, onClick }) => {
   const IconComponent = major.icon;

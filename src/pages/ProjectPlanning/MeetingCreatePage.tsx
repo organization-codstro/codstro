@@ -14,9 +14,9 @@ export default function MeetingCreatePage() {
     new Date().toISOString().split("T")[0]
   );
   const [meetingPurpose, setMeetingPurpose] = useState("");
-  const [selectedPages, setSelectedPages] = useState<number[]>([]);
+  const [selectedPages, setSelectedPages] = useState<string[]>([]);
 
-  const togglePageSelection = (id: number) => {
+  const togglePageSelection = (id: string) => {
     setSelectedPages((prev) =>
       prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]
     );

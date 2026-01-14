@@ -11,14 +11,14 @@ import { CompanyActionButtons } from "../../components/CompanyInformation/Compan
 export default function CompanyDetailPage() {
   const { companyId } = useParams<{ companyId: string }>();
   const navigate = useNavigate();
-  const numericCompanyId = Number(companyId);
 
-  const company = mockCompanies.find((c) => c.company_id === numericCompanyId);
-  const [bookmarkedIds, setBookmarkedIds] = useState<number[]>(
+  const company = mockCompanies.find((c) => c.company_id === companyId);
+  const [bookmarkedIds, setBookmarkedIds] = useState<string[]>(
     mockBookmarkedCompanyIds
   );
 
-  if (!company) {
+  // 회사 ID가 숫자형 문자열인지 확인 (추후 404 페이지 삽입)
+  if (!company || !companyId) {
     return (
       <div className="p-8 font-medium text-center text-gray-500">
         Company not found
@@ -26,13 +26,13 @@ export default function CompanyDetailPage() {
     );
   }
 
-  const isBookmarked = bookmarkedIds.includes(numericCompanyId);
+  const isBookmarked = bookmarkedIds.includes(companyId);
 
   const toggleBookmark = () => {
     setBookmarkedIds((prev) =>
-      prev.includes(numericCompanyId)
-        ? prev.filter((id) => id !== numericCompanyId)
-        : [...prev, numericCompanyId]
+      prev.includes(companyId)
+        ? prev.filter((id) => id !== companyId)
+        : [...prev, companyId]
     );
   };
 
@@ -63,10 +63,10 @@ export default function CompanyDetailPage() {
           {/* 3. 하단 액션 버튼 영역 */}
           <CompanyActionButtons
             onAnalysisClick={() =>
-              navigate(`/companies/${numericCompanyId}/match`)
+              navigate(`/companies/${companyId}/match`)
             }
             onInterviewClick={() =>
-              navigate(`/companies/${numericCompanyId}/interview`)
+              navigate(`/companies/${companyId}/interview`)
             }
           />
         </div>

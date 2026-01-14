@@ -1,9 +1,5 @@
 import React from "react";
-
-interface TestProgressProps {
-  current: number;
-  total: number;
-}
+import { TestProgressProps } from "../../../types/pages/Mbit/MajorTestPage/TestProgress";
 
 const TestProgress: React.FC<TestProgressProps> = ({ current, total }) => {
   const progress = ((current + 1) / total) * 100;

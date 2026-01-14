@@ -8,12 +8,7 @@ import {
 } from "lucide-react";
 import PersonalityDetailHeader from "./PersonalityDetailHeader";
 import TraitList from "./TraitList";
-import { Personality } from "../../../data/Mbit/personalityData";
-
-interface PersonalityDetailProps {
-  personality: Personality;
-  onBack: () => void;
-}
+import { PersonalityDetailProps } from "../../../types/pages/Mbit/PersonalityEncyclopediaPage/PersonalityDetail";
 
 const PersonalityDetail: React.FC<PersonalityDetailProps> = ({
   personality,

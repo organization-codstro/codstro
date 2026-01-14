@@ -1,8 +1,5 @@
 import React from "react";
-
-interface FortuneCategoryMessageProps {
-  message: string;
-}
+import { FortuneCategoryMessageProps } from "../../../types/pages/Mbit/TodayFortunePage/FortuneCategoryMessage";
 
 const FortuneCategoryMessage: React.FC<FortuneCategoryMessageProps> = ({
   message,

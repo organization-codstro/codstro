@@ -2,19 +2,19 @@ import { ProjectPage, Todo } from "./project";
 
 export interface ProjectPagesSectionProps {
   pages: Array<ProjectPage& { todos: Todo[] }>;
-  expandedPage: number | null;
-  setExpandedPage: (id: number | null) => void;
+  expandedPage: string | null;
+  setExpandedPage: (id: string | null) => void;
   getStatusColor: (status: string) => string;
   onUpdatePage?: (
-    pageId: number,
+    pageId: string,
     updates: Partial<ProjectPage & { todos: Todo[] }>
   ) => void;
   onUpdateTodo?: (
-    pageId: number,
-    todoId: number,
+    pageId: string,
+    todoId: string,
     updates: Partial<Todo>
   ) => void;
-  onDeleteTodo?: (pageId: number, todoId: number) => void;
-  onDeletePage?: (pageId: number) => void; // 페이지 삭제 추가
-  onAddTodo?: (pageId: number, newTodo: Todo) => void;
+  onDeleteTodo?: (pageId: string, todoId: string) => void;
+  onDeletePage?: (pageId: string) => void; // 페이지 삭제 추가
+  onAddTodo?: (pageId: string, newTodo: Todo) => void;
 }

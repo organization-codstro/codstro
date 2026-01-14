@@ -10,7 +10,7 @@ import { MatchingCard } from "../../components/CompanyInformation/MatchingHistor
 export default function MatchingHistoryPage() {
   const navigate = useNavigate();
   const [history, setHistory] = useState(mockUserMatchingHistory);
-  const [deletePendingId, setDeletePendingId] = useState<number | null>(null);
+  const [deletePendingId, setDeletePendingId] = useState<string | null>(null);
 
   useEffect(() => {
     if (deletePendingId !== null) {
@@ -19,7 +19,7 @@ export default function MatchingHistoryPage() {
     }
   }, [deletePendingId]);
 
-  const handleDelete = (e: React.MouseEvent, id: number) => {
+  const handleDelete = (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
     if (deletePendingId === id) {
       setHistory((prev) =>

@@ -1,10 +1,6 @@
 import React from "react";
 import { Users } from "lucide-react";
-import { Personality } from "../../../data/Mbit/personalityData";
-
-interface PersonalityDetailHeaderProps {
-  personality: Personality;
-}
+import { PersonalityDetailHeaderProps } from "../../../types/pages/Mbit/PersonalityEncyclopediaPage/PersonalityDetailHeader";
 
 const PersonalityDetailHeader: React.FC<PersonalityDetailHeaderProps> = ({
   personality,

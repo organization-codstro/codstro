@@ -6,12 +6,12 @@ export type NodeCardProps = {
 
   draggedItem: number | null;
   editingNode: StudyPlanNode | null;
-  deletePendingNodeId: number | null;
+  deletePendingNodeId: string | null;
 
   onDragStart: (e: React.DragEvent, index: number) => void;
   onDragOver: (e: React.DragEvent, index: number) => void;
   onDragEnd: () => void;
 
   onClick: (node: StudyPlanNode) => void;
-  onDeleteClick: (e: React.MouseEvent, nodeId: number) => void;
+  onDeleteClick: (e: React.MouseEvent, nodeId: string) => void;
 };

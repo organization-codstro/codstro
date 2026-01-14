@@ -20,10 +20,8 @@ export default function StudyPlanArchiveDetailPage() {
   const [selectedPlan, setSelectedPlan] = useState<StudyPlan | null>(null);
   const navigate = useNavigate();
 
-  const plan = studyPlans.find((p) => p.study_plan_id === Number(planId));
-  const nodes = studyPlanNodes.filter(
-    (n) => n.study_plan_id === Number(planId)
-  );
+  const plan = studyPlans.find((p) => p.study_plan_id === planId);
+  const nodes = studyPlanNodes.filter((n) => n.study_plan_id === planId);
   const completedNodes = nodes.filter((node) => node.completed).length;
   const totalNodes = nodes.length;
   const progressPercentage =

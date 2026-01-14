@@ -2,12 +2,7 @@ import React from "react";
 import { ArrowLeft, BookOpen, Building2, MapPin } from "lucide-react";
 import MajorDetailHeader from "./MajorDetailHeader";
 import MajorStats from "./MajorStats";
-import { Major } from "../../../data/Mbit/majorData";
-
-interface MajorDetailProps {
-  major: Major;
-  onBack: () => void;
-}
+import { MajorDetailProps } from "../../../types/pages/Mbit/MajorEncyclopediaPage/MajorDetail";
 
 const MajorDetail: React.FC<MajorDetailProps> = ({ major, onBack }) => {
   return (

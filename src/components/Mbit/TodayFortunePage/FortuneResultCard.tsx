@@ -1,10 +1,6 @@
 import React from "react";
 import FortuneCategoryMessage from "./FortuneCategoryMessage";
-import { Fortune } from "../../../data/Mbit/fortuneData";
-
-interface FortuneResultCardProps {
-  fortune: Fortune;
-}
+import { FortuneResultCardProps } from "../../../types/pages/Mbit/TodayFortunePage/FortuneResultCard";
 
 const FortuneResultCard: React.FC<FortuneResultCardProps> = ({ fortune }) => {
   return (

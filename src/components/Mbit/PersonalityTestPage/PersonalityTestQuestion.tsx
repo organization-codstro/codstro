@@ -1,16 +1,6 @@
 import React from "react";
 import { ArrowRight } from "lucide-react";
-
-interface Option {
-  text: string;
-  type: string;
-}
-
-interface PersonalityTestQuestionProps {
-  question: string;
-  options: Option[];
-  onAnswer: (type: string) => void;
-}
+import { PersonalityTestQuestionProps } from "../../../types/pages/Mbit/PersonalityTestPage/PersonalityTestQuestion";
 
 const PersonalityTestQuestion: React.FC<PersonalityTestQuestionProps> = ({
   question,

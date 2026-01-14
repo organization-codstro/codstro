@@ -11,9 +11,7 @@ import NodeList from "../../components/Woomoonkyung/RecommendedStudyPlanDetailPa
 export default function RecommendedStudyPlanDetailPage() {
   const { planId } = useParams<{ planId: string }>();
 
-  const selectedPlan = studyPlans.find(
-    (plan) => plan.study_plan_id === Number(planId)
-  );
+  const selectedPlan = studyPlans.find((plan) => plan.study_plan_id === planId);
 
   if (!selectedPlan) {
     return (
@@ -22,7 +20,7 @@ export default function RecommendedStudyPlanDetailPage() {
   }
 
   const nodes = studyPlanNodes
-    .filter((node) => node.study_plan_id === Number(planId))
+    .filter((node) => node.study_plan_id === planId)
     .sort((a, b) => a.position - b.position);
 
   return (

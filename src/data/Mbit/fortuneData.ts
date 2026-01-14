@@ -2,7 +2,7 @@ import { Fortune } from "../../types/pages/Mbit/Mbit";
 
 export const fortunes: Fortune[] = [
   {
-    id: 1,
+    id: "1",
     code: 100,
     name: "Continue",
     summary: "It's okay to take a short break and then start again!",
@@ -13,7 +13,7 @@ export const fortunes: Fortune[] = [
     color: "from-blue-400 to-cyan-500",
   },
   {
-    id: 2,
+    id: "2",
     code: 200,
     name: "OK",
     summary: "Everything is going smoothly. Keep up the good work!",
@@ -24,7 +24,7 @@ export const fortunes: Fortune[] = [
     color: "from-green-400 to-emerald-500",
   },
   {
-    id: 3,
+    id: "3",
     code: 404,
     name: "Not Found",
     summary: "Sometimes getting lost leads to new discoveries.",

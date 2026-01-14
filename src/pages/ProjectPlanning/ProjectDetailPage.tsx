@@ -24,9 +24,7 @@ export default function ProjectDetailPage() {
   const navigate = useNavigate();
 
   const allProjects = [...activeProjectsData, ...planningProjectsData];
-  const originalProject = allProjects.find(
-    (p) => p.project_id === Number(projectId)
-  );
+  const originalProject = allProjects.find((p) => p.project_id === projectId);
 
   const [isEditing, setIsEditing] = useState(false);
   const [editedProject, setEditedProject] = useState<Project | null>(
@@ -35,7 +33,7 @@ export default function ProjectDetailPage() {
   const [editedPages, setEditedPages] = useState<
     Array<ProjectPage & { todos: Todo[] }>
   >([]);
-  const [expandedPage, setExpandedPage] = useState<number | null>(null);
+  const [expandedPage, setExpandedPage] = useState<string | null>(null);
 
   const project = isEditing ? editedProject : originalProject;
   const isPlanning = project?.project_status === "planning";
@@ -78,11 +76,11 @@ export default function ProjectDetailPage() {
   };
 
   // 데이터 업데이트 핸들러들
-  const updatePage = (id: number, updates: any) =>
+  const updatePage = (id: string, updates: any) =>
     setEditedPages((prev) =>
       prev.map((p) => (p.project_page_id === id ? { ...p, ...updates } : p))
     );
-  const updatePageTodo = (pId: number, tId: number, updates: any) =>
+  const updatePageTodo = (pId: string, tId: string, updates: any) =>
     setEditedPages((prev) =>
       prev.map((p) =>
         p.project_page_id === pId
@@ -95,7 +93,7 @@ export default function ProjectDetailPage() {
           : p
       )
     );
-  const deletePageTodo = (pId: number, tId: number) =>
+  const deletePageTodo = (pId: string, tId: string) =>
     setEditedPages((prev) =>
       prev.map((p) =>
         p.project_page_id === pId
@@ -103,7 +101,7 @@ export default function ProjectDetailPage() {
           : p
       )
     );
-  const addPageTodo = (pId: number, newTodo: Todo) =>
+  const addPageTodo = (pId: string, newTodo: Todo) =>
     setEditedPages((prev) =>
       prev.map((p) =>
         p.project_page_id === pId ? { ...p, todos: [...p.todos, newTodo] } : p

@@ -3,7 +3,7 @@ import { Major } from "../../types/pages/Mbit/Mbit";
 
 export const majors: Major[] = [
   {
-    id: 1,
+    id: "1",
     name: "Frontend Development",
     icon: Code,
     description: "Create user interfaces and experiences for web applications",
@@ -58,7 +58,7 @@ export const majors: Major[] = [
     ],
   },
   {
-    id: 2,
+    id: "2",
     name: "Backend Development",
     icon: Database,
     description: "Build server-side logic, APIs, and database management",
@@ -113,7 +113,7 @@ export const majors: Major[] = [
     ],
   },
   {
-    id: 3,
+    id: "3",
     name: "Mobile Development",
     icon: Smartphone,
     description: "Develop applications for iOS and Android platforms",
@@ -168,7 +168,7 @@ export const majors: Major[] = [
     ],
   },
   {
-    id: 4,
+    id: "4",
     name: "Data Science",
     icon: Brain,
     description: "Analyze data and build machine learning models",

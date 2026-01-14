@@ -23,10 +23,10 @@ export default function CloneCodingProjectMainPage() {
   const [userProjectsData, setUserProjectsData] = useState(initialData);
 
   // 2. 헬퍼 함수
-  const getUserProject = (projectId: number) =>
+  const getUserProject = (projectId: string) =>
     userProjectsData.find((up) => up.project_id === projectId);
 
-  const handleToggleBookmark = (projectId: number) => {
+  const handleToggleBookmark = (projectId: string) => {
     setUserProjectsData((prev) =>
       prev.map((up) =>
         up.project_id === projectId

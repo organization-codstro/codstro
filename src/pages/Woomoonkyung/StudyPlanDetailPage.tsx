@@ -13,10 +13,8 @@ export default function StudyPlanDetailPage() {
   const { planId } = useParams<{ planId: string }>();
   const [selectedPlan, setSelectedPlan] = useState<StudyPlan | null>(null);
 
-  const plan = studyPlans.find((p) => p.study_plan_id === Number(planId));
-  const nodes = studyPlanNodes.filter(
-    (n) => n.study_plan_id === Number(planId)
-  );
+  const plan = studyPlans.find((p) => p.study_plan_id === planId);
+  const nodes = studyPlanNodes.filter((n) => n.study_plan_id === planId);
 
   const completedNodesCount = nodes.filter((node) => node.completed).length;
   const totalNodesCount = nodes.length;

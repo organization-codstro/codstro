@@ -1,10 +1,6 @@
 import React from "react";
 import { RefreshCw } from "lucide-react";
-
-interface FortuneActionButtonsProps {
-  onDraw: () => void;
-  isDrawing: boolean;
-}
+import { FortuneActionButtonsProps } from "../../../types/pages/Mbit/TodayFortunePage/FortuneActionButtons";
 
 const FortuneActionButtons: React.FC<FortuneActionButtonsProps> = ({
   onDraw,

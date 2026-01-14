@@ -5,8 +5,8 @@ import { StudyPlan } from "../../types/pages/Woomoonkyung/Woomoonkyung";
      🔹 예시 Study Plan 데이터
   ========================= */
 export const plan: StudyPlan = {
-  study_plan_id: 1,
-  user_id: 1,
+  study_plan_id: "1",
+  user_id: "1",
   study_plan_name: "Frontend Mastery Plan",
   study_plan_description:
     "Learn React, TypeScript, and modern frontend architecture",

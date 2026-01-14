@@ -19,7 +19,7 @@ export default function StudyPlanEditNodePage() {
     "techStacks" | "editNode"
   >("techStacks");
   const [editingNode, setEditingNode] = useState<StudyPlanNode | null>(null);
-  const [deletePendingNodeId, setDeletePendingNodeId] = useState<number | null>(
+  const [deletePendingNodeId, setDeletePendingNodeId] = useState<string | null>(
     null
   );
   const [draggedItem, setDraggedItem] = useState<number | null>(null);
@@ -41,7 +41,7 @@ export default function StudyPlanEditNodePage() {
   // 핸들러 함수들 (DND, 삭제, 저장 등 기존 로직 유지)
   const handleAddTechStack = (techStack: any) => {
     const newNode: StudyPlanNode = {
-      study_plan_node_id: Date.now(),
+      study_plan_node_id: Date.now().toString(),
       study_plan_id: mockPlanInfo.study_plan_id,
       study_plan_node_name: techStack.tech_stack_name,
       description: "",

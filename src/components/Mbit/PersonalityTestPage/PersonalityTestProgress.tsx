@@ -1,9 +1,5 @@
 import React from "react";
-
-interface PersonalityTestProgressProps {
-  current: number;
-  total: number;
-}
+import { PersonalityTestProgressProps } from "../../../types/pages/Mbit/PersonalityTestPage/PersonalityTestProgress";
 
 const PersonalityTestProgress: React.FC<PersonalityTestProgressProps> = ({
   current,

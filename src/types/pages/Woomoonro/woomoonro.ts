@@ -1,5 +1,5 @@
 export interface CloneCodingProject {
-  id: number;
+  id: string;
   title: string;
   description: string;
   tech_stack: string[];
@@ -13,9 +13,9 @@ export interface CloneCodingProject {
 }
 
 export interface UserCloneCodingProject {
-  id: number;
-  user_id: number;
-  project_id: number;
+  id: string;
+  user_id: string;
+  project_id: string;
   status: "not_started" | "in_progress" | "completed";
   is_bookmarked: boolean;
   progress_notes?: string;
@@ -25,9 +25,9 @@ export interface UserCloneCodingProject {
 }
 
 export interface ProjectGroup {
-  id: number;
-  user_id: number;
-  project_id: number;
+  id: string;
+  user_id: string;
+  project_id: string;
   name: string;
   links: {
     title: string;
@@ -38,9 +38,9 @@ export interface ProjectGroup {
 }
 
 export interface ProjectTodo {
-  id: number;
-  user_id: number;
-  project_id?: number;
+  id: string;
+  user_id: string;
+  project_id?: string;
   title: string;
   description?: string;
   is_completed: boolean;

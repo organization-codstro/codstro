@@ -10,7 +10,7 @@ export default function StudyPlanEditPage() {
   const { planId } = useParams<{ planId: string }>();
   const navigate = useNavigate();
 
-  const plan = studyPlans.find((p) => p.study_plan_id === Number(planId));
+  const plan = studyPlans.find((p) => p.study_plan_id === planId);
 
   /** 🔹 플랜이 없을 경우 처리 */
   if (!plan) {

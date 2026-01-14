@@ -21,13 +21,13 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
   onUpdatePage,
   onUpdateTodo,
   onDeleteTodo,
-  onDeletePage, // 추가
+  onDeletePage,
   onAddTodo,
 }) => {
-  const [editingPageId, setEditingPageId] = useState<number | null>(null);
+  const [editingPageId, setEditingPageId] = useState<string | null>(null);
   const [editingTodoId, setEditingTodoId] = useState<{
-    pageId: number;
-    todoId: number;
+    pageId: string;
+    todoId: string;
   } | null>(null);
   const [editedPages, setEditedPages] =
     useState<Array<ProjectPage & { todos: Todo[] }>>(pages);
@@ -35,7 +35,7 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
   // 삭제 대기 상태 관리 (type: 'page' | 'todo')
   const [deletePending, setDeletePending] = useState<{
     type: "page" | "todo";
-    id: number;
+    id: string;
   } | null>(null);
 
   useEffect(() => {
@@ -54,8 +54,8 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
   const handleDeleteAction = (
     e: React.MouseEvent,
     type: "page" | "todo",
-    id: number,
-    parentPageId?: number
+    id: string,
+    parentPageId?: string
   ) => {
     e.stopPropagation();
 
@@ -73,8 +73,8 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
     }
   };
 
-  const handleStartEdit = (pageId: number) => setEditingPageId(pageId);
-  const handleCancelEdit = (pageId: number) => {
+  const handleStartEdit = (pageId: string) => setEditingPageId(pageId);
+  const handleCancelEdit = (pageId: string) => {
     setEditingPageId(null);
     const originalPage = pages.find((p) => p.project_page_id === pageId);
     if (originalPage) {
@@ -84,14 +84,14 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
     }
   };
 
-  const handleSaveEdit = (pageId: number) => {
+  const handleSaveEdit = (pageId: string) => {
     const editedPage = editedPages.find((p) => p.project_page_id === pageId);
     if (editedPage && onUpdatePage) onUpdatePage(pageId, editedPage);
     setEditingPageId(null);
   };
 
   const updatePageField = (
-    pageId: number,
+    pageId: string,
     field: keyof ProjectPage,
     value: string | boolean
   ) => {
@@ -103,8 +103,8 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
   };
 
   const updateTodoField = (
-    pageId: number,
-    todoId: number,
+    pageId: string,
+    todoId: string,
     field: keyof Todo,
     value: string
   ) => {
@@ -123,11 +123,11 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
     );
   };
 
-  const handleStartEditTodo = (pageId: number, todoId: number) =>
+  const handleStartEditTodo = (pageId: string, todoId: string) =>
     setEditingTodoId({ pageId, todoId });
   const handleCancelEditTodo = () => setEditingTodoId(null);
 
-  const handleSaveEditTodo = (pageId: number, todoId: number) => {
+  const handleSaveEditTodo = (pageId: string, todoId: string) => {
     const page = editedPages.find((p) => p.project_page_id === pageId);
     const todo = page?.todos.find((t) => t.id === todoId);
     if (todo && onUpdateTodo) onUpdateTodo(pageId, todoId, todo);
@@ -347,7 +347,7 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                           type="button"
                           onClick={() => {
                             const newTodo: Todo = {
-                              id: Date.now(),
+                              id: Date.now().toString(),
                               name: "New Task",
                               content: "",
                               description: "",

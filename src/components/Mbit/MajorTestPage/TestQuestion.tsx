@@ -1,16 +1,6 @@
 import React from "react";
 import { ArrowRight } from "lucide-react";
-
-interface QuestionOption {
-  text: string;
-  major: string;
-}
-
-interface TestQuestionProps {
-  question: string;
-  options: QuestionOption[];
-  onAnswer: (major: string) => void;
-}
+import { TestQuestionProps } from "../../../types/pages/Mbit/MajorTestPage/TestQuestion";
 
 const TestQuestion: React.FC<TestQuestionProps> = ({
   question,

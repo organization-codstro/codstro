@@ -2,7 +2,7 @@ import { Personality } from "../../types/pages/Mbit/Mbit";
 
 export const personalities: Personality[] = [
   {
-    id: 1,
+    id: "1",
     type: "PASD",
     name: "The Architect",
     description:
@@ -36,7 +36,7 @@ export const personalities: Personality[] = [
     ],
   },
   {
-    id: 2,
+    id: "2",
     type: "PASH",
     name: "The Innovator",
     description:
@@ -70,7 +70,7 @@ export const personalities: Personality[] = [
     ],
   },
   {
-    id: 3,
+    id: "3",
     type: "PATD",
     name: "The Leader",
     description:
@@ -104,7 +104,7 @@ export const personalities: Personality[] = [
     ],
   },
   {
-    id: 4,
+    id: "4",
     type: "PATH",
     name: "The Mentor",
     description: "Collaborative planner who teaches through hands-on examples.",
@@ -137,7 +137,7 @@ export const personalities: Personality[] = [
     ],
   },
   {
-    id: 5,
+    id: "5",
     type: "PESD",
     name: "The Analyzer",
     description:
@@ -171,7 +171,7 @@ export const personalities: Personality[] = [
     ],
   },
   {
-    id: 6,
+    id: "6",
     type: "PESH",
     name: "The Explorer",
     description: "Curious learner who analyzes by experimenting and testing.",
@@ -204,7 +204,7 @@ export const personalities: Personality[] = [
     ],
   },
   {
-    id: 7,
+    id: "7",
     type: "PETD",
     name: "The Organizer",
     description: "Team-focused planner who documents and structures projects.",
@@ -237,7 +237,7 @@ export const personalities: Personality[] = [
     ],
   },
   {
-    id: 8,
+    id: "8",
     type: "PETH",
     name: "The Facilitator",
     description: "Social planner who learns through team collaboration.",
@@ -270,7 +270,7 @@ export const personalities: Personality[] = [
     ],
   },
   {
-    id: 9,
+    id: "9",
     type: "IASD",
     name: "The Hacker",
     description:
@@ -304,7 +304,7 @@ export const personalities: Personality[] = [
     ],
   },
   {
-    id: 10,
+    id: "10",
     type: "IASH",
     name: "The Craftsperson",
     description: "Hands-on builder who learns by creating and iterating.",
@@ -337,7 +337,7 @@ export const personalities: Personality[] = [
     ],
   },
   {
-    id: 11,
+    id: "11",
     type: "IATD",
     name: "The Pragmatist",
     description: "Action-oriented team member who learns from documentation.",
@@ -370,7 +370,7 @@ export const personalities: Personality[] = [
     ],
   },
   {
-    id: 12,
+    id: "12",
     type: "IATH",
     name: "The Collaborator",
     description: "Team player who jumps into projects and learns together.",
@@ -403,7 +403,7 @@ export const personalities: Personality[] = [
     ],
   },
   {
-    id: 13,
+    id: "13",
     type: "IESD",
     name: "The Experimenter",
     description: "Trial-and-error coder who works best independently.",
@@ -436,7 +436,7 @@ export const personalities: Personality[] = [
     ],
   },
   {
-    id: 14,
+    id: "14",
     type: "IESH",
     name: "The Tinkerer",
     description: "Hands-on learner who experiments until finding solutions.",
@@ -466,7 +466,7 @@ export const personalities: Personality[] = [
     famousDevelopers: ["Notch (Minecraft creator)", "_why (Ruby developer)"],
   },
   {
-    id: 15,
+    id: "15",
     type: "IETD",
     name: "The Coordinator",
     description: "Team-focused doer who balances action with structure.",
@@ -499,7 +499,7 @@ export const personalities: Personality[] = [
     ],
   },
   {
-    id: 16,
+    id: "16",
     type: "IETH",
     name: "The Enthusiast",
     description: "Energetic team member who learns through doing together.",

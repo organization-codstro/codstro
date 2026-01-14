@@ -6,7 +6,8 @@ import {
   Bookmark,
   BookmarkCheck,
 } from "lucide-react";
-import { StudyPlanCardProps } from "../../../types/Woomoonkyung/RecommendedStudyPlansPage/StudyPlanCard";
+import { StudyPlanCardProps } from "../../../types/pages/Woomoonkyung/RecommendedStudyPlansPage/StudyPlanCard";
+
 
 const StudyPlanCard: React.FC<StudyPlanCardProps> = ({
   plan,

@@ -8,7 +8,7 @@ export default function AIPersonasCollectionPage() {
   const navigate = useNavigate();
   const personas = mockAIPersonas;
 
-  const handleSelectPersona = (personaId: number) => {
+  const handleSelectPersona = (personaId: string) => {
     navigate(`/ai-chat/persona/${personaId}`);
   };
 

@@ -1,6 +1,6 @@
 export interface InterviewCardProps {
   interview: {
-    id: number;
+    id: string;
     company_qna_question: string;
     company_user_qna_answer: string;
     company_user_qna_create_date: string;

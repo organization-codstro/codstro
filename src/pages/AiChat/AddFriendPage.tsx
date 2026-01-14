@@ -10,7 +10,7 @@ export default function AddFriendPage() {
   const [view, setView] = useState<"my-friends" | "browse" | "search">(
     "my-friends"
   );
-  const [myFriends, setMyFriends] = useState<number[]>([]); // 친구 ID 목록
+  const [myFriends, setMyFriends] = useState<string[]>([]); // 친구 ID 목록
   const [searchForm, setSearchForm] = useState({
     personality: "",
     gender: "",
@@ -50,7 +50,7 @@ export default function AddFriendPage() {
     setSearchResults(results);
   };
 
-  const toggleFriend = (personaId: number) => {
+  const toggleFriend = (personaId: string) => {
     setMyFriends((prev) =>
       prev.includes(personaId)
         ? prev.filter((id) => id !== personaId)
@@ -58,7 +58,7 @@ export default function AddFriendPage() {
     );
   };
 
-  const isAlreadyFriend = (personaId: number) => myFriends.includes(personaId);
+  const isAlreadyFriend = (personaId: string) => myFriends.includes(personaId);
 
   return (
     <div className="flex flex-col h-screen bg-gray-50">

@@ -10,7 +10,7 @@ export type GroupType =
   | "other";
 
 export interface RecommendedPin {
-  id: number;
+  id: string;
   title: string;
   description: string;
   url: string;
@@ -24,21 +24,21 @@ export interface RecommendedPin {
 export interface TodoFormData {
   name: string;
   description: string;
-  field_id: number;
+  field_id: string;
   start_date: string;
   end_date: string;
   status: "pending" | "in-progress" | "completed";
 }
 
 export interface Group {
-  id: number;
+  id: string;
   name: "web" | "app" | "server" | "game" | "security" | "work" | "other";
   description: string;
   fields: Field[];
   created_at: string;
 }
 export interface Field {
-  id: number;
+  id: string;
   name: string;
   description: string;
   image?: string;
@@ -47,7 +47,7 @@ export interface Field {
 }
 
 export interface Pin {
-  id: number;
+  id: string;
   title: string;
   description: string;
   url: string;
@@ -56,8 +56,8 @@ export interface Pin {
 }
 
 export interface Todo {
-  id: number;
-  field_id: number;
+  id: string;
+  field_id: string;
   name: string;
   description: string;
   start_date: string;
@@ -67,7 +67,7 @@ export interface Todo {
 }
 
 export interface RecommendedField {
-  id: number;
+  id: string;
   name: string;
   description: string;
   created_at: string;

@@ -2,7 +2,7 @@ import { CloneCodingProject, UserCloneCodingProject } from "../woomoonro";
 
 export interface CloneCodingProjectGridProps {
   projects: CloneCodingProject[];
-  getUserProject: (id: number) => UserCloneCodingProject | undefined;
-  onCardClick: (id: number) => void;
-  onToggleBookmark: (projectId: number) => void;
+  getUserProject: (id: string) => UserCloneCodingProject | undefined;
+  onCardClick: (id: string) => void;
+  onToggleBookmark: (projectId: string) => void;
 }

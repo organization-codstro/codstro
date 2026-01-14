@@ -13,9 +13,7 @@ export default function AIPersonaDetailPage() {
   const navigate = useNavigate();
 
   // 1. 데이터 찾기 로직
-  const persona = mockAIPersonas.find(
-    (p) => p.ai_persona_id === Number(personaId)
-  );
+  const persona = mockAIPersonas.find((p) => p.ai_persona_id === personaId);
 
   // 2. 예외 처리 (데이터가 없을 때)
   if (!persona) {

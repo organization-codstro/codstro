@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import {
   ProjectBasicInfo,
   Project,
@@ -14,10 +14,7 @@ import { ProjectInfoActions } from "../../components/ProjectPlanning/ProjectBasi
 
 export default function ProjectBasicInfoInputPage() {
   const navigate = useNavigate();
-  const location = useLocation();
-
-  // location state에서 projectId 확인 (기존 프로젝트 수정 모드)
-  const projectId = (location.state as { projectId?: number })?.projectId;
+  const { projectId } = useParams<{ projectId: string }>();
 
   // 기존 프로젝트 정보 로드
   const existingProject: Project | undefined = projectId

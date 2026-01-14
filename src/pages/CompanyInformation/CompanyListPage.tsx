@@ -9,19 +9,19 @@ import { useNavigate } from "react-router-dom";
 export default function CompanyListPage() {
   const navigate = useNavigate();
 
-  const [selectedCompanyId, setSelectedCompanyId] = useState<number | null>(
+  const [selectedCompanyId, setSelectedCompanyId] = useState<string | null>(
     null
   );
-  const [bookmarkedIds, setBookmarkedIds] = useState<number[]>(
+  const [bookmarkedIds, setBookmarkedIds] = useState<string[]>(
     mockBookmarkedCompanyIds
   );
 
-  const handleCompanySelect = (companyId: number) => {
+  const handleCompanySelect = (companyId: string) => {
     setSelectedCompanyId(companyId);
     navigate(`/companies/${companyId}`);
   };
 
-  const toggleBookmark = (companyId: number, e: React.MouseEvent) => {
+  const toggleBookmark = (companyId: string, e: React.MouseEvent) => {
     e.stopPropagation();
     setBookmarkedIds((prev) =>
       prev.includes(companyId)

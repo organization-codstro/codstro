@@ -3,6 +3,6 @@ import { CloneCodingProject, UserCloneCodingProject } from "../woomoonro";
 export interface CloneCodingProjectCardProps {
   project: CloneCodingProject;
   userProject?: UserCloneCodingProject;
-  onClick: (id: number) => void;
-  onToggleBookmark: (projectId: number) => void;
+  onClick: (id: string) => void;
+  onToggleBookmark: (projectId: string) => void;
 }

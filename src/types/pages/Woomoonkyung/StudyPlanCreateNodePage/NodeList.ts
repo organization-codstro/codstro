@@ -11,7 +11,7 @@ export type NodeListProps = {
   editingNode: StudyPlanNode | null;
 
   /** 삭제 대기 중인 노드 id */
-  deletePendingNodeId: number | null;
+  deletePendingNodeId: string | null;
 
   /** 드래그 시작 */
   onDragStart: (e: React.DragEvent, index: number) => void;
@@ -26,5 +26,5 @@ export type NodeListProps = {
   onNodeClick: (node: StudyPlanNode) => void;
 
   /** 노드 삭제 클릭 */
-  onDeleteClick: (e: React.MouseEvent, nodeId: number) => void;
+  onDeleteClick: (e: React.MouseEvent, nodeId: string) => void;
 };

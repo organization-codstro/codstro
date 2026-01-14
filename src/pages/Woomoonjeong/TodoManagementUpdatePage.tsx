@@ -17,7 +17,7 @@ export default function TodoManagementUpdatePage() {
   const [formData, setFormData] = useState<TodoFormData>({
     name: "",
     description: "",
-    field_id: 1,
+    field_id: "1",
     start_date: "",
     end_date: "",
     status: "pending",
@@ -25,7 +25,7 @@ export default function TodoManagementUpdatePage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    const foundTodo = todosData.find((t) => t.id === Number(todoId));
+    const foundTodo = todosData.find((t) => t.id === todoId);
     if (!foundTodo) {
       navigate("/woomoonjeong/todo");
       return;
@@ -35,7 +35,7 @@ export default function TodoManagementUpdatePage() {
     setFormData({
       name: foundTodo.name,
       description: foundTodo.description,
-      field_id: Number(foundTodo.field_id),
+      field_id: foundTodo.field_id,
       start_date: foundTodo.start_date,
       end_date: foundTodo.end_date,
       status: foundTodo.status,

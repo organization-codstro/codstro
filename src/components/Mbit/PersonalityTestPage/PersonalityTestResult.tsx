@@ -1,10 +1,6 @@
 import React from "react";
 import { Users } from "lucide-react";
-
-interface PersonalityTestResultProps {
-  result: string;
-  onReset: () => void;
-}
+import { PersonalityTestResultProps } from "../../../types/pages/Mbit/PersonalityTestPage/PersonalityTestResult";
 
 const PersonalityTestResult: React.FC<PersonalityTestResultProps> = ({
   result,

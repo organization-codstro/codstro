@@ -17,7 +17,7 @@ export default function TodoManagementPage() {
   const [selectedStatus, setSelectedStatus] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [deletePendingId, setDeletePendingId] = useState<number | null>(null);
+  const [deletePendingId, setDeletePendingId] = useState<string | null>(null);
 
   useEffect(() => {
     if (deletePendingId) {
@@ -44,7 +44,7 @@ export default function TodoManagementPage() {
     return result;
   }, [todos, selectedDate, selectedStatus, searchQuery]);
 
-  const handleDelete = (e: React.MouseEvent, id: number) => {
+  const handleDelete = (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
     if (deletePendingId === id) {
       setTodos((prev) => prev.filter((t) => t.id !== id));

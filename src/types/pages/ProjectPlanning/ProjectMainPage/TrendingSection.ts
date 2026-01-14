@@ -1,5 +1,5 @@
 interface NewsItem {
-  id: number;
+  id: string;
   title: string;
   date: string;
 }

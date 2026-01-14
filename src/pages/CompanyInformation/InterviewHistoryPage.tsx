@@ -10,7 +10,7 @@ import { InterviewCard } from "../../components/CompanyInformation/InterviewHist
 export default function InterviewHistoryPage() {
   const navigate = useNavigate();
   const [interviews, setInterviews] = useState(mockUserInterviews);
-  const [deletePendingId, setDeletePendingId] = useState<number | null>(null);
+  const [deletePendingId, setDeletePendingId] = useState<string | null>(null);
 
   // 3초 후 삭제 대기 상태 초기화 로직
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function InterviewHistoryPage() {
   }, [deletePendingId]);
 
   // 삭제 처리 핸들러
-  const handleDelete = (e: React.MouseEvent, id: number) => {
+  const handleDelete = (e: React.MouseEvent, id: string) => {
     e.stopPropagation(); // 카드 클릭 이벤트(상세 이동) 방지
 
     if (deletePendingId === id) {

@@ -11,7 +11,7 @@ export default function ProjectPlanningArchivePage() {
   // TODO: API 연동 - 실제 아카이브된 프로젝트 데이터 가져오기
   const archivedProjects = archivedProjectsData;
 
-  const handleProjectClick = (projectId: number) => {
+  const handleProjectClick = (projectId: string) => {
     navigate(`/projects/${projectId}`);
   };
 

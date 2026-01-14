@@ -19,7 +19,7 @@ export const statusColors = {
 
 export const projectsData: CloneCodingProject[] = [
   {
-    id: 1,
+    id: "1",
     title: "Todo List App",
     description: "Build a simple todo list application with CRUD operations",
     tech_stack: ["React", "JavaScript", "CSS"],
@@ -33,7 +33,7 @@ export const projectsData: CloneCodingProject[] = [
     created_at: "2024-01-15T09:00:00Z",
   },
   {
-    id: 2,
+    id: "2",
     title: "Weather Dashboard",
     description: "Create a weather dashboard using external API integration",
     tech_stack: ["React", "TypeScript", "Tailwind CSS", "API"],
@@ -47,7 +47,7 @@ export const projectsData: CloneCodingProject[] = [
     created_at: "2024-01-16T10:00:00Z",
   },
   {
-    id: 3,
+    id: "3",
     title: "E-commerce Platform",
     description: "Full-stack e-commerce application with payment integration",
     tech_stack: ["React", "Node.js", "Express", "MongoDB", "Stripe"],
@@ -61,7 +61,7 @@ export const projectsData: CloneCodingProject[] = [
     created_at: "2024-01-17T11:00:00Z",
   },
   {
-    id: 4,
+    id: "4",
     title: "Chat Application",
     description: "Real-time chat application using WebSocket technology",
     tech_stack: ["React", "Node.js", "Socket.io", "Express"],
@@ -75,7 +75,7 @@ export const projectsData: CloneCodingProject[] = [
     created_at: "2024-01-18T12:00:00Z",
   },
   {
-    id: 5,
+    id: "5",
     title: "Portfolio Website",
     description: "Personal portfolio website with modern design",
     tech_stack: ["React", "Next.js", "Tailwind CSS", "Framer Motion"],
@@ -89,7 +89,7 @@ export const projectsData: CloneCodingProject[] = [
     created_at: "2024-01-19T13:00:00Z",
   },
   {
-    id: 6,
+    id: "6",
     title: "Task Management System",
     description: "Kanban-style task management with drag and drop",
     tech_stack: ["React", "TypeScript", "DnD Kit", "Zustand"],
@@ -106,9 +106,9 @@ export const projectsData: CloneCodingProject[] = [
 
 export const userProjectsData: UserCloneCodingProject[] = [
   {
-    id: 1,
-    user_id: 1,
-    project_id: 1,
+    id: "1",
+    user_id: "1",
+    project_id: "1",
     status: "completed",
     is_bookmarked: true,
     progress_notes: "Completed successfully! Learned a lot about React hooks.",
@@ -117,9 +117,9 @@ export const userProjectsData: UserCloneCodingProject[] = [
     created_at: "2024-01-15T09:00:00Z",
   },
   {
-    id: 2,
-    user_id: 1,
-    project_id: 2,
+    id: "2",
+    user_id: "1",
+    project_id: "2",
     status: "in_progress",
     is_bookmarked: true,
     progress_notes:
@@ -128,17 +128,17 @@ export const userProjectsData: UserCloneCodingProject[] = [
     created_at: "2024-01-19T10:00:00Z",
   },
   {
-    id: 3,
-    user_id: 1,
-    project_id: 4,
+    id: "3",
+    user_id: "1",
+    project_id: "4",
     status: "not_started",
     is_bookmarked: true,
     created_at: "2024-01-20T11:00:00Z",
   },
   {
-    id: 4,
-    user_id: 1,
-    project_id: 5,
+    id: "4",
+    user_id: "1",
+    project_id: "5",
     status: "not_started",
     is_bookmarked: false,
     created_at: "2024-01-20T12:00:00Z",
@@ -147,9 +147,9 @@ export const userProjectsData: UserCloneCodingProject[] = [
 
 export const projectTodosData: ProjectTodo[] = [
   {
-    id: 1,
-    user_id: 1,
-    project_id: 2,
+    id: "1",
+    user_id: "1",
+    project_id: "2",
     title: "Implement weather API integration",
     description: "Connect to OpenWeatherMap API and handle responses",
     is_completed: true,
@@ -157,9 +157,9 @@ export const projectTodosData: ProjectTodo[] = [
     created_at: "2024-01-20T09:00:00Z",
   },
   {
-    id: 2,
-    user_id: 1,
-    project_id: 2,
+    id: "2",
+    user_id: "1",
+    project_id: "2",
     title: "Add error handling for API calls",
     description: "Handle network errors and invalid API responses",
     is_completed: false,
@@ -167,9 +167,9 @@ export const projectTodosData: ProjectTodo[] = [
     created_at: "2024-01-20T10:00:00Z",
   },
   {
-    id: 3,
-    user_id: 1,
-    project_id: 2,
+    id: "3",
+    user_id: "1",
+    project_id: "2",
     title: "Style the weather cards",
     description: "Create responsive weather card components",
     is_completed: false,
@@ -177,8 +177,8 @@ export const projectTodosData: ProjectTodo[] = [
     created_at: "2024-01-20T11:00:00Z",
   },
   {
-    id: 4,
-    user_id: 1,
+    id: "4",
+    user_id: "1",
     title: "Review React documentation",
     description: "Study advanced React patterns for upcoming projects",
     is_completed: false,
@@ -189,9 +189,9 @@ export const projectTodosData: ProjectTodo[] = [
 
 export const projectGroupsData: ProjectGroup[] = [
   {
-    id: 1,
-    user_id: 1,
-    project_id: 2,
+    id: "1",
+    user_id: "1",
+    project_id: "2",
     name: "Weather API Resources",
     links: [
       {
@@ -217,7 +217,7 @@ export const projectGroupsData: ProjectGroup[] = [
 // Archive용 확장된 프로젝트 데이터
 export const archivedProjectsData: CloneCodingProject[] = [
   {
-    id: 1,
+    id: "1",
     title: "Todo List App",
     description: "Build a simple todo list application with CRUD operations",
     tech_stack: ["React", "JavaScript", "CSS"],
@@ -231,7 +231,7 @@ export const archivedProjectsData: CloneCodingProject[] = [
     created_at: "2024-01-15T09:00:00Z",
   },
   {
-    id: 2,
+    id: "2",
     title: "Weather Dashboard",
     description: "Create a weather dashboard using external API integration",
     tech_stack: ["React", "TypeScript", "Tailwind CSS", "API"],
@@ -245,7 +245,7 @@ export const archivedProjectsData: CloneCodingProject[] = [
     created_at: "2024-01-16T10:00:00Z",
   },
   {
-    id: 4,
+    id: "4",
     title: "Chat Application",
     description: "Real-time chat application using WebSocket technology",
     tech_stack: ["React", "Node.js", "Socket.io", "Express"],
@@ -259,7 +259,7 @@ export const archivedProjectsData: CloneCodingProject[] = [
     created_at: "2024-01-18T12:00:00Z",
   },
   {
-    id: 5,
+    id: "5",
     title: "Portfolio Website",
     description: "Personal portfolio website with modern design",
     tech_stack: ["React", "Next.js", "Tailwind CSS", "Framer Motion"],
@@ -273,7 +273,7 @@ export const archivedProjectsData: CloneCodingProject[] = [
     created_at: "2024-01-19T13:00:00Z",
   },
   {
-    id: 7,
+    id: "7",
     title: "Music Player App",
     description: "Spotify-like music streaming application",
     tech_stack: ["React", "Redux", "Web Audio API", "CSS3"],
@@ -287,7 +287,7 @@ export const archivedProjectsData: CloneCodingProject[] = [
     created_at: "2024-01-21T14:00:00Z",
   },
   {
-    id: 8,
+    id: "8",
     title: "Instagram Clone",
     description: "Social media platform with photo sharing and stories",
     tech_stack: ["React", "Firebase", "Tailwind CSS", "React Router"],
@@ -301,7 +301,7 @@ export const archivedProjectsData: CloneCodingProject[] = [
     created_at: "2024-01-22T15:00:00Z",
   },
   {
-    id: 9,
+    id: "9",
     title: "Expense Tracker",
     description: "Personal finance management application",
     tech_stack: ["React", "Chart.js", "Local Storage", "CSS3"],
@@ -315,7 +315,7 @@ export const archivedProjectsData: CloneCodingProject[] = [
     created_at: "2024-01-23T16:00:00Z",
   },
   {
-    id: 10,
+    id: "10",
     title: "Recipe Finder",
     description: "Food recipe search and meal planning application",
     tech_stack: ["React", "Recipe API", "Material-UI", "TypeScript"],
@@ -333,9 +333,9 @@ export const archivedProjectsData: CloneCodingProject[] = [
 // Archive용 사용자 프로젝트 데이터 (모두 북마크됨)
 export const archivedUserProjectsData: UserCloneCodingProject[] = [
   {
-    id: 1,
-    user_id: 1,
-    project_id: 1,
+    id: "1",
+    user_id: "1",
+    project_id: "1",
     status: "completed",
     is_bookmarked: true,
     progress_notes: "Completed successfully! Learned a lot about React hooks.",
@@ -344,9 +344,9 @@ export const archivedUserProjectsData: UserCloneCodingProject[] = [
     created_at: "2024-01-15T09:00:00Z",
   },
   {
-    id: 2,
-    user_id: 1,
-    project_id: 2,
+    id: "2",
+    user_id: "1",
+    project_id: "2",
     status: "in_progress",
     is_bookmarked: true,
     progress_notes:
@@ -355,9 +355,9 @@ export const archivedUserProjectsData: UserCloneCodingProject[] = [
     created_at: "2024-01-19T10:00:00Z",
   },
   {
-    id: 4,
-    user_id: 1,
-    project_id: 4,
+    id: "4",
+    user_id: "1",
+    project_id: "4",
     status: "in_progress",
     is_bookmarked: true,
     progress_notes: "Socket.io integration is challenging but fun!",
@@ -365,9 +365,9 @@ export const archivedUserProjectsData: UserCloneCodingProject[] = [
     created_at: "2024-01-20T11:00:00Z",
   },
   {
-    id: 5,
-    user_id: 1,
-    project_id: 5,
+    id: "5",
+    user_id: "1",
+    project_id: "5",
     status: "completed",
     is_bookmarked: true,
     progress_notes: "Great project for learning animations with Framer Motion.",
@@ -376,27 +376,27 @@ export const archivedUserProjectsData: UserCloneCodingProject[] = [
     created_at: "2024-01-19T13:00:00Z",
   },
   {
-    id: 7,
-    user_id: 1,
-    project_id: 7,
+    id: "7",
+    user_id: "1",
+    project_id: "7",
     status: "not_started",
     is_bookmarked: true,
     progress_notes: "Planning to start this after finishing the chat app.",
     created_at: "2024-01-21T14:00:00Z",
   },
   {
-    id: 8,
-    user_id: 1,
-    project_id: 8,
+    id: "8",
+    user_id: "1",
+    project_id: "8",
     status: "not_started",
     is_bookmarked: true,
     progress_notes: "Excited to learn Firebase with this project!",
     created_at: "2024-01-22T15:00:00Z",
   },
   {
-    id: 9,
-    user_id: 1,
-    project_id: 9,
+    id: "9",
+    user_id: "1",
+    project_id: "9",
     status: "in_progress",
     is_bookmarked: true,
     progress_notes: "Learning Chart.js for data visualization.",
@@ -404,9 +404,9 @@ export const archivedUserProjectsData: UserCloneCodingProject[] = [
     created_at: "2024-01-23T16:00:00Z",
   },
   {
-    id: 10,
-    user_id: 1,
-    project_id: 10,
+    id: "10",
+    user_id: "1",
+    project_id: "10",
     status: "not_started",
     is_bookmarked: true,
     progress_notes: "Looking forward to working with recipe APIs.",
@@ -416,9 +416,9 @@ export const archivedUserProjectsData: UserCloneCodingProject[] = [
 
 export const projectGroups: ProjectGroup[] = [
   {
-    id: 1,
-    user_id: 1,
-    project_id: 1,
+    id: "1",
+    user_id: "1",
+    project_id: "1",
     name: "React Resources",
     links: [
       {

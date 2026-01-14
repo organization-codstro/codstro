@@ -11,7 +11,7 @@ export default function TodoManagementDetailPage() {
   const navigate = useNavigate();
 
   const todo = useMemo(
-    () => todosData.find((t) => t.id === Number(todoId)),
+    () => todosData.find((t) => t.id === todoId),
     [todoId]
   );
 

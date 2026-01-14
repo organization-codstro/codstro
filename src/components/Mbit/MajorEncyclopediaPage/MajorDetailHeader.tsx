@@ -1,9 +1,5 @@
 import React from "react";
-import { Major } from "../../../data/Mbit/majorData";
-
-interface MajorDetailHeaderProps {
-  major: Major;
-}
+import { MajorDetailHeaderProps } from "../../../types/pages/Mbit/MajorEncyclopediaPage/MajorDetailHeader";
 
 const MajorDetailHeader: React.FC<MajorDetailHeaderProps> = ({ major }) => {
   const IconComponent = major.icon;

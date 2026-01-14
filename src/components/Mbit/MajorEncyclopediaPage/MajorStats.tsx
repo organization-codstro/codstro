@@ -1,10 +1,6 @@
 import React from "react";
 import { DollarSign, TrendingUp } from "lucide-react";
-
-interface MajorStatsProps {
-  salaryRange: string;
-  jobOutlook: string;
-}
+import { MajorStatsProps } from "../../../types/pages/Mbit/MajorEncyclopediaPage/MajorStats";
 
 const MajorStats: React.FC<MajorStatsProps> = ({ salaryRange, jobOutlook }) => {
   return (

@@ -23,7 +23,7 @@ export default function StudyPlanCreateNodePage() {
     "techStacks" | "editNode"
   >("techStacks");
   const [editingNode, setEditingNode] = useState<StudyPlanNode | null>(null);
-  const [deletePendingNodeId, setDeletePendingNodeId] = useState<number | null>(
+  const [deletePendingNodeId, setDeletePendingNodeId] = useState<string | null>(
     null
   );
   const [draggedItem, setDraggedItem] = useState<number | null>(null);
@@ -50,13 +50,13 @@ export default function StudyPlanCreateNodePage() {
     }
   }, [deletePendingNodeId]);
 
-  const nextNodeId =
-    Math.max(0, ...(nodes?.map((n) => n.study_plan_node_id) || [])) + 1;
+  //api 연결시 uuid 생성
+  const nextNodeId = "100";
 
   const handleAddTechStack = (techStack: (typeof mockTechStacks)[0]) => {
     const newNode: StudyPlanNode = {
       study_plan_node_id: nextNodeId,
-      study_plan_id: 1,
+      study_plan_id: "1",
       study_plan_node_name: techStack.tech_stack_name,
       description: "",
       start_date: "",
@@ -120,7 +120,7 @@ export default function StudyPlanCreateNodePage() {
     setValidationErrors({ name: false, startDate: false, endDate: false });
   };
 
-  const handleDeleteClick = (e: React.MouseEvent, nodeId: number) => {
+  const handleDeleteClick = (e: React.MouseEvent, nodeId: string) => {
     e.stopPropagation();
 
     if (deletePendingNodeId === nodeId) {

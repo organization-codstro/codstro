@@ -44,8 +44,8 @@ export default function ProjectInfoGeneratePage() {
   );
   const [startDate, setStartDate] = useState("2025-12-25");
   const [endDate, setEndDate] = useState("2026-03-25");
-  const [expandedPage, setExpandedPage] = useState<number | null>(null);
-  const [editingTodoId, setEditingTodoId] = useState<number | null>(null);
+  const [expandedPage, setExpandedPage] = useState<string | null>(null);
+  const [editingTodoId, setEditingTodoId] = useState<string | null>(null);
   const [showTodoForm, setShowTodoForm] = useState(false);
 
   const [projectTodos, setProjectTodos] = useState<Todo[]>(projectTodosData);
@@ -64,14 +64,14 @@ export default function ProjectInfoGeneratePage() {
     }
   };
 
-  const updateProjectTodo = (todoId: number, updates: Partial<Todo>) => {
+  const updateProjectTodo = (todoId: string, updates: Partial<Todo>) => {
     setProjectTodos((prev) =>
       prev.map((todo) => (todo.id === todoId ? { ...todo, ...updates } : todo))
     );
     setEditingTodoId(null);
   };
 
-  const deleteProjectTodo = (todoId: number) => {
+  const deleteProjectTodo = (todoId: string) => {
     setProjectTodos((prev) => prev.filter((todo) => todo.id !== todoId));
   };
 
@@ -81,7 +81,7 @@ export default function ProjectInfoGeneratePage() {
   };
 
   const updatePage = (
-    pageId: number,
+    pageId: string,
     updates: Partial<ProjectPage & { todos: Todo[] }>
   ) => {
     setPages((prev) =>
@@ -92,8 +92,8 @@ export default function ProjectInfoGeneratePage() {
   };
 
   const updatePageTodo = (
-    pageId: number,
-    todoId: number,
+    pageId: string,
+    todoId: string,
     updates: Partial<Todo>
   ) => {
     setPages((prev) =>
@@ -111,7 +111,7 @@ export default function ProjectInfoGeneratePage() {
     );
   };
 
-  const deletePageTodo = (pageId: number, todoId: number) => {
+  const deletePageTodo = (pageId: string, todoId: string) => {
     setPages((prev) =>
       prev.map((page) => {
         if (page.project_page_id === pageId) {
@@ -125,7 +125,7 @@ export default function ProjectInfoGeneratePage() {
     );
   };
 
-  const addPageTodo = (pageId: number, newTodo: Todo) => {
+  const addPageTodo = (pageId: string, newTodo: Todo) => {
     setPages((prev) =>
       prev.map((page) => {
         if (page.project_page_id === pageId) {

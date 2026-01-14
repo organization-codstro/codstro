@@ -1,12 +1,5 @@
 import React from "react";
-
-interface TraitListProps {
-  title: string;
-  items: string[];
-  icon: React.ReactNode;
-  bgColor: string;
-  bulletColor: string;
-}
+import { TraitListProps } from "../../../types/pages/Mbit/PersonalityEncyclopediaPage/TraitList";
 
 const TraitList: React.FC<TraitListProps> = ({
   title,

@@ -1,9 +1,5 @@
 import React from "react";
-
-interface FortuneDrawIntroProps {
-  onDraw: () => void;
-  isDrawing: boolean;
-}
+import { FortuneDrawIntroProps } from "../../../types/pages/Mbit/TodayFortunePage/FortuneDrawIntro";
 
 const FortuneDrawIntro: React.FC<FortuneDrawIntroProps> = ({
   onDraw,

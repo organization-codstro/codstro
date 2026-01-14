@@ -9,11 +9,15 @@ import { ChatInput } from "../../components/AiChat/ChatConversation/ChatInput";
 export default function ChatConversationPage() {
   const { roomId } = useParams<{ roomId: string }>();
   const navigate = useNavigate();
-  const roomIdNum = Number(roomId);
+  const roomIdNum = roomId;
 
   const room: ChatRoom | undefined = mockChatRooms.find(
     (r) => r.chat_room_id === roomIdNum
   );
+
+  // 1. 방 ID가 유효한지 확인 (추후 404 패이지 삽입)
+  if (!roomIdNum || !room) return null;
+
   const [messages, setMessages] = useState<ChatMessage[]>(
     mockMessages[roomIdNum] || []
   );
@@ -27,7 +31,7 @@ export default function ChatConversationPage() {
     if (!inputValue.trim()) return;
 
     const newMessage: ChatMessage = {
-      chat_message_id: Date.now(),
+      chat_message_id: Date.now().toString(),
       chat_message_sender: "USER",
       chat_message_content: inputValue,
       chat_message_sent_at: new Date().toISOString(),
@@ -40,7 +44,7 @@ export default function ChatConversationPage() {
     // AI 답장 시뮬레이션
     setTimeout(() => {
       const aiMessage: ChatMessage = {
-        chat_message_id: Date.now() + 1,
+        chat_message_id: Date.now().toString(),
         chat_message_sender: "AI",
         chat_message_content:
           "Thanks for your message! This is a simulated response.",
@@ -50,8 +54,6 @@ export default function ChatConversationPage() {
       setMessages((prev) => [...prev, aiMessage]);
     }, 1000);
   };
-
-  if (!room) return null;
 
   return (
     <div className="flex flex-col h-screen bg-gray-50">

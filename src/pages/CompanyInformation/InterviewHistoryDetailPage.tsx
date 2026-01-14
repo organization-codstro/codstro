@@ -5,15 +5,12 @@ import { BackButton } from "../../components/CompanyInformation/BackButton";
 import { InfoSection } from "../../components/CompanyInformation/InterviewHistoryDetailPage/InfoSection";
 import { DetailHeader } from "../../components/CompanyInformation/InterviewHistoryDetailPage/DetailHeader";
 
-
 export default function InterviewHistoryDetailPage() {
   const navigate = useNavigate();
   const { interviewId } = useParams<{ interviewId: string }>();
 
   // 데이터 페칭 로직
-  const interview = mockUserInterviews.find(
-    (i) => i.id === Number(interviewId)
-  );
+  const interview = mockUserInterviews.find((i) => i.id === interviewId);
 
   // 1. 예외 처리 (NotFoundView 사용)
   if (!interview) {

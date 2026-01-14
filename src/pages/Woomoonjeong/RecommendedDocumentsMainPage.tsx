@@ -25,8 +25,8 @@ export default function RecommendedDocumentsMainPage() {
     "documents"
   );
   const [searchQuery, setSearchQuery] = useState("");
-  const [savedPins, setSavedPins] = useState<Set<number>>(new Set());
-  const [savedFields, setSavedFields] = useState<Set<number>>(new Set());
+  const [savedPins, setSavedPins] = useState<Set<string>>(new Set());
+  const [savedFields, setSavedFields] = useState<Set<string>>(new Set());
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedPin, setSelectedPin] = useState<RecommendedPin | null>(null);
   const [isAddFieldModalOpen, setIsAddFieldModalOpen] = useState(false);
@@ -73,13 +73,13 @@ export default function RecommendedDocumentsMainPage() {
   const currentFilteredData =
     contentType === "documents" ? filteredPins : filteredFields;
 
-  const toggleSavePin = (pinId: number) => {
+  const toggleSavePin = (pinId: string) => {
     const next = new Set(savedPins);
     next.has(pinId) ? next.delete(pinId) : next.add(pinId);
     setSavedPins(next);
   };
 
-  const toggleSaveField = (fieldId: number) => {
+  const toggleSaveField = (fieldId: string) => {
     const next = new Set(savedFields);
     next.has(fieldId) ? next.delete(fieldId) : next.add(fieldId);
     setSavedFields(next);

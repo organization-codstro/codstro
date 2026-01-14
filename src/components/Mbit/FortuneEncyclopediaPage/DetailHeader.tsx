@@ -1,10 +1,7 @@
 import React from "react";
 import { Sparkles } from "lucide-react";
-import { Fortune } from "../../../data/Mbit/fortuneData";
+import { DetailHeaderProps } from "../../../types/pages/Mbit/FortuneEncyclopediaPage/DetailHeader";
 
-interface DetailHeaderProps {
-  fortune: Fortune;
-}
 
 const DetailHeader: React.FC<DetailHeaderProps> = ({ fortune }) => {
   return (

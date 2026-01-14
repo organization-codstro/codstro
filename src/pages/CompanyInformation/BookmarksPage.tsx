@@ -12,7 +12,7 @@ export default function BookmarksPage() {
   const navigate = useNavigate();
 
   // 1. 상태 관리: 북마크된 아이디 목록
-  const [bookmarkedIds, setBookmarkedIds] = useState<number[]>(
+  const [bookmarkedIds, setBookmarkedIds] = useState<string[]>(
     mockBookmarkedCompanyIds
   );
 
@@ -22,7 +22,7 @@ export default function BookmarksPage() {
   );
 
   // 3. 북마크 삭제 핸들러
-  const removeBookmark = (companyId: number, e: React.MouseEvent) => {
+  const removeBookmark = (companyId: string, e: React.MouseEvent) => {
     e.stopPropagation(); // 카드 클릭 이벤트 전파 방지
     setBookmarkedIds((prev) => prev.filter((id) => id !== companyId));
   };

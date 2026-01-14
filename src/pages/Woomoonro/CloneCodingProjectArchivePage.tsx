@@ -24,10 +24,10 @@ export default function CloneCodingProjectArchivePage() {
   const [archivedUserProjectsData, setArchivedUserProjectsData] =
     useState(initialData);
 
-  const getUserProject = (projectId: number) =>
+  const getUserProject = (projectId: string) =>
     archivedUserProjectsData.find((up) => up.project_id === projectId);
 
-  const handleToggleBookmark = (projectId: number) => {
+  const handleToggleBookmark = (projectId: string) => {
     setArchivedUserProjectsData((prev) =>
       prev.map((up) =>
         up.project_id === projectId

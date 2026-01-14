@@ -29,11 +29,11 @@ export default function DocumentsManagementPagePage() {
   const [woomoonjeongData, setWoomoonjeongData] = useState<Group[]>(
     initialData as unknown as Group[]
   );
-  const [expandedGroups, setExpandedGroups] = useState<Set<number>>(
-    new Set([1])
+  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(
+    new Set(["1"])
   );
-  const [expandedFields, setExpandedFields] = useState<Set<number>>(
-    new Set([1])
+  const [expandedFields, setExpandedFields] = useState<Set<string>>(
+    new Set(["1"])
   );
   const [selectedGroupType, setSelectedGroupType] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -49,7 +49,7 @@ export default function DocumentsManagementPagePage() {
   } | null>(null);
   const [deletePending, setDeletePending] = useState<{
     type: "group" | "field" | "pin";
-    id: number;
+    id: string;
   } | null>(null);
 
   // --- 삭제 타이머 익스텐션 ---
@@ -61,7 +61,7 @@ export default function DocumentsManagementPagePage() {
   }, [deletePending]);
 
   // --- 핸들러 로직 ---
-  const toggleGroup = (groupId: number) => {
+  const toggleGroup = (groupId: string) => {
     setExpandedGroups((prev) => {
       const next = new Set(prev);
       next.has(groupId) ? next.delete(groupId) : next.add(groupId);
@@ -70,8 +70,8 @@ export default function DocumentsManagementPagePage() {
   };
 
   const handleSaveFieldName = (
-    groupId: number,
-    fieldId: number,
+    groupId: string,
+    fieldId: string,
     newName: string
   ) => {
     if (!newName.trim()) return;
@@ -93,7 +93,7 @@ export default function DocumentsManagementPagePage() {
   const handleDeleteAction = (
     e: React.MouseEvent,
     type: "group" | "field" | "pin",
-    id: number
+    id: string
   ) => {
     e.preventDefault();
     e.stopPropagation();
@@ -127,7 +127,7 @@ export default function DocumentsManagementPagePage() {
     }
   };
 
-  const handleEditPin = (pinId: number) => {
+  const handleEditPin = (pinId: string) => {
     for (const group of woomoonjeongData) {
       for (const field of group.fields) {
         const pin = field.pins.find((p) => p.id === pinId);

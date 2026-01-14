@@ -1,6 +1,6 @@
 export const personalityTestQuestionData = [
   {
-    id: 1,
+    id: "1",
     question: "When starting a new project, do you prefer to:",
     options: [
       { text: "Plan everything in detail before coding", type: "P" },
@@ -8,7 +8,7 @@ export const personalityTestQuestionData = [
     ],
   },
   {
-    id: 2,
+    id: "2",
     question: "How do you approach debugging?",
     options: [
       { text: "Systematic analysis and logging", type: "A" },
@@ -16,7 +16,7 @@ export const personalityTestQuestionData = [
     ],
   },
   {
-    id: 3,
+    id: "3",
     question: "Your ideal work environment is:",
     options: [
       { text: "Quiet and focused, working alone", type: "S" },
@@ -24,7 +24,7 @@ export const personalityTestQuestionData = [
     ],
   },
   {
-    id: 4,
+    id: "4",
     question: "When learning new technology:",
     options: [
       { text: "Read documentation thoroughly first", type: "D" },

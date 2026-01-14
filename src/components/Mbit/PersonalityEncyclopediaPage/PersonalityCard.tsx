@@ -1,11 +1,6 @@
 import React from "react";
 import { Users } from "lucide-react";
-import { Personality } from "../../../data/Mbit/personalityData";
-
-interface PersonalityCardProps {
-  personality: Personality;
-  onClick: (p: Personality) => void;
-}
+import { PersonalityCardProps } from "../../../types/pages/Mbit/PersonalityEncyclopediaPage/PersonalityCard";
 
 const PersonalityCard: React.FC<PersonalityCardProps> = ({
   personality,

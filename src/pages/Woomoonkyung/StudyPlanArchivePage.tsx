@@ -22,7 +22,7 @@ export default function StudyPlanArchivePage() {
   const navigate = useNavigate();
 
   // 1. 노드 데이터를 가져오는 함수 (내부에서 추천 여부 판단)
-  const getNodesForPlan = (planId: number): StudyPlanNode[] => {
+  const getNodesForPlan = (planId: string): StudyPlanNode[] => {
     const plan =
       studyPlans.find((p) => p.study_plan_id === planId) ||
       recommendedStudyPlans.find((p) => p.study_plan_id === planId);
@@ -37,7 +37,7 @@ export default function StudyPlanArchivePage() {
   };
 
   // 2. 통계 계산
-  const getStats = (planId: number) => {
+  const getStats = (planId: string) => {
     const nodes = getNodesForPlan(planId);
     const total = nodes.length;
     const completed = nodes.filter((n) => n.completed).length;

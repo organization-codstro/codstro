@@ -1,13 +1,11 @@
 import React from "react";
 import { Sparkles } from "lucide-react";
-import { Fortune } from "../../../data/Mbit/fortuneData";
+import { FortuneItemCardProps } from "../../../types/pages/Mbit/FortuneEncyclopediaPage/FortuneItemCard";
 
-interface FortuneItemCardProps {
-  fortune: Fortune;
-  onClick: (fortune: Fortune) => void;
-}
-
-const FortuneItemCard: React.FC<FortuneItemCardProps> = ({ fortune, onClick }) => {
+const FortuneItemCard: React.FC<FortuneItemCardProps> = ({
+  fortune,
+  onClick,
+}) => {
   return (
     <div
       onClick={() => onClick(fortune)}

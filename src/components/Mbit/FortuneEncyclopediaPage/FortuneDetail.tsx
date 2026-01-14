@@ -1,12 +1,7 @@
 import React from "react";
 import { ArrowLeft } from "lucide-react";
 import DetailHeader from "./DetailHeader";
-import { Fortune } from "../../../data/Mbit/fortuneData";
-
-interface FortuneDetailProps {
-  fortune: Fortune;
-  onBack: () => void;
-}
+import { FortuneDetailProps } from "../../../types/pages/Mbit/FortuneEncyclopediaPage/FortuneDetail";
 
 const FortuneDetail: React.FC<FortuneDetailProps> = ({ fortune, onBack }) => {
   return (

@@ -13,11 +13,19 @@ import { FeedbackView } from "../../components/CompanyInformation/InterviewDetai
 export default function InterviewDetailPage() {
   const { companyId } = useParams<{ companyId: string }>();
   const navigate = useNavigate();
-  const numericCompanyId = Number(companyId);
+
+  //1. 회사 ID 유효성 검사 (추후 404 페이지 삽입)
+  if (!companyId) {
+    return (
+      <div className="p-8 text-center text-gray-500">
+        No questions available
+      </div>
+    );
+  }
 
   // 데이터 조회
-  const company = mockCompanies.find((c) => c.company_id === numericCompanyId);
-  const questions = mockQnas[numericCompanyId] || [];
+  const company = mockCompanies.find((c) => c.company_id === companyId);
+  const questions = mockQnas[companyId] || [];
 
   // 상태 관리
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -49,7 +57,7 @@ export default function InterviewDetailPage() {
   const handleNextQuestion = () => {
     if (isLastQuestion) {
       toast.success("모든 면접 과정을 완료했습니다!");
-      navigate(`/companies/${numericCompanyId}`);
+      navigate(`/companies/${companyId}`);
     } else {
       setCurrentQuestionIndex((prev) => prev + 1);
       setAnswer("");
@@ -67,7 +75,7 @@ export default function InterviewDetailPage() {
             companyName={company.company_name}
             currentIndex={currentQuestionIndex}
             totalCount={questions.length}
-            onBack={() => navigate(`/companies/${numericCompanyId}`)}
+            onBack={() => navigate(`/companies/${companyId}`)}
           />
 
           {/* 2. 상태에 따른 조건부 렌더링 */}

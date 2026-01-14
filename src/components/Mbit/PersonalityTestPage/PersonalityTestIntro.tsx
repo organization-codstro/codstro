@@ -1,9 +1,6 @@
 import React from "react";
 import { Users } from "lucide-react";
-
-interface PersonalityTestIntroProps {
-  onStart: () => void;
-}
+import { PersonalityTestIntroProps } from "../../../types/pages/Mbit/PersonalityTestPage/PersonalityTestIntro";
 
 const PersonalityTestIntro: React.FC<PersonalityTestIntroProps> = ({
   onStart,

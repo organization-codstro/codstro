@@ -1,9 +1,6 @@
 import React from "react";
 import { GraduationCap } from "lucide-react";
-
-interface TestIntroProps {
-  onStart: () => void;
-}
+import { TestIntroProps } from "../../../types/pages/Mbit/MajorTestPage/TestIntro";
 
 const TestIntro: React.FC<TestIntroProps> = ({ onStart }) => {
   return (

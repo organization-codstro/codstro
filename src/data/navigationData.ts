@@ -1,12 +1,12 @@
-import { NavigationItem } from "../types/type";
+import { NavigationItem } from "../types/pages/Sidebar/sidebar";
 
 export const navigationData: NavigationItem[] = [
   {
     id: "woomoonjeong",
     title: "Woomoonjeong",
-    icon: "FolderOpen", 
+    icon: "FolderOpen",
     route: "/woomoonjeong",
-     children: [
+    children: [
       {
         id: "todo-management",
         title: "To-do Management",

@@ -5,6 +5,6 @@ export interface StudyPlanCardProps {
   totalNodes: number;
   isBookmarked: boolean;
   onCardClick: (plan: StudyPlan) => void;
-  onToggleBookmark: (planId: number) => void;
+  onToggleBookmark: (planId: string) => void;
   onAddToMyPlans: (plan: StudyPlan) => void;
 }

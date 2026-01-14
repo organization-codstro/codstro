@@ -1,5 +1,5 @@
 export interface Fortune {
-  id: number;
+  id: string;
   code: number;
   name: string;
   summary: string;
@@ -9,7 +9,7 @@ export interface Fortune {
 }
 
 export interface Major {
-  id: number;
+  id: string;
   name: string;
   icon: any;
   description: string;
@@ -26,7 +26,7 @@ export interface Major {
 }
 
 export interface Personality {
-  id: number;
+  id: string;
   type: string;
   name: string;
   description: string;

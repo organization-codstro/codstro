@@ -16,7 +16,7 @@ export default function FieldDetailPage() {
   // 데이터 검색 로직
   const result = useMemo(() => {
     for (const group of woomoonjeongData) {
-      const field = group.fields.find((f) => f.id === Number(fieldId));
+      const field = group.fields.find((f) => f.id === fieldId);
       if (field) return { group, field };
     }
     return null;

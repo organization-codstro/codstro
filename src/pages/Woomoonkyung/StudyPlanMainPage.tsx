@@ -16,7 +16,7 @@ export default function StudyPlanMainPage() {
   const navigate = useNavigate();
 
   // 🔹 통계 및 데이터 로직 (부모에서 관리)
-  const getStats = (planId: number) => {
+  const getStats = (planId: string) => {
     const plan = studyPlans.find((p) => p.study_plan_id === planId);
     const nodesSource = plan?.study_plan_is_recommendation
       ? recommendedStudyPlanNodes

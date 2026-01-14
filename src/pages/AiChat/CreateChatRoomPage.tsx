@@ -19,7 +19,7 @@ export default function CreateChatRoomPage() {
   });
 
   // 2단계: 선택된 친구 상태
-  const [selectedFriends, setSelectedFriends] = useState<number[]>([]);
+  const [selectedFriends, setSelectedFriends] = useState<string[]>([]);
 
   // 단계 전환 및 생성 로직
   const handleNext = () => {
@@ -32,7 +32,7 @@ export default function CreateChatRoomPage() {
     }
   };
 
-  const toggleFriend = (friendId: number) => {
+  const toggleFriend = (friendId: string) => {
     setSelectedFriends((prev) =>
       prev.includes(friendId)
         ? prev.filter((id) => id !== friendId)

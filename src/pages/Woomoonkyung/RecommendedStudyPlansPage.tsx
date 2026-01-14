@@ -14,16 +14,14 @@ import { StudyPlan } from "../../types/pages/Woomoonkyung/Woomoonkyung";
 export default function RecommendedStudyPlansPage() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
-  const [bookmarks, setBookmarks] = useState<Set<number>>(
+  const [bookmarks, setBookmarks] = useState<Set<string>>(
     new Set(
-      bookmarkedPlans
-        .filter((b) => b.is_bookmarked)
-        .map((b) => Number(b.study_plan_id))
+      bookmarkedPlans.filter((b) => b.is_bookmarked).map((b) => b.study_plan_id)
     )
   );
 
   // 로직: 특정 플랜의 노드 개수 계산
-  const getTotalNodesCount = (planId: number): number => {
+  const getTotalNodesCount = (planId: string): number => {
     return recommendedStudyPlanNodes.filter(
       (node) => node.study_plan_id === planId
     ).length;
@@ -35,7 +33,7 @@ export default function RecommendedStudyPlansPage() {
   };
 
   // 핸들러: 북마크 토글
-  const toggleBookmark = (planId: number) => {
+  const toggleBookmark = (planId: string) => {
     const newBookmarks = new Set(bookmarks);
     if (newBookmarks.has(planId)) {
       newBookmarks.delete(planId);

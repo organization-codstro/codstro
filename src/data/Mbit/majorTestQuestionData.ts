@@ -1,6 +1,6 @@
 export const majorTestQuestions = [
   {
-    id: 1,
+    id: "1",
     question: "What interests you most?",
     options: [
       { text: "Building user interfaces and experiences", major: "Frontend" },
@@ -10,7 +10,7 @@ export const majorTestQuestions = [
     ],
   },
   {
-    id: 2,
+    id: "2",
     question: "Which sounds more exciting?",
     options: [
       { text: "Creating beautiful, interactive websites", major: "Frontend" },
@@ -20,7 +20,7 @@ export const majorTestQuestions = [
     ],
   },
   {
-    id: 3,
+    id: "3",
     question: "Your preferred tools:",
     options: [
       { text: "React, CSS, Design tools", major: "Frontend" },

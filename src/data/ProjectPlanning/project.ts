@@ -7,7 +7,7 @@ import {
 // 예시 데이터: 진행중인 프로젝트 (기획 완료)
 export const activeProjectsData: Project[] = [
   {
-    project_id: 1,
+    project_id: "1",
     project_name: "AI Chat App",
     project_description: "A modern chat application with AI integration",
     project_topic: "Real-time messaging application",
@@ -18,11 +18,11 @@ export const activeProjectsData: Project[] = [
     project_style: "Modern, minimalist",
     project_effect: "Smooth transitions, fade animations",
     project_created_date: "2025-11-15",
-    user_id: 1,
+    user_id: "1",
     project_status: "active",
   },
   {
-    project_id: 2,
+    project_id: "2",
     project_name: "E-commerce Platform",
     project_description:
       "Full-stack e-commerce solution with payment integration",
@@ -34,7 +34,7 @@ export const activeProjectsData: Project[] = [
     project_style: "Clean, professional",
     project_effect: "Hover effects, loading animations",
     project_created_date: "2025-11-10",
-    user_id: 1,
+    user_id: "1",
     project_status: "active",
   },
 ];
@@ -42,7 +42,7 @@ export const activeProjectsData: Project[] = [
 // 예시 데이터: 기획중인 프로젝트
 export const planningProjectsData: Project[] = [
   {
-    project_id: 3,
+    project_id: "3",
     project_name: "Task Management Tool",
     project_description: "A collaborative task management application",
     project_topic: "Productivity and collaboration",
@@ -53,11 +53,11 @@ export const planningProjectsData: Project[] = [
     project_style: "",
     project_effect: "",
     project_created_date: "2025-12-20",
-    user_id: 1,
+    user_id: "1",
     project_status: "planning",
   },
   {
-    project_id: 4,
+    project_id: "4",
     project_name: "Social Media Dashboard",
     project_description: "Analytics dashboard for social media management",
     project_topic: "Data visualization and analytics",
@@ -68,14 +68,14 @@ export const planningProjectsData: Project[] = [
     project_style: "",
     project_effect: "",
     project_created_date: "2025-12-22",
-    user_id: 1,
+    user_id: "1",
     project_status: "planning",
   },
 ];
 
 export const projectTodosData: Todo[] = [
   {
-    id: 1,
+    id: "1",
     name: "Setup project repository",
     content: "Initialize Git and setup development environment",
     description: "Create GitHub repository and configure development tools",
@@ -85,7 +85,7 @@ export const projectTodosData: Todo[] = [
     created_at: "2025-12-25",
   },
   {
-    id: 2,
+    id: "2",
     name: "Design database schema",
     content: "Plan and create database structure",
     description: "Design ERD and create migration files",
@@ -98,15 +98,15 @@ export const projectTodosData: Todo[] = [
 
 export const pagesData: Array<ProjectPage & { todos: Todo[] }> = [
   {
-    project_page_id: 1,
+    project_page_id: "1",
     project_page_name: "Authentication",
     project_page_role: "User Management",
     project_page_function: "Login, Signup, Password Reset",
     project_page_is_complete: false,
-    project_id: 0,
+    project_id: "0",
     todos: [
       {
-        id: 10,
+        id: "10",
         name: "Design login UI",
         content: "Create responsive login form",
         description: "Design and implement login page with validation",
@@ -116,7 +116,7 @@ export const pagesData: Array<ProjectPage & { todos: Todo[] }> = [
         created_at: "2025-12-25",
       },
       {
-        id: 11,
+        id: "11",
         name: "Implement authentication logic",
         content: "Set up auth flow",
         description: "Connect to backend authentication service",
@@ -128,15 +128,15 @@ export const pagesData: Array<ProjectPage & { todos: Todo[] }> = [
     ],
   },
   {
-    project_page_id: 2,
+    project_page_id: "2",
     project_page_name: "Chat Interface",
     project_page_role: "Messaging",
     project_page_function: "Send messages, display chat history",
     project_page_is_complete: false,
-    project_id: 0,
+    project_id: "0",
     todos: [
       {
-        id: 12,
+        id: "12",
         name: "Create chat UI",
         content: "Design message list and input",
         description: "Build real-time chat interface",
@@ -152,7 +152,7 @@ export const pagesData: Array<ProjectPage & { todos: Todo[] }> = [
 // 예시 데이터: 아카이브된 프로젝트 (마감일이 끝난 프로젝트)
 export const archivedProjectsData: Project[] = [
   {
-    project_id: 5,
+    project_id: "5",
     project_name: "Portfolio Website",
     project_description: "Personal portfolio website with blog functionality",
     project_topic: "Personal branding and portfolio",
@@ -163,11 +163,11 @@ export const archivedProjectsData: Project[] = [
     project_style: "Modern, clean",
     project_effect: "Smooth scroll animations",
     project_created_date: "2024-12-15",
-    user_id: 1,
+    user_id: "1",
     project_status: "active",
   },
   {
-    project_id: 6,
+    project_id: "6",
     project_name: "Weather App",
     project_description: "Real-time weather application with location services",
     project_topic: "Weather data visualization",
@@ -178,7 +178,7 @@ export const archivedProjectsData: Project[] = [
     project_style: "Minimalist, informative",
     project_effect: "Weather animations",
     project_created_date: "2025-01-20",
-    user_id: 1,
+    user_id: "1",
     project_status: "active",
   },
 ];
@@ -186,10 +186,10 @@ export const archivedProjectsData: Project[] = [
 //오늘의 주요 뉴스?
 export const trendingNewsData = [
   {
-    id: 1,
+    id: "1",
     title: "AI-powered development tools gaining popularity",
     date: "2025-12-25",
   },
-  { id: 2, title: "New React 19 features released", date: "2025-12-24" },
-  { id: 3, title: "TypeScript 5.4 improvements", date: "2025-12-23" },
+  { id: "2", title: "New React 19 features released", date: "2025-12-24" },
+  { id: "3", title: "TypeScript 5.4 improvements", date: "2025-12-23" },
 ];

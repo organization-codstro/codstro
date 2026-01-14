@@ -1,10 +1,6 @@
 import React from "react";
 import { GraduationCap } from "lucide-react";
-
-interface TestResultProps {
-  result: string;
-  onReset: () => void;
-}
+import { TestResultProps } from "../../../types/pages/Mbit/MajorTestPage/TestResult";
 
 const TestResult: React.FC<TestResultProps> = ({ result, onReset }) => {
   return (
