@@ -16,7 +16,7 @@ export const NoticeDetailService = {
       const { data, error } = await supabase
         .from("notices")
         .select("*")
-        .order("notice_created_date", { ascending: false });
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
       return data || [];
@@ -38,7 +38,7 @@ export const NoticeDetailService = {
       const { data, error } = await supabase
         .from("notices")
         .select("*")
-        .eq("notices_id", params.noticeId)
+        .eq("notice_id", params.noticeId)
         .single();
 
       if (error) throw error;
@@ -90,7 +90,7 @@ export const NoticeDetailService = {
         `
         )
         .eq("user_notice_reads.user_id", params.userId)
-        .order("notice_created_date", { ascending: false });
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
       return data;

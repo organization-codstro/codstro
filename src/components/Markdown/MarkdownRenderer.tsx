@@ -6,6 +6,7 @@ interface MarkdownRendererProps {
 }
 
 export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
+  const normalizedContent = content.replace(/\\n/g, "\n");
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
@@ -52,7 +53,7 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
         },
       }}
     >
-      {content}
+      {normalizedContent}
     </ReactMarkdown>
   );
 }

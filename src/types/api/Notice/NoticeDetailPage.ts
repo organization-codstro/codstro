@@ -2,7 +2,7 @@ export type NoticeType = "update" | "maintenance" | "event" | "general";
 
 export interface NoticeResponse {
   notices_id: string;
-  notices_title: string;
+  notice_title: string;
   notice_content: string;
   notice_type: NoticeType;
   notice_created_date: string;

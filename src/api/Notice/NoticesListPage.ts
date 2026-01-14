@@ -15,16 +15,14 @@ export const NoticesListService = {
         .from("notices")
         .select(
           `
-          notices_id,
-          notices_title,
+          notice_id,
+          notice_title,
           notice_content,
           notice_type,
-          notice_created_date,
-          is_pinned
+          created_at
         `
         )
-        .order("is_pinned", { ascending: false })
-        .order("notice_created_date", { ascending: false });
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
       return data || [];
@@ -46,7 +44,7 @@ export const NoticesListService = {
         .from("notices")
         .select("*")
         .eq("notice_type", params.type)
-        .order("notice_created_date", { ascending: false });
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
       return data || [];
