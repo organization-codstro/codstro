@@ -1,5 +1,5 @@
 import { ExternalLink, Tag } from "lucide-react";
-import { DocumentCardProps } from "../../../types/Woomoonjeong/RecommendedDocumentsMainPage/DocumentCard";
+import { DocumentCardProps } from "../../../types/pages/Woomoonjeong/RecommendedDocumentsMainPage/DocumentCard";
 
 const DocumentCard: React.FC<DocumentCardProps> = ({
   pin,

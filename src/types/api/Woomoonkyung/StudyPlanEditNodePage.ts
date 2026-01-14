@@ -3,7 +3,7 @@
  * 학습 노드 조회 파라미터
  */
 export interface GetNodesByPlanIdParams {
-  planId: number;
+  planId: string;
 }
 
 /**
@@ -27,7 +27,7 @@ export interface DeleteNodeParams {
  * 플랜 정보 조회 파라미터
  */
 export interface GetPlanInfoParams {
-  planId: number;
+  planId: string;
 }
 
 /**
@@ -35,15 +35,15 @@ export interface GetPlanInfoParams {
  * 학습 노드 정보 타입
  */
 export interface NodeItem {
-  study_plan_node_id?: string | number;
-  study_plan_id: number;
+  study_plan_node_id?: string;
+  study_plan_id: string;
   study_plan_node_name: string;
   description?: string;
   start_date?: string;
   end_date?: string;
   completed: boolean;
   position: number;
-  tech_stack_id?: number;
+  tech_stack_id?: string;
   created_date: string;
   tech_stacks?: {
     tech_stack_name: string;
@@ -57,7 +57,7 @@ export interface NodeItem {
  * 공부 계획 기본 정보 타입
  */
 export interface PlanInfo {
-  study_plan_id: number;
+  study_plan_id: string;
   study_plan_name: string;
   study_plan_description?: string;
   [key: string]: any;
@@ -68,7 +68,7 @@ export interface PlanInfo {
  * 기술 스택 정보 타입
  */
 export interface TechStack {
-  tech_stack_id: number;
+  tech_stack_id: string;
   tech_stack_name: string;
   tech_stack_img_url?: string;
   [key: string]: any;

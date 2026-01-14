@@ -3,7 +3,7 @@
  * 유저가 참여 중인 모든 채팅방을 가져오기 위한 파라미터
  */
 export interface GetChatRoomsParams {
-  userId: number;
+  userId: string;
 }
 
 /**
@@ -17,8 +17,8 @@ export interface DailyNewChats {
  * chat_rooms 테이블 기본 엔티티
  */
 export interface ChatRoom {
-  chat_room_id: number;
-  user_id: number;
+  chat_room_id: string;
+  user_id: string;
   chat_room_name: string;
   chat_room_type: "daily" | "project";
   chat_room_topics: string;
@@ -37,7 +37,7 @@ export type GetChatRoomsResponse = ChatRoom[];
  * 채팅방 이름 또는 주제어 검색 파라미터
  */
 export interface SearchChatRoomsParams {
-  userId: number;
+  userId: string;
   searchTerm: string;
 }
 
@@ -51,7 +51,7 @@ export type SearchChatRoomsResponse = ChatRoom[];
  * 새로운 채팅방 생성을 위한 파라미터
  */
 export interface CreateChatRoomParams {
-  userId: number;
+  userId: string;
   roomName: string;
   roomType: "daily" | "project";
   topics: string;

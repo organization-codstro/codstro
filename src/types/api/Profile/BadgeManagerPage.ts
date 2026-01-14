@@ -17,6 +17,6 @@ export type GetUserBadgesParams = number;
  * [대표 배지 설정 파라미터]
  */
 export interface SetRepresentativeBadgeParams {
-  userId: number;
-  badgeId: number;
+  userId: string;
+  badgeId: string;
 }

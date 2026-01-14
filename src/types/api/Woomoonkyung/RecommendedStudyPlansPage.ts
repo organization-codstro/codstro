@@ -7,7 +7,7 @@ export type GetRecommendedPlansParams = string;
  * [북마크 상태 토글 파라미터]
  */
 export interface ToggleBookmarkParams {
-  planId: number;
+  planId: string;
   currentState: boolean;
 }
 
@@ -15,7 +15,7 @@ export interface ToggleBookmarkParams {
  * [추천 계획을 내 계획으로 추가 파라미터]
  */
 export interface AddToMyPlansParams {
-  userId: number;
+  userId: string;
   targetPlan: any;
 }
 

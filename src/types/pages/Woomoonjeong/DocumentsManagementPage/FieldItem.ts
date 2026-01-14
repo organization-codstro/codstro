@@ -5,12 +5,12 @@ export interface FieldItemProps {
   group: Group;
   isExpanded: boolean;
   onToggle: () => void;
-  onSaveName: (groupId: number, fieldId: number, newName: string) => void;
+  onSaveName: (groupId: string, fieldId: string, newName: string) => void;
   onDeleteAction: (
     e: React.MouseEvent,
     type: "field" | "pin",
-    id: number
+    id: string
   ) => void;
-  deletePending: { type: string; id: number } | null;
-  onEditPin: (pinId: number) => void;
+  deletePending: { type: string; id: string } | null;
+  onEditPin: (pinId: string) => void;
 }

@@ -2,7 +2,7 @@
  * [기획 페이지 목록 조회 파라미터]
  */
 export interface GetPlanningPagesParams {
-  projectId: number;
+  projectId: string;
 }
 
 /**
@@ -16,7 +16,7 @@ export interface GetMeetingDetailsParams {
  * [회의실 생성 파라미터]
  */
 export interface CreateMeetingRoomParams {
-  projectId: number;
+  projectId: string;
   purpose: string;
   detail: string;
   roomType: "Feature" | "Free";

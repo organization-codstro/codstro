@@ -27,10 +27,10 @@ const StudyPlanNodeEditor: React.FC<StudyPlanNodeEditorProps> = ({
   onBack,
 }) => {
   const [nodes, setNodes] = useState<
-    (SortableNodeItemNodeFormData & { id: number })[]
+    (SortableNodeItemNodeFormData & { id: string })[]
   >([]);
   const [showAddForm, setShowAddForm] = useState(false);
-  const [editingNode, setEditingNode] = useState<number | null>(null);
+  const [editingNode, setEditingNode] = useState<string | null>(null);
   const [formData, setFormData] = useState<SortableNodeItemNodeFormData>({
     study_plan_node_name: "",
     description: "",
@@ -38,7 +38,7 @@ const StudyPlanNodeEditor: React.FC<StudyPlanNodeEditorProps> = ({
     end_date: studyPlan.study_plans_end_date,
     completed: false,
     position: 1,
-    tech_stack_id: techStacks[0] ? Number(techStacks[0].tech_stack_id) : 0,
+    tech_stack_id: techStacks[0].tech_stack_id,
   });
 
   const sensors = useSensors(
@@ -58,7 +58,7 @@ const StudyPlanNodeEditor: React.FC<StudyPlanNodeEditorProps> = ({
         end_date: node.end_date,
         completed: node.completed,
         position: node.position,
-        tech_stack_id: Number(node.tech_stack_id),
+        tech_stack_id: node.tech_stack_id,
       }))
       .sort((a, b) => a.position - b.position);
 
@@ -94,7 +94,7 @@ const StudyPlanNodeEditor: React.FC<StudyPlanNodeEditorProps> = ({
         type === "checkbox"
           ? (e.target as HTMLInputElement).checked
           : name === "tech_stack_id"
-          ? Number(value)
+          ? value
           : value,
     }));
   };
@@ -103,8 +103,9 @@ const StudyPlanNodeEditor: React.FC<StudyPlanNodeEditorProps> = ({
     if (!formData.study_plan_node_name.trim() || !formData.description.trim())
       return;
 
+    //api 연결시 id로직 수정
     const newNode = {
-      id: Date.now(),
+      id: Date.now().toString(),
       ...formData,
       position: nodes.length + 1,
     };
@@ -117,12 +118,12 @@ const StudyPlanNodeEditor: React.FC<StudyPlanNodeEditorProps> = ({
       end_date: studyPlan.study_plans_end_date,
       completed: false,
       position: nodes.length + 2,
-      tech_stack_id: techStacks[0] ? Number(techStacks[0].tech_stack_id) : 0,
+      tech_stack_id: techStacks[0].tech_stack_id,
     });
     setShowAddForm(false);
   };
 
-  const handleEditNode = (nodeId: number) => {
+  const handleEditNode = (nodeId: string) => {
     const node = nodes.find((n) => n.id === nodeId);
     if (node) {
       setFormData({
@@ -158,11 +159,11 @@ const StudyPlanNodeEditor: React.FC<StudyPlanNodeEditorProps> = ({
       end_date: studyPlan.study_plans_end_date,
       completed: false,
       position: nodes.length + 1,
-      tech_stack_id: techStacks[0] ? Number(techStacks[0].tech_stack_id) : 0,
+      tech_stack_id: techStacks[0] ? techStacks[0].tech_stack_id : "",
     });
   };
 
-  const handleDeleteNode = (nodeId: number) => {
+  const handleDeleteNode = (nodeId: string) => {
     if (window.confirm("이 노드를 삭제하시겠습니까?")) {
       setNodes((prev) => {
         const filtered = prev.filter((node) => node.id !== nodeId);
@@ -177,11 +178,11 @@ const StudyPlanNodeEditor: React.FC<StudyPlanNodeEditorProps> = ({
   const handleSave = () => {
     const nodesToSave = nodes.map(({ id, ...node }) => {
       const selectedTech = techStacks.find(
-        (t) => Number(t.tech_stack_id) === node.tech_stack_id
+        (t) => t.tech_stack_id === node.tech_stack_id
       );
       return {
         ...node,
-        study_plan_node_id: id > 2000000000000 ? undefined : id,
+        study_plan_node_id: id,
         study_plan_id: studyPlan.study_plan_id,
         tech_stack_name: selectedTech?.tech_stack_name || "",
         tech_stack_img_url: selectedTech?.tech_stack_img_url || "",

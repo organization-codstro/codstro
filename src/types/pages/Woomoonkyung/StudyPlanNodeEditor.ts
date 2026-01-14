@@ -5,7 +5,7 @@ export interface StudyPlanNodeEditorProps {
   existingNodes: StudyPlanNode[];
   onSave: (
     nodes: (Omit<StudyPlanNode, "study_plan_node_id" | "created_date"> & {
-      study_plan_node_id?: number;
+      study_plan_node_id?: string;
     })[]
   ) => void;
   onBack: () => void;

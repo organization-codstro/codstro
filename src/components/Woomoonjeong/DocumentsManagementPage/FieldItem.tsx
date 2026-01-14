@@ -9,7 +9,7 @@ import {
   Check,
 } from "lucide-react";
 import PinItem from "./PinItem";
-import { FieldItemProps } from "../../../types/Woomoonjeong/DocumentsManagementPage/FieldItem";
+import { FieldItemProps } from "../../../types/pages/Woomoonjeong/DocumentsManagementPage/FieldItem";
 
 const FieldItem: React.FC<FieldItemProps> = ({
   field,

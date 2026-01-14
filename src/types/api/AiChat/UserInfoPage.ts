@@ -5,15 +5,15 @@
  * 특정 유저 기록 조회 파라미터
  */
 export interface GetUserRecordParams {
-  userId: number;
+  userId: string;
 }
 
 /**
  * ai_user_records 테이블 엔티티
  */
 export interface UserRecord {
-  ai_user_record_id: number;
-  user_id: number;
+  ai_user_record_id: string;
+  user_id: string;
   ai_user_record_summary: string;
   ai_user_record_created_date: string;
 }
@@ -28,7 +28,7 @@ export type GetUserRecordResponse = UserRecord;
  * 유저 기록 업데이트 파라미터
  */
 export interface UpdateUserRecordParams {
-  recordId: number;
+  recordId: string;
   summary: string;
 }
 
@@ -42,7 +42,7 @@ export type UpdateUserRecordResponse = UserRecord;
  * AI 요약 생성 파라미터
  */
 export interface GenerateUserSummaryParams {
-  userId: number;
+  userId: string;
   recentMessages: string[];
 }
 

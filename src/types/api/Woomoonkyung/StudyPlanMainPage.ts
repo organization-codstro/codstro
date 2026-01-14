@@ -7,7 +7,7 @@
  * 진행 중인 내 학습 계획 목록 조회 파라미터
  */
 export interface GetActiveMyPlansParams {
-  userId: number;
+  userId: string;
 }
 
 /**
@@ -15,7 +15,7 @@ export interface GetActiveMyPlansParams {
  * 계획 삭제 파라미터
  */
 export interface DeletePlanParams {
-  planId: number;
+  planId: string;
 }
 
 /**
@@ -23,7 +23,7 @@ export interface DeletePlanParams {
  * 계획별 상세 통계 조회 파라미터
  */
 export interface GetPlanStatsParams {
-  planId: number;
+  planId: string;
 }
 
 /**

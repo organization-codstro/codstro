@@ -1,7 +1,7 @@
 // types/pages/Mbit/Mbit.ts
 
 export interface Fortune {
-  id: number;
+  id: string;
   code: string;
   name: string;
   summary: string;
@@ -15,7 +15,7 @@ export interface Fortune {
  * user_fortune + developer_fortunes join 결과
  */
 export interface UserTodayFortune {
-  user_fortune_id: number;
+  user_fortune_id: string;
   user_id: string;
   user_fortune_create_date: string;
   developer_fortune_id: number;

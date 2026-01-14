@@ -6,5 +6,5 @@ export interface SortableNodeItemNodeFormData {
   end_date: string;
   completed: boolean;
   position: number;
-  tech_stack_id: number;
+  tech_stack_id: string;
 }

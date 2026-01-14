@@ -1,29 +1,29 @@
 export interface GetRoomInfoParams {
-  roomId: number;
+  roomId: string;
 }
 
 export interface GetMessagesParams {
-  roomId: number;
+  roomId: string;
 }
 
 export interface SendMessageParams {
-  roomId: number;
+  roomId: string;
   content: string;
   sender: "USER" | "AI";
   nextIndex: number;
 }
 
 export interface SubscribeToMessagesParams {
-  roomId: number;
+  roomId: string;
   callback: (payload: any) => void;
 }
 
 export interface MarkAsReadParams {
-  roomId: number;
+  roomId: string;
 }
 
 export interface GenerateAiReplyParams {
-  roomId: number;
+  roomId: string;
   userMessage: string;
   persona: any;
 }

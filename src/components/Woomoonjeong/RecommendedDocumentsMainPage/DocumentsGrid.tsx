@@ -1,11 +1,7 @@
 import React from "react";
-import {
-  RecommendedPin,
-  RecommendedField,
-} from "../../../types/Woomoonjeong/woomoonjeong";
 import DocumentCard from "./DocumentCard";
 import FieldCard from "./FieldCard";
-import { DocumentsGridProps } from "../../../types/Woomoonjeong/RecommendedDocumentsMainPage/DocumentsGrid";
+import { DocumentsGridProps } from "../../../types/pages/Woomoonjeong/RecommendedDocumentsMainPage/DocumentsGrid";
 
 const DocumentsGrid: React.FC<DocumentsGridProps> = ({
   contentType,

@@ -2,7 +2,7 @@
  * [회사 목록 아이템]
  */
 export interface CompanyListItem {
-  company_id: number;
+  company_id: string;
   company_name: string;
   company_industry: string;
   companie_description: string;
@@ -20,20 +20,20 @@ export type GetCompanyListResponse = CompanyListItem[];
  * [유저 북마크 ID 조회] Params
  */
 export interface GetUserBookmarkedIdsParams {
-  userId: number;
+  userId: string;
 }
 
 /**
  * [유저 북마크 ID 조회] Response
  */
-export type GetUserBookmarkedIdsResponse = number[];
+export type GetUserBookmarkedIdsResponse = string[];
 
 /**
  * [북마크 추가] Params
  */
 export interface AddBookmarkParams {
-  userId: number;
-  companyId: number;
+  userId: string;
+  companyId: string;
 }
 
 /**
@@ -45,8 +45,8 @@ export type AddBookmarkResponse = boolean;
  * [북마크 제거] Params
  */
 export interface RemoveBookmarkParams {
-  userId: number;
-  companyId: number;
+  userId: string;
+  companyId: string;
 }
 
 /**
@@ -58,8 +58,8 @@ export type RemoveBookmarkResponse = boolean;
  * [북마크 토글] Params
  */
 export interface ToggleBookmarkInDBParams {
-  userId: number;
-  companyId: number;
+  userId: string;
+  companyId: string;
   isCurrentlyBookmarked: boolean;
 }
 

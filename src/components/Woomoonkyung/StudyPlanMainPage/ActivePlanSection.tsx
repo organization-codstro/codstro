@@ -1,5 +1,6 @@
 import React from "react";
-import { ActivePlanSectionProps } from "../../../types/Woomoonkyung/WoomoonkyungMainPage/ActivePlanSection";
+import { ActivePlanSectionProps } from "../../../types/pages/Woomoonkyung/StudyPlanMainPage/ActivePlanSection";
+
 
 const ActivePlanSection: React.FC<ActivePlanSectionProps> = ({
   count,

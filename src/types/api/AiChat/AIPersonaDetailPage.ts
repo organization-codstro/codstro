@@ -1,9 +1,9 @@
 export interface GetPersonaDetailParams {
-  personaId: number;
+  personaId: string;
 }
 
 export interface StartChattingParams {
-  userId: number;
-  personaId: number;
+  userId: string;
+  personaId: string;
 }
 

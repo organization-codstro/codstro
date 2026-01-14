@@ -1,7 +1,7 @@
 export type NoticeType = "update" | "maintenance" | "event" | "general";
 
 export interface NoticeResponse {
-  notices_id: number;
+  notices_id: string;
   notices_title: string;
   notice_content: string;
   notice_type: NoticeType;
@@ -27,7 +27,7 @@ export interface GetNoticeByIdParams {
  * 공지사항 읽음 상태 업데이트를 위한 파라미터
  */
 export interface MarkNoticeAsReadParams {
-  userId: number;
+  userId: string;
   noticeId: string;
 }
 
@@ -36,5 +36,5 @@ export interface MarkNoticeAsReadParams {
  * 유저별 읽음 상태 포함 공지 목록 조회 파라미터
  */
 export interface GetNoticesWithReadStatusParams {
-  userId: number;
+  userId: string;
 }

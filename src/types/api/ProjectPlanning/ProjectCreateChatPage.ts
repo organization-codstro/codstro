@@ -2,14 +2,14 @@
  * [이전 대화 내역 불러오기 파라미터]
  */
 export interface GetChatHistoryParams {
-  projectId: number;
+  projectId: string;
 }
 
 /**
  * [메시지 저장 파라미터]
  */
 export interface SaveChatMessageParams {
-  projectId: number;
+  projectId: string;
   sender: "AI" | "USER";
   message: string;
   meetingIndex: number;
@@ -19,7 +19,7 @@ export interface SaveChatMessageParams {
  * [AI 응답 생성 및 자동 저장 파라미터]
  */
 export interface GetAiResponseParams {
-  projectId: number;
+  projectId: string;
   userMessage: string;
   history: any[];
 }
@@ -28,5 +28,5 @@ export interface GetAiResponseParams {
  * [기획 중단/임시 저장 파라미터]
  */
 export interface PausePlanningParams {
-  projectId: number;
+  projectId: string;
 }

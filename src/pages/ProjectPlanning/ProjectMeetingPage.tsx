@@ -19,7 +19,7 @@ export default function ProjectMeetingPage() {
   // Mock Data
   const [meetings] = useState<MeetingListItem[]>([
     {
-      meeting_id: 1,
+      meeting_id: "1",
       meeting_name: "2025-12-25 Project Planning",
       meeting_purpose:
         "Discuss authentication flow and user management features",
@@ -27,21 +27,21 @@ export default function ProjectMeetingPage() {
       type: "feature",
     },
     {
-      meeting_id: 2,
+      meeting_id: "2",
       meeting_name: "2025-12-26 Chat Interface Design",
       meeting_purpose: "Design real-time messaging UI and features",
       meeting_created_date: "2025-12-26",
       type: "feature",
     },
     {
-      meeting_id: 3,
+      meeting_id: "3",
       meeting_name: "2025-12-27 Database Schema Review",
       meeting_purpose: "Review and finalize database structure",
       meeting_created_date: "2025-12-27",
       type: "free",
     },
     {
-      meeting_id: 4,
+      meeting_id: "4",
       meeting_name: "2025-12-20 Initial Planning",
       meeting_purpose: "Initial project setup and requirements gathering",
       meeting_created_date: "2025-12-20",

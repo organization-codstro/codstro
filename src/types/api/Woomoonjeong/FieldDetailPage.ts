@@ -2,7 +2,7 @@
  * [분야 상세 정보 조회 파라미터]
  */
 export interface GetFieldDetailWithPinsParams {
-  fieldId: number;
+  fieldId: string;
 }
 
 /**
@@ -11,7 +11,7 @@ export interface GetFieldDetailWithPinsParams {
 export interface AssignFieldToGroupParams {
   field_name: string;
   field_description: string;
-  group_id: number;
+  group_id: string;
   field_is_recommendation: boolean;
 }
 
@@ -19,5 +19,5 @@ export interface AssignFieldToGroupParams {
  * [핀 조회 파라미터]
  */
 export interface GetPinByIdParams {
-  pinId: number;
+  pinId: string;
 }

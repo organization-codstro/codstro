@@ -1,5 +1,5 @@
 export interface NoteSummaryResponse {
-  id: number;
+  id: string;
   title: string;
   concepts: string[]; // 스키마의 note_labels
   lastUpdated: string; // created_date
@@ -11,7 +11,7 @@ export interface NoteSummaryResponse {
  * 유저 노트 목록 조회 파라미터
  */
 export interface GetUserNotesParams {
-  userId: number;
+  userId: string;
 }
 
 /**
@@ -19,6 +19,6 @@ export interface GetUserNotesParams {
  * 유저 노트 검색 파라미터
  */
 export interface SearchUserNotesParams {
-  userId: number;
+  userId: string;
   keyword: string;
 }

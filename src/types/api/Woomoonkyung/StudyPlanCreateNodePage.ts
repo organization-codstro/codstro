@@ -11,7 +11,7 @@ export interface GetTechStacksParams {
  * 기술 스택 정보 타입
  */
 export interface TechStack {
-  tech_stack_id: number;
+  tech_stack_id: string;
   tech_stack_name: string;
   [key: string]: any;
 }
@@ -22,14 +22,14 @@ export interface TechStack {
  */
 export interface NodeItem {
   study_plan_node_id?: string;
-  study_plan_id: number;
+  study_plan_id: string;
   study_plan_node_name: string;
   description?: string;
   start_date?: string;
   end_date?: string;
   completed: boolean;
   position: number;
-  tech_stack_id?: number;
+  tech_stack_id?: string;
   created_date: string;
   [key: string]: any;
 }
@@ -39,7 +39,7 @@ export interface NodeItem {
  * 전체 노드 저장 파라미터
  */
 export interface SaveAllNodesParams {
-  planId: number;
+  planId: string;
   nodes: NodeItem[];
 }
 

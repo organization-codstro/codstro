@@ -9,14 +9,14 @@
  */
 export interface GetLibraryDetailParams {
   libraryId: string;
-  userId: number;
+  userId: string;
 }
 
 /**
  * 라이브러리 이해 상태 토글 파라미터
  */
 export interface ToggleLibraryUnderstoodParams {
-  userId: number;
+  userId: string;
   libraryId: string;
   currentStatus: boolean;
 }
@@ -33,7 +33,7 @@ export interface AskLibraryAIParams {
  * 라이브러리 Todo 생성 파라미터
  */
 export interface AddLibraryTodoParams {
-  userId: number;
+  userId: string;
   libraryName: string;
   type: string;
 }
@@ -45,7 +45,7 @@ interface RelatedItem {
 }
 
 export interface LibraryDetailResponse {
-  id: number;
+  id: string;
   name: string;
   language: string;
   category: string[];

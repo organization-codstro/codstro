@@ -2,7 +2,7 @@
  * [유저 프로필 및 레벨 정보 통합 조회 파라미터]
  */
 export interface GetUserFullProfileParams {
-  userId: number;
+  userId: string;
 }
 
 /**
@@ -19,7 +19,7 @@ export interface GetUserFullProfileResponse {
   };
   levelInfo: {
     currentLevel: {
-      id: number;
+      id: string;
       name: string;
       description: string;
       requiredPoints: number;

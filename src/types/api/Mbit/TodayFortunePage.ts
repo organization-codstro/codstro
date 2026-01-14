@@ -1,5 +1,5 @@
 export interface Fortune {
-  id: number;
+  id: string;
   code: number;
   name: string;
   summary: string;
@@ -21,7 +21,7 @@ export interface GetOrDrawTodayFortuneParams {
  * developer_fortunes 테이블 원본 데이터 타입
  */
 export interface DeveloperFortuneRecord {
-  developer_fortune_id: number;
+  developer_fortune_id: string;
   fortune_code: number;
   fortune_name: string;
   fortune_summary: string;

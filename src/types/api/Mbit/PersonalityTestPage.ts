@@ -1,5 +1,5 @@
 export interface Personality {
-  id: number;
+  id: string;
   type: string;
   name: string;
   description: string;
@@ -25,7 +25,7 @@ export interface PersonalityTestQuestionOption {
  * MBIT 테스트 질문 타입
  */
 export interface PersonalityTestQuestion {
-  id: number;
+  id: string;
   question: string;
   options: PersonalityTestQuestionOption[];
 }

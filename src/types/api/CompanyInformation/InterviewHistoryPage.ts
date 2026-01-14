@@ -4,7 +4,7 @@
 
 /** 면접 기록 단일 아이템 */
 export interface UserInterviewItem {
-  id: number;
+  id: string;
   company_qna_question: string | null;
   company_user_qna_answer: string | null;
   company_user_qna_create_date: string;
@@ -13,7 +13,7 @@ export interface UserInterviewItem {
 
 /** 특정 유저 면접 기록 리스트 조회 Params */
 export interface GetUserInterviewListParams {
-  userId: number;
+  userId: string;
 }
 
 /** 특정 유저 면접 기록 리스트 조회 Response */
@@ -21,7 +21,7 @@ export type GetUserInterviewListResponse = UserInterviewItem[];
 
 /** 면접 기록 삭제 Params */
 export interface DeleteInterviewRecordParams {
-  id: number;
+  id: string;
 }
 
 /** 면접 기록 삭제 Response */
@@ -29,7 +29,7 @@ export type DeleteInterviewRecordResponse = boolean;
 
 /** 면접 기록 개수 조회 Params */
 export interface GetInterviewCountParams {
-  userId: number;
+  userId: string;
 }
 
 /** 면접 기록 개수 조회 Response */

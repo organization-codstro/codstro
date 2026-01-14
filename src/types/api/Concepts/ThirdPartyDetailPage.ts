@@ -5,7 +5,7 @@ export interface RelatedItem {
 }
 
 export interface ThirdPartyDetailResponse {
-  id: number;
+  id: string;
   name: string;
   category: string[];
   tags: string[];
@@ -18,11 +18,11 @@ export interface ThirdPartyDetailResponse {
 
 export interface GetServiceDetailParams {
   serviceId: string;
-  userId: number;
+  userId: string;
 }
 
 export interface ToggleServiceUnderstoodParams {
-  userId: number;
+  userId: string;
   serviceId: string;
   currentStatus: boolean;
 }
@@ -33,7 +33,7 @@ export interface AskServiceAIParams {
 }
 
 export interface AddServiceTodoParams {
-  userId: number;
+  userId: string;
   serviceName: string;
   type: string;
 }

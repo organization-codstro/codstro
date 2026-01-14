@@ -5,7 +5,7 @@ export interface ProjectTodoItemProps {
   isEditing: boolean;
   onEdit: () => void;
   onCancelEdit: () => void;
-  onUpdate: (todoId: number, updates: Partial<Todo>) => void;
-  onDelete: (todoId: number) => void;
+  onUpdate: (todoId: string, updates: Partial<Todo>) => void;
+  onDelete: (todoId: string) => void;
   getStatusColor: (status: string) => string;
 }

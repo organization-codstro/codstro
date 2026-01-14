@@ -3,7 +3,6 @@ import { ArrowLeft, Calendar, Save, X } from "lucide-react";
 import { StudyPlan } from "../../types/pages/Woomoonkyung/Woomoonkyung";
 import { StudyPlanFormFormData } from "../../types/pages/Woomoonkyung/StudyPlanForm";
 
-
 interface StudyPlanFormProps {
   mode: "create" | "edit";
   existingPlan?: StudyPlan;
@@ -27,7 +26,7 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
     study_plans_end_date: "",
     study_plans_is_archived: false,
     study_plans_state: "waiting",
-    user_id: 1, // 실제 환경에서는 로그인된 유저 ID
+    user_id: "1", // 실제 환경에서는 로그인된 유저 ID
     study_plan_is_recommendation: false,
   });
 
@@ -43,7 +42,7 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
         study_plans_end_date: existingPlan.study_plans_end_date,
         study_plans_is_archived: existingPlan.study_plans_is_archived,
         study_plans_state: existingPlan.study_plans_state,
-        user_id: Number(existingPlan.user_id),
+        user_id: existingPlan.user_id,
         study_plan_is_recommendation: existingPlan.study_plan_is_recommendation,
       });
     }

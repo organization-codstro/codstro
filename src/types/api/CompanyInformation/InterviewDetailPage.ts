@@ -2,7 +2,7 @@
  * [회사 면접 질문 조회] Params
  */
 export interface GetCompanyQuestionsParams {
-  companyId: number;
+  companyId: string;
 }
 
 /**
@@ -10,7 +10,7 @@ export interface GetCompanyQuestionsParams {
  */
 export interface CompanyQuestion {
   company_qna_id: string;
-  company_id: number;
+  company_id: string;
   company_qna_question: string;
   company_qna_created_date: string;
   [key: string]: any;
@@ -25,7 +25,7 @@ export type GetCompanyQuestionsResponse = CompanyQuestion[];
  * [회사 기본 정보 조회] Params
  */
 export interface GetCompanyInfoParams {
-  companyId: number;
+  companyId: string;
 }
 
 /**
@@ -39,7 +39,7 @@ export interface GetCompanyInfoResponse {
  * [유저 면접 답변 저장] Params
  */
 export interface SaveUserInterviewResponseParams {
-  userId: number;
+  userId: string;
   questionId: string;
   questionText: string;
   userAnswer: string;
@@ -50,8 +50,8 @@ export interface SaveUserInterviewResponseParams {
  * [유저 면접 답변 저장] Response
  */
 export interface SaveUserInterviewResponseResponse {
-  company_user_qna_id: number;
-  user_id: number;
+  company_user_qna_id: string;
+  user_id: string;
   company_qna_id: string;
   company_qna_question: string;
   company_user_qna_answer: string;
@@ -63,8 +63,8 @@ export interface SaveUserInterviewResponseResponse {
  * [유저 면접 이력 조회] Params
  */
 export interface GetUserInterviewHistoryParams {
-  userId: number;
-  companyId: number;
+  userId: string;
+  companyId: string;
 }
 
 /**

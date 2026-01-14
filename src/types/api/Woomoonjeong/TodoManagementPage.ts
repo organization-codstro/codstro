@@ -26,7 +26,7 @@ export interface SearchTodosParams {
  * [할일 상태 토글 파라미터]
  */
 export interface ToggleTodoStatusParams {
-  todoId: number;
+  todoId: string;
   currentStatus: string;
 }
 
@@ -34,5 +34,5 @@ export interface ToggleTodoStatusParams {
  * [할일 삭제 파라미터]
  */
 export interface DeleteTodoParams {
-  todoId: number;
+  todoId: string;
 }

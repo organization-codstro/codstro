@@ -11,7 +11,7 @@ export interface GetRecommendedKeywordsParams {
 }
 
 export interface ConceptSummaryResponse {
-  id: number;
+  id: string;
   name: string;
   description: string;
   category: string[];

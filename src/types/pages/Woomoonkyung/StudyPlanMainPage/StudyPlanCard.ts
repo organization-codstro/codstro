@@ -1,4 +1,4 @@
-import { StudyPlan, StudyPlanNode } from "../Woomoonkyung";
+import { StudyPlan } from "../Woomoonkyung";
 
 export interface StudyPlanCardProps {
   plan: StudyPlan;
@@ -6,6 +6,6 @@ export interface StudyPlanCardProps {
   totalNodes: number;
   progress: number;
   stateColors: Record<string, string>;
-  onPlanClick: (id: number) => void;
-  onDeleteClick: (e: React.MouseEvent, id: number) => void;
+  onPlanClick: (id: string) => void;
+  onDeleteClick: (e: React.MouseEvent, id: string) => void;
 }

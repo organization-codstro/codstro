@@ -33,7 +33,7 @@ export default function StudyPlanMainPage() {
     return { total, completed, progress };
   };
 
-  const handleDeletePlan = (e: React.MouseEvent, id: number) => {
+  const handleDeletePlan = (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
     toast.success("공부 계획이 삭제되었습니다.");
   };

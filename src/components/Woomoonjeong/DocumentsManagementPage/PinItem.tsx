@@ -7,7 +7,7 @@ import {
   ExternalLink,
   Check,
 } from "lucide-react";
-import { PinItemProps } from "../../../types/Woomoonjeong/DocumentsManagementPage/PinItem";
+import { PinItemProps } from "../../../types/pages/Woomoonjeong/DocumentsManagementPage/PinItem";
 
 const PinItem: React.FC<PinItemProps> = ({
   pin,

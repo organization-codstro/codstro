@@ -1,5 +1,5 @@
 export interface LibrarySummaryResponse {
-  id: number;
+  id: string;
   name: string;
   language: string;
   description: string;

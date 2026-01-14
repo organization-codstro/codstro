@@ -10,7 +10,7 @@ interface RelatedItem {
 }
 
 export interface ToolDetailResponse {
-  id: number;
+  id: string;
   name: string;
   category: string[];
   tags: string[]; // category 데이터를 tags로 활용
@@ -22,7 +22,7 @@ export interface ToolDetailResponse {
 }
 
 export interface ToggleToolUnderstoodParams {
-  userId: number;
+  userId: string;
   toolId: string;
   currentStatus: boolean;
 }
@@ -33,7 +33,7 @@ export interface GetToolAIAdviceParams {
 }
 
 export interface AddToolTodoParams {
-  userId: number;
+  userId: string;
   toolName: string;
   type: string;
 }

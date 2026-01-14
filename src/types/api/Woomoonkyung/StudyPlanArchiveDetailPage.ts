@@ -12,7 +12,7 @@ export type GetPlanNodesParams = number;
  * [노드 완료 상태 전환 및 플랜 상태 자동 동기화 파라미터]
  */
 export interface ToggleNodeAndSyncStatusParams {
-  planId: number;
+  planId: string;
   nodeId: string;
   completed: boolean;
 }
@@ -21,7 +21,7 @@ export interface ToggleNodeAndSyncStatusParams {
  * [공부 계획 정보 수정 파라미터]
  */
 export interface UpdatePlanParams {
-  planId: number;
+  planId: string;
   updates: Partial<{
     study_plan_name: string;
     study_plan_description: string;

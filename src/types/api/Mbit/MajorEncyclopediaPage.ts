@@ -1,5 +1,5 @@
 export interface Major {
-  id: number;
+  id: string;
   name: string;
   icon: any;
   description: string;

@@ -11,12 +11,12 @@ export interface GetNoteByIdParams {
  * 노트 생성/수정 파라미터
  */
 export interface SaveNoteParams {
-  id?: number;
+  id?: string;
   title: string;
   content: string;
   labels: string[]; // concepts 목록을 labels로 활용
-  userId: number;
-  conceptIds: number[];
+  userId: string;
+  conceptIds: string[];
 }
 
 /**
@@ -32,5 +32,5 @@ export interface GenerateNoteContentParams {
  * 노트 삭제 파라미터
  */
 export interface DeleteNoteParams {
-  noteId: number;
+  noteId: string;
 }

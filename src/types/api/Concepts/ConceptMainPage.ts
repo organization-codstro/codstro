@@ -1,7 +1,7 @@
 export type MaterialType = "concept" | "tool" | "library" | "service";
 
 export interface RecommendedMaterialResponse {
-  id: number;
+  id: string;
   title: string;
   type: MaterialType;
   category: string;

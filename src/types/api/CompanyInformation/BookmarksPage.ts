@@ -2,14 +2,14 @@
  * [북마크된 회사 목록 조회] Params
  */
 export interface GetBookmarkedCompaniesParams {
-  userId: number;
+  userId: string;
 }
 
 /**
  * [회사 정보]
  */
 export interface Company {
-  company_id: number;
+  company_id: string;
   company_name: string;
   company_industry: string;
   companie_description: string;
@@ -26,8 +26,8 @@ export type GetBookmarkedCompaniesResponse = Company[];
  * [북마크 삭제] Params
  */
 export interface RemoveBookmarkParams {
-  userId: number;
-  companyId: number;
+  userId: string;
+  companyId: string;
 }
 
 /**

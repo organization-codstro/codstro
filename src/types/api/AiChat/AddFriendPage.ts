@@ -1,11 +1,11 @@
 import { AiPersonas } from "../../db/supabase/table";
 
 export interface GetMyFriendsParams {
-  userId: number;
+  userId: string;
 }
 
 export type GetMyFriendsResponse = Array<{
-  user_ai_setting_id: number;
+  user_ai_setting_id: string;
   ai_personas: AiPersonas;
 }>;
 
@@ -17,8 +17,8 @@ export interface SearchPersonasParams {
 }
 
 export interface AddFriendParams {
-  userId: number;
-  personaId: number;
+  userId: string;
+  personaId: string;
   callMeName?: string;
   emotion?: string;
   aiSelfAwareness?: boolean;
@@ -28,6 +28,6 @@ export interface AddFriendParams {
 export type AddFriendResponse = void;
 
 export interface RemoveFriendParams {
-  userId: number;
-  personaId: number;
+  userId: string;
+  personaId: string;
 }

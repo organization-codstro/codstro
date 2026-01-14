@@ -6,6 +6,6 @@ export interface StudyPlanCardProps {
   totalNodes: number;
   progress: number;
   stateColors: Record<string, string>;
-  onPlanClick: (id: number) => void;
-  onDeleteClick: (e: React.MouseEvent, id: number) => void;
+  onPlanClick: (id: string) => void;
+  onDeleteClick: (e: React.MouseEvent, id: string) => void;
 }

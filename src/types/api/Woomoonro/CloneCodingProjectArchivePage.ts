@@ -1,5 +1,5 @@
 export interface CloneCodingsResponse {
-  clone_coding_id: number; // PK / number
+  clone_coding_id: string; // PK / number
   clone_coding_title: string; // text
   clone_coding_description: string; // text
   clone_coding_tech_stack: string; // text[]
@@ -15,11 +15,11 @@ export interface CloneCodingsResponse {
 }
 
 export interface GetBookmarkedProjectsParams {
-  userId: number;
+  userId: string;
 }
 
 export interface GetArchiveStatsParams {
-  userId: number;
+  userId: string;
 }
 
 export interface ArchiveFilterParams {
@@ -29,11 +29,11 @@ export interface ArchiveFilterParams {
 }
 
 export interface GetFilteredArchiveParams {
-  userId: number;
+  userId: string;
   filters: ArchiveFilterParams;
 }
 
 export interface RemoveBookmarkParams {
-  userId: number;
-  projectId: number;
+  userId: string;
+  projectId: string;
 }

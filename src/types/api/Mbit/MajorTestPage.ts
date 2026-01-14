@@ -1,5 +1,5 @@
 export interface Major {
-  id: number;
+  id: string;
   name: string;
   icon: any;
   description: string;
@@ -22,7 +22,7 @@ export interface MajorQuestionOption {
 }
 
 export interface MajorQuestionResponse {
-  id: number;
+  id: string;
   question: string;
   options: MajorQuestionOption[];
 }

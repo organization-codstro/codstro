@@ -2,14 +2,14 @@
  * [할일 상세 조회 파라미터]
  */
 export interface GetTodoDetailParams {
-  todoId: number;
+  todoId: string;
 }
 
 /**
  * [할일 상태 업데이트 파라미터]
  */
 export interface UpdateTodoStatusParams {
-  todoId: number;
+  todoId: string;
   status: "waiting" | "in progress" | "done";
 }
 
@@ -17,7 +17,7 @@ export interface UpdateTodoStatusParams {
  * [할일 수정 파라미터]
  */
 export interface UpdateTodoParams {
-  todoId: number;
+  todoId: string;
   payload: {
     todo_name?: string;
     todo_content?: string;
@@ -32,7 +32,7 @@ export interface UpdateTodoParams {
  * [할일 삭제 파라미터]
  */
 export interface DeleteTodoParams {
-  todoId: number;
+  todoId: string;
 }
 
 /**
@@ -44,6 +44,6 @@ export interface CreateTodoParams {
   todo_description: string;
   todo_start_date: string;
   todo_end_date: string;
-  group_id?: number;
-  project_id?: number;
+  group_id?: string;
+  project_id?: string;
 }

@@ -1,5 +1,5 @@
 export interface CloneCodingsResponse {
-  clone_coding_id: number; // PK / number
+  clone_coding_id: string; // PK / number
   clone_coding_title: string; // text
   clone_coding_description: string; // text
   clone_coding_tech_stack: string; // text[]
@@ -15,19 +15,19 @@ export interface CloneCodingsResponse {
 }
 
 export interface UserCloneCodingsResponse {
-  user_clone_codings_id: number; // PK / number
+  user_clone_codings_id: string; // PK / number
   user_clone_codings_status: string; // text
   user_clone_codings_is_bookmarked: boolean; // boolean
   user_clone_codings_started_at: Date; // date
   user_clone_codings_completed_at: Date; // date
-  clone_coding_id: number; // FK / number
-  user_id: number; // FK / number
+  clone_coding_id: string; // FK / number
+  user_id: string; // FK / number
 }
 
 export interface ProjectTodoResponse {
-  id: number;
-  user_id: number;
-  project_id?: number;
+  id: string;
+  user_id: string;
+  project_id?: string;
   title: string;
   description?: string;
   is_completed: boolean;
@@ -36,29 +36,29 @@ export interface ProjectTodoResponse {
 }
 
 export interface GetProjectDetailParams {
-  projectId: number;
+  projectId: string;
 }
 
 export interface GetUserProjectStatusParams {
-  userId: number;
-  projectId: number;
+  userId: string;
+  projectId: string;
 }
 
 export interface ToggleBookmarkParams {
-  userId: number;
-  projectId: number;
+  userId: string;
+  projectId: string;
   currentStatus: boolean;
 }
 
 export interface UpdateProjectStatusParams {
-  userId: number;
-  projectId: number;
+  userId: string;
+  projectId: string;
   status: "not_started" | "in_progress" | "completed";
 }
 
 export interface GetProjectTodosParams {
-  userId: number;
-  projectId: number;
+  userId: string;
+  projectId: string;
 }
 
 export interface GenerateProjectGuideParams {

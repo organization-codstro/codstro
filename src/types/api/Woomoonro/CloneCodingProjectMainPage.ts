@@ -1,5 +1,5 @@
 export interface GetAllProjectsWithUserStatusParams {
-  userId: number;
+  userId: string;
 }
 
 export interface FilteredProjectsParams {
@@ -9,12 +9,12 @@ export interface FilteredProjectsParams {
 }
 
 export interface GetFilteredProjectsParams {
-  userId: number;
+  userId: string;
   params: FilteredProjectsParams;
 }
 
 export interface ToggleBookmarkParams {
-  userId: number;
-  projectId: number;
+  userId: string;
+  projectId: string;
   isBookmarked: boolean;
 }

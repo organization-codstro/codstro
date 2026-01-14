@@ -1,5 +1,5 @@
 export interface ProjectResponse {
-  project_id: number;
+  project_id: string;
   project_name: string;
   project_description?: string;
   project_topic: string;
@@ -10,24 +10,24 @@ export interface ProjectResponse {
   project_style: string;
   project_effect: string;
   project_created_date: string;
-  user_id: number;
+  user_id: string;
   project_status?: "planning" | "active"; // 기획중 | 진행중
 }
 
 
 export interface ProjectPageResponse {
-  project_page_id: number;
+  project_page_id: string;
   project_page_name: string;
   project_page_role: string;
   project_page_function: string;
   project_page_is_complete: boolean;
-  project_id: number;
+  project_id: string;
 }
 
 export interface TodoResponse {
-  id: number;
-  field_id?: number;
-  project_page_id?: number;
+  id: string;
+  field_id?: string;
+  project_page_id?: string;
   name: string;
   description?: string;
   content: string;

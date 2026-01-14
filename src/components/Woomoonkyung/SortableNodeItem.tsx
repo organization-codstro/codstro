@@ -11,17 +11,12 @@
  * - DB 관리자는 전달받은 노드 리스트 중 PK가 없는 항목을 신규 INSERT 처리하면 됩니다.
  */
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
-  ArrowLeft,
-  Plus,
-  Save,
-  X,
   GripVertical,
   Calendar,
   Trash2,
   CreditCard as Edit3,
-  FileText,
 } from "lucide-react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -29,10 +24,10 @@ import { SortableNodeItemNodeFormData } from "../../types/pages/Woomoonkyung/Stu
 import { TechStack } from "../../types/pages/Woomoonjeong/SortableNodeItem/sortableNodeItem";
 
 export const SortableNodeItem: React.FC<{
-  node: SortableNodeItemNodeFormData & { id: number };
+  node: SortableNodeItemNodeFormData & { id: string };
   techStacks: TechStack[];
-  onEdit: (id: number) => void;
-  onDelete: (id: number) => void;
+  onEdit: (id: string) => void;
+  onDelete: (id: string) => void;
 }> = ({ node, techStacks, onEdit, onDelete }) => {
   const {
     attributes,
@@ -50,7 +45,7 @@ export const SortableNodeItem: React.FC<{
   };
 
   const techStack = techStacks.find(
-    (ts) => Number(ts.tech_stack_id) === node.tech_stack_id
+    (ts) => ts.tech_stack_id === node.tech_stack_id
   );
 
   return (

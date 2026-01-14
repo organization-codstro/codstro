@@ -7,7 +7,7 @@
  * 공부 계획 상세 조회 파라미터
  */
 export interface GetPlanWithNodesParams {
-  planId: number;
+  planId: string;
 }
 
 /**
@@ -24,7 +24,7 @@ export interface UpdateNodeCompletionParams {
  * 공부 계획 상태 변경 파라미터
  */
 export interface UpdatePlanStateParams {
-  planId: number;
+  planId: string;
   newState: "waiting" | "in progress" | "done";
 }
 
@@ -34,7 +34,7 @@ export interface UpdatePlanStateParams {
  */
 export interface NodeDetail {
   study_plan_node_id: string;
-  study_plan_id: number;
+  study_plan_id: string;
   study_plan_node_name: string;
   description?: string;
   start_date?: string;

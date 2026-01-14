@@ -20,7 +20,7 @@ export interface AddRecommendedPinToMyFieldParams {
   pin_description: string;
   pin_url: string;
   pin_label?: string;
-  field_id: number;
+  field_id: string;
 }
 
 /**
@@ -29,7 +29,7 @@ export interface AddRecommendedPinToMyFieldParams {
 export interface AddRecommendedFieldToMyGroupParams {
   field_name: string;
   field_description: string;
-  group_id: number;
+  group_id: string;
 }
 
 /**

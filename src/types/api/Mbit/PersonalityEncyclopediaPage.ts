@@ -1,5 +1,5 @@
 export interface Personality {
-  id: number;
+  id: string;
   type: string;
   name: string;
   description: string;
@@ -16,7 +16,7 @@ export interface Personality {
  * MBIT 성격 유형 도감 리스트용 타입
  */
 export interface PersonalitySummaryResponse {
-  id: number;
+  id: string;
   type: string;
   name: string;
   description: string;

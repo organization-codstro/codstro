@@ -4,7 +4,7 @@
 export interface CreateGroupParams {
   group_name: string;
   group_description: string;
-  user_id: number;
+  user_id: string;
 }
 
 /**
@@ -13,7 +13,7 @@ export interface CreateGroupParams {
 export interface CreateFieldParams {
   field_name: string;
   field_description: string;
-  group_id: number;
+  group_id: string;
   field_is_recommendation: boolean;
 }
 
@@ -21,7 +21,7 @@ export interface CreateFieldParams {
  * [분야 이름 수정 파라미터]
  */
 export interface UpdateFieldNameParams {
-  fieldId: number;
+  fieldId: string;
   newName: string;
 }
 
@@ -33,7 +33,7 @@ export interface CreatePinParams {
   pin_description: string;
   pin_url: string;
   pin_label?: string;
-  field_id: number;
+  field_id: string;
 }
 
 /**
@@ -48,7 +48,7 @@ export interface UpsertLinkCountParams {
  */
 export interface DeleteItemParams {
   type: "group" | "field" | "pin";
-  id: number;
+  id: string;
 }
 
 /**
