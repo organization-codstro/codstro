@@ -48,8 +48,9 @@ import {
 } from "lucide-react";
 import { navigationData } from "../data/navigationData";
 import Logo from "../assets/images/Logo.svg";
-import { NavigationItem } from "../types/Sidebar/sidebar";
-import { SidebarProps } from "../types/Sidebar";
+import { SidebarProps } from "../types/pages/Sidebar";
+import { NavigationItem } from "../types/pages/Sidebar/sidebar";
+
 
 const iconMap = {
   CheckSquare,

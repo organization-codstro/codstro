@@ -207,6 +207,11 @@ export default function AppRoutes() {
           path="/third-partys/:serviceId"
           element={<Page.ThirdPartyDetail />}
         />
+        <Route path="/package-managers" element={<Page.PackageManagerMaterialsList />} />
+        <Route
+          path="/package-managers/:materialId"
+          element={<Page.PackageManagerMaterialsDetail />}
+        />
         <Route path="/notes" element={<Page.NotesList />} />
         <Route path="/notes/:noteId" element={<Page.NoteDetail />} />
         <Route path="/notes/:noteId/edit" element={<Page.NoteCreate />} />

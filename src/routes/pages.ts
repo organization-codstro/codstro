@@ -82,6 +82,8 @@ export { default as CodingToolsList } from "../pages/Concepts/CodingToolsListPag
 export { default as CodingToolDetail } from "../pages/Concepts/CodingToolDetailPage";
 export { default as ThirdPartyList } from "../pages/Concepts/ThirdPartyListPage";
 export { default as ThirdPartyDetail } from "../pages/Concepts/ThirdPartyDetailPage";
+export { default as PackageManagerMaterialsList } from "../pages/Concepts/PackageListPage";
+export { default as PackageManagerMaterialsDetail } from "../pages/Concepts/PackageDetailPage";
 export { default as NotesList } from "../pages/Concepts/NotesListPage";
 export { default as NoteDetail } from "../pages/Concepts/NoteDetailPage";
 export { default as NoteCreate } from "../pages/Concepts/NoteCreatePage";

@@ -180,6 +180,12 @@ export const navigationData: NavigationItem[] = [
         route: "/third-partys", // 변경
       },
       {
+        id: "package-manager-list",
+        title: "Package Managers",
+        icon: "CloudCog",
+        route: "/package-managers", // 변경
+      },
+      {
         id: "notes-list",
         title: "My Notes",
         icon: "StickyNote",
