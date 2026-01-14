@@ -1,8 +1,6 @@
 import { ArrowLeft } from "lucide-react";
+import { BackButtonProps } from "../../../types/pages/Woomoonkyung/StudyPlanCreateNodePage/BackButton";
 
-export type BackButtonProps = {
-  onClick: () => void;
-};
 
 export const BackButton = ({ onClick }: BackButtonProps) => (
   <button

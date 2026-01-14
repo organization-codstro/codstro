@@ -1,10 +1,10 @@
-type CreatePlanButtonProps = {
-  onClick: () => void;
-  nodeCount: number;
-  disabled?: boolean;
-};
+import { CreatePlanButtonProps } from "../../../types/pages/Woomoonkyung/StudyPlanCreateNodePage/CreatePlanButton";
 
-export const CreatePlanButton = ({ onClick, nodeCount, disabled }: CreatePlanButtonProps) => (
+export const CreatePlanButton = ({
+  onClick,
+  nodeCount,
+  disabled,
+}: CreatePlanButtonProps) => (
   <button
     onClick={onClick}
     disabled={disabled}

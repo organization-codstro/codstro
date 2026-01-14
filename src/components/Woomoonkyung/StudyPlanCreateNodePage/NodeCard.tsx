@@ -1,21 +1,6 @@
 import { Calendar, GripVertical, Trash2 } from "lucide-react";
-import { StudyPlanNode } from "../../../types/pages/Woomoonkyung/Woomoonkyung";
+import { NodeCardProps } from "../../../types/pages/Woomoonkyung/StudyPlanCreateNodePage/NodeCard";
 
-export type NodeCardProps = {
-  node: StudyPlanNode;
-  index: number;
-
-  draggedItem: number | null;
-  editingNode: StudyPlanNode | null;
-  deletePendingNodeId: number | null;
-
-  onDragStart: (e: React.DragEvent, index: number) => void;
-  onDragOver: (e: React.DragEvent, index: number) => void;
-  onDragEnd: () => void;
-
-  onClick: (node: StudyPlanNode) => void;
-  onDeleteClick: (e: React.MouseEvent, nodeId: number) => void;
-};
 
 export const NodeCard = ({
   node,

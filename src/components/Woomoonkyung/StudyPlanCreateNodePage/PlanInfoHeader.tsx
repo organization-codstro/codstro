@@ -1,16 +1,5 @@
 import { FileText } from "lucide-react";
-
-/** PlanInfo 타입 */
-type PlanInfo = {
-  study_plan_id: number;
-  study_plan_name: string;
-  study_plan_description: string;
-};
-
-/** PlanInfoHeader Props */
-type PlanInfoHeaderProps = {
-  planInfo: PlanInfo;
-};
+import { PlanInfoHeaderProps } from "../../../types/pages/Woomoonkyung/StudyPlanCreateNodePage/PlanInfoHeader";
 
 export const PlanInfoHeader = ({ planInfo }: PlanInfoHeaderProps) => (
   <div className="p-6 bg-white border border-purple-100 shadow-sm rounded-xl">

@@ -1,9 +1,4 @@
-import { StudyPlanNode } from "../../../types/pages/Woomoonkyung/Woomoonkyung";
-
-export type TechStackInfoDisplayProps = {
-  /** 현재 편집 중인 노드 */
-  node: StudyPlanNode;
-};
+import { TechStackInfoDisplayProps } from "../../../types/pages/Woomoonkyung/StudyPlanCreateNodePage/TechStackInfoDisplay";
 
 export const TechStackInfoDisplay = ({ node }: TechStackInfoDisplayProps) => (
   <div className="p-4 border border-purple-100 rounded-lg bg-gradient-to-r from-purple-50 to-blue-50">

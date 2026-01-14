@@ -1,8 +1,5 @@
 import { Search } from "lucide-react";
-
-type EmptySearchStateProps = {
-  searchQuery: string;
-};
+import { EmptySearchStateProps } from "../../../types/pages/Woomoonkyung/StudyPlanCreateNodePage/EmptySearchState";
 
 export const EmptySearchState = ({ searchQuery }: EmptySearchStateProps) => (
   <div className="py-12 text-center">

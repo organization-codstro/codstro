@@ -12,6 +12,7 @@ import { CreatePlanButton } from "../../components/Woomoonkyung/StudyPlanCreateN
 import { NodeList } from "../../components/Woomoonkyung/StudyPlanCreateNodePage/NodeList";
 import { BackButton } from "../../components/Woomoonkyung/StudyPlanCreateNodePage/BackButton";
 import { RightSidebar } from "../../components/Woomoonkyung/StudyPlanCreateNodePage/RightSidebar";
+import { ValidationErrors } from "../../types/pages/Woomoonkyung/StudyPlanCreateNodePage/StudyPlanCreateNodePage";
 
 export default function StudyPlanCreateNodePage() {
   const navigate = useNavigate();
@@ -28,12 +29,8 @@ export default function StudyPlanCreateNodePage() {
   const [draggedItem, setDraggedItem] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  /** 🔴 2차 검증 에러 상태 */
-  const [validationErrors, setValidationErrors] = useState<{
-    name: boolean;
-    startDate: boolean;
-    endDate: boolean;
-  }>({
+  /** 2차 검증 에러 상태 */
+  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({
     name: false,
     startDate: false,
     endDate: false,

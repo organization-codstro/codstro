@@ -1,12 +1,4 @@
-import { TechStack } from "./RightSidebar";
-
-export type TechStackCardProps = {
-  /** 표시할 기술 스택 */
-  techStack: TechStack;
-
-  /** 카드 클릭 */
-  onClick: (techStack: TechStack) => void;
-};
+import { TechStackCardProps } from "../../../types/pages/Woomoonkyung/StudyPlanCreateNodePage/TechStackCard";
 
 export const TechStackCard = ({ techStack, onClick }: TechStackCardProps) => (
   <button
