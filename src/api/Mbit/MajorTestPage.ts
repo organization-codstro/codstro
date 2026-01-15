@@ -1,75 +1,70 @@
 import { supabase } from "../../db/supabase/supabase";
-import {
-  MajorQuestionResponse,
-  GetMajorResultDetailParams,
-  Major,
-} from "../../types/api/Mbit/MajorTestPage";
+import { Major } from "../../types/api/Mbit/MajorTestPage";
 
 /**
  * [MajorTestService]
- * 전공 테스트 질문 로드 및 결과 계산 후 상세 데이터 조회
+ * 전공 적합성 검사 질문 로드 및 결과 계산 상세 정보 조회를 담당합니다.
  */
 export const MajorTestService = {
   /**
    * [전공 테스트 질문지 조회]
-   * table: major_questions
+   * 테이블: major_questions
+   * 역할: DB에 저장된 척도형 질문(score_value 배열 포함)을 가져옵니다.
    */
-  async getMajorQuestions(): Promise<MajorQuestionResponse[]> {
-    const { data, error } = await supabase
-      .from("major_questions")
-      .select(
+  async getMajorTestQuestions() {
+    try {
+      const { data, error } = await supabase
+        .from("major_questions")
+        .select(
+          `
+          major_question_id,
+          major_question_content,
+          major_question_axis,
+          major_question_trait,
+          major_question_score_value
         `
-        id:major_question_id,
-        question:major_question_content,
-        options:major_question_options
-        `
-      )
-      .order("major_question_id", { ascending: true });
+        )
+        .order("major_question_id", { ascending: true });
 
-    if (error) throw error;
-    return data || [];
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error("[MajorTestService Error]:", error);
+      throw new Error("질문지를 불러오지 못했습니다.");
+    }
   },
 
   /**
-   * [테스트 결과 전공 상세 조회]
-   * table: majors
+   * [최종 결과 전공 데이터 상세 조회]
+   * 테이블: majors
+   * 역할: 점수 계산으로 도출된 전공명(trait)을 기반으로 해당 전공의 상세 도감 데이터를 가져옵니다.
    */
-  async getMajorResultDetail(
-    params: GetMajorResultDetailParams
-  ): Promise<Major | null> {
-    const { majorName } = params;
-
+  async getMajorDetailByTrait(trait: string): Promise<Major | null> {
     const { data, error } = await supabase
       .from("majors")
-      .select(
-        `
-        id:major_id,
-        name:major_name,
-        description:major_description,
-        detailedDescription:major_detailed_description,
-        focus:major_focus,
-        careers:major_careers,
-        color:major_color,
-        salaryRange:major_salary_range,
-        jobOutlook:major_job_outlook,
-        keySkills:major_key_skills,
-        learningPath:major_learning_path,
-        famousCompanies:major_famous_companies,
-        dayInLife:major_day_in_life
-        `
-      )
-      .ilike("major_name", `%${majorName}%`)
+      .select("*")
+      .eq("major_name", trait)
       .single();
 
-    if (error || !data) return null;
+    if (error || !data) {
+      console.error("Major detail fetch error:", error);
+      return null;
+    }
 
     return {
-      ...data,
-      icon: null,
-      keySkills: data.keySkills || [],
-      learningPath: data.learningPath || [],
-      famousCompanies: data.famousCompanies || [],
-      dayInLife: data.dayInLife || [],
+      id: data.major_id,
+      name: data.major_name,
+      description: data.major_description,
+      detailedDescription: data.major_detailed_description,
+      focus: data.major_focus,
+      careers: data.major_recommended_occupation,
+      color: data.major_color_gradient,
+      salaryRange: data.major_salary_range,
+      jobOutlook: data.major_job_outlook,
+      keySkills: data.major_strengths,
+      learningPath: data.major_learning_path,
+      famousCompanies: data.major_famous_companies,
+      dayInLife: data.major_day_in_life,
     };
   },
 };

@@ -1,4 +1,5 @@
 import { supabase } from "../../db/supabase/supabase";
+import { GetUserRecordResponse } from "../../types/api/AiChat/UserInfoPage";
 import {
   GetCompanyDetailParams,
   GetCompanyDetailResponse,
@@ -11,6 +12,8 @@ import {
   ToggleBookmarkStatusParams,
   ToggleBookmarkStatusResponse,
 } from "../../types/api/CompanyInformation/CompanyDetailPage";
+import { GenerateAiMatchReportParams, GenerateAiMatchReportResponse } from "../../types/api/CompanyInformation/CompanyMatchPage";
+import { generateAiContent } from "../Gemini/Gemini";
 
 /**
  * [CompanyDetailService]
@@ -124,5 +127,35 @@ export const CompanyDetailService = {
         companyId: params.companyId,
       });
     }
+  },
+
+  /**
+   * [함수 역할]: 유저의 AI 기록과 회사 정보를 비교하여 매칭 리포트를 생성합니다.
+   * @param params 회사 정보 (이름, 가치관 등)
+   * @param userRecord UserInfoService.getUserRecord에서 가져온 유저 활동 데이터
+   */
+  async generateAiMatchReport(
+    params: GenerateAiMatchReportParams,
+    userRecord: GetUserRecordResponse // GetUserRecordResponse 타입
+  ): Promise<GenerateAiMatchReportResponse> {
+    // 유저 기록에서 분석에 쓸만한 필드들을 추출합니다. (필드명은 DB 구조에 맞춰 조정하세요)
+    const userSummary = userRecord.ai_user_record_summary || "정보 없음";
+
+    const prompt = `
+      당신은 전문 커리어 컨설턴트입니다. 
+      [회사 정보]
+      회사명: ${params.companyName}
+      회사가치: ${params.companyValues}
+
+      [유저 활동 요약 기록]
+      ${userSummary}
+      
+      위의 유저 활동 기록과 회사의 가치를 심층 분석하여 리포트를 마크다운 형식으로 작성해주세요.
+      내용에는 ## Strengths, ## Good Fits, ## Areas to Develop를 포함하고, 
+      마지막에 match_rate(0~100 사이의 숫자)를 'SCORE: 숫자' 형식으로 포함해주세요.
+      만약 유저의 활동 기록이 부족하다면, 솔직하게 그 점을 언급하고 일반적인 조언을 제공해주세요.
+    `;
+
+    return await generateAiContent(prompt);
   },
 };

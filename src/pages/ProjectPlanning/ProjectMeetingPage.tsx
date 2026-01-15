@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { MessageSquare } from "lucide-react";
+import { MessageSquare, Loader2 } from "lucide-react";
+import { toast } from "react-toastify";
 import {
   MeetingListItem,
   MeetingType,
@@ -8,52 +9,46 @@ import {
 import { MeetingHeader } from "../../components/ProjectPlanning/ProjectMeetingPage/MeetingHeader";
 import { MeetingTab } from "../../components/ProjectPlanning/ProjectMeetingPage/MeetingTab";
 import { MeetingItemCard } from "../../components/ProjectPlanning/ProjectMeetingPage/MeetingItemCard";
-
+import { ProjectMeetingListService } from "../../api/ProjectPlanning/ProjectMeetingPage";
 
 export default function ProjectMeetingPage() {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
 
-  const [selectedType, setSelectedType] = useState<MeetingType>("all");
+  // 상태 관리
+  const [selectedType, setSelectedType] = useState<MeetingType>("All");
+  const [meetings, setMeetings] = useState<MeetingListItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Mock Data
-  const [meetings] = useState<MeetingListItem[]>([
-    {
-      meeting_id: "1",
-      meeting_name: "2025-12-25 Project Planning",
-      meeting_purpose:
-        "Discuss authentication flow and user management features",
-      meeting_created_date: "2025-12-25",
-      type: "feature",
-    },
-    {
-      meeting_id: "2",
-      meeting_name: "2025-12-26 Chat Interface Design",
-      meeting_purpose: "Design real-time messaging UI and features",
-      meeting_created_date: "2025-12-26",
-      type: "feature",
-    },
-    {
-      meeting_id: "3",
-      meeting_name: "2025-12-27 Database Schema Review",
-      meeting_purpose: "Review and finalize database structure",
-      meeting_created_date: "2025-12-27",
-      type: "free",
-    },
-    {
-      meeting_id: "4",
-      meeting_name: "2025-12-20 Initial Planning",
-      meeting_purpose: "Initial project setup and requirements gathering",
-      meeting_created_date: "2025-12-20",
-      type: "free",
-    },
-  ]);
+  // 데이터 로드
+  useEffect(() => {
+    const fetchMeetings = async () => {
+      if (!projectId) return;
 
-  const featureMeetings = meetings.filter((m) => m.type === "feature");
-  const freeMeetings = meetings.filter((m) => m.type === "free");
+      try {
+        setIsLoading(true);
+        const data = await ProjectMeetingListService.getMeetingList({
+          projectId,
+        });
+        setMeetings(data);
+      } catch (error) {
+        console.error(error);
+        toast.error("회의 목록을 불러오지 못했습니다.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
+    fetchMeetings();
+  }, [projectId]);
+
+  // 카운트 계산
+  const featureCount = meetings.filter((m) => m.type === "Feature").length;
+  const freeCount = meetings.filter((m) => m.type === "Free").length;
+
+  // 필터링 로직
   const filteredMeetings = meetings.filter((m) => {
-    if (selectedType === "all") return true;
+    if (selectedType === "All") return true;
     return m.type === selectedType;
   });
 
@@ -61,7 +56,9 @@ export default function ProjectMeetingPage() {
     <div className="flex-1 overflow-auto bg-gray-50">
       <MeetingHeader
         projectId={projectId}
-        onCreate={() => navigate(`/projects/meetings/new`)}
+        onCreate={() =>
+          navigate(`/projects/meetings/new`, { state: { projectId } })
+        }
       />
 
       {/* Tabs Section */}
@@ -70,21 +67,21 @@ export default function ProjectMeetingPage() {
           <MeetingTab
             label="All Meetings"
             count={meetings.length}
-            type="all"
+            type="All"
             selectedType={selectedType}
             onClick={setSelectedType}
           />
           <MeetingTab
             label="Feature Meetings"
-            count={featureMeetings.length}
-            type="feature"
+            count={featureCount}
+            type="Feature"
             selectedType={selectedType}
             onClick={setSelectedType}
           />
           <MeetingTab
             label="Free Meetings"
-            count={freeMeetings.length}
-            type="free"
+            count={freeCount}
+            type="Free"
             selectedType={selectedType}
             onClick={setSelectedType}
           />
@@ -93,16 +90,21 @@ export default function ProjectMeetingPage() {
 
       {/* List Section */}
       <div className="max-w-6xl p-8 mx-auto">
-        {filteredMeetings.length === 0 ? (
+        {isLoading ? (
+          <div className="flex flex-col items-center justify-center p-20">
+            <Loader2 className="w-10 h-10 mb-4 text-blue-500 animate-spin" />
+            <p className="text-gray-500">회의 목록을 불러오고 있습니다...</p>
+          </div>
+        ) : filteredMeetings.length === 0 ? (
           <div className="p-12 text-center bg-white border-2 border-gray-300 border-dashed rounded-lg">
             <MessageSquare className="w-12 h-12 mx-auto mb-4 text-gray-400" />
             <h3 className="mb-2 text-lg font-medium text-gray-900">
               No meetings found
             </h3>
             <p className="text-gray-600">
-              {selectedType === "feature"
+              {selectedType === "Feature"
                 ? "No ongoing feature meetings"
-                : selectedType === "free"
+                : selectedType === "Free"
                 ? "No completed free meetings"
                 : "No meetings available"}
             </p>

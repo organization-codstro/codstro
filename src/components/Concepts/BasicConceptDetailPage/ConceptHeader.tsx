@@ -5,7 +5,6 @@ export default function ConceptHeader({
   name,
   category,
   description,
-  tags,
   isUnderstood,
   onToggleUnderstood,
 }: ConceptHeaderProps) {
@@ -14,18 +13,15 @@ export default function ConceptHeader({
       <div className="flex-1">
         <div className="flex items-center gap-3 mb-2">
           <h1 className="text-3xl font-bold text-gray-900">{name}</h1>
-          <span className="px-3 py-1 text-sm text-gray-600 bg-gray-100 rounded">
-            {category}
-          </span>
         </div>
         <p className="mb-4 text-gray-600">{description}</p>
         <div className="flex flex-wrap gap-2 mb-4">
-          {tags.map((tag, idx) => (
+          {category.map((categoryItem, idx) => (
             <span
               key={idx}
               className="px-3 py-1 text-sm text-green-600 rounded-full bg-green-50"
             >
-              {tag}
+              {categoryItem}
             </span>
           ))}
         </div>

@@ -26,9 +26,9 @@ export const CompanyListService = {
       const { data, error } = await supabase
         .from("companys")
         .select(
-          "company_id, company_name, company_industry, companie_description, company_values, company_website, company_update_date"
+          "company_id, company_name, company_industry, company_description, company_values, company_website, company_update_at"
         )
-        .order("company_update_date", { ascending: false });
+        .order("company_update_at", { ascending: false });
 
       if (error) throw error;
       return data;

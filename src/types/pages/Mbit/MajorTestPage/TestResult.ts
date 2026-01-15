@@ -1,4 +1,7 @@
+import { Major } from "../Mbit";
+
+
 export interface TestResultProps {
-  result: string;
+  result: Major;
   onReset: () => void;
 }

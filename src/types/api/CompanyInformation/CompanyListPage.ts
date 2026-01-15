@@ -5,10 +5,10 @@ export interface CompanyListItem {
   company_id: string;
   company_name: string;
   company_industry: string;
-  companie_description: string;
+  company_description: string;
   company_values: string | null;
   company_website: string | null;
-  company_update_date: string;
+  company_update_at: string;
 }
 
 /**

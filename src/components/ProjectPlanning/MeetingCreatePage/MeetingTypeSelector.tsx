@@ -4,13 +4,13 @@ import { MeetingTypeSelectorProps } from "../../../types/pages/ProjectPlanning/M
 export const MeetingTypeSelector = ({ selectedType, onSelect }: MeetingTypeSelectorProps) => {
   const types = [
     {
-      id: "feature",
+      id: "Feature",
       title: "Feature Meeting",
       desc: "Discuss specific project pages and features",
       icon: CheckCircle,
     },
     {
-      id: "free",
+      id: "Free",
       title: "Free Meeting",
       desc: "Open discussion about your project",
       icon: MessageSquare,

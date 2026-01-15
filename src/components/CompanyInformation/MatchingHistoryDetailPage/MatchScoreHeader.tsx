@@ -4,6 +4,7 @@ import { MatchScoreHeaderProps } from "../../../types/pages/CompanyInformation/M
 export const MatchScoreHeader = ({ rate, name }: MatchScoreHeaderProps) => {
   // 점수에 따른 색상 계산 로직을 컴포넌트 내부로 캡슐화
   const getMatchColor = (score: number) => {
+    if (score === null) return "#ef4444"; // 빨강
     if (score >= 90) return "#10b981"; // 초록
     if (score >= 80) return "#3b82f6"; // 파랑
     if (score >= 70) return "#f59e0b"; // 주황

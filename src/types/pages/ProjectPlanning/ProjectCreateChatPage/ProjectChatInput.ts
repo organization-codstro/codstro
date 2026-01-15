@@ -4,4 +4,5 @@ export interface ProjectChatInputProps {
   onSend: () => void;
   onNext: () => void;
   onBack: () => void;
+  disabled?: boolean;
 }

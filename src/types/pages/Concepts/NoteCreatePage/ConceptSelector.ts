@@ -10,4 +10,5 @@ export interface ConceptSelectorProps {
   onToggle: (name: string) => void;
   onHide: () => void;
   onGenerateAI: () => void;
+  isGenerating?: boolean;
 }

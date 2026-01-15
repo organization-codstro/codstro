@@ -1,4 +1,4 @@
-import { Sparkles } from "lucide-react";
+import { Loader2, Sparkles } from "lucide-react";
 import { ConceptSelectorProps } from "../../../types/pages/Concepts/NoteCreatePage/ConceptSelector";
 
 export default function ConceptSelector({
@@ -7,6 +7,7 @@ export default function ConceptSelector({
   onToggle,
   onHide,
   onGenerateAI,
+  isGenerating = false, // 기본값 설정
 }: ConceptSelectorProps) {
   return (
     <div className="p-4 mb-6 rounded-lg bg-gray-50">
@@ -17,6 +18,7 @@ export default function ConceptSelector({
         <button
           onClick={onHide}
           className="text-sm text-gray-500 hover:text-gray-700"
+          disabled={isGenerating} // 생성 중일 때는 닫기 방지
         >
           Hide
         </button>
@@ -27,11 +29,12 @@ export default function ConceptSelector({
           <button
             key={concept.id}
             onClick={() => onToggle(concept.name)}
+            disabled={isGenerating} // 생성 중일 때는 선택 변경 방지
             className={`p-3 rounded-lg border-2 text-left transition-all ${
               selectedConcepts.includes(concept.name)
                 ? "border-blue-500 bg-blue-50"
                 : "border-gray-200 hover:border-gray-300"
-            }`}
+            } ${isGenerating ? "opacity-60 cursor-not-allowed" : ""}`}
           >
             <div className="text-sm font-semibold">{concept.name}</div>
             <div className="text-xs text-gray-500 capitalize">
@@ -44,10 +47,24 @@ export default function ConceptSelector({
       {selectedConcepts.length > 0 && (
         <button
           onClick={onGenerateAI}
-          className="flex items-center gap-2 px-4 py-2 text-white transition-all rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
+          disabled={isGenerating}
+          className={`flex items-center gap-2 px-4 py-2 text-white transition-all rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 ${
+            isGenerating
+              ? "opacity-70 cursor-not-allowed"
+              : "hover:from-blue-600 hover:to-purple-700 shadow-sm"
+          }`}
         >
-          <Sparkles className="w-4 h-4" />
-          Generate Initial Content with AI
+          {isGenerating ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              Generating Content...
+            </>
+          ) : (
+            <>
+              <Sparkles className="w-4 h-4" />
+              Generate Initial Content with AI
+            </>
+          )}
         </button>
       )}
     </div>

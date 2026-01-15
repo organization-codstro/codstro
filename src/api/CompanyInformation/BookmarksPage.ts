@@ -31,7 +31,9 @@ export const BookmarksService = {
             company_industry,
             companie_description,
             company_website,
-            company_values
+            company_values,
+            company_created_at,
+            company_update_at
           )
         `
         )
@@ -48,7 +50,7 @@ export const BookmarksService = {
   },
 
   /**
-   * [함수 역할]: 유저의 북마크를 삭제합니다.
+   * [함수 역할]: 유저의 북마크를 해제합니다. (관계 삭제)
    * [참조 테이블]: user_favorite_companies
    */
   async removeBookmark(

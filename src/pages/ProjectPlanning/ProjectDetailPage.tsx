@@ -1,52 +1,186 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Clock } from "lucide-react";
+import { toast } from "react-toastify";
 import {
   ProjectPage,
   Todo,
   Project,
 } from "../../types/pages/ProjectPlanning/project";
-import {
-  activeProjectsData,
-  planningProjectsData,
-  pagesData,
-  projectTodosData,
-} from "../../data/ProjectPlanning/project";
+
+// 컴포넌트 임포트
 import { ProjectBasicInfoSection } from "../../components/ProjectPlanning/ProjectBasicInfoSection";
 import { ProjectPagesSection } from "../../components/ProjectPlanning/ProjectPagesSection/ProjectPagesSection";
 import { ProjectDetailHeader } from "../../components/ProjectPlanning/ProjectDetailPage/ProjectDetailHeader";
 import { ProjectInfoView } from "../../components/ProjectPlanning/ProjectDetailPage/ProjectInfoView";
 import { ProjectPagesView } from "../../components/ProjectPlanning/ProjectDetailPage/ProjectPagesView";
 import { ProjectStatsSidebar } from "../../components/ProjectPlanning/ProjectDetailPage/ProjectStatsSidebar";
+import { ProjectDetailService } from "../../api/ProjectPlanning/ProjectDetailPage";
+
 
 export default function ProjectDetailPage() {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
 
-  const allProjects = [...activeProjectsData, ...planningProjectsData];
-  const originalProject = allProjects.find((p) => p.project_id === projectId);
-
+  // 1. 상태 관리
+  const [isLoading, setIsLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
-  const [editedProject, setEditedProject] = useState<Project | null>(
-    originalProject || null
-  );
+  const [isPlanning, setIsPlanning] = useState(false); // 상태 구분을 위한 state 추가
+
+  const [originalProject, setOriginalProject] = useState<Project | null>(null);
+  const [originalPages, setOriginalPages] = useState<
+    Array<ProjectPage & { todos: Todo[] }>
+  >([]);
+
+  const [editedProject, setEditedProject] = useState<Project | null>(null);
   const [editedPages, setEditedPages] = useState<
     Array<ProjectPage & { todos: Todo[] }>
   >([]);
   const [expandedPage, setExpandedPage] = useState<string | null>(null);
 
-  const project = isEditing ? editedProject : originalProject;
-  const isPlanning = project?.project_status === "planning";
-  const isActive = project?.project_status === "active";
+  // 2. 생명주기 (useEffect): 데이터 로드
+  useEffect(() => {
+    const fetchAllData = async () => {
+      if (!projectId) return;
 
-  const originalPages: Array<ProjectPage & { todos: Todo[] }> = isActive
-    ? pagesData
-    : [];
-  const todos: Todo[] = isActive ? projectTodosData : [];
-  const pages =
-    isEditing && editedPages.length > 0 ? editedPages : originalPages;
+      try {
+        setIsLoading(true);
+        const idNum = parseInt(projectId);
 
-  if (!project || !originalProject) {
+        // 1) 프로젝트 상세 정보 조회 (기본적으로 active로 시도 후 에러 시 planning 확인 로직 또는 이전 페이지 state 활용)
+        // 여기서는 URL 파라미터나 전역 상태 등으로 isPlanning 여부를 알 수 있다고 가정하거나 두 곳 다 체크합니다.
+        let projectData;
+        let planningFlag = false;
+
+        try {
+          projectData = await ProjectDetailService.getProjectDetail(
+            idNum,
+            false
+          );
+        } catch (e) {
+          projectData = await ProjectDetailService.getProjectDetail(
+            idNum,
+            true
+          );
+          planningFlag = true;
+        }
+
+        setOriginalProject(projectData);
+        setIsPlanning(planningFlag);
+
+        // 2) 페이지 및 Todo 로드 (active 상태일 때 주로 로드)
+        if (!planningFlag) {
+          const pagesData = await ProjectDetailService.getProjectPagesWithTodos(
+            idNum
+          );
+          setOriginalPages(pagesData as any);
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error("데이터를 불러오는 중 오류가 발생했습니다.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchAllData();
+  }, [projectId]);
+
+  // 3. 편집 모드 핸들러
+  const handleEdit = () => {
+    setEditedProject(originalProject);
+    setEditedPages(originalPages);
+    setIsEditing(true);
+  };
+
+  const handleSave = async () => {
+    if (!projectId || !editedProject) return;
+
+    const toastId = toast.loading("변경 사항을 저장하고 있습니다...");
+    try {
+      const idNum = parseInt(projectId);
+
+      // 1) 기본 정보 저장
+      await ProjectDetailService.updateProjectInfo(
+        idNum,
+        isPlanning,
+        editedProject
+      );
+
+      // 2) 페이지 구조 저장
+      await ProjectDetailService.saveProjectStructure(editedPages as any);
+
+      toast.update(toastId, {
+        render: "성공적으로 저장되었습니다.",
+        type: "success",
+        isLoading: false,
+        autoClose: 2000,
+      });
+
+      // 데이터 갱신
+      setOriginalProject(editedProject);
+      setOriginalPages(editedPages);
+      setIsEditing(false);
+    } catch (error) {
+      toast.update(toastId, {
+        render: "저장에 실패했습니다.",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
+    }
+  };
+
+  // 4. 데이터 업데이트 헬퍼 (기존 로직 유지하되 state만 edited로 변경)
+  const updatePage = (id: string, updates: any) =>
+    setEditedPages((prev) =>
+      prev.map((p) => (p.project_page_id === id ? { ...p, ...updates } : p))
+    );
+
+  const updatePageTodo = (pId: string, tId: string, updates: any) =>
+    setEditedPages((prev) =>
+      prev.map((p) =>
+        p.project_page_id === pId
+          ? {
+              ...p,
+              todos: p.todos.map((t) =>
+                t.id === tId ? { ...t, ...updates } : t
+              ),
+            }
+          : p
+      )
+    );
+
+  const deletePageTodo = async (pId: string, tId: string) => {
+    // 실제 DB 삭제는 save 시점 혹은 즉시 삭제 선택 가능 (규칙에 따라 2단계 확정 권장)
+    setEditedPages((prev) =>
+      prev.map((p) =>
+        p.project_page_id === pId
+          ? { ...p, todos: p.todos.filter((t) => t.id !== tId) }
+          : p
+      )
+    );
+  };
+
+  const addPageTodo = (pId: string, newTodo: Todo) =>
+    setEditedPages((prev) =>
+      prev.map((p) =>
+        p.project_page_id === pId ? { ...p, todos: [...p.todos, newTodo] } : p
+      )
+    );
+
+  const updateProjectField = (field: keyof Project, value: any) =>
+    editedProject && setEditedProject({ ...editedProject, [field]: value });
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center flex-1">
+        Loading project details...
+      </div>
+    );
+  }
+
+  if (!originalProject) {
     return (
       <div className="flex items-center justify-center flex-1">
         <div className="text-center">
@@ -64,51 +198,8 @@ export default function ProjectDetailPage() {
     );
   }
 
-  const handleEdit = () => {
-    setEditedProject({ ...originalProject });
-    setEditedPages([...originalPages]);
-    setIsEditing(true);
-  };
-
-  const handleSave = () => {
-    setIsEditing(false);
-    // TODO: API Save Logic
-  };
-
-  // 데이터 업데이트 핸들러들
-  const updatePage = (id: string, updates: any) =>
-    setEditedPages((prev) =>
-      prev.map((p) => (p.project_page_id === id ? { ...p, ...updates } : p))
-    );
-  const updatePageTodo = (pId: string, tId: string, updates: any) =>
-    setEditedPages((prev) =>
-      prev.map((p) =>
-        p.project_page_id === pId
-          ? {
-              ...p,
-              todos: p.todos.map((t) =>
-                t.id === tId ? { ...t, ...updates } : t
-              ),
-            }
-          : p
-      )
-    );
-  const deletePageTodo = (pId: string, tId: string) =>
-    setEditedPages((prev) =>
-      prev.map((p) =>
-        p.project_page_id === pId
-          ? { ...p, todos: p.todos.filter((t) => t.id !== tId) }
-          : p
-      )
-    );
-  const addPageTodo = (pId: string, newTodo: Todo) =>
-    setEditedPages((prev) =>
-      prev.map((p) =>
-        p.project_page_id === pId ? { ...p, todos: [...p.todos, newTodo] } : p
-      )
-    );
-  const updateProjectField = (field: keyof Project, value: string) =>
-    editedProject && setEditedProject({ ...editedProject, [field]: value });
+  const project = isEditing ? editedProject! : originalProject;
+  const pages = isEditing ? editedPages : originalPages;
 
   return (
     <div className="flex-1 overflow-auto bg-gray-50">
@@ -129,7 +220,7 @@ export default function ProjectDetailPage() {
       <div className="p-8 mx-auto max-w-7xl">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <div className="space-y-6 lg:col-span-2">
-            {isActive && isEditing ? (
+            {isEditing ? (
               <ProjectBasicInfoSection
                 projectName={editedProject?.project_name || ""}
                 setProjectName={(v) => updateProjectField("project_name", v)}
@@ -161,7 +252,6 @@ export default function ProjectDetailPage() {
             )}
 
             {!isPlanning &&
-              pages.length > 0 &&
               (isEditing ? (
                 <ProjectPagesSection
                   pages={pages}
@@ -212,7 +302,7 @@ export default function ProjectDetailPage() {
 
           <ProjectStatsSidebar
             project={project}
-            todos={todos}
+            todos={pages.flatMap((p) => p.todos)} // Sidebar를 위해 모든 Todo 취합
             isPlanning={isPlanning}
             onNewMeeting={() =>
               navigate(`/projects/meetings/new`, {

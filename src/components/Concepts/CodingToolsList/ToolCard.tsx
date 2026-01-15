@@ -5,7 +5,6 @@ export default function ToolCard({
   name,
   description,
   category,
-  tags,
   onClick,
 }: ToolCardProps) {
   return (
@@ -21,12 +20,12 @@ export default function ToolCard({
         {category}
       </div>
       <div className="flex flex-wrap gap-2">
-        {tags.map((tag, idx) => (
+        {category.map((categoryItem, idx) => (
           <span
             key={idx}
             className="px-2 py-1 text-xs text-purple-600 rounded-full bg-purple-50"
           >
-            {tag}
+            {categoryItem}
           </span>
         ))}
       </div>

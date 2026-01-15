@@ -52,7 +52,6 @@ export const CodingToolDetailService = {
 
     return {
       ...toolData,
-      tags: toolData.category || [],
       isUnderstood: !!userConcept,
       relatedConcepts: relatedItems,
     };

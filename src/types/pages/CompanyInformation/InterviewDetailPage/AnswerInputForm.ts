@@ -3,4 +3,5 @@ export interface AnswerInputFormProps {
   answer: string;
   onAnswerChange: (value: string) => void;
   onSubmit: () => void;
+  disabled?: boolean;
 }

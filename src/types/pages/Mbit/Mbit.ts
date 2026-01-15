@@ -11,7 +11,7 @@ export interface Fortune {
 export interface Major {
   id: string;
   name: string;
-  icon: any;
+
   description: string;
   color: string;
   detailedDescription: string;

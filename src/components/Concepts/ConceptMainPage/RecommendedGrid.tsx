@@ -3,7 +3,7 @@ import RecommendedConceptCard from "./RecommendedConceptCard";
 import { RecommendedGridProps } from "../../../types/pages/Concepts/ConceptMainPage/RecommendedGrid";
 
 export default function RecommendedGrid({
-  title = "Recommended For You",
+  title,
   items,
   onItemClick,
 }: RecommendedGridProps) {
@@ -22,7 +22,6 @@ export default function RecommendedGrid({
             type={item.type}
             title={item.title}
             category={item.category}
-            tags={item.tags}
             onClick={onItemClick}
           />
         ))}

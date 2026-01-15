@@ -3,5 +3,7 @@ export interface MaterialHeaderProps {
   category: string;
   description: string;
   tags: string[];
-  documentUrl?: string;
+  documentUrl?: string | null;
+  isUnderstood: boolean;
+  onToggleUnderstood: () => void;
 }

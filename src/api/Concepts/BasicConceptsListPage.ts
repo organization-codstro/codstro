@@ -34,7 +34,6 @@ export const BasicConceptsListService = {
 
     return (data || []).map((item) => ({
       ...item,
-      tags: item.category || [],
     }));
   },
 
@@ -66,7 +65,6 @@ export const BasicConceptsListService = {
 
     return (data || []).map((item) => ({
       ...item,
-      tags: item.category || [],
     }));
   },
 
@@ -95,7 +93,6 @@ export const BasicConceptsListService = {
 
     return (data || []).map((item) => ({
       ...item,
-      tags: item.category || [],
     }));
   },
 

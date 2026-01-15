@@ -1,6 +1,6 @@
 export interface GetToolDetailParams {
   toolId: string;
-  userId: number;
+  userId: string;
 }
 
 interface RelatedItem {
@@ -13,7 +13,6 @@ export interface ToolDetailResponse {
   id: string;
   name: string;
   category: string[];
-  tags: string[]; // category 데이터를 tags로 활용
   description: string;
   content: string;
   officialSite: string | null;

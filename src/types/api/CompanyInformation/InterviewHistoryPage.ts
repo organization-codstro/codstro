@@ -7,7 +7,7 @@ export interface UserInterviewItem {
   id: string;
   company_qna_question: string | null;
   company_user_qna_answer: string | null;
-  company_user_qna_create_date: string;
+  company_user_qna_create_at: string;
   company_user_qna_evaluation: string | null;
 }
 

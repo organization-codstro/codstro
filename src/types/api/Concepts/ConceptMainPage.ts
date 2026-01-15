@@ -4,8 +4,7 @@ export interface RecommendedMaterialResponse {
   id: string;
   title: string;
   type: MaterialType;
-  category: string;
-  tags?: string[];
+  category: string[];
 }
 
 export interface DocumentationSite {
@@ -15,7 +14,7 @@ export interface DocumentationSite {
 }
 
 export interface DocumentationCategoryResponse {
-  category: string;
+  category: string[];
   sites: DocumentationSite[];
 }
 

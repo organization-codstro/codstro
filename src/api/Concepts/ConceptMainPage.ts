@@ -63,8 +63,7 @@ export const ConceptMainService = {
       id: item.id,
       title: item.title,
       type: item.type,
-      category: Array.isArray(item.category) ? item.category[0] : "General",
-      tags: Array.isArray(item.category) ? item.category : [],
+      category: item.category,
     }));
   },
 

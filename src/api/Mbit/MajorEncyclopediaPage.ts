@@ -48,7 +48,7 @@ export const MajorEncyclopediaService = {
    * [특정 전공 상세 조회]
    * @param majorId 조회할 전공 ID
    */
-  async getMajorById(majorId: number): Promise<Major | null> {
+  async getMajorById(majorId: string): Promise<Major | null> {
     const { data, error } = await supabase
       .from("majors")
       .select("*")

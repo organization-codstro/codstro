@@ -29,8 +29,7 @@ export interface AddConceptTodoParams {
 export interface ConceptDetailResponse {
   id: string;
   name: string;
-  category: string;
-  tags: string[];
+  category: string[];
   isUnderstood: boolean;
   description: string;
   content: string;

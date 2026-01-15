@@ -1,6 +1,15 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useState } from "react";
-import { service } from "../../data/Concepts/thirdPartyServices";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { Loader2 } from "lucide-react";
+
+// 서비스 및 타입
+import { ThirdPartyDetailService } from "../../api/Concepts/ThirdPartyDetailPage";
+import { LoginService } from "../../api/Auth/LoginPage";
+import { ThirdPartyDetailResponse } from "../../types/api/Concepts/ThirdPartyDetailPage";
+import { TodoForm } from "../../types/pages/CompanyInformation/AddTodoModal";
+
+// 컴포넌트
 import BackButton from "../../components/Concepts/BackButton";
 import ThirdPartyHeader from "../../components/Concepts/ThirdPartyDetailPage/ThirdPartyHeader";
 import ThirdPartyActionButtons from "../../components/Concepts/ThirdPartyDetailPage/ThirdPartyActionButtons";
@@ -9,22 +18,109 @@ import RelatedItemGrid from "../../components/Concepts/CodingToolDetailPage/Rela
 import AIChat from "../../components/CompanyInformation/AIChat";
 import AddTodoModal from "../../components/CompanyInformation/AddTodoModal";
 
-
 export default function ThirdPartyDetailPage() {
   const { serviceId } = useParams<{ serviceId: string }>();
   const navigate = useNavigate();
 
-  const [showAIChat, setShowAIChat] = useState(false);
-  const [showTodoModal, setShowTodoModal] = useState<false | "documentation" | "clone_project">(false);
+  // 1. 상태 관리
+  const [service, setService] = useState<ThirdPartyDetailResponse | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // 데이터 예외 처리
+  const [showAIChat, setShowAIChat] = useState(false);
+  const [showTodoModal, setShowTodoModal] = useState<
+    false | "documentation" | "clone_project"
+  >(false);
+
+  // 2. 초기 데이터 로드
+  useEffect(() => {
+    const fetchDetail = async () => {
+      if (!serviceId) return;
+
+      try {
+        setIsLoading(true);
+        const currentUserId = await LoginService.getCurrentUserId();
+        setUserId(currentUserId);
+
+        if (!currentUserId) {
+          toast.error("로그인이 필요합니다.");
+          navigate("/login");
+          return;
+        }
+
+        const data = await ThirdPartyDetailService.getServiceDetail({
+          serviceId,
+          userId: currentUserId,
+        });
+        setService(data);
+      } catch (error) {
+        console.error(error);
+        toast.error("서비스 상세 정보를 불러오는데 실패했습니다.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDetail();
+  }, [serviceId]);
+
+  // 3. 핸들러 로직
+
+  // [이해함 토글]
+  const handleToggleUnderstood = async () => {
+    if (!service || !userId || !serviceId) return;
+
+    try {
+      const newStatus = await ThirdPartyDetailService.toggleServiceUnderstood({
+        userId,
+        serviceId,
+        currentStatus: service.isUnderstood,
+      });
+
+      setService({ ...service, isUnderstood: newStatus });
+      toast.success(newStatus ? "학습 완료!" : "학습 취소됨");
+    } catch (error) {
+      toast.error("상태 변경 중 오류가 발생했습니다.");
+    }
+  };
+
+  // [Todo 추가 확정]
+  const handleAddTodoConfirm = async (formData: TodoForm) => {
+    if (!userId || !service || !showTodoModal) return;
+
+    try {
+      await ThirdPartyDetailService.addServiceTodo({
+        userId,
+        serviceName: service.name,
+        type: showTodoModal,
+      });
+      toast.success("할 일 목록에 추가되었습니다.");
+      setShowTodoModal(false);
+    } catch (error) {
+      toast.error("Todo 저장에 실패했습니다.");
+      throw error; // 모달 내부 에러 처리를 위해 throw
+    }
+  };
+
+  // 4. 로딩 및 예외 처리
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20">
+        <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
+        <p className="mt-4 text-gray-500 font-medium">
+          서비스 정보를 가져오는 중...
+        </p>
+      </div>
+    );
+  }
+
   if (!service) {
     return (
       <div className="p-8 text-center">
-        <p className="text-gray-600">Service not found.</p>
+        <p className="text-gray-600 font-medium">Service not found.</p>
         <button
           onClick={() => navigate("/third-partys")}
-          className="px-4 py-2 mt-4 text-white bg-blue-600 rounded-lg"
+          className="px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
         >
           Back to Services
         </button>
@@ -34,41 +130,36 @@ export default function ThirdPartyDetailPage() {
 
   return (
     <div className="max-w-5xl p-8 mx-auto">
-      {/* 1. 뒤로가기 버튼 */}
       <BackButton to="/third-partys" label="Back to Services" />
 
-      <div className="p-8 mb-6 bg-white border border-gray-200 rounded-lg">
-        {/* 2. 서비스 상단 정보 섹션 */}
+      <div className="p-8 mb-6 bg-white border border-gray-200 rounded-lg shadow-sm">
         <ThirdPartyHeader
           name={service.name}
           category={service.category}
           description={service.description}
-          tags={service.tags}
           officialSite={service.officialSite}
+          isUnderstood={service.isUnderstood}
+          onToggleUnderstood={handleToggleUnderstood}
         />
 
         <div className="my-8 border-t border-gray-100" />
 
-        {/* 3. 액션 버튼 섹션 */}
         <ThirdPartyActionButtons
           onShowAIChat={() => setShowAIChat(true)}
           onAddTodo={(type) => setShowTodoModal(type)}
         />
 
-        {/* 4. 마크다운 본문 콘텐츠 */}
-        <div className="prose max-w-none">
+        <div className="prose max-w-none mt-8">
           <MarkdownRenderer content={service.content} />
         </div>
       </div>
 
-      {/* 5. 연관 서비스 그리드 (재사용) */}
       <RelatedItemGrid
         title="Related Services & Concepts"
         items={service.relatedConcepts}
         basePath="/third-partys"
       />
 
-      {/* 모달 컴포넌트 레이어 */}
       <AIChat
         isOpen={showAIChat}
         onClose={() => setShowAIChat(false)}
@@ -81,6 +172,7 @@ export default function ThirdPartyDetailPage() {
           onClose={() => setShowTodoModal(false)}
           conceptName={service.name}
           todoType={showTodoModal}
+          onConfirm={handleAddTodoConfirm}
         />
       )}
     </div>

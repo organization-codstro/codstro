@@ -1,9 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { packageManagerMaterials } from "../../../data/Concepts/PackageListPage/PackageManagerMaterials";
-
-interface RelatedMaterialGridProps {
-  relatedMaterials: string[];
-}
+import { RelatedMaterialGridProps } from "../../../types/pages/Concepts/PackageDetailPage/RelatedMaterialGrid";
 
 export default function RelatedMaterialGrid({
   relatedMaterials,
@@ -11,7 +8,7 @@ export default function RelatedMaterialGrid({
   const navigate = useNavigate();
 
   const relatedItems = packageManagerMaterials.filter((m) =>
-    relatedMaterials.includes(m.id)
+    relatedMaterials.some((rm) => rm.id === m.id)
   );
 
   if (relatedItems.length === 0) return null;

@@ -26,14 +26,14 @@ export function CompanyInfoSection({
         <div>
           <h3 className="mb-3 text-lg font-semibold text-gray-900">웹사이트</h3>
           <a
-            href={website}
+            href={website ? website : "#"}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 hover:underline"
             style={{ color: "#587CF0" }}
           >
             <ExternalLink size={18} />
-            <span className="truncate">{website}</span>
+            <span className="truncate">{website || "등록된 웹사이트가 없습니다"}</span>
           </a>
         </div>
       </div>

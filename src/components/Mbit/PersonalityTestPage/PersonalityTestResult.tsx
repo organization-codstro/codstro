@@ -15,10 +15,11 @@ const PersonalityTestResult: React.FC<PersonalityTestResultProps> = ({
         <h2 className="mb-4 text-4xl font-bold text-gray-800">
           Your MBIT Type
         </h2>
-        <div className="text-6xl font-bold text-[#587CF0] mb-6">{result}</div>
+        <div className="text-6xl font-bold text-[#587CF0] mb-6">
+          {result.name}
+        </div>
         <p className="mb-8 text-lg text-gray-600">
-          You have a unique developer personality! Check the encyclopedia to
-          learn more about your type.
+         {result.description}
         </p>
         <button
           onClick={onReset}

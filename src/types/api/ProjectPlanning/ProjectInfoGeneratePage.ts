@@ -29,7 +29,6 @@ export interface ProjectResponse {
 export interface TodoResponse {
   project_todo_id?: string;
   project_todo_content: string;
-  project_todo_is_complete: boolean;
   project_page_id?: string;
   project_id?: string;
 }

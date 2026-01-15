@@ -30,8 +30,7 @@ export const BasicConceptDetailService = {
         name:concept_description_material_title,
         description:concept_description_material_description,
         content:concept_description_material_content,
-        category:concept_description_material_category,
-        tags:concept_description_material_category
+        category:concept_description_material_category
       `
       )
       .eq("concept_description_material_id", conceptId)

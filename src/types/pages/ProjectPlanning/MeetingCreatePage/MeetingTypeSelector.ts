@@ -1,4 +1,4 @@
 export interface MeetingTypeSelectorProps {
-  selectedType: "feature" | "free" | null;
-  onSelect: (type: "feature" | "free") => void;
+  selectedType: "Feature" | "Free" | null;
+  onSelect: (type: "Feature" | "Free") => void;
 }

@@ -1,7 +1,8 @@
 export interface ThirdPartyHeaderProps {
   name: string;
-  category: string;
+  category: string[];
   description: string;
-  tags: string[];
-  officialSite: string;
+  officialSite: string | null;
+  isUnderstood: boolean;
+  onToggleUnderstood: () => void;
 }

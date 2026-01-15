@@ -1,23 +1,106 @@
-import { Play, Clock } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Play, Clock, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { Project } from "../../types/pages/ProjectPlanning/project";
-import {
-  activeProjectsData,
-  planningProjectsData,
-  trendingNewsData,
-} from "../../data/ProjectPlanning/project";
+
+// 컴포넌트 임포트
 import { ProjectListHeader } from "../../components/ProjectPlanning/ProjectMainPage/ProjectListHeader";
 import { EmptyProjectState } from "../../components/ProjectPlanning/EmptyProjectState";
 import { ProjectCard } from "../../components/ProjectPlanning/ProjectCard";
 import { TrendingSection } from "../../components/ProjectPlanning/ProjectMainPage/TrendingSection";
+import { LoginService } from "../../api/Auth/LoginPage";
+import { ProjectMainService } from "../../api/ProjectPlanning/ProjectMainPage";
 
 export default function ProjectMainPage() {
   const navigate = useNavigate();
 
-  const activeProjects: Project[] = activeProjectsData;
-  const planningProjects: Project[] = planningProjectsData;
+  // 1. 상태 관리
+  const [activeProjects, setActiveProjects] = useState<Project[]>([]);
+  const [planningProjects, setPlanningProjects] = useState<Project[]>([]);
+  const [trendingNews, setTrendingNews] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // 2. 데이터 로드 (useEffect)
+  useEffect(() => {
+    const fetchAllData = async () => {
+      const userId = await LoginService.getCurrentUserId();
+      if (!userId) {
+        toast.error("로그인이 필요한 페이지입니다.");
+        navigate("/login");
+        return;
+      }
+
+      try {
+        setIsLoading(true);
+        // 모든 데이터를 병렬로 로드
+
+        const [active, planning, news] = await Promise.all([
+          ProjectMainService.getActiveProjects({ userId }),
+          ProjectMainService.getPlanningProjects({ userId }),
+          ProjectMainService.getTrendingNews(),
+        ]);
+
+        setActiveProjects(active as any);
+        setPlanningProjects(planning as any);
+        setTrendingNews(news);
+      } catch (error) {
+        toast.error("데이터를 불러오는데 실패했습니다.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchAllData();
+  }, [navigate]);
+
+  // 3. 기획 단계 이어서 하기 로직
+  const handleContinuePlanning = async (projectId: string) => {
+    try {
+      toast.info("마지막 진행 단계를 확인 중입니다...");
+      const { step, data } = await ProjectMainService.determinePlanningStep({
+        projectId,
+      });
+
+      // 각 단계에 맞는 경로로 이동하며 상태(state) 전달
+      switch (step) {
+        case 1: // 기초 정보 입력 단계
+          navigate(`/projects/new/${projectId}`);
+          break;
+        case 2: // AI 채팅 단계
+          navigate("/projects/new/chat", {
+            state: {
+              projectId,
+              basicInfo: {
+                project_topic: data.project_topic,
+                desired_features: data.project_description,
+              },
+            },
+          });
+          break;
+        case 3: // 최종 확인 및 생성 단계
+          navigate("/projects/new/info", {
+            state: { projectId, basicInfo: data },
+          });
+          break;
+        default:
+          navigate("/projects/new");
+      }
+    } catch (error) {
+      toast.error("단계를 판별할 수 없습니다.");
+    }
+  };
 
   const handleCreateNew = () => navigate("/projects/new");
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center flex-1 h-full space-y-4">
+        <Loader2 className="w-10 h-10 text-blue-500 animate-spin" />
+        <p className="text-gray-500">프로젝트 목록을 불러오고 있습니다...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex-1 overflow-auto bg-gray-50">
@@ -83,9 +166,7 @@ export default function ProjectMainPage() {
                     onClick={() => navigate(`/projects/${project.project_id}`)}
                     onContinue={(e) => {
                       e.stopPropagation();
-                      navigate("/projects/new", {
-                        state: { projectId: project.project_id },
-                      });
+                      handleContinuePlanning(project.project_id);
                     }}
                   />
                 ))}
@@ -95,9 +176,7 @@ export default function ProjectMainPage() {
         </div>
 
         {/* Trending Section */}
-        {(activeProjects.length > 0 || planningProjects.length > 0) && (
-          <TrendingSection news={trendingNewsData} />
-        )}
+        {trendingNews.length > 0 && <TrendingSection news={trendingNews} />}
       </div>
     </div>
   );

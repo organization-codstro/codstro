@@ -1,5 +1,4 @@
 import { supabase } from "../../db/supabase/supabase";
-import { generateAiContent } from "../Gemini/Gemini";
 import {
   GetCompanyMatchDetailParams,
   GetCompanyMatchDetailResponse,
@@ -7,8 +6,6 @@ import {
   GetAllUserMatchesResponse,
   CreateMatchResultParams,
   CreateMatchResultResponse,
-  GenerateAiMatchReportParams,
-  GenerateAiMatchReportResponse,
 } from "../../types/api/CompanyInformation/CompanyMatchPage";
 
 /**
@@ -116,23 +113,5 @@ export const CompanyMatchService = {
     }
   },
 
-  /**
-   * [함수 역할]: 유저 프로필과 회사 정보를 비교하여 매칭 리포트를 생성합니다.
-   * [활용 페이지]: CompanyMatch
-   */
-  async generateAiMatchReport(
-    params: GenerateAiMatchReportParams
-  ): Promise<GenerateAiMatchReportResponse> {
-    const prompt = `
-      당신은 전문 커리어 컨설턴트입니다. 
-      회사명: ${params.companyName}
-      회사가치: ${params.companyValues}
-      유저전공: ${params.userMajor}
-      
-      위 정보를 바탕으로 유저와 회사의 매칭 분석 리포트를 마크다운 형식으로 작성해주세요.
-      내용에는 ## Strengths, ## Good Fits, ## Areas to Develop를 포함하고, 
-      마지막에 match_rate(0~100 사이의 숫자)를 'SCORE: 숫자' 형식으로 포함해주세요.
-    `;
-    return await generateAiContent(prompt);
-  },
+  
 };

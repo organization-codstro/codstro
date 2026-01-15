@@ -5,7 +5,6 @@ export default function ThirdPartyCard({
   name,
   description,
   category,
-  tags,
   onClick,
 }: ThirdPartyCardProps) {
   return (
@@ -17,16 +16,14 @@ export default function ThirdPartyCard({
         <h3 className="text-xl font-bold text-gray-900">{name}</h3>
       </div>
       <p className="mb-4 text-sm text-gray-600 line-clamp-2">{description}</p>
-      <div className="mb-3 text-xs font-medium tracking-wider text-gray-400 uppercase">
-        {category}
-      </div>
+
       <div className="flex flex-wrap gap-2">
-        {tags.map((tag, idx) => (
+        {category.map((categoryItem, idx) => (
           <span
             key={idx}
             className="px-2 py-1 text-xs text-orange-600 rounded-full bg-orange-50"
           >
-            {tag}
+            {categoryItem}
           </span>
         ))}
       </div>

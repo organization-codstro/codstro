@@ -5,8 +5,8 @@
 /** 매칭 리스트 아이템 */
 export interface MatchingListItem {
   company_user_matche_id: string;
-  company_user_matche_name: string | null;
-  match_rate: number | null;
+  company_user_matche_name: string;
+  match_rate: number;
   company_user_matche_created_date: string;
   company_id: string;
 }

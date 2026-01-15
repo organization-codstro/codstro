@@ -70,8 +70,7 @@ export type CreateMatchResultResponse = UserMatchItem;
  */
 export interface GenerateAiMatchReportParams {
   companyName: string;
-  companyValues: string;
-  userMajor: string;
+  companyValues: string | null;
 }
 
 /**

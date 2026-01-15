@@ -31,12 +31,12 @@ export const InterviewHistoryService = {
           id,
           company_qna_question,
           company_user_qna_answer,
-          company_user_qna_create_date,
+          company_user_qna_create_at,
           company_user_qna_evaluation
         `
         )
         .eq("user_id", userId)
-        .order("company_user_qna_create_date", { ascending: false });
+        .order("company_user_qna_create_at", { ascending: false });
 
       if (error) throw error;
       return data ?? [];

@@ -5,10 +5,10 @@
 /** AI 매칭 상세 데이터 */
 export interface MatchingHistoryDetail {
   company_user_matche_id: string;
-  company_user_matche_name: string | null;
-  match_rate: number | null;
-  company_user_matche_reason: string | null;
-  company_user_matche_suggestions: string | null;
+  company_user_matche_name: string;
+  match_rate: number;
+  company_user_matche_reason: string;
+  company_user_matche_suggestions: string;
   company_user_matche_created_date: string;
   company_id: string;
   user_id: string;

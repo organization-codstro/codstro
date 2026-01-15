@@ -2,11 +2,11 @@ export interface Company {
   company_id: string;
   company_name: string;
   company_industry: string;
-  companie_description: string;
-  company_website: string;
-  company_values: string;
-  company_created_date: string;
-  company_update_date: string;
+  company_description: string;
+  company_website: string | null;
+  company_values: string | null;
+  company_created_at: string;
+  company_update_at: string;
 }
 
 export interface CompanyMatch {

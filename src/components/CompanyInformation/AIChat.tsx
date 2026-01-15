@@ -1,45 +1,65 @@
-//개념을 ai와 이야기를 할때 사용되는 화면
-
-import { X, Send } from "lucide-react";
+import { X, Send, Loader2 } from "lucide-react";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import {
   AIChatProps,
   Message,
 } from "../../types/pages/CompanyInformation/AIChat";
+import { BasicConceptDetailService } from "../../api/Concepts/BasicConceptDetailPage";
 
 export default function AIChat({ isOpen, onClose, conceptName }: AIChatProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
       sender: "ai",
-      text: `Hi! I'm ready to help you understand ${conceptName}. Feel free to ask any questions or request clarification about this concept.`,
+      text: `안녕하세요! ${conceptName}에 대해 궁금한 점이 있으신가요? 무엇이든 물어보세요.`,
       timestamp: new Date(),
     },
   ]);
   const [inputValue, setInputValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSendMessage = () => {
-    if (!inputValue.trim()) return;
+  const handleSendMessage = async () => {
+    if (!inputValue.trim() || isLoading) return;
 
+    const userQuestion = inputValue.trim();
     const userMessage: Message = {
       id: Date.now().toString(),
       sender: "user",
-      text: inputValue,
+      text: userQuestion,
       timestamp: new Date(),
     };
 
     setMessages((prev) => [...prev, userMessage]);
     setInputValue("");
+    setIsLoading(true);
 
-    setTimeout(() => {
+    try {
+      // API 호출: Gemini Assistant 연동
+      const aiResponse = await BasicConceptDetailService.askAIChat({
+        conceptName,
+        userQuestion,
+      });
+
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
         sender: "ai",
-        text: "Thank you for your question! This is a demo response. In the actual implementation, this would be connected to an AI service.",
+        text: aiResponse,
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, aiMessage]);
-    }, 500);
+    } catch (error) {
+      toast.error("AI 응답을 가져오지 못했습니다.");
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        sender: "ai",
+        text: "죄송합니다. 답변을 생성하는 중 오류가 발생했습니다.",
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -94,7 +114,9 @@ export default function AIChat({ isOpen, onClose, conceptName }: AIChatProps) {
                       : "bg-gray-100 text-gray-900 rounded-bl-none"
                   }`}
                 >
-                  <p className="text-sm leading-relaxed">{message.text}</p>
+                  <p className="text-sm leading-relaxed whitespace-pre-wrap">
+                    {message.text}
+                  </p>
                   <p
                     className={`text-xs mt-1 ${
                       message.sender === "user"
@@ -110,6 +132,13 @@ export default function AIChat({ isOpen, onClose, conceptName }: AIChatProps) {
                 </div>
               </div>
             ))}
+            {isLoading && (
+              <div className="flex justify-start">
+                <div className="bg-gray-100 px-4 py-3 rounded-lg rounded-bl-none">
+                  <Loader2 className="w-4 h-4 animate-spin text-gray-500" />
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="p-4 border-t border-gray-200 bg-gray-50">
@@ -118,21 +147,19 @@ export default function AIChat({ isOpen, onClose, conceptName }: AIChatProps) {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Type your question..."
+                placeholder="질문을 입력하세요..."
                 className="flex-1 px-4 py-2 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
                 rows={3}
+                disabled={isLoading}
               />
               <button
                 onClick={handleSendMessage}
-                disabled={!inputValue.trim()}
+                disabled={!inputValue.trim() || isLoading}
                 className="flex items-center justify-center px-4 py-2 text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
               >
                 <Send className="w-4 h-4" />
               </button>
             </div>
-            <p className="mt-2 text-xs text-gray-500">
-              This conversation is temporary and won't be saved.
-            </p>
           </div>
         </div>
       </div>
