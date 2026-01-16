@@ -2,11 +2,14 @@
 
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import { Group, GroupType } from "../../../../types/Woomoonjeong/woomoonjeong";
 import { woomoonjeongData } from "../../../../data/woomoonjeong/woomoonjeongData";
 import { DEFAULT_GROUP_TYPE } from "../../../../constants/Woomoonjeong/DocumentsManagementPage/CreateCustomFieldModal";
-import { GroupTypes } from "../../../../constants/Woomoonjeong/Woomoonjeong";
-import { CreateDocumentModalProps } from "../../../../types/Woomoonjeong/DocumentsManagementPage/Modal/CreateDocumentModal";
+import { CreateDocumentModalProps } from "../../../../types/pages/Woomoonjeong/DocumentsManagementPage/Modal/CreateDocumentModal";
+import {
+  GROUP_TYPE,
+  GROUP_TYPES,
+} from "../../../../constants/Woomoonjeong/Woomoonjeong";
+import { Group } from "../../../../types/pages/Woomoonjeong/woomoonjeong";
 
 const CreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
   isOpen,
@@ -19,7 +22,7 @@ const CreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
   const [categoryInput, setCategoryInput] = useState("");
   const [categories, setCategories] = useState<string[]>([]);
   const [selectedGroupType, setSelectedGroupType] =
-    useState<GroupType>(DEFAULT_GROUP_TYPE);
+    useState<GROUP_TYPE>(DEFAULT_GROUP_TYPE);
   const [fieldInfo, setFieldInfo] = useState("");
   const [fieldOptions, setFieldOptions] = useState<string[]>([]);
 
@@ -233,7 +236,7 @@ const CreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
               그룹 선택
             </label>
             <div className="grid grid-cols-4 gap-2">
-              {GroupTypes.map((type) => (
+              {GROUP_TYPES.map((type) => (
                 <button
                   key={type}
                   type="button"

@@ -12,7 +12,7 @@ export interface ArchivedPlan {
   study_plan_is_archived: boolean;
   study_plan_start_date: string;
   study_plan_end_date: string;
-  study_plan_created_date : string;
+  created_at : string;
   totalNodes: number;
 }
 

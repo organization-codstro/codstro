@@ -2,7 +2,6 @@ import React from "react";
 import { MajorCardProps } from "../../../types/pages/Mbit/MajorEncyclopediaPage/MajorCard";
 
 const MajorCard: React.FC<MajorCardProps> = ({ major, onClick }) => {
-  const IconComponent = major.icon;
 
   return (
     <div
@@ -11,9 +10,6 @@ const MajorCard: React.FC<MajorCardProps> = ({ major, onClick }) => {
     >
       <div className={`bg-gradient-to-r ${major.color} p-6`}>
         <div className="flex items-center gap-4 mb-3">
-          <div className="flex items-center justify-center bg-white rounded-lg w-14 h-14 bg-opacity-20">
-            <IconComponent className="w-8 h-8 text-white" />
-          </div>
           <h3 className="text-2xl font-bold text-white">{major.name}</h3>
         </div>
         <p className="text-white text-opacity-90">{major.description}</p>

@@ -1,6 +1,6 @@
 import React from "react";
 import { X } from "lucide-react";
-import { NodeEditFormProps } from "../../../types/Woomoonkyung/WoomoonkyungEditNodePage/NodeEditForm";
+import { NodeEditFormProps } from "../../../types/pages/Woomoonkyung/StudyPlanEditNodePage/NodeEditForm";
 
 const NodeEditForm: React.FC<NodeEditFormProps> = ({
   node,
@@ -59,8 +59,8 @@ const NodeEditForm: React.FC<NodeEditFormProps> = ({
             설명
           </label>
           <textarea
-            value={node.description}
-            onChange={(e) => onChange({ ...node, description: e.target.value })}
+            value={node.study_plan_node_description}
+            onChange={(e) => onChange({ ...node, study_plan_node_description: e.target.value })}
             rows={4}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#587CF0] outline-none resize-none"
           />
@@ -73,9 +73,9 @@ const NodeEditForm: React.FC<NodeEditFormProps> = ({
             </label>
             <input
               type="date"
-              value={node.start_date}
+              value={node.study_plan_node_start_date}
               onChange={(e) =>
-                onChange({ ...node, start_date: e.target.value })
+                onChange({ ...node, study_plan_node_start_date: e.target.value })
               }
               className={`w-full px-3 py-2 border rounded-lg ${
                 errors.startDate ? "border-red-500" : "border-gray-300"
@@ -88,8 +88,8 @@ const NodeEditForm: React.FC<NodeEditFormProps> = ({
             </label>
             <input
               type="date"
-              value={node.end_date}
-              onChange={(e) => onChange({ ...node, end_date: e.target.value })}
+              value={node.study_plan_node_end_date}
+              onChange={(e) => onChange({ ...node, study_plan_node_end_date: e.target.value })}
               className={`w-full px-3 py-2 border rounded-lg ${
                 errors.endDate ? "border-red-500" : "border-gray-300"
               }`}

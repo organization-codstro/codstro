@@ -8,11 +8,12 @@ import {
   ExternalLink,
   Bookmark,
 } from "lucide-react";
-import {
-  difficultyColors,
-  statusColors,
-} from "../../../data/woomoonro/woomoonroData";
+
 import { CloneCodingProjectCardProps } from "../../../types/pages/Woomoonro/CloneCodingProjectGrid/CloneCodingProjectCard";
+import {
+  DIFFICULTY_COLORS,
+  STATUS_COLORS,
+} from "../../../constants/Woomoonro/woomoonro";
 
 // --- ProjectCard 컴포넌트 ---
 
@@ -71,7 +72,7 @@ const ProjectCard = ({
         <div className="flex items-center gap-2 mb-4">
           <span
             className={`px-2 py-1 text-xs rounded-full border ${
-              difficultyColors[project.difficulty]
+              DIFFICULTY_COLORS[project.difficulty]
             }`}
           >
             {project.difficulty}
@@ -79,7 +80,7 @@ const ProjectCard = ({
           {userProject && (
             <span
               className={`px-2 py-1 text-xs rounded-full border ${
-                statusColors[userProject.status]
+                STATUS_COLORS[userProject.status]
               }`}
             >
               {userProject.status.replace("_", " ")}

@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState, useCallback } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { PlanInfoHeader } from "../../components/Woomoonkyung/StudyPlanCreateNodePage/PlanInfoHeader";
 import { CreatePlanButton } from "../../components/Woomoonkyung/StudyPlanCreateNodePage/CreatePlanButton";
@@ -11,8 +11,8 @@ import {
   ValidationErrors,
 } from "../../types/pages/Woomoonkyung/StudyPlanCreateNodePage/StudyPlanCreateNodePage";
 import { TechStack } from "../../types/api/Woomoonkyung/StudyPlanCreateNodePage";
-import { RecommendedStudyPlanDetailService } from "../../api/Woomoonkyung/RecommendedStudyPlanDetailPage";
 import { WoomoonkyungCreateNodeService } from "../../api/Woomoonkyung/StudyPlanCreateNodePage";
+import { RecommendedStudyPlanDetailService } from "../../api/Woomoonkyung/RecommendedStudyPlanDetailPage";
 
 export default function StudyPlanCreateNodePage() {
   const navigate = useNavigate();
@@ -107,6 +107,7 @@ export default function StudyPlanCreateNodePage() {
       study_plan_node_position: nodes.length + 1,
       tech_stack_id: techStack.tech_stack_id,
       tech_stack_name: techStack.tech_stack_name,
+      tech_stack_img_url: techStack.tech_stack_img_url,
     };
 
     setNodes((prev) => [...prev, newNode]);

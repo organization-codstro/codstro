@@ -38,7 +38,7 @@ const DraggableNodeItem: React.FC<DraggableNodeItemProps> = ({
         </div>
 
         <div className="flex items-center justify-center w-8 h-8 rounded-full bg-[#587CF0] text-white text-sm font-medium flex-shrink-0">
-          {node.position}
+          {node.study_plan_node_position}
         </div>
 
         <div className="flex-shrink-0 w-10 h-10 p-1 bg-white border border-gray-100 rounded-lg">
@@ -54,13 +54,13 @@ const DraggableNodeItem: React.FC<DraggableNodeItemProps> = ({
             {node.study_plan_node_name}
           </h4>
           <p className="text-sm text-gray-600 truncate">
-            {node.description || "설명이 없습니다"}
+            {node.study_plan_node_description || "설명이 없습니다"}
           </p>
-          {node.start_date && node.end_date && (
+          {node.study_plan_node_start_date && node.study_plan_node_end_date && (
             <div className="flex items-center gap-1 mt-2 text-xs text-gray-500">
               <Calendar className="w-3 h-3" />
               <span>
-                {node.start_date} ~ {node.end_date}
+                {node.study_plan_node_start_date} ~ {node.study_plan_node_end_date}
               </span>
             </div>
           )}

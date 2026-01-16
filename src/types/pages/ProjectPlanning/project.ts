@@ -1,3 +1,5 @@
+import { PROJECT_STATUS_TYPE } from "../../../constants/ProjectPlanning/ProjectPlanning";
+
 export interface Project {
   project_id: string;
   project_name: string;
@@ -32,8 +34,34 @@ export interface Todo {
   content: string;
   start_date: string;
   end_date: string;
-  status: "pending" | "in-progress" | "completed";
+  status: PROJECT_STATUS_TYPE;
   created_at: string;
+}
+
+//todo 생성시 입력할 정보들
+export interface newTodo {
+  group_id?: string;
+  project_page_id?: string;
+  name: string;
+  description?: string;
+  content: string;
+  start_date: string;
+  end_date: string;
+  status: PROJECT_STATUS_TYPE;
+}
+
+//todo 생성시 임시적으로 id필요할때 사용하는 인터페이스
+export interface UITodo {
+  client_id: string;
+  id?: string;
+  project_id?: string;
+  project_page_id?: string;
+  name: string;
+  description?: string;
+  content: string;
+  start_date: string;
+  end_date: string;
+  status: PROJECT_STATUS_TYPE;
 }
 
 export interface Meeting {

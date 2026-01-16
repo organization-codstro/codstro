@@ -1,4 +1,3 @@
-import React from "react";
 import { BadgeSectionProps } from "../../../types/pages/Profile/BadgeManagerPage/BadgeSection";
 
 export default function BadgeSection({

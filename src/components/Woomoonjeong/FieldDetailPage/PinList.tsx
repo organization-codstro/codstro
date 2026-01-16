@@ -1,8 +1,7 @@
 import React from "react";
 import { FileText } from "lucide-react";
 import PinCard from "./PinCard";
-import { PinListProps } from "../../../types/Woomoonjeong/FieldDetailPage/PinList";
-
+import { PinListProps } from "../../../types/pages/Woomoonjeong/FieldDetailPage/PinList";
 
 const PinList: React.FC<PinListProps> = ({ pins }) => (
   <div className="p-6 bg-white border border-purple-100 shadow-sm rounded-xl">

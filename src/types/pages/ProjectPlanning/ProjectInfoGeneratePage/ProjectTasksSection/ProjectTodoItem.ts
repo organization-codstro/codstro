@@ -1,11 +1,12 @@
-import { Todo } from "../../project";
+import { UITodo } from "../../project";
 
 export interface ProjectTodoItemProps {
-  todo: Todo;
+  todo: UITodo;
   isEditing: boolean;
   onEdit: () => void;
   onCancelEdit: () => void;
-  onUpdate: (todoId: string, updates: Partial<Todo>) => void;
+  onUpdate: (clientId: string, updates: Partial<UITodo>) => void;
+
   onDelete: (todoId: string) => void;
   getStatusColor: (status: string) => string;
 }

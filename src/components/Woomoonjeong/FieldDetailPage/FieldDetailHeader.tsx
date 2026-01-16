@@ -1,6 +1,6 @@
 import React from "react";
 import { ArrowLeft, Plus } from "lucide-react";
-import { FieldDetailHeaderProps } from "../../../types/Woomoonjeong/FieldDetailPage/FieldDetailHeader";
+import { FieldDetailHeaderProps } from "../../../types/pages/Woomoonjeong/FieldDetailPage/FieldDetailHeader";
 
 const FieldDetailHeader: React.FC<FieldDetailHeaderProps> = ({
   fieldName,

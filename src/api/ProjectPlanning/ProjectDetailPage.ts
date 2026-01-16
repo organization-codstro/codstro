@@ -16,6 +16,7 @@ export const ProjectDetailService = {
    */
   async getProjectDetail(projectId: number, isPlanning: boolean) {
     const table = isPlanning ? "project_plannings" : "projects";
+
     try {
       const { data, error } = await supabase
         .from(table)
@@ -24,7 +25,20 @@ export const ProjectDetailService = {
         .single();
 
       if (error) throw error;
-      return { ...data, project_status: isPlanning ? "planning" : "active" };
+
+      const today = new Date();
+      const endDate = new Date(data.project_end_date);
+
+      const project_status = isPlanning
+        ? "planning"
+        : endDate < today
+        ? "done"
+        : "active";
+
+      return {
+        ...data,
+        project_status,
+      };
     } catch (error) {
       console.error("[getProjectDetail Error]:", error);
       throw error;

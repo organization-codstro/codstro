@@ -1,4 +1,4 @@
-import { ProjectPagesViewProps } from "../../../types/ProjectPlanning/ProjectDetailPage/ProjectPagesView";
+import { ProjectPagesViewProps } from "../../../types/pages/ProjectPlanning/ProjectDetailPage/ProjectPagesView";
 
 export const ProjectPagesView = ({ pages }: ProjectPagesViewProps) => {
   return (

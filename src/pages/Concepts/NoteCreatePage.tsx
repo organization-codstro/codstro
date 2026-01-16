@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Save, Loader2, Sparkles } from "lucide-react";
+import { Save, Loader2 } from "lucide-react";
 
 // 서비스 및 타입
 import { availableConcepts as mockConcepts } from "../../data/Concepts/NoteCreatePage/NoteCreatePage";

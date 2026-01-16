@@ -16,7 +16,7 @@ export default function ProjectMeetingPage() {
   const navigate = useNavigate();
 
   // 상태 관리
-  const [selectedType, setSelectedType] = useState<MeetingType>("All");
+  const [selectedType, setSelectedType] = useState<MeetingType>("Feature");
   const [meetings, setMeetings] = useState<MeetingListItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -46,12 +46,6 @@ export default function ProjectMeetingPage() {
   const featureCount = meetings.filter((m) => m.type === "Feature").length;
   const freeCount = meetings.filter((m) => m.type === "Free").length;
 
-  // 필터링 로직
-  const filteredMeetings = meetings.filter((m) => {
-    if (selectedType === "All") return true;
-    return m.type === selectedType;
-  });
-
   return (
     <div className="flex-1 overflow-auto bg-gray-50">
       <MeetingHeader
@@ -64,13 +58,6 @@ export default function ProjectMeetingPage() {
       {/* Tabs Section */}
       <div className="px-8 py-4 bg-white border-b border-gray-200">
         <div className="flex items-center max-w-6xl mx-auto space-x-4">
-          <MeetingTab
-            label="All Meetings"
-            count={meetings.length}
-            type="All"
-            selectedType={selectedType}
-            onClick={setSelectedType}
-          />
           <MeetingTab
             label="Feature Meetings"
             count={featureCount}
@@ -95,7 +82,7 @@ export default function ProjectMeetingPage() {
             <Loader2 className="w-10 h-10 mb-4 text-blue-500 animate-spin" />
             <p className="text-gray-500">회의 목록을 불러오고 있습니다...</p>
           </div>
-        ) : filteredMeetings.length === 0 ? (
+        ) : meetings.length === 0 ? (
           <div className="p-12 text-center bg-white border-2 border-gray-300 border-dashed rounded-lg">
             <MessageSquare className="w-12 h-12 mx-auto mb-4 text-gray-400" />
             <h3 className="mb-2 text-lg font-medium text-gray-900">
@@ -111,7 +98,7 @@ export default function ProjectMeetingPage() {
           </div>
         ) : (
           <div className="space-y-3">
-            {filteredMeetings.map((meeting) => (
+            {meetings.map((meeting) => (
               <MeetingItemCard
                 key={meeting.meeting_id}
                 meeting={meeting}

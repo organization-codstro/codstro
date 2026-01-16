@@ -1,6 +1,6 @@
 import { ExternalLink } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { FieldCardProps } from "../../../types/Woomoonjeong/RecommendedDocumentsMainPage/FieldCard";
+import { FieldCardProps } from "../../../types/pages/Woomoonjeong/RecommendedDocumentsMainPage/FieldCard";
 
 const FieldCard: React.FC<FieldCardProps> = ({
   field,
@@ -18,7 +18,7 @@ const FieldCard: React.FC<FieldCardProps> = ({
     ) {
       return;
     }
-    navigate(`/woomoonjeong/fields/${field.id}`);
+    navigate(`/woomoonjeong/fields/${field.field_id}`);
   };
 
   const handleCardKeyDown = (e: React.KeyboardEvent) => {
@@ -28,7 +28,7 @@ const FieldCard: React.FC<FieldCardProps> = ({
         !(e.target as HTMLElement).closest("button") &&
         !(e.target as HTMLElement).closest("a")
       ) {
-        navigate(`/woomoonjeong/fields/${field.id}`);
+        navigate(`/woomoonjeong/fields/${field.field_id}`);
       }
     }
   };
@@ -53,7 +53,7 @@ const FieldCard: React.FC<FieldCardProps> = ({
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center gap-3">
             <div className="flex-1">
-              <h3 className="font-semibold text-gray-800">{field.name}</h3>
+              <h3 className="font-semibold text-gray-800">{field.field_name}</h3>
             </div>
           </div>
 
@@ -68,12 +68,12 @@ const FieldCard: React.FC<FieldCardProps> = ({
         </div>
 
         {/* Description */}
-        <p className="mb-4 text-sm text-gray-600">{field.description}</p>
+        <p className="mb-4 text-sm text-gray-600">{field.field_description}</p>
 
         {/* Actions */}
         <div className="flex items-center justify-between">
           <span className="text-xs text-gray-500">
-            {new Date(field.created_at).toLocaleDateString()}
+            {new Date(field.field_created_at).toLocaleDateString()}
           </span>
 
           <button

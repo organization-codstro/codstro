@@ -1,54 +1,81 @@
 import React from "react";
-import { Calendar, CheckCircle2 } from "lucide-react";
-import { MyNodeItemProps } from "../../../types/Woomoonkyung/StudyPlanArchiveDetailPage/MyNodeItem";
+import { Calendar, CheckCircle2, Circle } from "lucide-react"; // Circle 추가
+import { MyNodeItemProps } from "../../../types/pages/Woomoonkyung/StudyPlanArchiveDetailPage/MyNodeItem";
 
-const MyNodeItem: React.FC<MyNodeItemProps> = ({ node }) => {
-  const isCompleted = node.completed;
-
+const MyNodeItem: React.FC<MyNodeItemProps> = ({ node, onToggleNode }) => {
   return (
     <div
-      className={`p-4 rounded-lg border-2 transition-all duration-200 ${
-        isCompleted
-          ? "border-green-200 bg-green-50"
-          : "border-gray-200 bg-white hover:border-blue-200"
+      className={`p-4 border rounded-xl transition-all ${
+        node.study_plan_node_completed
+          ? "bg-gray-50 border-gray-100"
+          : "bg-white border-purple-50"
       }`}
     >
       <div className="flex items-start justify-between">
         <div className="flex items-start flex-1 gap-3">
-          <div className="flex items-center justify-center w-8 h-8 flex-shrink-0 rounded-full bg-[#587CF0] text-white text-sm font-medium">
-            {node.position}
+          {/* 포지션 번호: 완료 시 색상 변경 */}
+          <div
+            className={`flex items-center justify-center w-8 h-8 flex-shrink-0 rounded-full text-sm font-medium transition-colors ${
+              node.study_plan_node_completed
+                ? "bg-gray-300 text-white"
+                : "bg-[#587CF0] text-white"
+            }`}
+          >
+            {node.study_plan_node_position}
           </div>
+
           <div className="flex-1">
             <h4
-              className={`font-semibold text-gray-800 mb-1 ${
-                isCompleted ? "line-through text-gray-500" : ""
+              className={`font-semibold mb-1 transition-colors ${
+                node.study_plan_node_completed
+                  ? "text-gray-400 line-through"
+                  : "text-gray-800"
               }`}
             >
               {node.study_plan_node_name}
             </h4>
             <p
-              className={`text-sm text-gray-600 mb-3 ${
-                isCompleted ? "line-through" : ""
+              className={`text-sm mb-3 transition-colors ${
+                node.study_plan_node_completed
+                  ? "text-gray-400"
+                  : "text-gray-600"
               }`}
             >
-              {node.description}
+              {node.study_plan_node_description}
             </p>
             <div className="flex items-center gap-1 text-xs text-gray-500">
               <Calendar className="w-3 h-3" />
               <span>
-                {new Date(node.start_date).toLocaleDateString()} -{" "}
-                {new Date(node.end_date).toLocaleDateString()}
+                {node.study_plan_node_start_date
+                  ? new Date(
+                      node.study_plan_node_start_date
+                    ).toLocaleDateString()
+                  : "-"}{" "}
+                -{" "}
+                {node.study_plan_node_end_date
+                  ? new Date(node.study_plan_node_end_date).toLocaleDateString()
+                  : "-"}
               </span>
             </div>
           </div>
         </div>
-        <div className="flex-shrink-0 ml-4">
-          {isCompleted ? (
-            <CheckCircle2 className="w-6 h-6 text-green-500" />
+
+        {/* 토글 버튼: 클릭 시 onToggleNode 호출 */}
+        <button
+          onClick={() =>
+            onToggleNode(
+              node.study_plan_node_id,
+              node.study_plan_node_completed
+            )
+          }
+          className="flex-shrink-0 ml-4 hover:scale-110 transition-transform"
+        >
+          {node.study_plan_node_completed ? (
+            <CheckCircle2 className="w-7 h-7 text-green-500 fill-green-50" />
           ) : (
-            <div className="w-6 h-6 border-2 border-gray-300 rounded-full"></div>
+            <Circle className="w-7 h-7 text-gray-300 hover:text-[#587CF0]" />
           )}
-        </div>
+        </button>
       </div>
     </div>
   );

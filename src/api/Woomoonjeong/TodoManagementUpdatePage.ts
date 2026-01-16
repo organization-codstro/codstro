@@ -11,6 +11,36 @@ import {
  */
 export const TodoManagementUpdateService = {
   /**
+   * [로그인 되어있는 유저 id의 그룹 id 전부 반환]
+   * 현재 세션의 유저 정보를 가져와 해당 유저가 생성/소속된 그룹 ID 목록을 배열로 반환합니다.
+   * 참조 테이블: groups
+   */
+  /**
+   * [로그인 되어있는 유저의 그룹 정보(ID, 이름) 전부 반환]
+   * 참조 테이블: groups
+   */
+  async getUserGroups(
+    user_id: string
+  ): Promise<{ group_id: string; group_name: string }[]> {
+    try {
+      // 1. 현재 로그인된 유저 정보 가져오기
+
+      // 2. 해당 user_id와 일치하는 그룹들의 group_id와 group_name 선택
+      const { data, error } = await supabase
+        .from("groups")
+        .select("group_id, group_name") 
+        .eq("user_id", user_id);
+
+      if (error) throw error;
+
+      // 3. 더 이상 .map()으로 id만 뽑지 않고, 객체 배열 그대로 반환
+      return data || [];
+    } catch (error) {
+      console.error("[TodoManagementUpdateService - getUserGroups]:", error);
+      throw error;
+    }
+  },
+  /**
    * [수정용 초기 데이터 로드]
    * 수정 페이지 진입 시 해당 todoId의 현재 데이터를 가져옵니다.
    * 참조 테이블: todos
@@ -94,7 +124,10 @@ export const TodoManagementUpdateService = {
       if (error) throw error;
       return data;
     } catch (error) {
-      console.error("[TodoManagementUpdateService - getAvailableFields]:", error);
+      console.error(
+        "[TodoManagementUpdateService - getAvailableFields]:",
+        error
+      );
       throw error;
     }
   },

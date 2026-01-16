@@ -1,6 +1,6 @@
 import React from "react";
 import { Filter } from "lucide-react";
-import { ContentTypeFilterProps } from "../../../types/Woomoonjeong/RecommendedDocumentsMainPage/ContentTypeFilter";
+import { ContentTypeFilterProps } from "../../../types/pages/Woomoonjeong/RecommendedDocumentsMainPage/ContentTypeFilter";
 
 const ContentTypeFilter: React.FC<ContentTypeFilterProps> = ({
   contentType,

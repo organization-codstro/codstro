@@ -22,8 +22,8 @@ export interface StudyPlanNode {
   study_plan_node_start_date: string;
   study_plan_node_end_date: string;
   tech_stack_id: string;
-  tech_stack_name: string;
-  tech_stack_img_url: string;
+  tech_stack_name?: string;
+  tech_stack_img_url?: string;
 }
 
 /***WoomoonkyungCreateNode에서 사용하는  node 인터페이스 */

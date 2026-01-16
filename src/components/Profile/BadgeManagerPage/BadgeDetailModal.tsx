@@ -1,7 +1,5 @@
 import { CheckCircle, Info, X } from "lucide-react";
-import { Badge } from "../../../types/pages/Profile/Profile";
 import { BadgeDetailModalProps } from "../../../types/pages/Profile/BadgeManagerPage/BadgeDetailModal";
-
 
 export default function BadgeDetailModal({
   badge,

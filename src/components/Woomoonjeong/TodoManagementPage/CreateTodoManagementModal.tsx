@@ -1,24 +1,39 @@
-import React, { useState } from "react";
-import { Save, X } from "lucide-react";
-import { woomoonjeongData } from "../../../data/woomoonjeong/woomoonjeongData";
+import React, { useEffect, useState } from "react";
+import { Save, X, Loader2 } from "lucide-react";
+import { toast } from "react-toastify";
+
+// API 서비스
+import { TodoManagementDetailService } from "../../../api/Woomoonjeong/TodoManagementDetailPage";
+
+// 타입 및 상수
 import { TodoManagementCreateProps } from "../../../types/pages/Woomoonjeong/TodoManagementPage/CreateTodoManagementModal";
-import { GROUP_TYPE_ID } from "../../../constants/Woomoonjeong/Woomoonjeong";
-import { TodoFormData } from "../../../types/pages/Woomoonjeong/woomoonjeong";
 
 const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
   isOpen,
   onClose,
+  onAdd,
+  availableGroups,
 }) => {
-  const [formData, setFormData] = useState<TodoFormData>({
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
     todo_name: "",
+    todo_content: "",
     todo_description: "",
-    field_id: woomoonjeongData[0]?.id,
+    group_id: "",
     todo_start_date: new Date().toISOString().split("T")[0],
     todo_end_date: new Date().toISOString().split("T")[0],
     todo_status: "waiting",
   });
-
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    if (availableGroups && availableGroups.length > 0 && !formData.group_id) {
+      setFormData((prev) => ({
+        ...prev,
+        group_id: availableGroups[0].group_id,
+      }));
+    }
+  }, [availableGroups]);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -38,30 +53,72 @@ const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
     const newErrors: Record<string, string> = {};
 
     if (!formData.todo_name.trim())
-      newErrors.name = "Todo 이름을 입력해주세요.";
+      newErrors.todo_name = "할일 이름을 입력해주세요.";
+    if (!formData.group_id) newErrors.group_id = "관련 분야를 선택해주세요.";
     if (!formData.todo_start_date)
-      newErrors.start_date = "시작일을 선택해주세요.";
-    if (!formData.todo_end_date) newErrors.end_date = "종료일을 선택해주세요.";
+      newErrors.todo_start_date = "시작일을 선택해주세요.";
+    if (!formData.todo_end_date)
+      newErrors.todo_end_date = "종료일을 선택해주세요.";
 
     if (formData.todo_start_date && formData.todo_end_date) {
       if (
         new Date(formData.todo_start_date) > new Date(formData.todo_end_date)
       ) {
-        newErrors.end_date = "종료일은 시작일보다 늦어야 합니다.";
+        newErrors.todo_end_date = "종료일은 시작일보다 늦어야 합니다.";
       }
     }
 
     setErrors(newErrors);
-
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (validateForm()) {
-      console.log("CREATE TODO:", formData);
-      onClose(); // 제출 후 모달 닫기
+    if (!validateForm()) return;
+
+    setIsSubmitting(true);
+    const toastId = toast.loading("할일을 생성하는 중...");
+
+    try {
+      await TodoManagementDetailService.createTodo({
+        todo_name: formData.todo_name,
+        todo_description: formData.todo_description,
+        group_id: formData.group_id,
+        todo_start_date: formData.todo_start_date,
+        todo_end_date: formData.todo_end_date,
+        todo_content: formData.todo_content,
+      });
+
+      toast.update(toastId, {
+        render: "새로운 할일이 생성되었습니다!",
+        type: "success",
+        isLoading: false,
+        autoClose: 2000,
+      });
+
+      if (onAdd) onAdd(); // 리스트 갱신 함수 호출
+      onClose(); // 모달 닫기
+
+      // 폼 초기화
+      setFormData({
+        todo_name: "",
+        todo_content: "",
+        todo_description: "",
+        group_id: "",
+        todo_start_date: new Date().toISOString().split("T")[0],
+        todo_end_date: new Date().toISOString().split("T")[0],
+        todo_status: "waiting",
+      });
+    } catch (error) {
+      toast.update(toastId, {
+        render: "생성에 실패했습니다. 다시 시도해주세요.",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -70,13 +127,12 @@ const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-      onClick={onClose} // 배경 클릭 시 닫기
+      onClick={onClose}
     >
       <div
         className="relative w-full max-w-2xl p-6 bg-white shadow-lg rounded-xl"
-        onClick={(e) => e.stopPropagation()} // 모달 내부 클릭 시 닫히지 않게
+        onClick={(e) => e.stopPropagation()}
       >
-        {/* Close Button */}
         <button
           onClick={onClose}
           className="absolute p-2 text-gray-500 rounded top-4 right-4 hover:bg-gray-100"
@@ -84,7 +140,6 @@ const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
           <X className="w-5 h-5" />
         </button>
 
-        {/* Header */}
         <div className="flex items-center gap-4 mb-6">
           <div>
             <h1 className="text-2xl font-bold text-gray-800">Add New Todo</h1>
@@ -92,12 +147,11 @@ const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
           </div>
         </div>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Todo Name */}
+          {/* 할일 이름 */}
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-700">
-              문서 이름 <span className="text-red-500">*</span>
+              할일 이름 <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
@@ -105,59 +159,83 @@ const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
               value={formData.todo_name}
               onChange={handleChange}
               placeholder="Enter todo name..."
-              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#587CF0] transition-all ${
+              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#587CF0] outline-none transition-all ${
                 errors.todo_name ? "border-red-500" : "border-gray-200"
               }`}
             />
-            {errors.name && (
-              <p className="mt-1 text-sm text-red-600">{errors.name}</p>
+            {errors.todo_name && (
+              <p className="mt-1 text-sm text-red-600">{errors.todo_name}</p>
             )}
           </div>
 
-          {/* Description */}
+          {/* 할일 설명 */}
+          <div>
+            <label className="block mb-2 text-sm font-medium text-gray-700">
+              할일 설명 <span className="text-red-500">*</span>
+            </label>
+            <textarea
+              name="todo_description"
+              value={formData.todo_description}
+              onChange={handleChange}
+              placeholder="Enter todo description..."
+              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#587CF0] outline-none transition-all ${
+                errors.todo_description ? "border-red-500" : "border-gray-200"
+              }`}
+            />
+            {errors.todo_description && (
+              <p className="mt-1 text-sm text-red-600">
+                {errors.todo_description}
+              </p>
+            )}
+          </div>
+
+          {/* 내용 */}
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-700">
               Description
             </label>
             <textarea
-              name="description"
+              name="todo_description"
               rows={4}
-              value={formData.todo_description}
+              value={formData.todo_content}
               onChange={handleChange}
               placeholder="Enter todo description..."
-              className="w-full px-4 py-3 border border-gray-200 rounded-lg resize-none focus:ring-2 focus:ring-[#587CF0] transition-all"
+              className="w-full px-4 py-3 border border-gray-200 rounded-lg resize-none focus:ring-2 focus:ring-[#587CF0] outline-none transition-all"
             />
           </div>
 
-          {/* Field */}
+          {/* 그룹 선택 */}
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-700">
               Related Field <span className="text-red-500">*</span>
             </label>
             <div className="flex flex-wrap gap-2">
-              {GROUP_TYPE_ID.map((field, index) => (
+              {availableGroups.map((grop) => (
                 <button
-                  key={field.id}
+                  key={grop.group_id}
                   type="button"
                   onClick={() =>
                     setFormData((prev) => ({
                       ...prev,
-                      field_id: field.id,
+                      group_id: grop.group_id,
                     }))
                   }
-                  className={`px-4 py-2 rounded-lg border transition-colors ${
-                    formData.field_id === field.id
+                  className={`px-4 py-2 rounded-lg border text-sm transition-colors ${
+                    formData.group_id === grop.group_id
                       ? "bg-[#587CF0] text-white border-[#587CF0]"
                       : "bg-white text-gray-700 border-gray-200 hover:bg-gray-100"
                   }`}
                 >
-                  {field.label}
+                  {grop.group_name}
                 </button>
               ))}
             </div>
+            {errors.group_id && (
+              <p className="mt-1 text-sm text-red-600">{errors.group_id}</p>
+            )}
           </div>
 
-          {/* Date Range */}
+          {/* 날짜 설정 */}
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-700">
@@ -168,12 +246,14 @@ const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
                 name="todo_start_date"
                 value={formData.todo_start_date}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#587CF0] transition-all ${
+                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#587CF0] outline-none transition-all ${
                   errors.todo_start_date ? "border-red-500" : "border-gray-200"
                 }`}
               />
-              {errors.start_date && (
-                <p className="mt-1 text-sm text-red-600">{errors.start_date}</p>
+              {errors.todo_start_date && (
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.todo_start_date}
+                </p>
               )}
             </div>
 
@@ -186,49 +266,59 @@ const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
                 name="todo_end_date"
                 value={formData.todo_end_date}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#587CF0] transition-all ${
+                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#587CF0] outline-none transition-all ${
                   errors.todo_end_date ? "border-red-500" : "border-gray-200"
                 }`}
               />
-              {errors.end_date && (
-                <p className="mt-1 text-sm text-red-600">{errors.end_date}</p>
+              {errors.todo_end_date && (
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.todo_end_date}
+                </p>
               )}
             </div>
           </div>
 
-          {/* Status */}
+          {/* 상태 설정 */}
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-700">
               Status <span className="text-red-500">*</span>
             </label>
             <select
-              name="status"
+              name="todo_status"
               value={formData.todo_status}
               onChange={handleChange}
-              className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#587CF0]"
+              className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#587CF0] outline-none"
             >
-              <option value="pending">Pending</option>
-              <option value="in-progress">In Progress</option>
-              <option value="completed">Completed</option>
+              <option value="waiting">Waiting</option>
+              <option value="in progress">In Progress</option>
+              <option value="done">Completed</option>
             </select>
           </div>
 
-          {/* Actions */}
+          {/* 하단 버튼 */}
           <div className="flex justify-end gap-4 pt-6 border-t border-gray-200">
             <button
               type="button"
+              disabled={isSubmitting}
               onClick={onClose}
-              className="flex items-center gap-2 px-6 py-3 transition-colors border border-gray-200 rounded-lg hover:bg-gray-50"
+              className="flex items-center gap-2 px-6 py-3 transition-colors border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-50"
             >
               <X className="w-4 h-4" />
               Cancel
             </button>
             <button
               type="submit"
-              className="flex items-center gap-2 px-6 py-3 bg-[#587CF0] text-white rounded-lg hover:bg-[#4a6de8] transition-colors"
+              disabled={isSubmitting}
+              className="flex items-center gap-2 px-6 py-3 bg-[#587CF0] text-white rounded-lg hover:bg-[#4a6de8] transition-colors disabled:opacity-50 min-w-[140px] justify-center"
             >
-              <Save className="w-4 h-4" />
-              Create Todo
+              {isSubmitting ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <>
+                  <Save className="w-4 h-4" />
+                  Create Todo
+                </>
+              )}
             </button>
           </div>
         </form>

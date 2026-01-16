@@ -50,9 +50,6 @@ export const ProjectMeetingListService = {
    * 전체를 불러와서 클라이언트에서 필터링할 수도 있지만, 데이터가 많을 경우 사용합니다.
    */
   async getMeetingsByType(params: GetMeetingsByTypeParams) {
-    if (params.type === "All")
-      return this.getMeetingList({ projectId: params.projectId });
-
     try {
       const { data, error } = await supabase
         .from("project_meeting_rooms")

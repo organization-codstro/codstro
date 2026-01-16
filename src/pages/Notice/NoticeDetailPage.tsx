@@ -1,4 +1,4 @@
-import { ArrowLeft, Calendar, Share2, Bookmark } from "lucide-react";
+import { ArrowLeft, Calendar, Share2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { NoticeDetailService } from "../../api/Notice/NoticeDetailPage";
@@ -11,7 +11,7 @@ export default function NoticeDetailPage() {
   const [notice, setNotice] = useState<NoticeResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [isBookmarked, setIsBookmarked] = useState(false);
+  // const [isBookmarked, setIsBookmarked] = useState(false);
 
   // 현재 로그인한 유저 ID (실제로는 auth context나 store에서 가져와야 함)
   const currentUserId = "your-user-id"; // TODO: 실제 유저 ID로 교체

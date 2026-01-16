@@ -1,5 +1,5 @@
 import React from "react";
-import { EmptyPlanStateProps } from "../../../types/Woomoonkyung/WoomoonkyungMainPage/EmptyPlanState";
+import { EmptyPlanStateProps } from "../../../types/pages/Woomoonkyung/StudyPlanMainPage/EmptyPlanState";
 
 const EmptyPlanState: React.FC<EmptyPlanStateProps> = ({
   message,

@@ -11,56 +11,56 @@ export const mockCompanies: Company[] = [
     company_id: "1",
     company_name: "TechFlow Inc.",
     company_industry: "Web Development & Cloud Services",
-    companie_description:
+    company_description:
       "Leading provider of cloud-based solutions for modern web applications.",
     company_website: "https://techflow.example.com",
     company_values: "Innovation, Collaboration, Growth",
-    company_created_date: "2024-01-15",
-    company_update_date: "2024-12-20",
+    company_created_at: "2024-01-15",
+    company_update_at: "2024-12-20",
   },
   {
     company_id: "2",
     company_name: "DataStream Labs",
     company_industry: "Data Analytics & AI",
-    companie_description:
+    company_description:
       "Specializing in big data analytics and machine learning solutions.",
     company_website: "https://datastream.example.com",
     company_values: "Data-Driven, Excellence, Integrity",
-    company_created_date: "2024-02-20",
-    company_update_date: "2024-12-18",
+    company_created_at: "2024-02-20",
+    company_update_at: "2024-12-18",
   },
   {
     company_id: "3",
     company_name: "CodeCraft Studios",
     company_industry: "Mobile App Development",
-    companie_description:
+    company_description:
       "Creating beautiful and functional mobile applications for iOS and Android.",
     company_website: "https://codecraft.example.com",
     company_values: "Quality, User-Centric, Innovation",
-    company_created_date: "2024-03-10",
-    company_update_date: "2024-12-22",
+    company_created_at: "2024-03-10",
+    company_update_at: "2024-12-22",
   },
   {
     company_id: "4",
     company_name: "CloudBase Solutions",
     company_industry: "DevOps & Infrastructure",
-    companie_description:
+    company_description:
       "Providing enterprise-grade DevOps tools and infrastructure solutions.",
     company_website: "https://cloudbase.example.com",
     company_values: "Reliability, Automation, Security",
-    company_created_date: "2024-04-05",
-    company_update_date: "2024-12-19",
+    company_created_at: "2024-04-05",
+    company_update_at: "2024-12-19",
   },
   {
     company_id: "5",
     company_name: "PixelWave Design",
     company_industry: "UI/UX & Frontend Development",
-    companie_description:
+    company_description:
       "Expert team focused on creating stunning user interfaces and experiences.",
     company_website: "https://pixelwave.example.com",
     company_values: "Creativity, Attention to Detail, Empathy",
-    company_created_date: "2024-05-12",
-    company_update_date: "2024-12-21",
+    company_created_at: "2024-05-12",
+    company_update_at: "2024-12-21",
   },
 ];
 

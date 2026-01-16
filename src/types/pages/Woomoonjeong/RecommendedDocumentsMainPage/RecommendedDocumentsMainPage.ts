@@ -7,6 +7,8 @@ export interface RecommendedPin {
   pin_difficulty?: "beginner" | "intermediate" | "advanced";
   pin_rating?: number;
   pin_views?: number;
+  pin_label: string[];
+  created_at: string;
 }
 
 export interface RecommendedField {
@@ -14,4 +16,5 @@ export interface RecommendedField {
   field_name: string;
   field_description: string;
   field_created_at: string;
+  create_at: string;
 }

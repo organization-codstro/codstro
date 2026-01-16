@@ -1,4 +1,4 @@
-import { StudyPlanNode } from "../../../../types/pages/Woomoonkyung/Woomoonkyung";
+import { StudyPlanNode } from "../../../../types/pages/Woomoonkyung/StudyPlanCreateNodePage/StudyPlanCreateNodePage";
 
 export type NodeCardProps = {
   node: StudyPlanNode;

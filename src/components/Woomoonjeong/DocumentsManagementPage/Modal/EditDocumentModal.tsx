@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import { GroupType } from "../../../../types/Woomoonjeong/woomoonjeong";
 import { woomoonjeongData } from "../../../../data/woomoonjeong/woomoonjeongData";
-import { EditDocumentModalProps } from "../../../../types/Woomoonjeong/DocumentsManagementPage/Modal/EditDocumentModal";
 import { DEFAULT_GROUP_TYPE } from "../../../../constants/Woomoonjeong/DocumentsManagementPage/CreateCustomFieldModal";
-import { GroupTypes } from "../../../../constants/Woomoonjeong/Woomoonjeong";
-
+import {
+  GROUP_TYPE,
+  GROUP_TYPES,
+} from "../../../../constants/Woomoonjeong/Woomoonjeong";
+import { EditDocumentModalProps } from "../../../../types/pages/Woomoonjeong/DocumentsManagementPage/Modal/EditDocumentModal";
 
 const EditDocumentModal: React.FC<EditDocumentModalProps> = ({
   isOpen,
@@ -21,19 +22,19 @@ const EditDocumentModal: React.FC<EditDocumentModalProps> = ({
   const [categories, setCategories] = useState<string[]>([]);
 
   const [selectedGroupType, setSelectedGroupType] =
-    useState<GroupType>(DEFAULT_GROUP_TYPE);
+    useState<GROUP_TYPE>(DEFAULT_GROUP_TYPE);
 
   const [fieldInfo, setFieldInfo] = useState("");
   const [fieldOptions, setFieldOptions] = useState<string[]>([]);
 
   // pin.id 기준으로 그룹과 필드 찾기
-  const findPinDetails = (pinId: number) => {
+  const findPinDetails = (pinId: string) => {
     for (const group of woomoonjeongData) {
       for (const field of group.fields) {
         const foundPin = field.pins.find((p) => p.id === pinId);
         if (foundPin) {
           return {
-            groupType: group.name as GroupType,
+            groupType: group.name as GROUP_TYPE,
             fieldName: field.name,
             fieldOptions: group.fields.map((f) => f.name),
             pin: foundPin,
@@ -218,7 +219,7 @@ const EditDocumentModal: React.FC<EditDocumentModalProps> = ({
               그룹
             </label>
             <div className="grid grid-cols-2 gap-2">
-              {GroupTypes.map((type) => (
+              {GROUP_TYPES.map((type) => (
                 <button
                   key={type}
                   type="button"

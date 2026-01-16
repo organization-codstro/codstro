@@ -1,6 +1,6 @@
 import React from "react";
 import { Plus } from "lucide-react";
-import { TodoManagementHeaderProps } from "../../../types/Woomoonjeong/TodoManagementPage/TodoManagementHeader";
+import { TodoManagementHeaderProps } from "../../../types/pages/Woomoonjeong/TodoManagementPage/TodoManagementHeader";
 
 const TodoManagementHeader: React.FC<TodoManagementHeaderProps> = ({ onOpenModal }) => (
   <div className="flex items-center justify-between">

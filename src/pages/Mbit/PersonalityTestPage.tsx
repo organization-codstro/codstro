@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { Personality } from "../../types/api/Mbit/PersonalityTestPage";
 import { MbitAxisCode } from "../../data/Mbit/personalityTestQuestionData";
@@ -37,7 +37,7 @@ export default function PersonalityTestPage() {
   const handleAnswer = async (selectedValue: number) => {
     const currentQ = questions[currentQuestion];
     const trait = currentQ.mbit_questions_trait as MbitAxisCode;
-    
+
     const newScores = { ...traitScores };
     newScores[trait] = (newScores[trait] || 0) + selectedValue;
     setTraitScores(newScores);
@@ -48,7 +48,7 @@ export default function PersonalityTestPage() {
       // 결과 코드 생성 로직
       const pick = (a: MbitAxisCode, b: MbitAxisCode) =>
         (newScores[a] || 0) >= (newScores[b] || 0) ? a : b;
-      
+
       const finalCode = [
         pick("E", "P"),
         pick("C", "R"),
@@ -59,7 +59,9 @@ export default function PersonalityTestPage() {
       // Toastify 로딩과 함께 결과 데이터 가져오기
       await toast.promise(
         async () => {
-          const detail = await PersonalityTestService.getPersonalityByCode(finalCode);
+          const detail = await PersonalityTestService.getPersonalityByCode(
+            finalCode
+          );
           if (!detail) throw new Error("결과를 찾을 수 없습니다.");
           setResultData(detail);
         },
@@ -79,7 +81,10 @@ export default function PersonalityTestPage() {
     setResultData(null);
   };
 
-  if (loading) return <div className="flex-1 flex items-center justify-center">로드 중...</div>;
+  if (loading)
+    return (
+      <div className="flex-1 flex items-center justify-center">로드 중...</div>
+    );
 
   return (
     <div className="flex-1 min-h-screen p-8 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">

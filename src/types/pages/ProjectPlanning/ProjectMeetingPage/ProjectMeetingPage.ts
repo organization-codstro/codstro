@@ -1,4 +1,4 @@
-export type MeetingType = "Feature" | "Free" | "All";
+export type MeetingType = "Feature" | "Free";
 
 export interface MeetingListItem {
   meeting_id: string;

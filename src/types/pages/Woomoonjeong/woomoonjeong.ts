@@ -9,14 +9,13 @@ export interface RecommendedPin {
   pin_description: string;
   pin_url: string;
   created_at: string;
-
   pin_label: string[];
 }
 
 export interface TodoFormData {
   todo_name: string;
   todo_description: string;
-  field_id: string;
+  group_id: string;
   todo_start_date: string;
   todo_end_date: string;
   todo_status: TODO_STATUS_TYPE;

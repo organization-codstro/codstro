@@ -1,4 +1,4 @@
-import { StudyPlanNode } from "../Woomoonkyung";
+import { StudyPlanNode } from "../StudyPlanCreateNodePage/StudyPlanCreateNodePage";
 
 type TechStack = {
   tech_stack_id: string;

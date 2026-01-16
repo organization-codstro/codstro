@@ -34,8 +34,8 @@ const StudyPlanNodeEditor: React.FC<StudyPlanNodeEditorProps> = ({
   const [formData, setFormData] = useState<SortableNodeItemNodeFormData>({
     study_plan_node_name: "",
     description: "",
-    start_date: studyPlan.study_plans_start_date,
-    end_date: studyPlan.study_plans_end_date,
+    start_date: studyPlan.study_plan_start_date,
+    end_date: studyPlan.study_plan_end_date,
     completed: false,
     position: 1,
     tech_stack_id: techStacks[0].tech_stack_id,
@@ -53,11 +53,11 @@ const StudyPlanNodeEditor: React.FC<StudyPlanNodeEditorProps> = ({
       .map((node) => ({
         id: node.study_plan_node_id,
         study_plan_node_name: node.study_plan_node_name,
-        description: node.description,
-        start_date: node.start_date,
-        end_date: node.end_date,
-        completed: node.completed,
-        position: node.position,
+        description: node.study_plan_node_description,
+        start_date: node.study_plan_node_start_date,
+        end_date: node.study_plan_node_end_date,
+        completed: node.study_plan_node_completed,
+        position: node.study_plan_node_position,
         tech_stack_id: node.tech_stack_id,
       }))
       .sort((a, b) => a.position - b.position);
@@ -114,8 +114,8 @@ const StudyPlanNodeEditor: React.FC<StudyPlanNodeEditorProps> = ({
     setFormData({
       study_plan_node_name: "",
       description: "",
-      start_date: studyPlan.study_plans_start_date,
-      end_date: studyPlan.study_plans_end_date,
+      start_date: studyPlan.study_plan_start_date,
+      end_date: studyPlan.study_plan_end_date,
       completed: false,
       position: nodes.length + 2,
       tech_stack_id: techStacks[0].tech_stack_id,
@@ -155,8 +155,8 @@ const StudyPlanNodeEditor: React.FC<StudyPlanNodeEditorProps> = ({
     setFormData({
       study_plan_node_name: "",
       description: "",
-      start_date: studyPlan.study_plans_start_date,
-      end_date: studyPlan.study_plans_end_date,
+      start_date: studyPlan.study_plan_start_date,
+      end_date: studyPlan.study_plan_end_date,
       completed: false,
       position: nodes.length + 1,
       tech_stack_id: techStacks[0] ? techStacks[0].tech_stack_id : "",
@@ -180,12 +180,21 @@ const StudyPlanNodeEditor: React.FC<StudyPlanNodeEditorProps> = ({
       const selectedTech = techStacks.find(
         (t) => t.tech_stack_id === node.tech_stack_id
       );
+
       return {
-        ...node,
         study_plan_node_id: id,
         study_plan_id: studyPlan.study_plan_id,
-        tech_stack_name: selectedTech?.tech_stack_name || "",
-        tech_stack_img_url: selectedTech?.tech_stack_img_url || "",
+
+        study_plan_node_name: node.study_plan_node_name,
+        study_plan_node_description: node.description,
+        study_plan_node_start_date: node.start_date,
+        study_plan_node_end_date: node.end_date,
+        study_plan_node_completed: node.completed,
+        study_plan_node_position: node.position,
+
+        tech_stack_id: node.tech_stack_id,
+        tech_stack_name: selectedTech?.tech_stack_name ?? "",
+        tech_stack_img_url: selectedTech?.tech_stack_img_url ?? "",
       };
     });
     onSave(nodesToSave);
@@ -217,9 +226,9 @@ const StudyPlanNodeEditor: React.FC<StudyPlanNodeEditorProps> = ({
 
       <div className="p-6 bg-white border border-purple-100 shadow-sm rounded-xl">
         <div className="flex items-center gap-4">
-          {studyPlan.study_plans_image_url ? (
+          {studyPlan.study_plan_image_url ? (
             <img
-              src={studyPlan.study_plans_image_url}
+              src={studyPlan.study_plan_image_url}
               alt={studyPlan.study_plan_name}
               className="object-cover w-20 h-20 border border-gray-100 rounded-lg"
             />
@@ -237,8 +246,8 @@ const StudyPlanNodeEditor: React.FC<StudyPlanNodeEditorProps> = ({
             </p>
             <div className="flex items-center gap-2 mt-2 text-xs font-medium text-[#587CF0] bg-blue-50 px-2 py-1 rounded w-fit">
               <Calendar className="w-3 h-3" />
-              {studyPlan.study_plans_start_date} ~{" "}
-              {studyPlan.study_plans_end_date}
+              {studyPlan.study_plan_start_date} ~{" "}
+              {studyPlan.study_plan_end_date}
             </div>
           </div>
         </div>

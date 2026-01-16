@@ -1,4 +1,4 @@
-import { StudyPlanNode } from "../Woomoonkyung";
+import { StudyPlanNode } from "./StudyPlanCreateNodePage";
 
 export type ValidationErrors = {
   name: boolean;

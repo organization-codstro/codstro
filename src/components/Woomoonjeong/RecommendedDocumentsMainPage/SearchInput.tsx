@@ -1,6 +1,6 @@
 import React from "react";
 import { Search } from "lucide-react";
-import { SearchInputProps } from "../../../types/Woomoonjeong/RecommendedDocumentsMainPage/SearchInput";
+import { SearchInputProps } from "../../../types/pages/Woomoonjeong/RecommendedDocumentsMainPage/SearchInput";
 
 const SearchInput: React.FC<SearchInputProps> = ({
   value,

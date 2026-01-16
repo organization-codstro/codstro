@@ -1,7 +1,7 @@
-import { GroupType } from "../../woomoonjeong";
+import { GROUP_TYPE } from "../../../../../constants/Woomoonjeong/Woomoonjeong";
 
 export interface AddDocumentPayload {
-  groupName: GroupType;
+  groupName: GROUP_TYPE;
   fieldName: string;
   documentName: string;
   documentUrl: string;

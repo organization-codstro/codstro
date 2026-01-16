@@ -1,8 +1,8 @@
-import { GroupType } from "../../../../constants/Woomoonjeong/Woomoonjeong";
+import { GROUP_TYPE } from "../../../../constants/Woomoonjeong/Woomoonjeong";
 import { RecommendedPin } from "../woomoonjeong";
 
 export interface RecommendedCreateDocumentModalPayload {
-  groupName: GroupType;
+  groupName: GROUP_TYPE;
   fieldName: string;
   documentName: string;
   documentUrl: string;

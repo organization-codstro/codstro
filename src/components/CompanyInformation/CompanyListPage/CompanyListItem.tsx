@@ -48,7 +48,7 @@ export function CompanyListItem({
           <div>
             <p className="mb-1 text-sm font-medium text-gray-500">회사 설명</p>
             <p className="text-sm text-gray-700 line-clamp-2">
-              {company.companie_description}
+              {company.company_description}
             </p>
           </div>
 
@@ -60,7 +60,7 @@ export function CompanyListItem({
 
         <div className="flex items-center justify-between pt-4 mt-4 border-t border-gray-100">
           <a
-            href={company.company_website}
+            href={company.company_website ? company.company_website : "#"}
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
@@ -71,7 +71,7 @@ export function CompanyListItem({
             <span>웹사이트</span>
           </a>
           <span className="text-xs text-gray-400">
-            {new Date(company.company_update_date).toLocaleDateString("ko-KR")}
+            {new Date(company.company_update_at).toLocaleDateString("ko-KR")}
           </span>
         </div>
       </div>

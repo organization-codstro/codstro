@@ -5,14 +5,13 @@ import { toast } from "react-toastify";
 
 // API 서비스 및 인증 서비스
 import { TodoManagementDetailService } from "../../api/Woomoonjeong/TodoManagementDetailPage";
-import { LoginService } from "../../api/Auth/LoginPage"; 
+import { LoginService } from "../../api/Auth/LoginPage";
 
 // UI 컴포넌트 및 타입
 import TodoInputField from "../../components/Woomoonjeong/TodoManagementUpdate/TodoInputField";
-import FieldSelector from "../../components/Woomoonjeong/TodoManagementUpdate/FieldSelector";
 import { TodoFormData } from "../../types/pages/Woomoonjeong/woomoonjeong";
-
-
+import GroupSelector from "../../components/Woomoonjeong/TodoManagementUpdate/GroupSelector";
+import { TodoManagementUpdateService } from "../../api/Woomoonjeong/TodoManagementUpdatePage";
 
 export default function TodoManagementUpdatePage() {
   const navigate = useNavigate();
@@ -20,14 +19,18 @@ export default function TodoManagementUpdatePage() {
 
   // --- 상태 관리 ---
   const [isLoading, setIsLoading] = useState(true);
+
   const [isUpdating, setIsUpdating] = useState(false);
+  const [availableGroups, setAvailableGroups] = useState<
+    { group_id: string; group_name: string }[]
+  >([]);
   const [formData, setFormData] = useState<TodoFormData>({
-    name: "",
-    description: "",
-    field_id: "1",
-    start_date: "",
-    end_date: "",
-    status: "waiting",
+    group_id: "",
+    todo_name: "",
+    todo_description: "",
+    todo_start_date: "",
+    todo_end_date: "",
+    todo_status: "waiting",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -39,7 +42,18 @@ export default function TodoManagementUpdatePage() {
       setIsLoading(true);
       try {
         // 유저 확인
-        await LoginService.getCurrentUserId();
+        const userId = await LoginService.getCurrentUserId();
+        if (!userId) {
+          toast.error("로그인된 사용자 정보를 찾을 수 없습니다.");
+          navigate("/login");
+          return;
+        }
+
+        const groupIds = await TodoManagementUpdateService.getUserGroups(
+          userId
+        );
+
+        if (groupIds) setAvailableGroups(groupIds);
 
         // 데이터 조회
         const data = await TodoManagementDetailService.getTodoDetail({
@@ -54,12 +68,12 @@ export default function TodoManagementUpdatePage() {
 
         // DB 데이터를 Form 데이터로 매핑
         setFormData({
-          name: data.todo_name,
-          description: data.todo_description || "",
-          field_id: data.field_id || "1",
-          start_date: data.todo_start_date,
-          end_date: data.todo_end_date,
-          status: data.todo_status,
+          todo_name: data.todo_name,
+          todo_description: data.todo_description || "",
+          group_id: data.group_id || "1",
+          todo_start_date: data.todo_start_date,
+          todo_end_date: data.todo_end_date,
+          todo_status: data.todo_status,
         });
       } catch (error) {
         console.error("할일 조회 실패:", error);
@@ -88,8 +102,8 @@ export default function TodoManagementUpdatePage() {
     if (!todoId) return;
 
     // 간단한 유효성 검사
-    if (!formData.name.trim()) {
-      setErrors({ name: "할일 이름을 입력해주세요." });
+    if (!formData.todo_name.trim()) {
+      setErrors({ todo_name: "할일 이름을 입력해주세요." });
       return;
     }
 
@@ -101,12 +115,12 @@ export default function TodoManagementUpdatePage() {
       await TodoManagementDetailService.updateTodo({
         todoId: todoId,
         payload: {
-          todo_name: formData.name,
-          todo_description: formData.description,
-          field_id: formData.field_id,
-          todo_start_date: formData.start_date,
-          todo_end_date: formData.end_date,
-          todo_status: formData.status,
+          todo_name: formData.todo_name,
+          todo_description: formData.todo_description,
+          group_id: formData.group_id,
+          todo_start_date: formData.todo_start_date,
+          todo_end_date: formData.todo_end_date,
+          todo_status: formData.todo_status,
         },
       });
 
@@ -162,7 +176,7 @@ export default function TodoManagementUpdatePage() {
           <TodoInputField
             label="Todo Name"
             name="name"
-            value={formData.name}
+            value={formData.todo_name}
             onChange={handleChange}
             error={errors.name}
             required
@@ -175,25 +189,17 @@ export default function TodoManagementUpdatePage() {
             <textarea
               name="description"
               rows={4}
-              value={formData.description}
+              value={formData.todo_description}
               onChange={handleChange}
               className="w-full px-4 py-3 border border-gray-200 rounded-lg resize-none focus:ring-2 focus:ring-[#587CF0] outline-none"
             />
           </div>
 
-          <FieldSelector
-            fields={[
-              "web",
-              "app",
-              "server",
-              "game",
-              "security",
-              "work",
-              "other",
-            ]}
-            selectedId={formData.field_id}
+          <GroupSelector
+            groups={availableGroups}
+            selectedId={formData.group_id}
             onSelect={(id) =>
-              setFormData((prev) => ({ ...prev, field_id: id }))
+              setFormData((prev) => ({ ...prev, group_id: id }))
             }
           />
 
@@ -202,7 +208,7 @@ export default function TodoManagementUpdatePage() {
               label="Start Date"
               name="start_date"
               type="date"
-              value={formData.start_date}
+              value={formData.todo_start_date}
               onChange={handleChange}
               error={errors.start_date}
               required
@@ -211,7 +217,7 @@ export default function TodoManagementUpdatePage() {
               label="End Date"
               name="end_date"
               type="date"
-              value={formData.end_date}
+              value={formData.todo_end_date}
               onChange={handleChange}
               error={errors.end_date}
               required
@@ -224,7 +230,7 @@ export default function TodoManagementUpdatePage() {
             </label>
             <select
               name="status"
-              value={formData.status}
+              value={formData.todo_status}
               onChange={handleChange}
               className="w-full px-4 py-3 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-[#587CF0]"
             >

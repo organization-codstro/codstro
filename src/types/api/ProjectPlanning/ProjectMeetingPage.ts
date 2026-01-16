@@ -1,7 +1,7 @@
 /**
  * [회의 타입]
  */
-export type MeetingType = "All" | "Feature" | "Free";
+export type MeetingType = "Feature" | "Free";
 
 /**
  * [회의 목록 아이템 인터페이스]

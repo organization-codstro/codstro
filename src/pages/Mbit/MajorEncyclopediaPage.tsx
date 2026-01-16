@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import MajorDetail from "../../components/Mbit/MajorEncyclopediaPage/MajorDetail";
 import MajorList from "../../components/Mbit/MajorEncyclopediaPage/MajorList";
 import { Major } from "../../types/pages/Mbit/Mbit";
@@ -21,7 +21,7 @@ export default function MajorEncyclopediaPage() {
       const mappedData = data.map((major) => ({
         ...major,
         icon: ICON_MAP[major.name] || <Settings />, // 매칭되는게 없으면 기본 아이콘
-      }))
+      }));
 
       setMajors(mappedData);
     } catch (error) {

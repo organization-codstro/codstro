@@ -3,7 +3,7 @@ import { Calendar, Target, Edit3 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import StatusBadge from "../StatusBadge";
 import ProgressBar from "../../ProgressBar";
-import { PlanDetailHeaderProps } from "../../../types/Woomoonkyung/StudyPlanArchiveDetailPage/PlanDetailHeader";
+import { PlanDetailHeaderProps } from "../../../types/pages/Woomoonkyung/StudyPlanArchiveDetailPage/PlanDetailHeader";
 
 const PlanDetailHeader: React.FC<PlanDetailHeaderProps> = ({
   planId,

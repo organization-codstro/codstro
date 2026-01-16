@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Loader2 } from "lucide-react";
@@ -111,10 +111,10 @@ export default function FieldDetailPage() {
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
         field={{
-          id: data.field_id,
-          name: data.field_name,
-          description: data.field_description,
-          created_at: data.field_created_date,
+          field_id: data.field_id,
+          field_name: data.field_name,
+          field_description: data.field_description,
+          field_created_at: data.field_created_date,
         }}
         onAdd={() => {
           toast.success("분야가 성공적으로 할당되었습니다.");

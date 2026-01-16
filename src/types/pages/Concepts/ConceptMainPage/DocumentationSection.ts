@@ -4,11 +4,11 @@ interface Site {
   desc: string;
 }
 
-interface DocCategory {
-  category: string;
+interface Documentation {
+  category: string[];
   sites: Site[];
 }
 
 export interface DocumentationSectionProps {
-  data: DocCategory[];
+  docSites: Documentation[];
 }

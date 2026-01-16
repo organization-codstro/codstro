@@ -14,7 +14,7 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
     ) {
       return;
     }
-    window.open(pin.url, "_blank", "noopener,noreferrer");
+    window.open(pin.pin_url, "_blank", "noopener,noreferrer");
   };
 
   const handleCardKeyDown = (e: React.KeyboardEvent) => {
@@ -24,7 +24,7 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
         !(e.target as HTMLElement).closest("button") &&
         !(e.target as HTMLElement).closest("a")
       ) {
-        window.open(pin.url, "_blank", "noopener,noreferrer");
+        window.open(pin.pin_url, "_blank", "noopener,noreferrer");
       }
     }
   };
@@ -46,13 +46,7 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
         {/* Header */}
         <div className="flex items-start justify-between mb-3">
           <div className="flex-1">
-            <h3 className="font-semibold text-gray-800">{pin.title}</h3>
-
-            {pin.difficulty && (
-              <span className="inline-block px-2 py-1 mt-1 text-xs text-gray-600 bg-gray-100 border border-gray-200 rounded-full">
-                {pin.difficulty}
-              </span>
-            )}
+            <h3 className="font-semibold text-gray-800">{pin.pin_title}</h3>
           </div>
 
           {/* Save */}
@@ -74,14 +68,14 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
 
         {/* Description */}
         <p className="mb-4 text-sm text-gray-600 line-clamp-2">
-          {pin.description}
+          {pin.pin_description}
         </p>
 
         {/* Tags */}
-        {pin.tags.length > 0 && (
+        {pin.pin_label.length > 0 && (
           <div className="mb-4">
             <div className="flex flex-wrap gap-1">
-              {pin.tags.slice(0, 3).map((tag) => (
+              {pin.pin_label.slice(0, 3).map((tag) => (
                 <span
                   key={tag}
                   className="flex items-center gap-1 px-2 py-1 text-xs text-gray-600 bg-gray-100 rounded"
@@ -90,9 +84,9 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
                   {tag}
                 </span>
               ))}
-              {pin.tags.length > 3 && (
+              {pin.pin_label.length > 3 && (
                 <span className="px-2 py-1 text-xs text-gray-500 bg-gray-100 rounded">
-                  +{pin.tags.length - 3}
+                  +{pin.pin_label.length - 3}
                 </span>
               )}
             </div>

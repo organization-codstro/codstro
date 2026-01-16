@@ -1,4 +1,4 @@
-import { GroupType } from "../../woomoonjeong";
+import { GROUP_TYPE } from "../../../../../constants/Woomoonjeong/Woomoonjeong";
 
 export interface CreateCustomFieldModalProps {
   isOpen: boolean;
@@ -6,6 +6,6 @@ export interface CreateCustomFieldModalProps {
   onAdd: (payload: {
     name: string;
     description: string;
-    type: GroupType;
+    type: GROUP_TYPE;
   }) => void;
 }

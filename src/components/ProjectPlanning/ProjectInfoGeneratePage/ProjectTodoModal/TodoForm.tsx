@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Todo } from "../../../../types/pages/ProjectPlanning/project";
+import { newTodo } from "../../../../types/pages/ProjectPlanning/project";
 import { TodoFormProps } from "../../../../types/pages/ProjectPlanning/ProjectInfoGeneratePage/ProjectTodoModal/TodoForm";
 
 export function TodoForm({ onAdd, onCancel }: TodoFormProps) {
@@ -17,19 +17,13 @@ export function TodoForm({ onAdd, onCancel }: TodoFormProps) {
     e.preventDefault();
     if (!name.trim()) return;
 
-    const newTodo: Todo = {
-      id:
-        Math.max(
-          0,
-          ...Array.from({ length: 100 }, (_, i) => Math.random() * 1000)
-        ) + 1,
+    const newTodo: newTodo = {
       name: name,
       content: content,
       description: description,
       start_date: startDate,
       end_date: endDate,
-      status: "pending",
-      created_at: new Date().toISOString().split("T")[0],
+      status: "waiting",
     };
 
     onAdd(newTodo);

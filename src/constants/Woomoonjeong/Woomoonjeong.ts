@@ -19,17 +19,6 @@ export const GROUP_TYPES: GROUP_TYPE[] = [
   "other",
 ];
 
-//CreateTodoManagementModal에서 사용하는 id가 포함된 전공 목록
-export const GROUP_TYPE_ID = [
-  { id: "WEB", label: "web" },
-  { id: "APP", label: "app" },
-  { id: "SERVER", label: "server" },
-  { id: "GAME", label: "game" },
-  { id: "SECURITY", label: "security" },
-  { id: "WORK", label: "work" },
-  { id: "OTHER", label: "other" },
-] as const;
-
 export type TODO_STATUS_TYPE = "waiting" | "in-progress" | "done";
 
 export const TODO_STATUS: TODO_STATUS_TYPE[] = [
@@ -37,3 +26,24 @@ export const TODO_STATUS: TODO_STATUS_TYPE[] = [
   "in-progress",
   "done",
 ];
+
+import {
+  Code,
+  Smartphone,
+  Server,
+  Gamepad2,
+  Shield,
+  Briefcase,
+  HelpCircle,
+} from "lucide-react";
+
+//필드당 아이콘 표시할때 사용되는 아이콘
+export const fieldTypeIcons: Record<GROUP_TYPE, React.ElementType> = {
+  web: Code,
+  app: Smartphone,
+  server: Server,
+  game: Gamepad2,
+  security: Shield,
+  work: Briefcase,
+  other: HelpCircle,
+};

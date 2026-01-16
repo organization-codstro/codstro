@@ -256,7 +256,7 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                                 .toISOString()
                                 .split("T")[0],
                               end_date: new Date().toISOString().split("T")[0],
-                              status: "pending",
+                              status: "waiting",
                               created_at: new Date()
                                 .toISOString()
                                 .split("T")[0],

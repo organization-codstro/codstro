@@ -1,5 +1,5 @@
 import React from "react";
-import { TodoInputFieldProps } from "../../../types/Woomoonjeong/TodoManagementUpdate/TodoInputField";
+import { TodoInputFieldProps } from "../../../types/pages/Woomoonjeong/TodoManagementUpdate/TodoInputField";
 
 const TodoInputField: React.FC<TodoInputFieldProps> = ({
   label,

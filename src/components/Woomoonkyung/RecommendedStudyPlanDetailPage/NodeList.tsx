@@ -1,8 +1,7 @@
 import React from "react";
 import { BookOpen } from "lucide-react";
-import { StudyPlanNode } from "../../../types/Woomoonkyung/Woomoonkyung";
 import NodeItem from "./NodeItem";
-import { NodeListProps } from "../../../types/Woomoonkyung/RecommendedStudyPlanDetailPage/NodeList";
+import { NodeListProps } from "../../../types/pages/Woomoonkyung/RecommendedStudyPlanDetailPage/NodeList";
 
 const NodeList: React.FC<NodeListProps> = ({ nodes }) => {
   return (
@@ -11,7 +10,7 @@ const NodeList: React.FC<NodeListProps> = ({ nodes }) => {
         Learning Path
       </h3>
 
-      {nodes.length > 0 ? (
+      {nodes && nodes.length > 0 ? (
         <div className="space-y-4">
           {nodes.map((node) => (
             <NodeItem key={node.study_plan_node_id} node={node} />

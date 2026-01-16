@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { StudyPlan } from "../../types/pages/Woomoonkyung/Woomoonkyung";
 import StudyPlanForm from "../../components/Woomoonkyung/StudyPlanForm";
 import { PlanRegistrationService } from "../../api/Woomoonkyung/StudyPlanCreatePage"; // 경로 확인 필요
-import { LoginService } from "../../api/Auth/LoginPage"; 
+
 import { toast } from "react-toastify";
 import { useState } from "react";
+import { LoginService } from "../../api/Auth/LoginPage";
+import { StudyPlanFormFormData } from "../../types/pages/Woomoonkyung/StudyPlanForm";
 
 export default function StudyPlanCreatePage() {
   const navigate = useNavigate();
@@ -15,10 +16,7 @@ export default function StudyPlanCreatePage() {
    * @param data 폼에서 입력된 데이터
    * @param imageFile 선택된 이미지 파일 (있을 경우)
    */
-  const handleSave = async (
-    data: Omit<StudyPlan, "study_plan_id" | "study_plans_created_date">,
-    imageFile?: File
-  ) => {
+  const handleSave = async (data: StudyPlanFormFormData, imageFile?: File) => {
     try {
       setIsSubmitting(true);
 

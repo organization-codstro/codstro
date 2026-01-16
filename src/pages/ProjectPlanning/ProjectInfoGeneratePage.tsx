@@ -5,6 +5,8 @@ import {
   Todo,
   ProjectPage,
   ProjectBasicInfo,
+  newTodo,
+  UITodo,
 } from "../../types/pages/ProjectPlanning/project";
 
 // 컴포넌트 임포트
@@ -47,9 +49,11 @@ export default function ProjectInfoGeneratePage() {
 
   // 상세 구조 (페이지 및 할 일)
   const [expandedPage, setExpandedPage] = useState<string | null>(null);
-  const [editingTodoId, setEditingTodoId] = useState<string | null>(null);
+  const [editingTodoClientId, setEditingTodoClientId] = useState<string | null>(
+    null
+  );
   const [showTodoForm, setShowTodoForm] = useState(false);
-  const [projectTodos, setProjectTodos] = useState<Todo[]>([]);
+  const [projectTodos, setProjectTodos] = useState<UITodo[]>([]);
   const [pages, setPages] = useState<Array<ProjectPage & { todos: Todo[] }>>(
     []
   );
@@ -94,9 +98,9 @@ export default function ProjectInfoGeneratePage() {
           project_todo_status: t.status,
         })),
       })),
-      // 프로젝트 전체 할 일 목록 변환
+
       projectTodos: projectTodos.map((t) => ({
-        id: t.id,
+        id: t.id, // 있으면 update, 없으면 insert
         project_id: projectId!,
         project_todo_content: t.content,
         project_todo_status: t.status,
@@ -176,22 +180,24 @@ export default function ProjectInfoGeneratePage() {
     }
   };
 
-  const updateProjectTodo = (todoId: string, updates: Partial<Todo>) => {
+  const updateProjectTodo = (clientId: string, updates: Partial<UITodo>) => {
     setProjectTodos((prev) =>
-      prev.map((t) => (t.id === todoId ? { ...t, ...updates } : t))
+      prev.map((t) => (t.client_id === clientId ? { ...t, ...updates } : t))
     );
-    setEditingTodoId(null);
   };
 
   const deleteProjectTodo = (todoId: string) => {
     setProjectTodos((prev) => prev.filter((t) => t.id !== todoId));
   };
 
-  const addProjectTodo = (newTodo: Todo) => {
-    setProjectTodos((prev) => [...prev, newTodo]);
-    setShowTodoForm(false);
-  };
+  const addProjectTodo = (todo: newTodo) => {
+    const uiTodo: UITodo = {
+      ...todo,
+      client_id: crypto.randomUUID(), // UI 전용
+    };
 
+    setProjectTodos((prev) => [...prev, uiTodo]);
+  };
   const updatePage = (pageId: string, updates: Partial<ProjectPage>) => {
     setPages((prev) =>
       prev.map((p) => (p.project_page_id === pageId ? { ...p, ...updates } : p))
@@ -282,8 +288,8 @@ export default function ProjectInfoGeneratePage() {
           {/* Right: 프로젝트 전체 할 일 */}
           <ProjectTasksSection
             projectTodos={projectTodos}
-            editingTodoId={editingTodoId}
-            setEditingTodoId={setEditingTodoId}
+            editingTodoClientId={editingTodoClientId}
+            setEditingTodoClientId={setEditingTodoClientId}
             getStatusColor={getStatusColor}
             updateProjectTodo={updateProjectTodo}
             deleteProjectTodo={deleteProjectTodo}

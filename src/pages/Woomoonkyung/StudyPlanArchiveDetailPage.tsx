@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
@@ -10,12 +10,13 @@ import {
   Target,
   Trash2,
 } from "lucide-react";
-import { StudyPlanArchiveDetailService } from "../../api/Woomoonkyung/StudyPlanArchiveDetailPage"; 
-import { LoginService } from "../../api/Auth/LoginPage"; 
+import { StudyPlanArchiveDetailService } from "../../api/Woomoonkyung/StudyPlanArchiveDetailPage";
+import { LoginService } from "../../api/Auth/LoginPage";
 import { stateColors } from "../../data/Woomoonkyung/woomoonkyungData";
-import { StudyPlan, StudyPlanNode } from "../../types/pages/Woomoonkyung/StudyPlanArchiveDetailPage/StudyPlanArchiveDetailPage";
-
-
+import {
+  StudyPlan,
+  StudyPlanNode,
+} from "../../types/pages/Woomoonkyung/StudyPlanArchiveDetailPage/StudyPlanArchiveDetailPage";
 
 export default function StudyPlanArchiveDetailPage() {
   const { planId } = useParams<{ planId: string }>();

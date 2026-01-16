@@ -1,5 +1,5 @@
 import { ArrowLeft, Edit, Play, Clock, Save, X } from "lucide-react";
-import { ProjectDetailHeaderProps } from "../../../types/ProjectPlanning/ProjectDetailPage/ProjectDetailHeader";
+import { ProjectDetailHeaderProps } from "../../../types/pages/ProjectPlanning/ProjectDetailPage/ProjectDetailHeader";
 
 export const ProjectDetailHeader = ({
   project,

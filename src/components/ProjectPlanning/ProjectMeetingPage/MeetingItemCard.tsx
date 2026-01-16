@@ -22,7 +22,7 @@ export const MeetingItemCard = ({ meeting, onClick }: MeetingItemCardProps) => {
           <div className="flex items-center mb-2 space-x-3">
             <MessageSquare
               className={`w-5 h-5 ${
-                meeting.type === "feature" ? "text-[#587CF0]" : "text-gray-400"
+                meeting.type === "Feature" ? "text-[#587CF0]" : "text-gray-400"
               }`}
             />
             <h3 className="text-lg font-semibold text-gray-900">

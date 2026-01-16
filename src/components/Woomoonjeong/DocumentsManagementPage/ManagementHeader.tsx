@@ -1,6 +1,6 @@
 import React from "react";
 import { Plus } from "lucide-react";
-import { ManagementHeaderProps } from "../../../types/Woomoonjeong/DocumentsManagementPage/ManagementHeader";
+import { ManagementHeaderProps } from "../../../types/pages/Woomoonjeong/DocumentsManagementPage/ManagementHeader";
 
 
 const ManagementHeader: React.FC<ManagementHeaderProps> = ({

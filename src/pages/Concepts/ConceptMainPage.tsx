@@ -100,7 +100,7 @@ export default function ConceptMainPage() {
       </section>
 
       {/* 3. 문서 자원 섹션 */}
-      {docSites.length > 0 && <DocumentationSection data={docSites} />}
+      {docSites.length > 0 && <DocumentationSection docSites={docSites} />}
     </div>
   );
 }

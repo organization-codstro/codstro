@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { BookOpen, Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 
@@ -195,9 +195,10 @@ export default function RecommendedDocumentsMainPage() {
             setSelectedField(null);
           }}
           field={{
-            id: selectedField.field_id,
-            name: selectedField.field_name,
-            description: selectedField.field_description,
+            field_id: selectedField.field_id,
+            field_name: selectedField.field_name,
+            field_description: selectedField.field_description,
+            field_created_at: selectedField.field_created_at,
           }}
           // 모달 내부에서 RecommendedDocumentsMainPageService.addRecommendedFieldToMyGroup 호출 권장
           onAdd={() => {

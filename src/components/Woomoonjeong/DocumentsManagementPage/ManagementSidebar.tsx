@@ -1,5 +1,6 @@
 import React from "react";
-import { ManagementSidebarProps } from "../../../types/Woomoonjeong/DocumentsManagementPage/ManagementSidebar";
+import { ManagementSidebarProps } from "../../../types/pages/Woomoonjeong/DocumentsManagementPage/ManagementSidebar";
+
 
 const ManagementSidebar: React.FC<ManagementSidebarProps> = ({
   data,

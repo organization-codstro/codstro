@@ -9,7 +9,7 @@ export interface StudyPlan {
   study_plans_image_url: string;
   study_plans_start_date: string;
   study_plans_end_date: string;
-  study_plans_state: string;
+  study_plans_state: "waiting" | "in progress" | "done";
   study_plans_is_archived: boolean;
 }
 
@@ -20,12 +20,13 @@ export interface StudyPlan {
 export interface StudyPlanNode {
   study_plan_node_id: string;
   study_plan_id: string;
-  title: string;
-  description: string;
-  position: number;
-  completed: boolean;
-  tech_stacks?: {
-    tech_stack_name: string;
-    tech_stack_img_url: string;
-  };
+  study_plan_node_name: string;
+  study_plan_node_description: string;
+  study_plan_node_position: number;
+  study_plan_node_completed: boolean;
+  study_plan_node_start_date: string;
+  study_plan_node_end_date: string;
+  tech_stack_id: string;
+  tech_stack_name: string;
+  tech_stack_img_url: string;
 }

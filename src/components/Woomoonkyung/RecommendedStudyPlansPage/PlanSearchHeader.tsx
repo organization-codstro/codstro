@@ -1,6 +1,6 @@
 import React from "react";
 import { Search } from "lucide-react";
-import { PlanSearchHeaderProps } from "../../../types/Woomoonkyung/RecommendedStudyPlansPage/PlanSearchHeader";
+import { PlanSearchHeaderProps } from "../../../types/pages/Woomoonkyung/RecommendedStudyPlansPage/PlanSearchHeader";
 
 
 

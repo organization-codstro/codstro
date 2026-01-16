@@ -1,6 +1,6 @@
 import React from "react";
 import { Plus, Archive } from "lucide-react";
-import { DashboardHeaderProps } from "../../../types/Woomoonkyung/WoomoonkyungMainPage/DashboardHeader";
+import { DashboardHeaderProps } from "../../../types/pages/Woomoonkyung/StudyPlanMainPage/DashboardHeader";
 
 const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   title,

@@ -12,6 +12,6 @@ export interface RecommendedPlan {
   study_plan_state: "waiting" | "in progress" | "done";
   study_plan_is_archived: boolean;
   totalNodes: number;
-  study_plan_created_date: string;
+  created_at: string;
   study_plan_is_recommendation: boolean;
 }

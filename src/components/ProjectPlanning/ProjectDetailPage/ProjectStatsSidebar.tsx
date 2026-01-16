@@ -26,7 +26,7 @@ export const ProjectStatsSidebar = ({
               <div className="flex items-center justify-between">
                 <span className="text-gray-600">Completed</span>
                 <span className="font-medium text-green-600">
-                  {todos.filter((t) => t.status === "completed").length}
+                  {todos.filter((t) => t.status === "done").length}
                 </span>
               </div>
               <div className="flex items-center justify-between">
@@ -38,7 +38,7 @@ export const ProjectStatsSidebar = ({
               <div className="flex items-center justify-between">
                 <span className="text-gray-600">Waiting</span>
                 <span className="font-medium text-gray-600">
-                  {todos.filter((t) => t.status === "pending").length}
+                  {todos.filter((t) => t.status === "waiting").length}
                 </span>
               </div>
             </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Calendar, Trash2, X, Check } from "lucide-react";
-import { Todo } from "../../../../types/pages/ProjectPlanning/project";
+import { UITodo } from "../../../../types/pages/ProjectPlanning/project";
 import { ProjectTodoItemProps } from "../../../../types/pages/ProjectPlanning/ProjectInfoGeneratePage/ProjectTasksSection/ProjectTodoItem";
 
 export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
@@ -12,17 +12,16 @@ export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
   onDelete,
   getStatusColor,
 }) => {
-  const [editedTodo, setEditedTodo] = React.useState<Todo>(todo);
+  const [editedTodo, setEditedTodo] = React.useState<UITodo>(todo);
 
   React.useEffect(() => {
     setEditedTodo(todo);
   }, [todo, isEditing]);
 
   const handleSave = () => {
-    onUpdate(todo.id, editedTodo);
-    onCancelEdit();
+    onUpdate(todo.client_id, editedTodo);
   };
-
+  
   const handleCancel = () => {
     setEditedTodo(todo);
     onCancelEdit();
@@ -41,9 +40,9 @@ export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
         <div className="space-y-3">
           <input
             type="text"
-            value={editedTodo.name}
+            value={editedTodo.content}
             onChange={(e) =>
-              setEditedTodo({ ...editedTodo, name: e.target.value })
+              setEditedTodo({ ...editedTodo, content: e.target.value })
             }
             placeholder="Task name"
             className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-400"
@@ -119,7 +118,7 @@ export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
               onChange={(e) =>
                 setEditedTodo({
                   ...editedTodo,
-                  status: e.target.value as Todo["status"],
+                  status: e.target.value as UITodo["status"],
                 })
               }
               className="px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-400"
@@ -136,7 +135,7 @@ export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
                 onClick={(e) => {
                   e.stopPropagation();
                   if (window.confirm("정말 삭제하시겠습니까?")) {
-                    onDelete(todo.id);
+                    onDelete(todo.client_id);
                   }
                 }}
                 className="p-2 text-red-600 rounded hover:bg-red-50"

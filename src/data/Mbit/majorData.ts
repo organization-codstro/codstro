@@ -1,11 +1,9 @@
-import { Code, Database, Smartphone, Brain } from "lucide-react";
 import { Major } from "../../types/pages/Mbit/Mbit";
 
 export const majors: Major[] = [
   {
     id: "1",
     name: "Frontend Development",
-    icon: Code,
     description: "Create user interfaces and experiences for web applications",
     focus: "HTML, CSS, JavaScript, React, Vue, UI/UX Design",
     careers: "Frontend Developer, UI Developer, Web Designer",
@@ -60,7 +58,6 @@ export const majors: Major[] = [
   {
     id: "2",
     name: "Backend Development",
-    icon: Database,
     description: "Build server-side logic, APIs, and database management",
     focus: "Node.js, Python, Java, SQL, APIs, Server Architecture",
     careers: "Backend Developer, API Engineer, Database Administrator",
@@ -115,7 +112,6 @@ export const majors: Major[] = [
   {
     id: "3",
     name: "Mobile Development",
-    icon: Smartphone,
     description: "Develop applications for iOS and Android platforms",
     focus: "Swift, Kotlin, React Native, Flutter, Mobile UI",
     careers: "iOS Developer, Android Developer, Mobile App Developer",
@@ -170,7 +166,6 @@ export const majors: Major[] = [
   {
     id: "4",
     name: "Data Science",
-    icon: Brain,
     description: "Analyze data and build machine learning models",
     focus: "Python, R, Machine Learning, Statistics, Data Visualization",
     careers: "Data Scientist, ML Engineer, Data Analyst",

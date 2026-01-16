@@ -1,4 +1,5 @@
-import { ProjectPage, Todo } from "./project";
+import { ProjectPage, Todo } from "../project";
+
 
 export interface ProjectPagesSectionProps {
   pages: Array<ProjectPage& { todos: Todo[] }>;

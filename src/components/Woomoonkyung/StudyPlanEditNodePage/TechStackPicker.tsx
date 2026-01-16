@@ -1,6 +1,6 @@
 import React from "react";
 import { Search, X } from "lucide-react";
-import { TechStackPickerProps } from "../../../types/Woomoonkyung/WoomoonkyungEditNodePage/TechStackPicker";
+import { TechStackPickerProps } from "../../../types/pages/Woomoonkyung/StudyPlanEditNodePage/TechStackPicker";
 
 const TechStackPicker: React.FC<TechStackPickerProps> = ({
   techStacks,

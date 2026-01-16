@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { WoomoonkyungDetailService } from "../../api/Woomoonkyung/StudyPlanDetailPage";
+import { WoomoonkyungDetailService } from "../../api/Woomoonkyung/StudyPlanDetailPage"; // 경로 확인 필요
 import { PlanDetail } from "../../types/api/Woomoonkyung/StudyPlanDetailPage";
 import BackButton from "../../components/Woomoonkyung/RecommendedStudyPlanDetailPage/BackButton";
 import PlanDetailHeader from "../../components/Woomoonkyung/StudyPlanArchiveDetailPage/PlanDetailHeader";
@@ -92,14 +92,23 @@ export default function StudyPlanDetailPage() {
           progressPercentage={stats.progressPercentage}
         />
 
-        {/* MyNodeList에 handleToggleNode를 props로 넘겨서 클릭 이벤트를 연결해야 합니다 */}
         <MyNodeList
           nodes={nodes.map((node) => ({
+            // 1. 기존 데이터 전개
             ...node,
-            // UI 컴포넌트 내부 변수명과 DB 필드명이 다를 경우 여기서 매칭
+            // 2. StudyPlanNode 인터페이스의 필수 필드들을 API 데이터 필드와 매칭
             study_plan_node_id: node.study_plan_node_id,
             study_plan_node_name: node.study_plan_node_name,
-            study_plan_node_completed: node.completed, // DB 필드명 completed -> UI props completed 로 매칭
+            study_plan_node_completed: node.completed, // DB: completed -> UI: study_plan_node_completed
+
+            // 오류에서 지적한 누락된 필수 필드들을 매칭 (API 데이터의 필드명을 확인하세요)
+            study_plan_node_description: node.description || "",
+            study_plan_node_position: node.position,
+            study_plan_node_start_date: node.start_date || "",
+            study_plan_node_end_date: node.end_date || "",
+
+            // tech_stack 관련 정보가 API node 내부에 있다면 매칭, 없다면 빈 값 처리
+            tech_stack_id: node.tech_stack_id || "",
           }))}
           onToggleNode={handleToggleNode}
         />

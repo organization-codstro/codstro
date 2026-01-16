@@ -94,7 +94,7 @@ export default function DocumentsManagementPage() {
   };
 
   const handleSaveFieldName = async (
-    groupId: string,
+    // groupId: string,
     fieldId: string,
     newName: string
   ) => {
@@ -244,7 +244,9 @@ export default function DocumentsManagementPage() {
                           )}
                           <span
                             className={`px-3 py-1 text-sm rounded-full border ${
-                              fieldTypeColors[gName as keyof typeof fieldTypeColors] || "border-gray-200"
+                              fieldTypeColors[
+                                gName as keyof typeof fieldTypeColors
+                              ] || "border-gray-200"
                             }`}
                           >
                             {gName}

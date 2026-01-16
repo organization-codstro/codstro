@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Filter, Search, Target, Clock, Loader2 } from "lucide-react";
@@ -30,6 +30,12 @@ export default function TodoManagementPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deletePendingId, setDeletePendingId] = useState<string | null>(null);
+  const [availableGroups, setAvailableGroups] = useState<
+    {
+      group_id: string;
+      group_name: string;
+    }[]
+  >([]);
 
   // --- 초기 데이터 로드 및 유저 확인 ---
   useEffect(() => {
@@ -64,6 +70,31 @@ export default function TodoManagementPage() {
       return () => clearTimeout(timer);
     }
   }, [deletePendingId]);
+
+  // --- 유저 그룹 정보 ---
+  useEffect(() => {
+    const initPage = async () => {
+      setIsLoading(true);
+      try {
+        const userId = await LoginService.getCurrentUserId();
+        if (!userId) {
+          navigate("/login");
+          return;
+        }
+
+        // 유저의 그룹 정보 가져오기
+        const groupIds = await TodoManagementService.getUserGroups(userId);
+        if (groupIds) setAvailableGroups(groupIds);
+
+        await fetchInitialData();
+      } catch (error) {
+        toast.error("데이터 로드에 실패했습니다.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    initPage();
+  }, []);
 
   // --- API 호출 함수들 ---
   const fetchInitialData = async () => {
@@ -168,6 +199,7 @@ export default function TodoManagementPage() {
           fetchFilteredList();
           fetchMonthlyData();
         }}
+        availableGroups={availableGroups}
       />
 
       <div className="mx-auto space-y-6 max-w-7xl">

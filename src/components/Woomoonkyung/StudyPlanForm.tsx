@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { ArrowLeft, Calendar, Save, X } from "lucide-react";
-import {
-  StudyPlanFormFormData,
-  StudyPlanFormProps,
-} from "../../types/pages/Woomoonkyung/StudyPlanForm";
+import { StudyPlan } from "../../types/pages/Woomoonkyung/Woomoonkyung";
+import { StudyPlanFormFormData } from "../../types/pages/Woomoonkyung/StudyPlanForm";
+
+interface StudyPlanFormProps {
+  mode: "create" | "edit";
+  existingPlan?: StudyPlan;
+  onSave: (planData: StudyPlanFormFormData) => void;
+  onCancel?: () => void;
+}
 
 const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
   mode,
   existingPlan,
   onSave,
   onCancel,
-  userId,
 }) => {
   const [formData, setFormData] = useState<StudyPlanFormFormData>({
     study_plan_name: "",
@@ -20,7 +24,7 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
     study_plan_end_date: "",
     study_plan_is_archived: false,
     study_plan_state: "waiting",
-    user_id: userId,
+    user_id: "1", // 실제 환경에서는 로그인된 유저 ID
     study_plan_is_recommendation: false,
   });
 

@@ -5,8 +5,8 @@ import { ProjectTasksSectionProps } from "../../../../types/pages/ProjectPlannin
 
 export const ProjectTasksSection: React.FC<ProjectTasksSectionProps> = ({
   projectTodos,
-  editingTodoId,
-  setEditingTodoId,
+  editingTodoClientId,
+  setEditingTodoClientId,
   updateProjectTodo,
   deleteProjectTodo,
   getStatusColor,
@@ -35,11 +35,11 @@ export const ProjectTasksSection: React.FC<ProjectTasksSectionProps> = ({
         ) : (
           projectTodos.map((todo) => (
             <ProjectTodoItem
-              key={todo.id}
+              key={todo.client_id}
               todo={todo}
-              isEditing={editingTodoId === todo.id}
-              onEdit={() => setEditingTodoId(todo.id)}
-              onCancelEdit={() => setEditingTodoId(null)}
+              isEditing={editingTodoClientId === todo.client_id}
+              onEdit={() => setEditingTodoClientId(todo.client_id)}
+              onCancelEdit={() => setEditingTodoClientId(null)}
               onUpdate={updateProjectTodo}
               onDelete={deleteProjectTodo}
               getStatusColor={getStatusColor}

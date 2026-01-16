@@ -4,7 +4,7 @@ import { ExternalLink } from "lucide-react";
 import { DocumentationSectionProps } from "../../../types/pages/Concepts/ConceptMainPage/DocumentationSection";
 
 export default function DocumentationSection({
-  data,
+  docSites,
 }: DocumentationSectionProps) {
   return (
     <section>
@@ -15,16 +15,16 @@ export default function DocumentationSection({
         </h2>
       </div>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-        {data.map((section, idx) => (
+        {docSites.map((docSite, idx) => (
           <div
             key={idx}
             className="p-6 bg-white border border-gray-200 rounded-lg"
           >
             <h3 className="mb-4 text-lg font-semibold text-gray-900">
-              {section.category}
+              {docSite.category}
             </h3>
             <div className="space-y-3">
-              {section.sites.map((site, sIdx) => (
+              {docSite.sites.map((site, sIdx) => (
                 <a
                   key={sIdx}
                   href={site.url}
