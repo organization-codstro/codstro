@@ -3,7 +3,7 @@ export interface CloneCodingProjectInfoGridProps {
   difficultyColor: string;
   status?: string;
   statusColor?: string;
-  estimatedHours: number;
+  estimatedHours: string;
   techStack: string[];
   tags: string[];
   githubUrl?: string;

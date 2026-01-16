@@ -1,7 +1,6 @@
 import { Calendar, GripVertical, Trash2 } from "lucide-react";
 import { NodeCardProps } from "../../../types/pages/Woomoonkyung/StudyPlanCreateNodePage/NodeCard";
 
-
 export const NodeCard = ({
   node,
   index,
@@ -40,7 +39,7 @@ export const NodeCard = ({
 
       {/* Position Badge */}
       <div className="flex items-center justify-center w-8 h-8 rounded-full bg-[#587CF0] text-white text-sm font-medium flex-shrink-0">
-        {node.position}
+        {node.study_plan_node_position}
       </div>
 
       {/* Tech Stack Image */}
@@ -58,14 +57,14 @@ export const NodeCard = ({
           {node.study_plan_node_name}
         </h4>
         <p className="text-sm text-gray-600 truncate">
-          {node.description || "설명이 없습니다"}
+          {node.study_plan_node_description || "설명이 없습니다"}
         </p>
-        {node.start_date && node.end_date && (
+        {node.study_plan_node_start_date && node.study_plan_node_end_date && (
           <div className="flex items-center gap-1 mt-2 text-xs text-gray-500">
             <Calendar className="w-3 h-3" />
             <span>
-              {new Date(node.start_date).toLocaleDateString()} -{" "}
-              {new Date(node.end_date).toLocaleDateString()}
+              {new Date(node.study_plan_node_start_date).toLocaleDateString()} -{" "}
+              {new Date(node.study_plan_node_end_date).toLocaleDateString()}
             </span>
           </div>
         )}

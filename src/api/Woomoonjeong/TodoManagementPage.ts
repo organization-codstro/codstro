@@ -82,11 +82,10 @@ export const TodoManagementService = {
       }
 
       if (params.status && params.status !== "all") {
-        // Mock 상태값을 DB 상태값으로 매핑
         const statusMap: Record<string, string> = {
           pending: "waiting",
           "in-progress": "in progress",
-          completed: "done",
+          done: "done",
         };
         request = request.eq(
           "todo_status",

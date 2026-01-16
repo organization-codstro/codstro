@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Archive,
@@ -6,44 +6,125 @@ import {
   CheckCircle2,
   PlayCircle,
   Circle,
+  Loader2,
 } from "lucide-react";
-import {
-  archivedProjectsData,
-  archivedUserProjectsData as initialData,
-} from "../../data/woomoonro/woomoonroData";
+import { toast } from "react-toastify";
+import { LoginService } from "../../api/Auth/LoginPage";
+import { ArchiveService } from "../../api/Woomoonro/CloneCodingProjectArchivePage";
 import ProjectGrid from "../../components/Woomoonro/CloneCodingProjectGrid/CloneCodingProjectGrid";
 import { StatCard } from "../../components/Woomoonro/CloneCodingProjectArchivePage/CloneCodingProjectStatCard";
 import ArchiveFilters from "../../components/Woomoonro/CloneCodingProjectArchivePage/CloneCodingProjectArchiveFilters";
+import {
+  ArchivedProjectItem,
+  ArchiveStats,
+} from "../../types/pages/Woomoonro/CloneCodingProjectArchivePage/CloneCodingProjectArchivePage";
 
 export default function CloneCodingProjectArchivePage() {
   const navigate = useNavigate();
+
+  /**
+   * 상태 관리 (States)
+   */
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [archivedData, setArchivedData] = useState<ArchivedProjectItem[]>([]);
+  const [stats, setStats] = useState<ArchiveStats>({
+    total: 0,
+    completed: 0,
+    "in progress": 0,
+    waiting: 0,
+  });
+
+  /**
+   * 필터 및 검색 상태
+   */
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [selectedDifficulty, setSelectedDifficulty] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("date");
-  const [archivedUserProjectsData, setArchivedUserProjectsData] =
-    useState(initialData);
 
-  const getUserProject = (projectId: string) =>
-    archivedUserProjectsData.find((up) => up.project_id === projectId);
+  /**
+   * [데이터 로드 로직]
+   * 유저 ID 확보 후 통계 및 프로젝트 리스트를 병렬로 가져옵니다.
+   */
+  const fetchData = useCallback(async (currentUserId: string) => {
+    try {
+      setIsLoading(true);
+      const [projects, archiveStats] = await Promise.all([
+        ArchiveService.getBookmarkedProjects({ userId: currentUserId }),
+        ArchiveService.getArchiveStats({ userId: currentUserId }),
+      ]);
 
-  const handleToggleBookmark = (projectId: string) => {
-    setArchivedUserProjectsData((prev) =>
-      prev.map((up) =>
-        up.project_id === projectId
-          ? { ...up, is_bookmarked: !up.is_bookmarked }
-          : up
-      )
-    );
+      setArchivedData(projects as unknown as ArchivedProjectItem[]);
+      setStats(archiveStats);
+    } catch (err) {
+      console.error(err);
+      setError("데이터를 불러오는 중 오류가 발생했습니다.");
+      toast.error("데이터 로드 실패");
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  /**
+   * [초기 인증 확인 및 데이터 호출]
+   */
+  useEffect(() => {
+    const init = async () => {
+      const id = await LoginService.getCurrentUserId();
+      if (id) {
+        setUserId(id);
+        fetchData(id);
+      } else {
+        toast.error("로그인이 필요합니다.");
+        setIsLoading(false);
+      }
+    };
+    init();
+  }, [fetchData]);
+
+  /**
+   * [북마크 해제 로직]
+   * Pending UI(2단계 확정) 대신 즉시 반영 후 토스트 알림을 제공하거나,
+   * 서비스 규칙에 따라 removeBookmark 호출 후 상태를 갱신합니다.
+   */
+  const handleToggleBookmark = async (projectId: string) => {
+    if (!userId) return;
+
+    try {
+      // 2단계 확정 로직 대용: 토스트 로딩 활용
+      const loadingToast = toast.loading("북마크를 해제하는 중...");
+
+      await ArchiveService.removeBookmark({ userId, projectId });
+
+      // 로컬 상태 업데이트 (삭제된 항목 제외)
+      setArchivedData((prev) =>
+        prev.filter((item) => item.userProject.project_id !== projectId)
+      );
+
+      // 통계 재계산 (필요 시 fetchData 재호출 가능)
+      setStats((prev) => ({ ...prev, total: prev.total - 1 }));
+
+      toast.update(loadingToast, {
+        render: "북마크가 해제되었습니다.",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
+    } catch (err) {
+      toast.error("북마크 해제 실패");
+    }
   };
 
-  const filteredProjects = archivedProjectsData
-    .filter((project) => {
-      const userProject = getUserProject(project.id);
-      if (
-        selectedFilter !== "all" &&
-        (!userProject || userProject.status !== selectedFilter)
-      )
+  /**
+   * [필터링 및 정렬 로직]
+   */
+  const filteredProjects = archivedData
+    .filter((item) => {
+      const { project, userProject } = item;
+
+      if (selectedFilter !== "all" && userProject.status !== selectedFilter)
         return false;
       if (
         selectedDifficulty !== "all" &&
@@ -55,12 +136,45 @@ export default function CloneCodingProjectArchivePage() {
         !project.title.toLowerCase().includes(searchQuery.toLowerCase())
       )
         return false;
+
       return true;
     })
     .sort((a, b) => {
-      // ... (기존 정렬 로직 동일)
-      return sortBy === "title" ? a.title.localeCompare(b.title) : 0;
+      if (sortBy === "title")
+        return a.project.title.localeCompare(b.project.title);
+      if (sortBy === "date")
+        return (
+          new Date(b.project.created_at).getTime() -
+          new Date(a.project.created_at).getTime()
+        );
+      return 0;
     });
+
+  /**
+   * [유저 프로젝트 정보 추출 헬퍼]
+   */
+  const getUserProject = (projectId: string) =>
+    archivedData.find((item) => item.userProject.project_id === projectId)
+      ?.userProject;
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen gap-4">
+        <Loader2 className="w-10 h-10 text-[#587CF0] animate-spin" />
+        <p className="text-gray-500 font-medium">
+          아카이브를 불러오는 중입니다...
+        </p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-red-500">{error}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen p-8 bg-gray-50">
@@ -92,36 +206,25 @@ export default function CloneCodingProjectArchivePage() {
           <StatCard
             icon={<Archive className="w-5 h-5 text-blue-600" />}
             label="Total"
-            value={archivedProjectsData.length}
+            value={stats.total}
             bgColor="bg-blue-50"
           />
           <StatCard
             icon={<CheckCircle2 className="w-5 h-5 text-green-600" />}
             label="Completed"
-            value={
-              archivedUserProjectsData.filter((up) => up.status === "completed")
-                .length
-            }
+            value={stats.completed}
             bgColor="bg-green-50"
           />
           <StatCard
             icon={<PlayCircle className="w-5 h-5 text-yellow-600" />}
             label="In Progress"
-            value={
-              archivedUserProjectsData.filter(
-                (up) => up.status === "in_progress"
-              ).length
-            }
+            value={stats["in progress"]}
             bgColor="bg-yellow-50"
           />
           <StatCard
             icon={<Circle className="w-5 h-5 text-gray-600" />}
             label="Not Started"
-            value={
-              archivedUserProjectsData.filter(
-                (up) => up.status === "not_started"
-              ).length
-            }
+            value={stats.waiting}
             bgColor="bg-gray-50"
           />
         </div>
@@ -137,12 +240,21 @@ export default function CloneCodingProjectArchivePage() {
         />
 
         {/* Projects Grid */}
-        <ProjectGrid
-          projects={filteredProjects}
-          getUserProject={getUserProject}
-          onCardClick={(id) => navigate(`/woomoonro/project/${id}`)}
-          onToggleBookmark={handleToggleBookmark}
-        />
+        {filteredProjects.length > 0 ? (
+          <ProjectGrid
+            projects={filteredProjects.map((item) => item.project)}
+            getUserProject={getUserProject}
+            onCardClick={(id) => navigate(`/woomoonro/project/${id}`)}
+            onToggleBookmark={handleToggleBookmark}
+          />
+        ) : (
+          <div className="flex flex-col items-center justify-center py-20 bg-white rounded-3xl shadow-sm border border-dashed border-gray-300">
+            <Archive className="w-12 h-12 text-gray-300 mb-4" />
+            <p className="text-gray-500 font-medium">
+              아카이브된 프로젝트가 없습니다.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,7 +1,8 @@
+import { GroupType } from "../../../../constants/Woomoonjeong/Woomoonjeong";
 import { RecommendedPin } from "../woomoonjeong";
 
 export interface RecommendedCreateDocumentModalPayload {
-  groupName: "web" | "app" | "server" | "game" | "security" | "work" | "other";
+  groupName: GroupType;
   fieldName: string;
   documentName: string;
   documentUrl: string;

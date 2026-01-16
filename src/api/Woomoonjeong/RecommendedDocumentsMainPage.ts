@@ -15,7 +15,7 @@ import {
 export const RecommendedDocumentsMainPageService = {
   /**
    * [추천 핀(문서) 목록 조회]
-   * 모든 추천용 핀들을 가져옵니다.
+   * 모든 추천용 핀들을 가져옵니다.a
    * 필요 시 pins 테이블에 'is_recommended' 컬럼을 추가하거나 특정 field_id 범위를 지정하여 필터링합니다.
    * 참조 테이블: pins
    */

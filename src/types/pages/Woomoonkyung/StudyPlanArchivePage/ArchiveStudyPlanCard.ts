@@ -7,5 +7,6 @@ export interface StudyPlanCardProps {
   progress: number;
   stateColors: Record<string, string>;
   onPlanClick: (id: string) => void;
-  onDeleteClick: (e: React.MouseEvent, id: string) => void;
+  onDeleteClick: (e: React.MouseEvent, plan: StudyPlan) => void;
+  isDeleting: boolean;
 }

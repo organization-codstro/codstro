@@ -2,6 +2,8 @@
 // WoomoonkyungMainService 타입 파일
 // ===========================
 
+import { StudyPlan } from "../../pages/Woomoonkyung/Woomoonkyung";
+
 /**
  * [GetActiveMyPlansParams]
  * 진행 중인 내 학습 계획 목록 조회 파라미터
@@ -30,7 +32,7 @@ export interface GetPlanStatsParams {
  * [PlanWithStats]
  * 진행 중인 학습 계획과 통계 정보 포함
  */
-export interface PlanWithStats {
+export interface PlanWithStats extends StudyPlan {
   [key: string]: any;
   stats: PlanStats;
 }

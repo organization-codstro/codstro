@@ -2,6 +2,7 @@ import React from "react";
 import { Filter } from "lucide-react";
 import { FilterGroup } from "../FilterGroup";
 import { CloneCodingProjectFiltersProps } from "../../../types/pages/Woomoonro/CloneCodingProjectMainPage/CloneCodingProjectFilters";
+import { CLONE_CODINGS_DIFFICULTIES } from "../../../constants/Woomoonkyung/Woomoonkyung";
 
 const ProjectFilters: React.FC<CloneCodingProjectFiltersProps> = ({
   selectedFilter,
@@ -17,14 +18,14 @@ const ProjectFilters: React.FC<CloneCodingProjectFiltersProps> = ({
           <FilterGroup
             label="Status"
             current={selectedFilter}
-            options={["all", "bookmarked", "in_progress", "completed"]}
+            options={CLONE_CODINGS_DIFFICULTIES}
             onChange={setSelectedFilter}
           />
         </div>
         <FilterGroup
           label="Difficulty"
           current={selectedDifficulty}
-          options={["all", "beginner", "intermediate", "advanced"]}
+          options={CLONE_CODINGS_DIFFICULTIES}
           onChange={setSelectedDifficulty}
         />
       </div>

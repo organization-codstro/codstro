@@ -47,7 +47,9 @@ export interface StudyPlanInfo {
   study_plan_image_url?: string;
   study_plan_start_date: string;
   study_plan_end_date: string;
-  study_plan_state: string;
+  study_plan_state: "waiting" | "in progress" | "done";
   study_plan_is_archived: boolean;
   [key: string]: any;
+  created_at: string;
+  study_plan_is_recommendation: boolean;
 }

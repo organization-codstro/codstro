@@ -22,4 +22,4 @@ export interface AddToMyPlansParams {
 /**
  * [북마크된 플랜 ID 목록 조회 파라미터]
  */
-export type GetBookmarkedIdsParams = number;
+export type GetBookmarkedIdsParams = string;

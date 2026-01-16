@@ -19,19 +19,19 @@ const DocumentsGrid: React.FC<DocumentsGridProps> = ({
       {contentType === "documents"
         ? documents.map((pin) => (
             <DocumentCard
-              key={pin.id}
+              key={pin.pin_id}
               pin={pin}
-              isSaved={savedPins.has(pin.id)}
-              onToggleSave={() => onToggleSavePin(pin.id)}
+              isSaved={savedPins.has(pin.pin_id)}
+              onToggleSave={() => onToggleSavePin(pin.pin_id)}
               onAdd={onAddDocument ? () => onAddDocument(pin) : undefined}
             />
           ))
         : fields.map((field) => (
             <FieldCard
-              key={field.id}
+              key={field.field_id}
               field={field}
-              isSaved={savedFields.has(field.id)}
-              onToggleSave={() => onToggleSaveField(field.id)}
+              isSaved={savedFields.has(field.field_id)}
+              onToggleSave={() => onToggleSaveField(field.field_id)}
               onAdd={onAddField ? () => onAddField(field) : undefined}
             />
           ))}

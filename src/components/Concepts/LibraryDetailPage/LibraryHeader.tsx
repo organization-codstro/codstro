@@ -1,12 +1,6 @@
 import { ExternalLink, CheckCircle } from "lucide-react";
 import { LibraryHeaderProps } from "../../../types/pages/Concepts/LibraryDetailPage/LibraryHeader";
 
-// 만약 LibraryHeaderProps에 아래 두 속성이 없다면 추가가 필요합니다.
-interface ExtendedLibraryHeaderProps extends LibraryHeaderProps {
-  isUnderstood: boolean;
-  onToggleUnderstood: () => void;
-}
-
 export default function LibraryHeader({
   name,
   language,
@@ -15,7 +9,7 @@ export default function LibraryHeader({
   officialSite,
   isUnderstood,
   onToggleUnderstood,
-}: ExtendedLibraryHeaderProps) {
+}: LibraryHeaderProps) {
   return (
     <div className="relative">
       {/* 우측 상단 학습 완료 버튼 */}
@@ -39,7 +33,7 @@ export default function LibraryHeader({
         </button>
       </div>
 
-      <div className="flex items-center gap-3 mb-2 pr-40">
+      <div className="flex items-center gap-3 pr-40 mb-2">
         {" "}
         {/* 버튼과 겹치지 않게 패딩 추가 */}
         <h1 className="text-3xl font-bold text-gray-900">{name}</h1>
@@ -48,7 +42,7 @@ export default function LibraryHeader({
         </span>
       </div>
 
-      <p className="mb-4 text-gray-600 max-w-2xl">{description}</p>
+      <p className="max-w-2xl mb-4 text-gray-600">{description}</p>
 
       <div className="flex flex-wrap gap-2 mb-4">
         {category.map((categoryItem, idx) => (
@@ -65,7 +59,7 @@ export default function LibraryHeader({
         href={officialSite || "#"}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
+        className="inline-flex items-center gap-2 font-medium text-blue-600 hover:text-blue-700"
       >
         <ExternalLink className="w-4 h-4" />
         Official Documentation

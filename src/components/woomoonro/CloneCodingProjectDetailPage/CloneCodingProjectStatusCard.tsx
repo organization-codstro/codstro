@@ -18,9 +18,9 @@ const ProjectStatusCard: React.FC<CloneCodingProjectStatusCardProps> = ({
           onChange={(e) => onStatusChange(e.target.value)}
           className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#587CF0] outline-none"
         >
-          <option value="not_started">Not Started</option>
-          <option value="in_progress">In Progress</option>
-          <option value="completed">Completed</option>
+          <option value="waiting">Not Started</option>
+          <option value="in progress">In Progress</option>
+          <option value="done">Completed</option>
         </select>
       </div>
 

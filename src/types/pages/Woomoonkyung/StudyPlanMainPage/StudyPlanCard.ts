@@ -8,4 +8,5 @@ export interface StudyPlanCardProps {
   stateColors: Record<string, string>;
   onPlanClick: (id: string) => void;
   onDeleteClick: (e: React.MouseEvent, id: string) => void;
+  isDeleting?: boolean;
 }

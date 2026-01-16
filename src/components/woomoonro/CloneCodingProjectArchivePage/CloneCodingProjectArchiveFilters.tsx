@@ -1,6 +1,7 @@
 import React from "react";
 import { FilterGroup } from "../FilterGroup";
 import { CloneCodingProjectArchiveFiltersProps } from "../../../types/pages/Woomoonro/CloneCodingProjectArchivePage/CloneCodingProjectArchiveFilters";
+import { CLONE_CODINGS_DIFFICULTIES } from "../../../constants/Woomoonkyung/Woomoonkyung";
 
 const ArchiveFilters: React.FC<CloneCodingProjectArchiveFiltersProps> = ({
   selectedFilter,
@@ -16,13 +17,13 @@ const ArchiveFilters: React.FC<CloneCodingProjectArchiveFiltersProps> = ({
         <FilterGroup
           label="Status"
           current={selectedFilter}
-          options={["all", "completed", "in_progress", "not_started"]}
+          options={CLONE_CODINGS_DIFFICULTIES}
           onChange={setSelectedFilter}
         />
         <FilterGroup
           label="Difficulty"
           current={selectedDifficulty}
-          options={["all", "beginner", "intermediate", "advanced"]}
+          options={CLONE_CODINGS_DIFFICULTIES}
           onChange={setSelectedDifficulty}
         />
         <div className="flex items-center gap-2 ml-auto">

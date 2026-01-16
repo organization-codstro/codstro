@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Calendar, Target, Trash2, Award, User } from "lucide-react";
+import { Calendar, Target, Trash2, Award, User, Loader2 } from "lucide-react";
 import { StudyPlanCardProps } from "../../../types/pages/Woomoonkyung/StudyPlanMainPage/StudyPlanCard";
 
 const StudyPlanCard: React.FC<StudyPlanCardProps> = ({
@@ -10,13 +10,14 @@ const StudyPlanCard: React.FC<StudyPlanCardProps> = ({
   stateColors,
   onPlanClick,
   onDeleteClick,
+  isDeleting = false, // 기본값 설정
 }) => {
   const isPlanRecommended = plan.study_plan_is_recommendation;
 
-  // [추가] 삭제 대기 상태 (해당 카드 내에서만 관리)
+  // 삭제 대기 상태 (해당 카드 내에서만 관리)
   const [isDeletePending, setIsDeletePending] = useState(false);
 
-  // [추가] 3초 타이머: 대기 상태 자동 해제
+  // 3초 타이머: 대기 상태 자동 해제
   useEffect(() => {
     if (isDeletePending) {
       const timer = setTimeout(() => setIsDeletePending(false), 3000);
@@ -24,9 +25,11 @@ const StudyPlanCard: React.FC<StudyPlanCardProps> = ({
     }
   }, [isDeletePending]);
 
-  // [추가] 2단계 삭제 핸들러
+  // 2단계 삭제 핸들러
   const handleSafeDelete = (e: React.MouseEvent) => {
     e.stopPropagation(); // 카드 클릭 이벤트 방지
+
+    if (isDeleting) return; // 이미 삭제 중이면 중복 클릭 방지
 
     if (isDeletePending) {
       // 2차 클릭: 실제 삭제 수행
@@ -40,14 +43,25 @@ const StudyPlanCard: React.FC<StudyPlanCardProps> = ({
 
   return (
     <div
-      className="overflow-hidden transition-shadow bg-white border border-gray-200 rounded-lg cursor-pointer hover:shadow-md group"
-      onClick={() => onPlanClick(plan.study_plan_id)}
+      className={`relative overflow-hidden transition-all duration-300 bg-white border border-gray-200 rounded-lg cursor-pointer hover:shadow-md group ${
+        isDeleting
+          ? "opacity-50 grayscale pointer-events-none scale-[0.98]"
+          : ""
+      }`}
+      onClick={() => !isDeleting && onPlanClick(plan.study_plan_id)}
     >
+      {/* 삭제 로딩 오버레이 */}
+      {isDeleting && (
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-white/40 backdrop-blur-[1px]">
+          <Loader2 className="w-6 h-6 text-red-500 animate-spin" />
+        </div>
+      )}
+
       {/* 썸네일 이미지 */}
-      {plan.study_plans_image_url && (
+      {plan.study_plan_image_url && (
         <div className="h-32 overflow-hidden bg-gray-200">
           <img
-            src={plan.study_plans_image_url}
+            src={plan.study_plan_image_url}
             alt={plan.study_plan_name}
             className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
           />
@@ -65,17 +79,22 @@ const StudyPlanCard: React.FC<StudyPlanCardProps> = ({
             </p>
           </div>
 
-          {/* [수정] 삭제 버튼: 상태에 따라 스타일 변경 */}
+          {/* 삭제 버튼: 상태에 따라 스타일 변경 */}
           <button
             onClick={handleSafeDelete}
+            disabled={isDeleting}
             className={`p-2 ml-2 transition-all duration-200 rounded border ${
               isDeletePending
                 ? "bg-red-500 text-white border-red-500 shadow-sm scale-110"
                 : "text-gray-400 border-transparent hover:bg-red-50 hover:text-red-500"
-            }`}
+            } ${isDeleting ? "cursor-not-allowed" : ""}`}
             title={isDeletePending ? "한 번 더 눌러서 삭제" : "Delete plan"}
           >
-            <Trash2 className="w-4 h-4" />
+            {isDeleting ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Trash2 className="w-4 h-4" />
+            )}
           </button>
         </div>
 
@@ -92,10 +111,10 @@ const StudyPlanCard: React.FC<StudyPlanCardProps> = ({
           )}
           <span
             className={`inline-flex items-center gap-1 px-2 py-1 text-[10px] font-bold rounded-full border ${
-              stateColors[plan.study_plans_state]
+              stateColors[plan.study_plan_state]
             }`}
           >
-            {plan.study_plans_state.toUpperCase()}
+            {plan.study_plan_state.toUpperCase()}
           </span>
         </div>
 
@@ -119,11 +138,11 @@ const StudyPlanCard: React.FC<StudyPlanCardProps> = ({
         <div className="flex justify-between text-[11px] text-gray-400 pt-1">
           <span className="flex items-center gap-1">
             <Calendar className="w-3 h-3" />
-            {new Date(plan.study_plans_start_date).toLocaleDateString()}
+            {new Date(plan.study_plan_start_date).toLocaleDateString()}
           </span>
           <span className="flex items-center gap-1">
             <Target className="w-3 h-3" />
-            {new Date(plan.study_plans_end_date).toLocaleDateString()}
+            {new Date(plan.study_plan_end_date).toLocaleDateString()}
           </span>
         </div>
       </div>

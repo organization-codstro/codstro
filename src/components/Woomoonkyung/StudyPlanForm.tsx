@@ -1,32 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { ArrowLeft, Calendar, Save, X } from "lucide-react";
-import { StudyPlan } from "../../types/pages/Woomoonkyung/Woomoonkyung";
-import { StudyPlanFormFormData } from "../../types/pages/Woomoonkyung/StudyPlanForm";
-
-interface StudyPlanFormProps {
-  mode: "create" | "edit";
-  existingPlan?: StudyPlan;
-  onSave: (
-    planData: Omit<StudyPlan, "study_plan_id" | "study_plans_created_date">
-  ) => void;
-  onCancel?: () => void;
-}
+import {
+  StudyPlanFormFormData,
+  StudyPlanFormProps,
+} from "../../types/pages/Woomoonkyung/StudyPlanForm";
 
 const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
   mode,
   existingPlan,
   onSave,
   onCancel,
+  userId,
 }) => {
   const [formData, setFormData] = useState<StudyPlanFormFormData>({
     study_plan_name: "",
     study_plan_description: "",
-    study_plans_image_url: "",
-    study_plans_start_date: "",
-    study_plans_end_date: "",
-    study_plans_is_archived: false,
-    study_plans_state: "waiting",
-    user_id: "1", // 실제 환경에서는 로그인된 유저 ID
+    study_plan_image_url: "",
+    study_plan_start_date: "",
+    study_plan_end_date: "",
+    study_plan_is_archived: false,
+    study_plan_state: "waiting",
+    user_id: userId,
     study_plan_is_recommendation: false,
   });
 
@@ -37,11 +31,11 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
       setFormData({
         study_plan_name: existingPlan.study_plan_name,
         study_plan_description: existingPlan.study_plan_description,
-        study_plans_image_url: existingPlan.study_plans_image_url || "",
-        study_plans_start_date: existingPlan.study_plans_start_date,
-        study_plans_end_date: existingPlan.study_plans_end_date,
-        study_plans_is_archived: existingPlan.study_plans_is_archived,
-        study_plans_state: existingPlan.study_plans_state,
+        study_plan_image_url: existingPlan.study_plan_image_url || "",
+        study_plan_start_date: existingPlan.study_plan_start_date,
+        study_plan_end_date: existingPlan.study_plan_end_date,
+        study_plan_is_archived: existingPlan.study_plan_is_archived,
+        study_plan_state: existingPlan.study_plan_state,
         user_id: existingPlan.user_id,
         study_plan_is_recommendation: existingPlan.study_plan_is_recommendation,
       });
@@ -75,17 +69,17 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
 
     // ✅ 계획 설명 필수 체크 삭제
 
-    if (!formData.study_plans_start_date)
-      newErrors.study_plans_start_date = "시작일을 선택해주세요.";
-    if (!formData.study_plans_end_date)
-      newErrors.study_plans_end_date = "종료일을 선택해주세요.";
+    if (!formData.study_plan_start_date)
+      newErrors.study_plan_start_date = "시작일을 선택해주세요.";
+    if (!formData.study_plan_end_date)
+      newErrors.study_plan_end_date = "종료일을 선택해주세요.";
 
-    if (formData.study_plans_start_date && formData.study_plans_end_date) {
+    if (formData.study_plan_start_date && formData.study_plan_end_date) {
       if (
-        new Date(formData.study_plans_start_date) >=
-        new Date(formData.study_plans_end_date)
+        new Date(formData.study_plan_start_date) >=
+        new Date(formData.study_plan_end_date)
       ) {
-        newErrors.study_plans_end_date = "종료일은 시작일보다 늦어야 합니다.";
+        newErrors.study_plan_end_date = "종료일은 시작일보다 늦어야 합니다.";
       }
     }
 
@@ -173,7 +167,7 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
                 <input
                   type="date"
                   name="study_plans_start_date"
-                  value={formData.study_plans_start_date}
+                  value={formData.study_plan_start_date}
                   onChange={handleInputChange}
                   className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 outline-none transition-all ${
                     errors.study_plans_start_date
@@ -199,7 +193,7 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
                 <input
                   type="date"
                   name="study_plans_end_date"
-                  value={formData.study_plans_end_date}
+                  value={formData.study_plan_end_date}
                   onChange={handleInputChange}
                   className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 outline-none transition-all ${
                     errors.study_plans_end_date
@@ -222,7 +216,7 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
             </label>
             <select
               name="study_plans_state"
-              value={formData.study_plans_state}
+              value={formData.study_plan_state}
               onChange={handleInputChange}
               className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#587CF0] outline-none bg-white transition-all"
             >
@@ -254,10 +248,10 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
                 }}
               />
             </label>
-            {formData.study_plans_image_url && (
+            {formData.study_plan_image_url && (
               <div className="w-48 h-32 mt-3 overflow-hidden border border-gray-200 rounded-lg">
                 <img
-                  src={formData.study_plans_image_url}
+                  src={formData.study_plan_image_url}
                   alt="Preview"
                   className="object-cover w-full h-full"
                 />

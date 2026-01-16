@@ -80,7 +80,7 @@ export const MainProjectService = {
         )
         .eq("user_status.user_id", params.userId);
 
-      // 1. 진행 상태 필터 (bookmarked, in_progress, completed)
+      // 1. 진행 상태 필터 (bookmarked, in progress, completed)
       if (params.params.selectedFilter === "bookmarked") {
         query = query.eq("user_status.user_clone_codings_is_bookmarked", true);
       } else if (params.params.selectedFilter !== "all") {

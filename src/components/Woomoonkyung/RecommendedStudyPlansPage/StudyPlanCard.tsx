@@ -22,10 +22,10 @@ const StudyPlanCard: React.FC<StudyPlanCardProps> = ({
       className="flex flex-col overflow-hidden transition-shadow bg-white border border-gray-200 rounded-lg cursor-pointer hover:shadow-md"
       onClick={() => onCardClick(plan)}
     >
-      {plan.study_plans_image_url && (
+      {plan.study_plan_image_url && (
         <div className="h-32 overflow-hidden bg-gray-200">
           <img
-            src={plan.study_plans_image_url}
+            src={plan.study_plan_image_url}
             alt={plan.study_plan_name}
             className="object-cover w-full h-full"
           />
@@ -67,14 +67,14 @@ const StudyPlanCard: React.FC<StudyPlanCardProps> = ({
             <div className="flex items-center gap-1">
               <Calendar className="w-3 h-3" />
               <span>
-                {new Date(plan.study_plans_start_date).toLocaleDateString()}
+                {new Date(plan.study_plan_start_date).toLocaleDateString()}
               </span>
             </div>
             <span>→</span>
             <div className="flex items-center gap-1">
               <Target className="w-3 h-3" />
               <span>
-                {new Date(plan.study_plans_end_date).toLocaleDateString()}
+                {new Date(plan.study_plan_end_date).toLocaleDateString()}
               </span>
             </div>
           </div>

@@ -60,11 +60,11 @@ export const ArchiveService = {
         completed: data.filter(
           (d) => d.user_clone_codings_status === "completed"
         ).length,
-        in_progress: data.filter(
-          (d) => d.user_clone_codings_status === "in_progress"
+        "in progress": data.filter(
+          (d) => d.user_clone_codings_status === "in progress"
         ).length,
-        not_started: data.filter(
-          (d) => d.user_clone_codings_status === "not_started"
+        waiting: data.filter(
+          (d) => d.user_clone_codings_status === "waiting"
         ).length,
       };
 

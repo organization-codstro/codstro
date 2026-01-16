@@ -1,3 +1,3 @@
-import { GroupType } from "../../../types/pages/Woomoonjeong/woomoonjeong";
+import { GROUP_TYPE } from "../Woomoonjeong";
 
-export const DEFAULT_GROUP_TYPE: GroupType = "web";
+export const DEFAULT_GROUP_TYPE: GROUP_TYPE = "web";

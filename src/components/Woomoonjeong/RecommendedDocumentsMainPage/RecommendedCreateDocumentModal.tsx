@@ -2,22 +2,25 @@
 
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import { Group, GroupType } from "../../../types/Woomoonjeong/woomoonjeong";
 import { woomoonjeongData } from "../../../data/woomoonjeong/woomoonjeongData";
 import { DEFAULT_GROUP_TYPE } from "../../../constants/Woomoonjeong/DocumentsManagementPage/CreateCustomFieldModal";
-import { RecommendedCreateDocumentModalProps } from "../../../types/Woomoonjeong/RecommendedDocumentsMainPage/RecommendedCreateDocumentModal";
-import { GroupTypes } from "../../../constants/Woomoonjeong/Woomoonjeong";
+import {
+  GROUP_TYPE,
+  GROUP_TYPES,
+} from "../../../constants/Woomoonjeong/Woomoonjeong";
+import { RecommendedCreateDocumentModalProps } from "../../../types/pages/Woomoonjeong/RecommendedDocumentsMainPage/RecommendedCreateDocumentModal";
+import { Group } from "../../../types/pages/Woomoonjeong/woomoonjeong";
 
 const RecommendedCreateDocumentModal: React.FC<
   RecommendedCreateDocumentModalProps
 > = ({ isOpen, onClose, pin, onAdd }) => {
-  const [documentName, setDocumentName] = useState(pin.title);
-  const [documentUrl, setDocumentUrl] = useState(pin.url);
-  const [description, setDescription] = useState(pin.description);
+  const [documentName, setDocumentName] = useState(pin.pin_title);
+  const [documentUrl, setDocumentUrl] = useState(pin.pin_url);
+  const [description, setDescription] = useState(pin.pin_description);
   const [categoryInput, setCategoryInput] = useState("");
-  const [categories, setCategories] = useState<string[]>(pin.tags);
+  const [categories, setCategories] = useState<string[]>(pin.pin_label);
   const [selectedGroupType, setSelectedGroupType] =
-    useState<GroupType>(DEFAULT_GROUP_TYPE);
+    useState<GROUP_TYPE>(DEFAULT_GROUP_TYPE);
   const [fieldInfo, setFieldInfo] = useState("");
   const [fieldOptions, setFieldOptions] = useState<string[]>([]);
 
@@ -35,7 +38,6 @@ const RecommendedCreateDocumentModal: React.FC<
     setErrors((prev) => ({ ...prev, fieldInfo: false }));
   }, [selectedGroupType]);
 
-  /** ✅ 칩 추가 */
   const addCategory = () => {
     if (!categoryInput.trim()) return;
     if (categories.includes(categoryInput.trim())) return;
@@ -43,12 +45,10 @@ const RecommendedCreateDocumentModal: React.FC<
     setCategoryInput("");
   };
 
-  /** ✅ 칩 제거 */
   const removeCategory = (value: string) => {
     setCategories((prev) => prev.filter((c) => c !== value));
   };
 
-  /** ✅ 폼 유효성 검사 (보더 및 문구 강조) */
   const validateForm = () => {
     const newErrors: Record<string, boolean> = {};
 
@@ -212,7 +212,7 @@ const RecommendedCreateDocumentModal: React.FC<
               그룹
             </label>
             <div className="grid grid-cols-4 gap-2">
-              {GroupTypes.map((type) => (
+              {GROUP_TYPES.map((type) => (
                 <button
                   key={type}
                   type="button"

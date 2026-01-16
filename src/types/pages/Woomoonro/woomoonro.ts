@@ -16,7 +16,7 @@ export interface UserCloneCodingProject {
   id: string;
   user_id: string;
   project_id: string;
-  status: "not_started" | "in_progress" | "completed";
+  status: "waiting" | "in progress" | "done";
   is_bookmarked: boolean;
   progress_notes?: string;
   started_at?: string;

@@ -1,38 +1,30 @@
-//필드 설정할때 표시할수 있는 그룹의 종류
-
-export type GroupType =
-  | "web"
-  | "app"
-  | "server"
-  | "game"
-  | "security"
-  | "work"
-  | "other";
+import {
+  GROUP_TYPE,
+  TODO_STATUS_TYPE,
+} from "../../../constants/Woomoonjeong/Woomoonjeong";
 
 export interface RecommendedPin {
-  id: string;
-  title: string;
-  description: string;
-  url: string;
-  tags: string[];
+  pin_id: string;
+  pin_title: string;
+  pin_description: string;
+  pin_url: string;
   created_at: string;
-  difficulty?: "beginner" | "intermediate" | "advanced";
-  rating?: number;
-  views?: number;
+
+  pin_label: string[];
 }
 
 export interface TodoFormData {
-  name: string;
-  description: string;
+  todo_name: string;
+  todo_description: string;
   field_id: string;
-  start_date: string;
-  end_date: string;
-  status: "pending" | "in-progress" | "completed";
+  todo_start_date: string;
+  todo_end_date: string;
+  todo_status: TODO_STATUS_TYPE;
 }
 
 export interface Group {
   id: string;
-  name: "web" | "app" | "server" | "game" | "security" | "work" | "other";
+  name: GROUP_TYPE;
   description: string;
   fields: Field[];
   created_at: string;
@@ -56,19 +48,19 @@ export interface Pin {
 }
 
 export interface Todo {
-  id: string;
+  todo_id: string;
   field_id: string;
-  name: string;
-  description: string;
-  start_date: string;
-  end_date: string;
-  status: "pending" | "in-progress" | "completed";
-  created_at: string;
+  todo_name: string;
+  todo_description: string;
+  todo_start_date: string;
+  todo_end_date: string;
+  todo_status: "waiting" | "in-progress" | "done";
+  todo_created_date: string;
 }
 
 export interface RecommendedField {
-  id: string;
-  name: string;
-  description: string;
-  created_at: string;
+  field_id: string;
+  field_name: string;
+  field_description: string;
+  field_created_at: string;
 }

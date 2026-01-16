@@ -1,23 +1,21 @@
 import React, { useState } from "react";
-import {  Save, X } from "lucide-react";
+import { Save, X } from "lucide-react";
 import { woomoonjeongData } from "../../../data/woomoonjeong/woomoonjeongData";
-import { TodoFormData } from "../../../types/Woomoonjeong/woomoonjeong";
-import { TodoManagementCreateProps } from "../../../types/Woomoonjeong/TodoManagementPage/CreateTodoManagementModal";
-import { GroupTypes } from "../../../constants/Woomoonjeong/Woomoonjeong";
-
+import { TodoManagementCreateProps } from "../../../types/pages/Woomoonjeong/TodoManagementPage/CreateTodoManagementModal";
+import { GROUP_TYPE_ID } from "../../../constants/Woomoonjeong/Woomoonjeong";
+import { TodoFormData } from "../../../types/pages/Woomoonjeong/woomoonjeong";
 
 const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
   isOpen,
   onClose,
 }) => {
-
   const [formData, setFormData] = useState<TodoFormData>({
-    name: "",
-    description: "",
+    todo_name: "",
+    todo_description: "",
     field_id: woomoonjeongData[0]?.id,
-    start_date: new Date().toISOString().split("T")[0],
-    end_date: new Date().toISOString().split("T")[0],
-    status: "pending",
+    todo_start_date: new Date().toISOString().split("T")[0],
+    todo_end_date: new Date().toISOString().split("T")[0],
+    todo_status: "waiting",
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -39,12 +37,16 @@ const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.name.trim()) newErrors.name = "Todo 이름을 입력해주세요.";
-    if (!formData.start_date) newErrors.start_date = "시작일을 선택해주세요.";
-    if (!formData.end_date) newErrors.end_date = "종료일을 선택해주세요.";
+    if (!formData.todo_name.trim())
+      newErrors.name = "Todo 이름을 입력해주세요.";
+    if (!formData.todo_start_date)
+      newErrors.start_date = "시작일을 선택해주세요.";
+    if (!formData.todo_end_date) newErrors.end_date = "종료일을 선택해주세요.";
 
-    if (formData.start_date && formData.end_date) {
-      if (new Date(formData.start_date) > new Date(formData.end_date)) {
+    if (formData.todo_start_date && formData.todo_end_date) {
+      if (
+        new Date(formData.todo_start_date) > new Date(formData.todo_end_date)
+      ) {
         newErrors.end_date = "종료일은 시작일보다 늦어야 합니다.";
       }
     }
@@ -99,12 +101,12 @@ const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
             </label>
             <input
               type="text"
-              name="name"
-              value={formData.name}
+              name="todo_name"
+              value={formData.todo_name}
               onChange={handleChange}
               placeholder="Enter todo name..."
               className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#587CF0] transition-all ${
-                errors.name ? "border-red-500" : "border-gray-200"
+                errors.todo_name ? "border-red-500" : "border-gray-200"
               }`}
             />
             {errors.name && (
@@ -120,7 +122,7 @@ const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
             <textarea
               name="description"
               rows={4}
-              value={formData.description}
+              value={formData.todo_description}
               onChange={handleChange}
               placeholder="Enter todo description..."
               className="w-full px-4 py-3 border border-gray-200 rounded-lg resize-none focus:ring-2 focus:ring-[#587CF0] transition-all"
@@ -133,20 +135,23 @@ const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
               Related Field <span className="text-red-500">*</span>
             </label>
             <div className="flex flex-wrap gap-2">
-              {GroupTypes.map((field, index) => (
+              {GROUP_TYPE_ID.map((field, index) => (
                 <button
-                  key={field}
+                  key={field.id}
                   type="button"
                   onClick={() =>
-                    setFormData((prev) => ({ ...prev, field_id: index + 1 }))
+                    setFormData((prev) => ({
+                      ...prev,
+                      field_id: field.id,
+                    }))
                   }
                   className={`px-4 py-2 rounded-lg border transition-colors ${
-                    formData.field_id === index + 1
+                    formData.field_id === field.id
                       ? "bg-[#587CF0] text-white border-[#587CF0]"
                       : "bg-white text-gray-700 border-gray-200 hover:bg-gray-100"
                   }`}
                 >
-                  {field}
+                  {field.label}
                 </button>
               ))}
             </div>
@@ -160,11 +165,11 @@ const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
               </label>
               <input
                 type="date"
-                name="start_date"
-                value={formData.start_date}
+                name="todo_start_date"
+                value={formData.todo_start_date}
                 onChange={handleChange}
                 className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#587CF0] transition-all ${
-                  errors.start_date ? "border-red-500" : "border-gray-200"
+                  errors.todo_start_date ? "border-red-500" : "border-gray-200"
                 }`}
               />
               {errors.start_date && (
@@ -178,11 +183,11 @@ const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
               </label>
               <input
                 type="date"
-                name="end_date"
-                value={formData.end_date}
+                name="todo_end_date"
+                value={formData.todo_end_date}
                 onChange={handleChange}
                 className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#587CF0] transition-all ${
-                  errors.end_date ? "border-red-500" : "border-gray-200"
+                  errors.todo_end_date ? "border-red-500" : "border-gray-200"
                 }`}
               />
               {errors.end_date && (
@@ -198,7 +203,7 @@ const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
             </label>
             <select
               name="status"
-              value={formData.status}
+              value={formData.todo_status}
               onChange={handleChange}
               className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#587CF0]"
             >

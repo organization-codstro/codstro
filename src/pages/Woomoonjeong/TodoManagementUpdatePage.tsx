@@ -1,47 +1,78 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Save, X } from "lucide-react";
-import { todosData } from "../../data/woomoonjeong/woomoonjeongData";
+import { ArrowLeft, Save, X, Loader2 } from "lucide-react";
+import { toast } from "react-toastify";
+
+// API 서비스 및 인증 서비스
+import { TodoManagementDetailService } from "../../api/Woomoonjeong/TodoManagementDetailPage";
+import { LoginService } from "../../api/Auth/LoginPage"; 
+
+// UI 컴포넌트 및 타입
 import TodoInputField from "../../components/Woomoonjeong/TodoManagementUpdate/TodoInputField";
 import FieldSelector from "../../components/Woomoonjeong/TodoManagementUpdate/FieldSelector";
-import {
-  Todo,
-  TodoFormData,
-} from "../../types/pages/Woomoonjeong/woomoonjeong";
+import { TodoFormData } from "../../types/pages/Woomoonjeong/woomoonjeong";
+
+
 
 export default function TodoManagementUpdatePage() {
   const navigate = useNavigate();
   const { todoId } = useParams<{ todoId: string }>();
 
-  const [todo, setTodo] = useState<Todo | null>(null);
+  // --- 상태 관리 ---
+  const [isLoading, setIsLoading] = useState(true);
+  const [isUpdating, setIsUpdating] = useState(false);
   const [formData, setFormData] = useState<TodoFormData>({
     name: "",
     description: "",
     field_id: "1",
     start_date: "",
     end_date: "",
-    status: "pending",
+    status: "waiting",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
+  // --- 초기 데이터 로드 ---
   useEffect(() => {
-    const foundTodo = todosData.find((t) => t.id === todoId);
-    if (!foundTodo) {
-      navigate("/woomoonjeong/todo");
-      return;
-    }
+    const fetchTodo = async () => {
+      if (!todoId) return;
 
-    setTodo(foundTodo);
-    setFormData({
-      name: foundTodo.name,
-      description: foundTodo.description,
-      field_id: foundTodo.field_id,
-      start_date: foundTodo.start_date,
-      end_date: foundTodo.end_date,
-      status: foundTodo.status,
-    });
+      setIsLoading(true);
+      try {
+        // 유저 확인
+        await LoginService.getCurrentUserId();
+
+        // 데이터 조회
+        const data = await TodoManagementDetailService.getTodoDetail({
+          todoId,
+        });
+
+        if (!data) {
+          toast.error("할일을 찾을 수 없습니다.");
+          navigate("/woomoonjeong/todo");
+          return;
+        }
+
+        // DB 데이터를 Form 데이터로 매핑
+        setFormData({
+          name: data.todo_name,
+          description: data.todo_description || "",
+          field_id: data.field_id || "1",
+          start_date: data.todo_start_date,
+          end_date: data.todo_end_date,
+          status: data.todo_status,
+        });
+      } catch (error) {
+        console.error("할일 조회 실패:", error);
+        toast.error("데이터를 불러오는 중 오류가 발생했습니다.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchTodo();
   }, [todoId, navigate]);
 
+  // --- 핸들러 로직 ---
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -52,22 +83,65 @@ export default function TodoManagementUpdatePage() {
     if (errors[name]) setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Validate logic...
-    if (formData.name.trim()) {
-      console.log("UPDATE:", { id: todo?.id, ...formData });
+    if (!todoId) return;
+
+    // 간단한 유효성 검사
+    if (!formData.name.trim()) {
+      setErrors({ name: "할일 이름을 입력해주세요." });
+      return;
+    }
+
+    setIsUpdating(true);
+    const loadId = toast.loading("할일을 수정하는 중...");
+
+    try {
+      // API 서비스 호출 (DB 컬럼명에 맞춰 페이로드 구성)
+      await TodoManagementDetailService.updateTodo({
+        todoId: todoId,
+        payload: {
+          todo_name: formData.name,
+          todo_description: formData.description,
+          field_id: formData.field_id,
+          todo_start_date: formData.start_date,
+          todo_end_date: formData.end_date,
+          todo_status: formData.status,
+        },
+      });
+
+      toast.update(loadId, {
+        render: "수정이 완료되었습니다.",
+        type: "success",
+        isLoading: false,
+        autoClose: 2000,
+      });
+
       navigate(`/woomoonjeong/todo/${todoId}`);
+    } catch (error) {
+      toast.update(loadId, {
+        render: "수정에 실패했습니다.",
+        type: "error",
+        isLoading: false,
+        autoClose: 2000,
+      });
+    } finally {
+      setIsUpdating(false);
     }
   };
 
-  if (!todo)
-    return <div className="p-8 text-center text-gray-500">Loading...</div>;
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen gap-4">
+        <Loader2 className="w-10 h-10 text-[#587CF0] animate-spin" />
+        <p className="text-gray-500">정보를 불러오고 있습니다...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen p-8 bg-gray-50">
       <div className="max-w-2xl mx-auto">
-        {/* Header */}
         <div className="flex items-center gap-4 mb-6">
           <button
             onClick={() => navigate(-1)}
@@ -103,7 +177,7 @@ export default function TodoManagementUpdatePage() {
               rows={4}
               value={formData.description}
               onChange={handleChange}
-              className="w-full px-4 py-3 border border-gray-200 rounded-lg resize-none focus:ring-2 focus:ring-[#587CF0]"
+              className="w-full px-4 py-3 border border-gray-200 rounded-lg resize-none focus:ring-2 focus:ring-[#587CF0] outline-none"
             />
           </div>
 
@@ -152,27 +226,34 @@ export default function TodoManagementUpdatePage() {
               name="status"
               value={formData.status}
               onChange={handleChange}
-              className="w-full px-4 py-3 border border-gray-200 rounded-lg"
+              className="w-full px-4 py-3 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-[#587CF0]"
             >
-              <option value="pending">Pending</option>
-              <option value="in-progress">In Progress</option>
-              <option value="completed">Completed</option>
+              <option value="waiting">Waiting</option>
+              <option value="in progress">In Progress</option>
+              <option value="done">Completed</option>
             </select>
           </div>
 
           <div className="flex justify-end gap-4 pt-6 border-t border-gray-200">
             <button
               type="button"
+              disabled={isUpdating}
               onClick={() => navigate(-1)}
-              className="flex items-center gap-2 px-6 py-3 border border-gray-200 rounded-lg hover:bg-gray-50"
+              className="flex items-center gap-2 px-6 py-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
             >
               <X className="w-4 h-4" /> Cancel
             </button>
             <button
               type="submit"
-              className="flex items-center gap-2 px-6 py-3 bg-[#587CF0] text-white rounded-lg hover:bg-[#4a6de8]"
+              disabled={isUpdating}
+              className="flex items-center gap-2 px-6 py-3 bg-[#587CF0] text-white rounded-lg hover:bg-[#4a6de8] transition-colors disabled:opacity-50"
             >
-              <Save className="w-4 h-4" /> Update Todo
+              {isUpdating ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <Save className="w-4 h-4" />
+              )}
+              Update Todo
             </button>
           </div>
         </form>

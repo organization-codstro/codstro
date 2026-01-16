@@ -64,7 +64,7 @@ export const CloneCodingService = {
       user_clone_codings_status: params.status,
     };
 
-    if (params.status === "in_progress")
+    if (params.status === "in progress")
       updateData.user_clone_codings_started_at = new Date().toISOString();
     if (params.status === "completed")
       updateData.user_clone_codings_completed_at = new Date().toISOString();

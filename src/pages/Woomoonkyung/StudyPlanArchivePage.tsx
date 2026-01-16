@@ -1,83 +1,110 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Archive, Search } from "lucide-react";
-import {
-  studyPlans,
-  studyPlanNodes,
-  recommendedStudyPlans,
-  recommendedStudyPlanNodes,
-  bookmarkedPlans,
-  stateColors,
-} from "../../data/Woomoonkyung/woomoonkyungData";
+import { StudyPlanArchiveService } from "../../api/Woomoonkyung/StudyPlanArchivePage";
+import { LoginService } from "../../api/Auth/LoginPage";
 import ArchiveStudyPlanCard from "../../components/Woomoonkyung/StudyPlanArchivePage/ArchiveStudyPlanCard";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { stateColors } from "../../data/Woomoonkyung/woomoonkyungData";
 import {
-  StudyPlan,
-  StudyPlanNode,
-} from "../../types/pages/Woomoonkyung/Woomoonkyung";
+  ArchivedPlan,
+  PlanStats,
+} from "../../types/pages/Woomoonkyung/StudyPlanArchivePage/StudyPlanArchivePage";
+import { StudyPlan } from "../../types/pages/Woomoonkyung/Woomoonkyung";
 
 export default function StudyPlanArchivePage() {
-  const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
-  // 1. 노드 데이터를 가져오는 함수 (내부에서 추천 여부 판단)
-  const getNodesForPlan = (planId: string): StudyPlanNode[] => {
-    const plan =
-      studyPlans.find((p) => p.study_plan_id === planId) ||
-      recommendedStudyPlans.find((p) => p.study_plan_id === planId);
+  /* 상태 관리 (useState) */
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [archivedPlans, setArchivedPlans] = useState<ArchivedPlan[]>([]);
+  const [planStatsMap, setPlanStatsMap] = useState<Record<string, PlanStats>>(
+    {}
+  );
+  const [deletingId, setDeletingId] = useState<string | null>(null); // 2단계 삭제용
 
-    const nodesSource = plan?.study_plan_is_recommendation
-      ? recommendedStudyPlanNodes
-      : studyPlanNodes;
+  /**
+   * [데이터 로드 로직]
+   * 유저 ID 확보 후 아카이브 목록과 각 계획의 상세 통계를 가져옴
+   */
+  const fetchArchivedData = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const currentUserId = await LoginService.getCurrentUserId();
+      if (!currentUserId) {
+        setIsLoading(false);
+        return;
+      }
+      setUserId(currentUserId);
 
-    return nodesSource
-      .filter((node) => node.study_plan_id === planId)
-      .sort((a, b) => a.position - b.position);
-  };
+      // 1. 아카이브 목록 조회
+      const plans = await StudyPlanArchiveService.getArchivedPlans({
+        userId: currentUserId,
+        searchQuery,
+      });
+      setArchivedPlans(plans as unknown as ArchivedPlan[]);
 
-  // 2. 통계 계산
-  const getStats = (planId: string) => {
-    const nodes = getNodesForPlan(planId);
-    const total = nodes.length;
-    const completed = nodes.filter((n) => n.completed).length;
-    const progress = total > 0 ? (completed / total) * 100 : 0;
-    return { total, completed, progress };
-  };
+      // 2. 각 플랜별 통계 조회 (병렬 처리)
+      const statsPromises = plans.map((plan) =>
+        StudyPlanArchiveService.getPlanStats({ planId: plan.study_plan_id })
+      );
+      const statsResults = await Promise.all(statsPromises);
 
-  // 3. 보관된 계획
-  const getArchivedPlans = (): StudyPlan[] => {
-    const completedUserPlans = studyPlans.filter(
-      (plan) => plan.study_plans_state === "done"
-    );
+      const newStatsMap: Record<string, PlanStats> = {};
+      plans.forEach((plan, index) => {
+        newStatsMap[plan.study_plan_id] = statsResults[index];
+      });
+      setPlanStatsMap(newStatsMap);
+    } catch (error) {
+      console.error(error);
+      toast.error("아카이브 데이터를 불러오는 데 실패했습니다.");
+    } finally {
+      setIsLoading(false);
+    }
+  }, [searchQuery]);
 
-    const bookmarkedRecommendedPlans = recommendedStudyPlans.filter((plan) =>
-      bookmarkedPlans.some(
-        (bookmark) =>
-          bookmark.study_plan_id === plan.study_plan_id &&
-          bookmark.is_bookmarked
-      )
-    );
+  useEffect(() => {
+    fetchArchivedData();
+  }, [fetchArchivedData]);
 
-    return [...completedUserPlans, ...bookmarkedRecommendedPlans];
-  };
-
-  const handleDeletePlan = (e: React.MouseEvent, id: number) => {
+  /**
+   * [삭제 핸들러 (Pending UI)]
+   * 추천 계획은 보관 해제, 일반 계획은 영구 삭제 처리 (3초 타이머 포함)
+   */
+  const handleDeletePlan = async (e: React.MouseEvent, plan: StudyPlan) => {
     e.stopPropagation();
 
-    // 실제 앱에서는 API 호출
-    toast.success("공부 계획이 삭제되었습니다.", {
-      position: "top-right",
-    });
-  };
+    if (deletingId !== plan.study_plan_id) {
+      setDeletingId(plan.study_plan_id);
+      toast.info("한 번 더 클릭하면 삭제/보관해제 됩니다.", {
+        autoClose: 3000,
+      });
+      setTimeout(() => setDeletingId(null), 3000);
+      return;
+    }
 
-  const filteredPlans = getArchivedPlans().filter((plan) => {
-    const query = searchQuery.toLowerCase();
-    return (
-      plan.study_plan_name.toLowerCase().includes(query) ||
-      plan.study_plan_description.toLowerCase().includes(query)
-    );
-  });
+    try {
+      await StudyPlanArchiveService.deleteFromArchive({
+        planId: plan.study_plan_id,
+        isRecommendation: plan.study_plan_is_recommendation,
+      });
+
+      setArchivedPlans((prev) =>
+        prev.filter((p) => p.study_plan_id !== plan.study_plan_id)
+      );
+      toast.success(
+        plan.study_plan_is_recommendation
+          ? "보관함에서 제외되었습니다."
+          : "공부 계획이 삭제되었습니다."
+      );
+    } catch (error) {
+      toast.error("처리에 실패했습니다.");
+    } finally {
+      setDeletingId(null);
+    }
+  };
 
   return (
     <div className="min-h-screen p-8 bg-gray-50">
@@ -89,7 +116,9 @@ export default function StudyPlanArchivePage() {
               <Archive className="text-[#587CF0]" />
               Study Plans Archive
             </h1>
-            <p className="text-gray-600">완료된 내 계획을 확인하세요</p>
+            <p className="text-gray-600">
+              완료된 내 계획 또는 보관된 추천 계획을 확인하세요
+            </p>
           </div>
 
           <div className="relative">
@@ -107,31 +136,43 @@ export default function StudyPlanArchivePage() {
         {/* Archived Plans List */}
         <div className="p-6 bg-white border border-purple-100 shadow-sm rounded-xl">
           <h2 className="mb-6 text-lg font-semibold text-gray-800">
-            Archived Plans ({filteredPlans.length})
+            Archived Plans ({archivedPlans.length})
           </h2>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {filteredPlans.map((plan) => {
-              const { total, completed, progress } = getStats(
-                plan.study_plan_id
-              );
+          {isLoading ? (
+            <div className="py-20 text-center text-gray-500">
+              데이터를 불러오는 중...
+            </div>
+          ) : archivedPlans.length > 0 ? (
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {archivedPlans.map((plan) => {
+                const stats = planStatsMap[plan.study_plan_id] || {
+                  total: 0,
+                  completed: 0,
+                  progress: 0,
+                };
 
-              return (
-                <ArchiveStudyPlanCard
-                  key={plan.study_plan_id}
-                  plan={plan}
-                  completedNodes={completed}
-                  totalNodes={total}
-                  progress={progress}
-                  stateColors={stateColors}
-                  onPlanClick={(id) => navigate(`/woomoonkyung/plan/${id}`)}
-                  onDeleteClick={handleDeletePlan}
-                />
-              );
-            })}
-          </div>
-
-          {filteredPlans.length === 0 && (
+                return (
+                  <ArchiveStudyPlanCard
+                    key={plan.study_plan_id}
+                    plan={{
+                      ...plan,
+                      // UI 컴포넌트 내부의 변수명 매칭
+                      study_plan_image_url: plan.study_plan_image_url,
+                      study_plan_state: plan.study_plan_state,
+                    }}
+                    completedNodes={stats.completed}
+                    totalNodes={stats.total}
+                    progress={stats.progress}
+                    stateColors={stateColors}
+                    onPlanClick={(id) => navigate(`/woomoonkyung/plan/${id}`)}
+                    onDeleteClick={(e) => handleDeletePlan(e, plan)}
+                    isDeleting={deletingId === plan.study_plan_id}
+                  />
+                );
+              })}
+            </div>
+          ) : (
             <div className="py-20 text-center">
               <Archive className="w-12 h-12 mx-auto mb-4 text-gray-300" />
               <h3 className="mb-2 text-lg font-medium text-gray-800">

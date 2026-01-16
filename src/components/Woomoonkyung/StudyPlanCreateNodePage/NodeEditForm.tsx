@@ -28,9 +28,9 @@ export const NodeEditForm = ({
     <NodeEditFormField
       label="설명"
       type="textarea"
-      value={editingNode.description}
+      value={editingNode.study_plan_node_description}
       onChange={(e) =>
-        onNodeChange({ ...editingNode, description: e.target.value })
+        onNodeChange({ ...editingNode, study_plan_node_description: e.target.value })
       }
       placeholder="학습 내용을 상세하게 설명하세요"
       rows={4}
@@ -39,9 +39,9 @@ export const NodeEditForm = ({
     <NodeEditFormField
       label="시작일"
       type="date"
-      value={editingNode.start_date}
+      value={editingNode.study_plan_node_start_date}
       onChange={(e) => {
-        onNodeChange({ ...editingNode, start_date: e.target.value });
+        onNodeChange({ ...editingNode, study_plan_node_start_date: e.target.value });
         onClearError("startDate");
       }}
       error={validationErrors.startDate ? "시작일을 선택해 주세요." : null}
@@ -51,9 +51,9 @@ export const NodeEditForm = ({
     <NodeEditFormField
       label="종료일"
       type="date"
-      value={editingNode.end_date}
+      value={editingNode.study_plan_node_end_date}
       onChange={(e) => {
-        onNodeChange({ ...editingNode, end_date: e.target.value });
+        onNodeChange({ ...editingNode, study_plan_node_end_date: e.target.value });
         onClearError("endDate");
       }}
       error={validationErrors.endDate ? "종료일을 선택해 주세요." : null}

@@ -1,24 +1,29 @@
-import { useLocation, useNavigate } from "react-router-dom";
-import { StudyPlanNode } from "../../types/pages/Woomoonkyung/Woomoonkyung";
-import { useEffect, useState } from "react";
-import {
-  mockPlanInfo,
-  mockTechStacks,
-} from "../../data/Woomoonkyung/studyPlanNodeData";
+import React, { useEffect, useState, useCallback } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { plan } from "../../data/Woomoonkyung/studyPlanData";
 import { PlanInfoHeader } from "../../components/Woomoonkyung/StudyPlanCreateNodePage/PlanInfoHeader";
 import { CreatePlanButton } from "../../components/Woomoonkyung/StudyPlanCreateNodePage/CreatePlanButton";
 import { NodeList } from "../../components/Woomoonkyung/StudyPlanCreateNodePage/NodeList";
 import { BackButton } from "../../components/Woomoonkyung/StudyPlanCreateNodePage/BackButton";
 import { RightSidebar } from "../../components/Woomoonkyung/StudyPlanCreateNodePage/RightSidebar";
-import { ValidationErrors } from "../../types/pages/Woomoonkyung/StudyPlanCreateNodePage/StudyPlanCreateNodePage";
+import {
+  StudyPlanNode,
+  ValidationErrors,
+} from "../../types/pages/Woomoonkyung/StudyPlanCreateNodePage/StudyPlanCreateNodePage";
+import { TechStack } from "../../types/api/Woomoonkyung/StudyPlanCreateNodePage";
+import { RecommendedStudyPlanDetailService } from "../../api/Woomoonkyung/RecommendedStudyPlanDetailPage";
+import { WoomoonkyungCreateNodeService } from "../../api/Woomoonkyung/StudyPlanCreateNodePage";
 
 export default function StudyPlanCreateNodePage() {
   const navigate = useNavigate();
-  const location = useLocation();
+  const { planId } = useParams<{ planId: string }>();
 
+  /* 상태 관리 */
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [planInfo, setPlanInfo] = useState<any>(null);
+  const [techStacks, setTechStacks] = useState<TechStack[]>([]);
   const [nodes, setNodes] = useState<StudyPlanNode[]>([]);
+
   const [rightSidebarMode, setRightSidebarMode] = useState<
     "techStacks" | "editNode"
   >("techStacks");
@@ -29,51 +34,84 @@ export default function StudyPlanCreateNodePage() {
   const [draggedItem, setDraggedItem] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  /** 2차 검증 에러 상태 */
   const [validationErrors, setValidationErrors] = useState<ValidationErrors>({
     name: false,
     startDate: false,
     endDate: false,
   });
 
-  // 에러 개별 초기화 함수
-  const clearError = (field: keyof typeof validationErrors) => {
-    setValidationErrors((prev) => ({ ...prev, [field]: false }));
-  };
+  /** * [초기 데이터 로드]
+   * 플랜 정보, 기존 노드 정보, 기술 스택 목록을 가져옵니다.
+   */
+  const loadInitialData = useCallback(async () => {
+    if (!planId) return;
+    try {
+      setIsLoading(true);
+      const [planData, nodesData, techData] = await Promise.all([
+        RecommendedStudyPlanDetailService.getStudyPlanById(planId),
+        RecommendedStudyPlanDetailService.getNodesByPlanId(planId),
+        WoomoonkyungCreateNodeService.getTechStacks(),
+      ]);
+
+      setPlanInfo(planData);
+      setNodes(nodesData as unknown as StudyPlanNode[]);
+      setTechStacks(techData);
+    } catch (error) {
+      toast.error("데이터 로딩 중 오류가 발생했습니다.");
+    } finally {
+      setIsLoading(false);
+    }
+  }, [planId]);
+
+  useEffect(() => {
+    loadInitialData();
+  }, [loadInitialData]);
+
+  /** [검색 쿼리 변경 시 기술 스택 필터링 API 호출] */
+  useEffect(() => {
+    const fetchFilteredTech = async () => {
+      try {
+        const data = await WoomoonkyungCreateNodeService.getTechStacks({
+          searchQuery,
+        });
+        setTechStacks(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    const timer = setTimeout(fetchFilteredTech, 300);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   useEffect(() => {
     if (deletePendingNodeId) {
-      const timer = setTimeout(() => {
-        setDeletePendingNodeId(null);
-      }, 3000);
+      const timer = setTimeout(() => setDeletePendingNodeId(null), 3000);
       return () => clearTimeout(timer);
     }
   }, [deletePendingNodeId]);
 
-  //api 연결시 uuid 생성
-  const nextNodeId = "100";
+  const clearError = (field: keyof typeof validationErrors) => {
+    setValidationErrors((prev) => ({ ...prev, [field]: false }));
+  };
 
-  const handleAddTechStack = (techStack: (typeof mockTechStacks)[0]) => {
+  /** [노드 추가 핸들러] */
+  const handleAddTechStack = (techStack: TechStack) => {
     const newNode: StudyPlanNode = {
-      study_plan_node_id: nextNodeId,
-      study_plan_id: "1",
+      study_plan_node_id: `temp-${Date.now()}`, // 임시 ID (저장 시 DB 생성)
+      study_plan_id: planId || "",
       study_plan_node_name: techStack.tech_stack_name,
-      description: "",
-      start_date: "",
-      end_date: "",
-      completed: false,
-      position: nodes.length + 1,
+      study_plan_node_description: "",
+      study_plan_node_start_date: "",
+      study_plan_node_end_date: "",
+      study_plan_node_completed: false,
+      study_plan_node_position: nodes.length + 1,
       tech_stack_id: techStack.tech_stack_id,
       tech_stack_name: techStack.tech_stack_name,
-      tech_stack_img_url: techStack.tech_stack_img_url,
-      created_date: new Date().toISOString().split("T")[0],
     };
 
     setNodes((prev) => [...prev, newNode]);
     setEditingNode(newNode);
     setRightSidebarMode("editNode");
-
-    /** 편집 진입 시 검증 초기화 */
     setValidationErrors({ name: false, startDate: false, endDate: false });
   };
 
@@ -83,15 +121,14 @@ export default function StudyPlanCreateNodePage() {
     setValidationErrors({ name: false, startDate: false, endDate: false });
   };
 
-  /** ✅ 저장 시 2차 검증 */
+  /** [편집 저장 핸들러] */
   const handleSaveEdit = () => {
     if (!editingNode) return;
 
     const nameError = !editingNode.study_plan_node_name.trim();
-    const startDateError = !editingNode.start_date;
-    const endDateError = !editingNode.end_date;
+    const startDateError = !editingNode.study_plan_node_start_date;
+    const endDateError = !editingNode.study_plan_node_end_date;
 
-    // 하나라도 에러가 있으면 상태 업데이트 후 중단
     if (nameError || startDateError || endDateError) {
       setValidationErrors({
         name: nameError,
@@ -111,15 +148,9 @@ export default function StudyPlanCreateNodePage() {
 
     setRightSidebarMode("techStacks");
     setEditingNode(null);
-    setValidationErrors({ name: false, startDate: false, endDate: false });
   };
 
-  const handleCancelEdit = () => {
-    setRightSidebarMode("techStacks");
-    setEditingNode(null);
-    setValidationErrors({ name: false, startDate: false, endDate: false });
-  };
-
+  /** [삭제 핸들러 (2단계 확정)] */
   const handleDeleteClick = (e: React.MouseEvent, nodeId: string) => {
     e.stopPropagation();
 
@@ -135,11 +166,15 @@ export default function StudyPlanCreateNodePage() {
         setRightSidebarMode("techStacks");
         setEditingNode(null);
       }
+      toast.info(
+        "노드가 목록에서 제거되었습니다. '생성하기'를 눌러 저장하세요."
+      );
     } else {
       setDeletePendingNodeId(nodeId);
     }
   };
 
+  /* Drag & Drop 로직 */
   const handleDragStart = (e: React.DragEvent, index: number) => {
     setDraggedItem(index);
     e.dataTransfer.effectAllowed = "move";
@@ -154,44 +189,67 @@ export default function StudyPlanCreateNodePage() {
     newNodes.splice(draggedItem, 1);
     newNodes.splice(index, 0, draggedNode);
 
-    setNodes(
-      newNodes.map((node, idx) => ({
-        ...node,
-        position: idx + 1,
-      }))
-    );
+    setNodes(newNodes.map((node, idx) => ({ ...node, position: idx + 1 })));
     setDraggedItem(index);
   };
 
   const handleDragEnd = () => setDraggedItem(null);
 
-  const handleCreatePlan = () => {
-    console.log("Creating study plan with nodes:", nodes);
+  /** * [최종 저장 핸들러]
+   * 로컬에서 구성한 모든 노드를 Supabase에 일괄 저장합니다.
+   */
+  const handleCreatePlan = async () => {
+    if (!planId) return;
 
-    toast.success("공부 계획이 생성되었습니다!", {
-      position: "top-right",
-      autoClose: 3000,
-    });
+    const loadingToast = toast.loading("공부 계획 노드를 저장 중입니다...");
+    try {
+      await WoomoonkyungCreateNodeService.saveAllNodes({
+        planId,
+        nodes: nodes.map((n) => ({
+          ...n,
+          // 임시 ID인 경우 Supabase에서 자동 생성하도록 함
+          study_plan_node_id: n.study_plan_node_id.startsWith("temp-")
+            ? undefined
+            : n.study_plan_node_id,
+        })) as any,
+      });
+
+      toast.update(loadingToast, {
+        render: "공부 계획이 성공적으로 생성되었습니다!",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
+      navigate(`/woomoonkyung/plan/${planId}`);
+    } catch (error) {
+      toast.update(loadingToast, {
+        render: "계획 저장 중 오류가 발생했습니다.",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
+    }
   };
 
-  const handleOutsideClick = () => {
-    if (deletePendingNodeId) setDeletePendingNodeId(null);
-  };
-
-  const filteredTechStacks = mockTechStacks.filter((techStack) =>
-    techStack.tech_stack_name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  if (isLoading)
+    return (
+      <div className="flex h-screen items-center justify-center">
+        Loading...
+      </div>
+    );
 
   return (
-    <div className="flex h-screen bg-gray-50" onClick={handleOutsideClick}>
-      {/* Center Content - Main Area */}
+    <div
+      className="flex h-screen bg-gray-50"
+      onClick={() => deletePendingNodeId && setDeletePendingNodeId(null)}
+    >
       <div className="flex-1 p-8 overflow-y-auto">
         <div className="max-w-5xl mx-auto space-y-6">
           <BackButton
-            onClick={() => navigate(`/woomoonkyung/plan/${plan.study_plan_id}`)}
+            onClick={() => navigate(`/woomoonkyung/plan/${planId}`)}
           />
 
-          <PlanInfoHeader planInfo={mockPlanInfo} />
+          <PlanInfoHeader planInfo={planInfo} />
 
           <NodeList
             nodes={nodes}
@@ -213,20 +271,22 @@ export default function StudyPlanCreateNodePage() {
         </div>
       </div>
 
-      {/* Right Sidebar */}
       <RightSidebar
         mode={rightSidebarMode}
         searchQuery={searchQuery}
         onSearchChange={(e) => setSearchQuery(e.target.value)}
         onSearchClear={() => setSearchQuery("")}
-        filteredTechStacks={filteredTechStacks}
+        filteredTechStacks={techStacks}
         onTechStackClick={handleAddTechStack}
         editingNode={editingNode}
         validationErrors={validationErrors}
         onNodeChange={setEditingNode}
         onClearError={clearError}
         onSaveEdit={handleSaveEdit}
-        onCancelEdit={handleCancelEdit}
+        onCancelEdit={() => {
+          setRightSidebarMode("techStacks");
+          setEditingNode(null);
+        }}
       />
     </div>
   );

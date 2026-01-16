@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import { GroupType } from "../../types/Woomoonjeong/woomoonjeong";
 import { DEFAULT_GROUP_TYPE } from "../../constants/Woomoonjeong/DocumentsManagementPage/CreateCustomFieldModal";
-import { GroupTypes } from "../../constants/Woomoonjeong/Woomoonjeong";
-import { AddFieldModalProps } from "../../types/Woomoonjeong/RecommendedCreateFieldModal";
+import { AddFieldModalProps } from "../../types/pages/Woomoonjeong/RecommendedCreateFieldModal";
+import { GROUP_TYPE, GROUP_TYPES } from "../../constants/Woomoonjeong/Woomoonjeong";
+
 
 const AssignRecommendedFieldModal: React.FC<AddFieldModalProps> = ({
   isOpen,
@@ -14,7 +14,7 @@ const AssignRecommendedFieldModal: React.FC<AddFieldModalProps> = ({
   onAdd,
 }) => {
   const [selectedGroupType, setSelectedGroupType] =
-    useState<GroupType>(DEFAULT_GROUP_TYPE);
+    useState<GROUP_TYPE>(DEFAULT_GROUP_TYPE);
 
   // 모달 열릴 때마다 초기값 리셋
   useEffect(() => {
@@ -47,9 +47,9 @@ const AssignRecommendedFieldModal: React.FC<AddFieldModalProps> = ({
 
         {/* Field Info */}
         <div className="p-4 mb-4 rounded-lg bg-gray-50">
-          <h3 className="mb-1 font-medium text-gray-800">{field.name}</h3>
+          <h3 className="mb-1 font-medium text-gray-800">{field.field_name}</h3>
           <p className="text-sm text-gray-600 line-clamp-2">
-            {field.description}
+            {field.field_description}
           </p>
         </div>
 
@@ -61,7 +61,7 @@ const AssignRecommendedFieldModal: React.FC<AddFieldModalProps> = ({
               Group Type
             </label>
             <div className="grid grid-cols-2 gap-2">
-              {GroupTypes.map((type) => (
+              {GROUP_TYPES.map((type) => (
                 <button
                   key={type}
                   type="button"

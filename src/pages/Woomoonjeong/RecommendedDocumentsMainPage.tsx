@@ -1,114 +1,117 @@
-import React, { useState } from "react";
-import { BookOpen } from "lucide-react";
-import {
-  extendedRecommendedPins,
-  woomoonjeongData,
-} from "../../data/woomoonjeong/woomoonjeongData";
+import React, { useState, useEffect, useMemo } from "react";
+import { BookOpen, Loader2 } from "lucide-react";
+import { toast } from "react-toastify";
+
+// API 서비스 및 인증
+import { RecommendedDocumentsMainPageService } from "../../api/Woomoonjeong/RecommendedDocumentsMainPage";
+import { LoginService } from "../../api/Auth/LoginPage";
+
+// UI 컴포넌트
 import SearchInput from "../../components/Woomoonjeong/RecommendedDocumentsMainPage/SearchInput";
 import ContentTypeFilter from "../../components/Woomoonjeong/RecommendedDocumentsMainPage/ContentTypeFilter";
 import FilterSection from "../../components/Woomoonjeong/RecommendedDocumentsMainPage/FilterSection";
 import DocumentsGrid from "../../components/Woomoonjeong/RecommendedDocumentsMainPage/DocumentsGrid";
-//시스템이 추천하는 필드 추가하는 모달
 import AssignRecommendedFieldModal from "../../components/Woomoonjeong/RecommendedCreateFieldModal";
 import RecommendedCreateDocumentModal from "../../components/Woomoonjeong/RecommendedDocumentsMainPage/RecommendedCreateDocumentModal";
 import {
-  GroupType,
   RecommendedField,
   RecommendedPin,
-} from "../../types/pages/Woomoonjeong/woomoonjeong";
+} from "../../types/pages/Woomoonjeong/RecommendedDocumentsMainPage/RecommendedDocumentsMainPage";
 
 export default function RecommendedDocumentsMainPage() {
-  const [selectedFieldType, setSelectedFieldType] = useState<
-    "all" | "web" | "app" | "server" | "game" | "security" | "work" | "other"
-  >("all");
+  // --- 상태 관리 ---
   const [contentType, setContentType] = useState<"documents" | "fields">(
     "documents"
   );
   const [searchQuery, setSearchQuery] = useState("");
-  const [savedPins, setSavedPins] = useState<Set<string>>(new Set());
-  const [savedFields, setSavedFields] = useState<Set<string>>(new Set());
+  const [isLoading, setIsLoading] = useState(true);
+
+  // 데이터 상태
+  const [recommendedPins, setRecommendedPins] = useState<RecommendedPin[]>([]);
+  const [recommendedFields, setRecommendedFields] = useState<
+    RecommendedField[]
+  >([]);
+
+  // 모달 제어
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [selectedPin, setSelectedPin] = useState<RecommendedPin | null>(null);
+  const [selectedPin, setSelectedPin] = useState<any | null>(null);
   const [isAddFieldModalOpen, setIsAddFieldModalOpen] = useState(false);
-  const [selectedField, setSelectedField] = useState<RecommendedField | null>(
-    null
-  );
+  const [selectedField, setSelectedField] = useState<any | null>(null);
 
-  const recommendedFields: RecommendedField[] = woomoonjeongData.flatMap(
-    (group) =>
-      group.fields.map((field) => ({
-        id: field.id,
-        name: field.name,
-        description: field.description,
-        created_at: field.created_at,
-      }))
-  );
+  // --- 초기 데이터 로드 ---
+  useEffect(() => {
+    const initData = async () => {
+      setIsLoading(true);
+      try {
+        // 로그인 체크
+        await LoginService.getCurrentUserId();
 
-  const filteredPins = extendedRecommendedPins.filter((pin) => {
-    if (
-      searchQuery &&
-      !pin.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
-      !pin.description.toLowerCase().includes(searchQuery.toLowerCase()) &&
-      !pin.tags.some((tag) =>
-        tag.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    ) {
-      return false;
+        // 데이터 동시 로드
+        const [pins, fields] = await Promise.all([
+          RecommendedDocumentsMainPageService.getRecommendedPins(),
+          RecommendedDocumentsMainPageService.getRecommendedFields(),
+        ]);
+
+        setRecommendedPins(pins || []);
+        setRecommendedFields(fields || []);
+      } catch (error) {
+        toast.error("추천 데이터를 불러오는데 실패했습니다.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    initData();
+  }, []);
+
+  // --- 검색 필터링 (클라이언트 사이드) ---
+  const filteredPins = useMemo(() => {
+    const q = searchQuery.toLowerCase();
+    return recommendedPins.filter(
+      (pin) =>
+        pin.pin_title.toLowerCase().includes(q) ||
+        pin.pin_description?.toLowerCase().includes(q)
+    );
+  }, [recommendedPins, searchQuery]);
+
+  const filteredFields = useMemo(() => {
+    const q = searchQuery.toLowerCase();
+    return recommendedFields.filter(
+      (field) =>
+        field.field_name.toLowerCase().includes(q) ||
+        field.field_description?.toLowerCase().includes(q)
+    );
+  }, [recommendedFields, searchQuery]);
+
+  // --- 핸들러 로직 ---
+
+  // 1. 추천 핀 클릭 시 트래킹 및 모달 오픈
+  const handleAddDocument = async (pin: any) => {
+    try {
+      // 조회수 증가 (비동기로 실행, UI 블로킹 X)
+      RecommendedDocumentsMainPageService.trackLinkClick({ url: pin.pin_url });
+      setSelectedPin(pin);
+      setIsAddModalOpen(true);
+    } catch (error) {
+      console.error(error);
     }
-
-    return true;
-  });
-
-  const filteredFields = recommendedFields.filter((field) => {
-    if (
-      searchQuery &&
-      !field.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-      !field.description.toLowerCase().includes(searchQuery.toLowerCase())
-    )
-      return false;
-
-    return true;
-  });
-
-  const currentFilteredData =
-    contentType === "documents" ? filteredPins : filteredFields;
-
-  const toggleSavePin = (pinId: string) => {
-    const next = new Set(savedPins);
-    next.has(pinId) ? next.delete(pinId) : next.add(pinId);
-    setSavedPins(next);
   };
 
-  const toggleSaveField = (fieldId: string) => {
-    const next = new Set(savedFields);
-    next.has(fieldId) ? next.delete(fieldId) : next.add(fieldId);
-    setSavedFields(next);
-  };
-
-  const handleAddDocument = (pin: RecommendedPin) => {
-    setSelectedPin(pin);
-    setIsAddModalOpen(true);
-  };
-
-  const handleAddDocumentSubmit = (payload: {
-    groupName: GroupType;
-    fieldName: string;
-    documentName: string;
-    documentUrl: string;
-    documentDescription: string;
-    documentCategory: string;
-  }) => {
-    console.log(payload);
-  };
-
-  const handleAddField = (field: RecommendedField) => {
+  // 2. 추천 분야 할당 모달 오픈
+  const handleAddField = (field: any) => {
     setSelectedField(field);
     setIsAddFieldModalOpen(true);
   };
 
-  const handleAddFieldSubmit = (fieldType: string) => {
-    console.log({ selectedField, fieldType });
-  };
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen gap-4">
+        <Loader2 className="w-10 h-10 text-purple-600 animate-spin" />
+        <p className="text-gray-500 font-medium">
+          추천 리소스를 불러오는 중...
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="p-8 bg-gray-50">
@@ -119,13 +122,17 @@ export default function RecommendedDocumentsMainPage() {
               Recommended Documents
             </h1>
             <p className="text-gray-600">
-              Discover curated learning resources and fields
+              Curated learning resources and fields for you
             </p>
           </div>
           <SearchInput
             value={searchQuery}
             onChange={setSearchQuery}
-            placeholder="Search documents..."
+            placeholder={
+              contentType === "documents"
+                ? "Search documents..."
+                : "Search fields..."
+            }
           />
         </div>
 
@@ -141,27 +148,28 @@ export default function RecommendedDocumentsMainPage() {
           contentType={contentType}
           documents={filteredPins}
           fields={filteredFields}
-          savedPins={savedPins}
-          savedFields={savedFields}
-          onToggleSavePin={toggleSavePin}
-          onToggleSaveField={toggleSaveField}
+          // 저장 기능은 필요 시 API 연동 (현재는 조회 위주)
+          savedPins={new Set()}
+          savedFields={new Set()}
+          onToggleSavePin={() => {}}
+          onToggleSaveField={() => {}}
           onAddDocument={handleAddDocument}
           onAddField={handleAddField}
         />
 
-        {currentFilteredData.length === 0 && (
+        {((contentType === "documents" && filteredPins.length === 0) ||
+          (contentType === "fields" && filteredFields.length === 0)) && (
           <div className="p-12 text-center bg-white border border-purple-100 rounded-xl">
             <BookOpen className="w-12 h-12 mx-auto mb-4 text-gray-400" />
             <h3 className="text-lg font-medium text-gray-800">
               No {contentType} found
             </h3>
-            <p className="text-gray-600">
-              Try adjusting your filters or search query
-            </p>
+            <p className="text-gray-600">Try adjusting your search query</p>
           </div>
         )}
       </div>
 
+      {/* 추천 핀을 내 필드에 추가하는 모달 */}
       {selectedPin && (
         <RecommendedCreateDocumentModal
           isOpen={isAddModalOpen}
@@ -170,10 +178,15 @@ export default function RecommendedDocumentsMainPage() {
             setSelectedPin(null);
           }}
           pin={selectedPin}
-          onAdd={handleAddDocumentSubmit}
+          // 모달 내부에서 RecommendedDocumentsMainPageService.addRecommendedPinToMyField 호출 권장
+          onAdd={() => {
+            toast.success("문서가 내 보관함에 추가되었습니다.");
+            setIsAddModalOpen(false);
+          }}
         />
       )}
 
+      {/* 추천 분야를 내 그룹에 할당하는 모달 */}
       {selectedField && (
         <AssignRecommendedFieldModal
           isOpen={isAddFieldModalOpen}
@@ -181,8 +194,16 @@ export default function RecommendedDocumentsMainPage() {
             setIsAddFieldModalOpen(false);
             setSelectedField(null);
           }}
-          field={selectedField}
-          onAdd={handleAddFieldSubmit}
+          field={{
+            id: selectedField.field_id,
+            name: selectedField.field_name,
+            description: selectedField.field_description,
+          }}
+          // 모달 내부에서 RecommendedDocumentsMainPageService.addRecommendedFieldToMyGroup 호출 권장
+          onAdd={() => {
+            toast.success("분야가 내 그룹에 할당되었습니다.");
+            setIsAddFieldModalOpen(false);
+          }}
         />
       )}
     </div>

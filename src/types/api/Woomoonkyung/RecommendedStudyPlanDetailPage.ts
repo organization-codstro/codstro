@@ -1,12 +1,12 @@
 /**
  * [단일 공부 계획 상세 조회 파라미터]
  */
-export type GetStudyPlanByIdParams = number;
+export type GetStudyPlanByIdParams = string;
 
 /**
  * [공부 계획에 포함된 노드 리스트 조회 파라미터]
  */
-export type GetNodesByPlanIdParams = number;
+export type GetNodesByPlanIdParams = string;
 
 /**
  * [새 공부 계획 생성 파라미터]

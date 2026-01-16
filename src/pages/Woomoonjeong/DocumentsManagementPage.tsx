@@ -6,16 +6,15 @@ import {
   FileText,
   Trash2,
   Check,
+  Loader2,
 } from "lucide-react";
 
-// 데이터 및 타입
-import {
-  woomoonjeongData as initialData,
-  fieldTypeColors,
-} from "../../data/woomoonjeong/woomoonjeongData";
-import { Field, Group, Pin } from "../../types/pages/Woomoonjeong/woomoonjeong";
+// API 서비스 및 인증 서비스
+import { DocumentsManagementService } from "../../api/Woomoonjeong/DocumentsManagementPage";
+import { LoginService } from "../../api/Auth/LoginPage";
 
-// 기존 모달 컴포넌트
+// 기존 컴포넌트 및 설정
+import { fieldTypeColors } from "../../data/woomoonjeong/woomoonjeongData";
 import CreateCustomFieldModal from "../../components/Woomoonjeong/DocumentsManagementPage/Modal/CreateCustomFieldModal";
 import CreateCustomDocumentModal from "../../components/Woomoonjeong/DocumentsManagementPage/Modal/CreateDocumentModal";
 import EditDocumentModal from "../../components/Woomoonjeong/DocumentsManagementPage/Modal/EditDocumentModal";
@@ -24,17 +23,14 @@ import DocumentFilterBar from "../../components/Woomoonjeong/DocumentsManagement
 import FieldItem from "../../components/Woomoonjeong/DocumentsManagementPage/FieldItem";
 import ManagementSidebar from "../../components/Woomoonjeong/DocumentsManagementPage/ManagementSidebar";
 
-export default function DocumentsManagementPagePage() {
+export default function DocumentsManagementPage() {
   // --- 상태 관리 ---
-  const [woomoonjeongData, setWoomoonjeongData] = useState<Group[]>(
-    initialData as unknown as Group[]
-  );
-  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(
-    new Set(["1"])
-  );
-  const [expandedFields, setExpandedFields] = useState<Set<string>>(
-    new Set(["1"])
-  );
+  const [woomoonjeongData, setWoomoonjeongData] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+
+  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
+  const [expandedFields, setExpandedFields] = useState<Set<string>>(new Set());
   const [selectedGroupType, setSelectedGroupType] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -43,14 +39,42 @@ export default function DocumentsManagementPagePage() {
   const [isCreateDocumentModalOpen, setIsCreateDocumentModalOpen] =
     useState(false);
   const [editingPin, setEditingPin] = useState<{
-    pin: Pin;
-    group: Group;
-    field: Field;
+    pin: any;
+    group: any;
+    field: any;
   } | null>(null);
   const [deletePending, setDeletePending] = useState<{
     type: "group" | "field" | "pin";
     id: string;
   } | null>(null);
+
+  // --- 초기 데이터 로드 ---
+  useEffect(() => {
+    const initPage = async () => {
+      setIsLoading(true);
+      try {
+        const userId = await LoginService.getCurrentUserId();
+        setCurrentUserId(userId);
+
+        // 유저 ID 확보 후 데이터 로드
+        await fetchData();
+      } catch (error) {
+        toast.error("데이터를 불러오는데 실패했습니다.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    initPage();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const data = await DocumentsManagementService.getAllGroupsWithDetails();
+      setWoomoonjeongData(data || []);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   // --- 삭제 타이머 익스텐션 ---
   useEffect(() => {
@@ -69,28 +93,25 @@ export default function DocumentsManagementPagePage() {
     });
   };
 
-  const handleSaveFieldName = (
+  const handleSaveFieldName = async (
     groupId: string,
     fieldId: string,
     newName: string
   ) => {
     if (!newName.trim()) return;
-    setWoomoonjeongData((prev) =>
-      prev.map((group) =>
-        group.id === groupId
-          ? {
-              ...group,
-              fields: group.fields.map((f) =>
-                f.id === fieldId ? { ...f, name: newName.trim() } : f
-              ),
-            }
-          : group
-      )
-    );
-    toast.info("필드 이름이 수정되었습니다.");
+    try {
+      await DocumentsManagementService.updateFieldName({
+        fieldId,
+        newName: newName.trim(),
+      });
+      await fetchData(); // 데이터 갱신
+      toast.info("필드 이름이 수정되었습니다.");
+    } catch (error) {
+      toast.error("이름 수정에 실패했습니다.");
+    }
   };
 
-  const handleDeleteAction = (
+  const handleDeleteAction = async (
     e: React.MouseEvent,
     type: "group" | "field" | "pin",
     id: string
@@ -99,29 +120,14 @@ export default function DocumentsManagementPagePage() {
     e.stopPropagation();
 
     if (deletePending?.type === type && deletePending?.id === id) {
-      // 실제 삭제 로직
-      if (type === "group")
-        setWoomoonjeongData((prev) => prev.filter((g) => g.id !== id));
-      else if (type === "field")
-        setWoomoonjeongData((prev) =>
-          prev.map((g) => ({
-            ...g,
-            fields: g.fields.filter((f) => f.id !== id),
-          }))
-        );
-      else if (type === "pin")
-        setWoomoonjeongData((prev) =>
-          prev.map((g) => ({
-            ...g,
-            fields: g.fields.map((f) => ({
-              ...f,
-              pins: f.pins.filter((p) => p.id !== id),
-            })),
-          }))
-        );
-
-      toast.success(`${type.toUpperCase()} 삭제 완료`);
-      setDeletePending(null);
+      try {
+        await DocumentsManagementService.deleteItem({ type, id });
+        toast.success(`${type.toUpperCase()} 삭제 완료`);
+        setDeletePending(null);
+        await fetchData(); // 데이터 갱신
+      } catch (error) {
+        toast.error("삭제 중 오류가 발생했습니다.");
+      }
     } else {
       setDeletePending({ type, id });
     }
@@ -130,7 +136,7 @@ export default function DocumentsManagementPagePage() {
   const handleEditPin = (pinId: string) => {
     for (const group of woomoonjeongData) {
       for (const field of group.fields) {
-        const pin = field.pins.find((p) => p.id === pinId);
+        const pin = field.pins.find((p: any) => (p.pin_id || p.id) === pinId);
         if (pin) {
           setEditingPin({ pin, group, field });
           return;
@@ -142,16 +148,22 @@ export default function DocumentsManagementPagePage() {
   // --- 필터링 및 통계 계산 ---
   const filteredGroups = useMemo(() => {
     return woomoonjeongData.filter((group) => {
-      if (selectedGroupType !== "all" && group.name !== selectedGroupType)
+      const gName = group.group_name || group.name;
+      const gDesc = group.group_description || group.description;
+
+      if (selectedGroupType !== "all" && gName !== selectedGroupType)
         return false;
       if (!searchQuery) return true;
+
       const q = searchQuery.toLowerCase();
       return (
-        group.description.toLowerCase().includes(q) ||
+        gDesc.toLowerCase().includes(q) ||
         group.fields.some(
-          (f) =>
-            f.name.toLowerCase().includes(q) ||
-            f.pins.some((p) => p.title.toLowerCase().includes(q))
+          (f: any) =>
+            (f.field_name || f.name).toLowerCase().includes(q) ||
+            f.pins.some((p: any) =>
+              (p.pin_title || p.title).toLowerCase().includes(q)
+            )
         )
       );
     });
@@ -159,15 +171,31 @@ export default function DocumentsManagementPagePage() {
 
   const stats = useMemo(() => {
     const totalFields = woomoonjeongData.reduce(
-      (acc, g) => acc + g.fields.length,
+      (acc, g) => acc + (g.fields?.length || 0),
       0
     );
     const totalPins = woomoonjeongData.reduce(
-      (acc, g) => acc + g.fields.reduce((fa, f) => fa + f.pins.length, 0),
+      (acc, g) =>
+        acc +
+        (g.fields?.reduce(
+          (fa: number, f: any) => fa + (f.pins?.length || 0),
+          0
+        ) || 0),
       0
     );
     return { totalFields, totalPins };
   }, [woomoonjeongData]);
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen gap-4">
+        <Loader2 className="w-10 h-10 text-purple-600 animate-spin" />
+        <p className="text-gray-500 font-medium">
+          데이터를 불러오는 중입니다...
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -194,79 +222,84 @@ export default function DocumentsManagementPagePage() {
                 My Documents
               </h2>
               <div className="space-y-4">
-                {filteredGroups.map((group) => (
-                  <div
-                    key={group.id}
-                    className="overflow-hidden border border-gray-200 rounded-lg"
-                  >
-                    {/* Group Header */}
-                    <div className="flex items-center justify-between p-4 bg-gray-50">
-                      <div
-                        className="flex items-center flex-1 gap-3 cursor-pointer"
-                        onClick={() => toggleGroup(group.id)}
-                      >
-                        {expandedGroups.has(group.id) ? (
-                          <ChevronDown className="w-4 h-4" />
-                        ) : (
-                          <ChevronRight className="w-4 h-4" />
-                        )}
-                        <span
-                          className={`px-3 py-1 text-sm rounded-full border ${
-                            fieldTypeColors[group.name]
+                {filteredGroups.map((group) => {
+                  const gId = group.group_id || group.id;
+                  const gName = group.group_name || group.name;
+                  const gDesc = group.group_description || group.description;
+
+                  return (
+                    <div
+                      key={gId}
+                      className="overflow-hidden border border-gray-200 rounded-lg"
+                    >
+                      <div className="flex items-center justify-between p-4 bg-gray-50">
+                        <div
+                          className="flex items-center flex-1 gap-3 cursor-pointer"
+                          onClick={() => toggleGroup(gId)}
+                        >
+                          {expandedGroups.has(gId) ? (
+                            <ChevronDown className="w-4 h-4" />
+                          ) : (
+                            <ChevronRight className="w-4 h-4" />
+                          )}
+                          <span
+                            className={`px-3 py-1 text-sm rounded-full border ${
+                              fieldTypeColors[gName as keyof typeof fieldTypeColors] || "border-gray-200"
+                            }`}
+                          >
+                            {gName}
+                          </span>
+                          <h3 className="font-medium">{gDesc}</h3>
+                        </div>
+                        <button
+                          onClick={(e) => handleDeleteAction(e, "group", gId)}
+                          className={`p-1 ${
+                            deletePending?.type === "group" &&
+                            deletePending?.id === gId
+                              ? "text-red-600"
+                              : "text-gray-400"
                           }`}
                         >
-                          {group.name}
-                        </span>
-                        <h3 className="font-medium">{group.description}</h3>
+                          {deletePending?.type === "group" &&
+                          deletePending?.id === gId ? (
+                            <Check className="w-4 h-4" />
+                          ) : (
+                            <Trash2 className="w-4 h-4" />
+                          )}
+                        </button>
                       </div>
-                      <button
-                        onClick={(e) =>
-                          handleDeleteAction(e, "group", group.id)
-                        }
-                        className={`p-1 ${
-                          deletePending?.type === "group" &&
-                          deletePending?.id === group.id
-                            ? "text-red-600"
-                            : "text-gray-400"
-                        }`}
-                      >
-                        {deletePending?.type === "group" &&
-                        deletePending?.id === group.id ? (
-                          <Check className="w-4 h-4" />
-                        ) : (
-                          <Trash2 className="w-4 h-4" />
-                        )}
-                      </button>
-                    </div>
 
-                    {/* Group Content */}
-                    {expandedGroups.has(group.id) && (
-                      <div className="p-4 space-y-3 bg-white">
-                        {group.fields.map((field) => (
-                          <FieldItem
-                            key={field.id}
-                            field={field}
-                            group={group}
-                            isExpanded={expandedFields.has(field.id)}
-                            onToggle={() =>
-                              setExpandedFields((prev) => {
-                                const next = new Set(prev);
-                                next.has(field.id)
-                                  ? next.delete(field.id)
-                                  : next.add(field.id);
-                                return next;
-                              })
-                            }
-                            onSaveName={handleSaveFieldName}
-                            onDeleteAction={handleDeleteAction}
-                            deletePending={deletePending}
-                            onEditPin={handleEditPin}
-                          />
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
+                      {expandedGroups.has(gId) && (
+                        <div className="p-4 space-y-3 bg-white">
+                          {group.fields?.map((field: any) => (
+                            <FieldItem
+                              key={field.field_id || field.id}
+                              field={field}
+                              group={group}
+                              isExpanded={expandedFields.has(
+                                field.field_id || field.id
+                              )}
+                              onToggle={() =>
+                                setExpandedFields((prev) => {
+                                  const next = new Set(prev);
+                                  const fId = field.field_id || field.id;
+                                  next.has(fId)
+                                    ? next.delete(fId)
+                                    : next.add(fId);
+                                  return next;
+                                })
+                              }
+                              onSaveName={handleSaveFieldName}
+                              onDeleteAction={handleDeleteAction}
+                              deletePending={deletePending}
+                              onEditPin={handleEditPin}
+                            />
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
                 {filteredGroups.length === 0 && (
                   <div className="py-12 text-center text-gray-400">
                     <FileText className="mx-auto mb-2" />
@@ -285,23 +318,22 @@ export default function DocumentsManagementPagePage() {
         </div>
       </div>
 
-      {/* Modals */}
       <CreateCustomFieldModal
         isOpen={isCreateFieldModalOpen}
         onClose={() => setIsCreateFieldModalOpen(false)}
-        onAdd={() => {}}
+        onAdd={fetchData}
       />
       <CreateCustomDocumentModal
         isOpen={isCreateDocumentModalOpen}
         onClose={() => setIsCreateDocumentModalOpen(false)}
-        onAdd={() => {}}
+        onAdd={fetchData}
       />
       {editingPin && (
         <EditDocumentModal
           isOpen={!!editingPin}
           onClose={() => setEditingPin(null)}
           pin={editingPin.pin}
-          onAdd={() => {}}
+          onAdd={fetchData}
         />
       )}
     </div>

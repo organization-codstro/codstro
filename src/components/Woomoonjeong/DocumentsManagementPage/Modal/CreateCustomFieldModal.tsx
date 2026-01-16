@@ -2,9 +2,11 @@
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import { DEFAULT_GROUP_TYPE } from "../../../../constants/Woomoonjeong/DocumentsManagementPage/CreateCustomFieldModal";
-import { GroupType } from "../../../../types/Woomoonjeong/woomoonjeong";
-import { GroupTypes } from "../../../../constants/Woomoonjeong/Woomoonjeong";
-import { CreateCustomFieldModalProps } from "../../../../types/Woomoonjeong/DocumentsManagementPage/Modal/CreateCustomFieldModal";
+import {
+  GROUP_TYPE,
+  GROUP_TYPES,
+} from "../../../../constants/Woomoonjeong/Woomoonjeong";
+import { CreateCustomFieldModalProps } from "../../../../types/pages/Woomoonjeong/DocumentsManagementPage/Modal/CreateCustomFieldModal";
 
 const CreateCustomFieldModal: React.FC<CreateCustomFieldModalProps> = ({
   isOpen,
@@ -14,7 +16,7 @@ const CreateCustomFieldModal: React.FC<CreateCustomFieldModalProps> = ({
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [selectedGroupType, setSelectedGroupType] =
-    useState<GroupType>(DEFAULT_GROUP_TYPE);
+    useState<GROUP_TYPE>(DEFAULT_GROUP_TYPE);
 
   // 폼 검증 에러 상태
   const [errors, setErrors] = useState<Record<string, boolean>>({});
@@ -118,7 +120,7 @@ const CreateCustomFieldModal: React.FC<CreateCustomFieldModalProps> = ({
               그룹
             </label>
             <div className="grid grid-cols-2 gap-2">
-              {GroupTypes.map((type) => (
+              {GROUP_TYPES.map((type) => (
                 <button
                   key={type}
                   type="button"

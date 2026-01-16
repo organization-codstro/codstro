@@ -5,17 +5,7 @@ import {
   ProjectGroup,
 } from "../../types/pages/Woomoonro/woomoonro";
 
-export const difficultyColors = {
-  beginner: "bg-green-100 text-green-700 border-green-200",
-  intermediate: "bg-yellow-100 text-yellow-700 border-yellow-200",
-  advanced: "bg-red-100 text-red-700 border-red-200",
-};
 
-export const statusColors = {
-  not_started: "bg-gray-100 text-gray-700 border-gray-200",
-  in_progress: "bg-blue-100 text-blue-700 border-blue-200",
-  completed: "bg-green-100 text-green-700 border-green-200",
-};
 
 export const projectsData: CloneCodingProject[] = [
   {
@@ -109,7 +99,7 @@ export const userProjectsData: UserCloneCodingProject[] = [
     id: "1",
     user_id: "1",
     project_id: "1",
-    status: "completed",
+    status: "waiting",
     is_bookmarked: true,
     progress_notes: "Completed successfully! Learned a lot about React hooks.",
     started_at: "2024-01-15T09:00:00Z",
@@ -120,7 +110,7 @@ export const userProjectsData: UserCloneCodingProject[] = [
     id: "2",
     user_id: "1",
     project_id: "2",
-    status: "in_progress",
+    status: "in progress",
     is_bookmarked: true,
     progress_notes:
       "Working on API integration. Need to handle error cases better.",
@@ -131,7 +121,7 @@ export const userProjectsData: UserCloneCodingProject[] = [
     id: "3",
     user_id: "1",
     project_id: "4",
-    status: "not_started",
+    status: "waiting",
     is_bookmarked: true,
     created_at: "2024-01-20T11:00:00Z",
   },
@@ -139,7 +129,7 @@ export const userProjectsData: UserCloneCodingProject[] = [
     id: "4",
     user_id: "1",
     project_id: "5",
-    status: "not_started",
+    status: "waiting",
     is_bookmarked: false,
     created_at: "2024-01-20T12:00:00Z",
   },
@@ -336,7 +326,7 @@ export const archivedUserProjectsData: UserCloneCodingProject[] = [
     id: "1",
     user_id: "1",
     project_id: "1",
-    status: "completed",
+    status: "done",
     is_bookmarked: true,
     progress_notes: "Completed successfully! Learned a lot about React hooks.",
     started_at: "2024-01-15T09:00:00Z",
@@ -347,7 +337,7 @@ export const archivedUserProjectsData: UserCloneCodingProject[] = [
     id: "2",
     user_id: "1",
     project_id: "2",
-    status: "in_progress",
+    status: "in progress",
     is_bookmarked: true,
     progress_notes:
       "Working on API integration. Need to handle error cases better.",
@@ -358,7 +348,7 @@ export const archivedUserProjectsData: UserCloneCodingProject[] = [
     id: "4",
     user_id: "1",
     project_id: "4",
-    status: "in_progress",
+    status: "in progress",
     is_bookmarked: true,
     progress_notes: "Socket.io integration is challenging but fun!",
     started_at: "2024-01-20T11:00:00Z",
@@ -368,7 +358,7 @@ export const archivedUserProjectsData: UserCloneCodingProject[] = [
     id: "5",
     user_id: "1",
     project_id: "5",
-    status: "completed",
+    status: "done",
     is_bookmarked: true,
     progress_notes: "Great project for learning animations with Framer Motion.",
     started_at: "2024-01-19T13:00:00Z",
@@ -379,7 +369,7 @@ export const archivedUserProjectsData: UserCloneCodingProject[] = [
     id: "7",
     user_id: "1",
     project_id: "7",
-    status: "not_started",
+    status: "waiting",
     is_bookmarked: true,
     progress_notes: "Planning to start this after finishing the chat app.",
     created_at: "2024-01-21T14:00:00Z",
@@ -388,7 +378,7 @@ export const archivedUserProjectsData: UserCloneCodingProject[] = [
     id: "8",
     user_id: "1",
     project_id: "8",
-    status: "not_started",
+    status: "waiting",
     is_bookmarked: true,
     progress_notes: "Excited to learn Firebase with this project!",
     created_at: "2024-01-22T15:00:00Z",
@@ -397,7 +387,7 @@ export const archivedUserProjectsData: UserCloneCodingProject[] = [
     id: "9",
     user_id: "1",
     project_id: "9",
-    status: "in_progress",
+    status: "in progress",
     is_bookmarked: true,
     progress_notes: "Learning Chart.js for data visualization.",
     started_at: "2024-01-23T16:00:00Z",
@@ -407,7 +397,7 @@ export const archivedUserProjectsData: UserCloneCodingProject[] = [
     id: "10",
     user_id: "1",
     project_id: "10",
-    status: "not_started",
+    status: "waiting",
     is_bookmarked: true,
     progress_notes: "Looking forward to working with recipe APIs.",
     created_at: "2024-01-24T17:00:00Z",
