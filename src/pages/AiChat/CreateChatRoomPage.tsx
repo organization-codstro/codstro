@@ -1,14 +1,25 @@
-import { useState } from "react";
+
+
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { mockAIPersonas } from "../../data/AiChat/mockData";
+import { toast } from "react-toastify";
 import { CreateRoomHeader } from "../../components/AiChat/CreateChatRoomPage/CreateRoomHeader";
 import { RoomInfoForm } from "../../components/AiChat/CreateChatRoomPage/RoomInfoForm";
 import { FriendSelector } from "../../components/AiChat/CreateChatRoomPage/FriendSelector";
 import { CreateRoomFooter } from "../../components/AiChat/CreateChatRoomPage/CreateRoomFooter";
+import { LoginService } from "../../api/Auth/LoginPage";
+import { CreateChatRoomService } from "../../api/AiChat/CreateChatRoomPage";
+import { MyAiFriend } from "../../types/pages/AiChat/CreateChatRoomPage/CreateChatRoomPage";
+
 
 export default function CreateChatRoomPage() {
   const navigate = useNavigate();
+
+  // -- 상태 관리 (State) --
   const [step, setStep] = useState(1);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [myFriends, setMyFriends] = useState<MyAiFriend[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   // 1단계: 방 정보 상태
   const [roomData, setRoomData] = useState({
@@ -18,31 +29,91 @@ export default function CreateChatRoomPage() {
     isMain: false,
   });
 
-  // 2단계: 선택된 친구 상태
-  const [selectedFriends, setSelectedFriends] = useState<string[]>([]);
+  // 2단계: 선택된 AI 설정 ID 상태 (user_ai_setting_id 기준)
+  const [selectedAiSettingIds, setSelectedAiSettingIds] = useState<string[]>(
+    []
+  );
 
-  // 단계 전환 및 생성 로직
-  const handleNext = () => {
+  // -- 데이터 로드 (Lifecycle) --
+  useEffect(() => {
+    const initPage = async () => {
+      setIsLoading(true);
+      try {
+        const currentUserId = await LoginService.getCurrentUserId();
+        if (!currentUserId) {
+          toast.error("로그인이 필요한 서비스입니다.");
+          navigate("/login");
+          return;
+        }
+        setUserId(currentUserId);
+
+        // 내 친구 목록 로드
+        const friends = await CreateChatRoomService.getMyFriends({
+          userId: currentUserId,
+        });
+        setMyFriends(friends as unknown as MyAiFriend[]);
+      } catch (error) {
+        console.error(error);
+        toast.error("친구 목록을 불러오는데 실패했습니다.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    initPage();
+  }, [navigate]);
+
+  // -- 단계 전환 및 생성 로직 --
+  const handleNext = async () => {
     if (step === 1) {
       setStep(2);
     } else {
-      // 새로운 채팅방 생성 시뮬레이션
-      const newRoomId = Date.now();
-      navigate(`/ai-chat/${newRoomId}`);
+      if (!userId) return;
+
+      const toastId = toast.loading("채팅방을 생성하고 있습니다...");
+
+      try {
+        const newRoom = await CreateChatRoomService.createChatRoomWithAi({
+          userId,
+          name: roomData.name,
+          type: roomData.type,
+          topics: roomData.topics,
+          isMain: roomData.isMain,
+          selectedAiSettingIds,
+        });
+
+        toast.update(toastId, {
+          render: "채팅방이 성공적으로 생성되었습니다!",
+          type: "success",
+          isLoading: false,
+          autoClose: 1500,
+        });
+
+        // 생성된 방으로 이동
+        navigate(`/ai-chat/${newRoom.chat_room_id}`);
+      } catch (error: any) {
+        console.error(error);
+        toast.update(toastId, {
+          render: `방 생성 실패: ${error.message}`,
+          type: "error",
+          isLoading: false,
+          autoClose: 3000,
+        });
+      }
     }
   };
 
-  const toggleFriend = (friendId: string) => {
-    setSelectedFriends((prev) =>
-      prev.includes(friendId)
-        ? prev.filter((id) => id !== friendId)
-        : [...prev, friendId]
+  const toggleFriend = (settingId: string) => {
+    setSelectedAiSettingIds((prev) =>
+      prev.includes(settingId)
+        ? prev.filter((id) => id !== settingId)
+        : [...prev, settingId]
     );
   };
 
-  // 유효성 검사
+  // -- 유효성 검사 --
   const isStep1Valid = !!(roomData.name.trim() && roomData.topics.trim());
-  const isStep2Valid = selectedFriends.length > 0;
+  const isStep2Valid = selectedAiSettingIds.length > 0;
   const isValid = step === 1 ? isStep1Valid : isStep2Valid;
 
   return (
@@ -55,12 +126,16 @@ export default function CreateChatRoomPage() {
 
       {/* 2. 메인 콘텐츠 (단계별 조건부 렌더링) */}
       <div className="flex-1 p-6 overflow-y-auto">
-        {step === 1 ? (
+        {isLoading ? (
+          <div className="flex items-center justify-center h-full text-gray-400">
+            데이터를 불러오는 중...
+          </div>
+        ) : step === 1 ? (
           <RoomInfoForm data={roomData} onChange={setRoomData} />
         ) : (
           <FriendSelector
-            friends={mockAIPersonas}
-            selectedIds={selectedFriends}
+            friends={myFriends}
+            selectedIds={selectedAiSettingIds}
             onToggle={toggleFriend}
           />
         )}

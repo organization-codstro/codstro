@@ -39,7 +39,7 @@ export interface CreateChatRoomWithAiParams {
   type: "daily" | "project";
   topics: string;
   isMain: boolean;
-  selectedAiSettingIds: number[];
+  selectedAiSettingIds: string[];
 }
 
 /**

@@ -1,4 +1,4 @@
-import { ChatRoom } from "../aiChat";
+import { ChatRoom } from "./ChatRoomsListPage";
 
 export interface ChatRoomItemProps {
   room: ChatRoom;
