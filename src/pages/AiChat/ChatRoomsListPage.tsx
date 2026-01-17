@@ -3,7 +3,6 @@
 * 채팅방의 기본 정보를 정의하는 타입입니다.
 */
 
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -13,7 +12,6 @@ import { ChatRoomItem } from "../../components/AiChat/ChatRoomsListPage/ChatRoom
 import { LoginService } from "../../api/Auth/LoginPage";
 import { ChatRoomsListService } from "../../api/AiChat/ChatRoomsListPage";
 import { ChatRoom } from "../../types/pages/AiChat/ChatRoomsListPage/ChatRoomsListPage";
-
 
 export default function ChatRoomsListPage() {
   const navigate = useNavigate();
@@ -91,7 +89,7 @@ export default function ChatRoomsListPage() {
         onCreateRoom={() => navigate("/ai-chat/create-room")}
         onSearchChange={handleSearch}
       />
-      ```
+
       {/* 2. 네비게이션: 빠른 이동 버튼들 */}
       <ChatListNav buttons={navButtons} />
       {/* 3. 메인 콘텐츠: 채팅방 리스트 */}

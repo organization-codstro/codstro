@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -42,7 +41,7 @@ export default function AIPersonasCollectionPage() {
   return (
     <div className="flex flex-col h-screen bg-gray-50">
       <CollectionHeader onBack={() => navigate("/ai-chat")} />
-      ```
+
       {/* 메인 콘텐츠 섹션 */}
       <div className="flex-1 p-4 overflow-y-auto">
         {isLoading ? (
@@ -53,10 +52,10 @@ export default function AIPersonasCollectionPage() {
         ) : error ? (
           /* 에러 발생 시 UI */
           <div className="flex flex-col items-center justify-center h-full">
-            <p className="text-red-500 mb-4">{error}</p>
+            <p className="mb-4 text-red-500">{error}</p>
             <button
               onClick={() => window.location.reload()}
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg"
+              className="px-4 py-2 text-white bg-blue-500 rounded-lg"
             >
               다시 시도
             </button>

@@ -1,7 +1,5 @@
-import {
-  RoomData,
-  RoomInfoFormProps,
-} from "../../../types/pages/AiChat/CreateChatRoomPage/RoomInfoForm";
+import { RoomData, RoomInfoFormProps } from "../../../types/pages/AiChat/CreateChatRoomPage/RoomInfoForm";
+
 
 export function RoomInfoForm({ data, onChange }: RoomInfoFormProps) {
   const updateField = (field: keyof RoomData, value: any) => {

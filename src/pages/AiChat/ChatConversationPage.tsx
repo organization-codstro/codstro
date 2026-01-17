@@ -167,7 +167,7 @@ export default function ChatConversationPage() {
         topics={room.chat_room_topics}
         onBack={() => navigate("/ai-chat")}
       />
-      ```
+      
       <div ref={scrollRef} className="flex-1 p-4 space-y-4 overflow-y-auto">
         {messages.length > 0 ? (
           messages.map((message) => (

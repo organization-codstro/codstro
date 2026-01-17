@@ -20,7 +20,7 @@ export const ChatRoomsListService = {
    * 참조 테이블: chat_rooms, daily_new_chats
    */
   async getChatRooms(
-    params: GetChatRoomsParams
+    params: GetChatRoomsParams,
   ): Promise<GetChatRoomsResponse> {
     const { data, error } = await supabase
       .from("chat_rooms")
@@ -28,12 +28,12 @@ export const ChatRoomsListService = {
         `
         *,
         daily_new_chats (
-          daily_new_chats
+          daily_new_chat
         )
-      `
+      `,
       )
       .eq("user_id", params.userId)
-      .order("chat_room_created_date", { ascending: false });
+      .order("created_at", { ascending: false });
 
     if (error) throw new Error(`[getChatRooms Error]: ${error.message}`);
 
@@ -47,14 +47,14 @@ export const ChatRoomsListService = {
    * 참조 테이블: chat_rooms
    */
   async searchChatRooms(
-    params: SearchChatRoomsParams
+    params: SearchChatRoomsParams,
   ): Promise<SearchChatRoomsResponse> {
     const { data, error } = await supabase
       .from("chat_rooms")
       .select("*")
       .eq("user_id", params.userId)
       .or(
-        `chat_room_name.ilike.%${params.searchTerm}%,chat_room_topics.ilike.%${params.searchTerm}%`
+        `chat_room_name.ilike.%${params.searchTerm}%,chat_room_topics.ilike.%${params.searchTerm}%`,
       );
 
     if (error) throw new Error(`[searchChatRooms Error]: ${error.message}`);
@@ -67,7 +67,7 @@ export const ChatRoomsListService = {
    * 참조 테이블: chat_rooms
    */
   async createChatRoom(
-    params: CreateChatRoomParams
+    params: CreateChatRoomParams,
   ): Promise<CreateChatRoomResponse> {
     const { data, error } = await supabase
       .from("chat_rooms")

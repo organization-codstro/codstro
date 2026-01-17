@@ -15,7 +15,7 @@ export const ProfileService = {
    * @param userId 조회할 유저의 ID
    */
   async getUserFullProfile(
-    params: GetUserFullProfileParams
+    params: GetUserFullProfileParams,
   ): Promise<GetUserFullProfileResponse> {
     try {
       // 1. 유저 기본 정보 조회
@@ -27,13 +27,10 @@ export const ProfileService = {
 
       if (userError) throw userError;
 
-      // 2. 레벨 마스터 데이터 조회
-      // adminOnly가 false이거나 null인 것만 가져와서 일반적인 레벨 계산에 사용
       const { data: levels, error: levelError } = await supabase
         .from("user_levels")
         .select("*")
-        .or("adminOnly.eq.false,adminOnly.is.null")
-        .order("user_levels_required_points", { ascending: true });
+        .order("user_level_required_points", { ascending: true });
 
       if (levelError) throw levelError;
 
@@ -45,14 +42,14 @@ export const ProfileService = {
         [...levels]
           .reverse()
           .find(
-            (level) => currentPoints >= level.user_levels_required_points
+            (level) => currentPoints >= level.user_levels_required_points,
           ) || levels[0];
 
       // 4. 다음 레벨 계산
       // 내 포인트보다 높은 요구치를 가진 레벨 중 가장 낮은 요구치를 가진 레벨을 찾습니다.
       const nextLevel =
         levels.find(
-          (level) => currentPoints < level.user_levels_required_points
+          (level) => currentPoints < level.user_levels_required_points,
         ) || null;
 
       // 5. 컴포넌트용 데이터 매핑

@@ -152,9 +152,9 @@ export interface ToolDescriptionMaterials {
 }
 
 export interface DailyNewChats {
-  daily_new_chats_id: number; // PK / number
-  daily_new_chats: string; // text
-  daily_chat_rooms_id: number; // FK / number
+  daily_new_chat_id: number; // PK / number
+  daily_new_chat: string; // text
+  daily_chat_room_id: number; // FK / number
 }
 
 export interface Link {
