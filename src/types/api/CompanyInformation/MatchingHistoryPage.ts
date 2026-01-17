@@ -4,10 +4,10 @@
 
 /** 매칭 리스트 아이템 */
 export interface MatchingListItem {
-  company_user_matche_id: string;
-  company_user_matche_name: string;
-  match_rate: number;
-  company_user_matche_created_date: string;
+  company_user_match_id: string;
+  company_user_match_name: string;
+  company_user_match_rate: number;
+  created_at: string;
   company_id: string;
 }
 

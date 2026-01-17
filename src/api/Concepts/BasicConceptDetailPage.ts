@@ -27,7 +27,7 @@ export const BasicConceptDetailService = {
       .select(
         `
         id:concept_description_material_id,
-        name:concept_description_material_title,
+        name:concept_description_material_name,
         description:concept_description_material_description,
         content:concept_description_material_content,
         category:concept_description_material_category

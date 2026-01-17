@@ -20,10 +20,10 @@ export const ArchiveService = {
           `
           *,
           clone_codings:clone_coding_id (*)
-        `
+        `,
         )
         .eq("user_id", params.userId)
-        .eq("user_clone_codings_is_bookmarked", true);
+        .eq("user_clone_coding_is_bookmarked", true);
 
       if (error) throw error;
 
@@ -33,9 +33,9 @@ export const ArchiveService = {
           user_id: item.user_id,
           project_id: item.clone_coding_id,
           status: item.user_clone_codings_status,
-          is_bookmarked: item.user_clone_codings_is_bookmarked,
-          started_at: item.user_clone_codings_started_at,
-          completed_at: item.user_clone_codings_completed_at,
+          is_bookmarked: item.user_clone_coding_is_bookmarked,
+          started_at: item.user_clone_coding_started_at,
+          completed_at: item.user_clone_coding_completed_at,
         },
         project: item.clone_codings as unknown as CloneCodingsResponse,
       }));
@@ -49,23 +49,22 @@ export const ArchiveService = {
     try {
       const { data, error } = await supabase
         .from("user_clone_codings")
-        .select("user_clone_codings_status")
+        .select("user_clone_coding_status")
         .eq("user_id", params.userId)
-        .eq("user_clone_codings_is_bookmarked", true);
+        .eq("user_clone_coding_is_bookmarked", true);
 
       if (error) throw error;
 
       const stats = {
         total: data.length,
         completed: data.filter(
-          (d) => d.user_clone_codings_status === "completed"
+          (d) => d.user_clone_coding_status === "completed",
         ).length,
         "in progress": data.filter(
-          (d) => d.user_clone_codings_status === "in progress"
+          (d) => d.user_clone_coding_status === "in progress",
         ).length,
-        waiting: data.filter(
-          (d) => d.user_clone_codings_status === "waiting"
-        ).length,
+        waiting: data.filter((d) => d.user_clone_coding_status === "waiting")
+          .length,
       };
 
       return stats;
@@ -83,13 +82,13 @@ export const ArchiveService = {
           `
           *,
           clone_codings:clone_coding_id (*)
-        `
+        `,
         )
         .eq("user_id", params.userId)
-        .eq("user_clone_codings_is_bookmarked", true);
+        .eq("user_clone_coding_is_bookmarked", true);
 
       if (params.filters.status && params.filters.status !== "all") {
-        query = query.eq("user_clone_codings_status", params.filters.status);
+        query = query.eq("user_clone_coding_status", params.filters.status);
       }
 
       const { data, error } = await query;
@@ -105,7 +104,7 @@ export const ArchiveService = {
     try {
       const { error } = await supabase
         .from("user_clone_codings")
-        .update({ user_clone_codings_is_bookmarked: false })
+        .update({ user_clone_coding_is_bookmarked: false })
         .eq("user_id", params.userId)
         .eq("clone_coding_id", params.projectId);
 

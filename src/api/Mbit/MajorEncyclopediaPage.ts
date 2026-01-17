@@ -22,21 +22,9 @@ export const MajorEncyclopediaService = {
 
       // DB 컬럼명을 프론트엔드 Major 타입에 맞게 매핑
       return data.map((item) => ({
-        id: item.id,
-        name: item.name,
-        description: item.description,
-        detailedDescription: item.detailedDescription,
-        focus: item.focus,
-        careers: item.careers,
-        color: item.color,
-        salaryRange: item.salaryRange,
-        jobOutlook: item.jobOutlook,
-        // 배열형 데이터 처리 (PostgreSQL의 text[] 타입 활용)
-        keySkills: item.keySkills || [],
-        learningPath: item.learningPath || [],
-        famousCompanies: item.famousCompanies || [],
-        dayInLife: item.dayInLife || [],
-        // 아이콘은 클라이언트사이드 매핑 테이블을 사용
+        id: item.major_id,
+        name: item.major_name,
+        description: item.major_description,
       })) as Major[];
     } catch (error) {
       console.error("[MajorService Error]:", error);

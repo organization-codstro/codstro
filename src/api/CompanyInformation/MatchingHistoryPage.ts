@@ -21,7 +21,7 @@ export const MatchingHistoryService = {
    * - 최신순(created_date DESC)으로 정렬합니다.
    */
   async getUserMatchingList(
-    params: GetUserMatchingListParams
+    params: GetUserMatchingListParams,
   ): Promise<GetUserMatchingListResponse> {
     const { userId } = params;
 
@@ -30,15 +30,15 @@ export const MatchingHistoryService = {
         .from("company_user_matches")
         .select(
           `
-          company_user_matche_id,
-          company_user_matche_name,
-          match_rate,
-          company_user_matche_created_date,
+          company_user_match_id,
+          company_user_match_name,
+          company_user_match_rate,
+          created_at,
           company_id
-        `
+        `,
         )
         .eq("user_id", userId)
-        .order("company_user_matche_created_date", { ascending: false });
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
       return data ?? [];
@@ -53,7 +53,7 @@ export const MatchingHistoryService = {
    * [참조 테이블]: company_user_matches
    */
   async deleteMatchingRecord(
-    params: DeleteMatchingRecordParams
+    params: DeleteMatchingRecordParams,
   ): Promise<DeleteMatchingRecordResponse> {
     const { matchingId } = params;
 
@@ -76,7 +76,7 @@ export const MatchingHistoryService = {
    * [참조 테이블]: company_user_matches
    */
   async getAverageMatchRate(
-    params: GetAverageMatchRateParams
+    params: GetAverageMatchRateParams,
   ): Promise<GetAverageMatchRateResponse> {
     const { userId } = params;
 
@@ -91,7 +91,7 @@ export const MatchingHistoryService = {
 
       const sum = data.reduce(
         (acc, curr) => acc + Number(curr.match_rate ?? 0),
-        0
+        0,
       );
 
       return (sum / data.length).toFixed(2);

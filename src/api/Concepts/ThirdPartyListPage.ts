@@ -26,10 +26,10 @@ export const ThirdPartyListService = {
         name:third_party_services_description_material_name,
         description:third_party_services_description_material_description,
         category:third_party_services_description_material_category,
-        representative_image_url:third_party_services_description_material_representative_image_url
-      `
+        representative_image_url:third_party_services_description_material_image_url
+      `,
       )
-      .order("third_party_services_description_material_created_date", {
+      .order("created_at", {
         ascending: false,
       });
 
@@ -45,7 +45,7 @@ export const ThirdPartyListService = {
    * [검색] 서비스 이름 또는 설명에서 키워드를 검색합니다.
    */
   async searchServices(
-    params: SearchServicesParams
+    params: SearchServicesParams,
   ): Promise<ThirdPartySummaryResponse[]> {
     const { keyword } = params;
 
@@ -58,10 +58,10 @@ export const ThirdPartyListService = {
         description:third_party_services_description_material_description,
         category:third_party_services_description_material_category,
         representative_image_url:third_party_services_description_material_representative_image_url
-      `
+      `,
       )
       .or(
-        `third_party_services_description_material_name.ilike.%${keyword}%,third_party_services_description_material_description.ilike.%${keyword}%`
+        `third_party_services_description_material_name.ilike.%${keyword}%,third_party_services_description_material_description.ilike.%${keyword}%`,
       )
       .order("third_party_services_description_material_name", {
         ascending: true,
@@ -79,7 +79,7 @@ export const ThirdPartyListService = {
    * [필터링] 특정 카테고리에 해당하는 서비스만 필터링합니다.
    */
   async filterServicesByCategory(
-    params: FilterServicesByCategoryParams
+    params: FilterServicesByCategoryParams,
   ): Promise<ThirdPartySummaryResponse[]> {
     const { categoryName } = params;
 
@@ -92,7 +92,7 @@ export const ThirdPartyListService = {
         description:third_party_services_description_material_description,
         category:third_party_services_description_material_category,
         representative_image_url:third_party_services_description_material_representative_image_url
-      `
+      `,
       )
       .contains("third_party_services_description_material_category", [
         categoryName,
@@ -111,13 +111,13 @@ export const ThirdPartyListService = {
    * 최적의 서드파티 인프라 조합을 제안받습니다.
    */
   async getAIServiceStackAdvice(
-    params: GetAIServiceStackAdviceParams
+    params: GetAIServiceStackAdviceParams,
   ): Promise<string> {
     const { projectBrief } = params;
 
     try {
       const response = await generateAiContent(
-        `${projectBrief} 프로젝트에 적합한 유료/무료 서드파티 서비스 스택을 추천해줘.`
+        `${projectBrief} 프로젝트에 적합한 유료/무료 서드파티 서비스 스택을 추천해줘.`,
       );
       return response;
     } catch (error) {

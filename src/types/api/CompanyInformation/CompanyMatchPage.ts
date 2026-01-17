@@ -10,16 +10,17 @@ export interface GetCompanyMatchDetailParams {
  * [회사 매칭 상세 조회] Response
  */
 export interface GetCompanyMatchDetailResponse {
-  company_user_matche_id?: string;
+  company_user_match_id?: string;
   user_id: string;
   company_id: string;
   match_rate: number;
-  company_user_matche_reason: string;
-  company_user_matche_suggestions: string;
-  company_user_matche_created_date: string;
+  company_user_match_reason: string;
+  company_user_match_suggestions: string;
+  company_user_match_created_date: string;
   companys?: {
     company_name: string;
   };
+  created_at: Date
 }
 
 /**
@@ -33,9 +34,9 @@ export interface GetAllUserMatchesParams {
  * [유저 전체 매칭 이력 아이템]
  */
 export interface UserMatchItem {
-  company_user_matche_id: string;
-  match_rate: number;
-  company_user_matche_created_date: string;
+  company_user_match_id: string;
+  company_user_match_rate: number;
+  created_at: string;
   company_id: string;
   companys: {
     company_name: string;

@@ -44,7 +44,7 @@ export interface ArchivedPlan {
   study_plan_description?: string;
   study_plan_state: string;
   study_plan_is_archived: boolean;
-  study_plan_created_date: string;
+  created_at: string;
   node_count: { count: number }[];
   completed_node_count: { count: number }[];
   totalNodes: number;

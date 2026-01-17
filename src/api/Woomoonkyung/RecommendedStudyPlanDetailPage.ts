@@ -72,7 +72,7 @@ export const RecommendedStudyPlanDetailService = {
         .from("study_plans")
         .select("*")
         .eq("study_plan_is_recommendation", true)
-        .order("study_plan_created_date", { ascending: false });
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
       return data;
@@ -105,7 +105,7 @@ export const RecommendedStudyPlanDetailService = {
           {
             ...params.planData,
             study_plan_image_url: imageUrl,
-            study_plan_created_date: new Date().toISOString(),
+            created_at: new Date().toISOString(),
           },
         ])
         .select();

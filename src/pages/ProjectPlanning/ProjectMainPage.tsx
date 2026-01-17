@@ -107,9 +107,12 @@ export default function ProjectMainPage() {
       <div className="p-8 mx-auto max-w-7xl">
         <ProjectListHeader onNewProject={handleCreateNew} />
 
+        {/* Trending Section */}
+        {trendingNews.length > 0 && <TrendingSection news={trendingNews} />}
+
         <div className="grid grid-cols-1 gap-8 mb-8">
           {/* Active Projects Section */}
-          <div>
+          <div className="mt-8 ">
             <div className="flex items-center mb-4 space-x-2">
               <Play className="w-5 h-5 text-[#587CF0]" />
               <h2 className="text-xl font-semibold text-gray-900">
@@ -174,9 +177,6 @@ export default function ProjectMainPage() {
             )}
           </div>
         </div>
-
-        {/* Trending Section */}
-        {trendingNews.length > 0 && <TrendingSection news={trendingNews} />}
       </div>
     </div>
   );

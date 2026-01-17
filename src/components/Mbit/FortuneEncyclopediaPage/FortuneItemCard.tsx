@@ -13,7 +13,7 @@ const FortuneItemCard: React.FC<FortuneItemCardProps> = ({
     >
       <div className="flex items-start gap-4">
         <div
-          className={`w-12 h-12 ${fortune.color} rounded-lg flex items-center justify-center flex-shrink-0`}
+          className={`w-12 h-12  rounded-lg flex items-center justify-center flex-shrink-0`}
         >
           <Sparkles className="w-6 h-6 text-white" />
         </div>

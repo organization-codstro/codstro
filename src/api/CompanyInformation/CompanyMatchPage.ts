@@ -2,10 +2,10 @@ import { supabase } from "../../db/supabase/supabase";
 import {
   GetCompanyMatchDetailParams,
   GetCompanyMatchDetailResponse,
-  GetAllUserMatchesParams,
-  GetAllUserMatchesResponse,
   CreateMatchResultParams,
   CreateMatchResultResponse,
+  GetAllUserMatchesParams,
+  GetAllUserMatchesResponse,
 } from "../../types/api/CompanyInformation/CompanyMatchPage";
 
 /**
@@ -19,7 +19,7 @@ export const CompanyMatchService = {
    * [설명]: 회사의 이름과 매칭 데이터를 함께 가져오기 위해 JOIN 쿼리를 사용합니다.
    */
   async getCompanyMatchDetail(
-    params: GetCompanyMatchDetailParams
+    params: GetCompanyMatchDetailParams,
   ): Promise<GetCompanyMatchDetailResponse> {
     try {
       const { data, error } = await supabase
@@ -30,7 +30,7 @@ export const CompanyMatchService = {
           companys (
             company_name
           )
-        `
+        `,
         )
         .eq("user_id", params.userId)
         .eq("company_id", params.companyId)
@@ -50,25 +50,25 @@ export const CompanyMatchService = {
    * [설명]: 매칭 리스트 페이지 등에서 전체적인 현황을 보여줄 때 사용합니다.
    */
   async getAllUserMatches(
-    params: GetAllUserMatchesParams
+    params: GetAllUserMatchesParams,
   ): Promise<GetAllUserMatchesResponse> {
     try {
       const { data, error } = await supabase
         .from("company_user_matches")
         .select(
           `
-          company_user_matche_id,
-          match_rate,
-          company_user_matche_created_date,
+          company_user_match_id,
+          company_user_match_rate,
+          created_at,
           company_id,
           companys (
             company_name,
             company_industry
           )
-        `
+        `,
         )
         .eq("user_id", params.userId)
-        .order("company_user_matche_created_date", { ascending: false });
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
       return data;
@@ -84,7 +84,7 @@ export const CompanyMatchService = {
    * [설명]: AI 분석이 완료된 후 결과를 DB에 기록할 때 사용합니다.
    */
   async createMatchResult(
-    params: CreateMatchResultParams
+    params: CreateMatchResultParams,
   ): Promise<CreateMatchResultResponse> {
     try {
       const { data, error } = await supabase
@@ -112,6 +112,4 @@ export const CompanyMatchService = {
       throw error;
     }
   },
-
-  
 };

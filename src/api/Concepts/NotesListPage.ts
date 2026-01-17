@@ -15,7 +15,7 @@ export const NoteListService = {
    * [조회] 특정 유저의 모든 노트 리스트를 최신 수정일 순으로 가져옵니다.
    */
   async getUserNotes(
-    params: GetUserNotesParams
+    params: GetUserNotesParams,
   ): Promise<NoteSummaryResponse[]> {
     const { data, error } = await supabase
       .from("notes")
@@ -24,12 +24,12 @@ export const NoteListService = {
         id:note_id,
         title:note_title,
         concepts:note_labels,
-        lastUpdated:created_date,
+        lastUpdated:updated_at,
         preview:note_description
-      `
+      `,
       )
       .eq("user_id", params.userId)
-      .order("created_date", { ascending: false });
+      .order("created_at", { ascending: false });
 
     if (error) throw new Error(error.message);
 
@@ -44,7 +44,7 @@ export const NoteListService = {
    * [검색] 노트 제목 또는 포함된 개념(Labels)에서 키워드를 검색합니다.
    */
   async searchUserNotes(
-    params: SearchUserNotesParams
+    params: SearchUserNotesParams,
   ): Promise<NoteSummaryResponse[]> {
     const { data, error } = await supabase
       .from("notes")
@@ -55,12 +55,12 @@ export const NoteListService = {
         concepts:note_labels,
         lastUpdated:created_date,
         preview:note_description
-      `
+      `,
       )
       .eq("user_id", params.userId)
       // 제목에 포함되거나, labels(array)에 해당 키워드가 포함된 경우
       .or(
-        `note_title.ilike.%${params.keyword}%,note_labels.cs.{${params.keyword}}`
+        `note_title.ilike.%${params.keyword}%,note_labels.cs.{${params.keyword}}`,
       )
       .order("created_date", { ascending: false });
 

@@ -137,9 +137,12 @@ export default function AppRoutes() {
           path="/projects/new/info"
           element={<Page.ProjectInfoGenerate />}
         />
-        <Route path="/projects/meetings" element={<Page.ProjectMeeting />} />
         <Route
-          path="/projects/meetings/new"
+          path="/projects/:projectId/meetings"
+          element={<Page.ProjectMeeting />}
+        />
+        <Route
+          path="/projects/:projectId/meetings/new"
           element={<Page.CreateProjectMeeting />}
         />
         <Route
@@ -207,7 +210,10 @@ export default function AppRoutes() {
           path="/third-partys/:serviceId"
           element={<Page.ThirdPartyDetail />}
         />
-        <Route path="/package-managers" element={<Page.PackageManagerMaterialsList />} />
+        <Route
+          path="/package-managers"
+          element={<Page.PackageManagerMaterialsList />}
+        />
         <Route
           path="/package-managers/:materialId"
           element={<Page.PackageManagerMaterialsDetail />}

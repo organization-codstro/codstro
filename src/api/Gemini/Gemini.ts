@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY!);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 /**
@@ -17,3 +17,4 @@ export const generateAiContent = async (prompt: string): Promise<string> => {
     return "AI 분석 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
   }
 };
+

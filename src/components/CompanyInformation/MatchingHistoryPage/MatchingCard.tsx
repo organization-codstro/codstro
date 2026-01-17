@@ -9,7 +9,7 @@ export const MatchingCard = ({
   onClick,
 }: MatchingCardProps) => {
   const formattedDate = new Date(
-    match.company_user_matche_created_date
+    match.created_at
   ).toLocaleDateString("ko-KR");
 
   return (
@@ -20,7 +20,7 @@ export const MatchingCard = ({
       <div className="flex items-center justify-between gap-4">
         <div className="flex-1">
           <h3 className="pr-2 mb-2 text-lg font-semibold text-gray-900 line-clamp-1">
-            {match.company_user_matche_name}
+            {match.company_user_match_name}
           </h3>
           <p className="mb-3 text-sm text-gray-600">
             매칭 분석 결과를 자세히 확인해보세요
@@ -29,7 +29,7 @@ export const MatchingCard = ({
         </div>
 
         <div className="flex flex-row items-center gap-4 shrink-0">
-          <MatchScoreBadge rate={match.match_rate} />
+          <MatchScoreBadge rate={match.company_user_match_rate} />
           <DeleteButton isPending={isPending} onClick={onDelete} />
         </div>
       </div>

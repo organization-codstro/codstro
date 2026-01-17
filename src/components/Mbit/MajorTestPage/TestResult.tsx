@@ -9,15 +9,13 @@ const TestResult: React.FC<TestResultProps> = ({ result, onReset }) => {
         <div
           className="flex items-center justify-center w-24 h-24 mx-auto mb-8 rounded-full shadow-inner"
           style={{
-            background:
-              result.color ||
-              "linear-gradient(to bottom right, #10b981, #14b8a6)",
+            background: "linear-gradient(to bottom right, #10b981, #14b8a6)",
           }}
         >
           <GraduationCap className="w-12 h-12 text-white" />
         </div>
 
-        <h2 className="mb-2 text-xl font-medium text-gray-500 uppercase tracking-widest">
+        <h2 className="mb-2 text-xl font-medium tracking-widest text-gray-500 uppercase">
           Recommended Major
         </h2>
 

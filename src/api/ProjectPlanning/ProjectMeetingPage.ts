@@ -27,7 +27,7 @@ export const ProjectMeetingListService = {
           meeting_purpose:project__meeting_purpose,
           meeting_created_date:project_tasks_logs_created_date,
           type:project_meeting_room_type
-        `
+        `,
         )
         .eq("project_id", params.projectId)
         .order("project_tasks_logs_created_at", { ascending: false });
@@ -60,12 +60,12 @@ export const ProjectMeetingListService = {
           meeting_purpose:project__meeting_purpose,
           meeting_created_date:project_tasks_logs_created_date,
           type:project_meeting_room_type
-        `
+        `,
         )
         .eq("project_id", params.projectId)
         .eq(
           "project_meeting_room_type",
-          params.type.charAt(0).toUpperCase() + params.type.slice(1)
+          params.type.charAt(0).toUpperCase() + params.type.slice(1),
         ) // 'feature' -> 'Feature'
         .order("project_tasks_logs_created_at", { ascending: false });
 

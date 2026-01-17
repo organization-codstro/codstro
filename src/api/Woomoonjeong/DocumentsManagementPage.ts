@@ -31,9 +31,9 @@ export const DocumentsManagementService = {
             *,
             pins (*)
           )
-        `
+        `,
         )
-        .order("group_created_date", { ascending: false });
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
       return data;
@@ -185,8 +185,8 @@ export const DocumentsManagementService = {
         params.type === "group"
           ? "groups"
           : params.type === "field"
-          ? "fields"
-          : "pins";
+            ? "fields"
+            : "pins";
       const idColumn = `${params.type}_id`;
 
       const { error } = await supabase
@@ -217,10 +217,10 @@ export const DocumentsManagementService = {
             *,
             pins!inner (*)
           )
-        `
+        `,
         )
         .or(
-          `group_description.ilike.%${params.query}%, fields.field_name.ilike.%${params.query}%, fields.pins.pin_title.ilike.%${params.query}%`
+          `group_description.ilike.%${params.query}%, fields.field_name.ilike.%${params.query}%, fields.pins.pin_title.ilike.%${params.query}%`,
         );
 
       if (error) throw error;

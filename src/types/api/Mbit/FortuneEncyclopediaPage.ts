@@ -7,7 +7,6 @@ export interface Fortune {
   summary: string;
   description: string;
   categoryMessage: string;
-  color: string;
 }
 
 /**

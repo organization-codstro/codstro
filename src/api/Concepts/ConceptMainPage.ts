@@ -2,7 +2,6 @@ import { supabase } from "../../db/supabase/supabase";
 import {
   GetAIRoadmapSuggestionsParams,
   RecommendedMaterialResponse,
-  DocumentationCategoryResponse,
 } from "../../types/api/Concepts/ConceptMainPage";
 
 /**
@@ -20,25 +19,25 @@ export const ConceptMainService = {
       supabase
         .from("concept_description_materials")
         .select(
-          "id:concept_description_material_id, title:concept_description_material_title, category:concept_description_material_category"
+          "id:concept_description_material_id, title:concept_description_material_name, category:concept_description_material_category",
         )
         .limit(2),
       supabase
         .from("tool_description_materials")
         .select(
-          "id:tool_description_material_id, title:tool_description_material_name, category:tool_description_material_category"
+          "id:tool_description_material_id, title:tool_description_material_name, category:tool_description_material_category",
         )
         .limit(2),
       supabase
         .from("librarie_description_materials")
         .select(
-          "id:librarie_description_material_id, title:librarie_description_material_name, category:librarie_description_material_category"
+          "id:librarie_description_material_id, title:librarie_description_material_name, category:librarie_description_material_category",
         )
         .limit(2),
       supabase
         .from("third_party_services_description_materials")
         .select(
-          "id:third_party_services_description_material_id, title:third_party_services_description_material_name, category:third_party_services_description_material_category"
+          "id:third_party_services_description_material_id, title:third_party_services_description_material_name, category:third_party_services_description_material_category",
         )
         .limit(2),
     ]);
@@ -70,17 +69,17 @@ export const ConceptMainService = {
   /**
    * [조회] 문서 자원(Documentation Sites) 데이터를 가져옵니다.
    */
-  async getDocumentationSites(): Promise<DocumentationCategoryResponse[]> {
-    const { data, error } = await supabase.from("docs").select("*");
-    if (error) throw new Error(error.message);
-    return data as DocumentationCategoryResponse[];
-  },
+  // async getDocumentationSites(): Promise<DocumentationCategoryResponse[]> {
+  //   const { data, error } = await supabase.from("docs").select("*");
+  //   if (error) throw new Error(error.message);
+  //   return data as DocumentationCategoryResponse[];
+  // },
 
   /**
    * [AI 서비스] Gemini API를 활용하여 유저에게 맞춤형 학습 로드맵 키워드를 추천합니다.
    */
   async getAIRoadmapSuggestions(
-    params: GetAIRoadmapSuggestionsParams
+    params: GetAIRoadmapSuggestionsParams,
   ): Promise<string[]> {
     const { userInterests } = params;
 
@@ -90,7 +89,7 @@ export const ConceptMainService = {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           prompt: `${userInterests.join(
-            ", "
+            ", ",
           )} 분야를 공부하고 있어. 다음에 공부하면 좋을 개념 3가지만 추천해줘.`,
         }),
       });

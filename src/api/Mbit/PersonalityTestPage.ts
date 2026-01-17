@@ -52,7 +52,7 @@ export const PersonalityTestService = {
     }
 
     return {
-      id: data.mbit_types_id,
+      id: data.mbit_type_id,
       type: data.mbit_type_code,
       name: data.mbit_type_name,
       description: data.mbit_type_description,

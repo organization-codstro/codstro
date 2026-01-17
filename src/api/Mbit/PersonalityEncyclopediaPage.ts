@@ -24,28 +24,24 @@ export const PersonalityEncyclopediaService = {
       .from("mbit_types")
       .select(
         `
-        id:mbit_types_id,
+        id:mbit_type_id,
         type:mbit_type_code,
         name:mbit_type_name,
         description:mbit_type_description,
-        detailedDescription:mbit_type_detailed_description,
+        participation:mbit_type_participation,
         strengths:mbit_type_strengths,
         weaknesses:mbit_type_weaknesses,
         workStyle:mbit_type_collaborative_style,
-        idealProjects:mbit_type_ideal_projects,
-        famousDevelopers:mbit_type_famous_developers
-        `
+        approach:mbit_type_approach,
+        recommendedJob:mbit_type_recommended_job
+        `,
       )
-      .order("mbit_types_id", { ascending: true });
+      .order("mbit_type_id", { ascending: true });
 
     if (error) throw error;
 
     return (data || []).map((item) => ({
       ...item,
-      strengths: item.strengths || [],
-      weaknesses: item.weaknesses || [],
-      idealProjects: item.idealProjects || [],
-      famousDevelopers: item.famousDevelopers || [],
     }));
   },
 
@@ -54,7 +50,7 @@ export const PersonalityEncyclopediaService = {
    * @param code 'PASD', 'IETH' 등의 MBIT 결과 코드
    */
   async getPersonalityByCode(
-    params: GetPersonalityByCodeParams
+    params: GetPersonalityByCodeParams,
   ): Promise<Personality | null> {
     const { data, error } = await supabase
       .from("mbit_types")

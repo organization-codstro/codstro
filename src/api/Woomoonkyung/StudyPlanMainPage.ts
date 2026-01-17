@@ -16,32 +16,40 @@ export const WoomoonkyungMainService = {
    * [진행 중인 내 학습 계획 목록 조회]
    */
   async getActiveMyPlans(
-    params: GetActiveMyPlansParams
+    params: GetActiveMyPlansParams,
   ): Promise<PlanWithStats[]> {
     try {
       const { userId } = params;
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // 날짜 비교 안정화 (자정 기준)
 
       const { data, error } = await supabase
         .from("study_plans")
         .select(
           `
-          *,
-          study_plan_nodes (
-            completed
-          )
-        `
+        *,
+        study_plan_nodes (
+          study_plan_node_end_date
+        )
+      `,
         )
         .eq("user_id", userId)
         .eq("study_plan_state", "in progress")
         .eq("study_plan_is_recommendation", false)
-        .order("study_plan_created_date", { ascending: false });
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
 
       return data.map((plan: any) => {
         const nodes = plan.study_plan_nodes || [];
+
         const total = nodes.length;
-        const completed = nodes.filter((n: any) => n.completed).length;
+        const completed = nodes.filter((node: any) => {
+          if (!node.study_plan_node_end_date) return false;
+          return new Date(node.study_plan_node_end_date) < today;
+        }).length;
+
         const progress = total > 0 ? (completed / total) * 100 : 0;
 
         return {
@@ -61,17 +69,27 @@ export const WoomoonkyungMainService = {
 
   /**
    * [학습 계획 삭제]
+   * 1. study_plan_nodes에서 해당 plan의 모든 노드 삭제
+   * 2. study_plans에서 plan 삭제
    */
   async deletePlan(params: DeletePlanParams): Promise<boolean> {
     try {
       const { planId } = params;
 
-      const { error } = await supabase
+      const { error: nodesError } = await supabase
+        .from("study_plan_nodes")
+        .delete()
+        .eq("study_plan_id", planId);
+
+      if (nodesError) throw nodesError;
+
+      const { error: planError } = await supabase
         .from("study_plans")
         .delete()
         .eq("study_plan_id", planId);
 
-      if (error) throw error;
+      if (planError) throw planError;
+
       return true;
     } catch (error) {
       console.error("[deletePlan Error]:", error);

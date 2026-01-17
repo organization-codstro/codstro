@@ -27,9 +27,9 @@ export const MainProjectService = {
           `
           *,
           user_status:user_clone_codings (
-            user_clone_codings_id,
-            user_clone_codings_status,
-            user_clone_codings_is_bookmarked,
+            user_clone_coding_id,
+            user_clone_coding_status,
+            user_clone_coding_is_bookmarked,
             user_id
           )
         `

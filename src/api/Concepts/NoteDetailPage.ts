@@ -41,7 +41,7 @@ export const NoteDetailService = {
       .from("note_concept")
       .select(
         `
-        concept_description_materials(concept_description_material_title),
+        concept_description_materials(concept_description_material_name),
         tool_description_materials(tool_description_material_name),
         librarie_description_materials(librarie_description_material_name)
       `

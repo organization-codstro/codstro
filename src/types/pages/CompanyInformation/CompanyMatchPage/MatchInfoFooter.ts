@@ -1,3 +1,3 @@
 export interface MatchInfoFooterProps {
-  createdDate: string;
+  created_at: Date;
 }

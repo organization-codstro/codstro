@@ -23,10 +23,12 @@ export default function ProjectMeetingPage() {
   // 데이터 로드
   useEffect(() => {
     const fetchMeetings = async () => {
+      console.log("로드 시작");
       if (!projectId) return;
 
       try {
         setIsLoading(true);
+        console.log("api 연결")
         const data = await ProjectMeetingListService.getMeetingList({
           projectId,
         });
@@ -92,8 +94,8 @@ export default function ProjectMeetingPage() {
               {selectedType === "Feature"
                 ? "No ongoing feature meetings"
                 : selectedType === "Free"
-                ? "No completed free meetings"
-                : "No meetings available"}
+                  ? "No completed free meetings"
+                  : "No meetings available"}
             </p>
           </div>
         ) : (

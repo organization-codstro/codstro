@@ -98,7 +98,7 @@ export default function CompanyDetailPage() {
           companyName: company.company_name,
           companyValues: company.company_values,
         },
-        userRecord
+        userRecord,
       );
 
       // 3. AI 결과 파싱 (SCORE 추출)

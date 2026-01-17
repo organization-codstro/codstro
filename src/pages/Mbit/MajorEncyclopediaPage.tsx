@@ -22,6 +22,7 @@ export default function MajorEncyclopediaPage() {
         ...major,
         icon: ICON_MAP[major.name] || <Settings />, // 매칭되는게 없으면 기본 아이콘
       }));
+      console.log(mappedData);
 
       setMajors(mappedData);
     } catch (error) {
@@ -37,7 +38,7 @@ export default function MajorEncyclopediaPage() {
 
   if (loading) {
     return (
-      <div className="flex-1 p-8 bg-gray-50 flex items-center justify-center">
+      <div className="flex items-center justify-center flex-1 p-8 bg-gray-50">
         <p className="text-gray-500 animate-pulse">
           전공 정보를 불러오는 중입니다...
         </p>

@@ -130,12 +130,6 @@ export const navigationData: NavigationItem[] = [
         route: "/projects",
       },
       {
-        id: "project-meeting",
-        title: "Project Meeting",
-        icon: "Video", // 미팅
-        route: "/projects/meetings",
-      },
-      {
         id: "project-archive",
         title: "Archive",
         icon: "Archive", // 보관함

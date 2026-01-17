@@ -87,15 +87,13 @@ export default function CompanyMatchPage() {
           {/* 2. 상세 리포트 섹션 */}
           <div className="relative">
             <MatchDetailReport
-              reason={matchData.company_user_matche_reason}
-              suggestions={matchData.company_user_matche_suggestions}
+              reason={matchData.company_user_match_reason}
+              suggestions={matchData.company_user_match_suggestions}
             />
 
             {/* 3. 하단 메타 정보 */}
             <div className="px-8 pb-8">
-              <MatchInfoFooter
-                createdDate={matchData.company_user_matche_created_date}
-              />
+              <MatchInfoFooter created_at={matchData.created_at} />
             </div>
           </div>
         </div>

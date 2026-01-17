@@ -25,7 +25,7 @@ export const RecommendedDocumentsMainPageService = {
         .from("pins")
         .select("*")
         // 예시 데이터의 difficulty, rating 등을 처리하려면 해당 컬럼이 DB에 존재해야 함
-        .order("pin_created_date", { ascending: false });
+        .order("created_at", { ascending: false });
 
       if (params?.searchQuery) {
         query = query.or(

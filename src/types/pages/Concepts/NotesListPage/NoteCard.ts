@@ -3,6 +3,6 @@ export interface NoteCardProps {
   title: string;
   preview: string;
   concepts: string[];
-  lastUpdated: string;
+  lastUpdated?: string;
   onClick: (id: string) => void;
 }

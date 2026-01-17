@@ -17,25 +17,25 @@ export const BookmarksService = {
    * [비고]: JOIN 쿼리를 사용하여 회사 정보를 한 번에 가져옵니다.
    */
   async getBookmarkedCompanies(
-    params: GetBookmarkedCompaniesParams
+    params: GetBookmarkedCompaniesParams,
   ): Promise<GetBookmarkedCompaniesResponse> {
     try {
       const { data, error } = await supabase
         .from("user_favorite_companies")
         .select(
           `
-          companie_id,
-          companys:companie_id (
+          company_id,
+          companies:company_id (
             company_id,
             company_name,
             company_industry,
-            companie_description,
+            company_description,
             company_website,
             company_values,
-            company_created_at,
-            company_update_at
+            created_at,
+            updated_at
           )
-        `
+        `,
         )
         .eq("user_id", params.userId);
 
@@ -54,14 +54,14 @@ export const BookmarksService = {
    * [참조 테이블]: user_favorite_companies
    */
   async removeBookmark(
-    params: RemoveBookmarkParams
+    params: RemoveBookmarkParams,
   ): Promise<RemoveBookmarkResponse> {
     try {
       const { error } = await supabase
         .from("user_favorite_companies")
         .delete()
         .eq("user_id", params.userId)
-        .eq("companie_id", params.companyId);
+        .eq("company_id", params.companyId);
 
       if (error) throw error;
       return true;

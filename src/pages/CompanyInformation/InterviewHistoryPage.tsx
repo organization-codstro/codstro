@@ -18,7 +18,7 @@ export default function InterviewHistoryPage() {
 
   // 상태 관리
   const [interviews, setInterviews] = useState<GetUserInterviewListResponse>(
-    []
+    [],
   );
   const [isLoading, setIsLoading] = useState(true);
   const [deletePendingId, setDeletePendingId] = useState<string | null>(null);

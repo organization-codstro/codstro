@@ -1,4 +1,4 @@
-//테이블 타입들 
+//테이블 타입들
 
 export interface Projects {
   project_id: number; // PK / number
@@ -16,16 +16,16 @@ export interface Projects {
 }
 
 export interface ConceptDescriptionMaterials {
-  "concept_description_material_id": number; // PK / number
-  "concept_description_material_title": string; // text
-  "concept_description_material_description": string; // text
-  "concept_description_material_content": string; // text
-  "concept_description_material_category": string | null; // text[]
+  concept_description_material_id: number; // PK / number
+  concept_description_material_name: string; // text
+  concept_description_material_description: string; // text
+  concept_description_material_content: string; // text
+  concept_description_material_category: string | null; // text[]
   concept_description_material_document_url: string; // text[]
-  "concept_description_material_representative_image_url": string | null; // text
-  "concept_description_material_image_urls": string | null; // text[]
-  "concept_description_material_created_date": Date; // date
-  "concept_description_material_update_date": any | null;
+  concept_description_material_representative_image_url: string | null; // text
+  concept_description_material_image_urls: string | null; // text[]
+  concept_description_material_created_date: Date; // date
+  concept_description_material_update_date: any | null;
 }
 
 export interface UserBadges {
@@ -51,7 +51,7 @@ export interface ChatRooms {
   chat_room_type: string; // daily / project / text
   chat_room_created_date: Date; // date
   user_id: number; // FK / number
-  "chat_rooms_unconfirmed": number; // number
+  chat_rooms_unconfirmed: number; // number
 }
 
 export interface UserFortune {
@@ -83,9 +83,9 @@ export interface MajorQuestions {
 export interface NoteConcept {
   note_concept_id: number; // PK / number
   note_id: number; // FK / number
-  "concept_description_material_id": number; // FK / number
-  "tool_description_material_id": number; // FK / number
-  "librarie_description_material_id": number; // FK / number
+  concept_description_material_id: number; // FK / number
+  tool_description_material_id: number; // FK / number
+  librarie_description_material_id: number; // FK / number
   package_manager_description__materials_id: number; // FK / number
   third_party_services_description_material_id: number; // FK / number
 }
@@ -125,8 +125,8 @@ export interface ProjectPages {
   project_page_id: number; // PK / number
   project_page_name: any;
   project_page_role: any;
-  "project_page_function": any;
-  "project_page_is_complete": any;
+  project_page_function: any;
+  project_page_is_complete: any;
   project_id: number; // FK / number
 }
 
@@ -139,21 +139,21 @@ export interface Groups {
 }
 
 export interface ToolDescriptionMaterials {
-  "tool_description_material_id": number; // PK / number
-  "tool_description_material_name": string; // text
-  "tool_description_material_description": string; // text
-  "tool_description_material_content": string; // text
-  "tool_description_material_category": string | null; // text[]
-  "tool_description_material_document_url": string | null; // text
-  "tool_description_material_representative_image_url": string | null; // text
-  "tool_description_material_image_urls": string | null; // text[]
-  "tool_description_material_created_date": Date; // date
-  "tool_description_material_update_date": Date; // date
+  tool_description_material_id: number; // PK / number
+  tool_description_material_name: string; // text
+  tool_description_material_description: string; // text
+  tool_description_material_content: string; // text
+  tool_description_material_category: string | null; // text[]
+  tool_description_material_document_url: string | null; // text
+  tool_description_material_representative_image_url: string | null; // text
+  tool_description_material_image_urls: string | null; // text[]
+  tool_description_material_created_date: Date; // date
+  tool_description_material_update_date: Date; // date
 }
 
 export interface DailyNewChats {
-  "daily_new_chats_id": number; // PK / number
-  "daily_new_chats": string; // text
+  daily_new_chats_id: number; // PK / number
+  daily_new_chats: string; // text
   daily_chat_rooms_id: number; // FK / number
 }
 
@@ -211,11 +211,11 @@ export interface Companys {
   company_id: number; // PK / number
   company_name: string; // text
   company_industry: string; // 회사가 하는일 / text
-  companie_description: string; // text
+  company_description: string; // text
   company_website: string; // text
   company_values: string; // text
-  company_created_date: Date; // date
-  company_update_date: Date; // date
+  created_at: Date;
+  updated_at: Date;
 }
 
 export interface CompanyUserQnas {
@@ -229,17 +229,17 @@ export interface CompanyUserQnas {
 }
 
 export interface LibrarieDescriptionMaterials {
-  "librarie_description_material_id": number; // PK / number
-  "librarie_description_material_name": string; // text
-  "librarie_description_material_description": string | null; // text
-  "librarie_description_material_content": string | null; // text
-  "librarie_description_material_category": string | null; // text[]
-  "librarie_description_material_document_url": string | null; // 아마 깃허브 아니면 npm? / text
-  "librarie_description_material_included_language": string | null; // 해당하는 라이브러리가 어디 언어에 포함되는가? / text
-  "librarie_description_material_representative_image_url": string | null; // text
-  "librarie_description_material_image_urls": string | null; // text[]
-  "librarie_description_materials_created_date": Date; // date
-  "librarie_description_materials_update_date": Date; // date
+  librarie_description_material_id: number; // PK / number
+  librarie_description_material_name: string; // text
+  librarie_description_material_description: string | null; // text
+  librarie_description_material_content: string | null; // text
+  librarie_description_material_category: string | null; // text[]
+  librarie_description_material_document_url: string | null; // 아마 깃허브 아니면 npm? / text
+  librarie_description_material_included_language: string | null; // 해당하는 라이브러리가 어디 언어에 포함되는가? / text
+  librarie_description_material_representative_image_url: string | null; // text
+  librarie_description_material_image_urls: string | null; // text[]
+  librarie_description_materials_created_date: Date; // date
+  librarie_description_materials_update_date: Date; // date
 }
 
 export interface Fields {
@@ -247,7 +247,7 @@ export interface Fields {
   field_name: string; // text
   field_description: string | null; // text
   field_created_date: string; // text
-  "field_is_recommendation": boolean; // boolean
+  field_is_recommendation: boolean; // boolean
   group_id: number; // FK / number
 }
 
@@ -268,15 +268,15 @@ export interface Todos {
 }
 
 export interface AiPersonas {
-  "ai_persona_id": number; // PK / number
-  "ai_persona_name": string; // text
-  "ai_personas_category": string; // text[]
-  "ai_persona_gender": string; // text
-  "ai_persona_personality": string; // text
-  "ai_persona_preferred_features": string; // 웹에서는 "선호 대화주제"로 표시 / text
-  "ai_persona_speech_style": string; // text
-  "ai_persona_created_date": Date; // 웹에서는 가입일로 표시 / date
-  "ai_persona_age": number; // integer
+  ai_persona_id: number; // PK / number
+  ai_persona_name: string; // text
+  ai_personas_category: string; // text[]
+  ai_persona_gender: string; // text
+  ai_persona_personality: string; // text
+  ai_persona_preferred_features: string; // 웹에서는 "선호 대화주제"로 표시 / text
+  ai_persona_speech_style: string; // text
+  ai_persona_created_date: Date; // 웹에서는 가입일로 표시 / date
+  ai_persona_age: number; // integer
   ai_setting_preferred_topics: string; // text
 }
 
@@ -285,26 +285,26 @@ export interface StudyPlans {
   study_plan_name: string; // text
   study_plan_description: string | null; // text
   study_plan_image_url: string | null; // text
-  study_plan_start_date: Date; // date
-  study_plan_end_date: Date; // date
+  study_plan_start_date: string; // date
+  study_plan_end_date: string; // date
   study_plan_is_archived: boolean; // 공부계획이 종료되면 이 속성이 참이됨 / boolean
   study_plan_state: string; // waiting / in progress / done / text
-  study_plan_created_date: Date; // timestamptz
+  created_at: string; // timestamptz
   user_id: number; // FK / number
   study_plan_is_recommendation: boolean; // boolean
 }
 
 export interface PackageManagerDescriptionMaterials {
   package_manager_description__materials_id: number; // PK / number
-  "package_manager_description_material_name": string; // text
+  package_manager_description_material_name: string; // text
   package_manager_description__material_description: string | null; // text
-  "package_manager_description_material_content": string; // text
-  "package_manager_description_material_category": string | null; // text[]
-  "package_manager_description_material_document_url": string | null; // text
-  "package_manager_description_material_representative_image_url": string | null; // text
-  "package_manager_description_material_image_urls": string | null; // text[]
-  "package_manager_description_material_created_date": Date; // date
-  "package_manager_description_material_update_date": Date; // date
+  package_manager_description_material_content: string; // text
+  package_manager_description_material_category: string | null; // text[]
+  package_manager_description_material_document_url: string | null; // text
+  package_manager_description_material_representative_image_url: string | null; // text
+  package_manager_description_material_image_urls: string | null; // text[]
+  package_manager_description_material_created_date: Date; // date
+  package_manager_description_material_update_date: Date; // date
 }
 
 export interface UserLevels {
@@ -374,17 +374,17 @@ export interface Notes {
 }
 
 export interface MbitTypes {
-  mbit_types_id: number; // PK / number
+  mbit_type_id: number; // PK / number
   mbit_type_name: string; // text
   mbit_type_code: string; // text
-  "mbit_type_participation": string; // text
-  "mbit_type_risks": string; // text
+  mbit_type_participation: string; // text
+  mbit_type_risks: string; // text
   mbit_type_thought: string; // text
-  "mbit_type_approach": string; // text
+  mbit_type_approach: string; // text
   mbit_type_recommended_job: string; // text
   mbit_type_recommended_reason: string; // text
   mbit_type_collaborative_style: string; // text
-  "mbit_type_strengths": string; // text
+  mbit_type_strengths: string; // text
   mbit_type_weaknesses: string; // text
   mbit_type_strath_management: string; // text
   mbit_type_morning_greetings: string; // text
@@ -399,7 +399,9 @@ export interface ThirdPartyServicesDescriptionMaterials {
   third_party_services_description_material_content: string; // text
   third_party_services_description_material_category: string | null; // text[]
   third_party_services_description_material_document_url: string | null; // text
-  third_party_services_description_material_representative_image_url: string | null; // text
+  third_party_services_description_material_representative_image_url:
+    | string
+    | null; // text
   third_party_services_description_material_image_url: string | null; // text[]
   third_party_services_description_material_created_date: Date; // date
   third_party_services_description_material_update_date: Date; // date
@@ -420,7 +422,7 @@ export interface UserAiSettings {
   user_ai_setting_service_integration: boolean; // boolean
   user_ai_setting_created_date: Date; // date
   user_ai_setting_emotion: any; // srting
-  "ai_persona_id": number; // FK / number
+  ai_persona_id: number; // FK / number
   user_id: number; // FK / number
 }
 
@@ -441,9 +443,9 @@ export interface UserConcepts {
   user_concept_id: number; // PK / number
   user_concept_is_starred: boolean; // boolean
   user_id: number; // FK / number
-  "tool_description_material_id": number | null; // FK / number
-  "concept_description_material_id": number | null; // FK / number
-  "librarie_description_material_id": number | null; // FK / number
+  tool_description_material_id: number | null; // FK / number
+  concept_description_material_id: number | null; // FK / number
+  librarie_description_material_id: number | null; // FK / number
   package_manager_description__materials_id: number | null; // FK / number
   third_party_services_description_material_id: number; // FK / number
 }
@@ -452,8 +454,8 @@ export interface ProjectPlanningPages {
   project_page_id: number; // PK / number
   project_page_name: any;
   project_page_role: any;
-  "project_page_function": any;
-  "project_page_is_complete": any;
+  project_page_function: any;
+  project_page_is_complete: any;
   project_id: number; // FK / number
 }
 
@@ -484,18 +486,18 @@ export interface ChatMessages {
 }
 
 export interface UserFavoriteCompanies {
-  user_favorite_companie_id: string; // PK / uuid
-  user_favorite_companie_created_date: Date; // date
+  user_favorite_company_id: string; // PK / uuid
+  created_at: Date; // date
   user_id: number; // FK / number
-  companie_id: number; // FK / number
+  company_id: number; // FK / number
 }
 
 export interface Users {
   user_id: number; // PK / number
   user_email: string; // text
   user_name: string; // text
-  "user_profile_url": string | null; // text
-  "user_join_date": Date; // date ( 2020-09-09)
+  user_profile_url: string | null; // text
+  user_join_date: Date; // date ( 2020-09-09)
   user__points: number; // number
   user_level_id: number; // FK / number
   major_id: number; // FK / number

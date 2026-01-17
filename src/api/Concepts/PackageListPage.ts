@@ -12,17 +12,17 @@ export const PackageManagerListService = {
    */
   async getMaterials(): Promise<PackageManagerSummary[]> {
     const { data, error } = await supabase
-      .from("package_manager_description__materials")
+      .from("package_manager_description_materials")
       .select(
         `
-        id: package_manager_description__materials_id,
-        name: package_manager_description__materials_name,
-        description: package_manager_description__materials_description,
-        category: package_manager_description__materials_category,
-        representativeImageUrl: package_manager_description__materials_representative_image_url
-      `
+        id: package_manager_description_material_id,
+        name: package_manager_description_material_name,
+        description: package_manager_description_material_description,
+        category: package_manager_description_material_category,
+        representativeImageUrl: package_manager_description_material_image_url
+      `,
       )
-      .order("package_manager_description__materials_created_date", {
+      .order("created_at", {
         ascending: false,
       });
 
@@ -49,10 +49,10 @@ export const PackageManagerListService = {
         description: package_manager_description__materials_description,
         category: package_manager_description__materials_category,
         representativeImageUrl: package_manager_description__materials_representative_image_url
-      `
+      `,
       )
       .or(
-        `package_manager_description__materials_name.ilike.%${keyword}%,package_manager_description__materials_description.ilike.%${keyword}%`
+        `package_manager_description__materials_name.ilike.%${keyword}%,package_manager_description__materials_description.ilike.%${keyword}%`,
       )
       .order("package_manager_description__materials_name", {
         ascending: true,
@@ -71,7 +71,7 @@ export const PackageManagerListService = {
    * @param categoryName 필터링할 태그 (예: 'JavaScript')
    */
   async filterByCategory(
-    categoryName: string
+    categoryName: string,
   ): Promise<PackageManagerSummary[]> {
     const { data, error } = await supabase
       .from("package_manager_description__materials")
@@ -82,7 +82,7 @@ export const PackageManagerListService = {
         description: package_manager_description__materials_description,
         category: package_manager_description__materials_category,
         representativeImageUrl: package_manager_description__materials_representative_image_url
-      `
+      `,
       )
       .contains("package_manager_description__materials_category", [
         categoryName,

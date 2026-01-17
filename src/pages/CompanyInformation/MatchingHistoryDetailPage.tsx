@@ -20,7 +20,7 @@ export default function MatchingHistoryDetailPage() {
 
   // 상태 관리
   const [match, setMatch] = useState<GetMatchingHistoryDetailResponse | null>(
-    null
+    null,
   );
   const [isLoading, setIsLoading] = useState(true);
 

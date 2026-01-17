@@ -18,17 +18,17 @@ import {
 export const CompanyListService = {
   /**
    * [함수 역할]: 전체 회사 리스트를 조회합니다.
-   * [참조 테이블]: companys
+   * [참조 테이블]: companies
    * [설명]: 목록 화면에 필요한 기본 정보들을 최신 업데이트 순으로 가져옵니다.
    */
   async getCompanyList(): Promise<GetCompanyListResponse> {
     try {
       const { data, error } = await supabase
-        .from("companys")
+        .from("companies")
         .select(
-          "company_id, company_name, company_industry, company_description, company_values, company_website, company_update_at"
+          "company_id, company_name, company_industry, company_description, company_values, company_website, created_at",
         )
-        .order("company_update_at", { ascending: false });
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
       return data;
@@ -44,17 +44,17 @@ export const CompanyListService = {
    * [설명]: 리스트에서 각 카드의 북마크 활성화 여부(isBookmarked)를 판단하기 위해 사용합니다.
    */
   async getUserBookmarkedIds(
-    params: GetUserBookmarkedIdsParams
+    params: GetUserBookmarkedIdsParams,
   ): Promise<GetUserBookmarkedIdsResponse> {
     try {
       const { data, error } = await supabase
         .from("user_favorite_companies")
-        .select("companie_id")
+        .select("company_id")
         .eq("user_id", params.userId);
 
       if (error) throw error;
       // id 배열 형태로 변환하여 반환
-      return data.map((item) => item.companie_id);
+      return data.map((item) => item.company_id);
     } catch (error) {
       console.error("Error fetching user bookmark IDs:", error);
       return [];
@@ -70,8 +70,8 @@ export const CompanyListService = {
       const { error } = await supabase.from("user_favorite_companies").insert([
         {
           user_id: params.userId,
-          companie_id: params.companyId,
-          user_favorite_companie_created_date: new Date().toISOString(),
+          company_id: params.companyId,
+          created_at: new Date().toISOString(),
         },
       ]);
 
@@ -88,14 +88,14 @@ export const CompanyListService = {
    * [참조 테이블]: user_favorite_companies
    */
   async removeBookmark(
-    params: RemoveBookmarkParams
+    params: RemoveBookmarkParams,
   ): Promise<RemoveBookmarkResponse> {
     try {
       const { error } = await supabase
         .from("user_favorite_companies")
         .delete()
         .eq("user_id", params.userId)
-        .eq("companie_id", params.companyId);
+        .eq("company_id", params.companyId);
 
       if (error) throw error;
       return true;
@@ -110,7 +110,7 @@ export const CompanyListService = {
    * [비고]: UI의 toggleBookmark 핸들러 내에서 호출하여 DB와 상태를 동기화합니다.
    */
   async toggleBookmarkInDB(
-    params: ToggleBookmarkInDBParams
+    params: ToggleBookmarkInDBParams,
   ): Promise<ToggleBookmarkInDBResponse> {
     if (params.isCurrentlyBookmarked) {
       return await this.removeBookmark({

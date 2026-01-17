@@ -26,18 +26,12 @@ export const LoginService = {
 
       if (error) throw error;
 
-      // 토큰을 로컬스토리지에 저장
-      if (data.session) {
-        localStorage.setItem("access_token", data.session.access_token);
-        localStorage.setItem("refresh_token", data.session.refresh_token);
-      }
-
       return data.user;
     } catch (error) {
       throw new Error(
         error instanceof Error
           ? error.message
-          : "로그인 중 오류가 발생했습니다."
+          : "로그인 중 오류가 발생했습니다.",
       );
     }
   },

@@ -52,9 +52,9 @@ export const CompanyDetailService = {
     try {
       const { data, error } = await supabase
         .from("user_favorite_companies")
-        .select("user_favorite_companie_id")
+        .select("user_favorite_company_id")
         .eq("user_id", params.userId)
-        .eq("companie_id", params.companyId)
+        .eq("company_id", params.companyId)
         .maybeSingle();
 
       if (error) throw error;
@@ -74,8 +74,8 @@ export const CompanyDetailService = {
       const { error } = await supabase.from("user_favorite_companies").insert([
         {
           user_id: params.userId,
-          companie_id: params.companyId,
-          user_favorite_companie_created_date: new Date().toISOString(),
+          company_id: params.companyId,
+          created_at: new Date().toISOString(),
         },
       ]);
 
@@ -99,7 +99,7 @@ export const CompanyDetailService = {
         .from("user_favorite_companies")
         .delete()
         .eq("user_id", params.userId)
-        .eq("companie_id", params.companyId);
+        .eq("company_id", params.companyId);
 
       if (error) throw error;
       return true;

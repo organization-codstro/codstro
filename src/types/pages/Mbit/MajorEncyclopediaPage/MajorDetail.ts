@@ -1,6 +1,6 @@
-import { Major } from "../Mbit";
+import { MajorDetail } from "../Mbit";
 
 export interface MajorDetailProps {
-  major: Major;
+  major: MajorDetail;
   onBack: () => void;
 }

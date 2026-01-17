@@ -4,9 +4,7 @@ import { FortuneResultCardProps } from "../../../types/pages/Mbit/TodayFortunePa
 
 const FortuneResultCard: React.FC<FortuneResultCardProps> = ({ fortune }) => {
   return (
-    <div
-      className={`bg-gradient-to-br ${fortune.color} rounded-2xl p-12 shadow-xl text-white`}
-    >
+    <div className={`bg-gradient-to-br  rounded-2xl p-12 shadow-xl text-white`}>
       <div className="text-center">
         <div className="flex items-center justify-center w-32 h-32 mx-auto mb-6 bg-white rounded-full bg-opacity-20">
           <span className="text-6xl font-bold">{fortune.code}</span>

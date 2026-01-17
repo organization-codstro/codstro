@@ -10,7 +10,7 @@ export const InterviewCard = ({
 }: InterviewCardProps) => {
   // 날짜 포맷팅 (YYYY. MM. DD.)
   const formattedDate = new Date(
-    interview.company_user_qna_create_at
+    interview.created_at
   ).toLocaleDateString("ko-KR", {
     year: "numeric",
     month: "long",
@@ -44,7 +44,7 @@ export const InterviewCard = ({
           </div>
         </div>
 
-        <div className="flex flex-col items-center justify-between self-stretch gap-2">
+        <div className="flex flex-col items-center self-stretch justify-between gap-2">
           <div
             className="flex items-center justify-center w-12 h-12 rounded-lg"
             style={{

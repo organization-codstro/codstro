@@ -8,7 +8,7 @@ export interface CompanyListItem {
   company_description: string;
   company_values: string | null;
   company_website: string | null;
-  company_update_at: string;
+  created_at: string;
 }
 
 /**

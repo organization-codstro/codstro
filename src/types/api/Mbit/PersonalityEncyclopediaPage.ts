@@ -20,12 +20,12 @@ export interface PersonalitySummaryResponse {
   type: string;
   name: string;
   description: string;
-  detailedDescription: string;
-  strengths: string[];
-  weaknesses: string[];
+  participation: string;
+  strengths: string;
+  weaknesses: string;
   workStyle: string;
-  idealProjects: string[];
-  famousDevelopers: string[];
+  approach: string;
+  recommendedJob: string;
 }
 
 /**

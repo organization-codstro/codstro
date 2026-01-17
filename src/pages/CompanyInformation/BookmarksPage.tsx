@@ -69,7 +69,7 @@ export default function BookmarksPage() {
 
       // 로컬 상태 업데이트
       setBookmarkedCompanies((prev) =>
-        prev.filter((company) => company.company_id !== companyId)
+        prev.filter((company) => company.company_id !== companyId),
       );
     } catch (err) {
       console.error("북마크 삭제 실패:", err);

@@ -2,7 +2,7 @@ import { TrendingUp } from "lucide-react";
 import { TrendingSectionProps } from "../../../types/pages/ProjectPlanning/ProjectMainPage/TrendingSection";
 
 export const TrendingSection = ({ news }: TrendingSectionProps) => (
-  <div className="mt-8">
+  <div>
     <h2 className="flex items-center mb-4 space-x-2 text-xl font-semibold text-gray-900">
       <TrendingUp className="w-5 h-5 text-[#587CF0]" />
       <span>Trending Topics</span>

@@ -21,15 +21,14 @@ export const FortuneEncyclopediaService = {
       .select(
         `
         id: developer_fortune_id,
-        code: fortune_code,
-        name: fortune_name,
-        summary: fortune_summary,
-        description: fortune_description,
-        categoryMessage: fortune_category_message,
-        color: fortune_color_gradient
-      `
+        code: developer_fortune_code,
+        name: developer_fortune_name,
+        summary: developer_fortune_one_line_summary,
+        description: developer_fortune_description,
+        categoryMessage: developer_fortune_category_message
+      `,
       )
-      .order("fortune_code", { ascending: true });
+      .order("developer_fortune_code", { ascending: true });
 
     if (error) {
       console.error("Error fetching fortunes:", error.message);
@@ -44,7 +43,7 @@ export const FortuneEncyclopediaService = {
    * 테이블: user_fortune, developer_fortunes
    */
   async getTodayUserFortune(
-    params: GetTodayUserFortuneParams
+    params: GetTodayUserFortuneParams,
   ): Promise<UserTodayFortune> {
     const { userId } = params;
     const today = new Date().toISOString().split("T")[0];

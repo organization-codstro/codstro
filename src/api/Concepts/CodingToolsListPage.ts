@@ -24,10 +24,10 @@ export const CodingToolsListService = {
         name:tool_description_material_name,
         description:tool_description_material_description,
         category:tool_description_material_category,
-        representative_image_url:tool_description_material_representative_image_url
-      `
+        representative_image_url:tool_description_material_image_url
+      `,
       )
-      .order("tool_description_material_created_date", { ascending: false });
+      .order("created_at", { ascending: false });
 
     if (error) throw new Error(error.message);
 
@@ -52,10 +52,10 @@ export const CodingToolsListService = {
         description:tool_description_material_description,
         category:tool_description_material_category,
         representative_image_url:tool_description_material_representative_image_url
-      `
+      `,
       )
       .or(
-        `tool_description_material_name.ilike.%${keyword}%,tool_description_material_description.ilike.%${keyword}%`
+        `tool_description_material_name.ilike.%${keyword}%,tool_description_material_description.ilike.%${keyword}%`,
       )
       .order("tool_description_material_name", { ascending: true });
 
@@ -71,7 +71,7 @@ export const CodingToolsListService = {
    * [필터링] 특정 카테고리에 해당하는 툴만 필터링합니다.
    */
   async filterToolsByCategory(
-    params: FilterToolsByCategoryParams
+    params: FilterToolsByCategoryParams,
   ): Promise<ToolSummaryResponse[]> {
     const { categoryName } = params;
 
@@ -84,7 +84,7 @@ export const CodingToolsListService = {
         description:tool_description_material_description,
         category:tool_description_material_category,
         representative_image_url:tool_description_material_representative_image_url
-      `
+      `,
       )
       .contains("tool_description_material_category", [categoryName]);
 
@@ -100,7 +100,7 @@ export const CodingToolsListService = {
    * [AI 제안] Gemini API를 사용하여 현재 검색어와 관련된 인기 있는 툴 키워드를 추천합니다.
    */
   async getAIToolSuggestions(
-    params: GetAIToolSuggestionsParams
+    params: GetAIToolSuggestionsParams,
   ): Promise<string[]> {
     const { keyword } = params;
 

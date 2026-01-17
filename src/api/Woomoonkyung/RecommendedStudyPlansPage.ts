@@ -35,7 +35,7 @@ export const RecommendedStudyPlansService = {
         );
       }
 
-      const { data, error } = await query.order("study_plan_created_date", {
+      const { data, error } = await query.order("created_at", {
         ascending: false,
       });
 

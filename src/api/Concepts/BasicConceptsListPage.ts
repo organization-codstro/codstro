@@ -22,13 +22,13 @@ export const BasicConceptsListService = {
       .select(
         `
         id:concept_description_material_id,
-        name:concept_description_material_title,
+        name:concept_description_material_name,
         description:concept_description_material_description,
         category:concept_description_material_category,
-        representative_image_url:concept_description_material_representative_image_url
-      `
+        representative_image_url:concept_description_material_image_url
+      `,
       )
-      .order("concept_description_material_created_date", { ascending: false });
+      .order("created_at", { ascending: false });
 
     if (error) throw new Error(error.message);
 
@@ -41,7 +41,7 @@ export const BasicConceptsListService = {
    * [검색] 키워드를 통해 제목 또는 설명에서 개념을 검색합니다.
    */
   async searchConcepts(
-    params: SearchConceptsParams
+    params: SearchConceptsParams,
   ): Promise<ConceptSummaryResponse[]> {
     const { keyword } = params;
 
@@ -50,14 +50,14 @@ export const BasicConceptsListService = {
       .select(
         `
         id:concept_description_material_id,
-        name:concept_description_material_title,
+        name:concept_description_material_name,
         description:concept_description_material_description,
         category:concept_description_material_category,
         representative_image_url:concept_description_material_representative_image_url
-      `
+      `,
       )
       .or(
-        `concept_description_material_title.ilike.%${keyword}%,concept_description_material_description.ilike.%${keyword}%`
+        `concept_description_material_name.ilike.%${keyword}%,concept_description_material_description.ilike.%${keyword}%`,
       )
       .order("concept_description_material_created_date", { ascending: false });
 
@@ -72,7 +72,7 @@ export const BasicConceptsListService = {
    * [필터] 특정 카테고리에 속한 개념들만 필터링합니다.
    */
   async filterByCategory(
-    params: FilterByCategoryParams
+    params: FilterByCategoryParams,
   ): Promise<ConceptSummaryResponse[]> {
     const { category } = params;
 
@@ -81,11 +81,11 @@ export const BasicConceptsListService = {
       .select(
         `
         id:concept_description_material_id,
-        name:concept_description_material_title,
+        name:concept_description_material_name,
         description:concept_description_material_description,
         category:concept_description_material_category,
         representative_image_url:concept_description_material_representative_image_url
-      `
+      `,
       )
       .contains("concept_description_material_category", [category]);
 
@@ -100,7 +100,7 @@ export const BasicConceptsListService = {
    * [AI 추천] Gemini API를 사용하여 유저의 관심사에 맞는 개념 키워드를 제안받습니다.
    */
   async getRecommendedKeywords(
-    params: GetRecommendedKeywordsParams
+    params: GetRecommendedKeywordsParams,
   ): Promise<string[]> {
     const { userInterests } = params;
 

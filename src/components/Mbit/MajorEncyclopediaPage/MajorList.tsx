@@ -3,6 +3,7 @@ import MajorCard from "./MajorCard";
 import { MajorListProps } from "../../../types/pages/Mbit/MajorEncyclopediaPage/MajorList";
 
 const MajorList: React.FC<MajorListProps> = ({ majors, onSelectMajor }) => {
+  console.log(majors);
   return (
     <div className="max-w-6xl mx-auto">
       <div className="mb-8">

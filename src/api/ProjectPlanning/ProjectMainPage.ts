@@ -21,7 +21,7 @@ export const ProjectMainService = {
         .from("projects")
         .select("*")
         .eq("user_id", params.userId)
-        .order("project_created_date", { ascending: false });
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
 
@@ -44,7 +44,7 @@ export const ProjectMainService = {
         .from("project_plannings")
         .select("*")
         .eq("user_id", params.userId)
-        .order("project_created_date", { ascending: false });
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
 

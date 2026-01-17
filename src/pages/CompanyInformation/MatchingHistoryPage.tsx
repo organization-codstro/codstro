@@ -70,7 +70,7 @@ export default function MatchingHistoryPage() {
 
         if (success) {
           setHistory((prev) =>
-            prev.filter((item) => item.company_user_matche_id !== id)
+            prev.filter((item) => item.company_user_match_id !== id),
           );
           setDeletePendingId(null);
           toast.success("해당 매칭 기록이 삭제되었습니다.");
@@ -110,12 +110,12 @@ export default function MatchingHistoryPage() {
           <div className="space-y-4">
             {history.map((match) => (
               <MatchingCard
-                key={match.company_user_matche_id}
+                key={match.company_user_match_id}
                 match={match}
-                isPending={deletePendingId === match.company_user_matche_id}
-                onDelete={(e) => handleDelete(e, match.company_user_matche_id)}
+                isPending={deletePendingId === match.company_user_match_id}
+                onDelete={(e) => handleDelete(e, match.company_user_match_id)}
                 onClick={() =>
-                  navigate(`/matches/${match.company_user_matche_id}`)
+                  navigate(`/matches/${match.company_user_match_id}`)
                 }
               />
             ))}
