@@ -176,9 +176,11 @@ export default function AppRoutes() {
         {/* ================= MBIT ================= */}
         {/* <Route path="/mbit" element={<Page.MbitHome />} /> */}
         <Route path="/mbit/fortune" element={<Page.TodayFortune />} />
+
+
         <Route
           path="/mbit/fortune-encyclopedias"
-          element={<Page.FortuneEncyclopedia />}
+          element={<Page.FortuneEncyclopediaList />}
         />
         <Route
           path="/mbit/fortune-encyclopedias/:fortuneId"
@@ -186,14 +188,26 @@ export default function AppRoutes() {
         />
 
         <Route path="/mbit/personality" element={<Page.PersonalityTest />} />
+
+
         <Route
-          path="/mbit/personality-encyclopedia"
-          element={<Page.PersonalityEncyclopedia />}
+          path="/mbit/personality-encyclopedias"
+          element={<Page.PersonalityEncyclopediaList />}
         />
-        <Route path="/mbit/major" element={<Page.MajorTest />} />
         <Route
-          path="/mbit/major-encyclopedia"
-          element={<Page.MajorEncyclopedia />}
+          path="/mbit/personality-encyclopedias/:personalityId"
+          element={<Page.PersonalityEncyclopediaDetail />}
+        />
+
+        <Route path="/mbit/major" element={<Page.MajorTest />} />
+
+        <Route
+          path="/mbit/major-encyclopedias"
+          element={<Page.MajorEncyclopediaList />}
+        />
+        <Route
+          path="/mbit/major-encyclopedias/:majorId"
+          element={<Page.MajorEncyclopediaDetail />}
         />
 
         {/* ================= Coding Concepts ================= */}

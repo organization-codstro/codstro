@@ -89,7 +89,7 @@ export const navigationData: NavigationItem[] = [
         id: "fortune-encyclopedia",
         title: "Dev Fortune Encyclopedia",
         icon: "ScrollText", // 운세 백과사전
-        route: "/mbit/fortune-encyclopedia",
+        route: "/mbit/fortune-encyclopedias",
       },
       {
         id: "personality-test",
@@ -101,7 +101,7 @@ export const navigationData: NavigationItem[] = [
         id: "personality-encyclopedia",
         title: "Personality Test Encyclopedia",
         icon: "BookText", // 성격 백과사전
-        route: "/mbit/personality-encyclopedia",
+        route: "/mbit/personality-encyclopedias",
       },
       {
         id: "major-test",
@@ -113,7 +113,7 @@ export const navigationData: NavigationItem[] = [
         id: "major-encyclopedia",
         title: "Major Encyclopedia & Descriptions",
         icon: "BookMarked", // 전공 백과사전
-        route: "/mbit/major-encyclopedia",
+        route: "/mbit/major-encyclopedias",
       },
     ],
   },
