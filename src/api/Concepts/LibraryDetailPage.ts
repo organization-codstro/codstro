@@ -20,10 +20,9 @@ export const LibraryDetailService = {
    * 해당 라이브러리에 대한 유저의 학습(이해) 상태를 함께 조회합니다.
    */
   async getLibraryDetail(
-    params: GetLibraryDetailParams
+    params: GetLibraryDetailParams,
   ): Promise<LibraryDetailResponse> {
     const { libraryId, userId } = params;
-    const numericLibraryId = Number(libraryId);
 
     const { data: libraryData, error: libraryError } = await supabase
       .from("librarie_description_materials")
@@ -36,9 +35,9 @@ export const LibraryDetailService = {
         content:librarie_description_material_content,
         category:librarie_description_material_category,
         officialSite:librarie_description_material_document_url
-      `
+      `,
       )
-      .eq("librarie_description_material_id", numericLibraryId)
+      .eq("librarie_description_material_id", libraryId)
       .single();
 
     if (libraryError || !libraryData) {
@@ -49,7 +48,7 @@ export const LibraryDetailService = {
       .from("user_concepts")
       .select("user_concept_id")
       .eq("user_id", userId)
-      .eq("librarie_description_material_id", numericLibraryId)
+      .eq("librarie_description_material_id", libraryId)
       .maybeSingle();
 
     const relatedItems: any[] = [];
@@ -66,17 +65,16 @@ export const LibraryDetailService = {
    * 라이브러리에 대한 유저의 이해 상태를 토글합니다.
    */
   async toggleLibraryUnderstood(
-    params: ToggleLibraryUnderstoodParams
+    params: ToggleLibraryUnderstoodParams,
   ): Promise<boolean> {
     const { userId, libraryId, currentStatus } = params;
-    const numericLibraryId = Number(libraryId);
 
     if (currentStatus) {
       const { error } = await supabase
         .from("user_concepts")
         .delete()
         .eq("user_id", userId)
-        .eq("librarie_description_material_id", numericLibraryId);
+        .eq("librarie_description_material_id", libraryId);
 
       if (error) throw error;
       return false;
@@ -84,7 +82,7 @@ export const LibraryDetailService = {
 
     const { error } = await supabase.from("user_concepts").insert({
       user_id: userId,
-      librarie_description_material_id: numericLibraryId,
+      librarie_description_material_id: libraryId,
       user_concept_is_starred: false,
       third_party_services_description_material_id: null,
     });
@@ -101,7 +99,7 @@ export const LibraryDetailService = {
 
     try {
       return await generateAiContent(
-        `라이브러리 [${libraryName}]에 대한 질문: ${question}`
+        `라이브러리 [${libraryName}]에 대한 질문: ${question}`,
       );
     } catch (error) {
       console.error("Gemini API Error:", error);

@@ -22,13 +22,15 @@ export const LibraryListService = {
         `
         id:librarie_description_material_id,
         name:librarie_description_material_name,
-        language:librarie_description_material_included_language,
         description:librarie_description_material_description,
         category:librarie_description_material_category,
-        representative_image_url:librarie_description_material_representative_image_url
-      `
+        content:librarie_description_material_content,
+        documentUrl : librarie_description_material_document_url,
+        includedLanguage:librarie_description_material_included_language,
+        representativeImageUrl:librarie_description_material_image_url
+      `,
       )
-      .order("librarie_description_materials_created_date", {
+      .order("created_at", {
         ascending: false,
       });
 
@@ -36,7 +38,6 @@ export const LibraryListService = {
 
     return (data || []).map((item) => ({
       ...item,
-      tags: item.category || [],
     }));
   },
 
@@ -44,7 +45,7 @@ export const LibraryListService = {
    * [검색] 라이브러리 이름 또는 포함된 언어로 검색합니다.
    */
   async searchLibraries(
-    params: SearchLibrariesParams
+    params: SearchLibrariesParams,
   ): Promise<LibrarySummaryResponse[]> {
     const { keyword } = params;
 
@@ -54,14 +55,16 @@ export const LibraryListService = {
         `
         id:librarie_description_material_id,
         name:librarie_description_material_name,
-        language:librarie_description_material_included_language,
         description:librarie_description_material_description,
         category:librarie_description_material_category,
-        representative_image_url:librarie_description_material_representative_image_url
-      `
+        content:librarie_description_material_content,
+        documentUrl : librarie_description_material_document_url,
+        includedLanguage:librarie_description_material_included_language,
+        representativeImageUrl:librarie_description_material_image_url
+      `,
       )
       .or(
-        `librarie_description_material_name.ilike.%${keyword}%,librarie_description_material_included_language.ilike.%${keyword}%`
+        `librarie_description_material_name.ilike.%${keyword}%,librarie_description_material_included_language.ilike.%${keyword}%`,
       )
       .order("librarie_description_material_name", { ascending: true });
 
@@ -69,7 +72,6 @@ export const LibraryListService = {
 
     return (data || []).map((item) => ({
       ...item,
-      tags: item.category || [],
     }));
   },
 
@@ -77,38 +79,38 @@ export const LibraryListService = {
    * [필터] 특정 언어 또는 카테고리로 라이브러리를 필터링합니다.
    */
   async filterLibraries(
-    params: FilterLibrariesParams
+    params: FilterLibrariesParams,
   ): Promise<LibrarySummaryResponse[]> {
     const { column, value } = params;
 
     let query = supabase.from("librarie_description_materials").select(`
         id:librarie_description_material_id,
         name:librarie_description_material_name,
-        language:librarie_description_material_included_language,
         description:librarie_description_material_description,
         category:librarie_description_material_category,
-        representative_image_url:librarie_description_material_representative_image_url
+        content:librarie_description_material_content,
+        documentUrl : librarie_description_material_document_url,
+        includedLanguage:librarie_description_material_included_language,
+        representativeImageUrl:librarie_description_material_image_url
       `);
 
     if (column === "language") {
       query = query.eq(
         "librarie_description_material_included_language",
-        value
+        value,
       );
     } else {
       query = query.contains("librarie_description_material_category", [value]);
     }
 
-    const { data, error } = await query.order(
-      "librarie_description_materials_created_date",
-      { ascending: false }
-    );
+    const { data, error } = await query.order("created_at", {
+      ascending: false,
+    });
 
     if (error) throw new Error(error.message);
 
     return (data || []).map((item) => ({
       ...item,
-      tags: item.category || [],
     }));
   },
 
@@ -116,7 +118,7 @@ export const LibraryListService = {
    * [AI 추천] Gemini API를 사용하여 특정 프로젝트 성격에 맞는 라이브러리 조합을 추천받습니다.
    */
   async getAILibraryStackRecommendation(
-    params: GetAILibraryStackRecommendationParams
+    params: GetAILibraryStackRecommendationParams,
   ): Promise<string[]> {
     const { projectType } = params;
 

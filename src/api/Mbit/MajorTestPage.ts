@@ -1,5 +1,5 @@
 import { supabase } from "../../db/supabase/supabase";
-import { Major } from "../../types/api/Mbit/MajorTestPage";
+import { Major } from "../../types/api/Mbit/Mbit";
 
 /**
  * [MajorTestService]
@@ -22,7 +22,7 @@ export const MajorTestService = {
           major_question_axis,
           major_question_trait,
           major_question_score_value
-        `
+        `,
         )
         .order("major_question_id", { ascending: true });
 
@@ -55,16 +55,11 @@ export const MajorTestService = {
       id: data.major_id,
       name: data.major_name,
       description: data.major_description,
-      detailedDescription: data.major_detailed_description,
-      focus: data.major_focus,
-      careers: data.major_recommended_occupation,
-      color: data.major_color_gradient,
-      salaryRange: data.major_salary_range,
       jobOutlook: data.major_job_outlook,
-      keySkills: data.major_strengths,
-      learningPath: data.major_learning_path,
-      famousCompanies: data.major_famous_companies,
-      dayInLife: data.major_day_in_life,
+      majorStrengths: data.major_strengths,
+      majorWeaknesses: data.major_weaknesses,
+      majorStrathManagement: data.major_strath_management,
+      annualIncome: data.major_annual_income,
     };
   },
 };

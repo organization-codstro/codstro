@@ -4,7 +4,7 @@ import { PackageManagerDetail } from "../../types/api/Concepts/PackageDetailPage
 /**
  * [PackageManagerService]
  * 패키지 매니저(NPM, Yarn, PNPM 등)의 상세 정보 조회 및 사용자 인터랙션을 담당합니다.
- * 참조 테이블: package_manager_description__materials, user_concepts
+ * 참조 테이블: package_manager_description_materials, user_concepts
  */
 export const PackageManagerService = {
   /**
@@ -17,19 +17,19 @@ export const PackageManagerService = {
     try {
       // 1. 패키지 매니저 기본 정보 조회
       const { data: material, error: materialError } = await supabase
-        .from("package_manager_description__materials")
+        .from("package_manager_description_materials")
         .select(
           `
-          id: package_manager_description__materials_id,
-          name: package_manager_description__materials_name,
-          description: package_manager_description__materials_description,
-          content: package_manager_description__materials_content,
-          category: package_manager_description__materials_category,
-          documentUrl: package_manager_description__materials_document_url,
-          representativeImageUrl: package_manager_description__materials_representative_image_url
+          id: package_manager_description_material_id,
+          name: package_manager_description_material_name,
+          description: package_manager_description_material_description,
+          content: package_manager_description_material_content,
+          category: package_manager_description_material_category,
+          documentUrl: package_manager_description_material_document_url,
+          representativeImageUrl: package_manager_description_material_image_url
         `
         )
-        .eq("package_manager_description__materials_id", materialId)
+        .eq("package_manager_description_material_id", materialId)
         .single();
 
       if (materialError) throw materialError;
@@ -39,16 +39,16 @@ export const PackageManagerService = {
         .from("user_concepts")
         .select("user_concept_id")
         .eq("user_id", userId)
-        .eq("package_manager_description__materials_id", materialId)
+        .eq("package_manager_description_material_id", materialId)
         .single();
 
       // 3. 연관 자료 조회 (간단한 로직: 동일 카테고리 내 다른 아이템)
       const { data: related } = await supabase
-        .from("package_manager_description__materials")
+        .from("package_manager_description_materials")
         .select(
-          "id:package_manager_description__materials_id, name:package_manager_description__materials_name"
+          "id:package_manager_description_material_id, name:package_manager_description_material_name"
         )
-        .neq("package_manager_description__materials_id", materialId)
+        .neq("package_manager_description_material_id", materialId)
         .limit(4);
 
       return {
@@ -76,14 +76,14 @@ export const PackageManagerService = {
         .from("user_concepts")
         .delete()
         .eq("user_id", userId)
-        .eq("package_manager_description__materials_id", materialId);
+        .eq("package_manager_description_material_id", materialId);
       if (error) throw error;
       return false;
     } else {
       // 새로 이해함 체크라면 레코드 삽입
       const { error } = await supabase.from("user_concepts").insert({
         user_id: userId,
-        package_manager_description__materials_id: parseInt(materialId),
+        package_manager_description_material_id: parseInt(materialId),
         user_concept_is_starred: false,
         // 다른 FK 필드들은 기본값(1) 또는 NULL 처리
         concept_description_material_id: 1,

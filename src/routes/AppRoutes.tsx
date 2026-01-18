@@ -177,9 +177,14 @@ export default function AppRoutes() {
         {/* <Route path="/mbit" element={<Page.MbitHome />} /> */}
         <Route path="/mbit/fortune" element={<Page.TodayFortune />} />
         <Route
-          path="/mbit/fortune-encyclopedia"
+          path="/mbit/fortune-encyclopedias"
           element={<Page.FortuneEncyclopedia />}
         />
+        <Route
+          path="/mbit/fortune-encyclopedias/:fortuneId"
+          element={<Page.FortuneEncyclopediaDetail />}
+        />
+
         <Route path="/mbit/personality" element={<Page.PersonalityTest />} />
         <Route
           path="/mbit/personality-encyclopedia"

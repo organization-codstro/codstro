@@ -1,6 +1,6 @@
-import { Personality } from "../Mbit";
+import { PersonalityDetail } from "../Mbit";
 
 export interface PersonalityTestResultProps {
-  result: Personality;
+  result: PersonalityDetail;
   onReset: () => void;
 }

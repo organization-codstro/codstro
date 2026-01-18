@@ -1,25 +1,4 @@
-export interface Fortune {
-  id: string;
-  code: number;
-  name: string;
-  summary: string;
-  description: string;
-  categoryMessage: string;
-}
-
-export interface Majors {
-  id: string;
-  name: string;
-  description: string;
-}
-
 export interface Major {
-  id: string;
-  name: string;
-  description: string;
-}
-
-export interface MajorDetail {
   id: string;
   name: string;
   description: string;
@@ -28,6 +7,12 @@ export interface MajorDetail {
   majorStrengths: string;
   majorWeaknesses: string;
   majorStrathManagement: string;
+}
+
+export interface Personality {
+  id: string;
+  name: string;
+  code: string;
 }
 
 export interface PersonalityDetail {

@@ -6,7 +6,6 @@ export default function LibraryCard({
   language,
   description,
   category,
-  tags,
   onClick,
 }: LibraryCardProps) {
   return (
@@ -25,12 +24,12 @@ export default function LibraryCard({
         {category}
       </div>
       <div className="flex flex-wrap gap-2">
-        {tags.map((tag, idx) => (
+        {category.map((category, idx) => (
           <span
             key={idx}
             className="px-2 py-1 text-xs text-blue-600 rounded-full bg-blue-50"
           >
-            {tag}
+            {category}
           </span>
         ))}
       </div>

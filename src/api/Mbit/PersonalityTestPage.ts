@@ -1,5 +1,5 @@
 import { supabase } from "../../db/supabase/supabase";
-import { Personality } from "../../types/api/Mbit/PersonalityTestPage";
+import { PersonalityDetail } from "../../types/api/Mbit/Mbit";
 
 /**
  * [PersonalityTestService]
@@ -22,7 +22,7 @@ export const PersonalityTestService = {
           mbit_questions_axis,
           mbit_questions_trait,
           mbit_questions_score_value
-        `
+        `,
         )
         .order("mbit_questions_id", { ascending: true });
 
@@ -39,7 +39,7 @@ export const PersonalityTestService = {
    * 테이블: mbit_types
    * 역할: 계산된 4자리 코드(예: ECLB)를 기반으로 성격 유형의 상세 도감 데이터를 가져옵니다.
    */
-  async getPersonalityByCode(code: string): Promise<Personality | null> {
+  async getPersonalityByCode(code: string): Promise<PersonalityDetail | null> {
     const { data, error } = await supabase
       .from("mbit_types")
       .select("*")
@@ -53,15 +53,21 @@ export const PersonalityTestService = {
 
     return {
       id: data.mbit_type_id,
-      type: data.mbit_type_code,
       name: data.mbit_type_name,
-      description: data.mbit_type_description,
-      detailedDescription: data.mbit_type_detailed_description,
+      code: data.mbit_type_code,
+      participation: data.mbit_type_participation,
+      risks: data.mbit_type_risks,
+      thought: data.mbit_type_thought,
+      approach: data.mbit_type_approach,
+      recommendedJob: data.mbit_type_recommended_job,
+      recommendedReason: data.mbit_type_recommended_reason,
+      collaborativeStyle: data.mbit_type_collaborative_style,
       strengths: data.mbit_type_strengths,
       weaknesses: data.mbit_type_weaknesses,
-      workStyle: data.mbit_type_collaborative_style,
-      idealProjects: data.mbit_type_ideal_projects,
-      famousDevelopers: data.mbit_type_famous_developers,
+      strathManagement: data.mbit_type_strath_management,
+      morningGreetings: data.mbit_type_morning_greetings,
+      nightGreetings: data.mbit_type_night_greetings,
+      createdAt: data.mbit_type_created_at,
     };
   },
 };

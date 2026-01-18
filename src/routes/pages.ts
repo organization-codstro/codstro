@@ -66,11 +66,12 @@ export { default as AddFriend } from "../pages/AiChat/AddFriendPage";
 /* ================= MBIT ================= */
 export { default as MbitHome } from "../pages/Mbit/MbitMainPage";
 export { default as TodayFortune } from "../pages/Mbit/TodayFortunePage";
-export { default as FortuneEncyclopedia } from "../pages/Mbit/FortuneEncyclopediaPage";
+export { default as FortuneEncyclopedia } from "../pages/Mbit/FortuneEncyclopediaListPage";
+export { default as FortuneEncyclopediaDetail } from "../pages/Mbit/FortuneEncyclopediaDetailPage";
 export { default as PersonalityTest } from "../pages/Mbit/PersonalityTestPage";
-export { default as PersonalityEncyclopedia } from "../pages/Mbit/PersonalityEncyclopediaPage";
+export { default as PersonalityEncyclopedia } from "../pages/Mbit/PersonalityEncyclopediaListPage";
 export { default as MajorTest } from "../pages/Mbit/MajorTestPage";
-export { default as MajorEncyclopedia } from "../pages/Mbit/MajorEncyclopediaPage";
+export { default as MajorEncyclopedia } from "../pages/Mbit/MajorEncyclopediaListPage";
 
 /* ================= CONCEPTS ================= */
 export { default as ConceptMain } from "../pages/Concepts/ConceptMainPage";

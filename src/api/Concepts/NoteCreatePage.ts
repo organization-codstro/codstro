@@ -64,7 +64,7 @@ export const NoteCreateService = {
         // 나머지 material_id들은 기본값 1 또는 NULL 처리
         tool_description_material_id: 1,
         librarie_description_material_id: 1,
-        package_manager_description__materials_id: 1,
+        package_manager_description_materials_id: 1,
         third_party_services_description_material_id: 1,
       }));
 

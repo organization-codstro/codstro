@@ -1,11 +1,12 @@
 export interface LibrarySummaryResponse {
   id: string;
   name: string;
-  language: string;
   description: string;
   category: string[];
-  tags: string[]; // DB의 category 배열을 UI용 tags로 매핑
-  representative_image_url?: string;
+  content: string;
+  documentUrl: string;
+  includedLanguage: string;
+  representativeImageUrl?: string;
 }
 export interface SearchLibrariesParams {
   keyword: string;

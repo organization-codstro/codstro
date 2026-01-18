@@ -18,9 +18,7 @@ const PersonalityTestResult: React.FC<PersonalityTestResultProps> = ({
         <div className="text-6xl font-bold text-[#587CF0] mb-6">
           {result.name}
         </div>
-        <p className="mb-8 text-lg text-gray-600">
-         {result.description}
-        </p>
+
         <button
           onClick={onReset}
           className="px-8 py-4 bg-gradient-to-r from-[#587CF0] to-purple-500 text-white rounded-xl font-medium hover:shadow-lg transition-all"

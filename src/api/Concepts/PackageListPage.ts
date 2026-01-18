@@ -4,7 +4,7 @@ import { PackageManagerSummary } from "../../types/api/Concepts/PackageListPage"
 /**
  * [PackageManagerListService]
  * 패키지 매니저(NPM, Yarn, PNPM 등) 리스트의 조회, 검색, 필터링을 관리합니다.
- * 참조 테이블: package_manager_description__materials
+ * 참조 테이블: package_manager_description_materials
  */
 export const PackageManagerListService = {
   /**
@@ -41,20 +41,20 @@ export const PackageManagerListService = {
    */
   async searchMaterials(keyword: string): Promise<PackageManagerSummary[]> {
     const { data, error } = await supabase
-      .from("package_manager_description__materials")
+      .from("package_manager_description_materials")
       .select(
         `
-        id: package_manager_description__materials_id,
-        name: package_manager_description__materials_name,
-        description: package_manager_description__materials_description,
-        category: package_manager_description__materials_category,
-        representativeImageUrl: package_manager_description__materials_representative_image_url
+        id: package_manager_description_material_id,
+        name: package_manager_description_material_name,
+        description: package_manager_description_material_description,
+        category: package_manager_description_material_category,
+        representativeImageUrl: package_manager_description_material_image_url
       `,
       )
       .or(
-        `package_manager_description__materials_name.ilike.%${keyword}%,package_manager_description__materials_description.ilike.%${keyword}%`,
+        `package_manager_description_material_name.ilike.%${keyword}%,package_manager_description_material_description.ilike.%${keyword}%`,
       )
-      .order("package_manager_description__materials_name", {
+      .order("package_manager_description_material_name", {
         ascending: true,
       });
 
@@ -74,17 +74,17 @@ export const PackageManagerListService = {
     categoryName: string,
   ): Promise<PackageManagerSummary[]> {
     const { data, error } = await supabase
-      .from("package_manager_description__materials")
+      .from("package_manager_description_materials")
       .select(
         `
-        id: package_manager_description__materials_id,
-        name: package_manager_description__materials_name,
-        description: package_manager_description__materials_description,
-        category: package_manager_description__materials_category,
-        representativeImageUrl: package_manager_description__materials_representative_image_url
+        id: package_manager_description_material_id,
+        name: package_manager_description_material_name,
+        description: package_manager_description_material_description,
+        category: package_manager_description_material_category,
+        representativeImageUrl: package_manager_description_material_image_url
       `,
       )
-      .contains("package_manager_description__materials_category", [
+      .contains("package_manager_description_material_category", [
         categoryName,
       ]);
 

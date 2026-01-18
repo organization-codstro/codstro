@@ -86,7 +86,7 @@ export interface NoteConcept {
   concept_description_material_id: number; // FK / number
   tool_description_material_id: number; // FK / number
   librarie_description_material_id: number; // FK / number
-  package_manager_description__materials_id: number; // FK / number
+  package_manager_description_material_id: number; // FK / number
   third_party_services_description_material_id: number; // FK / number
 }
 
@@ -295,7 +295,7 @@ export interface StudyPlans {
 }
 
 export interface PackageManagerDescriptionMaterials {
-  package_manager_description__materials_id: number; // PK / number
+  package_manager_description_material_id: number; // PK / number
   package_manager_description_material_name: string; // text
   package_manager_description__material_description: string | null; // text
   package_manager_description_material_content: string; // text
@@ -446,7 +446,7 @@ export interface UserConcepts {
   tool_description_material_id: number | null; // FK / number
   concept_description_material_id: number | null; // FK / number
   librarie_description_material_id: number | null; // FK / number
-  package_manager_description__materials_id: number | null; // FK / number
+  package_manager_description_material_id: number | null; // FK / number
   third_party_services_description_material_id: number; // FK / number
 }
 

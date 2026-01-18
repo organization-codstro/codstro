@@ -88,7 +88,7 @@ export const ThirdPartyDetailService = {
         concept_description_material_id: 1,
         tool_description_material_id: 1,
         librarie_description_material_id: 1,
-        package_manager_description__materials_id: 1,
+        package_manager_description_material_id: 1,
       });
 
       if (error) throw error;

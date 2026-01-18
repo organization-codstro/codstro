@@ -1,21 +1,21 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { Personality } from "../../types/api/Mbit/PersonalityTestPage";
 import { MbitAxisCode } from "../../data/Mbit/personalityTestQuestionData";
 import PersonalityTestIntro from "../../components/Mbit/PersonalityTestPage/PersonalityTestIntro";
 import PersonalityTestResult from "../../components/Mbit/PersonalityTestPage/PersonalityTestResult";
 import PersonalityTestProgress from "../../components/Mbit/PersonalityTestPage/PersonalityTestProgress";
 import TestQuestion from "../../components/Mbit/MajorTestPage/TestQuestion";
 import { PersonalityTestService } from "../../api/Mbit/PersonalityTestPage";
+import { PersonalityDetail } from "../../types/pages/Mbit/Mbit";
 
 export default function PersonalityTestPage() {
   const [questions, setQuestions] = useState<any[]>([]);
   const [started, setStarted] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [traitScores, setTraitScores] = useState<Record<MbitAxisCode, number>>(
-    {} as Record<MbitAxisCode, number>
+    {} as Record<MbitAxisCode, number>,
   );
-  const [resultData, setResultData] = useState<Personality | null>(null);
+  const [resultData, setResultData] = useState<PersonalityDetail | null>(null);
   const [loading, setLoading] = useState(true);
 
   // 1. 질문지 로드
@@ -59,9 +59,8 @@ export default function PersonalityTestPage() {
       // Toastify 로딩과 함께 결과 데이터 가져오기
       await toast.promise(
         async () => {
-          const detail = await PersonalityTestService.getPersonalityByCode(
-            finalCode
-          );
+          const detail =
+            await PersonalityTestService.getPersonalityByCode(finalCode);
           if (!detail) throw new Error("결과를 찾을 수 없습니다.");
           setResultData(detail);
         },
@@ -69,7 +68,7 @@ export default function PersonalityTestPage() {
           pending: "당신의 개발 성격을 분석 중입니다...",
           success: "분석이 완료되었습니다!",
           error: "분석 중 오류가 발생했습니다.",
-        }
+        },
       );
     }
   };
