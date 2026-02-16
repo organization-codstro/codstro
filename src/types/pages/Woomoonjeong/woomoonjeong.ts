@@ -22,27 +22,28 @@ export interface TodoFormData {
 }
 
 export interface Group {
-  id: string;
-  name: GROUP_TYPE;
-  description: string;
+  group_id: string;
+  group_name: GROUP_TYPE;
+  group_description: string;
   fields: Field[];
   created_at: string;
 }
 export interface Field {
-  id: string;
-  name: string;
-  description: string;
+  field_id: string;
+  field_name: string;
+  field_description: string;
   image?: string;
   pins: Pin[];
   created_at: string;
+  updated_at: string;
 }
 
 export interface Pin {
-  id: string;
-  title: string;
-  description: string;
-  url: string;
-  tags: string[];
+  pin_id: string;
+  pin_title: string;
+  pin_description: string;
+  pin_url: string;
+  pin_label: string[];
   created_at: string;
 }
 

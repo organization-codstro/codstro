@@ -32,7 +32,7 @@ export interface CreatePinParams {
   pin_title: string;
   pin_description: string;
   pin_url: string;
-  pin_label?: string;
+  pin_label?: string[];
   field_id: string;
 }
 

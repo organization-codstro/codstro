@@ -22,10 +22,10 @@ const FieldItem: React.FC<FieldItemProps> = ({
   onEditPin,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [tempName, setTempName] = useState(field.name);
+  const [tempName, setTempName] = useState(field.field_name);
 
   const handleSave = () => {
-    onSaveName(group.id, field.id, tempName);
+    onSaveName(group.group_id, field.field_id, tempName);
     setIsEditing(false);
   };
 
@@ -33,7 +33,13 @@ const FieldItem: React.FC<FieldItemProps> = ({
     <div className="pl-4 ml-4 border-l-2 border-gray-100">
       <div className="flex items-center justify-between p-2 rounded hover:bg-gray-50">
         <div className="flex items-center flex-1 gap-2">
-          <div className="cursor-pointer" onClick={onToggle}>
+          <div
+            className="cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggle();
+            }}
+          >
             {isExpanded ? (
               <ChevronDown className="w-3 h-3 text-gray-400" />
             ) : (
@@ -58,9 +64,12 @@ const FieldItem: React.FC<FieldItemProps> = ({
           ) : (
             <h4
               className="flex-1 font-medium text-gray-700 cursor-pointer"
-              onClick={onToggle}
+              onClick={(e) => {
+                e.stopPropagation();
+                onToggle();
+              }}
             >
-              {field.name}
+              {field.field_name}
             </h4>
           )}
         </div>
@@ -77,16 +86,16 @@ const FieldItem: React.FC<FieldItemProps> = ({
                 <Edit3 className="w-3 h-3" />
               </button>
               <button
-                onClick={(e) => onDeleteAction(e, "field", field.id)}
+                onClick={(e) => onDeleteAction(e, "field", field.field_id)}
                 className={`p-1 ${
                   deletePending?.type === "field" &&
-                  deletePending?.id === field.id
+                  deletePending?.id === field.field_id
                     ? "text-red-600"
                     : "text-gray-400"
                 }`}
               >
                 {deletePending?.type === "field" &&
-                deletePending?.id === field.id ? (
+                deletePending?.id === field.field_id ? (
                   <Check className="w-3 h-3" />
                 ) : (
                   <Trash2 className="w-3 h-3" />
@@ -100,16 +109,17 @@ const FieldItem: React.FC<FieldItemProps> = ({
         <div className="mt-2 ml-4 space-y-2">
           {field.pins.map((pin) => (
             <PinItem
-              key={pin.id}
+              key={pin.created_at}
               pin={pin}
               isDeletePending={
-                deletePending?.type === "pin" && deletePending?.id === pin.id
+                deletePending?.type === "pin" &&
+                deletePending?.id === pin.pin_id
               }
               onEdit={(e) => {
                 e.preventDefault();
-                onEditPin(pin.id);
+                onEditPin(pin.pin_id);
               }}
-              onDelete={(e) => onDeleteAction(e, "pin", pin.id)}
+              onDelete={(e) => onDeleteAction(e, "pin", pin.pin_id)}
             />
           ))}
         </div>

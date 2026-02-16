@@ -2,7 +2,6 @@ import React from "react";
 import { Plus } from "lucide-react";
 import { ManagementHeaderProps } from "../../../types/pages/Woomoonjeong/DocumentsManagementPage/ManagementHeader";
 
-
 const ManagementHeader: React.FC<ManagementHeaderProps> = ({
   onCreateDocument,
   onCreateField,
@@ -23,7 +22,7 @@ const ManagementHeader: React.FC<ManagementHeaderProps> = ({
           className="px-4 py-2 bg-[#587CF0] text-white rounded-lg font-medium hover:bg-[#4a6de8] transition-colors flex items-center gap-2"
         >
           <Plus className="w-4 h-4" />
-          Add document
+          Add Pin
         </button>
         <button
           onClick={onCreateField}

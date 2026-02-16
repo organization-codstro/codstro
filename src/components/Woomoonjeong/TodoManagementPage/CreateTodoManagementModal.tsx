@@ -38,7 +38,7 @@ const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -195,7 +195,7 @@ const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
               Description
             </label>
             <textarea
-              name="todo_description"
+              name="todo_content"
               rows={4}
               value={formData.todo_content}
               onChange={handleChange}

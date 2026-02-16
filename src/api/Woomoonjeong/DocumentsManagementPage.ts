@@ -81,7 +81,7 @@ export const DocumentsManagementService = {
         .insert([
           {
             ...payload,
-            field_created_date: new Date().toISOString(),
+            created_at: new Date().toISOString(),
           },
         ])
         .select()
@@ -127,7 +127,7 @@ export const DocumentsManagementService = {
         .insert([
           {
             ...payload,
-            pin_created_date: new Date().toISOString().split("T")[0],
+            created_at: new Date().toISOString(),
           },
         ])
         .select()

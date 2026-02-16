@@ -23,7 +23,7 @@ export const TodoManagementService = {
    * 참조 테이블: groups
    */
   async getUserGroups(
-    user_id: string
+    user_id: string,
   ): Promise<{ group_id: string; group_name: string }[]> {
     try {
       // 1. 현재 로그인된 유저 정보 가져오기
@@ -120,7 +120,7 @@ export const TodoManagementService = {
         };
         request = request.eq(
           "todo_status",
-          statusMap[params.status] || params.status
+          statusMap[params.status] || params.status,
         );
       }
 

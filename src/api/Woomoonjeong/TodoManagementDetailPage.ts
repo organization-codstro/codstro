@@ -129,11 +129,11 @@ export const TodoManagementDetailService = {
           {
             ...payload,
             todo_status: "waiting",
-            todo_created_date: new Date().toISOString().split("T")[0],
+            created_at: new Date().toISOString(),
           },
         ])
         .select()
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
       return data;

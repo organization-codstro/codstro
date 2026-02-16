@@ -2,6 +2,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../db/firebase/firebase";
 import { supabase } from "../../db/supabase/supabase";
 import { SignUpParams, SignUpResponse } from "../../types/api/Auth/SignupPage";
+import { GROUP_TYPES } from "../../constants/Woomoonjeong/Woomoonjeong";
 
 export const SignupService = {
   /**
@@ -18,14 +19,14 @@ export const SignupService = {
       if (params.profileFile) {
         const storageRef = ref(
           storage,
-          `profiles/${Date.now()}_${params.profileFile.name}`
+          `profiles/${Date.now()}_${params.profileFile.name}`,
         );
         const snapshot = await uploadBytes(storageRef, params.profileFile);
         profileUrl = await getDownloadURL(snapshot.ref);
       }
 
       // [Supabase] Auth 회원가입
-      // user_metadata에 저장된 값은 DB 트리거에서 new.raw_user_meta_data로 접근 가능합니다.
+      // user_metadata에 저장된 값은 DB 트리거에서 new.raw_user_meta_data로 접근 가능
       const { data, error } = await supabase.auth.signUp({
         email: params.email,
         password: params.password,
@@ -38,13 +39,31 @@ export const SignupService = {
       });
 
       if (error) throw error;
+
+      const userId = data.user?.id;
+      if (!userId) {
+        throw new Error("유저 ID를 가져올 수 없습니다.");
+      }
+
+      const groupInsertPayload = GROUP_TYPES.map((type) => ({
+        group_name: type,
+        group_description: null,
+        user_id: userId,
+      }));
+
+      const { error: groupError } = await supabase
+        .from("groups")
+        .insert(groupInsertPayload);
+
+      if (groupError) throw groupError;
+
       return data;
     } catch (error) {
       console.error("SignUp Error:", error);
       throw new Error(
         error instanceof Error
           ? error.message
-          : "회원가입 중 오류가 발생했습니다."
+          : "회원가입 중 오류가 발생했습니다.",
       );
     }
   },

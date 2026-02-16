@@ -2,19 +2,18 @@
 
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import { woomoonjeongData } from "../../../../data/woomoonjeong/woomoonjeongData";
 import { DEFAULT_GROUP_TYPE } from "../../../../constants/Woomoonjeong/DocumentsManagementPage/CreateCustomFieldModal";
 import { CreateDocumentModalProps } from "../../../../types/pages/Woomoonjeong/DocumentsManagementPage/Modal/CreateDocumentModal";
 import {
   GROUP_TYPE,
   GROUP_TYPES,
 } from "../../../../constants/Woomoonjeong/Woomoonjeong";
-import { Group } from "../../../../types/pages/Woomoonjeong/woomoonjeong";
 
 const CreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
   isOpen,
   onClose,
   onAdd,
+  groups,
 }) => {
   const [documentName, setDocumentName] = useState("");
   const [documentUrl, setDocumentUrl] = useState("");
@@ -23,26 +22,33 @@ const CreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
   const [categories, setCategories] = useState<string[]>([]);
   const [selectedGroupType, setSelectedGroupType] =
     useState<GROUP_TYPE>(DEFAULT_GROUP_TYPE);
-  const [fieldInfo, setFieldInfo] = useState("");
-  const [fieldOptions, setFieldOptions] = useState<string[]>([]);
+  const [selectedFieldId, setSelectedFieldId] = useState<string>("");
+  const [fieldOptions, setFieldOptions] = useState<
+    { field_id: string; field_name: string }[]
+  >([]);
 
   // 폼 검증 에러 상태
   const [errors, setErrors] = useState<Record<string, boolean>>({});
 
   // 선택된 그룹의 필드 옵션
   useEffect(() => {
-    const selectedGroup: Group | undefined = woomoonjeongData.find(
-      (group) => group.name === selectedGroupType
+    const selectedGroup = groups.find(
+      (group) => group.group_name === selectedGroupType,
     );
-    const options = selectedGroup?.fields.map((f) => f.name) ?? [];
+
+    const options =
+      selectedGroup?.fields.map((f) => ({
+        field_id: f.field_id,
+        field_name: f.field_name,
+      })) ?? [];
+
     setFieldOptions(options);
 
     // 그룹이 바뀌면 분야 정보 초기화 및 에러 초기화
-    setFieldInfo("");
     setErrors((prev) => ({ ...prev, fieldInfo: false }));
   }, [selectedGroupType]);
 
-  /** ✅ 칩 추가 */
+  /** 칩 추가 */
   const addCategory = () => {
     if (!categoryInput.trim()) return;
     if (categories.includes(categoryInput.trim())) return;
@@ -50,18 +56,18 @@ const CreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
     setCategoryInput("");
   };
 
-  /** ✅ 칩 제거 */
+  /** 칩 제거 */
   const removeCategory = (value: string) => {
     setCategories((prev) => prev.filter((c) => c !== value));
   };
 
-  /** ✅ 폼 유효성 검사 (붉은 보더와 문구로만 강조) */
+  /** 폼 유효성 검사 (붉은 보더와 문구로만 강조) */
   const validateForm = () => {
     const newErrors: Record<string, boolean> = {};
 
     if (!documentName.trim()) newErrors.documentName = true;
     if (!documentUrl.trim()) newErrors.documentUrl = true;
-    if (!fieldInfo) newErrors.fieldInfo = true;
+    if (!selectedFieldId) newErrors.fieldInfo = true;
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -73,12 +79,11 @@ const CreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
     if (!validateForm()) return;
 
     onAdd({
-      documentName: documentName.trim(),
-      documentUrl: documentUrl.trim(),
-      documentDescription: description.trim(),
-      documentCategory: categories.join(", "),
-      groupName: selectedGroupType,
-      fieldName: fieldInfo,
+      field_id: selectedFieldId,
+      pin_title: documentName.trim(),
+      pin_url: documentUrl.trim(),
+      pin_description: description.trim(),
+      pin_label: categories,
     });
 
     // 성공 시 초기화 후 닫기
@@ -92,7 +97,7 @@ const CreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
     setDescription("");
     setCategories([]);
     setCategoryInput("");
-    setFieldInfo("");
+    setSelectedFieldId("");
     setErrors({});
   };
 
@@ -259,9 +264,9 @@ const CreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
               분야 세부 정보 <span className="text-red-500">*</span>
             </label>
             <select
-              value={fieldInfo}
+              value={selectedFieldId}
               onChange={(e) => {
-                setFieldInfo(e.target.value);
+                setSelectedFieldId(e.target.value);
                 if (errors.fieldInfo)
                   setErrors((prev) => ({ ...prev, fieldInfo: false }));
               }}
@@ -274,9 +279,9 @@ const CreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
               <option value="">
                 {selectedGroupType.toUpperCase()} 분야를 선택하세요
               </option>
-              {fieldOptions.map((name) => (
-                <option key={name} value={name}>
-                  {name}
+              {fieldOptions.map((field) => (
+                <option key={field.field_id} value={field.field_id}>
+                  {field.field_name}
                 </option>
               ))}
             </select>

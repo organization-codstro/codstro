@@ -182,7 +182,7 @@ export default function TodoManagementPage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen gap-4">
         <Loader2 className="w-10 h-10 text-purple-600 animate-spin" />
-        <p className="text-gray-500 font-medium">할일 목록을 가져오는 중...</p>
+        <p className="font-medium text-gray-500">할일 목록을 가져오는 중...</p>
       </div>
     );
   }
@@ -295,7 +295,7 @@ export default function TodoManagementPage() {
               <p className="text-4xl font-black text-[#587CF0]">
                 {todos.length}
               </p>
-              <p className="text-xs text-gray-400 mt-1 uppercase tracking-wider">
+              <p className="mt-1 text-xs tracking-wider text-gray-400 uppercase">
                 Tasks for today
               </p>
             </div>

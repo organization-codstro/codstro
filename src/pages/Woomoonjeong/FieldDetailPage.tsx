@@ -8,13 +8,13 @@ import { FieldDetailService } from "../../api/Woomoonjeong/FieldDetailPage";
 import { LoginService } from "../../api/Auth/LoginPage";
 
 // 타입 및 데이터
-import { fieldTypeColors } from "../../data/woomoonjeong/woomoonjeongData";
 import { FieldDetailData } from "../../types/pages/Woomoonjeong/FieldDetailPage/FieldDetailPage";
 
 // 기존 컴포넌트
 import AssignRecommendedFieldModal from "../../components/Woomoonjeong/RecommendedCreateFieldModal";
 import FieldDetailHeader from "../../components/Woomoonjeong/FieldDetailPage/FieldDetailHeader";
 import PinList from "../../components/Woomoonjeong/FieldDetailPage/PinList";
+import { GROUP_TYPE_COLORS } from "../../constants/Woomoonjeong/Woomoonjeong";
 
 export default function FieldDetailPage() {
   const { fieldId } = useParams<{ fieldId: string }>();
@@ -61,7 +61,7 @@ export default function FieldDetailPage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen gap-4">
         <Loader2 className="w-10 h-10 text-purple-600 animate-spin" />
-        <p className="text-gray-500 font-medium">
+        <p className="font-medium text-gray-500">
           상세 정보를 불러오는 중입니다...
         </p>
       </div>
@@ -94,8 +94,8 @@ export default function FieldDetailPage() {
         fieldName={data.field_name}
         groupName={data.groups.group_name}
         groupColorClass={
-          fieldTypeColors[
-            data.groups.group_name as keyof typeof fieldTypeColors
+          GROUP_TYPE_COLORS[
+            data.groups.group_name as keyof typeof GROUP_TYPE_COLORS
           ] || "border-gray-200"
         }
         description={data.field_description}

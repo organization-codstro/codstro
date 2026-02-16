@@ -26,7 +26,7 @@ export const ProjectTodoList: React.FC<ProjectTodoListProps> = ({
       start_date: new Date().toISOString().split("T")[0],
       end_date: new Date().toISOString().split("T")[0],
       status: "waiting",
-      created_at: new Date().toISOString().split("T")[0],
+      created_at: new Date().toISOString(),
       project_page_id: pageId,
     };
     onAddTodo?.(pageId, newTodo);

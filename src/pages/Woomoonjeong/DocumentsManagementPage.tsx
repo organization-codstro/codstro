@@ -14,14 +14,18 @@ import { DocumentsManagementService } from "../../api/Woomoonjeong/DocumentsMana
 import { LoginService } from "../../api/Auth/LoginPage";
 
 // 기존 컴포넌트 및 설정
-import { fieldTypeColors } from "../../data/woomoonjeong/woomoonjeongData";
 import CreateCustomFieldModal from "../../components/Woomoonjeong/DocumentsManagementPage/Modal/CreateCustomFieldModal";
-import CreateCustomDocumentModal from "../../components/Woomoonjeong/DocumentsManagementPage/Modal/CreateDocumentModal";
+import CreateDocumentModal from "../../components/Woomoonjeong/DocumentsManagementPage/Modal/CreateDocumentModal";
 import EditDocumentModal from "../../components/Woomoonjeong/DocumentsManagementPage/Modal/EditDocumentModal";
 import ManagementHeader from "../../components/Woomoonjeong/DocumentsManagementPage/ManagementHeader";
 import DocumentFilterBar from "../../components/Woomoonjeong/DocumentsManagementPage/DocumentFilterBar";
 import FieldItem from "../../components/Woomoonjeong/DocumentsManagementPage/FieldItem";
 import ManagementSidebar from "../../components/Woomoonjeong/DocumentsManagementPage/ManagementSidebar";
+import {
+  CreateFieldParams,
+  CreatePinParams,
+} from "../../types/api/Woomoonjeong/DocumentsManagementPage";
+import { GROUP_TYPE_COLORS } from "../../constants/Woomoonjeong/Woomoonjeong";
 
 export default function DocumentsManagementPage() {
   // --- 상태 관리 ---
@@ -76,6 +80,19 @@ export default function DocumentsManagementPage() {
     }
   };
 
+  //분야 생성(유저가 직접 생성)
+  const createField = async (payload: CreateFieldParams) => {
+    try {
+      await DocumentsManagementService.createField(payload);
+
+      toast.success("분야가 생성되었습니다.");
+      setIsCreateFieldModalOpen(false);
+      await fetchData();
+    } catch (error) {
+      toast.error("분야 생성에 실패했습니다.");
+    }
+  };
+
   // --- 삭제 타이머 익스텐션 ---
   useEffect(() => {
     if (deletePending) {
@@ -96,7 +113,7 @@ export default function DocumentsManagementPage() {
   const handleSaveFieldName = async (
     // groupId: string,
     fieldId: string,
-    newName: string
+    newName: string,
   ) => {
     if (!newName.trim()) return;
     try {
@@ -114,7 +131,7 @@ export default function DocumentsManagementPage() {
   const handleDeleteAction = async (
     e: React.MouseEvent,
     type: "group" | "field" | "pin",
-    id: string
+    id: string,
   ) => {
     e.preventDefault();
     e.stopPropagation();
@@ -162,8 +179,8 @@ export default function DocumentsManagementPage() {
           (f: any) =>
             (f.field_name || f.name).toLowerCase().includes(q) ||
             f.pins.some((p: any) =>
-              (p.pin_title || p.title).toLowerCase().includes(q)
-            )
+              (p.pin_title || p.title).toLowerCase().includes(q),
+            ),
         )
       );
     });
@@ -172,25 +189,45 @@ export default function DocumentsManagementPage() {
   const stats = useMemo(() => {
     const totalFields = woomoonjeongData.reduce(
       (acc, g) => acc + (g.fields?.length || 0),
-      0
+      0,
     );
     const totalPins = woomoonjeongData.reduce(
       (acc, g) =>
         acc +
         (g.fields?.reduce(
           (fa: number, f: any) => fa + (f.pins?.length || 0),
-          0
+          0,
         ) || 0),
-      0
+      0,
     );
     return { totalFields, totalPins };
   }, [woomoonjeongData]);
+
+  //유저의 그룹 정보 (id와 이름 매핑한 맵의 데이터)
+  const groupMap = useMemo(() => {
+    const map: Record<string, string> = {};
+    woomoonjeongData.forEach((group) => {
+      map[group.group_name] = group.group_id;
+    });
+    return map;
+  }, [woomoonjeongData]);
+
+  //핀 생성
+  const handleCreatePin = async (payload: CreatePinParams) => {
+    try {
+      await DocumentsManagementService.createPin(payload);
+      await fetchData(); // 목록 새로고침
+      setIsCreateDocumentModalOpen(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen gap-4">
         <Loader2 className="w-10 h-10 text-purple-600 animate-spin" />
-        <p className="text-gray-500 font-medium">
+        <p className="font-medium text-gray-500">
           데이터를 불러오는 중입니다...
         </p>
       </div>
@@ -244,8 +281,8 @@ export default function DocumentsManagementPage() {
                           )}
                           <span
                             className={`px-3 py-1 text-sm rounded-full border ${
-                              fieldTypeColors[
-                                gName as keyof typeof fieldTypeColors
+                              GROUP_TYPE_COLORS[
+                                gName as keyof typeof GROUP_TYPE_COLORS
                               ] || "border-gray-200"
                             }`}
                           >
@@ -261,14 +298,7 @@ export default function DocumentsManagementPage() {
                               ? "text-red-600"
                               : "text-gray-400"
                           }`}
-                        >
-                          {deletePending?.type === "group" &&
-                          deletePending?.id === gId ? (
-                            <Check className="w-4 h-4" />
-                          ) : (
-                            <Trash2 className="w-4 h-4" />
-                          )}
-                        </button>
+                        ></button>
                       </div>
 
                       {expandedGroups.has(gId) && (
@@ -279,7 +309,7 @@ export default function DocumentsManagementPage() {
                               field={field}
                               group={group}
                               isExpanded={expandedFields.has(
-                                field.field_id || field.id
+                                field.field_id || field.id,
                               )}
                               onToggle={() =>
                                 setExpandedFields((prev) => {
@@ -323,12 +353,15 @@ export default function DocumentsManagementPage() {
       <CreateCustomFieldModal
         isOpen={isCreateFieldModalOpen}
         onClose={() => setIsCreateFieldModalOpen(false)}
-        onAdd={fetchData}
+        onAdd={createField}
+        groupMap={groupMap}
       />
-      <CreateCustomDocumentModal
+
+      <CreateDocumentModal
         isOpen={isCreateDocumentModalOpen}
         onClose={() => setIsCreateDocumentModalOpen(false)}
-        onAdd={fetchData}
+        onAdd={handleCreatePin}
+        groups={woomoonjeongData}
       />
       {editingPin && (
         <EditDocumentModal

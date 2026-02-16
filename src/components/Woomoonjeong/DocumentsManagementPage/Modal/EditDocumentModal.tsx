@@ -31,12 +31,12 @@ const EditDocumentModal: React.FC<EditDocumentModalProps> = ({
   const findPinDetails = (pinId: string) => {
     for (const group of woomoonjeongData) {
       for (const field of group.fields) {
-        const foundPin = field.pins.find((p) => p.id === pinId);
+        const foundPin = field.pins.find((p) => p.pin_id === pinId);
         if (foundPin) {
           return {
-            groupType: group.name as GROUP_TYPE,
-            fieldName: field.name,
-            fieldOptions: group.fields.map((f) => f.name),
+            groupType: group.group_name as GROUP_TYPE,
+            fieldName: field.field_name,
+            fieldOptions: group.fields.map((f) => f.field_name),
             pin: foundPin,
           };
         }
@@ -47,12 +47,12 @@ const EditDocumentModal: React.FC<EditDocumentModalProps> = ({
 
   useEffect(() => {
     if (isOpen && pin) {
-      const result = findPinDetails(pin.id);
+      const result = findPinDetails(pin.pin_id);
       if (result) {
-        setDocumentName(result.pin.title);
-        setDocumentUrl(result.pin.url);
-        setDescription(result.pin.description);
-        setCategories(result.pin.tags ?? []);
+        setDocumentName(result.pin.pin_title);
+        setDocumentUrl(result.pin.pin_url);
+        setDescription(result.pin.pin_description);
+        setCategories(result.pin.pin_label ?? []);
         setSelectedGroupType(result.groupType ?? DEFAULT_GROUP_TYPE);
         setFieldInfo(result.fieldName ?? "");
         setFieldOptions(result.fieldOptions ?? []);

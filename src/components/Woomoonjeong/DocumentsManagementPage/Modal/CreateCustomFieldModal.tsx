@@ -12,6 +12,7 @@ const CreateCustomFieldModal: React.FC<CreateCustomFieldModalProps> = ({
   isOpen,
   onClose,
   onAdd,
+  groupMap,
 }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -49,9 +50,10 @@ const CreateCustomFieldModal: React.FC<CreateCustomFieldModalProps> = ({
     if (!validateForm()) return;
 
     onAdd({
-      name: name.trim(),
-      description: description.trim(),
-      type: selectedGroupType,
+      field_name: name.trim(),
+      field_description: description.trim(),
+      group_id: groupMap[selectedGroupType],
+      field_is_recommendation: false,
     });
 
     onClose();
