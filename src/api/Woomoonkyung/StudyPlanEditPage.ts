@@ -42,21 +42,39 @@ export const WoomoonkyungEditService = {
   async updateStudyPlan(params: UpdateStudyPlanParams): Promise<StudyPlanInfo> {
     try {
       const { planId, planData, imageFile } = params;
-      let imageUrl = planData.study_plan_image_url;
 
+      let imageUrl = planData.study_plan_image_url ?? null;
+
+      /**
+       * 새 이미지가 존재하면
+       * - 기존 이미지 삭제
+       * - 새 이미지 업로드
+       */
       if (imageFile) {
+        // 기존 이미지가 있으면 삭제
+        if (planData.study_plan_image_url) {
+          await FirebaseStorageService.deleteImage(
+            planData.study_plan_image_url,
+          );
+        }
+
+        // 새 이미지 업로드
         const uploadResult = await FirebaseStorageService.uploadImage(
           imageFile,
-          "plans"
+          "plans",
         );
+
         imageUrl = uploadResult.url;
       }
 
+      /**
+       * Supabase 업데이트
+       */
       const { data, error } = await supabase
         .from("study_plans")
         .update({
           study_plan_name: planData.study_plan_name,
-          study_plan_description: planData.study_plan_description,
+          study_plan_description: planData.study_plan_description ?? null,
           study_plan_image_url: imageUrl,
           study_plan_start_date: planData.study_plan_start_date,
           study_plan_end_date: planData.study_plan_end_date,
@@ -68,6 +86,7 @@ export const WoomoonkyungEditService = {
         .single();
 
       if (error) throw error;
+
       return data as StudyPlanInfo;
     } catch (error) {
       console.error("[updateStudyPlan Error]:", error);

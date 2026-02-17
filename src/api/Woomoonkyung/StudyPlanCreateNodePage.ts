@@ -53,14 +53,13 @@ export const WoomoonkyungCreateNodeService = {
       const nodesToInsert = nodes.map((node) => ({
         study_plan_id: planId,
         study_plan_node_name: node.study_plan_node_name,
-        description: node.description,
-        start_date: node.start_date,
-        end_date: node.end_date,
-        completed: node.completed || false,
-        position: node.position,
+        study_plan_node_description: node.study_plan_node_description,
+        study_plan_node_start_date: node.start_date,
+        study_plan_node_end_date: node.end_date,
+        study_plan_node_completed: node.study_plan_node_completed || false,
+        study_plan_node_position: node.study_plan_node_position,
         tech_stack_id: node.tech_stack_id,
-        created_date:
-          node.created_date || new Date().toISOString().split("T")[0],
+        created_at: node.created_at || new Date().toISOString().split("T")[0],
       }));
 
       const { data, error: insertError } = await supabase
@@ -98,7 +97,7 @@ export const WoomoonkyungCreateNodeService = {
    * [노드 순서만 대량 업데이트]
    */
   async updateNodePositions(
-    params: UpdateNodePositionsParams
+    params: UpdateNodePositionsParams,
   ): Promise<NodeItem[]> {
     try {
       const { updates } = params;
@@ -109,7 +108,7 @@ export const WoomoonkyungCreateNodeService = {
           updates.map((u) => ({
             study_plan_node_id: u.id,
             position: u.position,
-          }))
+          })),
         )
         .select();
 

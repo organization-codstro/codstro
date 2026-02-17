@@ -35,10 +35,10 @@ export const WoomoonkyungDetailService = {
             tech_stack_name,
             tech_stack_img_url
           )
-        `
+        `,
         )
         .eq("study_plan_id", planId)
-        .order("position", { ascending: true });
+        .order("study_plan_node_position", { ascending: true });
       if (nodesError) throw nodesError;
 
       const completedNodesCount = nodes.filter((node) => node.completed).length;
@@ -65,7 +65,7 @@ export const WoomoonkyungDetailService = {
    * [노드 완료 상태 업데이트]
    */
   async updateNodeCompletion(
-    params: UpdateNodeCompletionParams
+    params: UpdateNodeCompletionParams,
   ): Promise<NodeDetail> {
     try {
       const { nodeId, isCompleted } = params;

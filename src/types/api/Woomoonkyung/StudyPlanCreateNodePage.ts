@@ -26,13 +26,13 @@ export interface NodeItem {
   study_plan_node_id?: string;
   study_plan_id: string;
   study_plan_node_name: string;
-  description?: string;
+  study_plan_node_description?: string;
   start_date?: string;
   end_date?: string;
-  completed: boolean;
-  position: number;
+  study_plan_node_completed: boolean;
+  study_plan_node_position: number;
   tech_stack_id?: string;
-  created_date: string;
+  created_at?: string;
   [key: string]: any;
 }
 

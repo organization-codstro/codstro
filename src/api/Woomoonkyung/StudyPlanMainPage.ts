@@ -35,7 +35,7 @@ export const WoomoonkyungMainService = {
       `,
         )
         .eq("user_id", userId)
-        .eq("study_plan_state", "in progress")
+        // .eq("study_plan_state", "in progress")
         .eq("study_plan_is_recommendation", false)
         .order("created_at", { ascending: false });
 

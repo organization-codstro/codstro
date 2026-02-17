@@ -48,8 +48,6 @@ export default function StudyPlanMainPage() {
   const handleDeletePlan = async (e: React.MouseEvent, planId: string) => {
     e.stopPropagation();
 
-    if (!window.confirm("정말 이 계획을 삭제하시겠습니까?")) return;
-
     try {
       setDeletingId(planId);
       await WoomoonkyungMainService.deletePlan({ planId });

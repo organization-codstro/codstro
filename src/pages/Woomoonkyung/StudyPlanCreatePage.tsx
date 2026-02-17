@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import StudyPlanForm from "../../components/Woomoonkyung/StudyPlanForm";
-import { PlanRegistrationService } from "../../api/Woomoonkyung/StudyPlanCreatePage"; // 경로 확인 필요
+import { PlanRegistrationService } from "../../api/Woomoonkyung/StudyPlanCreatePage";
 
 import { toast } from "react-toastify";
 import { useState } from "react";

@@ -24,12 +24,17 @@ export const RecommendedDocumentsMainPageService = {
       let query = supabase
         .from("pins")
         .select("*")
-        // 예시 데이터의 difficulty, rating 등을 처리하려면 해당 컬럼이 DB에 존재해야 함
-        .order("created_at", { ascending: false });
+        // 추천 핀만 조회
+        .eq("pin_is_recommendation", true)
+        // 최신순 정렬
+        .order("created_at", { ascending: false })
+        // 우선 상위 10개만 조회
+        .limit(10);
+      // TODO: 추후 페이지네이션 적용 예정 (range() 또는 cursor 기반 적용 가능)
 
       if (params?.searchQuery) {
         query = query.or(
-          `pin_title.ilike.%${params.searchQuery}%, pin_description.ilike.%${params.searchQuery}%`
+          `pin_title.ilike.%${params.searchQuery}%,pin_description.ilike.%${params.searchQuery}%`,
         );
       }
 
@@ -37,7 +42,10 @@ export const RecommendedDocumentsMainPageService = {
       if (error) throw error;
       return data;
     } catch (error) {
-      console.error("[RecommendedDocumentsMainPageService - getRecommendedPins]:", error);
+      console.error(
+        "[RecommendedDocumentsMainPageService - getRecommendedPins]:",
+        error,
+      );
       throw error;
     }
   },
@@ -56,7 +64,7 @@ export const RecommendedDocumentsMainPageService = {
 
       if (params?.searchQuery) {
         query = query.or(
-          `field_name.ilike.%${params.searchQuery}%, field_description.ilike.%${params.searchQuery}%`
+          `field_name.ilike.%${params.searchQuery}%, field_description.ilike.%${params.searchQuery}%`,
         );
       }
 
@@ -64,7 +72,10 @@ export const RecommendedDocumentsMainPageService = {
       if (error) throw error;
       return data;
     } catch (error) {
-      console.error("[RecommendedDocumentsMainPageService - getRecommendedFields]:", error);
+      console.error(
+        "[RecommendedDocumentsMainPageService - getRecommendedFields]:",
+        error,
+      );
       throw error;
     }
   },
@@ -92,7 +103,7 @@ export const RecommendedDocumentsMainPageService = {
     } catch (error) {
       console.error(
         "[RecommendedDocumentsMainPageService - addRecommendedPinToMyField]:",
-        error
+        error,
       );
       throw error;
     }
@@ -104,7 +115,7 @@ export const RecommendedDocumentsMainPageService = {
    * 참조 테이블: fields
    */
   async addRecommendedFieldToMyGroup(
-    payload: AddRecommendedFieldToMyGroupParams
+    payload: AddRecommendedFieldToMyGroupParams,
   ) {
     try {
       const { data, error } = await supabase
@@ -124,7 +135,7 @@ export const RecommendedDocumentsMainPageService = {
     } catch (error) {
       console.error(
         "[RecommendedDocumentsMainPageService - addRecommendedFieldToMyGroup]:",
-        error
+        error,
       );
       throw error;
     }
@@ -155,7 +166,10 @@ export const RecommendedDocumentsMainPageService = {
           .insert([{ link_count_url: params.url, link_count_number: 1 }]);
       }
     } catch (error) {
-      console.error("[RecommendedDocumentsMainPageService - trackLinkClick]:", error);
+      console.error(
+        "[RecommendedDocumentsMainPageService - trackLinkClick]:",
+        error,
+      );
     }
   },
 };

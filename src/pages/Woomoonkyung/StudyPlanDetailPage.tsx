@@ -51,7 +51,7 @@ export default function StudyPlanDetailPage() {
       await fetchDetail();
 
       toast.success(
-        currentStatus ? "미완료 처리되었습니다." : "완료 처리되었습니다."
+        currentStatus ? "미완료 처리되었습니다." : "완료 처리되었습니다.",
       );
     } catch (error) {
       toast.error("상태 변경에 실패했습니다.");
@@ -77,7 +77,7 @@ export default function StudyPlanDetailPage() {
   return (
     <div className="min-h-screen p-8 bg-gray-50">
       <div className="max-w-6xl mx-auto space-y-6">
-        <BackButton label="Back to Archive" to="/Woomoonkyung/archive" />
+        <BackButton label="Back to Archive" to="/Woomoonkyung" />
 
         <PlanDetailHeader
           planId={planId!}
@@ -99,13 +99,13 @@ export default function StudyPlanDetailPage() {
             // 2. StudyPlanNode 인터페이스의 필수 필드들을 API 데이터 필드와 매칭
             study_plan_node_id: node.study_plan_node_id,
             study_plan_node_name: node.study_plan_node_name,
-            study_plan_node_completed: node.completed, // DB: completed -> UI: study_plan_node_completed
+            study_plan_node_completed: node.study_plan_node_completed, // DB: completed -> UI: study_plan_node_completed
 
             // 오류에서 지적한 누락된 필수 필드들을 매칭 (API 데이터의 필드명을 확인하세요)
-            study_plan_node_description: node.description || "",
-            study_plan_node_position: node.position,
-            study_plan_node_start_date: node.start_date || "",
-            study_plan_node_end_date: node.end_date || "",
+            study_plan_node_description: node.study_plan_node_description || "",
+            study_plan_node_position: node.study_plan_node_position,
+            study_plan_node_start_date: node.study_plan_node_start_date || "",
+            study_plan_node_end_date: node.study_plan_node_end_date || "",
 
             // tech_stack 관련 정보가 API node 내부에 있다면 매칭, 없다면 빈 값 처리
             tech_stack_id: node.tech_stack_id || "",

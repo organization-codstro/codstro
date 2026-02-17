@@ -17,16 +17,27 @@ export const PlanRegistrationService = {
   async createBasePlan(params: CreateBasePlanParams): Promise<number> {
     try {
       const { planData, imageFile } = params;
-      let imageUrl = null;
 
+      let imageUrl: string | null = null;
+
+      /**
+       * 이미지가 존재하면 Firebase Storage에 업로드
+       * - path는 StoragePath 타입에 맞게 지정
+       * - 현재는 "plans" 폴더에 저장
+       */
       if (imageFile) {
         const uploadResult = await FirebaseStorageService.uploadImage(
           imageFile,
-          "plans"
+          "plans", 
         );
+
         imageUrl = uploadResult.url;
       }
 
+      /**
+       * Supabase에 공부 계획 기본 정보 저장
+       * - Firebase에서 받은 imageUrl을 DB에 저장
+       */
       const { data, error } = await supabase
         .from("study_plans")
         .insert([
@@ -40,13 +51,14 @@ export const PlanRegistrationService = {
             study_plan_state: "waiting",
             study_plan_is_archived: false,
             study_plan_is_recommendation: false,
-            user_id: planData.user_id || 1,
+            user_id: planData.user_id,
           },
         ])
         .select("study_plan_id")
         .single();
 
       if (error) throw error;
+
       return data.study_plan_id;
     } catch (error) {
       console.error("[createBasePlan Error]:", error);

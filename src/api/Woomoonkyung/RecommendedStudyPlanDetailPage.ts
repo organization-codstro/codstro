@@ -28,7 +28,10 @@ export const RecommendedStudyPlanDetailService = {
       if (error) throw error;
       return data;
     } catch (error) {
-      console.error("[RecommendedStudyPlanDetailService - getStudyPlanById Error]:", error);
+      console.error(
+        "[RecommendedStudyPlanDetailService - getStudyPlanById Error]:",
+        error,
+      );
       throw error;
     }
   },
@@ -36,7 +39,7 @@ export const RecommendedStudyPlanDetailService = {
   /**
    * [공부 계획에 포함된 노드 리스트 조회]
    * @param planId 해당 계획의 ID
-   * @returns position 순으로 정렬된 노드 및 연관된 기술 스택 정보
+   * @returns study_plan_node_position 순으로 정렬된 노드 및 연관된 기술 스택 정보
    */
   async getNodesByPlanId(planId: GetNodesByPlanIdParams) {
     try {
@@ -49,15 +52,18 @@ export const RecommendedStudyPlanDetailService = {
             tech_stack_name,
             tech_stack_img_url
           )
-        `
+        `,
         )
         .eq("study_plan_id", planId)
-        .order("position", { ascending: true });
+        .order("study_plan_node_position", { ascending: true });
 
       if (error) throw error;
       return data;
     } catch (error) {
-      console.error("[RecommendedStudyPlanDetailService - getNodesByPlanId Error]:", error);
+      console.error(
+        "[RecommendedStudyPlanDetailService - getNodesByPlanId Error]:",
+        error,
+      );
       throw error;
     }
   },
@@ -77,7 +83,10 @@ export const RecommendedStudyPlanDetailService = {
       if (error) throw error;
       return data;
     } catch (error) {
-      console.error("[RecommendedStudyPlanDetailService - getRecommendedPlans Error]:", error);
+      console.error(
+        "[RecommendedStudyPlanDetailService - getRecommendedPlans Error]:",
+        error,
+      );
       throw error;
     }
   },
@@ -94,7 +103,7 @@ export const RecommendedStudyPlanDetailService = {
       if (params.imageFile) {
         const uploadResult = await FirebaseStorageService.uploadImage(
           params.imageFile,
-          "plans"
+          "plans",
         );
         imageUrl = uploadResult.url;
       }
@@ -113,7 +122,10 @@ export const RecommendedStudyPlanDetailService = {
       if (error) throw error;
       return data;
     } catch (error) {
-      console.error("[RecommendedStudyPlanDetailService - createStudyPlan Error]:", error);
+      console.error(
+        "[RecommendedStudyPlanDetailService - createStudyPlan Error]:",
+        error,
+      );
       throw error;
     }
   },
@@ -134,7 +146,10 @@ export const RecommendedStudyPlanDetailService = {
       if (error) throw error;
       return data;
     } catch (error) {
-      console.error("[RecommendedStudyPlanDetailService - toggleNodeCompletion Error]:", error);
+      console.error(
+        "[RecommendedStudyPlanDetailService - toggleNodeCompletion Error]:",
+        error,
+      );
       throw error;
     }
   },

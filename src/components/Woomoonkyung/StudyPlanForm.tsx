@@ -49,7 +49,7 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
   const handleInputChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     const { name, value, type } = e.target;
 
@@ -170,19 +170,19 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
                 <Calendar className="absolute w-4 h-4 text-gray-400 transform -translate-y-1/2 left-3 top-1/2" />
                 <input
                   type="date"
-                  name="study_plans_start_date"
+                  name="study_plan_start_date"
                   value={formData.study_plan_start_date}
                   onChange={handleInputChange}
                   className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 outline-none transition-all ${
-                    errors.study_plans_start_date
+                    errors.study_plan_start_date
                       ? "border-red-500 focus:ring-red-200"
                       : "border-gray-200 focus:ring-[#587CF0]"
                   }`}
                 />
               </div>
-              {errors.study_plans_start_date && (
+              {errors.study_plan_start_date && (
                 <p className="mt-1 text-sm text-red-600">
-                  {errors.study_plans_start_date}
+                  {errors.study_plan_start_date}
                 </p>
               )}
             </div>
@@ -196,19 +196,19 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
                 <Calendar className="absolute w-4 h-4 text-gray-400 transform -translate-y-1/2 left-3 top-1/2" />
                 <input
                   type="date"
-                  name="study_plans_end_date"
+                  name="study_plan_end_date"
                   value={formData.study_plan_end_date}
                   onChange={handleInputChange}
                   className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 outline-none transition-all ${
-                    errors.study_plans_end_date
+                    errors.study_plan_end_date
                       ? "border-red-500 focus:ring-red-200"
                       : "border-gray-200 focus:ring-[#587CF0]"
                   }`}
                 />
               </div>
-              {errors.study_plans_end_date && (
+              {errors.study_plan_end_date && (
                 <p className="mt-1 text-sm text-red-600">
-                  {errors.study_plans_end_date}
+                  {errors.study_plan_end_date}
                 </p>
               )}
             </div>
@@ -219,7 +219,7 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
               계획 상태
             </label>
             <select
-              name="study_plans_state"
+              name="study_plan_state"
               value={formData.study_plan_state}
               onChange={handleInputChange}
               className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#587CF0] outline-none bg-white transition-all"
@@ -244,7 +244,7 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
                     reader.onload = () => {
                       setFormData((prev) => ({
                         ...prev,
-                        study_plans_image_url: reader.result as string,
+                        study_plan_image_url: reader.result as string,
                       }));
                     };
                     reader.readAsDataURL(file);

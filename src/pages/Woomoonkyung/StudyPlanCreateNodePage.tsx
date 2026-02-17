@@ -29,7 +29,7 @@ export default function StudyPlanCreateNodePage() {
   >("techStacks");
   const [editingNode, setEditingNode] = useState<StudyPlanNode | null>(null);
   const [deletePendingNodeId, setDeletePendingNodeId] = useState<string | null>(
-    null
+    null,
   );
   const [draggedItem, setDraggedItem] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -143,8 +143,8 @@ export default function StudyPlanCreateNodePage() {
       prevNodes.map((node) =>
         node.study_plan_node_id === editingNode.study_plan_node_id
           ? editingNode
-          : node
-      )
+          : node,
+      ),
     );
 
     setRightSidebarMode("techStacks");
@@ -159,7 +159,10 @@ export default function StudyPlanCreateNodePage() {
       setNodes((prevNodes) =>
         prevNodes
           .filter((n) => n.study_plan_node_id !== nodeId)
-          .map((node, index) => ({ ...node, position: index + 1 }))
+          .map((node, index) => ({
+            ...node,
+            study_plan_node_position: index + 1,
+          })),
       );
       setDeletePendingNodeId(null);
 
@@ -168,7 +171,7 @@ export default function StudyPlanCreateNodePage() {
         setEditingNode(null);
       }
       toast.info(
-        "노드가 목록에서 제거되었습니다. '생성하기'를 눌러 저장하세요."
+        "노드가 목록에서 제거되었습니다. '생성하기'를 눌러 저장하세요.",
       );
     } else {
       setDeletePendingNodeId(nodeId);
@@ -190,7 +193,12 @@ export default function StudyPlanCreateNodePage() {
     newNodes.splice(draggedItem, 1);
     newNodes.splice(index, 0, draggedNode);
 
-    setNodes(newNodes.map((node, idx) => ({ ...node, position: idx + 1 })));
+    setNodes(
+      newNodes.map((node, idx) => ({
+        ...node,
+        study_plan_node_position: idx + 1,
+      })),
+    );
     setDraggedItem(index);
   };
 
@@ -204,15 +212,17 @@ export default function StudyPlanCreateNodePage() {
 
     const loadingToast = toast.loading("공부 계획 노드를 저장 중입니다...");
     try {
+      console.log(nodes);
+
       await WoomoonkyungCreateNodeService.saveAllNodes({
         planId,
-        nodes: nodes.map((n) => ({
+        nodes: nodes.map((n, index) => ({
           ...n,
-          // 임시 ID인 경우 Supabase에서 자동 생성하도록 함
+          study_plan_node_position: index + 1,
           study_plan_node_id: n.study_plan_node_id.startsWith("temp-")
             ? undefined
             : n.study_plan_node_id,
-        })) as any,
+        })),
       });
 
       toast.update(loadingToast, {
@@ -234,7 +244,7 @@ export default function StudyPlanCreateNodePage() {
 
   if (isLoading)
     return (
-      <div className="flex h-screen items-center justify-center">
+      <div className="flex items-center justify-center h-screen">
         Loading...
       </div>
     );
