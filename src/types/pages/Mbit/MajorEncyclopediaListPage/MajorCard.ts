@@ -1,6 +1,6 @@
-import { Majors } from "../Mbit";
+import { Major } from "../Mbit";
 
 export interface MajorCardProps {
-  major: Majors;
+  major: Major;
   onClick: (majorId: string) => void;
 }

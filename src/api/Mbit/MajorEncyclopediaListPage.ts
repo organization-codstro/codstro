@@ -21,11 +21,7 @@ export const MajorEncyclopediaListService = {
       if (error) throw error;
 
       // DB 컬럼명을 프론트엔드 Major 타입에 맞게 매핑
-      return data.map((item) => ({
-        id: item.major_id,
-        name: item.major_name,
-        description: item.major_description,
-      })) as Major[];
+      return data as Major[];
     } catch (error) {
       console.error("[MajorService Error]:", error);
       throw new Error("전공 정보를 불러오는 데 실패했습니다.");

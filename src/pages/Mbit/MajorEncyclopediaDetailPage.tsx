@@ -1,47 +1,53 @@
 import { useEffect, useState } from "react";
-import {  MajorDetail } from "../../types/pages/Mbit/Mbit";
+import { Major } from "../../types/pages/Mbit/Mbit";
 import { MajorEncyclopediaDetailService } from "../../api/Mbit/MajorEncyclopediaDetailPage";
 import { useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import {
+  ArrowLeft,
+  Briefcase,
+  ThumbsUp,
+  ThumbsDown,
+  BookOpen,
+  DollarSign,
+} from "lucide-react";
 import MajorDetailHeader from "../../components/Mbit/MajorEncyclopediaDetailPage/MajorDetailHeader";
-import MajorStats from "../../components/Mbit/MajorEncyclopediaDetailPage/MajorStats";
 
 export default function MajorEncyclopediaDetailPage() {
   const { majorId } = useParams<{ majorId: string }>();
-  const [major, setMajor] = useState<MajorDetail | null>(null);
+  const [major, setMajor] = useState<Major | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   const navigate = useNavigate();
 
   if (!majorId) {
-    navigate("/major-encyclopedias");
+    navigate("/mbit/major-encyclopedias");
     return;
   }
 
-  // 데이터 로드 함수
   const fetchMajors = async () => {
     try {
       setLoading(true);
       const data = await MajorEncyclopediaDetailService.getMajorById(majorId);
 
       if (!data) {
-        navigate("/major-encyclopedias");
+        navigate("/mbit/major-encyclopedias");
         return;
       }
 
       setMajor(data);
     } catch (error) {
       console.error("전공 도감 로드 실패:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchMajors();
-    setLoading(false);
   }, []);
 
   const onBack = () => {
-    navigate("/major-encyclopedias");
+    navigate("/mbit/major-encyclopedias");
   };
 
   if (loading) {
@@ -77,21 +83,67 @@ export default function MajorEncyclopediaDetailPage() {
           <MajorDetailHeader major={major} />
 
           <div className="p-8 space-y-8">
-            {/* About Section */}
-            <section>
-              <h2 className="mb-4 text-2xl font-bold text-gray-800">
-                About This Field
-              </h2>
-              <p className="leading-relaxed text-gray-700">
-                {major.description}
+            {/* Strengths & Weaknesses */}
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              <section className="p-6 rounded-xl bg-green-50">
+                <div className="flex items-center gap-2 mb-4">
+                  <ThumbsUp className="w-5 h-5 text-green-600" />
+                  <h2 className="text-xl font-bold text-green-800">강점</h2>
+                </div>
+                <p className="leading-relaxed text-green-700">
+                  {major.major_strengths}
+                </p>
+              </section>
+
+              <section className="p-6 rounded-xl bg-red-50">
+                <div className="flex items-center gap-2 mb-4">
+                  <ThumbsDown className="w-5 h-5 text-red-600" />
+                  <h2 className="text-xl font-bold text-red-800">약점</h2>
+                </div>
+                <p className="leading-relaxed text-red-700">
+                  {major.major_weaknesses}
+                </p>
+              </section>
+            </div>
+
+            {/* Stress Management */}
+            <section className="p-6 rounded-xl bg-purple-50">
+              <div className="flex items-center gap-2 mb-4">
+                <BookOpen className="w-5 h-5 text-purple-600" />
+                <h2 className="text-xl font-bold text-purple-800">
+                  스트레스 관리 전략
+                </h2>
+              </div>
+              <p className="leading-relaxed text-purple-700">
+                {major.major_strath_management}
               </p>
             </section>
-          </div>
 
-          <MajorStats
-            salaryRange={major.annualIncome}
-            jobOutlook={major.jobOutlook}
-          />
+            {/* Recommended Occupation */}
+            <section className="p-6 rounded-xl bg-blue-50">
+              <div className="flex items-center gap-2 mb-4">
+                <Briefcase className="w-5 h-5 text-blue-600" />
+                <h2 className="text-xl font-bold text-blue-800">추천 직업</h2>
+              </div>
+              <p className="leading-relaxed text-blue-700">
+                {major.major_recommended_occupation}
+              </p>
+            </section>
+
+            {/* Recommended Occupation */}
+            <section className="p-6 rounded-xl bg-blue-50">
+              <div className="flex items-center gap-2 mb-4">
+                <DollarSign className="w-5 h-5 text-blue-600" />
+                <h2 className="text-xl font-bold text-blue-800">
+                  연간소득 (집계 방식 수정 필요)
+                </h2>
+              </div>
+              <p className="text-2xl font-bold text-[#587CF0]">
+                {major.major_annual_income}
+              </p>
+              <p className="mt-2 text-sm text-gray-600">Annual salary in USD</p>
+            </section>
+          </div>
         </div>
       </div>
     </div>

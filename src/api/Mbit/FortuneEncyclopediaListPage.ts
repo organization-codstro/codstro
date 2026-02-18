@@ -1,10 +1,6 @@
 // services/FortuneService.ts
 import { supabase } from "../../db/supabase/supabase";
-import {
-  Fortune,
-  UserTodayFortune,
-  GetTodayUserFortuneParams,
-} from "../../types/api/Mbit/FortuneEncyclopediaListPage";
+import { FortuneList } from "../../types/api/Mbit/FortuneEncyclopediaListPage";
 
 /**
  * [FortuneEncyclopediaService]
@@ -14,69 +10,64 @@ export const FortuneEncyclopediaListService = {
   /**
    * [도감용 모든 운세 목록 조회]
    * 테이블: developer_fortunes
+   * getFortunesByCodeRange 가 있어서 지금은 사용하지 않음
    */
-  async getAllFortunes(): Promise<Fortune[]> {
+  // async getAllFortunes(): Promise<Fortune[]> {
+  //   const { data, error } = await supabase
+  //     .from("developer_fortunes")
+  //     .select(
+  //       `
+  //       id: developer_fortune_id,
+  //       code: developer_fortune_code,
+  //       name: developer_fortune_name,
+  //       summary: developer_fortune_one_line_summary,
+  //       description: developer_fortune_description,
+  //       categoryMessage: developer_fortune_category_message
+  //     `,
+  //     )
+  //     .order("developer_fortune_code", { ascending: true });
+
+  //   if (error) {
+  //     console.error("Error fetching fortunes:", error.message);
+  //     throw new Error("운세 목록을 불러오지 못했습니다.");
+  //   }
+
+  //   return data as Fortune[];
+  // },
+
+  /**
+   * [특정 코드 대역 운세 조회]
+   *
+   * 전달받은 code 값을 기준으로
+   * 해당 숫자 대역에 속하는 developer_fortune_code 운세들을 반환합니다.
+   *
+   * 예:
+   * 100 → 100 ~ 199
+   * 200 → 200 ~ 299
+   *
+   * @param code - 시작 코드 (예: 100, 200, 300)
+   * @returns Promise<Fortune[]>
+   */
+  async getFortunesByCodeRange(code: number): Promise<FortuneList[]> {
     const { data, error } = await supabase
       .from("developer_fortunes")
       .select(
         `
-        id: developer_fortune_id,
-        code: developer_fortune_code,
-        name: developer_fortune_name,
-        summary: developer_fortune_one_line_summary,
-        description: developer_fortune_description,
-        categoryMessage: developer_fortune_category_message
-      `,
+      id: developer_fortune_id,
+      code: developer_fortune_code,
+      name: developer_fortune_name,
+      summary: developer_fortune_one_line_summary
+    `,
       )
+      .gte("developer_fortune_code", code)
+      .lt("developer_fortune_code", code + 100)
       .order("developer_fortune_code", { ascending: true });
 
     if (error) {
-      console.error("Error fetching fortunes:", error.message);
-      throw new Error("운세 목록을 불러오지 못했습니다.");
+      console.error("Error fetching fortunes by code range:", error.message);
+      throw new Error("해당 코드 대역의 운세를 불러오지 못했습니다.");
     }
 
-    return data as Fortune[];
-  },
-
-  /**
-   * [유저의 오늘 운세 확인/생성]
-   * 테이블: user_fortune, developer_fortunes
-   */
-  async getTodayUserFortune(
-    params: GetTodayUserFortuneParams,
-  ): Promise<UserTodayFortune> {
-    const { userId } = params;
-    const today = new Date().toISOString().split("T")[0];
-
-    // 1. 오늘 이미 뽑은 운세가 있는지 확인
-    const { data: existingFortune } = await supabase
-      .from("user_fortune")
-      .select("*, developer_fortunes(*)")
-      .eq("user_id", userId)
-      .eq("user_fortune_create_date", today)
-      .single();
-
-    if (existingFortune) {
-      return existingFortune as UserTodayFortune;
-    }
-
-    // 2. 없으면 랜덤으로 하나 뽑아서 생성
-    const allFortunes = await this.getAllFortunes();
-    const randomIndex = Math.floor(Math.random() * allFortunes.length);
-    const selectedFortuneId = allFortunes[randomIndex].id;
-
-    const { data: newFortune, error } = await supabase
-      .from("user_fortune")
-      .insert({
-        user_id: userId,
-        developer_fortune_id: selectedFortuneId,
-        user_fortune_create_date: today,
-      })
-      .select("*, developer_fortunes(*)")
-      .single();
-
-    if (error) throw error;
-
-    return newFortune as UserTodayFortune;
+    return data as FortuneList[];
   },
 };

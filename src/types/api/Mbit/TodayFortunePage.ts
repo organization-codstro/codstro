@@ -1,13 +1,3 @@
-export interface Fortune {
-  id: string;
-  code: number;
-  name: string;
-  summary: string;
-  description: string;
-  categoryMessage: string;
-  color: string;
-}
-
 /**
  * [GetOrDrawTodayFortuneParams]
  * 오늘의 운세 조회/생성 요청 파라미터

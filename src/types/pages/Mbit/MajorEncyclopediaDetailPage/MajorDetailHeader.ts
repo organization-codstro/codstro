@@ -1,5 +1,5 @@
-import { Majors } from "../Mbit";
+import { Major } from "../Mbit";
 
 export interface MajorDetailHeaderProps {
-  major: Majors;
+  major: Major;
 }

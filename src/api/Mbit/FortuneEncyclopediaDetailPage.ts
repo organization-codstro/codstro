@@ -1,6 +1,6 @@
 // services/FortuneService.ts
 import { supabase } from "../../db/supabase/supabase";
-import { Fortune } from "../../types/api/Mbit/FortuneEncyclopediaListPage";
+import { Fortune } from "../../types/pages/Mbit/Mbit";
 
 /**
  * [FortuneEncyclopediaService]

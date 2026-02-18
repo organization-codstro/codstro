@@ -4,13 +4,14 @@ import { FortuneEncyclopediaDetailService } from "../../api/Mbit/FortuneEncyclop
 import { Fortune } from "../../types/pages/Mbit/Mbit";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import { DetailHeader } from "../../components/AiChat/AIPersonaDetailPage/DetailHeader";
+import DetailHeader from "../../components/Mbit/FortuneEncyclopediaDetailPage/DetailHeader";
 
 export default function FortuneEncyclopediaDetailPage() {
   const { fortuneId } = useParams<{ fortuneId: string }>();
   const [selectedFortune, setSelectedFortune] = useState<Fortune | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const navigate = useNavigate();
+
   if (!fortuneId) {
     navigate("/fortune-encyclopedias");
     return;
@@ -29,21 +30,13 @@ export default function FortuneEncyclopediaDetailPage() {
   }, []);
 
   const onBack = () => {
-    navigate("/fortune-encyclopedias");
+    navigate("/mbit/fortune-encyclopedias");
   };
 
-  if (loading) {
+  if (loading || !selectedFortune) {
     return (
       <div className="flex items-center justify-center flex-1 p-8 bg-gray-50">
         로딩 중...
-      </div>
-    );
-  }
-
-  if (!selectedFortune) {
-    return (
-      <div className="flex items-center justify-center flex-1 p-8 bg-gray-50">
-        존재하지 않는 개발 운세 입니다
       </div>
     );
   }
@@ -60,7 +53,7 @@ export default function FortuneEncyclopediaDetailPage() {
         </button>
 
         <div className="overflow-hidden bg-white shadow-xl rounded-2xl">
-          <DetailHeader title={selectedFortune?.name || ""} onBack={onBack} />
+          <DetailHeader fortune={selectedFortune} />
 
           <div className="p-8 space-y-8">
             <section>
@@ -71,21 +64,43 @@ export default function FortuneEncyclopediaDetailPage() {
             </section>
 
             <section>
-              <h2 className="mb-4 text-2xl font-bold text-gray-800">
-                Description
-              </h2>
-              <p className="leading-relaxed text-gray-700">
-                {selectedFortune?.description}
-              </p>
-            </section>
-
-            <section>
-              <h2 className="mb-4 text-2xl font-bold text-gray-800">
+              <h2 className="mb-6 text-2xl font-bold text-gray-800">
                 Category Message
               </h2>
-              <pre className="font-sans leading-relaxed text-gray-700 whitespace-pre-wrap">
-                {selectedFortune?.categoryMessage}
-              </pre>
+
+              {selectedFortune?.categoryMessage && (
+                <div className="space-y-6">
+                  {/* Daily */}
+                  <div className="p-5 bg-blue-50 rounded-xl">
+                    <h3 className="mb-2 text-lg font-semibold text-blue-700">
+                      ☀ Daily
+                    </h3>
+                    <p className="leading-relaxed text-gray-700">
+                      {selectedFortune.categoryMessage.daily}
+                    </p>
+                  </div>
+
+                  {/* Meeting */}
+                  <div className="p-5 bg-green-50 rounded-xl">
+                    <h3 className="mb-2 text-lg font-semibold text-green-700">
+                      🤝 Meeting
+                    </h3>
+                    <p className="leading-relaxed text-gray-700">
+                      {selectedFortune.categoryMessage.meeting}
+                    </p>
+                  </div>
+
+                  {/* Development */}
+                  <div className="p-5 bg-purple-50 rounded-xl">
+                    <h3 className="mb-2 text-lg font-semibold text-purple-700">
+                      💻 Development
+                    </h3>
+                    <p className="leading-relaxed text-gray-700">
+                      {selectedFortune.categoryMessage.development}
+                    </p>
+                  </div>
+                </div>
+              )}
             </section>
           </div>
         </div>

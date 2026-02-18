@@ -15,14 +15,14 @@ export const MajorEncyclopediaDetailService = {
       .from("majors")
       .select(
         `
-        id: major_id,
-        name: major_name,
-        description: major_description,
-        annualIncome: major_annual_income,
-        jobOutlook: major_recommended_occupation,
-        majorStrengths: major_strengths,
-        majorWeaknesses: major_weaknesses,
-        majorStrathManagement: major_strath_management
+        major_id,
+        major_name,
+        major_description,
+        major_recommended_occupation,
+        major_strengths,
+        major_weaknesses,
+        major_strath_management,
+        major_annual_income
       `,
       )
       .eq("major_id", majorId)

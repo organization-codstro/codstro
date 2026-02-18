@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Majors } from "../../types/pages/Mbit/Mbit";
+import { Major } from "../../types/pages/Mbit/Mbit";
 import { MajorEncyclopediaListService } from "../../api/Mbit/MajorEncyclopediaListPage";
 import { ICON_MAP } from "../../constants/Mbit/MajorEncyclopediaPage/MajorEncyclopediaPage";
 import { Settings } from "lucide-react";
@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function MajorEncyclopediaListPage() {
   const navigate = useNavigate();
-  const [majors, setMajors] = useState<Majors[]>([]);
+  const [majors, setMajors] = useState<Major[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   // 데이터 로드 함수
@@ -20,9 +20,8 @@ export default function MajorEncyclopediaListPage() {
       // 2. 서비스에서 받아온 데이터에 아이콘 주입
       const mappedData = data.map((major) => ({
         ...major,
-        icon: ICON_MAP[major.name] || <Settings />, // 매칭되는게 없으면 기본 아이콘
+        icon: ICON_MAP[major.major_name] || <Settings />, // 매칭되는게 없으면 기본 아이콘
       }));
-      console.log(mappedData);
 
       setMajors(mappedData);
     } catch (error) {
@@ -33,7 +32,7 @@ export default function MajorEncyclopediaListPage() {
   };
 
   const onSelectMajor = (majorId: string) => {
-    navigate(`/major-encyclopedias/${majorId}`);
+    navigate(`/mbit/major-encyclopedias/${majorId}`);
   };
 
   useEffect(() => {
@@ -62,7 +61,11 @@ export default function MajorEncyclopediaListPage() {
 
         <div className="grid gap-6 md:grid-cols-2">
           {majors.map((major) => (
-            <MajorCard key={major.id} major={major} onClick={onSelectMajor} />
+            <MajorCard
+              key={major.major_id}
+              major={major}
+              onClick={onSelectMajor}
+            />
           ))}
         </div>
       </div>

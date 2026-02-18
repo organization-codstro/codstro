@@ -1,12 +1,14 @@
 export interface Major {
-  id: string;
-  name: string;
-  description: string;
-  annualIncome: string;
-  jobOutlook: string;
-  majorStrengths: string;
-  majorWeaknesses: string;
-  majorStrathManagement: string;
+  major_id: string; // uuid
+  major_name: string;
+  major_description: string;
+  major_recommended_occupation: string;
+  major_strengths: string;
+  major_weaknesses: string;
+  major_strath_management: string;
+  major_annual_income: number;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface Personality {
