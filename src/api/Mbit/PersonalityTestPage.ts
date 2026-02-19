@@ -64,7 +64,7 @@ export const PersonalityTestService = {
       collaborativeStyle: data.mbit_type_collaborative_style,
       strengths: data.mbit_type_strengths,
       weaknesses: data.mbit_type_weaknesses,
-      strathManagement: data.mbit_type_strath_management,
+      stressManagement: data.mbit_type_stress_management,
       morningGreetings: data.mbit_type_morning_greetings,
       nightGreetings: data.mbit_type_night_greetings,
       createdAt: data.mbit_type_created_at,

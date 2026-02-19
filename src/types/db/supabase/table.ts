@@ -196,7 +196,7 @@ export interface Majors {
   "major_recommended occupation": string; // text
   major_strengths: string; // text
   major_weaknesses: string; // text
-  major_strath_management: string; // text
+  major_stress_management: string; // text
   major_annual_income: number; // int
 }
 
@@ -386,7 +386,7 @@ export interface MbitTypes {
   mbit_type_collaborative_style: string; // text
   mbit_type_strengths: string; // text
   mbit_type_weaknesses: string; // text
-  mbit_type_strath_management: string; // text
+  mbit_type_stress_management: string; // text
   mbit_type_morning_greetings: string; // text
   mbit_type_night_greetings: string; // text
   user_id: number; // FK / number

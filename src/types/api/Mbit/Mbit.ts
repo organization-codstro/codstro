@@ -5,7 +5,7 @@ export interface Major {
   major_recommended_occupation: string;
   major_strengths: string;
   major_weaknesses: string;
-  major_strath_management: string;
+  major_stress_management: string;
   major_annual_income: number;
   created_at?: string;
   updated_at?: string;
@@ -30,7 +30,7 @@ export interface PersonalityDetail {
   collaborativeStyle: string;
   strengths: string;
   weaknesses: string;
-  strathManagement: string;
+  stressManagement: string;
   morningGreetings: string;
   nightGreetings: string;
   createdAt: string;

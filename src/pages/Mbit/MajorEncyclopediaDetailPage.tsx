@@ -115,7 +115,7 @@ export default function MajorEncyclopediaDetailPage() {
                 </h2>
               </div>
               <p className="leading-relaxed text-purple-700">
-                {major.major_strath_management}
+                {major.major_stress_management}
               </p>
             </section>
 

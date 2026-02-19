@@ -11,7 +11,7 @@ export interface MbitTypeDetail {
   collaborativeStyle: string;
   strengths: string;
   weaknesses: string;
-  strathManagement: string;
+  stressManagement: string;
   morningGreetings: string;
   nightGreetings: string;
   userId: string;

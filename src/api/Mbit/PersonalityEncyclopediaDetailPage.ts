@@ -28,7 +28,7 @@ export const PersonalityEncyclopediaDetailService = {
         collaborativeStyle:mbit_type_collaborative_style,
         strengths:mbit_type_strengths,
         weaknesses:mbit_type_weaknesses,
-        strathManagement:mbit_type_strath_management,
+        stressManagement:mbit_type_stress_management,
         morningGreetings:mbit_type_morning_greetings,
         nightGreetings:mbit_type_night_greetings,
         userId:user_id,

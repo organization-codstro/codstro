@@ -52,10 +52,17 @@ export default function FortuneEncyclopediaDetailPage() {
           <span className="font-medium">Back to Encyclopedia</span>
         </button>
 
-        <div className="overflow-hidden bg-white shadow-xl rounded-2xl">
+        <div className="pb-12 overflow-hidden bg-white shadow-xl rounded-2xl">
           <DetailHeader fortune={selectedFortune} />
 
-          <div className="p-8 space-y-8">
+          <div className="p-8 pb-4 space-y-8">
+            <section>
+              <h2 className="mb-4 text-2xl font-bold text-gray-800">Name</h2>
+              <p className="leading-relaxed text-gray-700">
+                {selectedFortune?.name}
+              </p>
+            </section>
+
             <section>
               <h2 className="mb-4 text-2xl font-bold text-gray-800">Summary</h2>
               <p className="leading-relaxed text-gray-700">

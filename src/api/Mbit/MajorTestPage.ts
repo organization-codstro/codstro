@@ -52,14 +52,14 @@ export const MajorTestService = {
     }
 
     return {
-      id: data.major_id,
-      name: data.major_name,
-      description: data.major_description,
-      jobOutlook: data.major_job_outlook,
-      majorStrengths: data.major_strengths,
-      majorWeaknesses: data.major_weaknesses,
-      majorStrathManagement: data.major_strath_management,
-      annualIncome: data.major_annual_income,
+      major_id: data.major_id,
+      major_name: data.major_name,
+      major_description: data.major_description,
+      major_recommended_occupation: data.major_recommended_occupation,
+      major_strengths: data.major_strengths,
+      major_weaknesses: data.major_weaknesses,
+      major_stress_management: data.major_stress_management,
+      major_annual_income: data.major_annual_income,
     };
   },
 };

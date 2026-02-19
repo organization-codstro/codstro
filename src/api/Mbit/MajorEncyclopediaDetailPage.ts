@@ -21,7 +21,7 @@ export const MajorEncyclopediaDetailService = {
         major_recommended_occupation,
         major_strengths,
         major_weaknesses,
-        major_strath_management,
+        major_stress_management,
         major_annual_income
       `,
       )
