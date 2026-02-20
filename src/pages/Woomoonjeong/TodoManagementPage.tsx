@@ -11,7 +11,7 @@ import { LoginService } from "../../api/Auth/LoginPage";
 import { Todo } from "../../types/pages/Woomoonjeong/woomoonjeong";
 
 // 컴포넌트
-import TodoManagementCreate from "../../components/Woomoonjeong/TodoManagementPage/CreateTodoManagementModal";
+import TodoManagementCreateModal from "../../components/Woomoonjeong/TodoManagementPage/TodoManagementCreateModal";
 import TodoManagementHeader from "../../components/Woomoonjeong/TodoManagementPage/TodoManagementHeader";
 import TodoCard from "../../components/Woomoonjeong/TodoManagementPage/TodoCard";
 import TodoCalendar from "../../components/Woomoonjeong/TodoManagementPage/TodoCalendar";
@@ -19,12 +19,20 @@ import { DBTodo } from "../../types/pages/Woomoonjeong/TodoManagementPage/TodoMa
 
 export default function TodoManagementPage() {
   const navigate = useNavigate();
+  const formatDate = (date: Date) => {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, "0");
+    const d = String(date.getDate()).padStart(2, "0");
+    return `${y}-${m}-${d}`;
+  };
 
   // --- 상태 관리 ---
   const [todos, setTodos] = useState<DBTodo[]>([]);
   const [monthlyTodos, setMonthlyTodos] = useState<any[]>([]); // 캘린더 점 표시용
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState<string>(
+    formatDate(new Date()),
+  );
   const [calendarDate, setCalendarDate] = useState(new Date());
   const [selectedStatus, setSelectedStatus] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -37,12 +45,20 @@ export default function TodoManagementPage() {
     }[]
   >([]);
 
-  // --- 초기 데이터 로드 및 유저 확인 ---
+  // --- 초기 데이터 로드 및 유저 확인 & 유저 그룹 정보---
   useEffect(() => {
     const initPage = async () => {
       setIsLoading(true);
       try {
-        await LoginService.getCurrentUserId();
+        const userId = await LoginService.getCurrentUserId();
+        if (!userId) {
+          navigate("/login");
+          return;
+        }
+
+        const groupIds = await TodoManagementService.getUserGroups(userId);
+        if (groupIds) setAvailableGroups(groupIds);
+
         await fetchInitialData();
       } catch (error) {
         toast.error("데이터 로드에 실패했습니다.");
@@ -50,6 +66,7 @@ export default function TodoManagementPage() {
         setIsLoading(false);
       }
     };
+
     initPage();
   }, []);
 
@@ -70,31 +87,6 @@ export default function TodoManagementPage() {
       return () => clearTimeout(timer);
     }
   }, [deletePendingId]);
-
-  // --- 유저 그룹 정보 ---
-  useEffect(() => {
-    const initPage = async () => {
-      setIsLoading(true);
-      try {
-        const userId = await LoginService.getCurrentUserId();
-        if (!userId) {
-          navigate("/login");
-          return;
-        }
-
-        // 유저의 그룹 정보 가져오기
-        const groupIds = await TodoManagementService.getUserGroups(userId);
-        if (groupIds) setAvailableGroups(groupIds);
-
-        await fetchInitialData();
-      } catch (error) {
-        toast.error("데이터 로드에 실패했습니다.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    initPage();
-  }, []);
 
   // --- API 호출 함수들 ---
   const fetchInitialData = async () => {
@@ -171,10 +163,9 @@ export default function TodoManagementPage() {
   };
 
   // 캘린더 점 표시를 위한 헬퍼 함수
-  const getTodoCountForDate = (date: Date) => {
-    const dStr = date.toISOString().split("T")[0];
+  const getTodoCountForDate = (date: string) => {
     return monthlyTodos.filter(
-      (t) => t.todo_start_date <= dStr && t.todo_end_date >= dStr
+      (t) => t.todo_start_date <= date && t.todo_end_date >= date,
     ).length;
   };
 
@@ -192,10 +183,11 @@ export default function TodoManagementPage() {
       className="min-h-screen p-8 bg-gray-50"
       onClick={() => setDeletePendingId(null)}
     >
-      <TodoManagementCreate
+      <TodoManagementCreateModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onAdd={() => {
+          //생성하고 데이터 다시 로드
           fetchFilteredList();
           fetchMonthlyData();
         }}
@@ -210,7 +202,7 @@ export default function TodoManagementPage() {
             {/* Filter Bar */}
             <div className="flex flex-wrap items-center gap-4 p-6 bg-white border border-purple-100 rounded-xl">
               <Filter className="w-4 h-4 text-gray-500" />
-              {["all", "pending", "in-progress", "completed"].map((s) => (
+              {["all", "waiting", "in progress", "done"].map((s) => (
                 <button
                   key={s}
                   onClick={() => setSelectedStatus(s)}
@@ -237,7 +229,7 @@ export default function TodoManagementPage() {
             {/* Todo List */}
             <div className="p-6 bg-white border border-purple-100 shadow-sm rounded-xl">
               <h2 className="mb-6 text-lg font-semibold text-gray-800">
-                Todos for {selectedDate.toLocaleDateString()}
+                Todos for {selectedDate}
               </h2>
               <div className="space-y-4">
                 {todos.map((todo) => (
@@ -287,6 +279,7 @@ export default function TodoManagementPage() {
               }
               onSelectDate={setSelectedDate}
               getTodoCount={getTodoCountForDate}
+              formatDate={formatDate}
             />
             <div className="p-6 text-center bg-white border border-purple-100 shadow-sm rounded-xl">
               <h3 className="flex items-center justify-center gap-2 mb-2 font-semibold text-gray-700">

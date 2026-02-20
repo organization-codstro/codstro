@@ -1,9 +1,6 @@
 import { supabase } from "../../db/supabase/supabase";
-import {
-  PersonalitySummaryResponse,
-  Personality,
-  GetPersonalityByCodeParams,
-} from "../../types/api/Mbit/PersonalityEncyclopediaListPage";
+import { Personality } from "../../types/api/Mbit/Mbit";
+import { GetPersonalityByCodeParams } from "../../types/api/Mbit/PersonalityEncyclopediaListPage";
 
 /**
  * [PersonalityEncyclopediaService]
@@ -19,13 +16,13 @@ export const PersonalityEncyclopediaListService = {
    * [성격 유형 전체 목록 조회]
    * 테이블: mbit_types
    */
-  async getAllPersonalities(): Promise<PersonalitySummaryResponse[]> {
+  async getAllPersonalities(): Promise<Personality[]> {
     const { data, error } = await supabase
       .from("mbit_types")
       .select(
         `
         id:mbit_type_id,
-        type:mbit_type_code,
+        code:mbit_type_code,
         name:mbit_type_name,
         description:mbit_type_description,
         participation:mbit_type_participation,
@@ -33,7 +30,14 @@ export const PersonalityEncyclopediaListService = {
         weaknesses:mbit_type_weaknesses,
         workStyle:mbit_type_collaborative_style,
         approach:mbit_type_approach,
-        recommendedJob:mbit_type_recommended_job
+        recommendedJob:mbit_type_recommended_job,
+        risks:mbit_type_risks,
+        thought:mbit_type_thought,
+        stressManagement:mbit_type_stress_management,
+        collaborativeStyle:mbit_type_collaborative_style,
+        morningGreetings:mbit_type_morning_greetings,
+        nightGreetings:mbit_type_night_greetings,
+        createdAt:created_at
         `,
       )
       .order("mbit_type_id", { ascending: true });

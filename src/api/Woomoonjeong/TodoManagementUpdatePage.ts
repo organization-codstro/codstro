@@ -20,7 +20,7 @@ export const TodoManagementUpdateService = {
    * 참조 테이블: groups
    */
   async getUserGroups(
-    user_id: string
+    user_id: string,
   ): Promise<{ group_id: string; group_name: string }[]> {
     try {
       // 1. 현재 로그인된 유저 정보 가져오기
@@ -28,7 +28,7 @@ export const TodoManagementUpdateService = {
       // 2. 해당 user_id와 일치하는 그룹들의 group_id와 group_name 선택
       const { data, error } = await supabase
         .from("groups")
-        .select("group_id, group_name") 
+        .select("group_id, group_name")
         .eq("user_id", user_id);
 
       if (error) throw error;
@@ -57,9 +57,9 @@ export const TodoManagementUpdateService = {
 
       // DB 상태값을 컴포넌트용 상태값으로 역매핑 (필요 시)
       const statusMap: Record<string, string> = {
-        waiting: "pending",
-        "in progress": "in-progress",
-        done: "completed",
+        waiting: "waiting",
+        "in progress": "in progress",
+        done: "done",
       };
 
       return {
@@ -81,9 +81,9 @@ export const TodoManagementUpdateService = {
     try {
       // 컴포넌트의 상태값을 DB enum/text 규칙으로 매핑
       const statusMap: Record<string, string> = {
-        pending: "waiting",
-        "in-progress": "in progress",
-        completed: "done",
+        waiting: "waiting",
+        "in progress": "in progress",
+        done: "done",
       };
 
       const { data, error } = await supabase
@@ -126,7 +126,7 @@ export const TodoManagementUpdateService = {
     } catch (error) {
       console.error(
         "[TodoManagementUpdateService - getAvailableFields]:",
-        error
+        error,
       );
       throw error;
     }

@@ -13,7 +13,7 @@ const TodoInputField: React.FC<TodoInputFieldProps> = ({
 }) => (
   <div>
     <label className="block mb-2 text-sm font-medium text-gray-700">
-      {label} {required && "*"}
+      {label} {required && <span className="text-red-500">*</span>}
     </label>
     <input
       type={type}

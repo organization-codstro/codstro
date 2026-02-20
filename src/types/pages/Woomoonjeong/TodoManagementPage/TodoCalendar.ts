@@ -1,7 +1,8 @@
 export interface TodoCalendarProps {
   calendarDate: Date;
-  selectedDate: Date;
+  selectedDate: string;
   onNavigate: (direction: "prev" | "next") => void;
-  onSelectDate: (date: Date) => void;
-  getTodoCount: (date: Date) => number;
+  onSelectDate: (date: string) => void;
+  getTodoCount: (date: string) => number;
+  formatDate: (date: Date) => string;
 }

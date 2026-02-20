@@ -11,11 +11,11 @@ export const GROUP_TYPES: GROUP_TYPE[] = [
   "other",
 ];
 
-export type TODO_STATUS_TYPE = "waiting" | "in-progress" | "done";
+export type TODO_STATUS_TYPE = "waiting" | "in progress" | "done";
 
 export const TODO_STATUS: TODO_STATUS_TYPE[] = [
   "waiting",
-  "in-progress",
+  "in progress",
   "done",
 ];
 

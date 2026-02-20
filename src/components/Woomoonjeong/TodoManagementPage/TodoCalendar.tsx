@@ -12,17 +12,18 @@ const TodoCalendar: React.FC<TodoCalendarProps> = ({
   onNavigate,
   onSelectDate,
   getTodoCount,
+  formatDate,
 }) => {
   const renderDays = () => {
     const daysInMonth = new Date(
       calendarDate.getFullYear(),
       calendarDate.getMonth() + 1,
-      0
+      0,
     ).getDate();
     const firstDay = new Date(
       calendarDate.getFullYear(),
       calendarDate.getMonth(),
-      1
+      1,
     ).getDay();
     const days = [];
 
@@ -34,23 +35,23 @@ const TodoCalendar: React.FC<TodoCalendarProps> = ({
       const date = new Date(
         calendarDate.getFullYear(),
         calendarDate.getMonth(),
-        day
+        day,
       );
-      const isSelected = date.toDateString() === selectedDate.toDateString();
-      const isToday = date.toDateString() === new Date().toDateString();
-      const count = getTodoCount(date);
+      const isSelected = formatDate(date) === selectedDate;
+      const isToday = formatDate(date) === formatDate(new Date());
+      const count = getTodoCount(formatDate(date));
 
       days.push(
         <div
           key={day}
-          onClick={() => onSelectDate(date)}
+          onClick={() => onSelectDate(formatDate(date))}
           className={`h-8 w-8 flex items-center justify-center text-sm cursor-pointer rounded-lg relative
           ${
             isSelected
               ? "bg-[#587CF0] text-white"
               : isToday
-              ? "bg-blue-100 text-blue-700"
-              : "hover:bg-gray-100"
+                ? "bg-blue-100 text-blue-700"
+                : "hover:bg-gray-100"
           }`}
         >
           {day}
@@ -64,7 +65,7 @@ const TodoCalendar: React.FC<TodoCalendarProps> = ({
               {count}
             </div>
           )}
-        </div>
+        </div>,
       );
     }
     return days;

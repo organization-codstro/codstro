@@ -14,7 +14,6 @@ export interface ProjectResponse {
   project_status?: "planning" | "active"; // 기획중 | 진행중
 }
 
-
 export interface ProjectPageResponse {
   project_page_id: string;
   project_page_name: string;
@@ -33,6 +32,6 @@ export interface TodoResponse {
   content: string;
   start_date: string;
   end_date: string;
-  status: "pending" | "in-progress" | "completed";
+  status: "pwaiting" | "in progress" | "done";
   created_at: string;
 }

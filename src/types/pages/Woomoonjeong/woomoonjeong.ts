@@ -54,7 +54,7 @@ export interface Todo {
   todo_description: string;
   todo_start_date: string;
   todo_end_date: string;
-  todo_status: "waiting" | "in-progress" | "done";
+  todo_status: "waiting" | "in progress" | "done";
   todo_created_date: string;
 }
 

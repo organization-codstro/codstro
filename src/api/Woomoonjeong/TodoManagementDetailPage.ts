@@ -4,7 +4,6 @@ import {
   UpdateTodoStatusParams,
   UpdateTodoParams,
   DeleteTodoParams,
-  CreateTodoParams,
 } from "../../types/api/Woomoonjeong/TodoManagementDetailPage";
 
 /**
@@ -30,26 +29,6 @@ export const TodoManagementDetailService = {
       return data;
     } catch (error) {
       console.error("[TodoService - getTodoDetail]:", error);
-      throw error;
-    }
-  },
-
-  /**
-   * [전체 할일 목록 조회]
-   * 메인 화면에서 프로젝트 할일과 일반 할일을 모두 조회합니다.
-   * 참조 테이블: todos
-   */
-  async getAllTodos() {
-    try {
-      const { data, error } = await supabase
-        .from("todos")
-        .select("*")
-        .order("todo_start_date", { ascending: true });
-
-      if (error) throw error;
-      return data;
-    } catch (error) {
-      console.error("[TodoService - getAllTodos]:", error);
       throw error;
     }
   },
@@ -113,32 +92,6 @@ export const TodoManagementDetailService = {
       if (error) throw error;
     } catch (error) {
       console.error("[TodoService - deleteTodo]:", error);
-      throw error;
-    }
-  },
-
-  /**
-   * [할일 생성]
-   * 참조 테이블: todos
-   */
-  async createTodo(payload: CreateTodoParams) {
-    try {
-      const { data, error } = await supabase
-        .from("todos")
-        .insert([
-          {
-            ...payload,
-            todo_status: "waiting",
-            created_at: new Date().toISOString(),
-          },
-        ])
-        .select()
-        .maybeSingle();
-
-      if (error) throw error;
-      return data;
-    } catch (error) {
-      console.error("[TodoService - createTodo]:", error);
       throw error;
     }
   },

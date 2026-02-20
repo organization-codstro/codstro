@@ -1,5 +1,5 @@
 import { supabase } from "../../db/supabase/supabase";
-import { MbitTypeDetail } from "../../types/api/Mbit/PersonalityEncyclopediaDetailPage";
+import { Personality } from "../../types/pages/Mbit/Mbit";
 
 /**
  * [PersonalityEncyclopediaService]
@@ -11,7 +11,7 @@ export const PersonalityEncyclopediaDetailService = {
    * @param mbitTypeId - mbit_type_id
    * 테이블: mbit_types
    */
-  async getPersonalityById(mbitTypeId: string): Promise<MbitTypeDetail> {
+  async getPersonalityById(mbitTypeId: string): Promise<Personality> {
     const { data, error } = await supabase
       .from("mbit_types")
       .select(
@@ -24,14 +24,12 @@ export const PersonalityEncyclopediaDetailService = {
         thought:mbit_type_thought,
         approach:mbit_type_approach,
         recommendedJob:mbit_type_recommended_job,
-        recommendedReason:mbit_type_recommended_reason,
         collaborativeStyle:mbit_type_collaborative_style,
         strengths:mbit_type_strengths,
         weaknesses:mbit_type_weaknesses,
         stressManagement:mbit_type_stress_management,
         morningGreetings:mbit_type_morning_greetings,
         nightGreetings:mbit_type_night_greetings,
-        userId:user_id,
         createdAt:created_at,
         updatedAt:updated_at
         `,
@@ -48,6 +46,6 @@ export const PersonalityEncyclopediaDetailService = {
       throw new Error("해당 MBIT 성격 유형을 찾을 수 없습니다.");
     }
 
-    return data as MbitTypeDetail;
+    return data as Personality;
   },
 };

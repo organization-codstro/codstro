@@ -5,6 +5,7 @@ import {
   SearchTodosParams,
   ToggleTodoStatusParams,
   DeleteTodoParams,
+  CreateTodoParams,
 } from "../../types/api/Woomoonjeong/TodoManagementPage";
 
 /**
@@ -106,16 +107,15 @@ export const TodoManagementService = {
       let request = supabase.from("todos").select("*");
 
       if (params.date) {
-        const dateStr = params.date.toISOString().split("T")[0];
         request = request
-          .lte("todo_start_date", dateStr)
-          .gte("todo_end_date", dateStr);
+          .lte("todo_start_date", params.date)
+          .gte("todo_end_date", params.date);
       }
 
       if (params.status && params.status !== "all") {
         const statusMap: Record<string, string> = {
-          pending: "waiting",
-          "in-progress": "in progress",
+          waiting: "waiting",
+          "in progress": "in progress",
           done: "done",
         };
         request = request.eq(
@@ -181,6 +181,32 @@ export const TodoManagementService = {
       if (error) throw error;
     } catch (error) {
       console.error("[TodoManagementService - deleteTodo]:", error);
+      throw error;
+    }
+  },
+
+  /**
+   * [할일 생성]
+   * 참조 테이블: todos
+   */
+  async createTodo(payload: CreateTodoParams) {
+    try {
+      const { data, error } = await supabase
+        .from("todos")
+        .insert([
+          {
+            ...payload,
+            todo_status: "waiting",
+            created_at: new Date().toISOString(),
+          },
+        ])
+        .select()
+        .maybeSingle();
+
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error("[TodoService - createTodo]:", error);
       throw error;
     }
   },

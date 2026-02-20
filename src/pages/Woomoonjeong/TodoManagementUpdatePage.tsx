@@ -49,9 +49,8 @@ export default function TodoManagementUpdatePage() {
           return;
         }
 
-        const groupIds = await TodoManagementUpdateService.getUserGroups(
-          userId
-        );
+        const groupIds =
+          await TodoManagementUpdateService.getUserGroups(userId);
 
         if (groupIds) setAvailableGroups(groupIds);
 
@@ -70,7 +69,7 @@ export default function TodoManagementUpdatePage() {
         setFormData({
           todo_name: data.todo_name,
           todo_description: data.todo_description || "",
-          group_id: data.group_id || "1",
+          group_id: data.group_id,
           todo_start_date: data.todo_start_date,
           todo_end_date: data.todo_end_date,
           todo_status: data.todo_status,
@@ -90,7 +89,7 @@ export default function TodoManagementUpdatePage() {
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -158,7 +157,7 @@ export default function TodoManagementUpdatePage() {
       <div className="max-w-2xl mx-auto">
         <div className="flex items-center gap-4 mb-6">
           <button
-            onClick={() => navigate(-1)}
+            onClick={() => navigate(`/woomoonjeong/todo/${todoId}`)}
             className="p-2 rounded-lg hover:bg-gray-100"
           >
             <ArrowLeft className="w-5 h-5 text-gray-600" />
@@ -175,26 +174,24 @@ export default function TodoManagementUpdatePage() {
         >
           <TodoInputField
             label="Todo Name"
-            name="name"
+            name="todo_name"
             value={formData.todo_name}
             onChange={handleChange}
             error={errors.name}
             required
           />
-
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-700">
-              Description
+              todo_description
             </label>
             <textarea
-              name="description"
+              name="todo_description"
               rows={4}
               value={formData.todo_description}
               onChange={handleChange}
               className="w-full px-4 py-3 border border-gray-200 rounded-lg resize-none focus:ring-2 focus:ring-[#587CF0] outline-none"
             />
           </div>
-
           <GroupSelector
             groups={availableGroups}
             selectedId={formData.group_id}
@@ -202,11 +199,10 @@ export default function TodoManagementUpdatePage() {
               setFormData((prev) => ({ ...prev, group_id: id }))
             }
           />
-
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <TodoInputField
               label="Start Date"
-              name="start_date"
+              name="todo_start_date"
               type="date"
               value={formData.todo_start_date}
               onChange={handleChange}
@@ -215,7 +211,7 @@ export default function TodoManagementUpdatePage() {
             />
             <TodoInputField
               label="End Date"
-              name="end_date"
+              name="todo_end_date"
               type="date"
               value={formData.todo_end_date}
               onChange={handleChange}
@@ -223,13 +219,12 @@ export default function TodoManagementUpdatePage() {
               required
             />
           </div>
-
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-700">
-              Status
+              Status <span className="text-red-500">*</span>
             </label>
             <select
-              name="status"
+              name="todo_status"
               value={formData.todo_status}
               onChange={handleChange}
               className="w-full px-4 py-3 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-[#587CF0]"
@@ -239,13 +234,12 @@ export default function TodoManagementUpdatePage() {
               <option value="done">Completed</option>
             </select>
           </div>
-
           <div className="flex justify-end gap-4 pt-6 border-t border-gray-200">
             <button
               type="button"
               disabled={isUpdating}
               onClick={() => navigate(-1)}
-              className="flex items-center gap-2 px-6 py-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+              className="flex items-center gap-2 px-6 py-3 transition-colors border border-gray-200 rounded-lg hover:bg-gray-50"
             >
               <X className="w-4 h-4" /> Cancel
             </button>

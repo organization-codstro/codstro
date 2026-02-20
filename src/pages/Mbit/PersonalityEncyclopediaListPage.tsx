@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
 // 서비스 및 타입
+import { Personality } from "../../types/pages/Mbit/Mbit";
 import PersonalityCard from "../../components/Mbit/PersonalityEncyclopediaListPage/PersonalityCard";
 import { PersonalityEncyclopediaListService } from "../../api/Mbit/PersonalityEncyclopediaListPage";
 import { MBTI_THEME } from "../../constants/Mbit/PersonalityEncyclopediaPage/PersonalityEncyclopediaPage";
@@ -9,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function PersonalityEncyclopediaPage() {
   const navigate = useNavigate();
-  const [personalities, setPersonalities] = useState<any[]>([]);
+  const [personalities, setPersonalities] = useState<Personality[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -23,7 +24,7 @@ export default function PersonalityEncyclopediaPage() {
         const mappedData = data.map((item) => ({
           ...item,
           // DB의 mbit_type_code(type)를 기준으로 테마 데이터 결합
-          theme: MBTI_THEME[item.type] || MBTI_THEME.DEFAULT,
+          theme: MBTI_THEME[item.code] || MBTI_THEME.DEFAULT,
         }));
 
         setPersonalities(mappedData);
@@ -37,12 +38,12 @@ export default function PersonalityEncyclopediaPage() {
   }, []);
 
   const selectedPersonality = (personalityId: string) => {
-    navigate(`/personality-encyclopedias/${personalityId}`);
+    navigate(`/mbit/personality-encyclopedias/${personalityId}`);
   };
 
   if (loading)
     return (
-      <div className="flex-1 p-8 flex items-center justify-center">
+      <div className="flex items-center justify-center flex-1 p-8">
         데이터 로딩 중...
       </div>
     );

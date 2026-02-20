@@ -5,16 +5,16 @@ import { TodoStatusBadgeProps } from "../../../types/pages/Woomoonjeong/TodoMana
 const TodoStatusBadge: React.FC<TodoStatusBadgeProps> = ({ status }) => {
   const config = {
     waiting: {
-      icon: <CheckCircle2 className="w-5 h-5 text-green-500" />,
-      style: "bg-green-100 text-green-700 border-green-200",
+      icon: <Circle className="w-5 h-5 text-gray-400" />,
+      style: "bg-gray-100 text-gray-700 border-gray-200",
     },
     "in progress": {
       icon: <PlayCircle className="w-5 h-5 text-blue-500" />,
       style: "bg-blue-100 text-blue-700 border-blue-200",
     },
     done: {
-      icon: <Circle className="w-5 h-5 text-gray-400" />,
-      style: "bg-gray-100 text-gray-700 border-gray-200",
+      icon: <CheckCircle2 className="w-5 h-5 text-green-500" />,
+      style: "bg-green-100 text-green-700 border-green-200",
     },
   };
 

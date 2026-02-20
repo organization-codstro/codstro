@@ -1,6 +1,6 @@
-import { PersonalityDetail } from "../Mbit";
+import { Personality } from "../Mbit";
 
 export interface PersonalityCardProps {
-  personality: PersonalityDetail;
+  personality: Personality;
   onClick: (personalityId: string) => void;
 }

@@ -7,8 +7,9 @@ import { TodoManagementDetailService } from "../../../api/Woomoonjeong/TodoManag
 
 // 타입 및 상수
 import { TodoManagementCreateProps } from "../../../types/pages/Woomoonjeong/TodoManagementPage/CreateTodoManagementModal";
+import { TodoManagementService } from "../../../api/Woomoonjeong/TodoManagementPage";
 
-const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
+const TodoManagementCreateModal: React.FC<TodoManagementCreateProps> = ({
   isOpen,
   onClose,
   onAdd,
@@ -81,7 +82,7 @@ const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
     const toastId = toast.loading("할일을 생성하는 중...");
 
     try {
-      await TodoManagementDetailService.createTodo({
+      await TodoManagementService.createTodo({
         todo_name: formData.todo_name,
         todo_description: formData.todo_description,
         group_id: formData.group_id,
@@ -171,7 +172,7 @@ const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
           {/* 할일 설명 */}
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-700">
-              할일 설명 <span className="text-red-500">*</span>
+              할일 설명
             </label>
             <textarea
               name="todo_description"
@@ -192,7 +193,7 @@ const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
           {/* 내용 */}
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-700">
-              Description
+              할일 내용
             </label>
             <textarea
               name="todo_content"
@@ -327,4 +328,4 @@ const TodoManagementCreate: React.FC<TodoManagementCreateProps> = ({
   );
 };
 
-export default TodoManagementCreate;
+export default TodoManagementCreateModal;

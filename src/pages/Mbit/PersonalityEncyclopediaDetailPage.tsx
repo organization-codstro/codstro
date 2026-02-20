@@ -12,13 +12,13 @@ import {
   TrendingUp,
 } from "lucide-react";
 
-import { PersonalityDetail } from "../../types/pages/Mbit/Mbit";
+import { Personality } from "../../types/pages/Mbit/Mbit";
 import PersonalityDetailHeader from "../../components/Mbit/PersonalityEncyclopediaDetailPage/PersonalityDetailHeader";
 import TraitList from "../../components/Mbit/MajorEncyclopediaDetailPage/TraitList";
 
 export default function PersonalityEncyclopediaDetailPage() {
   const { personalityId } = useParams();
-  const [personality, setPersonality] = useState<PersonalityDetail | null>(
+  const [personality, setPersonality] = useState<Personality | null>(
     null,
   );
   const [loading, setLoading] = useState<boolean>(true);
@@ -26,12 +26,16 @@ export default function PersonalityEncyclopediaDetailPage() {
   const navigate = useNavigate();
 
   const onBack = () => {
-    navigate("/personality-encyclopedias");
+    navigate("/mbit/personality-encyclopedias");
   };
 
   if (!personalityId) {
     //추후 404 패이지 연결
-    navigate("/personality-encyclopedias");
+    console.log(
+      "personalityId 관련 테스트 : personalityId가 없습니다",
+      personalityId,
+    );
+    //navigate("/mbit/personality-encyclopedias");
     return;
   }
 
@@ -57,14 +61,18 @@ export default function PersonalityEncyclopediaDetailPage() {
 
   if (loading)
     return (
-      <div className="flex-1 p-8 flex items-center justify-center">
+      <div className="flex items-center justify-center flex-1 p-8">
         데이터 로딩 중...
       </div>
     );
 
   if (!personality) {
     //추후 404 패이지 연결
-    navigate("/personality-encyclopedias");
+    console.log(
+      "personality 관련 테스트 : personalityId가 없습니다",
+      personality,
+    );
+    //navigate("/mbit/personality-encyclopedias");
     return;
   }
 

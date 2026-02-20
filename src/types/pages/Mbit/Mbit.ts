@@ -24,7 +24,7 @@ export interface Major {
   updated_at?: string;
 }
 
-export interface PersonalityDetail {
+export interface Personality {
   id: string;
   name: string;
   code: string;
@@ -33,7 +33,6 @@ export interface PersonalityDetail {
   thought: string;
   approach: string;
   recommendedJob: string;
-  recommendedReason: string;
   collaborativeStyle: string;
   strengths: string;
   weaknesses: string;

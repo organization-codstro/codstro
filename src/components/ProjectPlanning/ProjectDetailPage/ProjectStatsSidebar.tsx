@@ -32,7 +32,7 @@ export const ProjectStatsSidebar = ({
               <div className="flex items-center justify-between">
                 <span className="text-gray-600">In Progress</span>
                 <span className="font-medium text-yellow-600">
-                  {todos.filter((t) => t.status === "in-progress").length}
+                  {todos.filter((t) => t.status === "in progress").length}
                 </span>
               </div>
               <div className="flex items-center justify-between">

@@ -20,7 +20,7 @@ const TodoCard: React.FC<TodoCardProps> = ({
   const getStatusIcon = (status: Todo["todo_status"]) => {
     if (status === "done")
       return <CheckCircle2 className="w-5 h-5 text-green-500" />;
-    if (status === "in-progress")
+    if (status === "in progress")
       return <PlayCircle className="w-5 h-5 text-blue-500" />;
     return <Circle className="w-5 h-5 text-gray-400" />;
   };
@@ -28,7 +28,7 @@ const TodoCard: React.FC<TodoCardProps> = ({
   const getStatusColor = (status: Todo["todo_status"]) => {
     if (status === "done")
       return "bg-green-100 text-green-700 border-green-200";
-    if (status === "in-progress")
+    if (status === "in progress")
       return "bg-blue-100 text-blue-700 border-blue-200";
     return "bg-gray-100 text-gray-700 border-gray-200";
   };
