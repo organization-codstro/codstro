@@ -7,6 +7,7 @@ import { ProjectPageItem } from "../../components/ProjectPlanning/MeetingCreateP
 
 // API Service 및 타입 임포트
 import { MeetingCreateService } from "../../api/ProjectPlanning/MeetingCreatePage"; 
+import { PROJECT_ROOM_TYPE } from "../../constants/ProjectPlanning/ProjectPlanning";
 
 export default function MeetingCreatePage() {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ export default function MeetingCreatePage() {
   const [planningPages, setPlanningPages] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  const [meetingType, setMeetingType] = useState<"Feature" | "Free" | null>(null);
+  const [meetingType, setMeetingType] = useState<PROJECT_ROOM_TYPE | null>(null);
   const [meetingName, setMeetingName] = useState(new Date().toISOString().split("T")[0]);
   const [meetingPurpose, setMeetingPurpose] = useState("");
   const [selectedPages, setSelectedPages] = useState<string[]>([]);
@@ -138,7 +139,7 @@ export default function MeetingCreatePage() {
                 <div>
                   <label className="block mb-3 text-sm font-medium text-gray-700">Select Pages</label>
                   {planningPages.length === 0 ? (
-                    <p className="text-sm text-gray-500 italic">선택 가능한 기획 페이지가 없습니다.</p>
+                    <p className="text-sm italic text-gray-500">선택 가능한 기획 페이지가 없습니다.</p>
                   ) : (
                     <div className="space-y-2">
                       {planningPages.map((page) => (

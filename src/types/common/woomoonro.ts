@@ -1,22 +1,27 @@
+import { CLONE_CODING_STATE_TYPE, PROJECT_DIFFICULTY } from "../../constants/Woomoonro/woomoonro";
+
+
 export interface CloneCodingProject {
   id: string;
   title: string;
   description: string;
   tech_stack: string[];
-  difficulty: "beginner" | "intermediate" | "advanced";
-  estimated_hours: number;
+  difficulty: PROJECT_DIFFICULTY;
+  estimated_hours: string;
   thumbnail_url?: string;
   github_url?: string;
   demo_url?: string;
   tags: string[];
-  created_at: string;
+  clone_coding_steps: any;
+  clone_coding_project_structure: string;
+  created_at?: string;
 }
 
 export interface UserCloneCodingProject {
   id: string;
   user_id: string;
   project_id: string;
-  status: "waiting" | "in progress" | "done";
+  status: CLONE_CODING_STATE_TYPE;
   is_bookmarked: boolean;
   progress_notes?: string;
   started_at?: string;

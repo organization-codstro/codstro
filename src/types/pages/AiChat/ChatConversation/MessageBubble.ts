@@ -1,5 +1,4 @@
-import { ChatMessage } from "../../../../types/pages/AiChat/ChatConversation/ChatConversationPage";
-
+import { ChatMessage } from "../../../common/aiChat";
 export interface MessageBubbleProps {
   message: ChatMessage;
 }

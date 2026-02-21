@@ -55,7 +55,7 @@ export const ProjectInfoGenerateService = {
             page.todos.map((t) => ({
               ...t,
               project_page_id: savedPage.project_page_id,
-            }))
+            })),
           );
         }
       }
@@ -66,7 +66,7 @@ export const ProjectInfoGenerateService = {
           params.projectTodos.map((t) => ({
             ...t,
             project_id: params.projectId,
-          }))
+          })),
         );
       }
 
@@ -108,6 +108,7 @@ export const ProjectInfoGenerateService = {
             project_style: planningData.project_style,
             project_effect: planningData.project_effect,
             project_created_date: new Date().toISOString().split("T")[0],
+            project_status: "waiting",
             user_id: planningData.user_id,
           },
         ])

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Play, Clock, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Project } from "../../types/pages/ProjectPlanning/project";
+import { Project } from "../../types/common/projectPlanning";
 
 // 컴포넌트 임포트
 import { ProjectListHeader } from "../../components/ProjectPlanning/ProjectMainPage/ProjectListHeader";

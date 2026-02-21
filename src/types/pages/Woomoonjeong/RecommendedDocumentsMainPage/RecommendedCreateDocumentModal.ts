@@ -1,5 +1,9 @@
-import { GROUP_TYPE } from "../../../../constants/Woomoonjeong/Woomoonjeong";
-import { RecommendedPin } from "../woomoonjeong";
+import { GROUP_TYPE } from "../../../../constants/Woomoonjeong/woomoonjeong";
+import {
+  Group,
+  RecommendedField,
+  RecommendedPin,
+} from "../../../common/woomoonjeong";
 
 export interface RecommendedCreateDocumentModalPayload {
   groupName: GROUP_TYPE;
@@ -15,4 +19,5 @@ export interface RecommendedCreateDocumentModalProps {
   onClose: () => void;
   pin: RecommendedPin;
   onAdd: (payload: RecommendedCreateDocumentModalPayload) => void;
+  groups: Group[];
 }

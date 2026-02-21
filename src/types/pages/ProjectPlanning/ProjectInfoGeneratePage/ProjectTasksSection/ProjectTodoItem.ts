@@ -1,4 +1,4 @@
-import { UITodo } from "../../project";
+import { UITodo } from "../../../../common/projectPlanning";
 
 export interface ProjectTodoItemProps {
   todo: UITodo;

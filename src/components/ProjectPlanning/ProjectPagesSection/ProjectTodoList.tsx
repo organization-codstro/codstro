@@ -1,5 +1,5 @@
 import React from "react";
-import { Todo } from "../../../types/pages/ProjectPlanning/project";
+import { ProjectTodo } from "../../../types/common/projectPlanning";
 import { ProjectTodoItem } from "./ProjectTodoItem";
 import { ProjectTodoListProps } from "../../../types/pages/ProjectPlanning/ProjectPagesSection/ProjectTodoList";
 
@@ -18,7 +18,7 @@ export const ProjectTodoList: React.FC<ProjectTodoListProps> = ({
   onDeleteTodoAction,
 }) => {
   const handleAddNewTodo = () => {
-    const newTodo: Todo = {
+    const newTodo: ProjectTodo = {
       id: Date.now().toString(),
       name: "New Task",
       content: "",
@@ -61,7 +61,9 @@ export const ProjectTodoList: React.FC<ProjectTodoListProps> = ({
             isTodoPending={deletePendingId === todo.id}
             canEdit={isEditing}
             getStatusColor={getStatusColor}
-            onUpdateField={(f, v) => onUpdateTodoField(todo.id, f, v)}
+            onUpdateField={(f, v) =>
+              onUpdateTodoField(todo.id, f as keyof ProjectTodo, v)
+            }
             onStartEdit={() => onStartEditTodo(todo.id)}
             onSave={() => onSaveTodo(todo.id, todo)}
             onCancel={onCancelEditTodo}

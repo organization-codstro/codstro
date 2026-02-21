@@ -1,4 +1,4 @@
-import { ProjectPage } from "../project";
+import { ProjectPage } from "../../../common/projectPlanning";
 
 export interface PageHeaderProps {
   page: ProjectPage;

@@ -57,7 +57,7 @@ export default function MatchingHistoryDetailPage() {
     try {
       await MatchingHistoryDetailService.deleteMatchingHistory({ matchingId });
       toast.success("기록이 성공적으로 삭제되었습니다.");
-      navigate("/matches"); // 매칭 목록 페이지로 이동
+      navigate("/matchs"); // 매칭 목록 페이지로 이동
     } catch (error) {
       toast.error("삭제 중 오류가 발생했습니다.");
     }
@@ -94,26 +94,26 @@ export default function MatchingHistoryDetailPage() {
         <div className="overflow-hidden bg-white border border-gray-200 shadow-sm rounded-xl">
           {/* 헤더: 점수와 매칭명(DB 데이터) 표시 */}
           <MatchScoreHeader
-            rate={match.match_rate}
-            name={match.company_user_matche_name}
+            rate={match.company_user_match_rate}
+            name={match.company_user_match_name}
           />
 
           <div className="p-8">
             {/* 리포트 섹션: 분석 사유 */}
             <ReportSection
               title="매칭 분석 리포트"
-              content={match.company_user_matche_reason}
+              content={match.company_user_match_reason}
             />
 
             {/* 리포트 섹션: 개선 제안 */}
             <ReportSection
               title="개선 제안"
-              content={match.company_user_matche_suggestions}
+              content={match.company_user_match_suggestions}
               isLast
             />
 
             {/* 푸터: 생성 날짜 */}
-            <ReportFooter date={match.company_user_matche_created_date} />
+            <ReportFooter date={match.created_at} />
           </div>
         </div>
       </div>

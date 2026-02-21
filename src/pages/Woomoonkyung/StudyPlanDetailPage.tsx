@@ -1,17 +1,17 @@
 import { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { WoomoonkyungDetailService } from "../../api/Woomoonkyung/StudyPlanDetailPage"; // 경로 확인 필요
-import { PlanDetail } from "../../types/api/Woomoonkyung/StudyPlanDetailPage";
+import { WoomoonkyungDetailService } from "../../api/Woomoonkyung/StudyPlanDetailPage"; // 경로 확인 필요3
 import BackButton from "../../components/Woomoonkyung/RecommendedStudyPlanDetailPage/BackButton";
 import PlanDetailHeader from "../../components/Woomoonkyung/StudyPlanArchiveDetailPage/PlanDetailHeader";
 import MyNodeList from "../../components/Woomoonkyung/StudyPlanArchiveDetailPage/MyNodeList";
+import { StudyPlanWithNodes } from "../../types/common/Woomoonkyung";
 
 export default function StudyPlanDetailPage() {
   const { planId } = useParams<{ planId: string }>();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [detail, setDetail] = useState<PlanDetail | null>(null);
+  const [detail, setDetail] = useState<StudyPlanWithNodes | null>(null);
 
   /**
    * [데이터 로드]
@@ -81,12 +81,12 @@ export default function StudyPlanDetailPage() {
 
         <PlanDetailHeader
           planId={planId!}
-          name={plan.study_plan_name}
-          description={plan.study_plan_description}
-          imageUrl={plan.study_plan_image_url}
-          startDate={plan.study_plan_start_date}
-          endDate={plan.study_plan_end_date}
-          state={plan.study_plan_state}
+          name={plan.title}
+          description={plan.description}
+          imageUrl={plan.description}
+          startDate={plan.startDate}
+          endDate={plan.endDate}
+          state={plan.state}
           completedNodes={stats.completedNodesCount}
           totalNodes={stats.totalNodesCount}
           progressPercentage={stats.progressPercentage}

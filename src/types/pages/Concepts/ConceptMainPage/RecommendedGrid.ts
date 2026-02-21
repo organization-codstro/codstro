@@ -1,9 +1,9 @@
-export type MaterialType = "concept" | "tool" | "library" | "service";
+import { MATERIAL_TYPE } from "../../../../constants/Concepts/concepts";
 
 interface RecommendedItem {
   id: string;
   title: string;
-  type: MaterialType;
+  type: MATERIAL_TYPE;
   category: string[];
 }
 

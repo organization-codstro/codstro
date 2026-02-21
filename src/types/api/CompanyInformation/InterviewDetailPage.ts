@@ -1,3 +1,5 @@
+import { CompanyQna } from "../../common/companyInformation";
+
 /**
  * [회사 면접 질문 조회] Params
  */
@@ -6,20 +8,9 @@ export interface GetCompanyQuestionsParams {
 }
 
 /**
- * [회사 면접 질문 아이템]
- */
-export interface CompanyQuestion {
-  company_qna_id: string;
-  company_id: string;
-  company_qna_question: string;
-  company_qna_created_date: string;
-  [key: string]: any;
-}
-
-/**
  * [회사 면접 질문 조회] Response
  */
-export type GetCompanyQuestionsResponse = CompanyQuestion[];
+export type GetCompanyQuestionsResponse = CompanyQna[];
 
 /**
  * [회사 기본 정보 조회] Params

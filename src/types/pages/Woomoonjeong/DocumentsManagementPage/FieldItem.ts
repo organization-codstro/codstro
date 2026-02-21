@@ -1,4 +1,4 @@
-import { Field, Group } from "../woomoonjeong";
+import { Field, Group } from "../../../common/woomoonjeong";
 
 export interface FieldItemProps {
   field: Field;

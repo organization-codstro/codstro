@@ -5,13 +5,14 @@ import { Loader2 } from "lucide-react";
 
 // 서비스 및 타입
 import { PackageManagerListService } from "../../api/Concepts/PackageListPage";
-import { PackageManagerSummary } from "../../types/api/Concepts/PackageListPage";
+
 
 // 컴포넌트
 import ConceptListHeader from "../../components/Concepts/ConceptListHeader";
 import ConceptSearchBar from "../../components/Concepts/ConceptSearchBar";
 import ConceptGrid from "../../components/Concepts/ConceptGrid";
 import MaterialCard from "../../components/Concepts/PackageListPage/MaterialCard";
+import { PackageManagerSummary } from "../../types/common/concepts";
 
 export default function PackageListPage() {
   const navigate = useNavigate();
@@ -90,7 +91,7 @@ export default function PackageListPage() {
       {isLoading ? (
         <div className="flex flex-col items-center justify-center py-32">
           <Loader2 className="w-12 h-12 text-blue-500 animate-spin" />
-          <p className="mt-4 text-gray-500 font-medium">Loading materials...</p>
+          <p className="mt-4 font-medium text-gray-500">Loading materials...</p>
         </div>
       ) : (
         <>

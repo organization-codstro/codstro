@@ -21,7 +21,7 @@ import {
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { SortableNodeItemNodeFormData } from "../../types/pages/Woomoonkyung/StudyPlanMainPage/SortableNodeItem";
-import { TechStack } from "../../types/pages/Woomoonjeong/SortableNodeItem/sortableNodeItem";
+import { TechStack } from "../../types/common/Woomoonkyung";
 
 export const SortableNodeItem: React.FC<{
   node: SortableNodeItemNodeFormData & { id: string };
@@ -45,7 +45,7 @@ export const SortableNodeItem: React.FC<{
   };
 
   const techStack = techStacks.find(
-    (ts) => ts.tech_stack_id === node.tech_stack_id
+    (ts) => ts.tech_stack_id === node.tech_stack_id,
   );
 
   return (

@@ -15,7 +15,7 @@ import ThirdPartyHeader from "../../components/Concepts/ThirdPartyDetailPage/Thi
 import ThirdPartyActionButtons from "../../components/Concepts/ThirdPartyDetailPage/ThirdPartyActionButtons";
 import MarkdownRenderer from "../../components/Markdown/MarkdownRenderer";
 import RelatedItemGrid from "../../components/Concepts/CodingToolDetailPage/RelatedItemGrid";
-import AIChat from "../../components/CompanyInformation/AIChat";
+import AIChat from "../../components/CompanyInformation/CompanyInformationAIChat";
 import AddTodoModal from "../../components/CompanyInformation/AddTodoModal";
 
 export default function ThirdPartyDetailPage() {

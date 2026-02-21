@@ -1,3 +1,6 @@
+export type CLONE_CODING_STATE_TYPE = "waiting" | "in progress" | "done";
+export type PROJECT_DIFFICULTY = "beginner" | "intermediate" | "advanced";
+
 //클론코딩 난이도
 export type CLONE_CODINGS_DIFFICULTY_TYPE =
   | "beginner"

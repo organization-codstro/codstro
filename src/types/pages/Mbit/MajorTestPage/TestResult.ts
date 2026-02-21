@@ -1,5 +1,4 @@
-import { Major } from "../Mbit";
-
+import { Major } from "../../../common/Mbit";
 
 export interface TestResultProps {
   result: Major;

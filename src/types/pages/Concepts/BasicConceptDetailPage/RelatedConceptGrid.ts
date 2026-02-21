@@ -1,8 +1,4 @@
-interface RelatedConcept {
-  id: string;
-  name: string;
-  type: string;
-}
+import { RelatedConcept } from "../../../common/concepts";
 
 export interface RelatedConceptGridProps {
   relatedConcepts?: RelatedConcept[];

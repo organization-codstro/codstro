@@ -1,5 +1,6 @@
 // StudyPlanForm.ts (또는 타입 정의부)
-import { StudyPlan } from "./Woomoonkyung";
+
+import { StudyPlan } from "../../common/Woomoonkyung";
 
 export interface StudyPlanFormFormData
   extends Omit<

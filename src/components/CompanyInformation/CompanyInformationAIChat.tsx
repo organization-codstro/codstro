@@ -1,14 +1,16 @@
 import { X, Send, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import {
-  AIChatProps,
-  Message,
-} from "../../types/pages/CompanyInformation/AIChat";
+import { CompanyInformationAIChatProps } from "../../types/pages/CompanyInformation/CompanyInformationAIChat";
 import { BasicConceptDetailService } from "../../api/Concepts/BasicConceptDetailPage";
+import { CompanyInformationAIChatMessage } from "../../types/common/companyInformation";
 
-export default function AIChat({ isOpen, onClose, conceptName }: AIChatProps) {
-  const [messages, setMessages] = useState<Message[]>([
+export default function CompanyInformationAIChat({
+  isOpen,
+  onClose,
+  conceptName,
+}: CompanyInformationAIChatProps) {
+  const [messages, setMessages] = useState<CompanyInformationAIChatMessage[]>([
     {
       id: "1",
       sender: "ai",
@@ -23,7 +25,7 @@ export default function AIChat({ isOpen, onClose, conceptName }: AIChatProps) {
     if (!inputValue.trim() || isLoading) return;
 
     const userQuestion = inputValue.trim();
-    const userMessage: Message = {
+    const userMessage: CompanyInformationAIChatMessage = {
       id: Date.now().toString(),
       sender: "user",
       text: userQuestion,
@@ -41,7 +43,7 @@ export default function AIChat({ isOpen, onClose, conceptName }: AIChatProps) {
         userQuestion,
       });
 
-      const aiMessage: Message = {
+      const aiMessage: CompanyInformationAIChatMessage = {
         id: (Date.now() + 1).toString(),
         sender: "ai",
         text: aiResponse,
@@ -50,7 +52,7 @@ export default function AIChat({ isOpen, onClose, conceptName }: AIChatProps) {
       setMessages((prev) => [...prev, aiMessage]);
     } catch (error) {
       toast.error("AI 응답을 가져오지 못했습니다.");
-      const errorMessage: Message = {
+      const errorMessage: CompanyInformationAIChatMessage = {
         id: (Date.now() + 1).toString(),
         sender: "ai",
         text: "죄송합니다. 답변을 생성하는 중 오류가 발생했습니다.",
@@ -134,8 +136,8 @@ export default function AIChat({ isOpen, onClose, conceptName }: AIChatProps) {
             ))}
             {isLoading && (
               <div className="flex justify-start">
-                <div className="bg-gray-100 px-4 py-3 rounded-lg rounded-bl-none">
-                  <Loader2 className="w-4 h-4 animate-spin text-gray-500" />
+                <div className="px-4 py-3 bg-gray-100 rounded-lg rounded-bl-none">
+                  <Loader2 className="w-4 h-4 text-gray-500 animate-spin" />
                 </div>
               </div>
             )}

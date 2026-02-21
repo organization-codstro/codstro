@@ -1,8 +1,4 @@
-interface Concept {
-  id: string;
-  name: string;
-  type: string;
-}
+import { Concept } from "../../../common/concepts";
 
 export interface ConceptSelectorProps {
   availableConcepts: Concept[];

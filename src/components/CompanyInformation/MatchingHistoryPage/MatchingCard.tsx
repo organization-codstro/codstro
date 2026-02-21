@@ -8,10 +8,6 @@ export const MatchingCard = ({
   onDelete,
   onClick,
 }: MatchingCardProps) => {
-  const formattedDate = new Date(
-    match.created_at
-  ).toLocaleDateString("ko-KR");
-
   return (
     <div
       onClick={onClick}
@@ -25,7 +21,7 @@ export const MatchingCard = ({
           <p className="mb-3 text-sm text-gray-600">
             매칭 분석 결과를 자세히 확인해보세요
           </p>
-          <span className="text-sm text-gray-500">{formattedDate}</span>
+          <span className="text-sm text-gray-500">{match.created_at}</span>
         </div>
 
         <div className="flex flex-row items-center gap-4 shrink-0">

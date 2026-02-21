@@ -4,8 +4,6 @@ import {
   ChevronDown,
   ChevronRight,
   FileText,
-  Trash2,
-  Check,
   Loader2,
 } from "lucide-react";
 
@@ -25,7 +23,10 @@ import {
   CreateFieldParams,
   CreatePinParams,
 } from "../../types/api/Woomoonjeong/DocumentsManagementPage";
-import { GROUP_TYPE_COLORS } from "../../constants/Woomoonjeong/Woomoonjeong";
+import {
+  GROUP_TYPE_COLORS,
+  WOOMOONJEONG_HIERARCHY,
+} from "../../constants/Woomoonjeong/woomoonjeong";
 
 export default function DocumentsManagementPage() {
   // --- 상태 관리 ---
@@ -48,7 +49,7 @@ export default function DocumentsManagementPage() {
     field: any;
   } | null>(null);
   const [deletePending, setDeletePending] = useState<{
-    type: "group" | "field" | "pin";
+    type: WOOMOONJEONG_HIERARCHY;
     id: string;
   } | null>(null);
 
@@ -369,6 +370,7 @@ export default function DocumentsManagementPage() {
           onClose={() => setEditingPin(null)}
           pin={editingPin.pin}
           onAdd={fetchData}
+          groups={woomoonjeongData}
         />
       )}
     </div>

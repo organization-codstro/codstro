@@ -2,17 +2,17 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { WoomoonkyungEditService } from "../../api/Woomoonkyung/StudyPlanEditPage"; // 경로 확인 필요
-import { StudyPlanInfo } from "../../types/api/Woomoonkyung/StudyPlanEditPage";
 import StudyPlanForm from "../../components/Woomoonkyung/StudyPlanForm";
 import PlanNotFound from "../../components/Woomoonkyung/StudyPlanEditPage/PlanNotFound";
 import PageHeader from "../../components/Woomoonkyung/StudyPlanEditPage/PageHeader";
 import { LoginService } from "../../api/Auth/LoginPage";
+import { StudyPlan } from "../../types/common/Woomoonkyung";
 
 export default function StudyPlanEditPage() {
   const { planId } = useParams<{ planId: string }>();
   const navigate = useNavigate();
 
-  const [plan, setPlan] = useState<StudyPlanInfo | null>(null);
+  const [plan, setPlan] = useState<StudyPlan | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);

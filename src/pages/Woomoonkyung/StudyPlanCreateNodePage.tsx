@@ -10,9 +10,9 @@ import {
   StudyPlanNode,
   ValidationErrors,
 } from "../../types/pages/Woomoonkyung/StudyPlanCreateNodePage/StudyPlanCreateNodePage";
-import { TechStack } from "../../types/api/Woomoonkyung/StudyPlanCreateNodePage";
 import { WoomoonkyungCreateNodeService } from "../../api/Woomoonkyung/StudyPlanCreateNodePage";
 import { RecommendedStudyPlanDetailService } from "../../api/Woomoonkyung/RecommendedStudyPlanDetailPage";
+import { TechStack } from "../../types/common/Woomoonkyung";
 
 export default function StudyPlanCreateNodePage() {
   const navigate = useNavigate();

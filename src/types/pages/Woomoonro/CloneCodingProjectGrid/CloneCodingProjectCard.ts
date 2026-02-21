@@ -1,4 +1,4 @@
-import { CloneCodingProject, UserCloneCodingProject } from "../woomoonro";
+import { CloneCodingProject, UserCloneCodingProject } from "../../../common/woomoonro";
 
 export interface CloneCodingProjectCardProps {
   project: CloneCodingProject;

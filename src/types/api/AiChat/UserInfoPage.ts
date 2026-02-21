@@ -1,21 +1,13 @@
 // types/api/AiChat/UserRecordService.ts
 
+import { UserRecord } from "../../common/aiChat";
+
 /**
  * [유저 기록 조회]
  * 특정 유저 기록 조회 파라미터
  */
 export interface GetUserRecordParams {
   userId: string;
-}
-
-/**
- * ai_user_records 테이블 엔티티
- */
-export interface UserRecord {
-  ai_user_record_id: string;
-  user_id: string;
-  ai_user_record_summary: string;
-  ai_user_record_created_date: string;
 }
 
 /**

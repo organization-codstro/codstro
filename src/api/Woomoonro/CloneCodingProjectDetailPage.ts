@@ -1,7 +1,6 @@
 import { supabase } from "../../db/supabase/supabase";
 import { generateAiContent } from "../Gemini/Gemini";
 import {
-  CloneCodingsResponse,
   ProjectTodoResponse,
   UserCloneCodingsResponse,
   GetProjectDetailParams,
@@ -11,11 +10,12 @@ import {
   GetProjectTodosParams,
   GenerateProjectGuideParams,
 } from "../../types/api/Woomoonro/CloneCodingProjectDetailPage";
+import { CloneCodingProject } from "../../types/common/woomoonro";
 
 export const CloneCodingService = {
   async getProjectDetail(
-    params: GetProjectDetailParams
-  ): Promise<CloneCodingsResponse | null> {
+    params: GetProjectDetailParams,
+  ): Promise<CloneCodingProject | null> {
     const { data, error } = await supabase
       .from("clone_codings")
       .select("*")
@@ -30,7 +30,7 @@ export const CloneCodingService = {
   },
 
   async getUserProjectStatus(
-    params: GetUserProjectStatusParams
+    params: GetUserProjectStatusParams,
   ): Promise<UserCloneCodingsResponse | null> {
     const { data, error } = await supabase
       .from("user_clone_codings")
@@ -53,7 +53,7 @@ export const CloneCodingService = {
         clone_coding_id: params.projectId,
         user_clone_codings_is_bookmarked: !params.currentStatus,
       },
-      { onConflict: "user_id, clone_coding_id" }
+      { onConflict: "user_id, clone_coding_id" },
     );
 
     if (error) throw error;
@@ -75,14 +75,14 @@ export const CloneCodingService = {
         clone_coding_id: params.projectId,
         ...updateData,
       },
-      { onConflict: "user_id, clone_coding_id" }
+      { onConflict: "user_id, clone_coding_id" },
     );
 
     if (error) throw error;
   },
 
   async getProjectTodos(
-    params: GetProjectTodosParams
+    params: GetProjectTodosParams,
   ): Promise<ProjectTodoResponse[]> {
     const { data, error } = await supabase
       .from("project_todos")
@@ -95,7 +95,7 @@ export const CloneCodingService = {
   },
 
   async generateProjectGuide(
-    params: GenerateProjectGuideParams
+    params: GenerateProjectGuideParams,
   ): Promise<string> {
     const prompt = `프로젝트 "${
       params.projectTitle

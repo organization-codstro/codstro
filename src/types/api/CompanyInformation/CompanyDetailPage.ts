@@ -1,3 +1,5 @@
+import { Company } from "../../common/companyInformation";
+
 /**
  * [회사 상세 조회] Params
  */
@@ -6,24 +8,9 @@ export interface GetCompanyDetailParams {
 }
 
 /**
- * [회사 정보]
- */
-export interface CompanyDetail {
-  company_id: string;
-  company_name: string;
-  company_industry: string;
-  company_description: string;
-  company_website: string | null;
-  company_values: string | null;
-  company_created_at: string;
-  company_update_at: string;
-  [key: string]: any;
-}
-
-/**
  * [회사 상세 조회] Response
  */
-export type GetCompanyDetailResponse = CompanyDetail;
+export type GetCompanyDetailResponse = Company;
 
 /**
  * [북마크 여부 확인] Params

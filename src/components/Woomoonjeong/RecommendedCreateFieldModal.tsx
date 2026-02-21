@@ -2,10 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import { DEFAULT_GROUP_TYPE } from "../../constants/Woomoonjeong/DocumentsManagementPage/CreateCustomFieldModal";
 import { AddFieldModalProps } from "../../types/pages/Woomoonjeong/RecommendedCreateFieldModal";
-import { GROUP_TYPE, GROUP_TYPES } from "../../constants/Woomoonjeong/Woomoonjeong";
-
+import {
+  DEFAULT_GROUP_TYPE,
+  GROUP_TYPE,
+  GROUP_TYPES,
+} from "../../constants/Woomoonjeong/woomoonjeong";
 
 const AssignRecommendedFieldModal: React.FC<AddFieldModalProps> = ({
   isOpen,

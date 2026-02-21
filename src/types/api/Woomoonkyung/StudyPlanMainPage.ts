@@ -2,7 +2,10 @@
 // WoomoonkyungMainService 타입 파일
 // ===========================
 
-import { StudyPlan } from "../../pages/Woomoonkyung/Woomoonkyung";
+import {
+  PlanStatsResult,
+  StudyPlan,
+} from "../../pages/Woomoonkyung/Woomoonkyung";
 
 /**
  * [GetActiveMyPlansParams]
@@ -34,15 +37,5 @@ export interface GetPlanStatsParams {
  */
 export interface PlanWithStats extends StudyPlan {
   [key: string]: any;
-  stats: PlanStats;
-}
-
-/**
- * [PlanStats]
- * 학습 계획 통계 정보
- */
-export interface PlanStats {
-  total: number;
-  completed: number;
-  progress: number;
+  stats: PlanStatsResult;
 }

@@ -13,7 +13,7 @@ export interface SearchLibrariesParams {
 }
 
 export interface FilterLibrariesParams {
-  column: "language" | "category";
+  column: string,
   value: string;
 }
 

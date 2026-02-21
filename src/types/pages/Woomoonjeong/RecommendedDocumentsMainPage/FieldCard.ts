@@ -1,4 +1,4 @@
-import { RecommendedField } from "../woomoonjeong";
+import { RecommendedField } from "../../../common/woomoonjeong";
 
 export interface FieldCardProps {
   field: RecommendedField,

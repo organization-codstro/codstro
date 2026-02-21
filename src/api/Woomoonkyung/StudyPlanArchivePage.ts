@@ -3,9 +3,8 @@ import {
   GetArchivedPlansParams,
   GetPlanStatsParams,
   DeleteFromArchiveParams,
-  PlanStatsResult,
-  ArchivedPlan,
 } from "../../types/api/Woomoonkyung/StudyPlanArchivePage";
+import { PlanStatsResult, StudyPlan } from "../../types/common/Woomoonkyung";
 
 /**
  * [공부 계획 아카이브 서비스]
@@ -46,7 +45,7 @@ export const StudyPlanArchiveService = {
       return (data as any[]).map((plan) => ({
         ...plan,
         totalNodes: plan.node_count?.[0]?.count || 0,
-      })) as ArchivedPlan[];
+      })) as StudyPlan[];
     } catch (error) {
       console.error("[getArchivedPlans Error]:", error);
       throw error;

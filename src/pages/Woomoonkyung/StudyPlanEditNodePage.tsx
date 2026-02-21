@@ -2,22 +2,18 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, FileText, Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
-import { StudyPlanNode } from "../../types/pages/Woomoonkyung/Woomoonkyung";
 import { WoomoonkyungEditNodeService } from "../../api/Woomoonkyung/StudyPlanEditNodePage";
-import {
-  PlanInfo,
-  TechStack,
-} from "../../types/api/Woomoonkyung/StudyPlanEditNodePage";
 import DraggableNodeItem from "../../components/Woomoonkyung/StudyPlanEditNodePage/DraggableNodeItem";
 import TechStackPicker from "../../components/Woomoonkyung/StudyPlanEditNodePage/TechStackPicker";
 import NodeEditForm from "../../components/Woomoonkyung/StudyPlanEditNodePage/NodeEditForm";
+import { StudyPlan, StudyPlanNode, TechStack } from "../../types/common/Woomoonkyung";
 
 export default function StudyPlanEditNodePage() {
   const navigate = useNavigate();
   const { planId } = useParams<{ planId: string }>();
 
   // 데이터 상태
-  const [planInfo, setPlanInfo] = useState<PlanInfo | null>(null);
+  const [planInfo, setPlanInfo] = useState<StudyPlan | null>(null);
   const [nodes, setNodes] = useState<StudyPlanNode[]>([]);
   const [techStacks, setTechStacks] = useState<TechStack[]>([]);
   const [isLoading, setIsLoading] = useState(true);

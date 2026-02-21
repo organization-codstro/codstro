@@ -1,11 +1,7 @@
-interface Friend {
-  ai_persona_id: string;
-  ai_persona_name: string;
-  ai_persona_personality: string;
-}
+import { UserAIFriend } from "../../../common/aiChat";
 
 export interface FriendSelectorProps {
-  friends: Friend[];
+  friends: UserAIFriend[];
   selectedIds: string[];
   onToggle: (id: string) => void;
 }

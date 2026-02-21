@@ -1,7 +1,7 @@
-export type ViewType = "my-friends" | "browse" | "search";
+import { VIEW_TYPE } from "../../../../constants/AiChat/aiChat";
 
 export interface HeaderProps {
-  view: ViewType;
-  setView: (view: ViewType) => void;
+  view: VIEW_TYPE;
+  setView: (view: VIEW_TYPE) => void;
   onBack: () => void;
 }

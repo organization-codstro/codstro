@@ -6,7 +6,7 @@ import PersonalityTestResult from "../../components/Mbit/PersonalityTestPage/Per
 import PersonalityTestProgress from "../../components/Mbit/PersonalityTestPage/PersonalityTestProgress";
 import TestQuestion from "../../components/Mbit/MajorTestPage/TestQuestion";
 import { PersonalityTestService } from "../../api/Mbit/PersonalityTestPage";
-import { PersonalityDetail } from "../../types/pages/Mbit/Mbit";
+import { Personality } from "../../types/common/Mbit";
 
 export default function PersonalityTestPage() {
   const [questions, setQuestions] = useState<any[]>([]);
@@ -15,7 +15,7 @@ export default function PersonalityTestPage() {
   const [traitScores, setTraitScores] = useState<Record<MbitAxisCode, number>>(
     {} as Record<MbitAxisCode, number>,
   );
-  const [resultData, setResultData] = useState<PersonalityDetail | null>(null);
+  const [resultData, setResultData] = useState<Personality | null>(null);
   const [loading, setLoading] = useState(true);
 
   // 1. 질문지 로드
@@ -82,7 +82,7 @@ export default function PersonalityTestPage() {
 
   if (loading)
     return (
-      <div className="flex-1 flex items-center justify-center">로드 중...</div>
+      <div className="flex items-center justify-center flex-1">로드 중...</div>
     );
 
   return (

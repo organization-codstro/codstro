@@ -8,14 +8,13 @@ import { TodoManagementService } from "../../api/Woomoonjeong/TodoManagementPage
 import { LoginService } from "../../api/Auth/LoginPage";
 
 // 타입 정의
-import { Todo } from "../../types/pages/Woomoonjeong/woomoonjeong";
+import { Todo } from "../../types/common/woomoonjeong";
 
 // 컴포넌트
 import TodoManagementCreateModal from "../../components/Woomoonjeong/TodoManagementPage/TodoManagementCreateModal";
 import TodoManagementHeader from "../../components/Woomoonjeong/TodoManagementPage/TodoManagementHeader";
 import TodoCard from "../../components/Woomoonjeong/TodoManagementPage/TodoCard";
 import TodoCalendar from "../../components/Woomoonjeong/TodoManagementPage/TodoCalendar";
-import { DBTodo } from "../../types/pages/Woomoonjeong/TodoManagementPage/TodoManagementPage";
 
 export default function TodoManagementPage() {
   const navigate = useNavigate();
@@ -27,7 +26,7 @@ export default function TodoManagementPage() {
   };
 
   // --- 상태 관리 ---
-  const [todos, setTodos] = useState<DBTodo[]>([]);
+  const [todos, setTodos] = useState<Todo[]>([]);
   const [monthlyTodos, setMonthlyTodos] = useState<any[]>([]); // 캘린더 점 표시용
   const [isLoading, setIsLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState<string>(
@@ -131,7 +130,7 @@ export default function TodoManagementPage() {
   };
 
   // --- 핸들러 로직 ---
-  const handleToggleStatus = async (e: React.MouseEvent, todo: DBTodo) => {
+  const handleToggleStatus = async (e: React.MouseEvent, todo: Todo) => {
     e.stopPropagation();
     try {
       await TodoManagementService.toggleTodoStatus({

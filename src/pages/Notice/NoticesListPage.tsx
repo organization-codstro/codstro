@@ -1,19 +1,18 @@
 import { ArrowLeft, Calendar } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import {
-  NoticeListItemResponse,
-  NoticeTypeProps,
-} from "../../types/api/Notice/NoticesListPage";
+import { NoticeListItemResponse } from "../../types/api/Notice/NoticesListPage";
 import { NoticesListService } from "../../api/Notice/NoticesListPage";
+import { NOTICE_TYPE } from "../../constants/Notice/notice";
 
 export default function NoticesListPage() {
   const navigate = useNavigate();
   const [notices, setNotices] = useState<NoticeListItemResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedCategory, setSelectedCategory] =
-    useState<NoticeTypeProps | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<NOTICE_TYPE | null>(
+    null,
+  );
 
   useEffect(() => {
     fetchNotices();
@@ -71,7 +70,7 @@ export default function NoticesListPage() {
     });
   };
 
-  const categories: NoticeTypeProps[] = [
+  const categories: NOTICE_TYPE[] = [
     "update",
     "maintenance",
     "event",
@@ -176,7 +175,7 @@ export default function NoticesListPage() {
                   <div className="flex items-center gap-3">
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-semibold ${getCategoryColor(
-                        notice.notice_type
+                        notice.notice_type,
                       )}`}
                     >
                       {notice.notice_type}

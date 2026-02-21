@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
 // 서비스 및 타입
-import { Personality } from "../../types/pages/Mbit/Mbit";
+import { Personality } from "../../types/common/Mbit";
 import PersonalityCard from "../../components/Mbit/PersonalityEncyclopediaListPage/PersonalityCard";
 import { PersonalityEncyclopediaListService } from "../../api/Mbit/PersonalityEncyclopediaListPage";
-import { MBTI_THEME } from "../../constants/Mbit/PersonalityEncyclopediaPage/PersonalityEncyclopediaPage";
 import { useNavigate } from "react-router-dom";
+import { MBTI_THEME } from "../../constants/Mbit/mbit";
 
 export default function PersonalityEncyclopediaPage() {
   const navigate = useNavigate();

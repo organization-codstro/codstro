@@ -1,3 +1,4 @@
+import { STUDY_PLAN_STATE_TYPE } from "../../constants/Woomoonkyung/woomoonkyung";
 import { supabase } from "../../db/supabase/supabase";
 import {
   GetPlanDetailParams,
@@ -27,7 +28,10 @@ export const StudyPlanArchiveDetailService = {
       if (error) throw error;
       return data;
     } catch (error) {
-      console.error("[StudyPlanArchiveDetailService - getPlanDetail Error]:", error);
+      console.error(
+        "[StudyPlanArchiveDetailService - getPlanDetail Error]:",
+        error,
+      );
       throw error;
     }
   },
@@ -47,7 +51,7 @@ export const StudyPlanArchiveDetailService = {
             tech_stack_name,
             tech_stack_img_url
           )
-        `
+        `,
         )
         .eq("study_plan_id", planId)
         .order("position", { ascending: true });
@@ -55,7 +59,10 @@ export const StudyPlanArchiveDetailService = {
       if (error) throw error;
       return data;
     } catch (error) {
-      console.error("[StudyPlanArchiveDetailPageService - getPlanNodes Error]:", error);
+      console.error(
+        "[StudyPlanArchiveDetailPageService - getPlanNodes Error]:",
+        error,
+      );
       throw error;
     }
   },
@@ -87,7 +94,7 @@ export const StudyPlanArchiveDetailService = {
       const total = nodes.length;
       const completedCount = nodes.filter((n) => n.completed).length;
 
-      let newState: "waiting" | "in progress" | "done" = "in progress";
+      let newState: STUDY_PLAN_STATE_TYPE = "in progress";
 
       if (completedCount === 0) {
         newState = "waiting";
@@ -106,7 +113,10 @@ export const StudyPlanArchiveDetailService = {
 
       return { updatedPlan, completedCount, total };
     } catch (error) {
-      console.error("[StudyPlanArchiveDetailPageService - toggleNodeAndSyncStatus Error]:", error);
+      console.error(
+        "[StudyPlanArchiveDetailPageService - toggleNodeAndSyncStatus Error]:",
+        error,
+      );
       throw error;
     }
   },
@@ -128,7 +138,10 @@ export const StudyPlanArchiveDetailService = {
       if (error) throw error;
       return data;
     } catch (error) {
-      console.error("[StudyPlanArchiveDetailService - updatePlan Error]:", error);
+      console.error(
+        "[StudyPlanArchiveDetailService - updatePlan Error]:",
+        error,
+      );
       throw error;
     }
   },
@@ -147,7 +160,10 @@ export const StudyPlanArchiveDetailService = {
       if (error) throw error;
       return true;
     } catch (error) {
-      console.error("[StudyPlanArchiveDetailService - deletePlan Error]:", error);
+      console.error(
+        "[StudyPlanArchiveDetailService - deletePlan Error]:",
+        error,
+      );
       throw error;
     }
   },

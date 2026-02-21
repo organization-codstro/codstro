@@ -1,3 +1,5 @@
+import { CompanyMatch } from "../../common/companyInformation";
+
 /**
  * [회사 매칭 상세 조회] Params
  */
@@ -20,34 +22,20 @@ export interface GetCompanyMatchDetailResponse {
   companys?: {
     company_name: string;
   };
-  created_at: Date
+  created_at: Date;
 }
 
 /**
  * [유저 전체 매칭 이력 조회] Params
  */
-export interface GetAllUserMatchesParams {
+export interface GetAllUserMatchParams {
   userId: string;
-}
-
-/**
- * [유저 전체 매칭 이력 아이템]
- */
-export interface UserMatchItem {
-  company_user_match_id: string;
-  company_user_match_rate: number;
-  created_at: string;
-  company_id: string;
-  companys: {
-    company_name: string;
-    company_industry: string;
-  }[];
 }
 
 /**
  * [유저 전체 매칭 이력 조회] Response
  */
-export type GetAllUserMatchesResponse = UserMatchItem[] | null;
+export type GetAllUserMatchResponse = CompanyMatch[] | null;
 
 /**
  * [매칭 결과 생성] Params
@@ -64,7 +52,7 @@ export interface CreateMatchResultParams {
 /**
  * [매칭 결과 생성] Response
  */
-export type CreateMatchResultResponse = UserMatchItem;
+export type CreateMatchResultResponse = CompanyMatch;
 
 /**
  * [AI 매칭 리포트 생성] Params

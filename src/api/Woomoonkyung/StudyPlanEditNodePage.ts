@@ -4,10 +4,8 @@ import {
   SaveAllNodesParams,
   DeleteNodeParams,
   GetPlanInfoParams,
-  NodeItem,
-  PlanInfo,
-  TechStack,
 } from "../../types/api/Woomoonkyung/StudyPlanEditNodePage";
+import { NodeItem, StudyPlan, TechStack } from "../../types/common/Woomoonkyung";
 
 /**
  * [우문경 노드 편집 페이지 서비스]
@@ -30,7 +28,7 @@ export const WoomoonkyungEditNodeService = {
             tech_stack_name,
             tech_stack_img_url
           )
-        `
+        `,
         )
         .eq("study_plan_id", planId)
         .order("position", { ascending: true });
@@ -104,7 +102,7 @@ export const WoomoonkyungEditNodeService = {
   /**
    * [플랜 정보 조회]
    */
-  async getPlanInfo(params: GetPlanInfoParams): Promise<PlanInfo> {
+  async getPlanInfo(params: GetPlanInfoParams): Promise<StudyPlan> {
     try {
       const { planId } = params;
 
@@ -115,7 +113,7 @@ export const WoomoonkyungEditNodeService = {
         .single();
 
       if (error) throw error;
-      return data as PlanInfo;
+      return data as StudyPlan;
     } catch (error) {
       console.error("[getPlanInfo Error]:", error);
       throw error;

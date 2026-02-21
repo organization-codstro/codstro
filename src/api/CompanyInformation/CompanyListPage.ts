@@ -24,9 +24,9 @@ export const CompanyListService = {
   async getCompanyList(): Promise<GetCompanyListResponse> {
     try {
       const { data, error } = await supabase
-        .from("companies")
+        .from("company")
         .select(
-          "company_id, company_name, company_industry, company_description, company_values, company_website, created_at",
+          "company_id, company_name, company_industry, company_description, company_values, company_website, company_created_at",
         )
         .order("created_at", { ascending: false });
 

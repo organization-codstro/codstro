@@ -7,7 +7,7 @@ import { ConceptDetailResponse } from "../../types/api/Concepts/BasicConceptDeta
 import { TodoForm } from "../../types/pages/CompanyInformation/AddTodoModal";
 
 // 공통 컴포넌트
-import AIChat from "../../components/CompanyInformation/AIChat";
+import AIChat from "../../components/CompanyInformation/CompanyInformationAIChat";
 import AddTodoModal from "../../components/CompanyInformation/AddTodoModal";
 import MarkdownRenderer from "../../components/Markdown/MarkdownRenderer";
 import BackButton from "../../components/Concepts/BackButton";
@@ -99,7 +99,7 @@ export default function BasicConceptDetailPage() {
       toast.success(
         updatedStatus
           ? "학습 완료로 표시되었습니다."
-          : "학습 완료가 취st 취소되었습니다."
+          : "학습 완료가 취st 취소되었습니다.",
       );
     } catch (error) {
       toast.error("상태 변경에 실패했습니다.");

@@ -1,6 +1,6 @@
-import { GROUP_TYPE } from "../../../../../constants/Woomoonjeong/Woomoonjeong";
+import { GROUP_TYPE } from "../../../../../constants/Woomoonjeong/woomoonjeong";
 import { CreatePinParams } from "../../../../api/Woomoonjeong/DocumentsManagementPage";
-import { Group } from "../../woomoonjeong";
+import { Group } from "../../../../common/woomoonjeong";
 
 export interface AddDocumentPayload {
   groupName: GROUP_TYPE;

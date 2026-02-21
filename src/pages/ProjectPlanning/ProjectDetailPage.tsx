@@ -2,11 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Clock } from "lucide-react";
 import { toast } from "react-toastify";
-import {
-  ProjectPage,
-  Todo,
-  Project,
-} from "../../types/pages/ProjectPlanning/project";
+import { ProjectPage, Todo, Project } from "../../types/common/projectPlanning";
 
 // 컴포넌트 임포트
 import { ProjectBasicInfoSection } from "../../components/ProjectPlanning/ProjectBasicInfoSection";
@@ -16,7 +12,6 @@ import { ProjectInfoView } from "../../components/ProjectPlanning/ProjectDetailP
 import { ProjectPagesView } from "../../components/ProjectPlanning/ProjectDetailPage/ProjectPagesView";
 import { ProjectStatsSidebar } from "../../components/ProjectPlanning/ProjectDetailPage/ProjectStatsSidebar";
 import { ProjectDetailService } from "../../api/ProjectPlanning/ProjectDetailPage";
-
 
 export default function ProjectDetailPage() {
   const { projectId } = useParams<{ projectId: string }>();
@@ -55,12 +50,12 @@ export default function ProjectDetailPage() {
         try {
           projectData = await ProjectDetailService.getProjectDetail(
             idNum,
-            false
+            false,
           );
         } catch (e) {
           projectData = await ProjectDetailService.getProjectDetail(
             idNum,
-            true
+            true,
           );
           planningFlag = true;
         }
@@ -70,9 +65,8 @@ export default function ProjectDetailPage() {
 
         // 2) 페이지 및 Todo 로드 (active 상태일 때 주로 로드)
         if (!planningFlag) {
-          const pagesData = await ProjectDetailService.getProjectPagesWithTodos(
-            idNum
-          );
+          const pagesData =
+            await ProjectDetailService.getProjectPagesWithTodos(idNum);
           setOriginalPages(pagesData as any);
         }
       } catch (error) {
@@ -104,7 +98,7 @@ export default function ProjectDetailPage() {
       await ProjectDetailService.updateProjectInfo(
         idNum,
         isPlanning,
-        editedProject
+        editedProject,
       );
 
       // 2) 페이지 구조 저장
@@ -134,7 +128,7 @@ export default function ProjectDetailPage() {
   // 4. 데이터 업데이트 헬퍼 (기존 로직 유지하되 state만 edited로 변경)
   const updatePage = (id: string, updates: any) =>
     setEditedPages((prev) =>
-      prev.map((p) => (p.project_page_id === id ? { ...p, ...updates } : p))
+      prev.map((p) => (p.project_page_id === id ? { ...p, ...updates } : p)),
     );
 
   const updatePageTodo = (pId: string, tId: string, updates: any) =>
@@ -144,11 +138,11 @@ export default function ProjectDetailPage() {
           ? {
               ...p,
               todos: p.todos.map((t) =>
-                t.id === tId ? { ...t, ...updates } : t
+                t.id === tId ? { ...t, ...updates } : t,
               ),
             }
-          : p
-      )
+          : p,
+      ),
     );
 
   const deletePageTodo = async (pId: string, tId: string) => {
@@ -157,16 +151,16 @@ export default function ProjectDetailPage() {
       prev.map((p) =>
         p.project_page_id === pId
           ? { ...p, todos: p.todos.filter((t) => t.id !== tId) }
-          : p
-      )
+          : p,
+      ),
     );
   };
 
   const addPageTodo = (pId: string, newTodo: Todo) =>
     setEditedPages((prev) =>
       prev.map((p) =>
-        p.project_page_id === pId ? { ...p, todos: [...p.todos, newTodo] } : p
-      )
+        p.project_page_id === pId ? { ...p, todos: [...p.todos, newTodo] } : p,
+      ),
     );
 
   const updateProjectField = (field: keyof Project, value: any) =>
@@ -261,8 +255,8 @@ export default function ProjectDetailPage() {
                     status === "done"
                       ? "bg-green-500"
                       : status === "in progress"
-                      ? "bg-yellow-500"
-                      : "bg-gray-300"
+                        ? "bg-yellow-500"
+                        : "bg-gray-300"
                   }
                   onUpdatePage={updatePage}
                   onUpdateTodo={updatePageTodo}

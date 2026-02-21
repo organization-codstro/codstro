@@ -55,6 +55,8 @@ export default function CloneCodingProjectMainPage() {
           github_url: item.clone_coding_github_url,
           demo_url: item.clone_coding_demo_url,
           tags: item.clone_coding_tags || [],
+          clone_coding_steps: item.clone_coding_steps,
+          clone_coding_project_structure: item.clone_coding_project_structure,
           created_at: item.clone_coding_created_at,
         },
         userProject: item.user_project
@@ -136,10 +138,10 @@ export default function CloneCodingProjectMainPage() {
             };
           }
           return item;
-        })
+        }),
       );
       toast.success(
-        !isBookmarked ? "북마크에 추가되었습니다." : "북마크가 해제되었습니다."
+        !isBookmarked ? "북마크에 추가되었습니다." : "북마크가 해제되었습니다.",
       );
     } catch (error) {
       toast.error("북마크 처리에 실패했습니다.");
@@ -191,7 +193,7 @@ export default function CloneCodingProjectMainPage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen gap-4">
         <Loader2 className="w-10 h-10 text-[#587CF0] animate-spin" />
-        <p className="text-gray-500 font-medium">
+        <p className="font-medium text-gray-500">
           프로젝트를 불러오고 있습니다...
         </p>
       </div>

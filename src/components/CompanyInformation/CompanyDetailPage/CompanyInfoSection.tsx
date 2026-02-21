@@ -6,7 +6,6 @@ export function CompanyInfoSection({
   values,
   website,
   createdDate,
-  updatedDate,
 }: CompanyInfoSectionProps) {
   return (
     <div className="space-y-6">
@@ -33,16 +32,15 @@ export function CompanyInfoSection({
             style={{ color: "#587CF0" }}
           >
             <ExternalLink size={18} />
-            <span className="truncate">{website || "등록된 웹사이트가 없습니다"}</span>
+            <span className="truncate">
+              {website || "등록된 웹사이트가 없습니다"}
+            </span>
           </a>
         </div>
       </div>
 
       <div className="pt-6 border-t border-gray-200">
-        <p className="text-sm text-gray-500">
-          등록일: {new Date(createdDate).toLocaleDateString("ko-KR")} | 수정일:{" "}
-          {new Date(updatedDate).toLocaleDateString("ko-KR")}
-        </p>
+        <p className="text-sm text-gray-500">등록일: {createdDate}</p>
       </div>
     </div>
   );

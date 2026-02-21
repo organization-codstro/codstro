@@ -2,7 +2,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../db/firebase/firebase";
 import { supabase } from "../../db/supabase/supabase";
 import { SignUpParams, SignUpResponse } from "../../types/api/Auth/SignupPage";
-import { GROUP_TYPES } from "../../constants/Woomoonjeong/Woomoonjeong";
+import { GROUP_TYPES } from "../../constants/Woomoonjeong/woomoonjeong";
 
 export const SignupService = {
   /**

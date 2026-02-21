@@ -2,21 +2,20 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { MessageSquare, Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
-import {
-  MeetingListItem,
-  MeetingType,
-} from "../../types/pages/ProjectPlanning/ProjectMeetingPage/ProjectMeetingPage";
+import { MeetingListItem } from "../../types/pages/ProjectPlanning/ProjectMeetingPage/ProjectMeetingPage";
 import { MeetingHeader } from "../../components/ProjectPlanning/ProjectMeetingPage/MeetingHeader";
 import { MeetingTab } from "../../components/ProjectPlanning/ProjectMeetingPage/MeetingTab";
 import { MeetingItemCard } from "../../components/ProjectPlanning/ProjectMeetingPage/MeetingItemCard";
 import { ProjectMeetingListService } from "../../api/ProjectPlanning/ProjectMeetingPage";
+import { PROJECT_ROOM_TYPE } from "../../constants/ProjectPlanning/ProjectPlanning";
 
 export default function ProjectMeetingPage() {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
 
   // 상태 관리
-  const [selectedType, setSelectedType] = useState<MeetingType>("Feature");
+  const [selectedType, setSelectedType] =
+    useState<PROJECT_ROOM_TYPE>("Feature");
   const [meetings, setMeetings] = useState<MeetingListItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -28,7 +27,7 @@ export default function ProjectMeetingPage() {
 
       try {
         setIsLoading(true);
-        console.log("api 연결")
+        console.log("api 연결");
         const data = await ProjectMeetingListService.getMeetingList({
           projectId,
         });

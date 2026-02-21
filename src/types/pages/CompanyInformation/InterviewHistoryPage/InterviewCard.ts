@@ -1,11 +1,7 @@
+import { CompanyInterview } from "../../../common/companyInformation";
+
 export interface InterviewCardProps {
-  interview: {
-    id: string;
-    company_qna_question: string | null;
-    company_user_qna_answer: string | null;
-    created_at: string;
-    company_user_qna_evaluation: string | null;
-  };
+  interview: CompanyInterview;
   isPending: boolean;
   onDelete: (e: React.MouseEvent) => void;
   onClick: () => void;

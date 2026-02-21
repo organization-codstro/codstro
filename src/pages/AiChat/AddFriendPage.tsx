@@ -6,14 +6,14 @@ import { PersonaCard } from "../../components/AiChat/AddFriendPage/PersonaCard";
 import { AddFriendHeader } from "../../components/AiChat/AddFriendPage/AddFriendHeader";
 import { AddFriendService } from "../../api/AiChat/AddFriendPage";
 import { LoginService } from "../../api/Auth/LoginPage";
-import { AIPersona } from "../../types/pages/AiChat/aiChat";
+import { AIPersona } from "../../types/common/aiChat";
 
 export default function AddFriendPage() {
   const navigate = useNavigate();
 
   // -- 상태 관리 (State) --
   const [view, setView] = useState<"my-friends" | "browse" | "search">(
-    "my-friends"
+    "my-friends",
   );
   const [userId, setUserId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -72,7 +72,7 @@ export default function AddFriendPage() {
       if (isFriend) {
         await AddFriendService.removeFriend({ userId, personaId });
         setMyFriends((prev) =>
-          prev.filter((f) => f.ai_persona_id !== personaId)
+          prev.filter((f) => f.ai_persona_id !== personaId),
         );
         toast.success("친구 목록에서 삭제되었습니다.");
       } else {

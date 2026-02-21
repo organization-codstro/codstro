@@ -1,4 +1,4 @@
-import { Pin } from "../woomoonjeong";
+import { Pin } from "../../../common/woomoonjeong";
 
 export interface PinItemProps {
   pin: Pin;

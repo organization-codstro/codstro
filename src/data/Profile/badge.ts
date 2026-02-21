@@ -1,4 +1,4 @@
-import { Badge } from "../../types/pages/Profile/Profile";
+import { Badge } from "../../types/common/Profile";
 
 export const badges: Badge[] = [
   {

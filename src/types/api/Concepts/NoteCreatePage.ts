@@ -11,7 +11,7 @@ export interface GetNoteByIdParams {
  * 노트 생성/수정 파라미터
  */
 export interface SaveNoteParams {
-  id?: string;
+  id: string;
   title: string;
   content: string;
   labels: string[]; // concepts 목록을 labels로 활용

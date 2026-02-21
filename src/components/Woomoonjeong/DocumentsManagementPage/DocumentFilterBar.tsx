@@ -1,6 +1,6 @@
 import React from "react";
 import { Filter, Search } from "lucide-react";
-import { GROUP_TYPES } from "../../../constants/Woomoonjeong/Woomoonjeong";
+import { GROUP_TYPES } from "../../../constants/Woomoonjeong/woomoonjeong";
 import { DocumentFilterBarProps } from "../../../types/pages/Woomoonjeong/DocumentsManagementPage/DocumentFilterBar";
 
 const DocumentFilterBar: React.FC<DocumentFilterBarProps> = ({

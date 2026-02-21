@@ -1,8 +1,5 @@
-export interface RelatedMaterial {
-  id: string;
-  name: string;
-}
+import { RelatedConcept } from "../../../common/concepts";
 
 export interface RelatedMaterialGridProps {
-  relatedMaterials: RelatedMaterial[];
+  relatedMaterials: RelatedConcept[];
 }

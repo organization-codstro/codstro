@@ -1,12 +1,8 @@
+import { RelatedConcept } from "../../common/concepts";
+
 export interface GetToolDetailParams {
   toolId: string;
   userId: string;
-}
-
-interface RelatedItem {
-  id: string;
-  name: string;
-  type: "concept" | "tool" | "library" | "package_manager" | "third_party";
 }
 
 export interface ToolDetailResponse {
@@ -17,7 +13,7 @@ export interface ToolDetailResponse {
   content: string;
   officialSite: string | null;
   isUnderstood: boolean;
-  relatedConcepts: RelatedItem[];
+  relatedConcepts: RelatedConcept[];
 }
 
 export interface ToggleToolUnderstoodParams {

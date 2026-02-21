@@ -1,6 +1,6 @@
 import { supabase } from "../../db/supabase/supabase";
-import { Personality } from "../../types/api/Mbit/Mbit";
 import { GetPersonalityByCodeParams } from "../../types/api/Mbit/PersonalityEncyclopediaListPage";
+import { Personality } from "../../types/common/Mbit";
 
 /**
  * [PersonalityEncyclopediaService]

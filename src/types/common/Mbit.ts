@@ -11,6 +11,13 @@ export interface Fortune {
   };
 }
 
+export interface FortuneList {
+  id: string;
+  code: number;
+  name: string;
+  summary: string;
+}
+
 export interface Major {
   major_id: string; // uuid
   major_name: string;
@@ -40,4 +47,10 @@ export interface Personality {
   morningGreetings: string;
   nightGreetings: string;
   createdAt: string;
+}
+
+//질문 타입
+export interface QuestionOption {
+  text: string;
+  type: string;
 }

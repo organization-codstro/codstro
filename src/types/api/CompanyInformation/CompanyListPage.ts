@@ -1,20 +1,9 @@
-/**
- * [회사 목록 아이템]
- */
-export interface CompanyListItem {
-  company_id: string;
-  company_name: string;
-  company_industry: string;
-  company_description: string;
-  company_values: string | null;
-  company_website: string | null;
-  created_at: string;
-}
+import { Company } from "../../common/companyInformation";
 
 /**
  * [회사 리스트 조회] Response
  */
-export type GetCompanyListResponse = CompanyListItem[];
+export type GetCompanyListResponse = Company[];
 
 /**
  * [유저 북마크 ID 조회] Params

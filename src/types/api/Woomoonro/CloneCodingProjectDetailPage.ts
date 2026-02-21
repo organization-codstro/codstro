@@ -1,19 +1,3 @@
-export interface CloneCodingsResponse {
-  clone_coding_id: string; // PK / number
-  clone_coding_title: string; // text
-  clone_coding_description: string; // text
-  clone_coding_tech_stack: string[]; // text[]
-  clone_coding_tags: string[]; // text[]
-  clone_coding_difficulty: string; // text
-  clone_coding_estimated_hours: string; // text
-  clone_coding_thumbnail_url: string; // text
-  clone_coding_github_url?: string; // text
-  clone_coding_demo_url?: string; // text
-  clone_coding_steps: any; // json
-  clone_coding_project_structure?: string; // text
-  clone_coding_created_at: Date; // date
-}
-
 export interface UserCloneCodingsResponse {
   user_clone_codings_id: string; // PK / number
   user_clone_codings_status: string; // text

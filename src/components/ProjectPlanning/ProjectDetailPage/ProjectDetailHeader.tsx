@@ -10,8 +10,8 @@ export const ProjectDetailHeader = ({
   onCancel,
   onSave,
 }: ProjectDetailHeaderProps) => {
-  const isPlanning = project.project_status === "planning";
-  const isActive = project.project_status === "active";
+  const isPlanning = project.project_status === "waiting";
+  const isActive = project.project_status === "done";
 
   return (
     <div className="px-8 py-6 bg-white border-b border-gray-200">

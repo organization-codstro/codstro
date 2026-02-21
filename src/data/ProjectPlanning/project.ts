@@ -1,8 +1,4 @@
-import {
-  ProjectPage,
-  Todo,
-  Project,
-} from "../../types/pages/ProjectPlanning/project";
+import { ProjectPage, Todo, Project } from "../../types/common/projectPlanning";
 
 // 예시 데이터: 진행중인 프로젝트 (기획 완료)
 export const activeProjectsData: Project[] = [

@@ -1,4 +1,4 @@
-import { Major } from "../Mbit";
+import { Major } from "../../../common/Mbit";
 
 export interface MajorCardProps {
   major: Major;

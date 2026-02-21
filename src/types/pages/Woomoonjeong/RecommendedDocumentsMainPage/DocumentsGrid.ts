@@ -1,4 +1,4 @@
-import { RecommendedField, RecommendedPin } from "../woomoonjeong";
+import { RecommendedField, RecommendedPin } from "../../../common/woomoonjeong";
 
 export interface DocumentsGridProps {
   contentType: "documents" | "fields";

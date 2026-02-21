@@ -1,11 +1,7 @@
-interface Persona {
-  ai_persona_id: string;
-  ai_persona_name: string;
-  ai_persona_personality: string;
-}
+import { AIPersona } from "../../../common/aiChat";
 
 export interface PersonaCardProps {
-  persona: Persona;
+  persona: AIPersona;
   isFriend: boolean;
   onToggleFriend?: (id: string) => void;
   onViewProfile: (id: string) => void;

@@ -73,7 +73,7 @@ const FieldCard: React.FC<FieldCardProps> = ({
         {/* Actions */}
         <div className="flex items-center justify-between">
           <span className="text-xs text-gray-500">
-            {new Date(field.field_created_at).toLocaleDateString()}
+            {new Date(field.create_at).toLocaleDateString()}
           </span>
 
           <button

@@ -1,15 +1,25 @@
 import {
   GROUP_TYPE,
   TODO_STATUS_TYPE,
-} from "../../../constants/Woomoonjeong/Woomoonjeong";
+} from "../../constants/Woomoonjeong/woomoonjeong";
+
 
 export interface RecommendedPin {
   pin_id: string;
   pin_title: string;
   pin_description: string;
   pin_url: string;
-  created_at: string;
+  pin_rating?: number;
+  pin_views?: number;
   pin_label: string[];
+  created_at: string;
+}
+
+export interface RecommendedField {
+  field_id: string;
+  field_name: string;
+  field_description: string;
+  create_at: string;
 }
 
 export interface TodoFormData {
@@ -54,13 +64,6 @@ export interface Todo {
   todo_description: string;
   todo_start_date: string;
   todo_end_date: string;
-  todo_status: "waiting" | "in progress" | "done";
+  todo_status: TODO_STATUS_TYPE;
   todo_created_date: string;
-}
-
-export interface RecommendedField {
-  field_id: string;
-  field_name: string;
-  field_description: string;
-  field_created_at: string;
 }

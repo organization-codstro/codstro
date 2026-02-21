@@ -1,4 +1,7 @@
-import { PROJECT_STATUS_TYPE } from "../../../constants/ProjectPlanning/ProjectPlanning";
+import {
+  PROJECT_ROOM_TYPE,
+  PROJECT_STATUS_TYPE,
+} from "../../constants/ProjectPlanning/ProjectPlanning";
 
 export interface Project {
   project_id: string;
@@ -13,7 +16,7 @@ export interface Project {
   project_effect: string;
   project_created_date: string;
   user_id: string;
-  project_status?: "planning" | "active"; // 기획중 | 진행중
+  project_status?: PROJECT_STATUS_TYPE;
 }
 
 export interface ProjectPage {
@@ -25,7 +28,7 @@ export interface ProjectPage {
   project_id: string;
 }
 
-export interface Todo {
+export interface ProjectTodo {
   id: string;
   field_id?: string;
   project_page_id?: string;
@@ -38,7 +41,7 @@ export interface Todo {
   created_at: string;
 }
 
-//todo 생성시 입력할 정보들
+//생성시 입력할 정보들
 export interface newTodo {
   group_id?: string;
   project_page_id?: string;
@@ -50,7 +53,7 @@ export interface newTodo {
   status: PROJECT_STATUS_TYPE;
 }
 
-//todo 생성시 임시적으로 id필요할때 사용하는 인터페이스
+//생성시 임시적으로 id필요할때 사용하는 인터페이스
 export interface UITodo {
   client_id: string;
   id?: string;
@@ -71,6 +74,8 @@ export interface Meeting {
   meeting_detail: string;
   meeting_summary?: string;
   meeting_created_date: string;
+  project_meeting_index: number;
+  type: PROJECT_ROOM_TYPE;
   project_id: string;
 }
 
@@ -98,8 +103,14 @@ export interface ProjectBasicInfo {
   other_info?: string;
 }
 
-export interface Message {
+export interface ProjectMessage {
   sender: "AI" | "USER";
   message: string;
   timestamp: string;
+}
+
+export interface NewsItem {
+  id: string;
+  title: string;
+  date: string;
 }

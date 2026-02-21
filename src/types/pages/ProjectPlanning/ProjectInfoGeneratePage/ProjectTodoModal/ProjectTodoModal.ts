@@ -1,4 +1,4 @@
-import { newTodo } from "../../project";
+import { newTodo } from "../../../../common/projectPlanning";
 
 export interface ProjectTodoModalProps {
   isOpen: boolean;

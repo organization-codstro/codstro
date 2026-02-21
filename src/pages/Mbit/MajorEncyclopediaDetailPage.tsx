@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Major } from "../../types/pages/Mbit/Mbit";
+import { Major } from "../../types/common/Mbit";
 import { MajorEncyclopediaDetailService } from "../../api/Mbit/MajorEncyclopediaDetailPage";
 import { useNavigate, useParams } from "react-router-dom";
 import {

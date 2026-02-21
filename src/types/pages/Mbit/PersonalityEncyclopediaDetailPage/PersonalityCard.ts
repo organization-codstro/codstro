@@ -1,4 +1,4 @@
-import { Personality } from "../Mbit";
+import { Personality } from "../../../common/Mbit";
 
 export interface PersonalityCardProps {
   personality: Personality;

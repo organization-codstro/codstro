@@ -24,29 +24,4 @@ export interface DeleteFromArchiveParams {
   isRecommendation: boolean;
 }
 
-/**
- * [PlanStatsResult]
- * 계획별 노드 통계 반환 타입
- */
-export interface PlanStatsResult {
-  total: number;
-  completed: number;
-  progress: number;
-}
 
-/**
- * [ArchivedPlan]
- * 아카이브 목록 조회 반환 타입
- */
-export interface ArchivedPlan {
-  study_plan_id: string;
-  study_plan_name: string;
-  study_plan_description?: string;
-  study_plan_state: string;
-  study_plan_is_archived: boolean;
-  created_at: string;
-  node_count: { count: number }[];
-  completed_node_count: { count: number }[];
-  totalNodes: number;
-  [key: string]: any;
-}

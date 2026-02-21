@@ -1,7 +1,7 @@
 import { ReportFooterProps } from "../../../types/pages/CompanyInformation/MatchingHistoryDetailPage/ReportFooter";
 
 export const ReportFooter = ({ date }: ReportFooterProps) => {
-  const formattedDate = new Date(date).toLocaleDateString("ko-KR");
+  const formattedDate = date ? new Date(date).toLocaleDateString("ko-KR") : "";
 
   return (
     <div className="p-4 mt-8 border border-gray-200 rounded-lg bg-gray-50">

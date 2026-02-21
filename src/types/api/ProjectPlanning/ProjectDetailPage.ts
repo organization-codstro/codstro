@@ -1,3 +1,6 @@
+import { PROJECT_STATUS_TYPE } from "../../../constants/ProjectPlanning/ProjectPlanning";
+import { TODO_STATUS_TYPE } from "../../../constants/Woomoonjeong/woomoonjeong";
+
 export interface ProjectResponse {
   project_id: string;
   project_name: string;
@@ -11,7 +14,7 @@ export interface ProjectResponse {
   project_effect: string;
   project_created_date: string;
   user_id: string;
-  project_status?: "planning" | "active"; // 기획중 | 진행중
+  project_status?: PROJECT_STATUS_TYPE; // 기획중 | 진행중
 }
 
 export interface ProjectPageResponse {
@@ -32,6 +35,6 @@ export interface TodoResponse {
   content: string;
   start_date: string;
   end_date: string;
-  status: "pwaiting" | "in progress" | "done";
+  status: TODO_STATUS_TYPE;
   created_at: string;
 }

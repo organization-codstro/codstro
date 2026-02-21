@@ -1,15 +1,4 @@
-/**
- * company_user_matches 매칭 리스트/통계 관련 타입 정의
- */
-
-/** 매칭 리스트 아이템 */
-export interface MatchingListItem {
-  company_user_match_id: string;
-  company_user_match_name: string;
-  company_user_match_rate: number;
-  created_at: string;
-  company_id: string;
-}
+import { CompanyMatch } from "../../common/companyInformation";
 
 /** 유저 매칭 리스트 조회 Params */
 export interface GetUserMatchingListParams {
@@ -17,7 +6,7 @@ export interface GetUserMatchingListParams {
 }
 
 /** 유저 매칭 리스트 조회 Response */
-export type GetUserMatchingListResponse = MatchingListItem[];
+export type GetUserMatchingListResponse = CompanyMatch[];
 
 /** 매칭 기록 삭제 Params */
 export interface DeleteMatchingRecordParams {

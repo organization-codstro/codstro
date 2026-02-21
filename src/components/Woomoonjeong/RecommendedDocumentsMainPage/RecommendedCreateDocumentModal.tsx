@@ -2,18 +2,17 @@
 
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import { woomoonjeongData } from "../../../data/woomoonjeong/woomoonjeongData";
-import { DEFAULT_GROUP_TYPE } from "../../../constants/Woomoonjeong/DocumentsManagementPage/CreateCustomFieldModal";
 import {
+  DEFAULT_GROUP_TYPE,
   GROUP_TYPE,
   GROUP_TYPES,
-} from "../../../constants/Woomoonjeong/Woomoonjeong";
+} from "../../../constants/Woomoonjeong/woomoonjeong";
 import { RecommendedCreateDocumentModalProps } from "../../../types/pages/Woomoonjeong/RecommendedDocumentsMainPage/RecommendedCreateDocumentModal";
-import { Group } from "../../../types/pages/Woomoonjeong/woomoonjeong";
+import { Field } from "../../../types/common/woomoonjeong";
 
 const RecommendedCreateDocumentModal: React.FC<
   RecommendedCreateDocumentModalProps
-> = ({ isOpen, onClose, pin, onAdd }) => {
+> = ({ isOpen, onClose, pin, onAdd, groups }) => {
   const [documentName, setDocumentName] = useState(pin.pin_title);
   const [documentUrl, setDocumentUrl] = useState(pin.pin_url);
   const [description, setDescription] = useState(pin.pin_description);
@@ -27,12 +26,12 @@ const RecommendedCreateDocumentModal: React.FC<
   // 폼 검증 에러 상태
   const [errors, setErrors] = useState<Record<string, boolean>>({});
 
-  // 선택된 그룹의 필드 옵션
   useEffect(() => {
-    const selectedGroup: Group | undefined = woomoonjeongData.find(
-      (group) => group.name === selectedGroupType
+    const selectedGroup = groups.find(
+      (group) => group.group_name === selectedGroupType,
     );
-    setFieldOptions(selectedGroup?.fields.map((f) => f.name) ?? []);
+
+    setFieldOptions(selectedGroup?.fields.map((f) => f.field_name) ?? []);
 
     // 그룹 변경 시 분야 에러 초기화
     setErrors((prev) => ({ ...prev, fieldInfo: false }));

@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { ProjectBasicInfo } from "../../types/pages/ProjectPlanning/project";
+import { ProjectBasicInfo } from "../../types/common/projectPlanning";
 import { ProjectInfoHeader } from "../../components/ProjectPlanning/ProjectBasicInfoInputPage/ProjectInfoHeader";
 import { ProjectInputField } from "../../components/ProjectPlanning/ProjectBasicInfoInputPage/ProjectInputField";
 import { ProjectInfoActions } from "../../components/ProjectPlanning/ProjectBasicInfoInputPage/ProjectInfoActions";
 import { ProjectBasicInfoInputService } from "../../api/ProjectPlanning/ProjectBasicInfoInputPage";
 import { LoginService } from "../../api/Auth/LoginPage";
-
 
 export default function ProjectBasicInfoInputPage() {
   const navigate = useNavigate();

@@ -13,14 +13,14 @@ import { PersonaHero } from "../../components/AiChat/AIPersonaDetailPage/Persona
 import { PersonaInfoCard } from "../../components/AiChat/AIPersonaDetailPage/PersonaInfoCard";
 import { NotFoundState } from "../../components/AiChat/AIPersonaDetailPage/NotFoundState";
 import { DetailHeader } from "../../components/AiChat/AIPersonaDetailPage/DetailHeader";
-import { AIPersonaDetail } from "../../types/pages/AiChat/AIPersonaDetailPage/AIPersonaDetailPage";
+import { AIPersona } from "../../types/common/aiChat";
 
 export default function AIPersonaDetailPage() {
   const { personaId } = useParams<{ personaId: string }>();
   const navigate = useNavigate();
 
   // -- 상태 관리 (State) --
-  const [persona, setPersona] = useState<AIPersonaDetail | null>(null);
+  const [persona, setPersona] = useState<AIPersona | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -45,7 +45,7 @@ export default function AIPersonaDetailPage() {
         const data = await AIPersonaDetailService.getPersonaDetail({
           personaId,
         });
-        setPersona(data as unknown as AIPersonaDetail);
+        setPersona(data as unknown as AIPersona);
       } catch (err: any) {
         console.error(err);
         setError(err.message);

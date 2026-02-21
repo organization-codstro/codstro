@@ -1,4 +1,4 @@
-import { Fortune } from "../../types/pages/Mbit/Mbit";
+import { Fortune } from "../../types/common/Mbit";
 
 export const fortunes: Fortune[] = [
   {

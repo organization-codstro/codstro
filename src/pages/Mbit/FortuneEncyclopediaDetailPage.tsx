@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 // 1. 서비스 및 타입 임포트
 import { FortuneEncyclopediaDetailService } from "../../api/Mbit/FortuneEncyclopediaDetailPage";
-import { Fortune } from "../../types/pages/Mbit/Mbit";
+import { Fortune } from "../../types/common/Mbit";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import DetailHeader from "../../components/Mbit/FortuneEncyclopediaDetailPage/DetailHeader";

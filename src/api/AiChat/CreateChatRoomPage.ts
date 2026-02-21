@@ -57,11 +57,11 @@ export const CreateChatRoomService = {
       .from("chat_rooms")
       .insert([
         {
-          user_id: params.userId,
-          chat_room_name: params.name,
-          chat_room_type: params.type,
-          chat_room_topics: params.topics,
-          chat_room_daily_is_main: params.isMain,
+          user_id: params.chatRoomData.user_id,
+          chat_room_name: params.chatRoomData.chat_room_name,
+          chat_room_type: params.chatRoomData.chat_room_type,
+          chat_room_topics: params.chatRoomData.chat_room_topics,
+          chat_room_daily_is_main: params.chatRoomData.chat_room_daily_is_main,
           chat_rooms_unconfirmed: 0,
         },
       ])

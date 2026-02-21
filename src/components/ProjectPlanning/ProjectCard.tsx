@@ -6,7 +6,7 @@ export const ProjectCard = ({
   onClick,
   onContinue,
 }: ProjectCardProps) => {
-  const isPlanning = project.project_status === "planning";
+  const isPlanning = project.project_status === "waiting";
 
   return (
     <div

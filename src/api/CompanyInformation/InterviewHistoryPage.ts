@@ -19,7 +19,7 @@ export const InterviewHistoryService = {
    * [설명]: 목록에 필요한 ID, 질문 내용, 답변 내용, 생성 날짜 등을 최신순으로 가져옵니다.
    */
   async getUserInterviewList(
-    params: GetUserInterviewListParams
+    params: GetUserInterviewListParams,
   ): Promise<GetUserInterviewListResponse> {
     const { userId } = params;
 
@@ -31,15 +31,15 @@ export const InterviewHistoryService = {
           id,
           company_qna_question,
           company_user_qna_answer,
-          created_at,
-          company_user_qna_evaluation
-        `
+          company_user_qna_evaluation,
+          created_at
+        `,
         )
         .eq("user_id", userId)
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      return data ?? [];
+      return data
     } catch (error) {
       console.error("Error fetching interview list:", error);
       throw error;
@@ -51,7 +51,7 @@ export const InterviewHistoryService = {
    * [참조 테이블]: company_user_qnas
    */
   async deleteInterviewRecord(
-    params: DeleteInterviewRecordParams
+    params: DeleteInterviewRecordParams,
   ): Promise<DeleteInterviewRecordResponse> {
     const { id } = params;
 
@@ -74,7 +74,7 @@ export const InterviewHistoryService = {
    * [참조 테이블]: company_user_qnas
    */
   async getInterviewCount(
-    params: GetInterviewCountParams
+    params: GetInterviewCountParams,
   ): Promise<GetInterviewCountResponse> {
     const { userId } = params;
 

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import {
   ProjectPage,
-  Todo,
-} from "../../../types/pages/ProjectPlanning/project";
+  ProjectTodo,
+} from "../../../types/common/projectPlanning";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ProjectPagesSectionProps } from "../../../types/pages/ProjectPlanning/ProjectPagesSection/ProjectPagesSection";
@@ -26,7 +26,7 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
     todoId: string;
   } | null>(null);
   const [editedPages, setEditedPages] =
-    useState<Array<ProjectPage & { todos: Todo[] }>>(pages);
+    useState<Array<ProjectPage & { todos: ProjectTodo[] }>>(pages);
 
   // 삭제 대기 상태 관리 (type: 'page' | 'todo')
   const [deletePending, setDeletePending] = useState<{
@@ -51,7 +51,7 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
     e: React.MouseEvent,
     type: "page" | "todo",
     id: string,
-    parentPageId?: string
+    parentPageId?: string,
   ) => {
     e.stopPropagation();
 
@@ -89,20 +89,20 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
   const updatePageField = (
     pageId: string,
     field: keyof ProjectPage,
-    value: string | boolean
+    value: string | boolean,
   ) => {
     setEditedPages((prev) =>
       prev.map((page) =>
-        page.project_page_id === pageId ? { ...page, [field]: value } : page
-      )
+        page.project_page_id === pageId ? { ...page, [field]: value } : page,
+      ),
     );
   };
 
   const updateTodoField = (
     pageId: string,
     todoId: string,
-    field: keyof Todo,
-    value: string
+    field: keyof ProjectTodo,
+    value: string,
   ) => {
     setEditedPages((prev) =>
       prev.map((page) => {
@@ -110,12 +110,12 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
           return {
             ...page,
             todos: page.todos.map((todo) =>
-              todo.id === todoId ? { ...todo, [field]: value } : todo
+              todo.id === todoId ? { ...todo, [field]: value } : todo,
             ),
           };
         }
         return page;
-      })
+      }),
     );
   };
 
@@ -194,7 +194,7 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                             updatePageField(
                               page.project_page_id,
                               "project_page_role",
-                              e.target.value
+                              e.target.value,
                             )
                           }
                           className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
@@ -207,7 +207,7 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                               updatePageField(
                                 page.project_page_id,
                                 "project_page_is_complete",
-                                e.target.checked
+                                e.target.checked,
                               )
                             }
                             className="w-4 h-4 text-blue-600 rounded"
@@ -247,7 +247,7 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                         <button
                           type="button"
                           onClick={() => {
-                            const newTodo: Todo = {
+                            const newTodo: ProjectTodo = {
                               id: Date.now().toString(),
                               name: "New Task",
                               content: "",
@@ -287,7 +287,7 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                           canEdit={isEditing}
                           getStatusColor={getStatusColor}
                           onUpdateField={(f, v) =>
-                            updateTodoField(page.project_page_id, todo.id, f, v)
+                            updateTodoField(page.project_page_id, todo.id, f as keyof ProjectTodo, v)
                           }
                           onStartEdit={() =>
                             setEditingTodoId({
@@ -305,7 +305,7 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                               e,
                               "todo",
                               todo.id,
-                              page.project_page_id
+                              page.project_page_id,
                             )
                           }
                         />

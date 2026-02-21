@@ -14,7 +14,7 @@ import { FieldDetailData } from "../../types/pages/Woomoonjeong/FieldDetailPage/
 import AssignRecommendedFieldModal from "../../components/Woomoonjeong/RecommendedCreateFieldModal";
 import FieldDetailHeader from "../../components/Woomoonjeong/FieldDetailPage/FieldDetailHeader";
 import PinList from "../../components/Woomoonjeong/FieldDetailPage/PinList";
-import { GROUP_TYPE_COLORS } from "../../constants/Woomoonjeong/Woomoonjeong";
+import { GROUP_TYPE_COLORS } from "../../constants/Woomoonjeong/woomoonjeong";
 
 export default function FieldDetailPage() {
   const { fieldId } = useParams<{ fieldId: string }>();
@@ -114,7 +114,7 @@ export default function FieldDetailPage() {
           field_id: data.field_id,
           field_name: data.field_name,
           field_description: data.field_description,
-          field_created_at: data.field_created_date,
+          create_at: data.field_created_date,
         }}
         onAdd={() => {
           toast.success("분야가 성공적으로 할당되었습니다.");

@@ -1,11 +1,10 @@
 import { supabase } from "../../db/supabase/supabase";
 import {
   GetTechStacksParams,
-  TechStack,
   SaveAllNodesParams,
-  NodeItem,
   UpdateNodePositionsParams,
 } from "../../types/api/Woomoonkyung/StudyPlanCreateNodePage";
+import { NodeItem, TechStack } from "../../types/common/Woomoonkyung";
 
 /**
  * [노드 관리 및 설정 서비스]

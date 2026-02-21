@@ -7,8 +7,8 @@ import {
   GetPlanForEditParams,
   UpdateStudyPlanParams,
   DeleteStudyPlanParams,
-  StudyPlanInfo,
 } from "../../types/api/Woomoonkyung/StudyPlanEditPage";
+import { StudyPlan } from "../../types/common/Woomoonkyung";
 
 /**
  * [우문경 공부 계획 수정 서비스]
@@ -18,7 +18,7 @@ export const WoomoonkyungEditService = {
   /**
    * [수정용 계획 데이터 단일 조회]
    */
-  async getPlanForEdit(params: GetPlanForEditParams): Promise<StudyPlanInfo> {
+  async getPlanForEdit(params: GetPlanForEditParams): Promise<StudyPlan> {
     try {
       const { planId } = params;
 
@@ -29,7 +29,7 @@ export const WoomoonkyungEditService = {
         .single();
 
       if (error) throw error;
-      return data as StudyPlanInfo;
+      return data as StudyPlan;
     } catch (error) {
       console.error("[getPlanForEdit Error]:", error);
       throw error;
@@ -39,7 +39,7 @@ export const WoomoonkyungEditService = {
   /**
    * [공부 계획 정보 업데이트]
    */
-  async updateStudyPlan(params: UpdateStudyPlanParams): Promise<StudyPlanInfo> {
+  async updateStudyPlan(params: UpdateStudyPlanParams): Promise<StudyPlan> {
     try {
       const { planId, planData, imageFile } = params;
 
@@ -87,7 +87,7 @@ export const WoomoonkyungEditService = {
 
       if (error) throw error;
 
-      return data as StudyPlanInfo;
+      return data as StudyPlan;
     } catch (error) {
       console.error("[updateStudyPlan Error]:", error);
       throw error;

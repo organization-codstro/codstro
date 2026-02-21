@@ -1,5 +1,5 @@
 import { supabase } from "../../db/supabase/supabase";
-import { PersonalityDetail } from "../../types/api/Mbit/Mbit";
+import { Personality } from "../../types/common/Mbit";
 
 /**
  * [PersonalityTestService]
@@ -39,7 +39,7 @@ export const PersonalityTestService = {
    * 테이블: mbit_types
    * 역할: 계산된 4자리 코드(예: ECLB)를 기반으로 성격 유형의 상세 도감 데이터를 가져옵니다.
    */
-  async getPersonalityByCode(code: string): Promise<PersonalityDetail | null> {
+  async getPersonalityByCode(code: string): Promise<Personality | null> {
     const { data, error } = await supabase
       .from("mbit_types")
       .select("*")
@@ -60,7 +60,6 @@ export const PersonalityTestService = {
       thought: data.mbit_type_thought,
       approach: data.mbit_type_approach,
       recommendedJob: data.mbit_type_recommended_job,
-      recommendedReason: data.mbit_type_recommended_reason,
       collaborativeStyle: data.mbit_type_collaborative_style,
       strengths: data.mbit_type_strengths,
       weaknesses: data.mbit_type_weaknesses,

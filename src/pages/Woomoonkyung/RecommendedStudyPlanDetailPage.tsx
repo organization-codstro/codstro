@@ -6,10 +6,7 @@ import BackButton from "../../components/Concepts/BackButton";
 import PlanHeader from "../../components/Woomoonkyung/RecommendedStudyPlanDetailPage/PlanHeader";
 import NodeList from "../../components/Woomoonkyung/RecommendedStudyPlanDetailPage/NodeList";
 import { toast } from "react-toastify";
-import {
-  StudyPlan,
-  StudyPlanNode,
-} from "../../types/pages/Woomoonkyung/RecommendedStudyPlanDetailPage/RecommendedStudyPlanDetailPage";
+import { StudyPlan, StudyPlanNode } from "../../types/common/Woomoonkyung";
 
 export default function RecommendedStudyPlanDetailPage() {
   const { planId } = useParams<{ planId: string }>();
@@ -101,12 +98,12 @@ export default function RecommendedStudyPlanDetailPage() {
         <PlanHeader
           name={plan.study_plan_name}
           description={plan.study_plan_description}
-          imageUrl={plan.study_plans_image_url}
-          startDate={plan.study_plans_start_date}
-          endDate={plan.study_plans_end_date}
+          imageUrl={plan.study_plan_image_url}
+          startDate={plan.study_plan_start_date}
+          endDate={plan.study_plan_end_date}
           nodeCount={nodes.length}
-          state={plan.study_plans_state}
-          isBookmarked={plan.study_plans_is_archived}
+          state={plan.study_plan_state}
+          isBookmarked={plan.study_plan_is_archived}
         />
 
         {/* 하위 컴포넌트 Props 전달 */}

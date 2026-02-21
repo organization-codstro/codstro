@@ -1,7 +1,7 @@
 export interface RelatedItem {
   id: string;
   name: string;
-  type: "concept" | "tool" | "library" | "service";
+  type: string;
 }
 
 export interface ThirdPartyDetailResponse {

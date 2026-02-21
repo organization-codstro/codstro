@@ -3,7 +3,7 @@ export interface ToolSummaryResponse {
   name: string;
   description: string;
   category: string[];
-  tags: string[]; // DB의 category 배열을 tags로 매핑
+  tags: string[]; 
   representative_image_url?: string;
 }
 

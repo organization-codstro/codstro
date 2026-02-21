@@ -2,9 +2,9 @@ import { supabase } from "../../db/supabase/supabase";
 import { FirebaseStorageService } from "../Image/FirebaseStorageService";
 import {
   CreateBasePlanParams,
-  UpdatePlanInfoParams,
-  PlanInfo,
+  UpdatePlanInfoParams
 } from "../../types/api/Woomoonkyung/StudyPlanCreatePage";
+import { StudyPlan } from "../../types/common/Woomoonkyung";
 
 /**
  * [공부 계획 등록 서비스]
@@ -69,7 +69,7 @@ export const PlanRegistrationService = {
   /**
    * [공부 계획 기본 정보 업데이트]
    */
-  async updatePlanInfo(params: UpdatePlanInfoParams): Promise<PlanInfo> {
+  async updatePlanInfo(params: UpdatePlanInfoParams): Promise<StudyPlan> {
     try {
       const { planId, updates } = params;
 
@@ -81,7 +81,7 @@ export const PlanRegistrationService = {
         .single();
 
       if (error) throw error;
-      return data as PlanInfo;
+      return data as StudyPlan;
     } catch (error) {
       console.error("[updatePlanInfo Error]:", error);
       throw error;

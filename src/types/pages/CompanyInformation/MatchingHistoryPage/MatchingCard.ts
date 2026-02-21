@@ -1,10 +1,7 @@
+import { CompanyMatch } from "../../../common/companyInformation";
+
 export interface MatchingCardProps {
-  match: {
-    company_user_match_id: string;
-    company_user_match_name: string;
-    created_at: string;
-    company_user_match_rate: number;
-  };
+  match: CompanyMatch;
   isPending: boolean;
   onDelete: (e: React.MouseEvent) => void;
   onClick: () => void;

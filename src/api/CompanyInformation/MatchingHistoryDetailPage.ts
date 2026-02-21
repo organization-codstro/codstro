@@ -21,7 +21,7 @@ export const MatchingHistoryDetailService = {
    * - match_rate(점수), reason(분석 내용), suggestions(개선 제안) 필드를 포함합니다.
    */
   async getMatchingHistoryDetail(
-    params: GetMatchingHistoryDetailParams
+    params: GetMatchingHistoryDetailParams,
   ): Promise<GetMatchingHistoryDetailResponse> {
     const { matchingId } = params;
 
@@ -30,17 +30,18 @@ export const MatchingHistoryDetailService = {
         .from("company_user_matches")
         .select(
           `
-          company_user_matche_id,
-          company_user_matche_name,
-          match_rate,
-          company_user_matche_reason,
-          company_user_matche_suggestions,
-          company_user_matche_created_date,
+          company_user_match_id,
+          company_user_match_name,
+          company_user_match_rate,
+          company_user_match_reason,
+          company_user_match_suggestions,
+          company_user_match_created_date,
           company_id,
-          user_id
-        `
+          user_id,
+          created_at
+        `,
         )
-        .eq("company_user_matche_id", matchingId)
+        .eq("company_user_match_id", matchingId)
         .single();
 
       if (error) throw error;
@@ -56,15 +57,15 @@ export const MatchingHistoryDetailService = {
    * [참조 테이블]: company_user_matches
    */
   async updateMatchingHistoryName(
-    params: UpdateMatchingHistoryNameParams
+    params: UpdateMatchingHistoryNameParams,
   ): Promise<UpdateMatchingHistoryNameResponse> {
     const { matchingId, newName } = params;
 
     try {
       const { data, error } = await supabase
         .from("company_user_matches")
-        .update({ company_user_matche_name: newName })
-        .eq("company_user_matche_id", matchingId)
+        .update({ company_user_match_name: newName })
+        .eq("company_user_match_id", matchingId)
         .select();
 
       if (error) throw error;
@@ -80,7 +81,7 @@ export const MatchingHistoryDetailService = {
    * [참조 테이블]: company_user_matches
    */
   async deleteMatchingHistory(
-    params: DeleteMatchingHistoryParams
+    params: DeleteMatchingHistoryParams,
   ): Promise<DeleteMatchingHistoryResponse> {
     const { matchingId } = params;
 
@@ -88,7 +89,7 @@ export const MatchingHistoryDetailService = {
       const { error } = await supabase
         .from("company_user_matches")
         .delete()
-        .eq("company_user_matche_id", matchingId);
+        .eq("company_user_match_id", matchingId);
 
       if (error) throw error;
       return true;

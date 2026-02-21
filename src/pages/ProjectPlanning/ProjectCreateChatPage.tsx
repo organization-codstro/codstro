@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
-import { ProjectBasicInfo } from "../../types/pages/ProjectPlanning/project";
+import { ProjectBasicInfo } from "../../types/common/projectPlanning";
 import { ProjectChatHeader } from "../../components/ProjectPlanning/ProjectCreateChatPage/ProjectChatHeader";
 import { ProjectChatMessage } from "../../components/ProjectPlanning/ProjectCreateChatPage/ProjectChatMessage";
 import { ProjectChatInput } from "../../components/ProjectPlanning/ProjectCreateChatPage/ProjectChatInput";
@@ -17,7 +17,7 @@ export default function ProjectCreateChatPage() {
     basicInfo?: ProjectBasicInfo;
     projectId?: string;
   };
-  
+
   const [messages, setMessages] = useState<any[]>([]);
   const [input, setInput] = useState("");
   const [isSending, setIsSending] = useState(false);

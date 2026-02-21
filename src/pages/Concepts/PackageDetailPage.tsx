@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import { Loader2 } from "lucide-react";
 
 // 서비스 및 타입
-import { PackageManagerDetail } from "../../types/api/Concepts/PackageDetailPage";
 import { TodoForm } from "../../types/pages/CompanyInformation/AddTodoModal";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { PackageManagerService } from "../../api/Concepts/PackageDetailPage";
@@ -15,15 +14,16 @@ import MaterialHeader from "../../components/Concepts/PackageDetailPage/Material
 import MaterialActionButtons from "../../components/Concepts/PackageDetailPage/MaterialActionButtons";
 import MarkdownRenderer from "../../components/Markdown/MarkdownRenderer";
 import RelatedMaterialGrid from "../../components/Concepts/PackageDetailPage/RelatedMaterialGrid";
-import AIChat from "../../components/CompanyInformation/AIChat";
+import AIChat from "../../components/CompanyInformation/CompanyInformationAIChat";
 import AddTodoModal from "../../components/CompanyInformation/AddTodoModal";
 import { MaterialNotFound } from "../../components/Concepts/PackageDetailPage/MaterialNotFound";
+import { PackageManagerMaterial } from "../../types/common/concepts";
 
 export default function PackageDetailPage() {
   const { materialId } = useParams<{ materialId: string }>();
 
   // 1. 상태 관리
-  const [data, setData] = useState<PackageManagerDetail | null>(null);
+  const [data, setData] = useState<PackageManagerMaterial | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [userId, setUserId] = useState<number | null>(null);
 
@@ -46,7 +46,7 @@ export default function PackageDetailPage() {
 
         const response = await PackageManagerService.getPackageManagerDetail(
           materialId,
-          numericUserId
+          numericUserId,
         );
         setData(response);
       } catch (error) {
@@ -70,7 +70,7 @@ export default function PackageDetailPage() {
       const newStatus = await PackageManagerService.toggleUnderstanding(
         userId,
         materialId,
-        data.isUnderstood
+        data.isUnderstood,
       );
       setData({ ...data, isUnderstood: newStatus });
       toast.success(newStatus ? "학습 완료!" : "학습 취소");
@@ -87,7 +87,7 @@ export default function PackageDetailPage() {
       await PackageManagerService.addPackageManagerTodo(
         userId,
         data.name,
-        showTodoModal
+        showTodoModal,
       );
       toast.success("할 일 목록에 추가되었습니다.");
       setShowTodoModal(false);
@@ -134,13 +134,15 @@ export default function PackageDetailPage() {
         />
 
         {/* 4. 마크다운 본문 */}
-        <div className="prose max-w-none mt-8">
+        <div className="mt-8 prose max-w-none">
           <MarkdownRenderer content={data.content} />
         </div>
       </div>
 
-      {/* 5. 연관 자료 그리드 (API에서 받은 데이터 연결) */}
-      <RelatedMaterialGrid relatedMaterials={data.relatedMaterials} />
+      {/* 5. 연관 자료 그리드 (API에서 받은 데이터 연결) (relatedMaterials 있어야 나옴)*/}
+      {data.relatedMaterials && (
+        <RelatedMaterialGrid relatedMaterials={data.relatedMaterials} />
+      )}
 
       {/* 6. 모달 레이어 */}
       <AIChat

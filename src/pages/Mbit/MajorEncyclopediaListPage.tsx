@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Major } from "../../types/pages/Mbit/Mbit";
+import { Major } from "../../types/common/Mbit";
 import { MajorEncyclopediaListService } from "../../api/Mbit/MajorEncyclopediaListPage";
-import { ICON_MAP } from "../../constants/Mbit/MajorEncyclopediaPage/MajorEncyclopediaPage";
+import { ICON_MAP } from "../../constants/Mbit/mbit";
 import { Settings } from "lucide-react";
 import MajorCard from "../../components/Mbit/MajorEncyclopediaListPage/MajorCard";
 import { useNavigate } from "react-router-dom";

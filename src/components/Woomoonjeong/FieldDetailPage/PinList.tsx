@@ -14,7 +14,7 @@ const PinList: React.FC<PinListProps> = ({ pins }) => (
 
     <div className="space-y-3">
       {pins.map((pin) => (
-        <PinCard key={pin.id} pin={pin} />
+        <PinCard key={pin.pin_id} pin={pin} />
       ))}
 
       {pins.length === 0 && (

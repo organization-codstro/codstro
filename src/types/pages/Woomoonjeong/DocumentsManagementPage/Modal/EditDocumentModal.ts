@@ -1,4 +1,4 @@
-import { Pin } from "../../woomoonjeong";
+import { Group, Pin } from "../../../../common/woomoonjeong";
 
 export interface AddDocumentPayload {
   groupType: string;
@@ -14,4 +14,5 @@ export interface EditDocumentModalProps {
   onClose: () => void;
   pin: Pin; // 수정 대상 핀
   onAdd: (payload: AddDocumentPayload) => void;
+  groups: Group[];
 }

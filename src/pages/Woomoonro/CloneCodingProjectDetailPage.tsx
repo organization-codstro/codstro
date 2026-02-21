@@ -8,14 +8,13 @@ import ProjectStatusCard from "../../components/Woomoonro/CloneCodingProjectDeta
 import { LoginService } from "../../api/Auth/LoginPage";
 import { CloneCodingService } from "../../api/Woomoonro/CloneCodingProjectDetailPage";
 import {
+  CLONE_CODING_STATE_TYPE,
   CLONE_CODINGS_DIFFICULTY_TYPE,
   DIFFICULTY_COLORS,
   STATUS_COLORS,
 } from "../../constants/Woomoonro/woomoonro";
-import {
-  ProjectDetail,
-  UserProjectStatus,
-} from "../../types/pages/Woomoonro/CloneCodingProjectDetailPage/CloneCodingProjectDetailPage";
+import { UserProjectStatus } from "../../types/pages/Woomoonro/CloneCodingProjectDetailPage/CloneCodingProjectDetailPage";
+import { CloneCodingProject } from "../../types/common/woomoonro";
 
 export default function CloneCodingProjectDetailPage() {
   const { projectId } = useParams<{ projectId: string }>();
@@ -26,9 +25,9 @@ export default function CloneCodingProjectDetailPage() {
    */
   const [isLoading, setIsLoading] = useState(true);
   const [userId, setUserId] = useState<string | null>(null);
-  const [project, setProject] = useState<ProjectDetail | null>(null);
+  const [project, setProject] = useState<CloneCodingProject | null>(null);
   const [userProject, setUserProject] = useState<UserProjectStatus | undefined>(
-    undefined
+    undefined,
   );
   const [todos, setTodos] = useState<any[]>([]);
 
@@ -56,16 +55,19 @@ export default function CloneCodingProjectDetailPage() {
 
         // DB 컬럼명 매핑 및 상태 저장
         setProject({
-          id: projectDetail.clone_coding_id,
-          title: projectDetail.clone_coding_title,
-          description: projectDetail.clone_coding_description,
-          difficulty: projectDetail.clone_coding_difficulty,
-          tech_stack: projectDetail.clone_coding_tech_stack,
-          estimated_hours: projectDetail.clone_coding_estimated_hours,
-          thumbnail_url: projectDetail.clone_coding_thumbnail_url,
-          github_url: projectDetail.clone_coding_github_url,
-          demo_url: projectDetail.clone_coding_demo_url,
-          tags: projectDetail.clone_coding_tags,
+          id: projectDetail.id,
+          title: projectDetail.title,
+          description: projectDetail.description,
+          difficulty: projectDetail.difficulty,
+          tech_stack: projectDetail.tech_stack,
+          estimated_hours: projectDetail.estimated_hours,
+          thumbnail_url: projectDetail.thumbnail_url,
+          github_url: projectDetail.github_url,
+          demo_url: projectDetail.demo_url,
+          tags: projectDetail.tags,
+          clone_coding_steps: projectDetail.clone_coding_steps,
+          clone_coding_project_structure:
+            projectDetail.clone_coding_project_structure,
         });
 
         if (userStatus) {
@@ -89,7 +91,7 @@ export default function CloneCodingProjectDetailPage() {
         setIsLoading(false);
       }
     },
-    [navigate]
+    [navigate],
   );
 
   /**
@@ -127,7 +129,7 @@ export default function CloneCodingProjectDetailPage() {
       });
 
       setUserProject((prev) =>
-        prev ? { ...prev, is_bookmarked: !prev.is_bookmarked } : prev
+        prev ? { ...prev, is_bookmarked: !prev.is_bookmarked } : prev,
       );
       toast.success(userProject.is_bookmarked ? "북마크 해제" : "북마크 추가");
     } catch (error) {
@@ -138,7 +140,7 @@ export default function CloneCodingProjectDetailPage() {
   /**
    * [상태 업데이트 로직]
    */
-  const onUpdateStatus = async (status: "waiting" | "in progress" | "done") => {
+  const onUpdateStatus = async (status: CLONE_CODING_STATE_TYPE) => {
     if (!userId || !projectId) return;
 
     try {

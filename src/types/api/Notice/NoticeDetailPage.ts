@@ -1,17 +1,12 @@
-export type NoticeType = "update" | "maintenance" | "event" | "general";
+import { NOTICE_TYPE } from "../../../constants/Notice/notice";
 
 export interface NoticeResponse {
   notices_id: string;
   notice_title: string;
   notice_content: string;
-  notice_type: NoticeType;
+  notice_type: NOTICE_TYPE;
   notice_created_date: string;
   notice_updated_date: string;
-}
-
-export interface NoticeReadStatus {
-  is_read: boolean;
-  read_at: string;
 }
 
 /**

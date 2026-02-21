@@ -3,9 +3,9 @@ import {
   GetActiveMyPlansParams,
   DeletePlanParams,
   GetPlanStatsParams,
-  PlanWithStats,
-  PlanStats,
+  PlanWithStats
 } from "../../types/api/Woomoonkyung/StudyPlanMainPage";
+import { PlanStatsResult } from "../../types/common/Woomoonkyung";
 
 /**
  * [우문경 메인 대시보드 서비스]
@@ -100,7 +100,7 @@ export const WoomoonkyungMainService = {
   /**
    * [계획별 상세 통계 수동 조회]
    */
-  async getPlanStats(params: GetPlanStatsParams): Promise<PlanStats> {
+  async getPlanStats(params: GetPlanStatsParams): Promise<PlanStatsResult> {
     try {
       const { planId } = params;
 

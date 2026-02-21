@@ -7,7 +7,7 @@ import {
   ProjectBasicInfo,
   newTodo,
   UITodo,
-} from "../../types/pages/ProjectPlanning/project";
+} from "../../types/common/projectPlanning";
 
 // 컴포넌트 임포트
 import { ProjectBasicInfoSection } from "../../components/ProjectPlanning/ProjectBasicInfoSection";
@@ -34,28 +34,28 @@ export default function ProjectInfoGeneratePage() {
   // 프로젝트 기본 정보
   const [projectName, setProjectName] = useState("AI Chat App");
   const [projectTopic, setProjectTopic] = useState(
-    basicInfo?.project_topic || ""
+    basicInfo?.project_topic || "",
   );
   const [projectDescription, setProjectDescription] = useState(
-    basicInfo?.desired_features || ""
+    basicInfo?.desired_features || "",
   );
   const [mainColor, setMainColor] = useState("#587CF0");
   const [designStyle, setDesignStyle] = useState("Modern, minimalist");
   const [projectEffect, setProjectEffect] = useState("Smooth transitions");
   const [startDate, setStartDate] = useState(
-    new Date().toISOString().split("T")[0]
+    new Date().toISOString().split("T")[0],
   );
   const [endDate, setEndDate] = useState("");
 
   // 상세 구조 (페이지 및 할 일)
   const [expandedPage, setExpandedPage] = useState<string | null>(null);
   const [editingTodoClientId, setEditingTodoClientId] = useState<string | null>(
-    null
+    null,
   );
   const [showTodoForm, setShowTodoForm] = useState(false);
   const [projectTodos, setProjectTodos] = useState<UITodo[]>([]);
   const [pages, setPages] = useState<Array<ProjectPage & { todos: Todo[] }>>(
-    []
+    [],
   );
 
   useEffect(() => {
@@ -182,7 +182,7 @@ export default function ProjectInfoGeneratePage() {
 
   const updateProjectTodo = (clientId: string, updates: Partial<UITodo>) => {
     setProjectTodos((prev) =>
-      prev.map((t) => (t.client_id === clientId ? { ...t, ...updates } : t))
+      prev.map((t) => (t.client_id === clientId ? { ...t, ...updates } : t)),
     );
   };
 
@@ -200,14 +200,16 @@ export default function ProjectInfoGeneratePage() {
   };
   const updatePage = (pageId: string, updates: Partial<ProjectPage>) => {
     setPages((prev) =>
-      prev.map((p) => (p.project_page_id === pageId ? { ...p, ...updates } : p))
+      prev.map((p) =>
+        p.project_page_id === pageId ? { ...p, ...updates } : p,
+      ),
     );
   };
 
   const updatePageTodo = (
     pageId: string,
     todoId: string,
-    updates: Partial<Todo>
+    updates: Partial<Todo>,
   ) => {
     setPages((prev) =>
       prev.map((p) =>
@@ -215,11 +217,11 @@ export default function ProjectInfoGeneratePage() {
           ? {
               ...p,
               todos: p.todos.map((t) =>
-                t.id === todoId ? { ...t, ...updates } : t
+                t.id === todoId ? { ...t, ...updates } : t,
               ),
             }
-          : p
-      )
+          : p,
+      ),
     );
   };
 
@@ -228,8 +230,8 @@ export default function ProjectInfoGeneratePage() {
       prev.map((p) =>
         p.project_page_id === pageId
           ? { ...p, todos: p.todos.filter((t) => t.id !== todoId) }
-          : p
-      )
+          : p,
+      ),
     );
   };
 
@@ -238,8 +240,8 @@ export default function ProjectInfoGeneratePage() {
       prev.map((p) =>
         p.project_page_id === pageId
           ? { ...p, todos: [...p.todos, newTodo] }
-          : p
-      )
+          : p,
+      ),
     );
   };
 

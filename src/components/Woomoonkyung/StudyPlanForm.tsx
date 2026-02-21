@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ArrowLeft, Calendar, Save, X } from "lucide-react";
-import { StudyPlan } from "../../types/pages/Woomoonkyung/Woomoonkyung";
 import { StudyPlanFormFormData } from "../../types/pages/Woomoonkyung/StudyPlanForm";
+import { StudyPlan } from "../../types/common/Woomoonkyung";
 
 interface StudyPlanFormProps {
   mode: "create" | "edit";

@@ -4,7 +4,7 @@ import ConceptSearchBar from "../../components/Concepts/ConceptSearchBar";
 import ConceptGrid from "../../components/Concepts/ConceptGrid";
 import LibraryCard from "../../components/Concepts/LibrariesListPage/LibraryCard";
 import { useEffect, useState } from "react";
-import { LibraryDescriptionMaterial } from "../../types/pages/Concepts/concepts";
+import { LibraryDescriptionMaterial } from "../../types/common/concepts";
 import { LibraryListService } from "../../api/Concepts/LibrariesListPage";
 
 export default function LibrariesListPage() {

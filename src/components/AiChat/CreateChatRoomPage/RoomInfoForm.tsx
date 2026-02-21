@@ -1,8 +1,8 @@
-import { RoomData, RoomInfoFormProps } from "../../../types/pages/AiChat/CreateChatRoomPage/RoomInfoForm";
-
+import { ChatRoom } from "../../../types/common/aiChat";
+import { RoomInfoFormProps } from "../../../types/pages/AiChat/CreateChatRoomPage/RoomInfoForm";
 
 export function RoomInfoForm({ data, onChange }: RoomInfoFormProps) {
-  const updateField = (field: keyof RoomData, value: any) => {
+  const updateField = (field: keyof ChatRoom, value: any) => {
     onChange({ ...data, [field]: value });
   };
 
@@ -14,8 +14,8 @@ export function RoomInfoForm({ data, onChange }: RoomInfoFormProps) {
         </label>
         <input
           type="text"
-          value={data.name}
-          onChange={(e) => updateField("name", e.target.value)}
+          value={data.chat_room_name}
+          onChange={(e) => updateField("chat_room_name", e.target.value)}
           className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:border-transparent"
           style={{ "--tw-ring-color": "#587CF0" } as React.CSSProperties}
           placeholder="Enter room name"
@@ -30,14 +30,14 @@ export function RoomInfoForm({ data, onChange }: RoomInfoFormProps) {
           {(["daily", "project"] as const).map((type) => (
             <button
               key={type}
-              onClick={() => updateField("type", type)}
+              onClick={() => updateField("chat_room_type", type)}
               className={`p-4 border-2 rounded-lg font-medium transition-all capitalize ${
-                data.type === type
+                data.chat_room_type === type
                   ? "text-white"
                   : "border-gray-300 text-gray-700 hover:border-gray-400"
               }`}
               style={
-                data.type === type
+                data.chat_room_type === type
                   ? { backgroundColor: "#587CF0", borderColor: "#587CF0" }
                   : {}
               }
@@ -54,21 +54,23 @@ export function RoomInfoForm({ data, onChange }: RoomInfoFormProps) {
         </label>
         <input
           type="text"
-          value={data.topics}
-          onChange={(e) => updateField("topics", e.target.value)}
+          value={data.chat_room_topics}
+          onChange={(e) => updateField("chat_room_topics", e.target.value)}
           className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:border-transparent"
           style={{ "--tw-ring-color": "#587CF0" } as React.CSSProperties}
           placeholder="e.g., React, TypeScript, Daily Life"
         />
       </div>
 
-      {data.type === "daily" && (
+      {data.chat_room_type === "daily" && (
         <div className="flex items-center gap-3 p-4 rounded-lg bg-blue-50">
           <input
             type="checkbox"
             id="isMain"
-            checked={data.isMain}
-            onChange={(e) => updateField("isMain", e.target.checked)}
+            checked={data.chat_room_daily_is_main}
+            onChange={(e) =>
+              updateField("chat_room_daily_is_main", e.target.checked)
+            }
             className="w-5 h-5 rounded cursor-pointer"
             style={{ accentColor: "#587CF0" }}
           />

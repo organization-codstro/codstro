@@ -1,4 +1,4 @@
-import { UserLevel } from "../../types/pages/Profile/Profile";
+import { UserLevel } from "../../types/common/Profile";
 
 export const USER_LEVELS: UserLevel[] = [
   {
@@ -103,7 +103,7 @@ export const USER_LEVELS: UserLevel[] = [
 export const getUserLevelByPoints = (points: number): UserLevel => {
   const publicLevels = USER_LEVELS.filter((level) => !level.adminOnly);
   const sortedLevels = [...publicLevels].sort(
-    (a, b) => b.requiredPoints - a.requiredPoints
+    (a, b) => b.requiredPoints - a.requiredPoints,
   );
 
   for (const level of sortedLevels) {
@@ -118,7 +118,7 @@ export const getUserLevelByPoints = (points: number): UserLevel => {
 export const getNextLevelByPoints = (points: number): UserLevel | null => {
   const publicLevels = USER_LEVELS.filter((level) => !level.adminOnly);
   const sortedLevels = [...publicLevels].sort(
-    (a, b) => a.requiredPoints - b.requiredPoints
+    (a, b) => a.requiredPoints - b.requiredPoints,
   );
 
   for (const level of sortedLevels) {

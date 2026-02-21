@@ -1,7 +1,4 @@
-interface QuestionOption {
-  text: string;
-  major: string;
-}
+import { QuestionOption } from "../../../common/Mbit";
 
 export interface TestQuestionProps {
   question: string;

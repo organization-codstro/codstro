@@ -21,13 +21,13 @@ const TestResult: React.FC<TestResultProps> = ({ result, onReset }) => {
 
         {/* 학과 이름 */}
         <div className="text-5xl font-extrabold text-[#587CF0] mb-6">
-          {result.name}
+          {result.major_name}
         </div>
 
         {/* 학과 상세 설명 (DB 데이터 활용) */}
         <p className="mb-8 text-lg leading-relaxed text-gray-600">
-          {result.description ||
-            `Based on your interests, ${result.name} development seems like a great fit!`}
+          {result.major_description ||
+            `Based on your interests, ${result.major_name} development seems like a great fit!`}
         </p>
 
         <div className="flex flex-col gap-4">

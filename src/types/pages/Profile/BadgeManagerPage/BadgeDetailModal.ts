@@ -1,4 +1,4 @@
-import { Badge } from "../Profile";
+import { Badge } from "../../../common/Profile";
 
 export interface BadgeDetailModalProps {
   badge: Badge;

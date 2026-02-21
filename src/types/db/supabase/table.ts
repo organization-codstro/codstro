@@ -62,12 +62,12 @@ export interface UserFortune {
 }
 
 export interface CompanyUserMatches {
-  company_user_matche_id: number; // PK / number
-  company_user_matche_name: string; // [회사이름 - 생성일]로 저장 / text
-  match_rate: number; // AI가 판단한 적합도 % (예: 87.50), 전체 5자리, 소수점 2자리 / numeric(5,2)
-  company_user_matche_suggestions: string; // text
-  company_user_matche_reason: string; // text
-  company_user_matche_created_date: Date; // date
+  company_user_match_id: number; // PK / number
+  company_user_match_name: string; // [회사이름 - 생성일]로 저장 / text
+  company_user_match_rate: number; // AI가 판단한 적합도 % (예: 87.50), 전체 5자리, 소수점 2자리 / numeric(5,2)
+  company_user_match_suggestions: string; // text
+  company_user_match_reason: string; // text
+  company_user_match_created_date: Date; // date
   company_id: number; // FK / number
   user_id: number; // FK / 이 유저 고유번호로, 유저의 정보 추적 / number
 }

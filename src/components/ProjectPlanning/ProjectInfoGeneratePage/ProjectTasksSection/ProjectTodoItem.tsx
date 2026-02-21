@@ -1,6 +1,6 @@
 import React from "react";
 import { Calendar, Trash2, X, Check } from "lucide-react";
-import { UITodo } from "../../../../types/pages/ProjectPlanning/project";
+import { UITodo } from "../../../../types/common/projectPlanning";
 import { ProjectTodoItemProps } from "../../../../types/pages/ProjectPlanning/ProjectInfoGeneratePage/ProjectTasksSection/ProjectTodoItem";
 
 export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
@@ -21,7 +21,7 @@ export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
   const handleSave = () => {
     onUpdate(todo.client_id, editedTodo);
   };
-  
+
   const handleCancel = () => {
     setEditedTodo(todo);
     onCancelEdit();
@@ -171,7 +171,7 @@ export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
             <h4 className="font-medium text-gray-900">{todo.name}</h4>
             <span
               className={`px-2 py-1 rounded text-xs text-white ${getStatusColor(
-                todo.start_date
+                todo.start_date,
               )}`}
             >
               {todo.start_date}

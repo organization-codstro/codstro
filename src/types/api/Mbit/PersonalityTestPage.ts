@@ -1,11 +1,4 @@
-/**
- * [PersonalityTestQuestionOption]
- * MBIT 질문 선택지 타입
- */
-export interface PersonalityTestQuestionOption {
-  text: string;
-  type: string;
-}
+import { QuestionOption } from "../../common/Mbit";
 
 /**
  * [PersonalityTestQuestion]
@@ -14,7 +7,7 @@ export interface PersonalityTestQuestionOption {
 export interface PersonalityTestQuestion {
   id: string;
   question: string;
-  options: PersonalityTestQuestionOption[];
+  options: QuestionOption[];
 }
 
 /**

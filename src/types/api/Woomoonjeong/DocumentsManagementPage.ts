@@ -1,3 +1,5 @@
+import { WOOMOONJEONG_HIERARCHY } from "../../../constants/Woomoonjeong/woomoonjeong";
+
 /**
  * [그룹 생성 파라미터]
  */
@@ -47,7 +49,7 @@ export interface UpsertLinkCountParams {
  * [삭제 파라미터]
  */
 export interface DeleteItemParams {
-  type: "group" | "field" | "pin";
+  type: WOOMOONJEONG_HIERARCHY;
   id: string;
 }
 

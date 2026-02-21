@@ -1,4 +1,4 @@
-import { Project } from "../project";
+import { Project } from "../../../common/projectPlanning";
 
 export interface ProjectInfoViewProps {
   project: Project;

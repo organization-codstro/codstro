@@ -1,12 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Message } from "../../types/pages/ProjectPlanning/project";
+import { Message } from "../../types/common/projectPlanning";
 import { MeetingChatHeader } from "../../components/ProjectPlanning/MeetingProgressPage/MeetingChatHeader";
 import { ChatMessage } from "../../components/ProjectPlanning/MeetingProgressPage/ChatMessage";
 import { ChatInput } from "../../components/AiChat/ChatConversation/ChatInput";
 import { MeetingProgressService } from "../../api/ProjectPlanning/MeetingProgressPage";
-
 
 export default function MeetingProgressPage() {
   const { meetingId } = useParams<{ meetingId: string }>();
@@ -42,7 +41,7 @@ export default function MeetingProgressPage() {
           sender: log.project_tasks_log_sender,
           message: log.project_tasks_log_message,
           timestamp: new Date(
-            log.project_tasks_log_created_at
+            log.project_tasks_log_created_at,
           ).toLocaleTimeString([], {
             hour: "2-digit",
             minute: "2-digit",
@@ -195,7 +194,7 @@ export default function MeetingProgressPage() {
           </div>
         </div>
       ),
-      { position: "top-center", autoClose: false, closeOnClick: false }
+      { position: "top-center", autoClose: false, closeOnClick: false },
     );
   };
 

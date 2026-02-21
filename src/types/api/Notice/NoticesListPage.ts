@@ -1,10 +1,10 @@
-export type NoticeTypeProps = "update" | "maintenance" | "event" | "general";
+import { NOTICE_TYPE } from "../../../constants/Notice/notice";
 
 export interface NoticeListItemResponse {
   notice_id: string;
   notice_title: string;
   notice_content: string; // preview 대용으로 앞부분 사용
-  notice_type: NoticeTypeProps;
+  notice_type: NOTICE_TYPE;
   created_at: string;
 }
 
@@ -13,5 +13,5 @@ export interface NoticeListItemResponse {
  * 카테고리별 공지사항 조회를 위한 파라미터
  */
 export interface GetNoticesByTypeParams {
-  type: NoticeTypeProps;
+  type: NOTICE_TYPE;
 }

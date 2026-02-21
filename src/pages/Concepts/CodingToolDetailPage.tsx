@@ -7,7 +7,7 @@ import { ToolDetailResponse } from "../../types/api/Concepts/CodingToolDetailPag
 import { TodoForm } from "../../types/pages/CompanyInformation/AddTodoModal";
 
 // 공통 컴포넌트
-import AIChat from "../../components/CompanyInformation/AIChat";
+import AIChat from "../../components/CompanyInformation/CompanyInformationAIChat";
 import AddTodoModal from "../../components/CompanyInformation/AddTodoModal";
 import MarkdownRenderer from "../../components/Markdown/MarkdownRenderer";
 import BackButton from "../../components/Concepts/BackButton";
@@ -78,7 +78,7 @@ export default function CodingToolDetailPage() {
 
       setData({ ...data, isUnderstood: updatedStatus });
       toast.success(
-        updatedStatus ? "학습 완료로 표시되었습니다." : "취소되었습니다."
+        updatedStatus ? "학습 완료로 표시되었습니다." : "취소되었습니다.",
       );
     } catch (error) {
       toast.error("상태 업데이트에 실패했습니다.");

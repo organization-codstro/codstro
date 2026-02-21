@@ -1,10 +1,10 @@
+import { PROJECT_ROOM_TYPE } from "../../constants/ProjectPlanning/ProjectPlanning";
 import { supabase } from "../../db/supabase/supabase";
 import {
-  MeetingListItem,
-  MeetingType,
   GetMeetingListParams,
   GetMeetingsByTypeParams,
 } from "../../types/api/ProjectPlanning/ProjectMeetingPage";
+import { MeetingListItem } from "../../types/pages/ProjectPlanning/ProjectMeetingPage/ProjectMeetingPage";
 
 /**
  * [ProjectMeetingListService]
@@ -37,7 +37,7 @@ export const ProjectMeetingListService = {
       // DB의 대문자/소문자 타입을 UI 타입(feature, free)으로 매핑
       return data.map((item) => ({
         ...item,
-        type: item.type?.toLowerCase() as MeetingType,
+        type: item.type?.toLowerCase() as PROJECT_ROOM_TYPE,
       })) as MeetingListItem[];
     } catch (error) {
       console.error("[getMeetingList Error]:", error);

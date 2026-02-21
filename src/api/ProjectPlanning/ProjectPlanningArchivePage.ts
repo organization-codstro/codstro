@@ -1,9 +1,9 @@
 import { supabase } from "../../db/supabase/supabase";
 import {
-  Project,
   GetArchivedProjectsParams,
   ExtendProjectPeriodParams,
 } from "../../types/api/ProjectPlanning/ProjectPlanningArchivePage";
+import { Project } from "../../types/common/projectPlanning";
 
 /**
  * [ProjectArchiveService]

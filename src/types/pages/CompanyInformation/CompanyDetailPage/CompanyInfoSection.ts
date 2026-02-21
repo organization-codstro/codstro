@@ -3,5 +3,4 @@ export interface CompanyInfoSectionProps {
   values: string | null;
   website: string | null;
   createdDate: string;
-  updatedDate: string;
 }

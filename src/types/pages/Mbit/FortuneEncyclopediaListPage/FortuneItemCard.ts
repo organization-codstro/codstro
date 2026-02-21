@@ -1,9 +1,4 @@
-export interface FortuneList {
-  id: string;
-  code: number;
-  name: string;
-  summary: string;
-}
+import { FortuneList } from "../../../common/Mbit";
 
 export interface FortuneItemCardProps {
   fortune: FortuneList;

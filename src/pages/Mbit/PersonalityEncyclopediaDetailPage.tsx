@@ -12,15 +12,13 @@ import {
   TrendingUp,
 } from "lucide-react";
 
-import { Personality } from "../../types/pages/Mbit/Mbit";
+import { Personality } from "../../types/common/Mbit";
 import PersonalityDetailHeader from "../../components/Mbit/PersonalityEncyclopediaDetailPage/PersonalityDetailHeader";
 import TraitList from "../../components/Mbit/MajorEncyclopediaDetailPage/TraitList";
 
 export default function PersonalityEncyclopediaDetailPage() {
   const { personalityId } = useParams();
-  const [personality, setPersonality] = useState<Personality | null>(
-    null,
-  );
+  const [personality, setPersonality] = useState<Personality | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   const navigate = useNavigate();

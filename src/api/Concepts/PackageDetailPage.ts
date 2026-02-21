@@ -1,5 +1,5 @@
 import { supabase } from "../../db/supabase/supabase";
-import { PackageManagerDetail } from "../../types/api/Concepts/PackageDetailPage";
+import { PackageManagerMaterial } from "../../types/common/concepts";
 
 /**
  * [PackageManagerService]
@@ -12,8 +12,8 @@ export const PackageManagerService = {
    */
   async getPackageManagerDetail(
     materialId: string,
-    userId: number
-  ): Promise<PackageManagerDetail> {
+    userId: number,
+  ): Promise<PackageManagerMaterial> {
     try {
       // 1. 패키지 매니저 기본 정보 조회
       const { data: material, error: materialError } = await supabase
@@ -26,8 +26,9 @@ export const PackageManagerService = {
           content: package_manager_description_material_content,
           category: package_manager_description_material_category,
           documentUrl: package_manager_description_material_document_url,
-          representativeImageUrl: package_manager_description_material_image_url
-        `
+          representativeImageUrl: package_manager_description_material_image_url,
+          imageUrls : third_party_services_description_material_image_urls
+        `,
         )
         .eq("package_manager_description_material_id", materialId)
         .single();
@@ -46,7 +47,7 @@ export const PackageManagerService = {
       const { data: related } = await supabase
         .from("package_manager_description_materials")
         .select(
-          "id:package_manager_description_material_id, name:package_manager_description_material_name"
+          "id:package_manager_description_material_id, name:package_manager_description_material_name",
         )
         .neq("package_manager_description_material_id", materialId)
         .limit(4);
@@ -68,7 +69,7 @@ export const PackageManagerService = {
   async toggleUnderstanding(
     userId: number,
     materialId: string,
-    currentStatus: boolean
+    currentStatus: boolean,
   ) {
     if (currentStatus) {
       // 이미 이해함 상태라면 레코드 삭제
@@ -102,7 +103,7 @@ export const PackageManagerService = {
   async addPackageManagerTodo(
     userId: number,
     materialName: string,
-    type: string
+    type: string,
   ) {
     const title =
       type === "documentation"

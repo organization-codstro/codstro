@@ -15,8 +15,13 @@ import { LoginService } from "../../api/Auth/LoginPage";
 import { NoteCreateService } from "../../api/Concepts/NoteCreatePage";
 
 export default function NoteCreatePage() {
-  const { noteId } = useParams<{ noteId: string }>();
   const navigate = useNavigate();
+  const { noteId } = useParams<{ noteId: string }>();
+
+  //todo 404 페이지 넣기
+  if (!noteId) {
+    return <div>404 페이지</div>;
+  }
 
   // 1. 상태 관리
   const [userId, setUserId] = useState<string | null>(null);
@@ -59,7 +64,7 @@ export default function NoteCreatePage() {
     setSelectedConcepts((prev) =>
       prev.includes(conceptId)
         ? prev.filter((id) => id !== conceptId)
-        : [...prev, conceptId]
+        : [...prev, conceptId],
     );
   };
 
@@ -101,7 +106,7 @@ export default function NoteCreatePage() {
     try {
       setIsSaving(true);
       await NoteCreateService.saveNote({
-        id: noteId ? noteId : undefined,
+        id: noteId,
         userId,
         title,
         content,
@@ -110,7 +115,7 @@ export default function NoteCreatePage() {
       });
 
       toast.success(
-        noteId ? "노트가 수정되었습니다!" : "새 노트가 저장되었습니다!"
+        noteId ? "노트가 수정되었습니다!" : "새 노트가 저장되었습니다!",
       );
       navigate("/notes");
     } catch (error) {

@@ -3,9 +3,12 @@ import {
   GetPlanWithNodesParams,
   UpdateNodeCompletionParams,
   UpdatePlanStateParams,
-  PlanDetail,
-  NodeDetail,
 } from "../../types/api/Woomoonkyung/StudyPlanDetailPage";
+import {
+  StudyPlanWithNodes,
+  NodeItem,
+  StudyPlanNodeWithTechStack,
+} from "../../types/common/Woomoonkyung";
 
 /**
  * [우문경 공부 계획 상세 서비스]
@@ -15,7 +18,9 @@ export const WoomoonkyungDetailService = {
   /**
    * [공부 계획 상세 정보 및 노드 목록 통합 조회]
    */
-  async getPlanWithNodes(params: GetPlanWithNodesParams): Promise<PlanDetail> {
+  async getPlanWithNodes(
+    params: GetPlanWithNodesParams,
+  ): Promise<StudyPlanWithNodes> {
     try {
       const { planId } = params;
 
@@ -47,8 +52,16 @@ export const WoomoonkyungDetailService = {
         totalNodesCount > 0 ? (completedNodesCount / totalNodesCount) * 100 : 0;
 
       return {
-        plan,
-        nodes: nodes as NodeDetail[],
+        plan: {
+          study_plan_id: plan.study_plan_id,
+          title: plan.title,
+          description: plan.description,
+          imageUrl: plan.study_plan_image_url,
+          startDate: plan.study_plan_start_date,
+          endDate: plan.study_plan_end_date,
+          state: plan.study_plan_state,
+        },
+        nodes: nodes as StudyPlanNodeWithTechStack[],
         stats: {
           completedNodesCount,
           totalNodesCount,
@@ -66,7 +79,7 @@ export const WoomoonkyungDetailService = {
    */
   async updateNodeCompletion(
     params: UpdateNodeCompletionParams,
-  ): Promise<NodeDetail> {
+  ): Promise<NodeItem> {
     try {
       const { nodeId, isCompleted } = params;
 
@@ -77,7 +90,7 @@ export const WoomoonkyungDetailService = {
         .select()
         .single();
       if (error) throw error;
-      return data as NodeDetail;
+      return data as NodeItem;
     } catch (error) {
       console.error("[updateNodeCompletion Error]:", error);
       throw error;

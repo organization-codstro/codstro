@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { Major } from "../../types/api/Mbit/Mbit";
 import TestIntro from "../../components/Mbit/MajorTestPage/TestIntro";
 import TestResult from "../../components/Mbit/MajorTestPage/TestResult";
 import TestProgress from "../../components/Mbit/MajorTestPage/TestProgress";
 import TestQuestion from "../../components/Mbit/MajorTestPage/TestQuestion";
 import { MajorTestService } from "../../api/Mbit/MajorTestPage";
+import { Major } from "../../types/common/Mbit";
 
 export default function MajorTestPage() {
   const [questions, setQuestions] = useState<any[]>([]);
@@ -74,7 +74,7 @@ export default function MajorTestPage() {
 
   if (loading)
     return (
-      <div className="flex-1 flex items-center justify-center">Loading...</div>
+      <div className="flex items-center justify-center flex-1">Loading...</div>
     );
 
   return (

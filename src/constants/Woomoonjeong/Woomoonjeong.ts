@@ -2,6 +2,8 @@
 
 export type GROUP_TYPE = "web" | "app" | "server" | "ai" | "work" | "other";
 
+export type WOOMOONJEONG_HIERARCHY = "group" | "field" | "pin";
+
 export const GROUP_TYPES: GROUP_TYPE[] = [
   "web",
   "app",
@@ -10,6 +12,8 @@ export const GROUP_TYPES: GROUP_TYPE[] = [
   "work",
   "other",
 ];
+
+export const DEFAULT_GROUP_TYPE: GROUP_TYPE = "web";
 
 export type TODO_STATUS_TYPE = "waiting" | "in progress" | "done";
 

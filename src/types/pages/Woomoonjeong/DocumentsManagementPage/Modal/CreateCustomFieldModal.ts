@@ -1,4 +1,4 @@
-import { GROUP_TYPE } from "../../../../../constants/Woomoonjeong/Woomoonjeong";
+import { GROUP_TYPE } from "../../../../../constants/Woomoonjeong/woomoonjeong";
 import { CreateFieldParams } from "../../../../api/Woomoonjeong/DocumentsManagementPage";
 
 export interface CreateCustomFieldModalProps {

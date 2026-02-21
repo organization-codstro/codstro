@@ -9,7 +9,7 @@ import { ProjectCard } from "../../components/ProjectPlanning/ProjectCard";
 import { ArchiveHeader } from "../../components/ProjectPlanning/ProjectPlanningArchivePage/ArchiveHeader";
 
 // API 서비스 및 타입 임포트
-import { Project } from "../../types/pages/ProjectPlanning/project";
+import { Project } from "../../types/common/projectPlanning";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { ProjectArchiveService } from "../../api/ProjectPlanning/ProjectPlanningArchivePage";
 

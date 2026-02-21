@@ -1,8 +1,4 @@
-interface NewsItem {
-  id: string;
-  title: string;
-  date: string;
-}
+import { NewsItem } from "../../../common/projectPlanning";
 
 export interface TrendingSectionProps {
   news: NewsItem[];

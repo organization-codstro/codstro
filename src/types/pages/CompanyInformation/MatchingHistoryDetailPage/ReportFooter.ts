@@ -1,3 +1,3 @@
 export interface ReportFooterProps {
-  date: string | Date;
+  date: string | null;
 }

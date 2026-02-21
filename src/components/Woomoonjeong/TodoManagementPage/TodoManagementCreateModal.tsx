@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Save, X, Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 
-// API 서비스
-import { TodoManagementDetailService } from "../../../api/Woomoonjeong/TodoManagementDetailPage";
-
 // 타입 및 상수
 import { TodoManagementCreateProps } from "../../../types/pages/Woomoonjeong/TodoManagementPage/CreateTodoManagementModal";
 import { TodoManagementService } from "../../../api/Woomoonjeong/TodoManagementPage";

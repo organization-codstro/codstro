@@ -6,11 +6,11 @@ import { ChatHeader } from "../../components/AiChat/ChatConversation/ChatHeader"
 import { MessageBubble } from "../../components/AiChat/ChatConversation/MessageBubble";
 import { ChatInput } from "../../components/AiChat/ChatConversation/ChatInput";
 import {
-  ChatMessage,
-  ChatRoomInfo,
-} from "../../types/pages/AiChat/ChatConversation/ChatConversationPage";
-import { AiResponseService, ChatConversationService } from "../../api/AiChat/ChatConversationPage";
+  AiResponseService,
+  ChatConversationService,
+} from "../../api/AiChat/ChatConversationPage";
 import { LoginService } from "../../api/Auth/LoginPage";
+import { ChatMessage, ChatRoom } from "../../types/common/aiChat";
 
 export default function ChatConversationPage() {
   const { roomId } = useParams<{ roomId: string }>();
@@ -18,7 +18,7 @@ export default function ChatConversationPage() {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // -- 상태 관리 (State) --
-  const [room, setRoom] = useState<ChatRoomInfo | null>(null);
+  const [room, setRoom] = useState<ChatRoom | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -62,7 +62,7 @@ export default function ChatConversationPage() {
           ChatConversationService.markAsRead({ roomId }), // 진입 시 읽음 처리
         ]);
 
-        setRoom(roomInfo as ChatRoomInfo);
+        setRoom(roomInfo as ChatRoom);
         setMessages(messageHistory as ChatMessage[]);
 
         // 3. 실시간 구독 설정
@@ -74,7 +74,7 @@ export default function ChatConversationPage() {
               // 중복 방지 로직 (내가 보낸 메시지가 즉시 반영되었을 경우 대비)
               if (
                 prev.find(
-                  (m) => m.chat_message_id === newMessage.chat_message_id
+                  (m) => m.chat_message_id === newMessage.chat_message_id,
                 )
               )
                 return prev;
@@ -167,14 +167,14 @@ export default function ChatConversationPage() {
         topics={room.chat_room_topics}
         onBack={() => navigate("/ai-chat")}
       />
-      
+
       <div ref={scrollRef} className="flex-1 p-4 space-y-4 overflow-y-auto">
         {messages.length > 0 ? (
           messages.map((message) => (
             <MessageBubble key={message.chat_message_id} message={message} />
           ))
         ) : (
-          <div className="flex items-center justify-center h-full text-gray-400 text-sm">
+          <div className="flex items-center justify-center h-full text-sm text-gray-400">
             대화를 시작해보세요!
           </div>
         )}

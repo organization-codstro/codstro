@@ -21,7 +21,7 @@ export const InterviewHistoryDetailService = {
    * - 질문 텍스트, 유저 답변, AI 평가 결과 및 작성 날짜를 포함합니다.
    */
   async getInterviewHistoryDetail(
-    params: GetInterviewHistoryDetailParams
+    params: GetInterviewHistoryDetailParams,
   ): Promise<GetInterviewHistoryDetailResponse> {
     try {
       const { data, error } = await supabase
@@ -35,7 +35,7 @@ export const InterviewHistoryDetailService = {
           company_user_qna_create_date,
           user_id,
           company_qna_id
-        `
+        `,
         )
         .eq("id", params.id)
         .single();
@@ -53,12 +53,14 @@ export const InterviewHistoryDetailService = {
    * [참조 테이블]: company_user_qnas
    */
   async getAllUserInterviewHistories(
-    params: GetAllUserInterviewHistoriesParams
+    params: GetAllUserInterviewHistoriesParams,
   ): Promise<GetAllUserInterviewHistoriesResponse> {
     try {
       const { data, error } = await supabase
         .from("company_user_qnas")
-        .select("id, company_qna_question, company_user_qna_create_date")
+        .select(
+          "id, company_qna_question, company_user_qna_create_date, company_user_qna_answer, company_user_qna_evaluation, created_at",
+        )
         .eq("user_id", params.userId)
         .order("company_user_qna_create_date", { ascending: false });
 
@@ -75,7 +77,7 @@ export const InterviewHistoryDetailService = {
    * [참조 테이블]: company_user_qnas
    */
   async deleteInterviewHistory(
-    params: DeleteInterviewHistoryParams
+    params: DeleteInterviewHistoryParams,
   ): Promise<DeleteInterviewHistoryResponse> {
     try {
       const { error } = await supabase

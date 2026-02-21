@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { BookmarkCard } from "../../components/CompanyInformation/BookmarksPage/BookmarkCard";
 import { BookmarkEmptyState } from "../../components/CompanyInformation/BookmarksPage/BookmarkEmptyState";
 import { BookmarkHeader } from "../../components/CompanyInformation/BookmarksPage/BookmarkHeader";
-import { Company } from "../../types/api/CompanyInformation/BookmarksPage";
 import { BookmarksService } from "../../api/CompanyInformation/BookmarksPage";
 import { LoginService } from "../../api/Auth/LoginPage";
+import { Company } from "../../types/common/companyInformation";
 
 export default function BookmarksPage() {
   const navigate = useNavigate();

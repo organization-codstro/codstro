@@ -1,3 +1,5 @@
+import { TODO_STATUS_TYPE } from "../../../../constants/Woomoonjeong/woomoonjeong";
+
 export interface TodoStatusBadgeProps {
-  status: "waiting" | "in progress" | "done";
+  status: TODO_STATUS_TYPE;
 }

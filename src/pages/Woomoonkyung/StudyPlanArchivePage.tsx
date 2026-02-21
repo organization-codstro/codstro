@@ -6,11 +6,7 @@ import { LoginService } from "../../api/Auth/LoginPage";
 import ArchiveStudyPlanCard from "../../components/Woomoonkyung/StudyPlanArchivePage/ArchiveStudyPlanCard";
 import { toast } from "react-toastify";
 import { stateColors } from "../../data/Woomoonkyung/woomoonkyungData";
-import {
-  ArchivedPlan,
-  PlanStats,
-} from "../../types/pages/Woomoonkyung/StudyPlanArchivePage/StudyPlanArchivePage";
-import { StudyPlan } from "../../types/pages/Woomoonkyung/Woomoonkyung";
+import { PlanStatsResult, StudyPlan } from "../../types/common/Woomoonkyung";
 
 export default function StudyPlanArchivePage() {
   const navigate = useNavigate();
@@ -19,10 +15,10 @@ export default function StudyPlanArchivePage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userId, setUserId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [archivedPlans, setArchivedPlans] = useState<ArchivedPlan[]>([]);
-  const [planStatsMap, setPlanStatsMap] = useState<Record<string, PlanStats>>(
-    {}
-  );
+  const [archivedPlans, setArchivedPlans] = useState<StudyPlan[]>([]);
+  const [planStatsMap, setPlanStatsMap] = useState<
+    Record<string, PlanStatsResult>
+  >({});
   const [deletingId, setDeletingId] = useState<string | null>(null); // 2단계 삭제용
 
   /**
@@ -44,15 +40,15 @@ export default function StudyPlanArchivePage() {
         userId: currentUserId,
         searchQuery,
       });
-      setArchivedPlans(plans as unknown as ArchivedPlan[]);
+      setArchivedPlans(plans as unknown as StudyPlan[]);
 
       // 2. 각 플랜별 통계 조회 (병렬 처리)
       const statsPromises = plans.map((plan) =>
-        StudyPlanArchiveService.getPlanStats({ planId: plan.study_plan_id })
+        StudyPlanArchiveService.getPlanStats({ planId: plan.study_plan_id }),
       );
       const statsResults = await Promise.all(statsPromises);
 
-      const newStatsMap: Record<string, PlanStats> = {};
+      const newStatsMap: Record<string, PlanStatsResult> = {};
       plans.forEach((plan, index) => {
         newStatsMap[plan.study_plan_id] = statsResults[index];
       });
@@ -92,12 +88,12 @@ export default function StudyPlanArchivePage() {
       });
 
       setArchivedPlans((prev) =>
-        prev.filter((p) => p.study_plan_id !== plan.study_plan_id)
+        prev.filter((p) => p.study_plan_id !== plan.study_plan_id),
       );
       toast.success(
         plan.study_plan_is_recommendation
           ? "보관함에서 제외되었습니다."
-          : "공부 계획이 삭제되었습니다."
+          : "공부 계획이 삭제되었습니다.",
       );
     } catch (error) {
       toast.error("처리에 실패했습니다.");
@@ -157,7 +153,7 @@ export default function StudyPlanArchivePage() {
                     key={plan.study_plan_id}
                     plan={{
                       ...plan,
-                      // UI 컴포넌트 내부의 변수명 매칭
+
                       study_plan_image_url: plan.study_plan_image_url,
                       study_plan_state: plan.study_plan_state,
                     }}

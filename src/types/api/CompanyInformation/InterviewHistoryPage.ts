@@ -1,15 +1,4 @@
-/**
- * company_user_qnas 면접 기록 관련 타입 정의
- */
-
-/** 면접 기록 단일 아이템 */
-export interface UserInterviewItem {
-  id: string;
-  company_qna_question: string | null;
-  company_user_qna_answer: string | null;
-  created_at: string;
-  company_user_qna_evaluation: string | null;
-}
+import { CompanyInterview } from "../../common/companyInformation";
 
 /** 특정 유저 면접 기록 리스트 조회 Params */
 export interface GetUserInterviewListParams {
@@ -17,7 +6,7 @@ export interface GetUserInterviewListParams {
 }
 
 /** 특정 유저 면접 기록 리스트 조회 Response */
-export type GetUserInterviewListResponse = UserInterviewItem[];
+export type GetUserInterviewListResponse = CompanyInterview[];
 
 /** 면접 기록 삭제 Params */
 export interface DeleteInterviewRecordParams {

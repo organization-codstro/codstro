@@ -1,11 +1,11 @@
 import { supabase } from "../../db/supabase/supabase";
 import {
-  CloneCodingsResponse,
   GetBookmarkedProjectsParams,
   GetArchiveStatsParams,
   GetFilteredArchiveParams,
   RemoveBookmarkParams,
 } from "../../types/api/Woomoonro/CloneCodingProjectArchivePage";
+import { CloneCodingProject } from "../../types/common/woomoonro";
 
 /**
  * [아카이브 서비스]
@@ -37,7 +37,7 @@ export const ArchiveService = {
           started_at: item.user_clone_coding_started_at,
           completed_at: item.user_clone_coding_completed_at,
         },
-        project: item.clone_codings as unknown as CloneCodingsResponse,
+        project: item.clone_codings as unknown as CloneCodingProject,
       }));
     } catch (error) {
       console.error("[getBookmarkedProjects Error]:", error);

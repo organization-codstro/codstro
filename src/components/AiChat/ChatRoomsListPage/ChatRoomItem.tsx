@@ -20,9 +20,9 @@ export function ChatRoomItem({ room, onClick }: ChatRoomItemProps) {
           <h3 className="font-semibold text-gray-900 truncate">
             {room.chat_room_name}
           </h3>
-          {room.chat_rooms_unconfirmed > 0 && (
+          {room.chat_room_unconfirmed > 0 && (
             <span className="flex items-center justify-center flex-shrink-0 w-5 h-5 text-[10px] font-bold text-white bg-red-500 rounded-full">
-              {room.chat_rooms_unconfirmed}
+              {room.chat_room_unconfirmed}
             </span>
           )}
         </div>

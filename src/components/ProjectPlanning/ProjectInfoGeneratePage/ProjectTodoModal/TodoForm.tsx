@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { newTodo } from "../../../../types/pages/ProjectPlanning/project";
+import { newTodo } from "../../../../types/common/projectPlanning";
 import { TodoFormProps } from "../../../../types/pages/ProjectPlanning/ProjectInfoGeneratePage/ProjectTodoModal/TodoForm";
 
 export function TodoForm({ onAdd, onCancel }: TodoFormProps) {
@@ -7,10 +7,10 @@ export function TodoForm({ onAdd, onCancel }: TodoFormProps) {
   const [content, setContent] = useState("");
   const [description, setDescription] = useState("");
   const [startDate, setStartDate] = useState(
-    new Date().toISOString().split("T")[0]
+    new Date().toISOString().split("T")[0],
   );
   const [endDate, setEndDate] = useState(
-    new Date().toISOString().split("T")[0]
+    new Date().toISOString().split("T")[0],
   );
 
   const handleSubmit = (e: React.FormEvent) => {

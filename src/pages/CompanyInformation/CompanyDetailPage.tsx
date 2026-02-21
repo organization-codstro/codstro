@@ -3,12 +3,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { CompanyDetailHeader } from "../../components/CompanyInformation/CompanyDetailPage/CompanyDetailHeader";
 import { CompanyInfoSection } from "../../components/CompanyInformation/CompanyDetailPage/CompanyInfoSection";
 import { CompanyActionButtons } from "../../components/CompanyInformation/CompanyDetailPage/CompanyActionButtons";
-import { Company } from "../../types/api/CompanyInformation/BookmarksPage";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { CompanyDetailService } from "../../api/CompanyInformation/CompanyDetailPage";
 import { toast } from "react-toastify";
 import { CompanyMatchService } from "../../api/CompanyInformation/CompanyMatchPage";
 import { UserInfoService } from "../../api/AiChat/UserInfoPage";
+import { Company } from "../../types/common/companyInformation";
 
 export default function CompanyDetailPage() {
   const { companyId } = useParams<{ companyId: string }>();
@@ -214,7 +214,6 @@ export default function CompanyDetailPage() {
               values={company.company_values}
               website={company.company_website}
               createdDate={company.company_created_at}
-              updatedDate={company.company_update_at}
             />
           </div>
 

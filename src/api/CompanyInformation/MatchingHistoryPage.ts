@@ -15,7 +15,7 @@ import {
 export const MatchingHistoryService = {
   /**
    * [함수 역할]: 특정 유저의 모든 AI 매칭 이력 리스트를 조회합니다.
-   * [참조 테이블]: company_user_matches
+   * [참조 테이블]: company_user_matchs
    * [설명]:
    * - 매칭 ID, 매칭 이름, 매칭 점수, 생성일 등을 조회합니다.
    * - 최신순(created_date DESC)으로 정렬합니다.
@@ -27,14 +27,18 @@ export const MatchingHistoryService = {
 
     try {
       const { data, error } = await supabase
-        .from("company_user_matches")
+        .from("company_user_matchs")
         .select(
           `
           company_user_match_id,
           company_user_match_name,
           company_user_match_rate,
-          created_at,
-          company_id
+          company_user_match_created_date,
+          company_id,
+          company_user_match_suggestions,
+          company_user_match_reason,
+          user_id,
+          created_at
         `,
         )
         .eq("user_id", userId)
@@ -61,7 +65,7 @@ export const MatchingHistoryService = {
       const { error } = await supabase
         .from("company_user_matches")
         .delete()
-        .eq("company_user_matche_id", matchingId);
+        .eq("company_user_match_id", matchingId);
 
       if (error) throw error;
       return true;
@@ -73,7 +77,7 @@ export const MatchingHistoryService = {
 
   /**
    * [함수 역할]: 특정 유저의 평균 매칭 점수를 계산합니다. (대시보드용)
-   * [참조 테이블]: company_user_matches
+   * [참조 테이블]: company_user_matchs
    */
   async getAverageMatchRate(
     params: GetAverageMatchRateParams,
@@ -82,15 +86,15 @@ export const MatchingHistoryService = {
 
     try {
       const { data, error } = await supabase
-        .from("company_user_matches")
-        .select("match_rate")
+        .from("company_user_matchs")
+        .select("company_user_match_rate")
         .eq("user_id", userId);
 
       if (error) throw error;
       if (!data || data.length === 0) return "0.00";
 
       const sum = data.reduce(
-        (acc, curr) => acc + Number(curr.match_rate ?? 0),
+        (acc, curr) => acc + Number(curr.company_user_match_rate ?? 0),
         0,
       );
 

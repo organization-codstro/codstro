@@ -1,5 +1,3 @@
-
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -9,8 +7,7 @@ import { FriendSelector } from "../../components/AiChat/CreateChatRoomPage/Frien
 import { CreateRoomFooter } from "../../components/AiChat/CreateChatRoomPage/CreateRoomFooter";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { CreateChatRoomService } from "../../api/AiChat/CreateChatRoomPage";
-import { MyAiFriend } from "../../types/pages/AiChat/CreateChatRoomPage/CreateChatRoomPage";
-
+import { ChatRoom, UserAIFriend } from "../../types/common/aiChat";
 
 export default function CreateChatRoomPage() {
   const navigate = useNavigate();
@@ -18,20 +15,24 @@ export default function CreateChatRoomPage() {
   // -- 상태 관리 (State) --
   const [step, setStep] = useState(1);
   const [userId, setUserId] = useState<string | null>(null);
-  const [myFriends, setMyFriends] = useState<MyAiFriend[]>([]);
+  const [myFriends, setMyFriends] = useState<UserAIFriend[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   // 1단계: 방 정보 상태
-  const [roomData, setRoomData] = useState({
-    name: "",
-    type: "daily" as "daily" | "project",
-    topics: "",
-    isMain: false,
+  const [roomData, setRoomData] = useState<ChatRoom>({
+    chat_room_id: "",
+    user_id: "",
+    chat_room_name: "",
+    chat_room_type: "daily",
+    chat_room_topics: "",
+    chat_room_unconfirmed: 0,
+    chat_room_created_date: "",
+    chat_room_daily_is_main: false,
   });
 
   // 2단계: 선택된 AI 설정 ID 상태 (user_ai_setting_id 기준)
   const [selectedAiSettingIds, setSelectedAiSettingIds] = useState<string[]>(
-    []
+    [],
   );
 
   // -- 데이터 로드 (Lifecycle) --
@@ -51,7 +52,7 @@ export default function CreateChatRoomPage() {
         const friends = await CreateChatRoomService.getMyFriends({
           userId: currentUserId,
         });
-        setMyFriends(friends as unknown as MyAiFriend[]);
+        setMyFriends(friends as unknown as UserAIFriend[]);
       } catch (error) {
         console.error(error);
         toast.error("친구 목록을 불러오는데 실패했습니다.");
@@ -68,17 +69,19 @@ export default function CreateChatRoomPage() {
     if (step === 1) {
       setStep(2);
     } else {
-      if (!userId) return;
+      if (!userId || !roomData) return;
 
       const toastId = toast.loading("채팅방을 생성하고 있습니다...");
 
       try {
         const newRoom = await CreateChatRoomService.createChatRoomWithAi({
-          userId,
-          name: roomData.name,
-          type: roomData.type,
-          topics: roomData.topics,
-          isMain: roomData.isMain,
+          chatRoomData: {
+            user_id: roomData?.user_id,
+            chat_room_name: roomData?.chat_room_name,
+            chat_room_type: roomData?.chat_room_type,
+            chat_room_topics: roomData?.chat_room_topics,
+            chat_room_daily_is_main: roomData?.chat_room_daily_is_main,
+          },
           selectedAiSettingIds,
         });
 
@@ -107,12 +110,14 @@ export default function CreateChatRoomPage() {
     setSelectedAiSettingIds((prev) =>
       prev.includes(settingId)
         ? prev.filter((id) => id !== settingId)
-        : [...prev, settingId]
+        : [...prev, settingId],
     );
   };
 
   // -- 유효성 검사 --
-  const isStep1Valid = !!(roomData.name.trim() && roomData.topics.trim());
+  const isStep1Valid = !!(
+    roomData.chat_room_name.trim() && roomData.chat_room_topics.trim()
+  );
   const isStep2Valid = selectedAiSettingIds.length > 0;
   const isValid = step === 1 ? isStep1Valid : isStep2Valid;
 

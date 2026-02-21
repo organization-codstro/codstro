@@ -16,7 +16,7 @@ const PersonalityTestResult: React.FC<PersonalityTestResultProps> = ({
           Your MBIT Type
         </h2>
         <div className="text-6xl font-bold text-[#587CF0] mb-6">
-          {result.name}
+          {result.ai_persona_name}
         </div>
 
         <button

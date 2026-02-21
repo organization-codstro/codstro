@@ -16,7 +16,7 @@ import { stateColors } from "../../data/Woomoonkyung/woomoonkyungData";
 import {
   StudyPlan,
   StudyPlanNode,
-} from "../../types/pages/Woomoonkyung/StudyPlanArchiveDetailPage/StudyPlanArchiveDetailPage";
+} from "../../types/common/Woomoonkyung"
 
 export default function StudyPlanArchiveDetailPage() {
   const { planId } = useParams<{ planId: string }>();
@@ -120,7 +120,7 @@ export default function StudyPlanArchiveDetailPage() {
   };
 
   /* 계산된 변수 (진행률) */
-  const completedNodes = nodes.filter((node) => node.completed).length;
+  const completedNodes = nodes.filter((node) => node.study_plan_node_completed).length;
   const totalNodes = nodes.length;
   const progressPercentage =
     totalNodes > 0 ? (completedNodes / totalNodes) * 100 : 0;
@@ -166,10 +166,10 @@ export default function StudyPlanArchiveDetailPage() {
 
         {/* Plan Header */}
         <div className="overflow-hidden bg-white border border-purple-100 shadow-sm rounded-xl">
-          {plan.study_plans_image_url && (
+          {plan.study_plan_image_url && (
             <div className="h-48 overflow-hidden bg-gray-200">
               <img
-                src={plan.study_plans_image_url}
+                src={plan.study_plan_image_url}
                 alt={plan.study_plan_name}
                 className="object-cover w-full h-full"
               />
@@ -190,11 +190,9 @@ export default function StudyPlanArchiveDetailPage() {
                   <div className="flex items-center gap-1">
                     <Calendar className="w-4 h-4" />
                     <span>
-                      {new Date(
-                        plan.study_plans_start_date
-                      ).toLocaleDateString()}{" "}
+                      {new Date(plan.study_plan_start_date).toLocaleDateString()}{" "}
                       -{" "}
-                      {new Date(plan.study_plans_end_date).toLocaleDateString()}
+                      {new Date(plan.study_plan_end_date).toLocaleDateString()}
                     </span>
                   </div>
                   <div className="flex items-center gap-1">
@@ -209,11 +207,11 @@ export default function StudyPlanArchiveDetailPage() {
               <div className="flex items-center gap-2">
                 <span
                   className={`px-3 py-1 text-sm rounded-full border ${
-                    stateColors[plan.study_plans_state] ||
+                    stateColors[plan.study_plan_state] ||
                     "border-gray-200 text-gray-500"
                   }`}
                 >
-                  {plan.study_plans_state}
+                  {plan.study_plan_state}
                 </span>
               </div>
             </div>
@@ -247,10 +245,10 @@ export default function StudyPlanArchiveDetailPage() {
               <div
                 key={node.study_plan_node_id}
                 onClick={() =>
-                  handleToggleNode(node.study_plan_node_id, node.completed)
+                  handleToggleNode(node.study_plan_node_id, node.study_plan_node_completed)
                 }
                 className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${
-                  node.completed
+                  node.study_plan_node_completed
                     ? "border-green-200 bg-green-50"
                     : "border-gray-200 bg-white hover:border-blue-200"
                 }`}
@@ -258,36 +256,36 @@ export default function StudyPlanArchiveDetailPage() {
                 <div className="flex items-start justify-between">
                   <div className="flex items-start flex-1 gap-3">
                     <div className="flex items-center justify-center w-8 h-8 rounded-full bg-[#587CF0] text-white text-sm font-medium">
-                      {node.position}
+                      {node.study_plan_node_position}
                     </div>
                     <div className="flex-1">
                       <h4
                         className={`font-semibold text-gray-800 mb-2 ${
-                          node.completed ? "line-through text-gray-500" : ""
+                          node.study_plan_node_completed ? "line-through text-gray-500" : ""
                         }`}
                       >
                         {node.study_plan_node_name}
                       </h4>
                       <p
                         className={`text-sm text-gray-600 mb-3 ${
-                          node.completed ? "line-through" : ""
+                          node.study_plan_node_completed ? "line-through" : ""
                         }`}
                       >
-                        {node.description}
+                        {node.study_plan_node_description}
                       </p>
                       <div className="flex items-center gap-4 text-xs text-gray-500">
                         <div className="flex items-center gap-1">
                           <Calendar className="w-3 h-3" />
                           <span>
-                            {new Date(node.start_date).toLocaleDateString()} -{" "}
-                            {new Date(node.end_date).toLocaleDateString()}
+                            {new Date(node.study_plan_node_start_date).toLocaleDateString()} -{" "}
+                            {new Date(node.study_plan_node_end_date).toLocaleDateString()}
                           </span>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    {node.completed ? (
+                    {node.study_plan_node_completed ? (
                       <CheckCircle2 className="w-6 h-6 text-green-500" />
                     ) : (
                       <div className="w-6 h-6 border-2 border-gray-300 rounded-full"></div>

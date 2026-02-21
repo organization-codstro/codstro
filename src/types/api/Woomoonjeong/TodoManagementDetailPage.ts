@@ -1,3 +1,5 @@
+import { TODO_STATUS_TYPE } from "../../../constants/Woomoonjeong/woomoonjeong";
+
 /**
  * [할일 상세 조회 파라미터]
  */
@@ -10,7 +12,7 @@ export interface GetTodoDetailParams {
  */
 export interface UpdateTodoStatusParams {
   todoId: string;
-  status: "waiting" | "in progress" | "done";
+  status: TODO_STATUS_TYPE
 }
 
 /**

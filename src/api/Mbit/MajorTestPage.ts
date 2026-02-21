@@ -1,5 +1,5 @@
 import { supabase } from "../../db/supabase/supabase";
-import { Major } from "../../types/api/Mbit/Mbit";
+import { Major } from "../../types/common/Mbit";
 
 /**
  * [MajorTestService]

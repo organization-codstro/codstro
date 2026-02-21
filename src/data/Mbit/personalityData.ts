@@ -1,4 +1,4 @@
-import { PersonalityDetail } from "../../types/pages/Mbit/Mbit";
+import { PersonalityDetail } from "../../types/common/Mbit";
 
 export const personalities: PersonalityDetail[] = [
   {

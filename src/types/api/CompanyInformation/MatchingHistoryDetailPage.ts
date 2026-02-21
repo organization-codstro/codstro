@@ -1,18 +1,4 @@
-/**
- * company_user_matches AI 매칭 기록 관련 타입 정의
- */
-
-/** AI 매칭 상세 데이터 */
-export interface MatchingHistoryDetail {
-  company_user_matche_id: string;
-  company_user_matche_name: string;
-  match_rate: number;
-  company_user_matche_reason: string;
-  company_user_matche_suggestions: string;
-  company_user_matche_created_date: string;
-  company_id: string;
-  user_id: string;
-}
+import { CompanyMatch } from "../../common/companyInformation";
 
 /** 매칭 상세 조회 Params */
 export interface GetMatchingHistoryDetailParams {
@@ -20,7 +6,7 @@ export interface GetMatchingHistoryDetailParams {
 }
 
 /** 매칭 상세 조회 Response */
-export type GetMatchingHistoryDetailResponse = MatchingHistoryDetail;
+export type GetMatchingHistoryDetailResponse = CompanyMatch;
 
 /** 매칭 기록 이름 수정 Params */
 export interface UpdateMatchingHistoryNameParams {
@@ -29,7 +15,7 @@ export interface UpdateMatchingHistoryNameParams {
 }
 
 /** 매칭 기록 이름 수정 Response */
-export type UpdateMatchingHistoryNameResponse = MatchingHistoryDetail[];
+export type UpdateMatchingHistoryNameResponse = CompanyMatch[];
 
 /** 매칭 기록 삭제 Params */
 export interface DeleteMatchingHistoryParams {

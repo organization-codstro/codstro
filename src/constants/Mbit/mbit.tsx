@@ -16,3 +16,14 @@ export const MBTI_THEME: Record<string, { icon: any; color: string }> = {
     color: "from-gray-400 to-gray-600",
   },
 };
+
+// MajorEncyclopediaPage 페이지 아이콘 매핑 테이블
+import { Cpu, Code, Palette, BarChart, Settings } from "lucide-react";
+
+export const ICON_MAP: Record<string, any> = {
+  컴퓨터공학: <Cpu />,
+  소프트웨어: <Code />,
+  디자인: <Palette />,
+  경영학: <BarChart />,
+  기계공학: <Settings />,
+};

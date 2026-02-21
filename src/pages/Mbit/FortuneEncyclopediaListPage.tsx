@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { FortuneEncyclopediaListService } from "../../api/Mbit/FortuneEncyclopediaListPage";
-import { FortuneList } from "../../types/pages/Mbit/FortuneEncyclopediaListPage/FortuneEncyclopediaListPage";
 import FortuneItemCard from "../../components/Mbit/FortuneEncyclopediaListPage/FortuneItemCard";
 import { useNavigate } from "react-router-dom";
+import { FortuneList } from "../../types/common/Mbit";
 
 export default function FortuneEncyclopediaListPage() {
   const [fortunes, setFortunes] = useState<FortuneList[]>([]);

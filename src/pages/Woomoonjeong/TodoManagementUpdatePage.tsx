@@ -9,9 +9,9 @@ import { LoginService } from "../../api/Auth/LoginPage";
 
 // UI 컴포넌트 및 타입
 import TodoInputField from "../../components/Woomoonjeong/TodoManagementUpdate/TodoInputField";
-import { TodoFormData } from "../../types/pages/Woomoonjeong/woomoonjeong";
 import GroupSelector from "../../components/Woomoonjeong/TodoManagementUpdate/GroupSelector";
 import { TodoManagementUpdateService } from "../../api/Woomoonjeong/TodoManagementUpdatePage";
+import { TodoFormData } from "../../types/common/woomoonjeong";
 
 export default function TodoManagementUpdatePage() {
   const navigate = useNavigate();

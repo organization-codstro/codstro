@@ -1,3 +1,5 @@
+import { PROJECT_ROOM_TYPE } from "../../../constants/ProjectPlanning/ProjectPlanning";
+
 /**
  * [기획 페이지 목록 조회 파라미터]
  */
@@ -12,7 +14,7 @@ export interface CreateMeetingRoomParams {
   projectId: string;
   purpose: string;
   detail: string;
-  roomType: "Feature" | "Free";
+  roomType: PROJECT_ROOM_TYPE;
 }
 
 /**

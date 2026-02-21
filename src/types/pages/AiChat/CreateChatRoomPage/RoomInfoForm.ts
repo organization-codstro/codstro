@@ -1,11 +1,6 @@
-export interface RoomData {
-  name: string;
-  type: "daily" | "project";
-  topics: string;
-  isMain: boolean;
-}
+import { ChatRoom } from "../../../common/aiChat";
 
 export interface RoomInfoFormProps {
-  data: RoomData;
-  onChange: (data: RoomData) => void;
+  data: ChatRoom;
+  onChange: (data: ChatRoom) => void;
 }

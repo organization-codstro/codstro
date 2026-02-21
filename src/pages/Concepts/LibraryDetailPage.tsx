@@ -9,7 +9,7 @@ import { LoginService } from "../../api/Auth/LoginPage";
 import { LibraryDetailService } from "../../api/Concepts/LibraryDetailPage";
 
 // 공통 컴포넌트
-import AIChat from "../../components/CompanyInformation/AIChat";
+import AIChat from "../../components/CompanyInformation/CompanyInformationAIChat";
 import AddTodoModal from "../../components/CompanyInformation/AddTodoModal";
 import MarkdownRenderer from "../../components/Markdown/MarkdownRenderer";
 import BackButton from "../../components/Concepts/BackButton";
@@ -76,7 +76,7 @@ export default function LibraryDetailPage() {
 
       setData({ ...data, isUnderstood: updatedStatus });
       toast.success(
-        updatedStatus ? "학습 완료로 표시되었습니다." : "취소되었습니다."
+        updatedStatus ? "학습 완료로 표시되었습니다." : "취소되었습니다.",
       );
     } catch (error) {
       toast.error("상태 변경에 실패했습니다.");

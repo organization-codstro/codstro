@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { Fortune } from "../../types/api/Mbit/TodayFortunePage";
 import FortuneDrawIntro from "../../components/Mbit/TodayFortunePage/FortuneDrawIntro";
 import FortuneResultCard from "../../components/Mbit/TodayFortunePage/FortuneResultCard";
 import FortuneActionButtons from "../../components/Mbit/TodayFortunePage/FortuneActionButtons";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { TodayFortuneService } from "../../api/Mbit/TodayFortunePage";
+import { Fortune } from "../../types/common/Mbit";
 
 export default function TodayFortunePage() {
   const [currentFortune, setCurrentFortune] = useState<Fortune | null>(null);
@@ -71,7 +71,7 @@ export default function TodayFortunePage() {
     }
   };
 
-  if (loading) return <div className="flex-1 flex items-center justify-center">로딩 중...</div>;
+  if (loading) return <div className="flex items-center justify-center flex-1">로딩 중...</div>;
 
   return (
     <div className="flex-1 min-h-screen p-8 bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">

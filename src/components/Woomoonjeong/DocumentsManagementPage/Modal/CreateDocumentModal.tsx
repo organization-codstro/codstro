@@ -2,12 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import { DEFAULT_GROUP_TYPE } from "../../../../constants/Woomoonjeong/DocumentsManagementPage/CreateCustomFieldModal";
 import { CreateDocumentModalProps } from "../../../../types/pages/Woomoonjeong/DocumentsManagementPage/Modal/CreateDocumentModal";
 import {
+  DEFAULT_GROUP_TYPE,
   GROUP_TYPE,
   GROUP_TYPES,
-} from "../../../../constants/Woomoonjeong/Woomoonjeong";
+} from "../../../../constants/Woomoonjeong/woomoonjeong";
 
 const CreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
   isOpen,

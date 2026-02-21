@@ -1,4 +1,4 @@
-import { Major } from "../../types/pages/Mbit/Mbit";
+import { Major } from "../../types/common/Mbit";
 
 export const majors: Major[] = [
   {

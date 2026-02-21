@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import { woomoonjeongData } from "../../../../data/woomoonjeong/woomoonjeongData";
-import { DEFAULT_GROUP_TYPE } from "../../../../constants/Woomoonjeong/DocumentsManagementPage/CreateCustomFieldModal";
 import {
+  DEFAULT_GROUP_TYPE,
   GROUP_TYPE,
   GROUP_TYPES,
-} from "../../../../constants/Woomoonjeong/Woomoonjeong";
+} from "../../../../constants/Woomoonjeong/woomoonjeong";
 import { EditDocumentModalProps } from "../../../../types/pages/Woomoonjeong/DocumentsManagementPage/Modal/EditDocumentModal";
 
 const EditDocumentModal: React.FC<EditDocumentModalProps> = ({
@@ -13,6 +12,7 @@ const EditDocumentModal: React.FC<EditDocumentModalProps> = ({
   onClose,
   pin,
   onAdd,
+  groups,
 }) => {
   const [documentName, setDocumentName] = useState("");
   const [documentUrl, setDocumentUrl] = useState("");
@@ -29,7 +29,7 @@ const EditDocumentModal: React.FC<EditDocumentModalProps> = ({
 
   // pin.id 기준으로 그룹과 필드 찾기
   const findPinDetails = (pinId: string) => {
-    for (const group of woomoonjeongData) {
+    for (const group of groups) {
       for (const field of group.fields) {
         const foundPin = field.pins.find((p) => p.pin_id === pinId);
         if (foundPin) {
