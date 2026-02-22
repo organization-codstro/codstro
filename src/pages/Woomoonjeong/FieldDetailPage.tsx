@@ -11,7 +11,7 @@ import { LoginService } from "../../api/Auth/LoginPage";
 import { FieldDetailData } from "../../types/pages/Woomoonjeong/FieldDetailPage/FieldDetailPage";
 
 // 기존 컴포넌트
-import AssignRecommendedFieldModal from "../../components/Woomoonjeong/RecommendedCreateFieldModal";
+import AssignRecommendedFieldModal from "../../components/Woomoonjeong/AssignRecommendedCreateFieldModal";
 import FieldDetailHeader from "../../components/Woomoonjeong/FieldDetailPage/FieldDetailHeader";
 import PinList from "../../components/Woomoonjeong/FieldDetailPage/PinList";
 import { GROUP_TYPE_COLORS } from "../../constants/Woomoonjeong/woomoonjeong";

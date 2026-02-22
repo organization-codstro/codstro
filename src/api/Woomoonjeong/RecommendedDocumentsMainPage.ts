@@ -113,24 +113,77 @@ export const RecommendedDocumentsMainPageService = {
    * [추천 분야를 내 그룹에 할당]
    * 추천되는 분야(섹션) 자체를 사용자의 그룹(group_id)으로 복사합니다.
    * 참조 테이블: fields
+   *
+   * 1. 사용자가 선택한 그룹 이름과 field id를 받음,
+   * 2. 사용자의 로그인 정보를 확인 -> 그 정보를 기반으로 유저의 그룹 가져오기
+   * 3. 가져온 그룹 id를 가져와서 field id의 field를 복사하여 저장
+   * +. field_created_date는 yyyy-mm-dd형식으로 저장 되도록
    */
   async addRecommendedFieldToMyGroup(
     payload: AddRecommendedFieldToMyGroupParams,
   ) {
     try {
+      const { groupName, selectFieldId } = payload;
+
+      /**
+       * 1️⃣ 로그인 유저 확인
+       */
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+
+      if (userError) throw userError;
+      if (!user) throw new Error("로그인 정보가 없습니다.");
+
+      /**
+       * 2️⃣ 유저의 그룹 조회 (선택한 groupName 기반)
+       */
+      const { data: myGroup, error: groupError } = await supabase
+        .from("groups")
+        .select("group_id")
+        .eq("user_id", user.id)
+        .eq("group_name", groupName)
+        .single();
+
+      if (groupError) throw groupError;
+      if (!myGroup) throw new Error("해당 그룹을 찾을 수 없습니다.");
+
+      /**
+       * 3️⃣ 추천 field 조회
+       */
+      const { data: recommendedField, error: fieldError } = await supabase
+        .from("fields")
+        .select("*")
+        .eq("field_id", selectFieldId)
+        .single();
+
+      if (fieldError) throw fieldError;
+      if (!recommendedField) throw new Error("추천 필드를 찾을 수 없습니다.");
+
+      /**
+       * 4️⃣ yyyy-mm-dd 형식 날짜 생성
+       */
+      const today = new Date().toISOString().split("T")[0];
+
+      /**
+       * 5️⃣ 필드 복사하여 insert
+       */
       const { data, error } = await supabase
         .from("fields")
         .insert([
           {
-            ...payload,
-            field_is_recommendation: false, // 내 그룹으로 복사될 때는 일반 필드로 설정
-            field_created_date: new Date().toISOString(),
+            field_name: recommendedField.field_name,
+            group_id: myGroup.group_id,
+            field_is_recommendation: false,
+            field_created_date: today,
           },
         ])
         .select()
         .single();
 
       if (error) throw error;
+
       return data;
     } catch (error) {
       console.error(

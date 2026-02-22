@@ -101,7 +101,7 @@ export default function StudyPlanDetailPage() {
             study_plan_node_name: node.study_plan_node_name,
             study_plan_node_completed: node.study_plan_node_completed, // DB: completed -> UI: study_plan_node_completed
 
-            // 오류에서 지적한 누락된 필수 필드들을 매칭 (API 데이터의 필드명을 확인하세요)
+            // 오류에서 지적한 누락된 필수 필드들을 매칭
             study_plan_node_description: node.study_plan_node_description || "",
             study_plan_node_position: node.study_plan_node_position,
             study_plan_node_start_date: node.study_plan_node_start_date || "",

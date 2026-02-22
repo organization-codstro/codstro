@@ -27,7 +27,7 @@ const AssignRecommendedFieldModal: React.FC<AddFieldModalProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onAdd(selectedGroupType);
+    onAdd(selectedGroupType, field.field_id);
     onClose();
   };
 

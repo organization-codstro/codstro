@@ -27,9 +27,8 @@ export interface AddRecommendedPinToMyFieldParams {
  * [추천 분야 추가 파라미터]
  */
 export interface AddRecommendedFieldToMyGroupParams {
-  field_name: string;
-  field_description: string;
-  group_id: string;
+  groupName: string;
+  selectFieldId: string;
 }
 
 /**

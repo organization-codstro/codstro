@@ -12,7 +12,6 @@ export interface GetPlanWithNodesParams {
   planId: string;
 }
 
-
 /**
  * [UpdateNodeCompletionParams]
  * 노드 완료 상태 업데이트 파라미터

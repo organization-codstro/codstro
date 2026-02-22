@@ -8,7 +8,6 @@ import {
   GROUP_TYPES,
 } from "../../../constants/Woomoonjeong/woomoonjeong";
 import { RecommendedCreateDocumentModalProps } from "../../../types/pages/Woomoonjeong/RecommendedDocumentsMainPage/RecommendedCreateDocumentModal";
-import { Field } from "../../../types/common/woomoonjeong";
 
 const RecommendedCreateDocumentModal: React.FC<
   RecommendedCreateDocumentModalProps
@@ -21,7 +20,9 @@ const RecommendedCreateDocumentModal: React.FC<
   const [selectedGroupType, setSelectedGroupType] =
     useState<GROUP_TYPE>(DEFAULT_GROUP_TYPE);
   const [fieldInfo, setFieldInfo] = useState("");
-  const [fieldOptions, setFieldOptions] = useState<string[]>([]);
+  const [fieldOptions, setFieldOptions] = useState<
+    { field_id: string; field_name: string }[]
+  >([]);
 
   // 폼 검증 에러 상태
   const [errors, setErrors] = useState<Record<string, boolean>>({});
@@ -31,11 +32,13 @@ const RecommendedCreateDocumentModal: React.FC<
       (group) => group.group_name === selectedGroupType,
     );
 
-    setFieldOptions(selectedGroup?.fields.map((f) => f.field_name) ?? []);
-
-    // 그룹 변경 시 분야 에러 초기화
-    setErrors((prev) => ({ ...prev, fieldInfo: false }));
-  }, [selectedGroupType]);
+    setFieldOptions(
+      selectedGroup?.fields.map((f) => ({
+        field_id: f.field_id,
+        field_name: f.field_name,
+      })) ?? [],
+    );
+  }, [selectedGroupType, groups]);
 
   const addCategory = () => {
     if (!categoryInput.trim()) return;
@@ -70,7 +73,7 @@ const RecommendedCreateDocumentModal: React.FC<
       documentDescription: description.trim(),
       documentCategory: categories.join(", "),
       groupName: selectedGroupType,
-      fieldName: fieldInfo,
+      fieldId: fieldInfo,
     });
 
     onClose();
@@ -247,9 +250,9 @@ const RecommendedCreateDocumentModal: React.FC<
               }`}
             >
               <option value="">분야를 선택하세요</option>
-              {fieldOptions.map((name) => (
-                <option key={name} value={name}>
-                  {name}
+              {fieldOptions.map((field) => (
+                <option key={field.field_id} value={field.field_id}>
+                  {field.field_name}
                 </option>
               ))}
             </select>

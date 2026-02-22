@@ -4,5 +4,5 @@ export interface AddFieldModalProps {
   isOpen: boolean;
   onClose: () => void;
   field: RecommendedField;
-  onAdd: (fieldType: string) => void;
+  onAdd: (groupName: string, selectFieldId : string) => void;
 }

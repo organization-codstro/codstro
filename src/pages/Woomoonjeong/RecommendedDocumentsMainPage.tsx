@@ -11,7 +11,7 @@ import SearchInput from "../../components/Woomoonjeong/RecommendedDocumentsMainP
 import ContentTypeFilter from "../../components/Woomoonjeong/RecommendedDocumentsMainPage/ContentTypeFilter";
 import FilterSection from "../../components/Woomoonjeong/RecommendedDocumentsMainPage/FilterSection";
 import DocumentsGrid from "../../components/Woomoonjeong/RecommendedDocumentsMainPage/DocumentsGrid";
-import AssignRecommendedFieldModal from "../../components/Woomoonjeong/RecommendedCreateFieldModal";
+import AssignRecommendedFieldModal from "../../components/Woomoonjeong/AssignRecommendedCreateFieldModal";
 import RecommendedCreateDocumentModal from "../../components/Woomoonjeong/RecommendedDocumentsMainPage/RecommendedCreateDocumentModal";
 import {
   Group,
@@ -187,10 +187,23 @@ export default function RecommendedDocumentsMainPage() {
           }}
           pin={selectedPin}
           groups={woomoonjeongData}
-          // 모달 내부에서 RecommendedDocumentsMainPageService.addRecommendedPinToMyField 호출 권장
-          onAdd={() => {
-            toast.success("문서가 내 보관함에 추가되었습니다.");
-            setIsAddModalOpen(false);
+          onAdd={async (data) => {
+            try {
+              await RecommendedDocumentsMainPageService.addRecommendedPinToMyField(
+                {
+                  pin_title: data.documentName,
+                  pin_description: data.documentDescription,
+                  pin_url: data.documentUrl,
+                  pin_label: data.documentCategory,
+                  field_id: data.fieldId,
+                },
+              );
+
+              toast.success("문서가 내 보관함에 추가되었습니다.");
+              setIsAddModalOpen(false);
+            } catch (error) {
+              toast.error("추가에 실패했습니다.");
+            }
           }}
         />
       )}
@@ -209,10 +222,20 @@ export default function RecommendedDocumentsMainPage() {
             field_description: selectedField.field_description,
             create_at: selectedField.create_at,
           }}
-          // 모달 내부에서 RecommendedDocumentsMainPageService.addRecommendedFieldToMyGroup 호출 권장
-          onAdd={() => {
-            toast.success("분야가 내 그룹에 할당되었습니다.");
-            setIsAddFieldModalOpen(false);
+          onAdd={async (groupName, selectFieldId) => {
+            try {
+              await RecommendedDocumentsMainPageService.addRecommendedFieldToMyGroup(
+                {
+                  groupName,
+                  selectFieldId,
+                },
+              );
+
+              toast.success("분야가 내 그룹에 할당되었습니다.");
+              setIsAddFieldModalOpen(false);
+            } catch (error) {
+              toast.error("추가에 실패했습니다.");
+            }
           }}
         />
       )}
