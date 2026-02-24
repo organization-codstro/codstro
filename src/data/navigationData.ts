@@ -221,7 +221,7 @@ export const navigationData: NavigationItem[] = [
         id: "matching-history",
         title: "Matching History",
         icon: "ListChecks", // 매칭 히스토리
-        route: "/matchs",
+        route: "/matches",
       },
     ],
   },
