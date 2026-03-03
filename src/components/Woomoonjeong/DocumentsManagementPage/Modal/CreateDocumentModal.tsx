@@ -261,7 +261,7 @@ const CreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
           {/* 분야 정보 (fieldOptions 기반으로 선택) */}
           <div>
             <label className="block mb-1 text-sm font-medium text-gray-700">
-              분야 세부 정보 <span className="text-red-500">*</span>
+              분야 선택 <span className="text-red-500">*</span>
             </label>
             <select
               value={selectedFieldId}
