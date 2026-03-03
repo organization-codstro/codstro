@@ -1,4 +1,7 @@
-import { CloneCodingProject, UserCloneCodingProject } from "../woomoonro";
+import {
+  CloneCodingProject,
+  UserCloneCodingProject,
+} from "../../../common/woomoonro";
 
 /**
  * [메인 페이지 데이터 인터페이스]

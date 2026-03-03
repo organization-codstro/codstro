@@ -1,13 +1,9 @@
 import React from "react";
-import ProgressBar from "../../ProgressBar";
 import { CloneCodingProjectStatusCardProps } from "../../../types/pages/Woomoonro/CloneCodingProjectDetailPage/CloneCodingProjectStatusCard";
 
 const ProjectStatusCard: React.FC<CloneCodingProjectStatusCardProps> = ({
   currentStatus,
   onStatusChange,
-  completedTodos,
-  totalTodos,
-  progressPercentage,
 }) => {
   return (
     <div className="p-4 space-y-6 rounded-lg md:p-0 bg-gray-50 md:bg-transparent">
@@ -18,13 +14,13 @@ const ProjectStatusCard: React.FC<CloneCodingProjectStatusCardProps> = ({
           onChange={(e) => onStatusChange(e.target.value)}
           className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#587CF0] outline-none"
         >
-          <option value="waiting">Not Started</option>
-          <option value="in progress">In Progress</option>
-          <option value="done">Completed</option>
+          <option value="waiting">waiting</option>
+          <option value="in progress">in progress</option>
+          <option value="done">done</option>
         </select>
       </div>
 
-      {totalTodos > 0 && (
+      {/* {totalTodos > 0 && (
         <div className="pt-2">
           <ProgressBar
             percentage={progressPercentage}
@@ -37,7 +33,7 @@ const ProjectStatusCard: React.FC<CloneCodingProjectStatusCardProps> = ({
             <span>{Math.round(progressPercentage)}%</span>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

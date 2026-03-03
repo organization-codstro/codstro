@@ -17,7 +17,7 @@ export const MainProjectService = {
    * 참조 테이블: clone_codings, user_clone_codings
    */
   async getAllProjectsWithUserStatus(
-    params: GetAllProjectsWithUserStatusParams
+    params: GetAllProjectsWithUserStatusParams,
   ) {
     try {
       // Supabase에서 관계를 활용하여 한 번의 호출로 조인된 데이터를 가져옵니다.
@@ -32,7 +32,7 @@ export const MainProjectService = {
             user_clone_coding_is_bookmarked,
             user_id
           )
-        `
+        `,
         )
         // 특정 유저의 데이터만 조인 필터링
         .eq("user_status.user_id", params.userId);
@@ -73,20 +73,20 @@ export const MainProjectService = {
           user_status:user_clone_codings!inner (
             user_clone_codings_id,
             user_clone_codings_status,
-            user_clone_codings_is_bookmarked,
+            user_clone_coding_is_bookmarked,
             user_id
           )
-        `
+        `,
         )
         .eq("user_status.user_id", params.userId);
 
       // 1. 진행 상태 필터 (bookmarked, in progress, completed)
       if (params.params.selectedFilter === "bookmarked") {
-        query = query.eq("user_status.user_clone_codings_is_bookmarked", true);
+        query = query.eq("user_status.user_clone_coding_is_bookmarked", true);
       } else if (params.params.selectedFilter !== "all") {
         query = query.eq(
           "user_status.user_clone_codings_status",
-          params.params.selectedFilter
+          params.params.selectedFilter,
         );
       }
 
@@ -94,7 +94,7 @@ export const MainProjectService = {
       if (params.params.selectedDifficulty !== "all") {
         query = query.eq(
           "clone_codings_difficulty",
-          params.params.selectedDifficulty
+          params.params.selectedDifficulty,
         );
       }
 
@@ -102,7 +102,7 @@ export const MainProjectService = {
       if (params.params.searchQuery) {
         query = query.ilike(
           "clone_coding_title",
-          `%${params.params.searchQuery}%`
+          `%${params.params.searchQuery}%`,
         );
       }
 
@@ -127,11 +127,11 @@ export const MainProjectService = {
         {
           user_id: params.userId,
           clone_coding_id: params.projectId,
-          user_clone_codings_is_bookmarked: !params.isBookmarked,
+          user_clone_coding_is_bookmarked: !params.isBookmarked,
         },
         {
           onConflict: "user_id, clone_coding_id",
-        }
+        },
       );
 
       if (error) throw error;

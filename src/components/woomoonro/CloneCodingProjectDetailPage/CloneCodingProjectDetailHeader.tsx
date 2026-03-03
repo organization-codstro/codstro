@@ -1,36 +1,41 @@
-import React from "react";
-import { ArrowLeft, Bookmark, BookmarkCheck } from "lucide-react";
+import { Bookmark, BookmarkCheck } from "lucide-react";
 import { CloneCodingProjectDetailHeaderProps } from "../../../types/pages/Woomoonro/CloneCodingProjectDetailPage/CloneCodingProjectDetailHeader";
+import CloneCodingProjectImg from "../../../assets/images/woomoonro/CloneCodingProjectImg.png";
 
-const ProjectDetailHeader: React.FC<CloneCodingProjectDetailHeaderProps> = ({
-  title,
-  description,
-  isBookmarked,
-  onBack,
-  onToggleBookmark,
-}) => {
+const ProjectDetailHeader = (props: CloneCodingProjectDetailHeaderProps) => {
   return (
-    <div className="flex items-center gap-4 mb-6">
-      <button
-        onClick={onBack}
-        className="p-2 transition-colors rounded-lg hover:bg-gray-100"
-      >
-        <ArrowLeft className="w-5 h-5 text-gray-600" />
-      </button>
-      <div className="flex-1">
-        <h1 className="text-2xl font-bold text-gray-800">{title}</h1>
-        <p className="text-gray-600">{description}</p>
+    <div>
+      <div className="h-64 overflow-hidden bg-gray-200">
+        <img
+          src={props.thumbnailUrl ? props.thumbnailUrl : CloneCodingProjectImg}
+          alt={props.title}
+          className="object-cover w-full h-full"
+        />
       </div>
-      <button
-        onClick={onToggleBookmark}
-        className="p-2 transition-all rounded-lg hover:bg-gray-100 hover:scale-110"
-      >
-        {isBookmarked ? (
-          <BookmarkCheck className="w-6 h-6 text-yellow-500" />
-        ) : (
-          <Bookmark className="w-6 h-6 text-gray-400 hover:text-gray-600" />
-        )}
-      </button>
+
+      <div className="flex items-start justify-between">
+        <div className="w-[70%] pt-8 pl-6">
+          <h1 className="mb-2 text-2xl font-bold text-gray-800">
+            {props.title}
+          </h1>
+          <p className="text-gray-600 break-words whitespace-normal">
+            {props.description}
+          </p>
+        </div>
+
+        <div className="pt-8 pr-6">
+          <button
+            onClick={props.onToggleBookmark}
+            className="flex-shrink-0 p-2 pr-6 transition-all rounded-lg "
+          >
+            {props.isBookmarked ? (
+              <BookmarkCheck className="w-12 h-12 text-yellow-500" />
+            ) : (
+              <Bookmark className="w-12 h-12 text-gray-400 hover:text-gray-600" />
+            )}
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

@@ -27,18 +27,39 @@ export const ArchiveService = {
 
       if (error) throw error;
 
-      return data.map((item) => ({
-        userProject: {
-          id: item.user_clone_codings_id,
-          user_id: item.user_id,
-          project_id: item.clone_coding_id,
-          status: item.user_clone_codings_status,
-          is_bookmarked: item.user_clone_coding_is_bookmarked,
-          started_at: item.user_clone_coding_started_at,
-          completed_at: item.user_clone_coding_completed_at,
-        },
-        project: item.clone_codings as unknown as CloneCodingProject,
-      }));
+      return data.map((item) => {
+        const raw = item.clone_codings;
+
+        const mappedProject: CloneCodingProject = {
+          id: raw.clone_coding_id,
+          title: raw.clone_coding_title,
+          description: raw.clone_coding_description,
+          tech_stack: raw.clone_coding_tech_stack ?? [],
+          difficulty: raw.clone_coding_difficulty,
+          estimated_hours: raw.clone_coding_estimated_hours,
+          thumbnail_url: raw.clone_coding_thumbnail_url ?? undefined,
+          github_url: raw.clone_coding_github_url ?? undefined,
+          demo_url: raw.clone_coding_demo_url ?? undefined,
+          tags: raw.clone_coding_tags ?? [],
+          clone_coding_steps: raw.clone_coding_steps ?? [],
+          clone_coding_project_structure:
+            raw.clone_coding_project_structure ?? "",
+          created_at: raw.created_at ?? undefined,
+        };
+
+        return {
+          userProject: {
+            id: item.user_clone_coding_id,
+            user_id: item.user_id,
+            project_id: item.clone_coding_id,
+            status: item.user_clone_coding_status,
+            is_bookmarked: item.user_clone_coding_is_bookmarked,
+            started_at: item.user_clone_coding_started_at,
+            completed_at: item.user_clone_coding_completed_at,
+          },
+          project: mappedProject,
+        };
+      });
     } catch (error) {
       console.error("[getBookmarkedProjects Error]:", error);
       throw error;

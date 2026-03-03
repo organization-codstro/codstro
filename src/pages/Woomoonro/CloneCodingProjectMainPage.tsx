@@ -64,11 +64,8 @@ export default function CloneCodingProjectMainPage() {
               id: item.user_project.user_clone_codings_id,
               user_id: item.user_project.user_id,
               project_id: item.clone_coding_id,
-              status:
-                item.user_project.user_clone_codings_status === "completed"
-                  ? "done"
-                  : item.user_project.user_clone_codings_status,
-              is_bookmarked: item.user_project.user_clone_codings_is_bookmarked,
+              status: item.user_project.user_clone_coding_status,
+              is_bookmarked: item.user_project.user_clone_coding_is_bookmarked,
               created_at: item.clone_coding_created_at, // 기본값
             }
           : undefined,
@@ -150,7 +147,7 @@ export default function CloneCodingProjectMainPage() {
 
   /**
    * [필터링 및 검색 로직 (Client-side)]
-   * UX를 위해 클라이언트 측에서 실시간 필터링을 수행합니다.
+   * UX를 위해 클라이언트 측에서 실시간 필터링을 수행 (오류 방지용)
    */
   const filteredProjects = projectList.filter((item) => {
     const { project, userProject } = item;
@@ -214,9 +211,9 @@ export default function CloneCodingProjectMainPage() {
             {/* Filters Section */}
             <ProjectFilters
               selectedFilter={selectedFilter}
-              setSelectedFilter={setSelectedFilter as any}
+              setSelectedFilter={setSelectedFilter}
               selectedDifficulty={selectedDifficulty}
-              setSelectedDifficulty={setSelectedDifficulty as any}
+              setSelectedDifficulty={setSelectedDifficulty}
             />
 
             {/* Search Input */}

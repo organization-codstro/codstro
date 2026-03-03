@@ -1,6 +1,12 @@
-import { CLONE_CODING_STATE_TYPE, PROJECT_DIFFICULTY } from "../../constants/Woomoonro/woomoonro";
+import {
+  CLONE_CODING_STATE_TYPE,
+  PROJECT_DIFFICULTY,
+} from "../../constants/Woomoonro/woomoonro";
 
-
+interface CloneCodingSteps {
+  title: string;
+  description: string;
+}
 export interface CloneCodingProject {
   id: string;
   title: string;
@@ -12,7 +18,7 @@ export interface CloneCodingProject {
   github_url?: string;
   demo_url?: string;
   tags: string[];
-  clone_coding_steps: any;
+  clone_coding_steps: CloneCodingSteps[];
   clone_coding_project_structure: string;
   created_at?: string;
 }

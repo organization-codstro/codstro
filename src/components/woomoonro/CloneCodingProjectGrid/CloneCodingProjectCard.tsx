@@ -14,6 +14,7 @@ import {
   DIFFICULTY_COLORS,
   STATUS_COLORS,
 } from "../../../constants/Woomoonro/woomoonro";
+import CloneCodingProjectImg from "../../../assets/images/woomoonro/CloneCodingProjectImg.png";
 
 // --- ProjectCard 컴포넌트 ---
 
@@ -34,15 +35,17 @@ const ProjectCard = ({
       onClick={() => onClick(project.id)}
     >
       {/* Project Image */}
-      {project.thumbnail_url && (
-        <div className="h-48 overflow-hidden bg-gray-200">
-          <img
-            src={project.thumbnail_url}
-            alt={project.title}
-            className="object-cover w-full h-full"
-          />
-        </div>
-      )}
+      <div className="h-48 overflow-hidden bg-gray-200">
+        <img
+          src={
+            project.thumbnail_url
+              ? project.thumbnail_url
+              : CloneCodingProjectImg
+          }
+          alt={project.title}
+          className="object-cover w-full h-full"
+        />
+      </div>
 
       <div className="p-6">
         {/* Header */}
@@ -77,18 +80,20 @@ const ProjectCard = ({
           >
             {project.difficulty}
           </span>
-          {userProject && (
-            <span
-              className={`px-2 py-1 text-xs rounded-full border ${
-                STATUS_COLORS[userProject.status]
-              }`}
-            >
-              {userProject.status.replace("_", " ")}
-            </span>
-          )}
+
+          <span
+            className={`px-2 py-1 text-xs rounded-full border ${
+              userProject
+                ? STATUS_COLORS[userProject.status]
+                : STATUS_COLORS["waiting"]
+            }`}
+          >
+            {userProject ? userProject.status : "waiting"}
+          </span>
+
           <span className="flex items-center gap-1 px-2 py-1 text-xs text-gray-600 bg-gray-100 rounded-full">
             <Clock className="w-3 h-3" />
-            {project.estimated_hours}h
+            {project.estimated_hours}
           </span>
         </div>
 

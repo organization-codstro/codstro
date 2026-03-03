@@ -166,7 +166,7 @@ export interface Link {
 export interface UserCloneCodings {
   user_clone_codings_id: number; // PK / number
   user_clone_codings_status: string; // text
-  user_clone_codings_is_bookmarked: boolean; // boolean
+  user_clone_coding_is_bookmarked: boolean; // boolean
   user_clone_codings_started_at: Date; // date
   user_clone_codings_completed_at: Date; // date
   clone_coding_id: number; // FK / number

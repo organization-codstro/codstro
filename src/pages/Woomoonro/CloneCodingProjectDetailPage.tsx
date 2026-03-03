@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Loader2 } from "lucide-react";
+import { ArrowLeft, Loader2 } from "lucide-react";
 import ProjectDetailHeader from "../../components/Woomoonro/CloneCodingProjectDetailPage/CloneCodingProjectDetailHeader";
 import ProjectInfoGrid from "../../components/Woomoonro/CloneCodingProjectDetailPage/CloneCodingProjectInfoGrid";
 import ProjectStatusCard from "../../components/Woomoonro/CloneCodingProjectDetailPage/CloneCodingProjectStatusCard";
@@ -29,7 +29,6 @@ export default function CloneCodingProjectDetailPage() {
   const [userProject, setUserProject] = useState<UserProjectStatus | undefined>(
     undefined,
   );
-  const [todos, setTodos] = useState<any[]>([]);
 
   /**
    * [데이터 로드 로직]
@@ -38,13 +37,12 @@ export default function CloneCodingProjectDetailPage() {
     async (uid: string, pid: string) => {
       try {
         setIsLoading(true);
-        const [projectDetail, userStatus, projectTodos] = await Promise.all([
+        const [projectDetail, userStatus] = await Promise.all([
           CloneCodingService.getProjectDetail({ projectId: pid }),
           CloneCodingService.getUserProjectStatus({
             userId: uid,
             projectId: pid,
           }),
-          CloneCodingService.getProjectTodos({ userId: uid, projectId: pid }),
         ]);
 
         if (!projectDetail) {
@@ -72,18 +70,13 @@ export default function CloneCodingProjectDetailPage() {
 
         if (userStatus) {
           setUserProject({
-            status:
-              userStatus.user_clone_codings_status === "completed"
-                ? "done"
-                : (userStatus.user_clone_codings_status as any),
-            is_bookmarked: userStatus.user_clone_codings_is_bookmarked,
+            status: userStatus.user_clone_coding_status,
+            is_bookmarked: userStatus.user_clone_coding_is_bookmarked,
           });
         } else {
           // 데이터가 없을 경우 기본값
           setUserProject({ status: "waiting", is_bookmarked: false });
         }
-
-        setTodos(projectTodos);
       } catch (error) {
         console.error(error);
         toast.error("데이터 로딩 중 오류가 발생했습니다.");
@@ -144,12 +137,10 @@ export default function CloneCodingProjectDetailPage() {
     if (!userId || !projectId) return;
 
     try {
-      // API 규격에 맞춰 "done"을 "completed"로 변환하여 전송
-      const apiStatus = status === "done" ? "completed" : status;
       await CloneCodingService.updateProjectStatus({
         userId,
         projectId,
-        status: apiStatus,
+        status: status,
       });
 
       setUserProject((prev) => (prev ? { ...prev, status } : prev));
@@ -158,12 +149,6 @@ export default function CloneCodingProjectDetailPage() {
       toast.error("상태 업데이트 실패");
     }
   };
-
-  /**
-   * [프로그레스 계산]
-   */
-  const completedCount = todos.filter((t) => t.is_completed).length;
-  const progress = todos.length > 0 ? (completedCount / todos.length) * 100 : 0;
 
   if (isLoading) {
     return (
@@ -179,24 +164,23 @@ export default function CloneCodingProjectDetailPage() {
   return (
     <div className="min-h-screen p-8 bg-gray-50">
       <div className="max-w-6xl mx-auto">
-        <ProjectDetailHeader
-          title={project.title}
-          description={project.description}
-          isBookmarked={!!userProject?.is_bookmarked}
-          onBack={() => navigate("/woomoonro")}
-          onToggleBookmark={onToggleBookmark}
-        />
+        <div className="flex items-center gap-4 mb-6">
+          <button
+            onClick={() => navigate("/woomoonro")}
+            className="p-2 transition-colors rounded-lg hover:bg-gray-100"
+          >
+            <ArrowLeft className="w-5 h-5 text-gray-600" />
+          </button>
+        </div>
 
         <div className="overflow-hidden bg-white border border-purple-100 shadow-sm rounded-xl">
-          {project.thumbnail_url && (
-            <div className="h-64 overflow-hidden bg-gray-200">
-              <img
-                src={project.thumbnail_url}
-                alt={project.title}
-                className="object-cover w-full h-full"
-              />
-            </div>
-          )}
+          <ProjectDetailHeader
+            title={project.title}
+            description={project.description}
+            isBookmarked={userProject?.is_bookmarked}
+            onToggleBookmark={onToggleBookmark}
+            thumbnailUrl={project.thumbnail_url}
+          />
 
           <div className="p-8">
             <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
@@ -221,9 +205,6 @@ export default function CloneCodingProjectDetailPage() {
               <ProjectStatusCard
                 currentStatus={userProject?.status || "waiting"}
                 onStatusChange={onUpdateStatus}
-                completedTodos={completedCount}
-                totalTodos={todos.length}
-                progressPercentage={progress}
               />
             </div>
           </div>
