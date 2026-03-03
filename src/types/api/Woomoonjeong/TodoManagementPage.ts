@@ -1,3 +1,5 @@
+import { TODO_STATUS_TYPE } from "../../../constants/Woomoonjeong/woomoonjeong";
+
 /**
  * [날짜별 할일 조회 파라미터]
  */
@@ -46,6 +48,7 @@ export interface CreateTodoParams {
   todo_description: string;
   todo_start_date: string;
   todo_end_date: string;
+  todo_status: TODO_STATUS_TYPE;
   group_id?: string;
   project_id?: string;
 }

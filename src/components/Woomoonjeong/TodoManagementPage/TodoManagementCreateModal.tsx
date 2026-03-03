@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 // 타입 및 상수
 import { TodoManagementCreateProps } from "../../../types/pages/Woomoonjeong/TodoManagementPage/CreateTodoManagementModal";
 import { TodoManagementService } from "../../../api/Woomoonjeong/TodoManagementPage";
+import { CreateTodoParams } from "../../../types/api/Woomoonjeong/TodoManagementPage";
 
 const TodoManagementCreateModal: React.FC<TodoManagementCreateProps> = ({
   isOpen,
@@ -13,7 +14,7 @@ const TodoManagementCreateModal: React.FC<TodoManagementCreateProps> = ({
   availableGroups,
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<CreateTodoParams>({
     todo_name: "",
     todo_content: "",
     todo_description: "",
@@ -84,6 +85,7 @@ const TodoManagementCreateModal: React.FC<TodoManagementCreateProps> = ({
         todo_description: formData.todo_description,
         group_id: formData.group_id,
         todo_start_date: formData.todo_start_date,
+        todo_status: formData.todo_status,
         todo_end_date: formData.todo_end_date,
         todo_content: formData.todo_content,
       });

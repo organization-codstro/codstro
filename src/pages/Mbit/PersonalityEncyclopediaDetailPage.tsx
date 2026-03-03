@@ -4,17 +4,12 @@ import { toast } from "react-toastify";
 // 서비스 및 타입
 import { PersonalityEncyclopediaDetailService } from "../../api/Mbit/PersonalityEncyclopediaDetailPage";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  AlertCircle,
-  ArrowLeft,
-  Briefcase,
-  Target,
-  TrendingUp,
-} from "lucide-react";
+import { AlertCircle, ArrowLeft, TrendingUp } from "lucide-react";
 
 import { Personality } from "../../types/common/Mbit";
 import PersonalityDetailHeader from "../../components/Mbit/PersonalityEncyclopediaDetailPage/PersonalityDetailHeader";
 import TraitList from "../../components/Mbit/MajorEncyclopediaDetailPage/TraitList";
+import PersonalityInformationSection from "../../components/Mbit/PersonalityEncyclopediaDetailPage/PersonalityInformationSection";
 
 export default function PersonalityEncyclopediaDetailPage() {
   const { personalityId } = useParams();
@@ -115,32 +110,33 @@ export default function PersonalityEncyclopediaDetailPage() {
               />
             </div>
 
-            <section className="p-6 bg-blue-50 rounded-xl">
-              <h3 className="flex items-center gap-2 mb-4 text-xl font-bold text-gray-800">
-                <Briefcase className="w-5 h-5 text-blue-600" />
-                Work Style
-              </h3>
-              <p className="text-gray-700">{personality.weaknesses}</p>
-            </section>
+            {/* 부가 정보 */}
 
-            <section>
-              <h3 className="flex items-center gap-2 mb-4 text-xl font-bold text-gray-800">
-                <Target className="h-5 w-5 text-[#587CF0]" />
-                Ideal Projects
-              </h3>
-              <div className="grid gap-3 md:grid-cols-2"></div>
-            </section>
+            <div className="flex flex-col gap-2">
+              {/*일 스타일 */}
+              <PersonalityInformationSection
+                title="Work Style"
+                info={personality.weaknesses}
+              />
 
-            <section className="p-6 bg-gradient-to-r from-purple-50 to-blue-50 rounded-xl">
-              <h3 className="mb-4 text-xl font-bold text-gray-800">
-                Famous Developers
-              </h3>
-              <div className="flex flex-wrap gap-3">
-                <div className="px-4 py-2 font-medium text-gray-700 bg-white rounded-lg shadow-sm">
-                  {personality.collaborativeStyle}
-                </div>
-              </div>
-            </section>
+              {/*권장 직무 */}
+              <PersonalityInformationSection
+                title="권장직무"
+                info={personality.recommendedJob}
+              />
+
+              {/*협업 스타일 */}
+              <PersonalityInformationSection
+                title="협업 스타일"
+                info={personality.collaborativeStyle}
+              />
+
+              {/*스트래스 관리법 */}
+              <PersonalityInformationSection
+                title="스트래스 관리법"
+                info={personality.stressManagement}
+              />
+            </div>
           </div>
         </div>
       </div>

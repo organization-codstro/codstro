@@ -7,7 +7,7 @@ const PersonalityDetailHeader: React.FC<PersonalityDetailHeaderProps> = ({
 }) => {
   return (
     <div className="p-8 text-white bg-gradient-to-r from-blue-500 to-purple-500">
-      <div className="flex items-center gap-4 mb-4">
+      <div className="flex items-center gap-4">
         <div className="flex items-center justify-center w-16 h-16 bg-white rounded-full bg-opacity-20">
           <Users className="w-8 h-8" />
         </div>
@@ -17,9 +17,6 @@ const PersonalityDetailHeader: React.FC<PersonalityDetailHeaderProps> = ({
           </p>
         </div>
       </div>
-      <p className="text-lg text-white text-opacity-90">
-        {personality.collaborativeStyle}
-      </p>
     </div>
   );
 };

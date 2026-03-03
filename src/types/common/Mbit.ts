@@ -39,12 +39,19 @@ export interface Personality {
   risks: string;
   thought: string;
   approach: string;
+  /**권장 직무 */
   recommendedJob: string;
+  /**협업 스타일 */
   collaborativeStyle: string;
+  /**강점 */
   strengths: string;
+  /**약점 */
   weaknesses: string;
+  /**스트래스 관리법 */
   stressManagement: string;
+  /**아침인사 */
   morningGreetings: string;
+  /**저녁 인사 */
   nightGreetings: string;
   createdAt: string;
 }

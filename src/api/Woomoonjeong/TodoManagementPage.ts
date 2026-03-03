@@ -196,7 +196,6 @@ export const TodoManagementService = {
         .insert([
           {
             ...payload,
-            todo_status: "waiting",
             created_at: new Date().toISOString(),
           },
         ])

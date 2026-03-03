@@ -5,8 +5,6 @@ import { ToastContainer } from "react-toastify";
 export default function App() {
   return (
     <BrowserRouter>
-      <AppRoutes />
-
       <ToastContainer
         position="top-right"
         autoClose={2000}
@@ -15,6 +13,7 @@ export default function App() {
         closeOnClick
         pauseOnHover
       />
+      <AppRoutes />
     </BrowserRouter>
   );
 }
