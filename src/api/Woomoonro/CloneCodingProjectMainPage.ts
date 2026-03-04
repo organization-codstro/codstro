@@ -123,16 +123,13 @@ export const MainProjectService = {
    */
   async toggleBookmark(params: ToggleBookmarkParams): Promise<void> {
     try {
-      const { error } = await supabase.from("user_clone_codings").upsert(
-        {
-          user_id: params.userId,
-          clone_coding_id: params.projectId,
+      const { error } = await supabase
+        .from("user_clone_codings")
+        .update({
           user_clone_coding_is_bookmarked: !params.isBookmarked,
-        },
-        {
-          onConflict: "user_id, clone_coding_id",
-        },
-      );
+        })
+        .eq("user_id", params.userId)
+        .eq("clone_coding_id", params.projectId);
 
       if (error) throw error;
     } catch (error) {

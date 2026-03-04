@@ -78,9 +78,7 @@ export const ArchiveService = {
 
       const stats = {
         total: data.length,
-        completed: data.filter(
-          (d) => d.user_clone_coding_status === "completed",
-        ).length,
+        done: data.filter((d) => d.user_clone_coding_status === "done").length,
         "in progress": data.filter(
           (d) => d.user_clone_coding_status === "in progress",
         ).length,

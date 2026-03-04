@@ -31,9 +31,9 @@ export default function CloneCodingProjectArchivePage() {
   const [archivedData, setArchivedData] = useState<ArchivedProjectItem[]>([]);
   const [stats, setStats] = useState<ArchiveStats>({
     total: 0,
-    completed: 0,
-    "in progress": 0,
     waiting: 0,
+    "in progress": 0,
+    done: 0,
   });
 
   /**
@@ -100,7 +100,7 @@ export default function CloneCodingProjectArchivePage() {
 
       // 로컬 상태 업데이트 (삭제된 항목 제외)
       setArchivedData((prev) =>
-        prev.filter((item) => item.userProject.project_id !== projectId)
+        prev.filter((item) => item.userProject.project_id !== projectId),
       );
 
       // 통계 재계산 (필요 시 fetchData 재호출 가능)
@@ -142,11 +142,12 @@ export default function CloneCodingProjectArchivePage() {
     .sort((a, b) => {
       if (sortBy === "title")
         return a.project.title.localeCompare(b.project.title);
-      if (sortBy === "date")
-        return (
-          new Date(b.project.created_at).getTime() -
-          new Date(a.project.created_at).getTime()
-        );
+      if (sortBy === "date") {
+        const dateA = new Date(a.project.created_at ?? 0).getTime();
+        const dateB = new Date(b.project.created_at ?? 0).getTime();
+        return dateB - dateA;
+      }
+
       return 0;
     });
 
@@ -161,7 +162,7 @@ export default function CloneCodingProjectArchivePage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen gap-4">
         <Loader2 className="w-10 h-10 text-[#587CF0] animate-spin" />
-        <p className="text-gray-500 font-medium">
+        <p className="font-medium text-gray-500">
           아카이브를 불러오는 중입니다...
         </p>
       </div>
@@ -211,19 +212,19 @@ export default function CloneCodingProjectArchivePage() {
           />
           <StatCard
             icon={<CheckCircle2 className="w-5 h-5 text-green-600" />}
-            label="Completed"
-            value={stats.completed}
+            label="done"
+            value={stats.done}
             bgColor="bg-green-50"
           />
           <StatCard
             icon={<PlayCircle className="w-5 h-5 text-yellow-600" />}
-            label="In Progress"
+            label="in Progress"
             value={stats["in progress"]}
             bgColor="bg-yellow-50"
           />
           <StatCard
             icon={<Circle className="w-5 h-5 text-gray-600" />}
-            label="Not Started"
+            label="waiting"
             value={stats.waiting}
             bgColor="bg-gray-50"
           />
@@ -248,9 +249,9 @@ export default function CloneCodingProjectArchivePage() {
             onToggleBookmark={handleToggleBookmark}
           />
         ) : (
-          <div className="flex flex-col items-center justify-center py-20 bg-white rounded-3xl shadow-sm border border-dashed border-gray-300">
-            <Archive className="w-12 h-12 text-gray-300 mb-4" />
-            <p className="text-gray-500 font-medium">
+          <div className="flex flex-col items-center justify-center py-20 bg-white border border-gray-300 border-dashed shadow-sm rounded-3xl">
+            <Archive className="w-12 h-12 mb-4 text-gray-300" />
+            <p className="font-medium text-gray-500">
               아카이브된 프로젝트가 없습니다.
             </p>
           </div>

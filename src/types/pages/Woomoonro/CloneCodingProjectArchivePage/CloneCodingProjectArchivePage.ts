@@ -1,4 +1,7 @@
-import { CloneCodingProject, UserCloneCodingProject } from "../woomoonro";
+import {
+  CloneCodingProject,
+  UserCloneCodingProject,
+} from "../../../common/woomoonro";
 
 /**
  * [아카이브 데이터 인터페이스]
@@ -14,7 +17,7 @@ export interface ArchivedProjectItem {
  */
 export interface ArchiveStats {
   total: number;
-  completed: number;
-  "in progress": number;
   waiting: number;
+  "in progress": number;
+  done: number;
 }
