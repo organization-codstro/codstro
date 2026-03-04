@@ -16,7 +16,7 @@ export default function MeetingMaterialsPage() {
   const [summaryId, setSummaryId] = useState<string | null>(null);
 
   // DB 필드 매칭 상태
-  const [meetingName, setMeetingName] = useState(""); // project_tasks_logs_created_date (날짜 기반 이름)
+  const [meetingName, setMeetingName] = useState(""); // project_meeting_logs_created_date (날짜 기반 이름)
   const [meetingPurpose, setMeetingPurpose] = useState(""); // project__meeting_purpose
   const [meetingDetail, setMeetingDetail] = useState(""); // project_meeting_detail
   const [meetingSummary, setMeetingSummary] = useState(""); // project meeting summary (요약 테이블)
@@ -38,7 +38,7 @@ export default function MeetingMaterialsPage() {
           });
 
         if (room) {
-          setMeetingName(room.project_tasks_logs_created_date || "");
+          setMeetingName(room.project_meeting_logs_created_date || "");
           setMeetingPurpose(room.project__meeting_purpose || "");
           setMeetingDetail(room.project_meeting_detail || "");
         }

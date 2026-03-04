@@ -23,14 +23,14 @@ export const ProjectMeetingListService = {
         .select(
           `
           meeting_id:project_meeting_room_id,
-          meeting_name:project_tasks_logs_created_date, 
+          meeting_name:project_meeting_logs_created_date, 
           meeting_purpose:project__meeting_purpose,
-          meeting_created_date:project_tasks_logs_created_date,
+          meeting_created_date:project_meeting_logs_created_date,
           type:project_meeting_room_type
         `,
         )
         .eq("project_id", params.projectId)
-        .order("project_tasks_logs_created_at", { ascending: false });
+        .order("project_meeting_logs_created_at", { ascending: false });
 
       if (error) throw error;
 
@@ -56,9 +56,9 @@ export const ProjectMeetingListService = {
         .select(
           `
           meeting_id:project_meeting_room_id,
-          meeting_name:project_tasks_logs_created_date,
+          meeting_name:project_meeting_logs_created_date,
           meeting_purpose:project__meeting_purpose,
-          meeting_created_date:project_tasks_logs_created_date,
+          meeting_created_date:project_meeting_logs_created_date,
           type:project_meeting_room_type
         `,
         )
@@ -67,7 +67,7 @@ export const ProjectMeetingListService = {
           "project_meeting_room_type",
           params.type.charAt(0).toUpperCase() + params.type.slice(1),
         ) // 'feature' -> 'Feature'
-        .order("project_tasks_logs_created_at", { ascending: false });
+        .order("project_meeting_logs_created_at", { ascending: false });
 
       if (error) throw error;
       return data as MeetingListItem[];

@@ -42,7 +42,7 @@ export interface ProjectTodo {
 }
 
 //생성시 입력할 정보들
-export interface newTodo {
+export interface NewTodo {
   group_id?: string;
   project_page_id?: string;
   name: string;
@@ -80,19 +80,19 @@ export interface Meeting {
 }
 
 export interface MeetingMessage {
-  message_id: string;
+  message_id?: string;
   sender: "AI" | "USER";
   message: string;
-  created_at: string;
-  meeting_id: string;
+  created_at?: string;
+  meeting_id?: string;
 }
 
 export interface ProjectPlanningLog {
-  project_tasks_logs_id: string;
-  project_tasks_logs_sender: "AI" | "USER";
-  project_tasks_logs_message: string;
-  project_tasks_logs_created_at: string;
-  project_tasks_logs_meeting_index: number;
+  project_meeting_log_id: string;
+  project_meeting_log_sender: "AI" | "USER";
+  project_meeting_log_message: string;
+  project_meeting_log_created_at: string;
+  project_meeting_log_meeting_index: number;
   project_id: string;
 }
 
@@ -106,7 +106,7 @@ export interface ProjectBasicInfo {
 export interface ProjectMessage {
   sender: "AI" | "USER";
   message: string;
-  timestamp: string;
+  create_at: string;
 }
 
 export interface NewsItem {

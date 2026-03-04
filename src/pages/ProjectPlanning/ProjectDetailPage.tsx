@@ -2,7 +2,11 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Clock } from "lucide-react";
 import { toast } from "react-toastify";
-import { ProjectPage, Todo, Project } from "../../types/common/projectPlanning";
+import {
+  ProjectPage,
+  ProjectTodo,
+  Project,
+} from "../../types/common/projectPlanning";
 
 // 컴포넌트 임포트
 import { ProjectBasicInfoSection } from "../../components/ProjectPlanning/ProjectBasicInfoSection";
@@ -24,12 +28,12 @@ export default function ProjectDetailPage() {
 
   const [originalProject, setOriginalProject] = useState<Project | null>(null);
   const [originalPages, setOriginalPages] = useState<
-    Array<ProjectPage & { todos: Todo[] }>
+    Array<ProjectPage & { todos: ProjectTodo[] }>
   >([]);
 
   const [editedProject, setEditedProject] = useState<Project | null>(null);
   const [editedPages, setEditedPages] = useState<
-    Array<ProjectPage & { todos: Todo[] }>
+    Array<ProjectPage & { todos: ProjectTodo[] }>
   >([]);
   const [expandedPage, setExpandedPage] = useState<string | null>(null);
 
@@ -156,7 +160,7 @@ export default function ProjectDetailPage() {
     );
   };
 
-  const addPageTodo = (pId: string, newTodo: Todo) =>
+  const addPageTodo = (pId: string, newTodo: ProjectTodo) =>
     setEditedPages((prev) =>
       prev.map((p) =>
         p.project_page_id === pId ? { ...p, todos: [...p.todos, newTodo] } : p,

@@ -61,7 +61,10 @@ export const MeetingMaterialsService = {
 
       return { room, summary: summary || null };
     } catch (error) {
-      console.error("[MeetingMaterialsService.getMeetingDetails Error]:", error);
+      console.error(
+        "[MeetingMaterialsService.getMeetingDetails Error]:",
+        error,
+      );
       throw error;
     }
   },
@@ -87,7 +90,7 @@ export const MeetingMaterialsService = {
           project_meeting_detail: params.detail,
           project_meeting_room_type: params.roomType,
           project_meeting_index: 1,
-          project_tasks_logs_created_date: new Date().toISOString(),
+          project_meeting_log_created_date: new Date().toISOString(),
         },
       ])
       .select()
@@ -106,9 +109,9 @@ export const MeetingMaterialsService = {
     const { data, error } = await supabase
       .from("project_meeting_rooms")
       .update({
-        project__meeting_purpose: params.updates.purpose,
+        project_meeting_purpose: params.updates.purpose,
         project_meeting_detail: params.updates.detail,
-        project_tasks_logs_created_date: params.updates.date,
+        project_meeting_log_created_date: params.updates.date,
       })
       .eq("project_meeting_room_id", params.roomId)
       .select()
@@ -148,14 +151,14 @@ export const MeetingMaterialsService = {
     const aiResponse = await generateAiContent(prompt);
 
     const { data, error } = await supabase
-      .from("project_tasks_logs")
+      .from("project_meeting_logs")
       .insert([
         {
           project_meeting_room_id: params.roomId,
-          project_tasks_log_sender: "AI",
-          project_tasks_log_message: aiResponse,
-          project_tasks_log_meeting_index: 1,
-          project_tasks_log_created_at: new Date().toISOString(),
+          project_meeting_log_sender: "AI",
+          project_meeting_log_message: aiResponse,
+          project_meeting_log_meeting_index: 1,
+          project_meeting_log_reated_at: new Date().toISOString(),
         },
       ])
       .select()
@@ -172,14 +175,15 @@ export const MeetingMaterialsService = {
   async generateAndSaveSummary(params: GenerateAndSaveSummaryParams) {
     // 1. 대화 로그 가져오기
     const { data: logs } = await supabase
-      .from("project_tasks_logs")
-      .select("project_tasks_log_sender, project_tasks_log_message")
+      .from("project_meeting_logs")
+      .select("project_meeting_log_sender, project_meeting_log_message")
       .eq("project_meeting_room_id", params.roomId)
-      .order("project_tasks_log_created_at", { ascending: true });
+      .order("project_meeting_log_created_at", { ascending: true });
 
     const history = logs
       ?.map(
-        (l) => `${l.project_tasks_log_sender}: ${l.project_tasks_log_message}`
+        (l) =>
+          `${l.project_meeting_log_sender}: ${l.project_meeting_log_message}`,
       )
       .join("\n");
 

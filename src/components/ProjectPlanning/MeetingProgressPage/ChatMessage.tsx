@@ -17,7 +17,7 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
             {message.message}
           </p>
         </div>
-        <p className="px-2 mt-1 text-xs text-gray-500">{message.timestamp}</p>
+        <p className="px-2 mt-1 text-xs text-gray-500">{message.create_at}</p>
       </div>
     </div>
   );

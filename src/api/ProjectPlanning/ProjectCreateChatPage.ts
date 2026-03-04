@@ -23,7 +23,7 @@ export const ProjectCreateChatService = {
         .from("project_planning_logs")
         .select("*")
         .eq("project_id", params.projectId)
-        .order("project_tasks_logs_created_at", { ascending: true });
+        .order("project_meeting_logs_created_at", { ascending: true });
 
       if (error) throw error;
       return data;
@@ -45,10 +45,10 @@ export const ProjectCreateChatService = {
         .insert([
           {
             project_id: params.projectId,
-            project_tasks_logs_sender: params.sender,
-            project_tasks_logs_message: params.message,
-            project_tasks_logs_meeting_index: params.meetingIndex,
-            project_tasks_logs_created_at: new Date().toISOString(),
+            project_meeting_logs_sender: params.sender,
+            project_meeting_logs_message: params.message,
+            project_meeting_logs_meeting_index: params.meetingIndex,
+            project_meeting_logs_created_at: new Date().toISOString(),
           },
         ])
         .select()
@@ -72,9 +72,9 @@ export const ProjectCreateChatService = {
       const context = params.history
         .map(
           (m) =>
-            `${m.sender || m.project_tasks_logs_sender}: ${
-              m.message || m.project_tasks_logs_message
-            }`
+            `${m.sender || m.project_meeting_logs_sender}: ${
+              m.message || m.project_meeting_logs_message
+            }`,
         )
         .join("\n");
 

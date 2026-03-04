@@ -48,7 +48,7 @@ export const MeetingCreateService = {
             project_meeting_detail: params.detail,
             project_meeting_room_type: params.roomType,
             project_meeting_index: 1,
-            project_tasks_logs_created_date: new Date().toISOString(),
+            project_meeting_log_created_date: new Date().toISOString(),
             project_meeting_room_id: `room_${Date.now()}_${Math.floor(
               Math.random() * 1000
             )}`,

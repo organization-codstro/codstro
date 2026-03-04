@@ -113,11 +113,11 @@ export interface AiUserRecords {
 }
 
 export interface ProjectPlanningLogs {
-  project_tasks_logs_id: number; // PK / number
-  project_tasks_logs_sender: string; // text
-  project_tasks_logs_message: string; // text
-  project_tasks_logs_created_at: Date; // timestamp
-  project_tasks_logs_meeting_index: number; // 1 / number
+  project_meeting_log_id: number; // PK / number
+  project_meeting_log_sender: string; // text
+  project_meeting_log_message: string; // text
+  project_meeting_log_created_at: Date; // timestamp
+  project_meeting_log_meeting_index: number; // 1 / number
   project_id: number; // FK / number
 }
 
@@ -347,7 +347,7 @@ export interface Pins {
 export interface ProjectMeetingRooms {
   project_meeting_room_id: any; // PK
   project__meeting_purpose: any; // 이 회의는 무엇을 위한 회의이고, 어떤걸 결정하고 싶은지 (유저가 입력한거)
-  project_tasks_logs_created_date: any;
+  project_meeting_log_created_date: any;
   project_meeting_detail: any; // 이 회의에서 다루는 프로젝트의 기본정보 (유저가 회의 생성시 정하는거 [프롬프트에 들어감])
   project_id: number; // FK / 한 프로젝트에서 여러가지 주제로 여러게의 회의를 만들수 있음 / number
   project_meeting_index: number; // 이 회의를 진행한 횟수 / number

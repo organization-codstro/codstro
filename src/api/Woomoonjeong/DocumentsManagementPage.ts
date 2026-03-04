@@ -4,7 +4,7 @@ import {
   CreateFieldParams,
   UpdateFieldNameParams,
   CreatePinParams,
-  UpsertLinkCountParams,
+  //UpsertLinkCountParams,
   DeleteItemParams,
   SearchDocumentsParams,
 } from "../../types/api/Woomoonjeong/DocumentsManagementPage";
@@ -116,7 +116,7 @@ export const DocumentsManagementService = {
 
   /**
    * [핀(Pin/문서) 생성 및 링크 카운트 처리]
-   * 새로운 문서를 생성합니다. link 테이블에 URL 정보를 갱신하는 로직을 포함할 수 있습니다.
+   * 새로운 문서를 생성합니다
    * 참조 테이블: pins, link
    */
   async createPin(payload: CreatePinParams) {
@@ -135,8 +135,8 @@ export const DocumentsManagementService = {
 
       if (error) throw error;
 
-      // 2. 링크 통계 업데이트 (RPC 호출 추천 혹은 직접 업데이트)
-      await this.upsertLinkCount({ url: payload.pin_url });
+      // 2. 링크 통계 업데이트
+      //await this.upsertLinkCount({ url: payload.pin_url });
 
       return data;
     } catch (error) {
@@ -150,29 +150,29 @@ export const DocumentsManagementService = {
    * 관리자 대시보드용 링크 카운트를 관리합니다.
    * 참조 테이블: link
    */
-  async upsertLinkCount(params: UpsertLinkCountParams) {
-    try {
-      // 해당 URL이 이미 있는지 확인 후 처리 (Upsert)
-      const { data: existing } = await supabase
-        .from("link")
-        .select("*")
-        .eq("link_count_url", params.url)
-        .single();
+  // async upsertLinkCount(params: UpsertLinkCountParams) {
+  //   try {
+  //     // 해당 URL이 이미 있는지 확인 후 처리 (Upsert)
+  //     const { data: existing } = await supabase
+  //       .from("link")
+  //       .select("*")
+  //       .eq("link_count_url", params.url)
+  //       .single();
 
-      if (existing) {
-        await supabase
-          .from("link")
-          .update({ link_count_number: existing.link_count_number + 1 })
-          .eq("link_count_id", existing.link_count_id);
-      } else {
-        await supabase
-          .from("link")
-          .insert([{ link_count_url: params.url, link_count_number: 1 }]);
-      }
-    } catch (error) {
-      console.error("[Service Error - upsertLinkCount]:", error);
-    }
-  },
+  //     if (existing) {
+  //       await supabase
+  //         .from("link")
+  //         .update({ link_count_number: existing.link_count_number + 1 })
+  //         .eq("link_count_id", existing.link_count_id);
+  //     } else {
+  //       await supabase
+  //         .from("link")
+  //         .insert([{ link_count_url: params.url, link_count_number: 1 }]);
+  //     }
+  //   } catch (error) {
+  //     console.error("[Service Error - upsertLinkCount]:", error);
+  //   }
+  // },
 
   /**
    * [삭제 통합 함수]

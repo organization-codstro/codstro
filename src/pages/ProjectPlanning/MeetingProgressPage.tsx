@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Message } from "../../types/common/projectPlanning";
+import { ProjectMessage } from "../../types/common/projectPlanning";
 import { MeetingChatHeader } from "../../components/ProjectPlanning/MeetingProgressPage/MeetingChatHeader";
 import { ChatMessage } from "../../components/ProjectPlanning/MeetingProgressPage/ChatMessage";
 import { ChatInput } from "../../components/AiChat/ChatConversation/ChatInput";
@@ -13,7 +13,7 @@ export default function MeetingProgressPage() {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // 1. 상태 관리
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<ProjectMessage[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isSending, setIsSending] = useState(false);
@@ -37,10 +37,10 @@ export default function MeetingProgressPage() {
         });
 
         // DB 데이터를 UI 메시지 포맷으로 변환
-        const formattedMessages: Message[] = data.map((log: any) => ({
+        const formattedMessages: ProjectMessage[] = data.map((log: any) => ({
           sender: log.project_tasks_log_sender,
           message: log.project_tasks_log_message,
-          timestamp: new Date(
+          create_at: new Date(
             log.project_tasks_log_created_at,
           ).toLocaleTimeString([], {
             hour: "2-digit",
@@ -87,7 +87,7 @@ export default function MeetingProgressPage() {
       });
       setMessages((prev) => [
         ...prev,
-        { sender: "USER", message: userText, timestamp: now },
+        { sender: "USER", message: userText, create_at: now },
       ]);
       setTimeout(scrollToBottom, 50);
 
@@ -106,7 +106,7 @@ export default function MeetingProgressPage() {
         {
           sender: "AI",
           message: aiResponse.project_tasks_log_message,
-          timestamp: new Date().toLocaleTimeString([], {
+          create_at: new Date().toLocaleTimeString([], {
             hour: "2-digit",
             minute: "2-digit",
           }),
@@ -219,7 +219,7 @@ export default function MeetingProgressPage() {
       <div className="flex-1 overflow-auto" ref={scrollRef}>
         <div className="max-w-6xl p-6 mx-auto space-y-4">
           {messages.length === 0 ? (
-            <div className="text-center text-gray-400 mt-20">
+            <div className="mt-20 text-center text-gray-400">
               대화 내용이 없습니다. 먼저 인사를 건네보세요!
             </div>
           ) : (

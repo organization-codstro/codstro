@@ -151,8 +151,8 @@ export default function ProjectCreateChatPage() {
           {messages.map((msg, idx) => (
             <ProjectChatMessage
               key={msg.project_planning_log_id || idx}
-              sender={msg.project_tasks_logs_sender}
-              message={msg.project_tasks_logs_message}
+              sender={msg.project_meeting_log_sender}
+              message={msg.project_meeting_log_message}
             />
           ))}
         </div>
