@@ -21,7 +21,4 @@ export interface GetPlanStatsParams {
  */
 export interface DeleteFromArchiveParams {
   planId: string;
-  isRecommendation: boolean;
 }
-
-

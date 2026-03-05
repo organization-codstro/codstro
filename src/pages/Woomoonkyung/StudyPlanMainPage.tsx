@@ -18,12 +18,12 @@ import { LoginService } from "../../api/Auth/LoginPage";
 export default function StudyPlanMainPage() {
   const navigate = useNavigate();
 
-  // 🔹 상태 관리
+  // 상태 관리
   const [plans, setPlans] = useState<PlanWithStats[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
-  // 🔹 데이터 페칭 로직
+  // 데이터 페칭 로직
   const fetchActivePlans = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -44,7 +44,7 @@ export default function StudyPlanMainPage() {
     fetchActivePlans();
   }, [fetchActivePlans]);
 
-  // 🔹 삭제 핸들러
+  // 삭제 핸들러
   const handleDeletePlan = async (e: React.MouseEvent, planId: string) => {
     e.stopPropagation();
 
@@ -98,7 +98,7 @@ export default function StudyPlanMainPage() {
                   stateColors={stateColors}
                   onPlanClick={(id) => navigate(`/woomoonkyung/plan/${id}`)}
                   onDeleteClick={(e) => handleDeletePlan(e, plan.study_plan_id)}
-                  // 삭제 중일 때 UI 피드백을 주기 위한 prop (StudyPlanCard에서 처리 가능 시)
+                  // 삭제 중일 때 UI 피드백을 주기 위한 prop
                   isDeleting={deletingId === plan.study_plan_id}
                 />
               ))}

@@ -14,38 +14,68 @@ export const StudyPlanArchiveService = {
   /**
    * [아카이브 목록 통합 조회]
    */
-  async getArchivedPlans(params: GetArchivedPlansParams) {
+  async getArchivedPlans(params: GetArchivedPlansParams): Promise<StudyPlan[]> {
     try {
       const { userId, searchQuery = "" } = params;
 
-      let query = supabase
+      // DONE 상태 플랜 가져오기
+      const { data: plans, error } = await supabase
         .from("study_plans")
-        .select(
-          `
-          *,
-          node_count: study_plan_nodes(count),
-          completed_node_count: study_plan_nodes(count)
-        `
-        )
+        .select("*")
         .eq("user_id", userId)
-        .or(`study_plan_state.eq.done,study_plan_is_archived.eq.true`);
-
-      if (searchQuery) {
-        query = query.or(
-          `study_plan_name.ilike.%${searchQuery}%,study_plan_description.ilike.%${searchQuery}%`
-        );
-      }
-
-      const { data, error } = await query.order("created_at", {
-        ascending: false,
-      });
+        .eq("study_plan_state", "done");
 
       if (error) throw error;
 
-      return (data as any[]).map((plan) => ({
-        ...plan,
-        totalNodes: plan.node_count?.[0]?.count || 0,
-      })) as StudyPlan[];
+      if (!plans || plans.length === 0) {
+        return [];
+      }
+
+      let filteredPlans: StudyPlan[] = plans;
+
+      // 검색어 필터
+      if (searchQuery.trim()) {
+        const lowerQuery = searchQuery.toLowerCase();
+
+        filteredPlans = plans.filter(
+          (plan) =>
+            plan.study_plan_name?.toLowerCase().includes(lowerQuery) ||
+            plan.study_plan_description?.toLowerCase().includes(lowerQuery),
+        );
+      }
+
+      if (filteredPlans.length === 0) {
+        return [];
+      }
+
+      // 노드 개수 조회
+      const planIds = filteredPlans.map((plan) => plan.study_plan_id);
+
+      const { data: nodes, error: nodeError } = await supabase
+        .from("study_plan_nodes")
+        .select("study_plan_id")
+        .in("study_plan_id", planIds);
+
+      if (nodeError) throw nodeError;
+
+      // count 매핑
+      const countMap: Record<string, number> = {};
+
+      nodes?.forEach((node) => {
+        countMap[node.study_plan_id] = (countMap[node.study_plan_id] || 0) + 1;
+      });
+
+      // 최종 반환
+      return filteredPlans
+        .map((plan) => ({
+          ...plan,
+          totalNodes: countMap[plan.study_plan_id] || 0,
+        }))
+        .sort(
+          (a, b) =>
+            new Date(b.created_at!).getTime() -
+            new Date(a.created_at!).getTime(),
+        );
     } catch (error) {
       console.error("[getArchivedPlans Error]:", error);
       throw error;
@@ -60,13 +90,13 @@ export const StudyPlanArchiveService = {
       const { planId } = params;
       const { data: nodes, error } = await supabase
         .from("study_plan_nodes")
-        .select("completed")
+        .select("study_plan_node_completed")
         .eq("study_plan_id", planId);
 
       if (error) throw error;
 
       const total = nodes.length;
-      const completed = nodes.filter((n) => n.completed).length;
+      const completed = nodes.filter((n) => n.study_plan_node_completed).length;
       const progress = total > 0 ? (completed / total) * 100 : 0;
 
       return { total, completed, progress };
@@ -77,25 +107,18 @@ export const StudyPlanArchiveService = {
   },
 
   /**
-   * [아카이브에서 삭제 (영구 삭제 또는 보관 해제)]
+   * [아카이브에서 삭제 (영구 삭제)]
    */
   async deleteFromArchive(params: DeleteFromArchiveParams): Promise<boolean> {
     try {
-      const { planId, isRecommendation } = params;
+      const { planId } = params;
 
-      if (isRecommendation) {
-        const { error } = await supabase
-          .from("study_plans")
-          .update({ study_plan_is_archived: false })
-          .eq("study_plan_id", planId);
-        if (error) throw error;
-      } else {
-        const { error } = await supabase
-          .from("study_plans")
-          .delete()
-          .eq("study_plan_id", planId);
-        if (error) throw error;
-      }
+      const { error } = await supabase
+        .from("study_plans")
+        .delete()
+        .eq("study_plan_id", planId);
+      if (error) throw error;
+
       return true;
     } catch (error) {
       console.error("[deleteFromArchive Error]:", error);

@@ -2,10 +2,7 @@
 // WoomoonkyungMainService 타입 파일
 // ===========================
 
-import {
-  PlanStatsResult,
-  StudyPlan,
-} from "../../pages/Woomoonkyung/Woomoonkyung";
+import { PlanStatsResult, StudyPlan } from "../../common/Woomoonkyung";
 
 /**
  * [GetActiveMyPlansParams]

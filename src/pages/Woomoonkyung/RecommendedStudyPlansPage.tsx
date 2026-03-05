@@ -16,7 +16,6 @@ export default function RecommendedStudyPlansPage() {
   const [userId, setUserId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [plans, setPlans] = useState<RecommendedPlan[]>([]);
-  const [bookmarks, setBookmarks] = useState<Set<string>>(new Set());
 
   /**
    * [데이터 초기화 로드]
@@ -29,15 +28,11 @@ export default function RecommendedStudyPlansPage() {
       setUserId(currentUserId);
 
       // 플랜 목록과 북마크된 ID 목록을 병렬로 가져옴
-      const [plansData, bookmarkedIds] = await Promise.all([
+      const [plansData] = await Promise.all([
         RecommendedStudyPlansService.getRecommendedPlans(searchQuery),
-        currentUserId
-          ? RecommendedStudyPlansService.getBookmarkedIds(currentUserId)
-          : Promise.resolve([]),
       ]);
 
       setPlans(plansData as RecommendedPlan[]);
-      setBookmarks(new Set(bookmarkedIds));
     } catch (error) {
       console.error("데이터 로딩 실패:", error);
       toast.error("데이터를 불러오는 중 문제가 발생했습니다.");
@@ -61,29 +56,29 @@ export default function RecommendedStudyPlansPage() {
    * [핸들러: 북마크 토글]
    * Pending UI 처리를 위해 즉시 상태를 변경하고 API 결과에 따라 롤백하거나 유지합니다.
    */
-  const toggleBookmark = async (planId: string) => {
-    const isCurrentlyBookmarked = bookmarks.has(planId);
+  // const toggleBookmark = async (planId: string) => {
+  //   const isCurrentlyBookmarked = bookmarks.has(planId);
 
-    try {
-      // API 호출
-      await RecommendedStudyPlansService.toggleBookmark({
-        planId,
-        currentState: isCurrentlyBookmarked,
-      });
+  //   try {
+  //     // API 호출
+  //     await RecommendedStudyPlansService.toggleBookmark({
+  //       planId,
+  //       currentState: isCurrentlyBookmarked,
+  //     });
 
-      const newBookmarks = new Set(bookmarks);
-      if (isCurrentlyBookmarked) {
-        newBookmarks.delete(planId);
-        toast.info("북마크가 해제되었습니다.");
-      } else {
-        newBookmarks.add(planId);
-        toast.success("북마크에 추가되었습니다.");
-      }
-      setBookmarks(newBookmarks);
-    } catch (error) {
-      toast.error("북마크 처리 중 오류가 발생했습니다.");
-    }
-  };
+  //     const newBookmarks = new Set(bookmarks);
+  //     if (isCurrentlyBookmarked) {
+  //       newBookmarks.delete(planId);
+  //       toast.info("북마크가 해제되었습니다.");
+  //     } else {
+  //       newBookmarks.add(planId);
+  //       toast.success("북마크에 추가되었습니다.");
+  //     }
+  //     setBookmarks(newBookmarks);
+  //   } catch (error) {
+  //     toast.error("북마크 처리 중 오류가 발생했습니다.");
+  //   }
+  // };
 
   /**
    * [핸들러: 내 계획으로 추가]
@@ -150,12 +145,10 @@ export default function RecommendedStudyPlansPage() {
                     ...plan,
                     // UI 컴포넌트에서 기대하는 이미지 필드명 매칭
                     study_plan_image_url: plan.study_plan_image_url,
-                    study_plan_is_archived: bookmarks.has(plan.study_plan_id),
                   }}
                   totalNodes={plan.totalNodes}
-                  isBookmarked={bookmarks.has(plan.study_plan_id)}
                   onCardClick={() => handlePlanClick(plan)}
-                  onToggleBookmark={() => toggleBookmark(plan.study_plan_id)}
+                  //onToggleBookmark={() => toggleBookmark(plan.study_plan_id)}
                   onAddToMyPlans={() => addToMyPlans(plan)}
                 />
               ))}

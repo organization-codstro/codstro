@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Calendar, Target, Trash2, Award, User, Loader2 } from "lucide-react";
 import { StudyPlanCardProps } from "../../../types/pages/Woomoonkyung/StudyPlanMainPage/StudyPlanCard";
 
+// 기본 이미지
+import StudyPlanBasicImg from "../../../assets/images/Woomoonkyung/StudyPlanBasicImg.png";
+
 const StudyPlanCard: React.FC<StudyPlanCardProps> = ({
   plan,
   completedNodes,
@@ -58,15 +61,18 @@ const StudyPlanCard: React.FC<StudyPlanCardProps> = ({
       )}
 
       {/* 썸네일 이미지 */}
-      {plan.study_plan_image_url && (
-        <div className="h-32 overflow-hidden bg-gray-200">
-          <img
-            src={plan.study_plan_image_url}
-            alt={plan.study_plan_name}
-            className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
-          />
-        </div>
-      )}
+
+      <div className="h-32 overflow-hidden bg-gray-200">
+        <img
+          src={
+            plan.study_plan_image_url
+              ? plan.study_plan_image_url
+              : StudyPlanBasicImg
+          }
+          alt={plan.study_plan_name}
+          className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
+        />
+      </div>
 
       <div className="p-4 space-y-3">
         <div className="flex items-start justify-between">
@@ -99,16 +105,7 @@ const StudyPlanCard: React.FC<StudyPlanCardProps> = ({
         </div>
 
         {/* 배지 영역: 추천 여부 및 상태 */}
-        <div className="flex flex-wrap gap-2">
-          {isPlanRecommended ? (
-            <span className="inline-flex items-center gap-1 px-2 py-1 text-[10px] font-bold text-blue-700 bg-blue-100 border border-blue-200 rounded-full">
-              <Award className="w-3 h-3" /> System
-            </span>
-          ) : (
-            <span className="inline-flex items-center gap-1 px-2 py-1 text-[10px] font-bold text-green-700 bg-green-100 border border-green-200 rounded-full">
-              <User className="w-3 h-3" /> My Plan
-            </span>
-          )}
+        <div className="flex flex-wrap ">
           <span
             className={`inline-flex items-center gap-1 px-2 py-1 text-[10px] font-bold rounded-full border ${
               stateColors[plan.study_plan_state]

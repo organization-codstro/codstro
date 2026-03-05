@@ -1,20 +1,13 @@
 import React from "react";
-import {
-  Calendar,
-  Target,
-  Download,
-  Bookmark,
-  BookmarkCheck,
-} from "lucide-react";
+import { Calendar, Download } from "lucide-react";
 import { StudyPlanCardProps } from "../../../types/pages/Woomoonkyung/RecommendedStudyPlansPage/StudyPlanCard";
-
 
 const StudyPlanCard: React.FC<StudyPlanCardProps> = ({
   plan,
   totalNodes,
-  isBookmarked,
+  //isBookmarked,
   onCardClick,
-  onToggleBookmark,
+  //onToggleBookmark,
   onAddToMyPlans,
 }) => {
   return (
@@ -42,7 +35,7 @@ const StudyPlanCard: React.FC<StudyPlanCardProps> = ({
               {plan.study_plan_description}
             </p>
           </div>
-          <button
+          {/* <button
             onClick={(e) => {
               e.stopPropagation();
               onToggleBookmark(plan.study_plan_id);
@@ -54,7 +47,7 @@ const StudyPlanCard: React.FC<StudyPlanCardProps> = ({
             ) : (
               <Bookmark className="w-5 h-5 text-gray-400" />
             )}
-          </button>
+          </button> */}
         </div>
 
         <div className="mt-auto">
@@ -72,7 +65,7 @@ const StudyPlanCard: React.FC<StudyPlanCardProps> = ({
             </div>
             <span>→</span>
             <div className="flex items-center gap-1">
-              <Target className="w-3 h-3" />
+              <Calendar className="w-3 h-3" />
               <span>
                 {new Date(plan.study_plan_end_date).toLocaleDateString()}
               </span>

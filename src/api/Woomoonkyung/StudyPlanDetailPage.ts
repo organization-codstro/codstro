@@ -46,7 +46,9 @@ export const WoomoonkyungDetailService = {
         .order("study_plan_node_position", { ascending: true });
       if (nodesError) throw nodesError;
 
-      const completedNodesCount = nodes.filter((node) => node.completed).length;
+      const completedNodesCount = nodes.filter(
+        (node) => node.study_plan_node_completed,
+      ).length;
       const totalNodesCount = nodes.length;
       const progressPercentage =
         totalNodesCount > 0 ? (completedNodesCount / totalNodesCount) * 100 : 0;
@@ -54,8 +56,8 @@ export const WoomoonkyungDetailService = {
       return {
         plan: {
           study_plan_id: plan.study_plan_id,
-          title: plan.title,
-          description: plan.description,
+          title: plan.study_plan_name,
+          description: plan.study_plan_description,
           imageUrl: plan.study_plan_image_url,
           startDate: plan.study_plan_start_date,
           endDate: plan.study_plan_end_date,
@@ -85,7 +87,7 @@ export const WoomoonkyungDetailService = {
 
       const { data, error } = await supabase
         .from("study_plan_nodes")
-        .update({ completed: isCompleted })
+        .update({ study_plan_node_completed: isCompleted })
         .eq("study_plan_node_id", nodeId)
         .select()
         .single();

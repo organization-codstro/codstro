@@ -25,13 +25,13 @@ export const RecommendedStudyPlansService = {
           `
           *,
           node_count: study_plan_nodes(count)
-        `
+        `,
         )
         .eq("study_plan_is_recommendation", true);
 
       if (searchQuery) {
         query = query.or(
-          `study_plan_name.ilike.%${searchQuery}%,study_plan_description.ilike.%${searchQuery}%`
+          `study_plan_name.ilike.%${searchQuery}%,study_plan_description.ilike.%${searchQuery}%`,
         );
       }
 
@@ -46,7 +46,10 @@ export const RecommendedStudyPlansService = {
         totalNodes: plan.node_count?.[0]?.count || 0,
       }));
     } catch (error) {
-      console.error("[RecommendedStudyPlansService - getRecommendedPlans Error]:", error);
+      console.error(
+        "[RecommendedStudyPlansService - getRecommendedPlans Error]:",
+        error,
+      );
       throw error;
     }
   },
@@ -69,7 +72,10 @@ export const RecommendedStudyPlansService = {
       if (error) throw error;
       return data;
     } catch (error) {
-      console.error("[RecommendedStudyPlansService - toggleBookmark Error]:", error);
+      console.error(
+        "[RecommendedStudyPlansService - toggleBookmark Error]:",
+        error,
+      );
       throw error;
     }
   },
@@ -92,7 +98,6 @@ export const RecommendedStudyPlansService = {
             study_plan_start_date: new Date().toISOString().split("T")[0],
             study_plan_end_date: params.targetPlan.study_plan_end_date,
             study_plan_state: "waiting",
-            study_plan_is_archived: false,
             study_plan_is_recommendation: false,
             user_id: params.userId,
           },
@@ -104,7 +109,10 @@ export const RecommendedStudyPlansService = {
 
       return newPlan;
     } catch (error) {
-      console.error("[RecommendedStudyPlansService - addToMyPlans Error]:", error);
+      console.error(
+        "[RecommendedStudyPlansService - addToMyPlans Error]:",
+        error,
+      );
       throw error;
     }
   },
@@ -113,19 +121,22 @@ export const RecommendedStudyPlansService = {
    * [북마크된 플랜 ID 목록 조회]
    * 초기 상태 설정을 위해 북마크(archived)된 ID들만 Set 형식으로 변환하기 위한 데이터를 가져옵니다.
    */
-  async getBookmarkedIds(userId: GetBookmarkedIdsParams) {
-    try {
-      const { data, error } = await supabase
-        .from("study_plans")
-        .select("study_plan_id")
-        .eq("user_id", userId)
-        .eq("study_plan_is_archived", true);
+  // async getBookmarkedIds(userId: GetBookmarkedIdsParams) {
+  //   try {
+  //     const { data, error } = await supabase
+  //       .from("study_plans")
+  //       .select("study_plan_id")
+  //       .eq("user_id", userId)
+  //       .eq("study_plan_is_archived", true);
 
-      if (error) throw error;
-      return data?.map((item) => item.study_plan_id) || [];
-    } catch (error) {
-      console.error("[RecommendedStudyPlansService - getBookmarkedIds Error]:", error);
-      throw error;
-    }
-  },
+  //     if (error) throw error;
+  //     return data?.map((item) => item.study_plan_id) || [];
+  //   } catch (error) {
+  //     console.error(
+  //       "[RecommendedStudyPlansService - getBookmarkedIds Error]:",
+  //       error,
+  //     );
+  //     throw error;
+  //   }
+  // },
 };

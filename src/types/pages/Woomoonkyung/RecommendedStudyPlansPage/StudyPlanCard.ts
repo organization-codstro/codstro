@@ -1,10 +1,10 @@
-import { StudyPlan } from "../Woomoonkyung";
+import { StudyPlan } from "../../../common/Woomoonkyung";
 
 export interface StudyPlanCardProps {
   plan: StudyPlan;
   totalNodes: number;
-  isBookmarked: boolean;
+  //isBookmarked: boolean;
   onCardClick: (plan: StudyPlan) => void;
-  onToggleBookmark: (planId: string) => void;
+  //onToggleBookmark: (planId: string) => void;
   onAddToMyPlans: (plan: StudyPlan) => void;
 }

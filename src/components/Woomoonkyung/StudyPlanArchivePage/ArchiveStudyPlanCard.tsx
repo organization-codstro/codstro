@@ -1,5 +1,12 @@
 import React from "react";
-import { Calendar, Target, Trash2, Award, User, AlertCircle } from "lucide-react";
+import {
+  Calendar,
+  Target,
+  Trash2,
+  Award,
+  User,
+  AlertCircle,
+} from "lucide-react";
 import { StudyPlanCardProps } from "../../../types/pages/Woomoonkyung/StudyPlanArchivePage/ArchiveStudyPlanCard";
 
 const ArchiveStudyPlanCard: React.FC<StudyPlanCardProps> = ({
@@ -12,8 +19,6 @@ const ArchiveStudyPlanCard: React.FC<StudyPlanCardProps> = ({
   onDeleteClick,
   isDeleting = false,
 }) => {
-  const isPlanRecommended = plan.study_plan_is_recommendation;
-
   return (
     <div
       className={`overflow-hidden transition-all bg-white border rounded-lg cursor-pointer hover:shadow-md group relative ${
@@ -70,15 +75,6 @@ const ArchiveStudyPlanCard: React.FC<StudyPlanCardProps> = ({
 
         {/* 배지 영역: 추천 여부 및 상태 */}
         <div className="flex flex-wrap gap-2">
-          {isPlanRecommended ? (
-            <span className="inline-flex items-center gap-1 px-2 py-1 text-[10px] font-bold text-blue-700 bg-blue-100 border border-blue-200 rounded-full">
-              <Award className="w-3 h-3" /> System
-            </span>
-          ) : (
-            <span className="inline-flex items-center gap-1 px-2 py-1 text-[10px] font-bold text-green-700 bg-green-100 border border-green-200 rounded-full">
-              <User className="w-3 h-3" /> My Plan
-            </span>
-          )}
           <span
             className={`inline-flex items-center gap-1 px-2 py-1 text-[10px] font-bold rounded-full border ${
               stateColors[plan.study_plan_state] ||

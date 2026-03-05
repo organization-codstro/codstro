@@ -10,7 +10,6 @@ export interface StudyPlan {
   study_plan_image_url?: string;
   study_plan_start_date: string;
   study_plan_end_date: string;
-  study_plan_is_archived: boolean;
   study_plan_state: STUDY_PLAN_STATE_TYPE;
   created_at: string;
   user_id?: string;

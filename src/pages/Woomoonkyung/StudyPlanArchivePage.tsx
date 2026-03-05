@@ -40,7 +40,7 @@ export default function StudyPlanArchivePage() {
         userId: currentUserId,
         searchQuery,
       });
-      setArchivedPlans(plans as unknown as StudyPlan[]);
+      setArchivedPlans(plans as StudyPlan[]);
 
       // 2. 각 플랜별 통계 조회 (병렬 처리)
       const statsPromises = plans.map((plan) =>
@@ -74,9 +74,6 @@ export default function StudyPlanArchivePage() {
 
     if (deletingId !== plan.study_plan_id) {
       setDeletingId(plan.study_plan_id);
-      toast.info("한 번 더 클릭하면 삭제/보관해제 됩니다.", {
-        autoClose: 3000,
-      });
       setTimeout(() => setDeletingId(null), 3000);
       return;
     }
@@ -84,7 +81,6 @@ export default function StudyPlanArchivePage() {
     try {
       await StudyPlanArchiveService.deleteFromArchive({
         planId: plan.study_plan_id,
-        isRecommendation: plan.study_plan_is_recommendation,
       });
 
       setArchivedPlans((prev) =>

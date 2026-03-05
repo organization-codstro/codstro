@@ -1,4 +1,4 @@
-import { StudyPlan } from "../Woomoonkyung";
+import { StudyPlan } from "../../../common/Woomoonkyung";
 
 export interface StudyPlanCardProps {
   plan: StudyPlan;

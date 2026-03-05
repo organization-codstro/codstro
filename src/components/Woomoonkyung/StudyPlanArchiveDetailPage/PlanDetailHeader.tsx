@@ -5,6 +5,9 @@ import StatusBadge from "../StatusBadge";
 import ProgressBar from "../../ProgressBar";
 import { PlanDetailHeaderProps } from "../../../types/pages/Woomoonkyung/StudyPlanArchiveDetailPage/PlanDetailHeader";
 
+//기본 이미지
+import StudyPlanBasicImg from "../../../assets/images/Woomoonkyung/StudyPlanBasicImg.png";
+
 const PlanDetailHeader: React.FC<PlanDetailHeaderProps> = ({
   planId,
   name,
@@ -21,15 +24,13 @@ const PlanDetailHeader: React.FC<PlanDetailHeaderProps> = ({
 
   return (
     <div className="overflow-hidden bg-white border border-purple-100 shadow-sm rounded-xl">
-      {imageUrl && (
-        <div className="h-48 overflow-hidden bg-gray-200">
-          <img
-            src={imageUrl}
-            alt={name}
-            className="object-cover w-full h-full"
-          />
-        </div>
-      )}
+      <div className="h-48 overflow-hidden bg-gray-200">
+        <img
+          src={imageUrl ? imageUrl : StudyPlanBasicImg}
+          alt={name}
+          className="object-cover w-full h-full"
+        />
+      </div>
 
       <div className="p-6">
         <div className="flex items-start justify-between mb-6">

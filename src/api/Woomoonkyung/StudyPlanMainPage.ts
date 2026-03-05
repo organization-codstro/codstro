@@ -3,9 +3,9 @@ import {
   GetActiveMyPlansParams,
   DeletePlanParams,
   GetPlanStatsParams,
-  PlanWithStats
+  PlanWithStats,
 } from "../../types/api/Woomoonkyung/StudyPlanMainPage";
-import { PlanStatsResult } from "../../types/common/Woomoonkyung";
+import { NodeItem, PlanStatsResult } from "../../types/common/Woomoonkyung";
 
 /**
  * [우문경 메인 대시보드 서비스]
@@ -21,36 +21,34 @@ export const WoomoonkyungMainService = {
     try {
       const { userId } = params;
 
-      const today = new Date();
-      today.setHours(0, 0, 0, 0); // 날짜 비교 안정화 (자정 기준)
-
-      const { data, error } = await supabase
+      const { data: plans, error: planError } = await supabase
         .from("study_plans")
         .select(
           `
         *,
         study_plan_nodes (
-          study_plan_node_end_date
+          study_plan_node_id,
+          study_plan_node_completed
         )
       `,
         )
         .eq("user_id", userId)
-        // .eq("study_plan_state", "in progress")
         .eq("study_plan_is_recommendation", false)
+        .neq("study_plan_state", "done")
         .order("created_at", { ascending: false });
 
-      if (error) throw error;
+      if (planError) throw planError;
 
-      return data.map((plan: any) => {
+      return (plans || []).map((plan: any) => {
         const nodes = plan.study_plan_nodes || [];
 
         const total = nodes.length;
-        const completed = nodes.filter((node: any) => {
-          if (!node.study_plan_node_end_date) return false;
-          return new Date(node.study_plan_node_end_date) < today;
-        }).length;
 
-        const progress = total > 0 ? (completed / total) * 100 : 0;
+        const completed = nodes.filter(
+          (node: any) => node.study_plan_node_completed === true,
+        ).length;
+
+        const progress = total > 0 ? Math.round((completed / total) * 100) : 0;
 
         return {
           ...plan,

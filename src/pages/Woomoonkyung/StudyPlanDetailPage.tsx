@@ -83,7 +83,7 @@ export default function StudyPlanDetailPage() {
           planId={planId!}
           name={plan.title}
           description={plan.description}
-          imageUrl={plan.description}
+          imageUrl={plan.imageUrl}
           startDate={plan.startDate}
           endDate={plan.endDate}
           state={plan.state}

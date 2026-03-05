@@ -1,12 +1,10 @@
 import { STUDY_PLAN_STATE_TYPE } from "../../../../constants/Woomoonkyung/woomoonkyung";
+import { StudyPlan } from "../../../common/Woomoonkyung";
 
 export interface PlanHeaderProps {
-  name: string;
-  description: string;
-  imageUrl?: string;
-  startDate: string;
-  endDate: string;
+  plan: StudyPlan;
   nodeCount: number;
   state: STUDY_PLAN_STATE_TYPE;
-  isBookmarked: boolean;
+  onAddToMyPlans: (plan: StudyPlan) => void;
+  //isBookmarked: boolean;
 }

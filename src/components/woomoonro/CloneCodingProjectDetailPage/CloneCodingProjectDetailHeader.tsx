@@ -1,6 +1,6 @@
 import { Bookmark, BookmarkCheck } from "lucide-react";
 import { CloneCodingProjectDetailHeaderProps } from "../../../types/pages/Woomoonro/CloneCodingProjectDetailPage/CloneCodingProjectDetailHeader";
-import CloneCodingProjectImg from "../../../assets/images/woomoonro/CloneCodingProjectImg.png";
+import CloneCodingProjectImg from "../../../assets/images/woomoonro/CloneCodingProjectbasicImg.png";
 
 const ProjectDetailHeader = (props: CloneCodingProjectDetailHeaderProps) => {
   return (
