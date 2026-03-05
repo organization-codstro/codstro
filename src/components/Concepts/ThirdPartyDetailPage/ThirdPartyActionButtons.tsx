@@ -1,4 +1,4 @@
-import { MessageCircle, Plus } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { ThirdPartyActionButtonsProps } from "../../../types/pages/Concepts/ThirdPartyDetailPage/ThirdPartyActionButtons";
 
 export default function ThirdPartyActionButtons({

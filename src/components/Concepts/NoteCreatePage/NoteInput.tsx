@@ -1,13 +1,14 @@
 import { NoteTitleInputProps } from "../../../types/pages/Concepts/NoteCreatePage/NoteTitleInput";
 
-export default function NoteTitleInput({
+export default function NoteInput({
+  title,
   value,
   onChange,
 }: NoteTitleInputProps) {
   return (
     <div className="mb-6">
       <label className="block mb-2 text-sm font-medium text-gray-700">
-        Note Title
+        {title}
       </label>
       <input
         type="text"

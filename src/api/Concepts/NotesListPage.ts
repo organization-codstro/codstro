@@ -25,7 +25,7 @@ export const NoteListService = {
         title:note_title,
         concepts:note_labels,
         lastUpdated:updated_at,
-        preview:note_description
+        description:note_description
       `,
       )
       .eq("user_id", params.userId)
@@ -35,8 +35,6 @@ export const NoteListService = {
 
     return (data || []).map((note) => ({
       ...note,
-      // description이 비어있을 경우를 대비한 처리
-      preview: note.preview || "내용 요약이 없습니다.",
     }));
   },
 
@@ -54,7 +52,7 @@ export const NoteListService = {
         title:note_title,
         concepts:note_labels,
         lastUpdated:created_date,
-        preview:note_description
+        description:note_description
       `,
       )
       .eq("user_id", params.userId)
@@ -68,7 +66,6 @@ export const NoteListService = {
 
     return (data || []).map((note) => ({
       ...note,
-      preview: note.preview || "내용 요약이 없습니다.",
     }));
   },
 };

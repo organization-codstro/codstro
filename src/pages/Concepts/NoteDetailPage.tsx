@@ -46,7 +46,7 @@ export default function NoteDetailPage() {
   // 수정 페이지 이동
   const handleEdit = () => {
     if (!note) return;
-    navigate(`/notes/${note.id}/edit`);
+    navigate(`/notes/${note.noteId}/edit`);
   };
 
   // 노트 삭제
@@ -86,17 +86,13 @@ export default function NoteDetailPage() {
   }
 
   // 서비스에서 온 중첩된 개념 데이터를 문자열 배열로 변환
-  const formattedConcepts: string[] =
-    note.relatedConcepts?.map((item: any) => {
-      return (
-        item.concept_description_materials
-          ?.concept_description_material_name ||
-        item.tool_description_materials?.tool_description_material_name ||
-        item.librarie_description_materials
-          ?.librarie_description_material_name ||
-        "Unknown Concept"
-      );
-    }) ?? [];
+  const formattedConcepts: string[] = [
+    ...(note.conceptNames || []),
+    ...(note.toolNames || []),
+    ...(note.libraryNames || []),
+    ...(note.packageManagerNames || []),
+    ...(note.thirdPartyNames || []),
+  ];
 
   return (
     <div className="max-w-5xl p-8 mx-auto">

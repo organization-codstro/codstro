@@ -83,9 +83,7 @@ export default function NotesListPage() {
       />
 
       {/* 2. 검색 바 */}
-      <ConceptSearchBar
-        onSearchChange={(val) => setSearchTerm(val)}
-      />
+      <ConceptSearchBar onSearchChange={(val) => setSearchTerm(val)} />
 
       {/* 3. 리스트 표시 영역 */}
       {isLoading ? (
@@ -102,7 +100,7 @@ export default function NotesListPage() {
               title={note.title}
               concepts={note.concepts}
               lastUpdated={note.lastUpdated}
-              preview={note.preview}
+              description={note.description}
               onClick={handleNoteClick}
             />
           ))}

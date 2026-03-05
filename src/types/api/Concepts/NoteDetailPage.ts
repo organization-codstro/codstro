@@ -23,12 +23,13 @@ export interface SummarizeNoteWithAIParams {
 }
 
 export interface NoteDetailResponse {
-  id: string;
+  noteId: string;
   title: string;
+  lastUpdated: string;
   content: string;
-  labels: string[]; // 스키마의 note_labels
-  lastUpdated: string; // created_date 또는 별도 수정일
-  userId: string;
-  // 관계 데이터
-  relatedConcepts?: any[];
+  conceptNames: string[];
+  toolNames: string[];
+  libraryNames: string[];
+  packageManagerNames: string[];
+  thirdPartyNames: string[];
 }

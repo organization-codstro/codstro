@@ -4,7 +4,7 @@ import { NoteCardProps } from "../../../types/pages/Concepts/NotesListPage/NoteC
 export default function NoteCard({
   id,
   title,
-  preview,
+  description,
   concepts,
   lastUpdated,
   onClick,
@@ -17,7 +17,7 @@ export default function NoteCard({
       <h3 className="mb-3 text-xl font-bold text-gray-900 line-clamp-1">
         {title}
       </h3>
-      <p className="mb-4 text-sm text-gray-600 line-clamp-2">{preview}</p>
+      <p className="mb-4 text-sm text-gray-600 line-clamp-2">{description}</p>
       <div className="flex flex-wrap gap-2 mb-4">
         {concepts.map((concept, idx) => (
           <span

@@ -1,28 +1,29 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Save, Loader2 } from "lucide-react";
 
 // 공통 컴포넌트
 import BackButton from "../../components/Concepts/BackButton";
-import NoteTitleInput from "../../components/Concepts/NoteCreatePage/NoteInput";
 import ConceptSelector from "../../components/Concepts/ConceptSelector";
 import NoteEditor from "../../components/Concepts/NoteCreatePage/NoteEditor";
 import { LoginService } from "../../api/Auth/LoginPage";
-import { NoteCreateService } from "../../api/Concepts/NoteCreatePage";
+import { NoteUpdateService } from "../../api/Concepts/NoteUpdatePage";
 import { MATERIAL_TYPE } from "../../constants/Concepts/concepts";
 import { ConceptItem } from "../../types/common/concepts";
 import { ConceptsService } from "../../api/Concepts/Concepts";
+import NoteInput from "../../components/Concepts/NoteCreatePage/NoteInput";
 
-export default function NoteCreatePage() {
+export default function NoteUpdatePage() {
   const navigate = useNavigate();
+  const { noteId } = useParams<{ noteId: string }>();
 
-  // 상태 관리
+  // 1. 상태 관리
   const [userId, setUserId] = useState<string | null>(null);
-  const [title, setTitle] = useState<string>("");
+  const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [content, setContent] = useState<string>("");
-  const [selectedConcepts, setSelectedConcepts] = useState<ConceptItem[]>([]);
+  const [content, setContent] = useState("");
+  const [selectedConcepts, setSelectedConcepts] = useState<ConceptItem[]>([]); // 여기서는 ID 배열로 관리
 
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -32,28 +33,40 @@ export default function NoteCreatePage() {
   const [activeFilter, setActiveFilter] = useState<MATERIAL_TYPE | "all">(
     "all",
   );
-  const [currentPage, setCurrentPage] = useState(0); // UI용 0-based
+  const [currentPage, setCurrentPage] = useState(0); // 0-based (UI용)
   const [availableConcepts, setAvailableConcepts] = useState<ConceptItem[]>([]);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoadingConcepts, setIsLoadingConcepts] = useState(false);
 
-  // 초기 유저 정보
+  // 2. 초기 데이터 로드 (유저 세션 및 기존 노트)
   useEffect(() => {
     const initPage = async () => {
       try {
         setIsLoading(true);
         const currentUserId = await LoginService.getCurrentUserId();
         setUserId(currentUserId);
+
+        if (noteId) {
+          const noteData = await NoteUpdateService.getNoteById({ noteId });
+          setTitle(noteData.note_title);
+          setDescription(noteData.note_description);
+          setContent(noteData.note_content || "");
+
+          const { noteConceptIds } = await NoteUpdateService.getNoteConcepts({
+            NoteId: noteId,
+          });
+          setSelectedConcepts(noteConceptIds);
+        }
       } catch (error) {
-        toast.error("유저 정보를 불러오는데 실패했습니다.");
+        toast.error("데이터를 불러오는데 실패했습니다.");
       } finally {
         setIsLoading(false);
       }
     };
     initPage();
-  }, []);
+  }, [noteId]);
 
-  // 필터/페이지 변경 시 ConceptsService 호출
+  // 필터/페이지 변경 시 API 호출
   useEffect(() => {
     if (!showConceptSelector) return;
 
@@ -61,11 +74,13 @@ export default function NoteCreatePage() {
       try {
         setIsLoadingConcepts(true);
 
+        // API 호출 (변경된 반환 타입 사용)
         const { data, hasMore } = await ConceptsService.getConceptsByType({
           type: activeFilter,
-          page: currentPage + 1,
+          page: currentPage + 1, // 1-based
         });
 
+        // 🔹 availableConcepts 세팅
         setAvailableConcepts(
           data.map((item: any) => ({
             id: item.id,
@@ -74,6 +89,7 @@ export default function NoteCreatePage() {
           })),
         );
 
+        // 🔹 totalPages 계산 (hasMore 사용)
         setTotalPages(currentPage + 1 + (hasMore ? 1 : 0));
       } catch (error) {
         console.error(error);
@@ -86,7 +102,13 @@ export default function NoteCreatePage() {
     fetchConcepts();
   }, [activeFilter, currentPage, showConceptSelector]);
 
-  // 개념 선택 토글
+  // 3. 핸들러 로직
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  // 개념 선택 토글 (ID 기반)
   const handleConceptToggle = (concept: ConceptItem) => {
     setSelectedConcepts(
       (prev) =>
@@ -95,8 +117,7 @@ export default function NoteCreatePage() {
           : [...prev, concept], // 새로 선택된 경우 추가
     );
   };
-
-  // AI 콘텐츠 생성
+  // [AI 서비스] 선택된 개념 기반 초안 생성
   const handleGenerateWithAI = async () => {
     if (selectedConcepts.length === 0) {
       toast.warning("최소 하나 이상의 개념을 선택해주세요.");
@@ -105,12 +126,11 @@ export default function NoteCreatePage() {
 
     try {
       // setIsGeneratingAI(true);
-
       // const selectedNames = availableConcepts
-      //   .filter((c) => selectedConcepts.includes(c.id))
+      //   .filter((c) => selectedConcepts.some((s) => s.id === c.id))
       //   .map((c) => c.name);
 
-      // const aiContent = await NoteCreateService.generateNoteContent({
+      // const aiContent = await NoteUpdateService.generateNoteContent({
       //   concepts: selectedNames,
       // });
 
@@ -123,36 +143,35 @@ export default function NoteCreatePage() {
     }
   };
 
-  // 노트 생성
+  if (!noteId) return <div className="p-20 text-center">404 패이지</div>;
+
+  // [저장] 노트 저장 및 수정
   const handleSave = async () => {
-    if (!userId || !title.trim() || !content.trim()) {
+    if (!userId) return;
+    if (!title.trim() || !content.trim()) {
       toast.warning("제목과 내용을 모두 입력해주세요.");
       return;
     }
 
     try {
       setIsSaving(true);
-
-      // conceptId + type 같이 전달
-      const conceptPayload = selectedConcepts.map((c) => ({
-        id: c.id,
-        type: c.type,
-      }));
-
-      await NoteCreateService.createNote({
+      await NoteUpdateService.updateNote({
+        id: noteId,
         userId,
         title,
         content,
-        description,
         labels: ["personal", "study"],
-        concepts: conceptPayload,
+        concept: selectedConcepts,
+        description,
       });
 
-      toast.success("노트가 생성되었습니다!");
+      toast.success(
+        noteId ? "노트가 수정되었습니다!" : "새 노트가 저장되었습니다!",
+      );
       navigate("/notes");
     } catch (error) {
       console.error(error);
-      toast.error("노트 생성에 실패했습니다.");
+      toast.error("저장에 실패했습니다.");
     } finally {
       setIsSaving(false);
     }
@@ -160,11 +179,7 @@ export default function NoteCreatePage() {
 
   const handleFilterChange = (type: MATERIAL_TYPE | "all") => {
     setActiveFilter(type);
-    setCurrentPage(0);
-  };
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+    setCurrentPage(0); // 필터 변경 시 첫 페이지로
   };
 
   if (isLoading)
@@ -176,12 +191,12 @@ export default function NoteCreatePage() {
 
       <div className="p-8 bg-white border border-gray-200 rounded-lg shadow-sm">
         <h1 className="mb-6 text-3xl font-bold text-gray-900">
-          Create New Note
+          {noteId ? "Edit Note" : "Create New Note"}
         </h1>
 
-        <NoteTitleInput title={"title"} value={title} onChange={setTitle} />
+        <NoteInput title={"name"} value={title} onChange={setTitle} />
 
-        <NoteTitleInput
+        <NoteInput
           title={"description"}
           value={description}
           onChange={setDescription}
@@ -215,6 +230,7 @@ export default function NoteCreatePage() {
 
         <NoteEditor value={content} onChange={setContent} />
 
+        {/* 하단 액션 버튼 그룹 */}
         <div className="flex items-center gap-3 pt-6 border-t border-gray-100">
           <button
             onClick={handleSave}
@@ -226,7 +242,7 @@ export default function NoteCreatePage() {
             ) : (
               <Save className="w-4 h-4" />
             )}
-            Save Note
+            {noteId ? "Update Note" : "Save Note"}
           </button>
 
           <button

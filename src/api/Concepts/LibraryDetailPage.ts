@@ -118,7 +118,7 @@ export const LibraryDetailService = {
       note_title: `[학습] ${libraryName} - ${type}`,
       note_description: `${libraryName} 라이브러리의 ${type} 관련 과제입니다.`,
       note_labels: ["Library", type],
-      created_date: new Date().toISOString().split("T")[0],
+      created_at: new Date().toISOString().split("T")[0],
     });
 
     if (error) throw error;

@@ -9,14 +9,17 @@ import {
 /**
  * [NoteDetailService]
  * 특정 노트의 상세 내용을 조회하고 삭제하는 기능을 담당합니다.
- * 참조 테이블: notes, note_concept
+ * 참조 테이블: notes, note_concepts
  */
 export const NoteDetailService = {
   /**
    * [조회] 특정 ID의 노트 상세 정보와 연결된 개념들을 가져옵니다.
    */
+  /**
+   * [조회] 특정 ID의 노트 상세 정보와 연결된 개념들을 가져옵니다.
+   */
   async getNoteDetail(
-    params: GetNoteDetailParams
+    params: GetNoteDetailParams,
   ): Promise<NoteDetailResponse> {
     // 1. 노트 기본 정보 조회
     const { data: note, error } = await supabase
@@ -26,42 +29,90 @@ export const NoteDetailService = {
         id:note_id,
         title:note_title,
         content:note_content,
-        labels:note_labels,
-        lastUpdated:created_date,
-        userId:user_id
-      `
+        lastUpdated:updated_at
+      `,
       )
       .eq("note_id", params.noteId)
       .single();
 
     if (error) throw new Error(error.message);
 
-    // 2. 연결된 개념(Related Concepts) 정보 조회
+    // 2. 연결된 개념 조회
     const { data: concepts } = await supabase
-      .from("note_concept")
+      .from("note_concepts")
       .select(
         `
         concept_description_materials(concept_description_material_name),
         tool_description_materials(tool_description_material_name),
-        librarie_description_materials(librarie_description_material_name)
-      `
+        librarie_description_materials(librarie_description_material_name),
+        package_manager_description_materials(package_manager_description_material_name),
+        third_party_services_description_materials(third_party_services_description_material_name)
+      `,
       )
       .eq("note_id", params.noteId);
 
+    // 이름 추출 헬퍼 함수
+    const extractNames = (
+      concepts: any[] | null,
+      relation: string,
+      field: string,
+    ): string[] => {
+      return (
+        concepts?.map((c) => c[relation]?.[0]?.[field]).filter(Boolean) ?? []
+      );
+    };
+
+    // 3. 이름 배열 생성
+    const conceptNames = extractNames(
+      concepts,
+      "concept_description_materials",
+      "concept_description_material_name",
+    );
+
+    const toolNames = extractNames(
+      concepts,
+      "tool_description_materials",
+      "tool_description_material_name",
+    );
+
+    const libraryNames = extractNames(
+      concepts,
+      "librarie_description_materials",
+      "librarie_description_material_name",
+    );
+
+    const packageManagerNames = extractNames(
+      concepts,
+      "package_manager_description_materials",
+      "package_manager_description_material_name",
+    );
+
+    const thirdPartyNames = extractNames(
+      concepts,
+      "third_party_services_description_materials",
+      "third_party_services_description_material_name",
+    );
+
     return {
-      ...note,
-      relatedConcepts: concepts || [],
+      noteId: note.id,
+      title: note.title,
+      lastUpdated: note.lastUpdated,
+      content: note.content,
+      conceptNames,
+      toolNames,
+      libraryNames,
+      packageManagerNames,
+      thirdPartyNames,
     };
   },
-
   /**
    * [삭제] 노트를 삭제합니다.
-   * (스키마에 ON DELETE CASCADE가 설정되어 있지 않다면 note_concept 관계를 먼저 삭제해야 합니다.)
+   * (스키마에 ON DELETE CASCADE가 설정되어 있지 않다면 note_concepts 관계를 먼저 삭제해야 합니다.)
    */
   async deleteNote(params: DeleteNoteDetailParams): Promise<boolean> {
     // 1. 관계 테이블 데이터 우선 삭제
     const { error: relError } = await supabase
-      .from("note_concept")
+      .from("note_concepts")
       .delete()
       .eq("note_id", params.noteId);
 
@@ -90,7 +141,7 @@ export const NoteDetailService = {
         body: JSON.stringify({
           prompt: `다음 학습 노트 내용을 3줄로 요약해줘: ${params.content.substring(
             0,
-            1000
+            1000,
           )}`,
         }),
       });

@@ -2,15 +2,15 @@ import { supabase } from "../../db/supabase/supabase";
 
 import {
   GetNoteByIdParams,
-  SaveNoteParams,
   GenerateNoteContentParams,
   DeleteNoteParams,
+  CreateNoteParams,
 } from "../../types/api/Concepts/NoteCreatePage";
 
 /**
  * [NoteCreateService]
  * 개인 학습 노트의 생성, 수정, 조회 및 AI 본문 생성을 담당합니다.
- * 참조 테이블: notes, note_concept
+ * 참조 테이블: notes, note_concepts
  */
 export const NoteCreateService = {
   /**
@@ -28,48 +28,50 @@ export const NoteCreateService = {
   },
 
   /**
-   * [생성/수정] 노트를 저장하고 선택된 개념들과의 관계를 설정합니다.
+   * [생성/수정] 노트를 생성 선택된 개념들과의 관계를 설정합니다.
    * 트랜잭션 처리를 위해 연달아 실행합니다.
    */
-  async saveNote(params: SaveNoteParams) {
-    const { id, title, content, labels, userId, conceptIds } = params;
-    const isEditing = !!id;
+  async createNote(params: CreateNoteParams) {
+    const {
+      title,
+      content,
+      labels = [],
+      userId,
+      concepts = [],
+      description,
+    } = params;
 
     // 1. 노트 본문 저장 (notes 테이블)
     const { data: note, error: noteError } = await supabase
       .from("notes")
-      .upsert({
-        note_id: id, // 존재하면 수정, 없으면 생성
+      .insert({
         note_title: title,
         note_content: content,
         note_labels: labels,
+        note_description: description,
         user_id: userId,
-        created_date: new Date().toISOString().split("T")[0],
+        created_at: new Date().toISOString().split("T")[0],
       })
       .select()
       .single();
 
     if (noteError) throw noteError;
 
-    // 2. 기존 관계 삭제 (수정 모드일 경우 note_concept 초기화)
-    if (isEditing) {
-      await supabase.from("note_concept").delete().eq("note_id", note.note_id);
-    }
-
-    // 3. 신규 관계 등록 (note_concept 테이블)
-    if (conceptIds.length > 0) {
-      const relationData = conceptIds.map((cid) => ({
+    // 2. note_concepts에 type별 컬럼 매핑
+    if (concepts.length > 0) {
+      const relationData = concepts.map((c) => ({
         note_id: note.note_id,
-        concept_description_material_id: cid, // 편의상 concept_id 컬럼에 매핑
-        // 나머지 material_id들은 기본값 1 또는 NULL 처리
-        tool_description_material_id: 1,
-        librarie_description_material_id: 1,
-        package_manager_description_materials_id: 1,
-        third_party_services_description_material_id: 1,
+        concept_description_material_id: c.type === "concept" ? c.id : null,
+        tool_description_material_id: c.type === "tool" ? c.id : null,
+        librarie_description_material_id: c.type === "librarie" ? c.id : null,
+        package_manager_description_material_id:
+          c.type === "package_manager" ? c.id : null,
+        third_party_services_description_material_id:
+          c.type === "third_party_service" ? c.id : null,
       }));
 
       const { error: relError } = await supabase
-        .from("note_concept")
+        .from("note_concepts")
         .insert(relationData);
 
       if (relError) throw relError;
@@ -89,7 +91,7 @@ export const NoteCreateService = {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           prompt: `${params.concepts.join(
-            ", "
+            ", ",
           )} 개념들을 포함한 학습 노트 초안을 마크다운 형식으로 작성해줘.`,
         }),
       });
@@ -104,7 +106,7 @@ export const NoteCreateService = {
   },
 
   /**
-   * [삭제] 노트를 삭제합니다. (CASCADE 설정 시 note_concept도 자동 삭제됨)
+   * [삭제] 노트를 삭제합니다. (CASCADE 설정 시 note_concepts도 자동 삭제됨)
    */
   async deleteNote(params: DeleteNoteParams) {
     const { error } = await supabase

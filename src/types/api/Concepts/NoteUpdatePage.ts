@@ -9,30 +9,27 @@ export interface GetNoteByIdParams {
 }
 
 /**
- * [CreateNoteParams]
- * 노트 생성 파라미터
+ * [SaveNoteParams]
+ * 노트 수정 파라미터
  */
-export interface CreateNoteParams {
+export interface UpdateNoteParams {
+  id: string;
   title: string;
   content: string;
-  description: string;
   labels: string[]; // concepts 목록을 labels로 활용
   userId: string;
-  concepts: ConceptItem[]
+  concept: ConceptItem[];
+  description: string;
 }
 
-/**
- * [GenerateNoteContentParams]
- * AI 노트 본문 생성 파라미터
- */
 export interface GenerateNoteContentParams {
   concepts: string[];
 }
 
-/**
- * [DeleteNoteParams]
- * 노트 삭제 파라미터
- */
-export interface DeleteNoteParams {
-  noteId: string;
+export interface getNoteConceptsParams {
+  NoteId: string;
+}
+
+export interface getNoteConceptsResponse {
+  noteConceptIds: ConceptItem[];
 }

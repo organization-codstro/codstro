@@ -90,6 +90,7 @@ export { default as PackageManagerMaterialsDetail } from "../pages/Concepts/Pack
 export { default as NotesList } from "../pages/Concepts/NotesListPage";
 export { default as NoteDetail } from "../pages/Concepts/NoteDetailPage";
 export { default as NoteCreate } from "../pages/Concepts/NoteCreatePage";
+export { default as NoteUpdate } from "../pages/Concepts/NoteUpdatePage";
 
 /* ================= PROFILE ================= */
 export { default as Profile } from "../pages/Profile/ProfilePage";
