@@ -15,7 +15,7 @@ export default function LibraryActionButtons({
         Chat with AI
       </button>
 
-      <button
+      {/* <button
         onClick={() => onAddTodo("documentation")}
         className="flex items-center gap-2 px-4 py-2 transition-colors border border-gray-300 rounded-lg hover:bg-gray-50"
       >
@@ -29,7 +29,7 @@ export default function LibraryActionButtons({
       >
         <Plus className="w-4 h-4" />
         Add Todo: Build Clone Project
-      </button>
+      </button> */}
     </div>
   );
 }
