@@ -6,8 +6,13 @@ export interface Company {
   company_description: string;
   company_website: string | null;
   company_values: string | null;
-  company_created_at: string;
+  created_at: string;
 }
+
+export type FavoriteCompanyRow = {
+  user_favorite_company_id: string;
+  companies: Company[];
+};
 
 //회사 매칭정보
 export interface CompanyMatch {

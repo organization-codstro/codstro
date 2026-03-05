@@ -24,9 +24,9 @@ export const CompanyListService = {
   async getCompanyList(): Promise<GetCompanyListResponse> {
     try {
       const { data, error } = await supabase
-        .from("company")
+        .from("companys")
         .select(
-          "company_id, company_name, company_industry, company_description, company_values, company_website, company_created_at",
+          "company_id, company_name, company_industry, company_description, company_values, company_website, created_at",
         )
         .order("created_at", { ascending: false });
 
@@ -48,7 +48,7 @@ export const CompanyListService = {
   ): Promise<GetUserBookmarkedIdsResponse> {
     try {
       const { data, error } = await supabase
-        .from("user_favorite_companies")
+        .from("user_favorite_companys")
         .select("company_id")
         .eq("user_id", params.userId);
 
@@ -67,7 +67,7 @@ export const CompanyListService = {
    */
   async addBookmark(params: AddBookmarkParams): Promise<AddBookmarkResponse> {
     try {
-      const { error } = await supabase.from("user_favorite_companies").insert([
+      const { error } = await supabase.from("user_favorite_companys").insert([
         {
           user_id: params.userId,
           company_id: params.companyId,
@@ -92,7 +92,7 @@ export const CompanyListService = {
   ): Promise<RemoveBookmarkResponse> {
     try {
       const { error } = await supabase
-        .from("user_favorite_companies")
+        .from("user_favorite_companys")
         .delete()
         .eq("user_id", params.userId)
         .eq("company_id", params.companyId);

@@ -43,6 +43,7 @@ export default function BookmarksPage() {
       });
 
       setBookmarkedCompanies(companies);
+      console.log("companies", companies);
     } catch (err) {
       console.error("북마크 로드 실패:", err);
       setError("북마크를 불러오는 중 오류가 발생했습니다.");

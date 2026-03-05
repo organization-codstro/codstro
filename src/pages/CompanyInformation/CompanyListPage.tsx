@@ -176,9 +176,7 @@ export default function CompanyListPage() {
                     </a>
                     <span className="text-xs text-gray-400">
                       {/* API 컬럼명 반영: company_update_date */}
-                      {new Date(company.company_created_at).toLocaleDateString(
-                        "ko-KR",
-                      )}
+                      {new Date(company.created_at).toLocaleDateString("ko-KR")}
                     </span>
                   </div>
                 </div>

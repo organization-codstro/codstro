@@ -5,6 +5,10 @@ import {
   RemoveBookmarkResponse,
 } from "../../types/api/CompanyInformation/BookmarksPage";
 import { supabase } from "../../db/supabase/supabase";
+import {
+  Company,
+  FavoriteCompanyRow,
+} from "../../types/common/companyInformation";
 
 /**
  * [BookmarksService]
@@ -13,7 +17,7 @@ import { supabase } from "../../db/supabase/supabase";
 export const BookmarksService = {
   /**
    * [함수 역할]: 특정 유저가 북마크(관심 등록)한 회사들의 상세 목록을 가져옵니다.
-   * [참조 테이블]: user_favorite_companies, companys
+   * [참조 테이블]: user_favorite_companys, companys
    * [비고]: JOIN 쿼리를 사용하여 회사 정보를 한 번에 가져옵니다.
    */
   async getBookmarkedCompanies(
@@ -21,10 +25,10 @@ export const BookmarksService = {
   ): Promise<GetBookmarkedCompaniesResponse> {
     try {
       const { data, error } = await supabase
-        .from("user_favorite_companies")
+        .from("user_favorite_companys")
         .select(
           `
-          company_id,
+          user_favorite_company_id,
           companies:company_id (
             company_id,
             company_name,
@@ -42,7 +46,7 @@ export const BookmarksService = {
       if (error) throw error;
 
       // 중첩된 객체 구조를 평탄화하여 반환
-      return data.map((item: any) => item.companys);
+      return (data as FavoriteCompanyRow[]).flatMap((item) => item.companies);
     } catch (error) {
       console.error("Error fetching bookmarks:", error);
       throw error;

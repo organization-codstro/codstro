@@ -71,7 +71,7 @@ export function BookmarkCard({
             <span>웹사이트</span>
           </a>
           <span className="text-xs text-gray-400">
-            {new Date(company.company_created_at).toLocaleDateString("ko-KR")}
+            {new Date(company.created_at).toLocaleDateString("ko-KR")}
           </span>
         </div>
       </div>

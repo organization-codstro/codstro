@@ -112,15 +112,6 @@ export interface AiUserRecords {
   user_id: number; // FK / number
 }
 
-export interface ProjectPlanningLogs {
-  project_meeting_log_id: number; // PK / number
-  project_meeting_log_sender: string; // text
-  project_meeting_log_message: string; // text
-  project_meeting_log_created_at: Date; // timestamp
-  project_meeting_log_meeting_index: number; // 1 / number
-  project_id: number; // FK / number
-}
-
 export interface ProjectPages {
   project_page_id: number; // PK / number
   project_page_name: any;
@@ -317,13 +308,23 @@ export interface UserLevels {
   user_levels_updated_date: Date; // date
 }
 
-export interface ProjectTasksLogs {
-  project_tasks_log_id: number; // PK / number
-  project_tasks_log_sender: string; // text
-  project_tasks_log_message: string; // text
-  project_tasks_log_created_at: Date; // timestamp
+export interface ProjectPlanningLogs {
+  project_planning_log_id: number; // PK / number
+  project_planning_log_sender: string; // text
+  project_planning_log_message: string; // text
+  project_id: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ProjectMeetingLogs {
+  project_meeting_log_id: number; // PK / number
+  project_meeting_log_sender: string; // text
+  project_meeting_log_message: string; // text
   project_meeting_room_id: number; // FK / number
-  project_tasks_log_meeting_index: number; // 1 / number
+  project_meeting_log_meeting_index: number; // 1 / number
+  created_at: string; // timestamp
+  updated_at: string;
 }
 
 export interface ProjectMeetingSummarys {

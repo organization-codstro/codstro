@@ -12,7 +12,10 @@ import {
   ToggleBookmarkStatusParams,
   ToggleBookmarkStatusResponse,
 } from "../../types/api/CompanyInformation/CompanyDetailPage";
-import { GenerateAiMatchReportParams, GenerateAiMatchReportResponse } from "../../types/api/CompanyInformation/CompanyMatchPage";
+import {
+  GenerateAiMatchReportParams,
+  GenerateAiMatchReportResponse,
+} from "../../types/api/CompanyInformation/CompanyMatchPage";
 import { generateAiContent } from "../Gemini/Gemini";
 
 /**
@@ -25,7 +28,7 @@ export const CompanyDetailService = {
    * [참조 테이블]: companys
    */
   async getCompanyDetail(
-    params: GetCompanyDetailParams
+    params: GetCompanyDetailParams,
   ): Promise<GetCompanyDetailResponse> {
     try {
       const { data, error } = await supabase
@@ -47,11 +50,11 @@ export const CompanyDetailService = {
    * [참조 테이블]: user_favorite_companies
    */
   async checkIsBookmarked(
-    params: CheckIsBookmarkedParams
+    params: CheckIsBookmarkedParams,
   ): Promise<CheckIsBookmarkedResponse> {
     try {
       const { data, error } = await supabase
-        .from("user_favorite_companies")
+        .from("user_favorite_companys")
         .select("user_favorite_company_id")
         .eq("user_id", params.userId)
         .eq("company_id", params.companyId)
@@ -92,7 +95,7 @@ export const CompanyDetailService = {
    * [참조 테이블]: user_favorite_companies
    */
   async deleteBookmark(
-    params: DeleteBookmarkParams
+    params: DeleteBookmarkParams,
   ): Promise<DeleteBookmarkResponse> {
     try {
       const { error } = await supabase
@@ -114,7 +117,7 @@ export const CompanyDetailService = {
    * [비고]: UI 내 toggleBookmark 핸들러에서 호출하기 용이하도록 구성
    */
   async toggleBookmarkStatus(
-    params: ToggleBookmarkStatusParams
+    params: ToggleBookmarkStatusParams,
   ): Promise<ToggleBookmarkStatusResponse> {
     if (params.currentlyBookmarked) {
       return await this.deleteBookmark({
@@ -136,7 +139,7 @@ export const CompanyDetailService = {
    */
   async generateAiMatchReport(
     params: GenerateAiMatchReportParams,
-    userRecord: GetUserRecordResponse // GetUserRecordResponse 타입
+    userRecord: GetUserRecordResponse, // GetUserRecordResponse 타입
   ): Promise<GenerateAiMatchReportResponse> {
     // 유저 기록에서 분석에 쓸만한 필드들을 추출합니다. (필드명은 DB 구조에 맞춰 조정하세요)
     const userSummary = userRecord.ai_user_record_summary || "정보 없음";

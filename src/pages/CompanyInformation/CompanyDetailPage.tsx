@@ -213,7 +213,7 @@ export default function CompanyDetailPage() {
               description={company.company_description}
               values={company.company_values}
               website={company.company_website}
-              createdDate={company.company_created_at}
+              createdDate={company.created_at}
             />
           </div>
 

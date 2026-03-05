@@ -35,7 +35,6 @@ export const MatchingHistoryDetailService = {
           company_user_match_rate,
           company_user_match_reason,
           company_user_match_suggestions,
-          company_user_match_created_date,
           company_id,
           user_id,
           created_at

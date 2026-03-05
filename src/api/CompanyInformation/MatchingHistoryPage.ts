@@ -15,7 +15,7 @@ import {
 export const MatchingHistoryService = {
   /**
    * [함수 역할]: 특정 유저의 모든 AI 매칭 이력 리스트를 조회합니다.
-   * [참조 테이블]: company_user_matchs
+   * [참조 테이블]: company_user_matches
    * [설명]:
    * - 매칭 ID, 매칭 이름, 매칭 점수, 생성일 등을 조회합니다.
    * - 최신순(created_date DESC)으로 정렬합니다.
@@ -27,13 +27,12 @@ export const MatchingHistoryService = {
 
     try {
       const { data, error } = await supabase
-        .from("company_user_matchs")
+        .from("company_user_matches")
         .select(
           `
           company_user_match_id,
           company_user_match_name,
           company_user_match_rate,
-          company_user_match_created_date,
           company_id,
           company_user_match_suggestions,
           company_user_match_reason,
@@ -77,7 +76,7 @@ export const MatchingHistoryService = {
 
   /**
    * [함수 역할]: 특정 유저의 평균 매칭 점수를 계산합니다. (대시보드용)
-   * [참조 테이블]: company_user_matchs
+   * [참조 테이블]: company_user_matches
    */
   async getAverageMatchRate(
     params: GetAverageMatchRateParams,
@@ -86,7 +85,7 @@ export const MatchingHistoryService = {
 
     try {
       const { data, error } = await supabase
-        .from("company_user_matchs")
+        .from("company_user_matches")
         .select("company_user_match_rate")
         .eq("user_id", userId);
 
