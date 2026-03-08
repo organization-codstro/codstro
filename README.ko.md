@@ -7,7 +7,7 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">Codstro (개발중 입니다)</h3>
+  <h3 align="center">Codstro (dev 0.0.1)</h3>
 
   <p align="center">
     우리를 위한 맞춤형 학습 도구 모음
