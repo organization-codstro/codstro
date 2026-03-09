@@ -26,8 +26,8 @@ export default function CreateChatRoomPage() {
     chat_room_type: "DAILY",
     chat_room_topics: "",
     created_at: "",
-    latest_message_index: 0,
-    last_read_message_index: 0,
+    chat_room_latest_message_index: 0,
+    chat_room_last_read_message_index: 0,
     chat_room_daily_is_main: false,
   });
 

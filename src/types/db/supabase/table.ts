@@ -51,8 +51,10 @@ export interface ChatRooms {
   chat_room_type: string; // daily / project / text
   chat_room_created_date: Date; // date
   user_id: number; // FK / number
-  latest_message_index: number; // number
-  last_read_message_index: number;
+  chat_room_latest_message_index: number; // number
+  chat_room_last_read_message_index: number;
+  chat_room_summary: string;
+  chat_room_summary_message_index: number;
 }
 
 export interface UserFortune {
@@ -248,26 +250,26 @@ export interface Todos {
   todo_name: string; // text
   todo_content: string; // text
   todo_description: string; // text
-  todo_start_date: Date; // date
-  todo_end_date: Date; // date
+  todo_start_date: string; // date
+  todo_end_date: string; // date
   todo_status: string; // text
-  todo_created_date: Date; // date
+  todo_created_date: string; // date
   group_id: number | null; // FK / number
   project_id: number | null; // FK / number
   project_page_id: number | null; // FK / number
   group_name: string | null; // 이 할일이 속하여 있는 그룹의 이름 / text
-  project_name: any | null; // 이 할일이 속하여 있는 프로젝트의 이름
+  project_name: string | null; // 이 할일이 속하여 있는 프로젝트의 이름
 }
 
 export interface AiPersonas {
   ai_persona_id: number; // PK / number
   ai_persona_name: string; // text
-  ai_personas_category: string; // text[]
+  ai_persona_category: string; // text[]
   ai_persona_gender: string; // text
   ai_persona_personality: string; // text
   ai_persona_preferred_features: string; // 웹에서는 "선호 대화주제"로 표시 / text
   ai_persona_speech_style: string; // text
-  ai_persona_created_date: Date; // 웹에서는 가입일로 표시 / date
+  created_at: string; // 웹에서는 가입일로 표시 / date
   ai_persona_age: number; // integer
   ai_setting_preferred_topics: string; // text
 }

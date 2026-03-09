@@ -29,8 +29,10 @@ export interface CreateChatRoomWithAiParams {
     ChatRoom,
     | "chat_room_id"
     | "created_at"
-    | "latest_message_index"
-    | "last_read_message_index"
+    | "chat_room_latest_message_index"
+    | "chat_room_last_read_message_index"
+    | "chat_room_summary"
+    | "chat_room_summary_message_index"
   >;
   selectedAiSettingIds: string[];
 }

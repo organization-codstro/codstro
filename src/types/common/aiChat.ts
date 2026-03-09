@@ -17,8 +17,8 @@ export interface ChatRoom {
   chat_room_name: string;
   chat_room_type: "DAILY" | "PROJECT";
   chat_room_topics: string;
-  latest_message_index: number;
-  last_read_message_index: number;
+  chat_room_latest_message_index: number;
+  chat_room_last_read_message_index: number;
   created_at: string;
   chat_room_daily_is_main?: boolean;
   daily_new_chats?: {

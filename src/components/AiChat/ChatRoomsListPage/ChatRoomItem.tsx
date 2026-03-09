@@ -2,7 +2,8 @@ import { ChatRoomItemProps } from "../../../types/pages/AiChat/ChatRoomsListPage
 
 export function ChatRoomItem({ room, onClick }: ChatRoomItemProps) {
   const chatRoomReadMessageCount: number =
-    room.latest_message_index - room.last_read_message_index;
+    room.chat_room_latest_message_index -
+    room.chat_room_last_read_message_index;
 
   return (
     <div

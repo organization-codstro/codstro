@@ -62,8 +62,8 @@ export const CreateChatRoomService = {
           chat_room_type: params.chatRoomData.chat_room_type,
           chat_room_topics: params.chatRoomData.chat_room_topics,
           chat_room_daily_is_main: params.chatRoomData.chat_room_daily_is_main,
-          latest_message_index: 0,
-          last_read_message_index: 0,
+          chat_room_latest_message_index: 0,
+          chat_room_last_read_message_index: 0,
         },
       ])
       .select()
