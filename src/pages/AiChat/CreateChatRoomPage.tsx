@@ -23,10 +23,11 @@ export default function CreateChatRoomPage() {
     chat_room_id: "",
     user_id: "",
     chat_room_name: "",
-    chat_room_type: "daily",
+    chat_room_type: "DAILY",
     chat_room_topics: "",
-    chat_room_unconfirmed: 0,
-    chat_room_created_date: "",
+    created_at: "",
+    latest_message_index: 0,
+    last_read_message_index: 0,
     chat_room_daily_is_main: false,
   });
 

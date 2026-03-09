@@ -32,6 +32,8 @@ export const ChatConversationService = {
    * [메시지 이력 조회]
    * 해당 채팅방의 과거 메시지들을 인덱스 순으로 가져옵니다.
    * 참조 테이블: chat_messages
+   *
+   * todo last_read_message_index를 latest_message_index로 바꾸는 기능 추가
    */
   async getMessages(params: GetMessagesParams) {
     const { data, error } = await supabase
@@ -84,7 +86,7 @@ export const ChatConversationService = {
           table: "chat_messages",
           filter: `chat_rooms_id=eq.${params.roomId}`,
         },
-        params.callback
+        params.callback,
       )
       .subscribe();
   },
@@ -93,15 +95,17 @@ export const ChatConversationService = {
    * [미확인 메시지 초기화]
    * 채팅방 진입 시 unconfirmed 카운트를 0으로 업데이트합니다.
    * 참조 테이블: chat_rooms
+   *
+   * 메세지 조회에서 할 예정
    */
-  async markAsRead(params: MarkAsReadParams) {
-    const { error } = await supabase
-      .from("chat_rooms")
-      .update({ chat_rooms_unconfirmed: 0 })
-      .eq("chat_room_id", params.roomId);
+  // async markAsRead(params: MarkAsReadParams) {
+  //   const { error } = await supabase
+  //     .from("chat_rooms")
+  //     .update({ chat_room_unconfirmed: 0 })
+  //     .eq("chat_room_id", params.roomId);
 
-    if (error) console.error("[markAsRead Error]:", error.message);
-  },
+  //   if (error) console.error("[markAsRead Error]:", error.message);
+  // },
 };
 
 /**

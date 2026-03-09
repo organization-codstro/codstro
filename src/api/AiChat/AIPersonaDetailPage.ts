@@ -47,7 +47,7 @@ export const AIPersonaDetailService = {
       .from("chat_rooms")
       .select("chat_room_id")
       .eq("user_id", params.userId)
-      .eq("chat_room_type", "daily") // 예시: 일상 대화 타입
+      .eq("chat_room_type", "DAILY") // 예시: 일상 대화 타입
       .limit(1)
       .single();
 

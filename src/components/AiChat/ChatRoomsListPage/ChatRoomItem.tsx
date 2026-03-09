@@ -1,6 +1,9 @@
 import { ChatRoomItemProps } from "../../../types/pages/AiChat/ChatRoomsListPage/ChatRoomItem";
 
 export function ChatRoomItem({ room, onClick }: ChatRoomItemProps) {
+  const chatRoomReadMessageCount: number =
+    room.latest_message_index - room.last_read_message_index;
+
   return (
     <div
       onClick={() => onClick(room.chat_room_id)}
@@ -20,9 +23,9 @@ export function ChatRoomItem({ room, onClick }: ChatRoomItemProps) {
           <h3 className="font-semibold text-gray-900 truncate">
             {room.chat_room_name}
           </h3>
-          {room.chat_room_unconfirmed > 0 && (
+          {chatRoomReadMessageCount > 0 && (
             <span className="flex items-center justify-center flex-shrink-0 w-5 h-5 text-[10px] font-bold text-white bg-red-500 rounded-full">
-              {room.chat_room_unconfirmed}
+              {chatRoomReadMessageCount}
             </span>
           )}
         </div>

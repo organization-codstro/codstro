@@ -77,7 +77,8 @@ export const ChatRoomsListService = {
           chat_room_name: params.roomName,
           chat_room_type: params.roomType,
           chat_room_topics: params.topics,
-          chat_rooms_unconfirmed: 0,
+          latest_message_index: 0,
+          last_read_message_index: 0,
         },
       ])
       .select();

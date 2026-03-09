@@ -27,7 +27,7 @@ export function RoomInfoForm({ data, onChange }: RoomInfoFormProps) {
           Room Type <span className="text-red-500">*</span>
         </label>
         <div className="grid grid-cols-2 gap-3">
-          {(["daily", "project"] as const).map((type) => (
+          {(["DAILY", "PROJECT"] as const).map((type) => (
             <button
               key={type}
               onClick={() => updateField("chat_room_type", type)}
@@ -62,7 +62,7 @@ export function RoomInfoForm({ data, onChange }: RoomInfoFormProps) {
         />
       </div>
 
-      {data.chat_room_type === "daily" && (
+      {data.chat_room_type === "DAILY" && (
         <div className="flex items-center gap-3 p-4 rounded-lg bg-blue-50">
           <input
             type="checkbox"

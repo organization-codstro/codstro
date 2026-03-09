@@ -15,13 +15,14 @@ export interface ChatRoom {
   chat_room_id: string;
   user_id: string;
   chat_room_name: string;
-  chat_room_type: "daily" | "project";
+  chat_room_type: "DAILY" | "PROJECT";
   chat_room_topics: string;
-  chat_room_unconfirmed: number;
-  chat_room_created_date: string;
+  latest_message_index: number;
+  last_read_message_index: number;
+  created_at: string;
   chat_room_daily_is_main?: boolean;
   daily_new_chats?: {
-    daily_new_chats: string;
+    daily_new_chat: string;
   };
 }
 
@@ -32,7 +33,7 @@ export interface ChatMessage {
   chat_message_sent_at: string;
   emoticon_id?: string;
   daily_chat_rooms_id: string;
-  chat_message_index: number
+  chat_message_index: number;
 }
 
 export interface UserAIFriend {

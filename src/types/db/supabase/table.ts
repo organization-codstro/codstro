@@ -39,7 +39,7 @@ export interface Emoticons {
   emoticon_id: number; // PK / number
   emoticon_name: number; // number
   emoticon_img_url: string; // text
-  emoticon_description: string; // text
+  emoticon_tags: string; // text
   emoticon_created_date: Date; // date
 }
 
@@ -51,7 +51,8 @@ export interface ChatRooms {
   chat_room_type: string; // daily / project / text
   chat_room_created_date: Date; // date
   user_id: number; // FK / number
-  chat_rooms_unconfirmed: number; // number
+  latest_message_index: number; // number
+  last_read_message_index: number;
 }
 
 export interface UserFortune {
@@ -476,14 +477,18 @@ export interface CompanyQnas {
   company_id: number; // FK / number
 }
 
-export interface ChatMessages {
-  chat_message_id: number; // PK / number
-  chat_message_sender: string; // text
-  chat_message_content: string | null; // text
-  chat_message_sent_at: Date; // timestamp
-  chat_message_index: number; // number
-  emoticon_id: number | null; // FK / number
-  chat_room_id: number; // FK / number
+export interface ChatMessage {
+  chat_message_id: string;
+  chat_message_sender: string;
+  chat_message_content?: string | null;
+  chat_message_index: number;
+  emoticon_id?: string | null;
+  chat_room_id: string;
+  created_at?: string | null;
+  updated_at?: string | null;
+  chat_message_img_content_url?: string[] | null;
+  chat_message_format: "TEXT" | "IMG" | "MULTIMODAL";
+  chat_message_interaction_type: "CASUAL" | "ACTION_REQUEST";
 }
 
 export interface UserFavoriteCompanies {

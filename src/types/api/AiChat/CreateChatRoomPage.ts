@@ -27,7 +27,10 @@ export type GetMyFriendsResponse = MyFriend[];
 export interface CreateChatRoomWithAiParams {
   chatRoomData: Omit<
     ChatRoom,
-    "chat_room_id" | "chat_room_created_date" | "chat_room_unconfirmed"
+    | "chat_room_id"
+    | "created_at"
+    | "latest_message_index"
+    | "last_read_message_index"
   >;
   selectedAiSettingIds: string[];
 }

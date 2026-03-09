@@ -17,7 +17,7 @@ export const CreateChatRoomService = {
    * 참조 테이블: user_ai_settings, ai_personas
    */
   async getMyFriends(
-    params: GetMyFriendsParams
+    params: GetMyFriendsParams,
   ): Promise<GetMyFriendsResponse> {
     const { data, error } = await supabase
       .from("user_ai_settings")
@@ -30,7 +30,7 @@ export const CreateChatRoomService = {
           ai_persona_gender,
           ai_persona_personality
         )
-      `
+      `,
       )
       .eq("user_id", params.userId);
 
@@ -50,7 +50,7 @@ export const CreateChatRoomService = {
    * 참조 테이블: chat_rooms, chat_room_ai_settings
    */
   async createChatRoomWithAi(
-    params: CreateChatRoomWithAiParams
+    params: CreateChatRoomWithAiParams,
   ): Promise<CreateChatRoomWithAiResponse> {
     // 1. 채팅방 기본 정보 생성
     const { data: room, error: roomError } = await supabase
@@ -62,7 +62,8 @@ export const CreateChatRoomService = {
           chat_room_type: params.chatRoomData.chat_room_type,
           chat_room_topics: params.chatRoomData.chat_room_topics,
           chat_room_daily_is_main: params.chatRoomData.chat_room_daily_is_main,
-          chat_rooms_unconfirmed: 0,
+          latest_message_index: 0,
+          last_read_message_index: 0,
         },
       ])
       .select()
