@@ -1,5 +1,5 @@
 export interface ChatHeaderProps {
   roomName: string;
-  topics: string;
+  topics: string[];
   onBack: () => void;
 }

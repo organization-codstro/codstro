@@ -12,11 +12,13 @@ export function FriendSelector({
       </h2>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {friends.map((friend) => {
-          const isSelected = selectedIds.includes(friend.ai_persona.ai_persona_id);
+          const isSelected = selectedIds.includes(
+            friend.ai_personas.ai_persona_id,
+          );
           return (
             <div
-              key={friend.ai_persona.ai_persona_id}
-              onClick={() => onToggle(friend.ai_persona.ai_persona_id)}
+              key={friend.ai_personas.ai_persona_id}
+              onClick={() => onToggle(friend.ai_personas.ai_persona_id)}
               className={`p-4 border-2 rounded-xl cursor-pointer transition-all ${
                 isSelected
                   ? "text-white"
@@ -35,18 +37,18 @@ export function FriendSelector({
                   }`}
                   style={!isSelected ? { backgroundColor: "#587CF0" } : {}}
                 >
-                  {friend.ai_persona.ai_persona_name.charAt(0)}
+                  {friend.ai_personas.ai_persona_name.charAt(0)}
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="font-semibold truncate">
-                    {friend.ai_persona.ai_persona_name}
+                    {friend.ai_personas.ai_persona_name}
                   </h3>
                   <p
                     className={`text-sm truncate ${
                       isSelected ? "text-white/80" : "text-gray-500"
                     }`}
                   >
-                    {friend.ai_persona.ai_persona_personality}
+                    {friend.ai_personas.ai_persona_one_line_introduction}
                   </p>
                 </div>
               </div>

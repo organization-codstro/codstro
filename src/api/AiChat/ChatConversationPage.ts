@@ -39,7 +39,7 @@ export const ChatConversationService = {
     const { data, error } = await supabase
       .from("chat_messages")
       .select("*")
-      .eq("chat_rooms_id", params.roomId)
+      .eq("chat_room_id", params.roomId)
       .order("chat_message_index", { ascending: true });
 
     if (error) throw new Error(`[getMessages Error]: ${error.message}`);
@@ -57,7 +57,7 @@ export const ChatConversationService = {
       .from("chat_messages")
       .insert([
         {
-          chat_rooms_id: params.roomId,
+          chat_room_id: params.roomId,
           chat_message_content: params.content,
           chat_message_sender: params.sender,
           chat_message_index: params.nextIndex,
@@ -84,7 +84,7 @@ export const ChatConversationService = {
           event: "INSERT",
           schema: "public",
           table: "chat_messages",
-          filter: `chat_rooms_id=eq.${params.roomId}`,
+          filter: `chat_room_id=eq.${params.roomId}`,
         },
         params.callback,
       )

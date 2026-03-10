@@ -9,11 +9,11 @@ import { toast } from "react-toastify";
 import { AIPersonaDetailService } from "../../api/AiChat/AIPersonaDetailPage";
 import { LoginService } from "../../api/Auth/LoginPage";
 
-import { PersonaHero } from "../../components/AiChat/AIPersonaDetailPage/PersonaHero";
+import { PersonaHero } from "../../components/AiChat/AIPersonaDetailPage/PersonaHero/PersonaHero";
 import { PersonaInfoCard } from "../../components/AiChat/AIPersonaDetailPage/PersonaInfoCard";
 import { NotFoundState } from "../../components/AiChat/AIPersonaDetailPage/NotFoundState";
 import { DetailHeader } from "../../components/AiChat/AIPersonaDetailPage/DetailHeader";
-import { AIPersona } from "../../types/common/aiChat";
+import { AIPersona, AiUserSettings } from "../../types/common/aiChat";
 
 export default function AIPersonaDetailPage() {
   const { personaId } = useParams<{ personaId: string }>();
@@ -25,17 +25,18 @@ export default function AIPersonaDetailPage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // -- 상세 페이지 데이터 예외 처리 --
-  if (!personaId) {
-    return (
-      <NotFoundState message="잘못된 접근입니다. 페르소나 ID가 없습니다." />
-    );
-  }
-
   // -- 데이터 로드 (Lifecycle) --
   useEffect(() => {
     const fetchPersonaDetail = async () => {
+      // -- 상세 페이지 데이터 예외 처리 --
+      if (!personaId) {
+        return (
+          <NotFoundState message="잘못된 접근입니다. 페르소나 ID가 없습니다." />
+        );
+      }
+
       setIsLoading(true);
+
       try {
         // 1. 유저 ID 확보
         const currentUserId = await LoginService.getCurrentUserId();
@@ -58,45 +59,23 @@ export default function AIPersonaDetailPage() {
     fetchPersonaDetail();
   }, [personaId]);
 
-  // -- 채팅 시작 핸들러 --
-  const handleChatClick = async () => {
+  // -- 친구 추가 핸들러 --
+  const onAddFriendClick = async (settings: AiUserSettings) => {
     if (!userId) {
       toast.warn("로그인이 필요한 서비스입니다.");
       return;
     }
-
-    const loadingToast = toast.loading("채팅방을 확인 중입니다...");
-
     try {
-      const roomId = await AIPersonaDetailService.startChatting({
+      await AIPersonaDetailService.addFriend({
+        aiPersonaId: personaId!,
         userId,
-        personaId,
+        aiUserSettings: settings,
       });
 
-      if (roomId) {
-        toast.update(loadingToast, {
-          render: "채팅방으로 이동합니다.",
-          type: "success",
-          isLoading: false,
-          autoClose: 1500,
-        });
-        navigate(`/ai-chat/${roomId}`);
-      } else {
-        // 채팅방이 없을 경우 신규 생성 로직이 필요하거나, 안내 메시지 출력
-        toast.update(loadingToast, {
-          render: "생성된 채팅방을 찾을 수 없습니다. (일상 대화방 전용)",
-          type: "info",
-          isLoading: false,
-          autoClose: 2000,
-        });
-      }
-    } catch (err: any) {
-      toast.update(loadingToast, {
-        render: err.message || "채팅 시작 중 오류가 발생했습니다.",
-        type: "error",
-        isLoading: false,
-        autoClose: 2000,
-      });
+      toast.success("친구 추가에 성공하였습니다.");
+    } catch (error) {
+      console.error(error);
+      toast.error("친구 추가에 실패했습니다. 잠시 후 다시 시도해주세요.");
     }
   };
 
@@ -124,8 +103,9 @@ export default function AIPersonaDetailPage() {
           name={persona.ai_persona_name}
           gender={persona.ai_persona_gender}
           age={persona.ai_persona_age}
-          createdDate={persona.ai_persona_created_date}
-          onChatClick={handleChatClick}
+          createdDate={persona.created_at}
+          profileImageUrl={persona.ai_persona_profile_image_url}
+          onAddFriendClick={onAddFriendClick}
         />
 
         {/* 상세 정보 리스트 섹션 */}

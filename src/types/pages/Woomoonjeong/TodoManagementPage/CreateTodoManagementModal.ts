@@ -3,4 +3,5 @@ export interface TodoManagementCreateProps {
   onClose: () => void;
   onAdd: () => void;
   availableGroups: { group_id: string; group_name: string }[];
+  selectedDate: string;
 }

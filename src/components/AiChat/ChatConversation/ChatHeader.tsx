@@ -21,7 +21,7 @@ export function ChatHeader({ roomName, topics, onBack }: ChatHeaderProps) {
 
         <div className="flex-1 min-w-0">
           <h2 className="font-semibold text-gray-900 truncate">{roomName}</h2>
-          <p className="text-sm text-gray-500 truncate">{topics}</p>
+          <p className="text-sm text-gray-500 truncate">{topics.join(", ")}</p>
         </div>
       </div>
     </div>

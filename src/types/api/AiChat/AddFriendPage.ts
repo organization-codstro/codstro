@@ -16,16 +16,16 @@ export interface SearchPersonasParams {
   age?: string;
 }
 
-export interface AddFriendParams {
-  userId: string;
-  personaId: string;
-  callMeName?: string;
-  emotion?: string;
-  aiSelfAwareness?: boolean;
-  serviceIntegration?: boolean;
-}
+// export interface AddFriendParams {
+//   userId: string;
+//   personaId: string;
+//   callMeName?: string;
+//   emotion?: string;
+//   aiSelfAwareness?: boolean;
+//   serviceIntegration?: boolean;
+// }
 
-export type AddFriendResponse = void;
+//export type AddFriendResponse = void;
 
 export interface RemoveFriendParams {
   userId: string;

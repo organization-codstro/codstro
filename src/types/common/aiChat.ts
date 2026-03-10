@@ -8,7 +8,16 @@ export interface AIPersona {
   ai_persona_age: number;
   ai_persona_preferred_features: string;
   ai_persona_speech_style: string;
-  ai_persona_created_date: string;
+  ai_persona_one_line_introduction?: string;
+  ai_persona_profile_image_url?: string;
+  created_at: string;
+} 
+
+
+export interface AiUserSettings {
+  user_ai_setting_call_me_name: string;
+  user_ai_setting_ai_self_awareness: boolean;
+  user_ai_setting_service_integration: boolean;
 }
 
 export interface ChatRoom {
@@ -16,7 +25,7 @@ export interface ChatRoom {
   user_id: string;
   chat_room_name: string;
   chat_room_type: "DAILY" | "PROJECT";
-  chat_room_topics: string;
+  chat_room_topics: string[];
   chat_room_latest_message_index: number;
   chat_room_last_read_message_index: number;
   created_at: string;
@@ -32,13 +41,13 @@ export interface ChatMessage {
   chat_message_content: string;
   chat_message_sent_at: string;
   emoticon_id?: string;
-  daily_chat_rooms_id: string;
+  daily_chat_room_id: string;
   chat_message_index: number;
 }
 
 export interface UserAIFriend {
   user_ai_setting_id: string;
-  ai_persona: AIPersona;
+  ai_personas: AIPersona;
 }
 
 export interface UserRecord {

@@ -8,7 +8,7 @@ export const AIPersonasCollectionService = {
   /**
    * [전체 AI 페르소나 목록 조회]
    * 시스템에 등록된 모든 AI 페르소나를 가져옵니다.
-   * 페이징 처리가 필요할 경우 .range()를 추가하여 최적화할 수 있습니다.
+   * todo : 페이징 처리
    * 참조 테이블: ai_personas
    */
   async getAllPersonas() {

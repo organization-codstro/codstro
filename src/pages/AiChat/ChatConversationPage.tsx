@@ -59,7 +59,7 @@ export default function ChatConversationPage() {
         const [roomInfo, messageHistory] = await Promise.all([
           ChatConversationService.getRoomInfo({ roomId }),
           ChatConversationService.getMessages({ roomId }),
-          ChatConversationService.markAsRead({ roomId }), // 진입 시 읽음 처리
+          //ChatConversationService.markAsRead({ roomId }), // 진입 시 읽음 처리
         ]);
 
         setRoom(roomInfo as ChatRoom);

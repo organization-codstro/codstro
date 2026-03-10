@@ -47,7 +47,7 @@ export interface ChatRooms {
   chat_room_id: number; // PK / number
   chat_room_name: string; // text
   chat_room_daily_is_main: boolean | null; // 일상 채팅방만 적용 / boolen
-  chat_room_topics: string; // text
+  chat_room_topics: string[]; // text
   chat_room_type: string; // daily / project / text
   chat_room_created_date: Date; // date
   user_id: number; // FK / number
@@ -271,7 +271,8 @@ export interface AiPersonas {
   ai_persona_speech_style: string; // text
   created_at: string; // 웹에서는 가입일로 표시 / date
   ai_persona_age: number; // integer
-  ai_setting_preferred_topics: string; // text
+  ai_persona_preferred_topics: string; // text
+  ai_persona_one_line_introduction: string;
 }
 
 export interface StudyPlans {

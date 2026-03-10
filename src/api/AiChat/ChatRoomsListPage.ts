@@ -7,6 +7,7 @@ import {
   SearchChatRoomsResponse,
   CreateChatRoomParams,
   CreateChatRoomResponse,
+  DeleteChatRoomParams,
 } from "../../types/api/AiChat/ChatRoomsListPage";
 
 /**
@@ -88,4 +89,11 @@ export const ChatRoomsListService = {
     if (error) throw new Error(`[createChatRoom Error]: ${error.message}`);
     return data[0];
   },
+
+  /**
+   * [채팅방 삭제]
+   * 채팅방을 삭제합니다.
+   * 참조 테이블: chat_rooms, chat_messages, chat_room_ai_settings
+   */
+  async deleteChatRoom(params: DeleteChatRoomParams) {},
 };

@@ -1,7 +1,7 @@
 import { supabase } from "../../db/supabase/supabase";
 import {
-  AddFriendParams,
-  AddFriendResponse,
+  // AddFriendParams,
+  //AddFriendResponse,
   GetMyFriendsParams,
   GetMyFriendsResponse,
   RemoveFriendParams,
@@ -25,7 +25,7 @@ export const AddFriendService = {
         `
         *,
         ai_personas (*)
-      `
+      `,
       )
       .eq("user_id", params.userId);
 
@@ -55,7 +55,7 @@ export const AddFriendService = {
     if (params.topics) {
       query = query.ilike(
         "ai_persona_preferred_features",
-        `%${params.topics}%`
+        `%${params.topics}%`,
       );
     }
     if (params.age) {
@@ -73,22 +73,22 @@ export const AddFriendService = {
    * 2. ai_persona_id에 추가하려는 AI 페르소나 ID 연결
    * 3. 기본 설정값들과 함께 저장
    */
-  async addFriend(params: AddFriendParams): Promise<AddFriendResponse> {
-    const insertData = {
-      user_id: params.userId,
-      ai_persona_id: params.personaId, // 추가하려는 AI 페르소나 ID
-      user_ai_setting_call_me_name: params.callMeName,
-      user_ai_setting_emotion: "Normal",
-      user_ai_setting_ai_self_awareness: params.aiSelfAwareness,
-      user_ai_setting_service_integration: params.serviceIntegration,
-    };
+  // async addFriend(params: AddFriendParams): Promise<AddFriendResponse> {
+  //   const insertData = {
+  //     user_id: params.userId,
+  //     ai_persona_id: params.personaId, // 추가하려는 AI 페르소나 ID
+  //     user_ai_setting_call_me_name: params.callMeName,
+  //     user_ai_setting_emotion: "Normal",
+  //     user_ai_setting_ai_self_awareness: params.aiSelfAwareness,
+  //     user_ai_setting_service_integration: params.serviceIntegration,
+  //   };
 
-    const { data, error } = await supabase
-      .from("user_ai_settings")
-      .insert(insertData);
+  //   const { data, error } = await supabase
+  //     .from("user_ai_settings")
+  //     .insert(insertData);
 
-    if (error) throw new Error(`[addFriend Error]: ${error.message}`);
-  },
+  //   if (error) throw new Error(`[addFriend Error]: ${error.message}`);
+  // },
 
   /**
    * [친구 삭제 (AI 설정 제거)]

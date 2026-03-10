@@ -1,4 +1,5 @@
 import { AIPersona, ChatRoom } from "../../common/aiChat";
+import { AiPersonas } from "../../db/supabase/table";
 
 /**
  * [내 친구 목록 조회]
@@ -16,9 +17,23 @@ export interface MyFriend extends AIPersona {
 }
 
 /**
+ * [내 친구 목록 조회] 응답 타입의 ai_personas 타입
+ */
+export type GetMyFriendsResponseAiPersonas = Pick<
+  AIPersona,
+  | "ai_persona_id"
+  | "ai_persona_name"
+  | "ai_persona_gender"
+  | "ai_persona_one_line_introduction"
+>;
+
+/**
  * [내 친구 목록 조회] 응답 타입
  */
-export type GetMyFriendsResponse = MyFriend[];
+export interface GetMyFriendsResponse {
+  user_ai_setting_id: string;
+  ai_personas: GetMyFriendsResponseAiPersonas[];
+}
 
 /**
  * [채팅방 및 AI 관계 생성]

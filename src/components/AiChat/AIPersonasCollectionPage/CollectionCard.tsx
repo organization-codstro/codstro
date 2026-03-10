@@ -3,8 +3,9 @@ import { CollectionCardProps } from "../../../types/pages/AiChat/AIPersonasColle
 export function CollectionCard({
   name,
   gender,
-  personality,
+  oneLineIntroduction,
   preferredFeatures,
+  profileImageUrl,
   onClick,
 }: CollectionCardProps) {
   return (
@@ -14,12 +15,20 @@ export function CollectionCard({
     >
       <div className="flex flex-col items-center text-center">
         {/* 아바타 */}
-        <div
-          className="flex items-center justify-center w-20 h-20 mb-4 text-2xl font-bold text-white rounded-full"
-          style={{ backgroundColor: "#587CF0" }}
-        >
-          {name.charAt(0)}
-        </div>
+        {profileImageUrl ? (
+          <img
+            src={profileImageUrl}
+            alt={name}
+            className="object-cover w-20 h-20 mb-4 rounded-full"
+          />
+        ) : (
+          <div
+            className="flex items-center justify-center w-20 h-20 mb-4 text-2xl font-bold text-white rounded-full"
+            style={{ backgroundColor: "#587CF0" }}
+          >
+            {name.charAt(0)}
+          </div>
+        )}
 
         {/* 이름 */}
         <h3 className="mb-2 text-lg font-bold text-gray-900">{name}</h3>
@@ -30,10 +39,10 @@ export function CollectionCard({
             className="px-3 py-1 text-sm rounded-full"
             style={{ backgroundColor: "#E8EFFE", color: "#587CF0" }}
           >
-            {gender}
+            {{ MALE: "남", FEMALE: "여" }[gender] ?? "성별"}
           </span>
           <span className="px-3 py-1 text-sm text-gray-600 bg-gray-100 rounded-full">
-            {personality}
+            {oneLineIntroduction || "설정된 메세지가 없습니다."}
           </span>
         </div>
 

@@ -53,3 +53,11 @@ export interface CreateChatRoomParams {
  * [채팅방 생성] 응답 타입
  */
 export type CreateChatRoomResponse = ChatRoom;
+
+/**
+ * [채팅방 삭제]
+ * 채팅방 삭제를 위한 파라미터
+ */
+export interface DeleteChatRoomParams {
+  chatRoomId: string;
+}

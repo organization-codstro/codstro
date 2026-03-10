@@ -12,6 +12,7 @@ const TodoManagementCreateModal: React.FC<TodoManagementCreateProps> = ({
   onClose,
   onAdd,
   availableGroups,
+  selectedDate,
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState<CreateTodoParams>({
@@ -33,6 +34,17 @@ const TodoManagementCreateModal: React.FC<TodoManagementCreateProps> = ({
       }));
     }
   }, [availableGroups]);
+
+  // selectedDate가 바뀔 때마다 시작일/종료일 동기화
+  useEffect(() => {
+    if (selectedDate) {
+      setFormData((prev) => ({
+        ...prev,
+        todo_start_date: selectedDate,
+        todo_end_date: selectedDate,
+      }));
+    }
+  }, [selectedDate]);
 
   const handleChange = (
     e: React.ChangeEvent<

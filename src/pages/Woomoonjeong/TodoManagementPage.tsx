@@ -186,11 +186,11 @@ export default function TodoManagementPage() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onAdd={() => {
-          //생성하고 데이터 다시 로드
           fetchFilteredList();
           fetchMonthlyData();
         }}
         availableGroups={availableGroups}
+        selectedDate={selectedDate}
       />
 
       <div className="mx-auto space-y-6 max-w-7xl">

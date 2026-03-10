@@ -44,39 +44,42 @@ export default function AIPersonasCollectionPage() {
 
       {/* 메인 콘텐츠 섹션 */}
       <div className="flex-1 p-4 overflow-y-auto">
-        {isLoading ? (
-          /* 로딩 상태 UI */
+        {isLoading && (
           <div className="flex items-center justify-center h-full">
             <p className="text-gray-500">AI 페르소나 목록을 불러오는 중...</p>
           </div>
-        ) : error ? (
-          /* 에러 발생 시 UI */
+        )}
+
+        {!isLoading && error && (
           <div className="flex flex-col items-center justify-center h-full">
             <p className="mb-4 text-red-500">{error}</p>
             <button
-              onClick={() => window.location.reload()}
+              onClick={() => globalThis.location.reload()}
               className="px-4 py-2 text-white bg-blue-500 rounded-lg"
             >
               다시 시도
             </button>
           </div>
-        ) : personas.length > 0 ? (
-          /* 데이터 렌더링 */
+        )}
+
+        {!isLoading && !error && personas.length === 0 && (
+          <CollectionEmptyState />
+        )}
+
+        {!isLoading && !error && personas.length > 0 && (
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             {personas.map((persona) => (
               <CollectionCard
                 key={persona.ai_persona_id}
                 name={persona.ai_persona_name}
                 gender={persona.ai_persona_gender}
-                personality={persona.ai_persona_personality}
+                profileImageUrl={persona.ai_persona_profile_image_url}
+                oneLineIntroduction={persona.ai_persona_one_line_introduction}
                 preferredFeatures={persona.ai_persona_preferred_features}
                 onClick={() => handleSelectPersona(persona.ai_persona_id)}
               />
             ))}
           </div>
-        ) : (
-          /* 데이터가 없을 때 */
-          <CollectionEmptyState />
         )}
       </div>
     </div>

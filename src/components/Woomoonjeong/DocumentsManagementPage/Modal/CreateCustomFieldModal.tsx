@@ -32,7 +32,7 @@ const CreateCustomFieldModal: React.FC<CreateCustomFieldModalProps> = ({
     }
   }, [isOpen]);
 
-  /** ✅ 폼 유효성 검사 */
+  /** 폼 유효성 검사 */
   const validateForm = () => {
     const newErrors: Record<string, boolean> = {};
 

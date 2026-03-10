@@ -24,7 +24,7 @@ export default function CreateChatRoomPage() {
     user_id: "",
     chat_room_name: "",
     chat_room_type: "DAILY",
-    chat_room_topics: "",
+    chat_room_topics: [],
     created_at: "",
     chat_room_latest_message_index: 0,
     chat_room_last_read_message_index: 0,
@@ -53,6 +53,7 @@ export default function CreateChatRoomPage() {
         const friends = await CreateChatRoomService.getMyFriends({
           userId: currentUserId,
         });
+        console.log(friends);
         setMyFriends(friends as unknown as UserAIFriend[]);
       } catch (error) {
         console.error(error);
@@ -77,7 +78,7 @@ export default function CreateChatRoomPage() {
       try {
         const newRoom = await CreateChatRoomService.createChatRoomWithAi({
           chatRoomData: {
-            user_id: roomData?.user_id,
+            user_id: userId,
             chat_room_name: roomData?.chat_room_name,
             chat_room_type: roomData?.chat_room_type,
             chat_room_topics: roomData?.chat_room_topics,
@@ -117,7 +118,7 @@ export default function CreateChatRoomPage() {
 
   // -- 유효성 검사 --
   const isStep1Valid = !!(
-    roomData.chat_room_name.trim() && roomData.chat_room_topics.trim()
+    roomData.chat_room_name.trim() && roomData.chat_room_topics.length > 0
   );
   const isStep2Valid = selectedAiSettingIds.length > 0;
   const isValid = step === 1 ? isStep1Valid : isStep2Valid;
