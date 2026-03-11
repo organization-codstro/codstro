@@ -11,6 +11,7 @@ export function PersonaHero({
   createdDate,
   profileImageUrl,
   onAddFriendClick,
+  isFriend,
 }: PersonaHeroProps) {
   // -- 모달 열림/닫힘 상태 --
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -69,12 +70,17 @@ export function PersonaHero({
             </div>
 
             <button
-              className="flex items-center gap-2 px-5 py-2 text-sm font-medium text-white transition-opacity rounded-full hover:opacity-90"
-              style={{ backgroundColor: "#587CF0" }}
+              className={`flex items-center gap-2 px-5 py-2 text-sm font-medium text-white rounded-full transition-opacity
+  ${
+    isFriend
+      ? "bg-gray-400 cursor-not-allowed"
+      : "bg-[#587CF0] hover:opacity-90"
+  }`}
+              disabled={isFriend}
               onClick={handleOpenModal}
             >
               <UserPlus size={18} />
-              Add Friend
+              {isFriend ? "Already Friend" : "Add Friend"}
             </button>
           </div>
         </div>

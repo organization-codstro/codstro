@@ -6,8 +6,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { AIPersonaDetailService } from "../../api/AiChat/AIPersonaDetailPage";
+
 import { LoginService } from "../../api/Auth/LoginPage";
+import { AIPersonaDetailService } from "../../api/AiChat/AIPersonaDetailPage";
 
 import { PersonaHero } from "../../components/AiChat/AIPersonaDetailPage/PersonaHero/PersonaHero";
 import { PersonaInfoCard } from "../../components/AiChat/AIPersonaDetailPage/PersonaInfoCard";
@@ -21,6 +22,7 @@ export default function AIPersonaDetailPage() {
 
   // -- 상태 관리 (State) --
   const [persona, setPersona] = useState<AIPersona | null>(null);
+  const [isFriend, setIsFriend] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -30,9 +32,8 @@ export default function AIPersonaDetailPage() {
     const fetchPersonaDetail = async () => {
       // -- 상세 페이지 데이터 예외 처리 --
       if (!personaId) {
-        return (
-          <NotFoundState message="잘못된 접근입니다. 페르소나 ID가 없습니다." />
-        );
+        setError("잘못된 접근입니다.");
+        return;
       }
 
       setIsLoading(true);
@@ -42,11 +43,18 @@ export default function AIPersonaDetailPage() {
         const currentUserId = await LoginService.getCurrentUserId();
         setUserId(currentUserId);
 
+        if (!currentUserId) {
+          //TODO 404 패이지 넣기
+          return "404 page";
+        }
+
         // 2. 페르소나 상세 정보 조회
         const data = await AIPersonaDetailService.getPersonaDetail({
           personaId,
+          userId: currentUserId,
         });
-        setPersona(data as unknown as AIPersona);
+        setPersona(data.aiPersona);
+        setIsFriend(data.isFriend);
       } catch (err: any) {
         console.error(err);
         setError(err.message);
@@ -105,6 +113,7 @@ export default function AIPersonaDetailPage() {
           age={persona.ai_persona_age}
           createdDate={persona.created_at}
           profileImageUrl={persona.ai_persona_profile_image_url}
+          isFriend={isFriend}
           onAddFriendClick={onAddFriendClick}
         />
 

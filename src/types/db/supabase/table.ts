@@ -492,6 +492,7 @@ export interface ChatMessage {
   chat_message_img_content_url?: string[] | null;
   chat_message_format: "TEXT" | "IMG" | "MULTIMODAL";
   chat_message_interaction_type: "CASUAL" | "ACTION_REQUEST";
+  chat_message_reply_to: string | null;
 }
 
 export interface UserFavoriteCompanies {

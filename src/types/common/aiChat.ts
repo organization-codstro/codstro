@@ -11,8 +11,7 @@ export interface AIPersona {
   ai_persona_one_line_introduction?: string;
   ai_persona_profile_image_url?: string;
   created_at: string;
-} 
-
+}
 
 export interface AiUserSettings {
   user_ai_setting_call_me_name: string;
@@ -43,6 +42,9 @@ export interface ChatMessage {
   emoticon_id?: string;
   daily_chat_room_id: string;
   chat_message_index: number;
+  created_at: string;
+  chat_message_img_content_url: string[];
+  chat_message_reply_to: string | null;
 }
 
 export interface UserAIFriend {

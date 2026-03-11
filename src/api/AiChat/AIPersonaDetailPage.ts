@@ -1,6 +1,7 @@
 import { supabase } from "../../db/supabase/supabase";
 import {
   AddFriendParams,
+  AddFriendResponse,
   GetPersonaDetailParams,
   // StartChattingParams,
 } from "../../types/api/AiChat/AIPersonaDetailPage";
@@ -14,15 +15,47 @@ export const AIPersonaDetailService = {
    * 특정 ID를 가진 AI 페르소나의 모든 상세 정보를 가져옵니다.
    * 참조 테이블: ai_personas
    */
-  async getPersonaDetail(params: GetPersonaDetailParams) {
-    const { data, error } = await supabase
-      .from("ai_personas")
-      .select("*")
-      .eq("ai_persona_id", params.personaId)
-      .single(); // 단일 행 조회
+  async getPersonaDetail(
+    params: GetPersonaDetailParams,
+  ): Promise<AddFriendResponse> {
+    try {
+      // 페르소나 정보 조회
+      const { data: persona, error: personaError } = await supabase
+        .from("ai_personas")
+        .select("*")
+        .eq("ai_persona_id", params.personaId)
+        .single();
 
-    if (error) throw new Error(`[getPersonaDetail Error]: ${error.message}`);
-    return data;
+      if (personaError) {
+        throw new Error(
+          `[getPersonaDetail Persona Error]: ${personaError.message}`,
+        );
+      }
+
+      // 친구 여부 확인
+      const { data: friendData, error: friendError } = await supabase
+        .from("user_ai_settings")
+        .select("user_ai_setting_id")
+        .eq("user_id", params.userId)
+        .eq("ai_persona_id", params.personaId)
+        .maybeSingle();
+
+      if (friendError) {
+        throw new Error(
+          `[getPersonaDetail Friend Check Error]: ${friendError.message}`,
+        );
+      }
+
+      const isFriend = !!friendData;
+
+      return {
+        aiPersona: persona,
+        isFriend,
+      };
+    } catch (error) {
+      console.error("[getPersonaDetail]:", error);
+      throw error;
+    }
   },
 
   /**

@@ -1,6 +1,14 @@
+import { ChatMessage } from "../../../common/aiChat";
+
 export interface ChatInputProps {
   value: string;
-  onChange: (val: string) => void;
+  onChange: (value: string) => void;
   onSend: () => void;
-  disabled?: boolean;
+  disabled: boolean;
+
+  replyingTo: ChatMessage | null;
+  setReplyingTo: (msg: ChatMessage | null) => void;
+
+  images: File[];
+  setImages: (files: File[]) => void;
 }

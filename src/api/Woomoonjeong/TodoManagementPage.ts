@@ -60,7 +60,7 @@ export const TodoManagementService = {
         .select("*")
         .lte("todo_start_date", dateStr)
         .gte("todo_end_date", dateStr)
-        .order("todo_created_date", { ascending: false });
+        .order("todo_name", { ascending: true });
 
       if (error) throw error;
       return data;
@@ -128,7 +128,7 @@ export const TodoManagementService = {
         request = request.ilike("todo_name", `%${params.query}%`);
       }
 
-      const { data, error } = await request.order("todo_start_date", {
+      const { data, error } = await request.order("todo_name", {
         ascending: true,
       });
 

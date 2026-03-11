@@ -5,10 +5,7 @@ import { toast } from "react-toastify";
 import { ChatHeader } from "../../components/AiChat/ChatConversation/ChatHeader";
 import { MessageBubble } from "../../components/AiChat/ChatConversation/MessageBubble";
 import { ChatInput } from "../../components/AiChat/ChatConversation/ChatInput";
-import {
-  AiResponseService,
-  ChatConversationService,
-} from "../../api/AiChat/ChatConversationPage";
+import { ChatConversationService } from "../../api/AiChat/ChatConversationPage";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { ChatMessage, ChatRoom } from "../../types/common/aiChat";
 
@@ -24,6 +21,8 @@ export default function ChatConversationPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [userId, setUserId] = useState<string | null>(null);
   const [isSending, setIsSending] = useState(false);
+  const [replyingTo, setReplyingTo] = useState<ChatMessage | null>(null);
+  const [images, setImages] = useState<File[]>([]);
 
   // 스크롤 하단 이동
   const scrollToBottom = () => {
@@ -99,55 +98,28 @@ export default function ChatConversationPage() {
 
   // -- 메시지 전송 및 AI 응답 로직 --
   const handleSend = async () => {
-    if (!inputValue.trim() || !roomId || !userId || isSending) return;
+    if (!inputValue.trim()) return;
 
-    const currentInput = inputValue;
+    console.log({
+      text: inputValue,
+      mentions: extractMentions(inputValue),
+      replyTo: replyingTo?.chat_message_id || null,
+      images,
+    });
+
+    // TODO: API 연결
+    // ChatConversationService.sendMessage()
+    // AiResponseService.generateAiReply()
+
     setInputValue("");
-    setIsSending(true);
+    setImages([]);
+    setReplyingTo(null);
+  };
 
-    try {
-      // 1. 유저 메시지 전송
-      const nextIndex =
-        messages.length > 0
-          ? messages[messages.length - 1].chat_message_index + 1
-          : 0;
-      const sentMessage = await ChatConversationService.sendMessage({
-        roomId,
-        content: currentInput,
-        sender: "USER",
-        nextIndex,
-      });
-
-      // 낙관적 업데이트 대신 구독을 통해 받거나, 즉각적인 반응을 위해 수동 추가 가능
-      // 여기서는 구독이 처리하므로 별도 setMessages는 생략 가능하지만 중복체크 로직이 있다면 추가해도 무방
-
-      // 2. AI 응답 생성 (Gemini)
-      // *주의: persona 정보는 실제 서비스 구현 시 roomInfo 등에서 확장해서 가져와야 함
-      // 현재는 서비스 인터페이스에 맞춰 가상의 persona 객체 전달
-      const aiReplyContent = await AiResponseService.generateAiReply({
-        roomId,
-        userMessage: currentInput,
-        persona: {
-          ai_persona_name: room?.chat_room_name || "AI",
-          ai_persona_personality: "친절하고 따뜻한",
-          ai_persona_speech_style: "반말",
-          user_ai_setting_emotion: "Normal",
-        },
-      });
-
-      // 3. AI 메시지 DB 저장
-      await ChatConversationService.sendMessage({
-        roomId,
-        content: aiReplyContent,
-        sender: "AI",
-        nextIndex: nextIndex + 1,
-      });
-    } catch (error: any) {
-      toast.error("메시지 전송 중 오류가 발생했습니다.");
-      console.error(error);
-    } finally {
-      setIsSending(false);
-    }
+  const extractMentions = (text: string) => {
+    const regex = /@(\w+)/g;
+    const matches = [...text.matchAll(regex)];
+    return matches.map((m) => m[1]);
   };
 
   if (isLoading) {
@@ -161,17 +133,24 @@ export default function ChatConversationPage() {
   if (!room) return null;
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50">
+    <div className="flex flex-col h-screen bg-gray-50 relative overflow-hidden">
       <ChatHeader
         roomName={room.chat_room_name}
         topics={room.chat_room_topics}
         onBack={() => navigate("/ai-chat")}
       />
 
-      <div ref={scrollRef} className="flex-1 p-4 space-y-4 overflow-y-auto">
+      <div
+        ref={scrollRef}
+        className="flex-1 min-h-0 p-4 space-y-4 overflow-y-auto"
+      >
         {messages.length > 0 ? (
           messages.map((message) => (
-            <MessageBubble key={message.chat_message_id} message={message} />
+            <MessageBubble
+              key={message.chat_message_id}
+              message={message}
+              onReply={(msg) => setReplyingTo(msg)}
+            />
           ))
         ) : (
           <div className="flex items-center justify-center h-full text-sm text-gray-400">
@@ -184,6 +163,10 @@ export default function ChatConversationPage() {
         onChange={setInputValue}
         onSend={handleSend}
         disabled={isSending}
+        replyingTo={replyingTo}
+        setReplyingTo={setReplyingTo}
+        images={images}
+        setImages={setImages}
       />
     </div>
   );

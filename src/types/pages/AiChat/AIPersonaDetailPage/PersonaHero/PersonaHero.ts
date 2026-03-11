@@ -6,5 +6,6 @@ export interface PersonaHeroProps {
   age: number;
   createdDate: string;
   profileImageUrl?: string;
+  isFriend: boolean;
   onAddFriendClick: (settings: AiUserSettings) => void;
 }
