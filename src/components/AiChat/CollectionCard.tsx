@@ -1,4 +1,5 @@
-import { CollectionCardProps } from "../../../types/pages/AiChat/AIPersonasCollectionPage/CollectionCard";
+import { CollectionCardProps } from "../../types/pages/AiChat/AIPersonasCollectionPage/CollectionCard";
+import clsx from "clsx";
 
 export function CollectionCard({
   name,
@@ -7,11 +8,18 @@ export function CollectionCard({
   preferredFeatures,
   profileImageUrl,
   onClick,
+  isSelected = false,
 }: CollectionCardProps) {
   return (
     <div
       onClick={onClick}
-      className="p-6 transition-all bg-white border border-gray-100 cursor-pointer rounded-xl hover:shadow-lg"
+      className={clsx(
+        "p-6 transition-all border cursor-pointer rounded-xl hover:shadow-lg",
+        {
+          "bg-blue-50 border-blue-400": isSelected, // 선택 시 스타일
+          "bg-white border-gray-100": !isSelected, // 기본 스타일
+        },
+      )}
     >
       <div className="flex flex-col items-center text-center">
         {/* 아바타 */}

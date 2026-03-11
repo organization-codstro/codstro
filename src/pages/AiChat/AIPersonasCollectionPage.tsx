@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { CollectionCard } from "../../components/AiChat/AIPersonasCollectionPage/CollectionCard";
+import { CollectionCard } from "../../components/AiChat/CollectionCard";
 import { CollectionEmptyState } from "../../components/AiChat/AIPersonasCollectionPage/CollectionEmptyState";
 import { CollectionHeader } from "../../components/AiChat/AIPersonasCollectionPage/CollectionHeader";
 import { AIPersonasCollectionService } from "../../api/AiChat/AIPersonasCollectionPage";

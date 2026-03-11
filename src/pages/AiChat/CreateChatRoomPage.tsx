@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { CreateRoomHeader } from "../../components/AiChat/CreateChatRoomPage/CreateRoomHeader";
 import { RoomInfoForm } from "../../components/AiChat/CreateChatRoomPage/RoomInfoForm";
-import { FriendSelector } from "../../components/AiChat/CreateChatRoomPage/FriendSelector";
 import { CreateRoomFooter } from "../../components/AiChat/CreateChatRoomPage/CreateRoomFooter";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { CreateChatRoomService } from "../../api/AiChat/CreateChatRoomPage";
 import { ChatRoom, UserAIFriend } from "../../types/common/aiChat";
+import { CollectionCard } from "../../components/AiChat/CollectionCard";
 
 export default function CreateChatRoomPage() {
   const navigate = useNavigate();
@@ -140,11 +140,37 @@ export default function CreateChatRoomPage() {
         ) : step === 1 ? (
           <RoomInfoForm data={roomData} onChange={setRoomData} />
         ) : (
-          <FriendSelector
-            friends={myFriends}
-            selectedIds={selectedAiSettingIds}
-            onToggle={toggleFriend}
-          />
+          <div className="max-w-6xl mx-auto">
+            <h2 className="mb-4 text-lg font-bold text-gray-900">
+              Add Friends to Room
+            </h2>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
+              {myFriends.map((friend) => {
+                const isSelected = selectedAiSettingIds.includes(
+                  friend.ai_personas.ai_persona_id,
+                );
+                return (
+                  <CollectionCard
+                    name={friend.ai_personas.ai_persona_name}
+                    gender={friend.ai_personas.ai_persona_gender}
+                    profileImageUrl={
+                      friend.ai_personas.ai_persona_profile_image_url
+                    }
+                    preferredFeatures={
+                      friend.ai_personas.ai_persona_preferred_features
+                    }
+                    oneLineIntroduction={
+                      friend.ai_personas.ai_persona_one_line_introduction
+                    }
+                    onClick={() =>
+                      toggleFriend(friend.ai_personas.ai_persona_id)
+                    }
+                    isSelected={isSelected}
+                  />
+                );
+              })}
+            </div>
+          </div>
         )}
       </div>
 
