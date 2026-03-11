@@ -61,7 +61,7 @@ export function ChatInput({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.altKey && e.key === "m") {
+    if (e.altKey && e.code === "KeyM") {
       e.preventDefault();
       setMessageMode((prev) =>
         prev === "CASUAL" ? "ACTION_REQUEST" : "CASUAL",
@@ -71,26 +71,26 @@ export function ChatInput({
 
     // 멘션 자동완성 키 처리
     if (showMention && filteredPersonas.length > 0) {
-      if (e.key === "ArrowDown") {
+      if (e.code === "ArrowDown") {
         e.preventDefault();
         setSelectedIndex((prev) =>
           Math.min(prev + 1, filteredPersonas.length - 1),
         );
         return;
       }
-      if (e.key === "ArrowUp") {
+      if (e.code === "ArrowUp") {
         e.preventDefault();
         setSelectedIndex((prev) => Math.max(prev - 1, 0));
         return;
       }
-      if (e.key === "Enter") {
+      if (e.code === "Enter") {
         e.preventDefault();
         selectMention(filteredPersonas[selectedIndex]);
         return;
       }
     }
 
-    if (e.key === "Enter" && !e.shiftKey) {
+    if (e.code === "Enter" && !e.shiftKey) {
       e.preventDefault();
       onSend();
     }
