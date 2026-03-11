@@ -133,7 +133,7 @@ export default function ChatConversationPage() {
   if (!room) return null;
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50 relative overflow-hidden">
+    <div className="relative flex flex-col h-screen overflow-hidden bg-gray-50">
       <ChatHeader
         roomName={room.chat_room_name}
         topics={room.chat_room_topics}

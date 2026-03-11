@@ -32,18 +32,32 @@ export const ChatConversationService = {
    * [메시지 이력 조회]
    * 해당 채팅방의 과거 메시지들을 인덱스 순으로 가져옵니다.
    * 참조 테이블: chat_messages
-   *
-   * todo last_read_message_index를 latest_message_index로 바꾸는 기능 추가
-   */
+(*/
   async getMessages(params: GetMessagesParams) {
-    const { data, error } = await supabase
+    const { roomId } = params;
+
+    // chat_messages 조회
+    const { data: messages, error: messageError } = await supabase
       .from("chat_messages")
       .select("*")
-      .eq("chat_room_id", params.roomId)
+      .eq("chat_room_id", roomId)
       .order("chat_message_index", { ascending: true });
 
-    if (error) throw new Error(`[getMessages Error]: ${error.message}`);
-    return data;
+    if (messageError)
+      throw new Error(`[getMessages Error]: ${messageError.message}`);
+
+    // chat_rooms 업데이트
+    // 마지막 메시지 index 추출
+    const { error: rpcError } = await supabase.rpc("update_last_read", {
+      room_id: roomId,
+    });
+
+    if (rpcError)
+      throw new Error(
+        `[updateLastReadMessageIndex Error]: ${rpcError.message}`,
+      );
+
+    return messages;
   },
 
   /**
