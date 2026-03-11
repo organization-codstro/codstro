@@ -95,5 +95,38 @@ export const ChatRoomsListService = {
    * 채팅방을 삭제합니다.
    * 참조 테이블: chat_rooms, chat_messages, chat_room_ai_settings
    */
-  async deleteChatRoom(params: DeleteChatRoomParams) {},
+  async deleteChatRoom(params: DeleteChatRoomParams) {
+    const { chatRoomId } = params;
+
+    try {
+      // 1-1. chat_messages 삭제
+      const { error: messageError } = await supabase
+        .from("chat_messages")
+        .delete()
+        .eq("chat_room_id", chatRoomId);
+
+      if (messageError) throw messageError;
+
+      // 1-2. chat_room_ai_settings 삭제
+      const { error: aiError } = await supabase
+        .from("chat_room_ai_settings")
+        .delete()
+        .eq("chat_room_id", chatRoomId);
+
+      if (aiError) throw aiError;
+
+      // 1-3. chat_rooms 삭제
+      const { error: roomError } = await supabase
+        .from("chat_rooms")
+        .delete()
+        .eq("chat_room_id", chatRoomId);
+
+      if (roomError) throw roomError;
+
+      return { success: true };
+    } catch (error: any) {
+      console.error("deleteChatRoom error:", error);
+      return { success: false, message: error.message || "삭제 실패" };
+    }
+  },
 };

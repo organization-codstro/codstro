@@ -75,6 +75,12 @@ export default function ChatRoomsListPage() {
     }
   };
 
+  const handleDelete = (deletedId: string) => {
+    setChatRooms((prev) =>
+      prev.filter((room) => room.chat_room_id !== deletedId),
+    );
+  };
+
   // 내비게이션 버튼 설정
   const navButtons = [
     { label: "Friend Collection", onClick: () => navigate("/ai-chat/friends") },
@@ -106,6 +112,7 @@ export default function ChatRoomsListPage() {
               key={room.chat_room_id}
               room={room}
               onClick={(id) => navigate(`/ai-chat/${id}`)}
+              onDelete={handleDelete}
             />
           ))
         ) : (
