@@ -1,5 +1,4 @@
 import { AIPersona, ChatRoom } from "../../common/aiChat";
-import { AiPersonas } from "../../db/supabase/table";
 
 /**
  * [내 친구 목록 조회]

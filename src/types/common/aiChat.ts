@@ -44,6 +44,7 @@ export interface ChatMessage {
   created_at: string;
   chat_message_img_content_url: string[];
   chat_message_reply_to: string | null;
+  chat_message_interaction_type: "CASUAL" | "ACTION_REQUEST";
 }
 
 export interface UserAIFriend {

@@ -1,12 +1,14 @@
 import { supabase } from "../../db/supabase/supabase";
 import {
   GenerateAiReplyParams,
+  getChatRoomAIPersonasParams,
+  getChatRoomAIPersonasResponse,
   GetMessagesParams,
   GetRoomInfoParams,
-  MarkAsReadParams,
   SendMessageParams,
   SubscribeToMessagesParams,
 } from "../../types/api/AiChat/ChatConversationPage";
+import { AIPersona } from "../../types/common/aiChat";
 
 /**
  * 실시간 채팅 및 메시지 관리를 위한 서비스
@@ -61,6 +63,27 @@ export const ChatConversationService = {
   },
 
   /**
+   * [채팅방 인원 확인]
+   * 해당 채팅방에 참여중인 패르소나의 이름, id를 가져옵니다
+   */
+  async getChatRoomAIPersonas(
+    params: getChatRoomAIPersonasParams,
+  ): Promise<getChatRoomAIPersonasResponse[]> {
+    const { roomId } = params;
+    const { data, error } = await supabase.rpc("get_chat_room_ai_personas", {
+      room_id: roomId,
+    });
+
+    if (error) {
+      console.error("[getChatRoomAIPersonas RPC Error]:", error);
+      throw error;
+    }
+
+    // data는 array 형태, 없으면 빈 배열 반환
+    return (data as getChatRoomAIPersonasResponse[]) || [];
+  },
+
+  /**
    * [메시지 전송]
    * 유저가 입력한 메시지를 DB에 저장합니다.
    * chat_message_index는 서버 트리거로 처리하거나 클라이언트에서 최대값+1로 계산합니다.
@@ -104,22 +127,6 @@ export const ChatConversationService = {
       )
       .subscribe();
   },
-
-  /**
-   * [미확인 메시지 초기화]
-   * 채팅방 진입 시 unconfirmed 카운트를 0으로 업데이트합니다.
-   * 참조 테이블: chat_rooms
-   *
-   * 메세지 조회에서 할 예정
-   */
-  // async markAsRead(params: MarkAsReadParams) {
-  //   const { error } = await supabase
-  //     .from("chat_rooms")
-  //     .update({ chat_room_unconfirmed: 0 })
-  //     .eq("chat_room_id", params.roomId);
-
-  //   if (error) console.error("[markAsRead Error]:", error.message);
-  // },
 };
 
 /**

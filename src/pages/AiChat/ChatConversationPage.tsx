@@ -7,7 +7,7 @@ import { MessageBubble } from "../../components/AiChat/ChatConversation/MessageB
 import { ChatInput } from "../../components/AiChat/ChatConversation/ChatInput";
 import { ChatConversationService } from "../../api/AiChat/ChatConversationPage";
 import { LoginService } from "../../api/Auth/LoginPage";
-import { ChatMessage, ChatRoom } from "../../types/common/aiChat";
+import { AIPersona, ChatMessage, ChatRoom } from "../../types/common/aiChat";
 
 export default function ChatConversationPage() {
   const { roomId } = useParams<{ roomId: string }>();
@@ -23,6 +23,7 @@ export default function ChatConversationPage() {
   const [isSending, setIsSending] = useState(false);
   const [replyingTo, setReplyingTo] = useState<ChatMessage | null>(null);
   const [images, setImages] = useState<File[]>([]);
+  const [personas, setPersonas] = useState<AIPersona[]>([]);
 
   // 스크롤 하단 이동
   const scrollToBottom = () => {
@@ -55,14 +56,16 @@ export default function ChatConversationPage() {
         setUserId(currentUserId);
 
         // 2. 방 정보 및 메시지 이력 병렬 로드
-        const [roomInfo, messageHistory] = await Promise.all([
+        const [roomInfo, messageHistory, personaList] = await Promise.all([
           ChatConversationService.getRoomInfo({ roomId }),
           ChatConversationService.getMessages({ roomId }),
-          //ChatConversationService.markAsRead({ roomId }), // 진입 시 읽음 처리
+          ChatConversationService.getChatRoomAIPersonas({ roomId }),
         ]);
+        console.log(personaList);
 
         setRoom(roomInfo as ChatRoom);
         setMessages(messageHistory as ChatMessage[]);
+        setPersonas(personaList as AIPersona[]);
 
         // 3. 실시간 구독 설정
         const subscription = ChatConversationService.subscribeToMessages({
@@ -167,6 +170,7 @@ export default function ChatConversationPage() {
         setReplyingTo={setReplyingTo}
         images={images}
         setImages={setImages}
+        personas={personas}
       />
     </div>
   );

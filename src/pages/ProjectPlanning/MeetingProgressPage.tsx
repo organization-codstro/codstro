@@ -4,8 +4,8 @@ import { toast } from "react-toastify";
 import { ProjectMessage } from "../../types/common/projectPlanning";
 import { MeetingChatHeader } from "../../components/ProjectPlanning/MeetingProgressPage/MeetingChatHeader";
 import { ChatMessage } from "../../components/ProjectPlanning/MeetingProgressPage/ChatMessage";
-import { ChatInput } from "../../components/AiChat/ChatConversation/ChatInput";
 import { MeetingProgressService } from "../../api/ProjectPlanning/MeetingProgressPage";
+import { ChatInput } from "../../components/ProjectPlanning/MeetingProgressPage/ChatInput";
 
 export default function MeetingProgressPage() {
   const { meetingId } = useParams<{ meetingId: string }>();

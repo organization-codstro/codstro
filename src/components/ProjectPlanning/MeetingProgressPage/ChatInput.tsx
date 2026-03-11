@@ -1,5 +1,5 @@
 import { Send } from "lucide-react";
-import { ChatInputProps } from "../../../types/pages/AiChat/ChatConversation/ChatInput";
+import { ChatInputProps } from "../../../types/pages/ProjectPlanning/MeetingProgressPage/ChatInput";
 
 export const ChatInput = ({ value, onChange, onSend }: ChatInputProps) => {
   const handleKeyDown = (e: React.KeyboardEvent) => {

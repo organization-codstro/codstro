@@ -108,11 +108,11 @@ export default function CreateChatRoomPage() {
     }
   };
 
-  const toggleFriend = (settingId: string) => {
+  const toggleFriend = (userAiSettingId: string) => {
     setSelectedAiSettingIds((prev) =>
-      prev.includes(settingId)
-        ? prev.filter((id) => id !== settingId)
-        : [...prev, settingId],
+      prev.includes(userAiSettingId)
+        ? prev.filter((id) => id !== userAiSettingId)
+        : [...prev, userAiSettingId],
     );
   };
 
@@ -147,7 +147,7 @@ export default function CreateChatRoomPage() {
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
               {myFriends.map((friend) => {
                 const isSelected = selectedAiSettingIds.includes(
-                  friend.ai_personas.ai_persona_id,
+                  friend.user_ai_setting_id,
                 );
                 return (
                   <CollectionCard
@@ -162,9 +162,7 @@ export default function CreateChatRoomPage() {
                     oneLineIntroduction={
                       friend.ai_personas.ai_persona_one_line_introduction
                     }
-                    onClick={() =>
-                      toggleFriend(friend.ai_personas.ai_persona_id)
-                    }
+                    onClick={() => toggleFriend(friend.user_ai_setting_id)}
                     isSelected={isSelected}
                   />
                 );
