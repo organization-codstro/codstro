@@ -2,7 +2,6 @@ export interface AIPersona {
   ai_persona_id: string;
   ai_persona_name: string;
   ai_persona_description: string;
-  ai_persona_image_url: string;
   ai_persona_personality: string;
   ai_persona_gender: string;
   ai_persona_age: number;
@@ -55,6 +54,6 @@ export interface UserAIFriend {
 export interface UserRecord {
   ai_user_record_id: string;
   ai_user_record_summary: string;
-  ai_user_record_created_date: string;
+  created_at: string;
   user_id: string;
 }

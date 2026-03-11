@@ -37,3 +37,5 @@ finish.md
 test.json
 test.ts
 test/
+
+src/types/test/
