@@ -12,6 +12,11 @@ export interface AIPersona {
   created_at: string;
 }
 
+//getChatRoomAIPersonas에서 반환하는 chat room 에 있는 ai 정보들
+export interface ChatRoomAI {
+  chat_room_ai_id: string;
+  ai_persona_name: string;
+}
 export interface AiUserSettings {
   user_ai_setting_call_me_name: string;
   user_ai_setting_ai_self_awareness: boolean;
@@ -35,16 +40,40 @@ export interface ChatRoom {
 
 export interface ChatMessage {
   chat_message_id: string;
+  //전송한 사람
   chat_message_sender: "AI" | "USER";
+  //내용
   chat_message_content: string;
-  chat_message_sent_at: string;
+  //이모지 id
   emoticon_id?: string;
-  daily_chat_room_id: string;
+  //포함되어있는 chat id
+  chat_room_id: string;
+  //메세지 위치
   chat_message_index: number;
+  // 생성시간
   created_at: string;
+  //이미지 id
   chat_message_img_content_url: string[];
-  chat_message_reply_to: string | null;
+  //멘션시 들어가는 에이전트 id
+  mention_target_agent_id?: string;
+  //답장
+  chat_message_reply_message?: string;
+  //답장시에 들어가는 ai 에이전트 id
+  chat_message_reply_target_agent_id?: string;
+  //메세지 타입
+  chat_message_format: string;
+  //메세지 의도
   chat_message_interaction_type: "CASUAL" | "ACTION_REQUEST";
+}
+
+export interface UserAiSettings {
+  user_ai_setting_call_me_name: string;
+  //자기를 ai로 인식할수 있는가
+  user_ai_setting_ai_self_awareness: string;
+  //ai 서비스 접근
+  user_ai_setting_service_integration: string;
+  //ai기본 감정
+  user_ai_setting_emotion: string;
 }
 
 export interface UserAIFriend {

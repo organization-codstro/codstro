@@ -35,7 +35,7 @@ export interface UserCloneCodingProject {
   created_at: string;
 }
 
-export interface ProjectGroup {
+export interface CloneCodingProjectGroup {
   id: string;
   user_id: string;
   project_id: string;
@@ -48,7 +48,7 @@ export interface ProjectGroup {
   created_at: string;
 }
 
-export interface ProjectTodo {
+export interface CloneCodingProjectTodo {
   id: string;
   user_id: string;
   project_id?: string;

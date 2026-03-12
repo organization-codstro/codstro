@@ -10,7 +10,10 @@ export interface getChatRoomAIPersonasParams {
   roomId: string;
 }
 export interface getChatRoomAIPersonasResponse {
-  ai_persona_id: string; // UUID
+  /**
+   * chat_room에 있는 ai 관계의 id
+   */
+  chat_room_ai_id: string; // UUID
   ai_persona_name: string; // 이름
 }
 

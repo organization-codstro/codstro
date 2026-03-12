@@ -237,7 +237,7 @@ export default function TodoManagementPage() {
                     todo={
                       {
                         todo_id: todo.todo_id,
-                        field_id: todo.field_id,
+                        group_id: todo.group_id,
                         todo_name: todo.todo_name,
                         todo_status: todo.todo_status,
                         todo_start_date: todo.todo_start_date,

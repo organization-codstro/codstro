@@ -7,7 +7,7 @@ import { MessageBubble } from "../../components/AiChat/ChatConversation/MessageB
 import { ChatInput } from "../../components/AiChat/ChatConversation/ChatInput";
 import { ChatConversationService } from "../../api/AiChat/ChatConversationPage";
 import { LoginService } from "../../api/Auth/LoginPage";
-import { AIPersona, ChatMessage, ChatRoom } from "../../types/common/aiChat";
+import { ChatMessage, ChatRoom, ChatRoomAI } from "../../types/common/aiChat";
 
 export default function ChatConversationPage() {
   const { roomId } = useParams<{ roomId: string }>();
@@ -23,7 +23,7 @@ export default function ChatConversationPage() {
   const [isSending, setIsSending] = useState(false);
   const [replyingTo, setReplyingTo] = useState<ChatMessage | null>(null);
   const [images, setImages] = useState<File[]>([]);
-  const [personas, setPersonas] = useState<AIPersona[]>([]);
+  const [personas, setPersonas] = useState<ChatRoomAI[]>([]);
 
   // 스크롤 하단 이동
   const scrollToBottom = () => {
@@ -61,33 +61,32 @@ export default function ChatConversationPage() {
           ChatConversationService.getMessages({ roomId }),
           ChatConversationService.getChatRoomAIPersonas({ roomId }),
         ]);
-        console.log(personaList);
 
         setRoom(roomInfo as ChatRoom);
         setMessages(messageHistory as ChatMessage[]);
-        setPersonas(personaList as AIPersona[]);
+        setPersonas(personaList);
 
         // 3. 실시간 구독 설정
-        const subscription = ChatConversationService.subscribeToMessages({
-          roomId,
-          callback: (payload) => {
-            const newMessage = payload.new as ChatMessage;
-            setMessages((prev) => {
-              // 중복 방지 로직 (내가 보낸 메시지가 즉시 반영되었을 경우 대비)
-              if (
-                prev.find(
-                  (m) => m.chat_message_id === newMessage.chat_message_id,
-                )
-              )
-                return prev;
-              return [...prev, newMessage];
-            });
-          },
-        });
+        // const subscription = ChatConversationService.subscribeToMessages({
+        //   roomId,
+        //   callback: (payload) => {
+        //     const newMessage = payload.new as ChatMessage;
+        //     setMessages((prev) => {
+        //       // 중복 방지 로직 (내가 보낸 메시지가 즉시 반영되었을 경우 대비)
+        //       if (
+        //         prev.find(
+        //           (m) => m.chat_message_id === newMessage.chat_message_id,
+        //         )
+        //       )
+        //         return prev;
+        //       return [...prev, newMessage];
+        //     });
+        //   },
+        // });
 
-        return () => {
-          subscription.unsubscribe();
-        };
+        // return () => {
+        //   subscription.unsubscribe();
+        // };
       } catch (error: any) {
         console.error(error);
         toast.error("채팅방을 불러오는 데 실패했습니다.");

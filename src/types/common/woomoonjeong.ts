@@ -3,7 +3,6 @@ import {
   TODO_STATUS_TYPE,
 } from "../../constants/Woomoonjeong/woomoonjeong";
 
-
 export interface RecommendedPin {
   pin_id: string;
   pin_title: string;
@@ -59,7 +58,7 @@ export interface Pin {
 
 export interface Todo {
   todo_id: string;
-  field_id: string;
+  group_id: string;
   todo_name: string;
   todo_description: string;
   todo_start_date: string;

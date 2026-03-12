@@ -1,4 +1,4 @@
-import { AIPersona, ChatMessage } from "../../../common/aiChat";
+import { ChatMessage, ChatRoomAI } from "../../../common/aiChat";
 
 export interface ChatInputProps {
   value: string;
@@ -12,5 +12,5 @@ export interface ChatInputProps {
   images: File[];
   setImages: (files: File[]) => void;
 
-  personas: AIPersona[];
+  personas: ChatRoomAI[];
 }

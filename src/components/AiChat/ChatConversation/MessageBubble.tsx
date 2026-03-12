@@ -19,21 +19,21 @@ export function MessageBubble({ message, onReply }: MessageBubbleProps) {
       >
         {/* AI 이름 */}
         {!isUser && (
-          <div className="text-sm font-semibold text-blue-500 mb-1">
+          <div className="mb-1 text-sm font-semibold text-blue-500">
             {aiName}
           </div>
         )}
 
         {/* Reply 표시 */}
-        {message.chat_message_reply_to && (
-          <div className="bg-gray-100 text-xs p-2 rounded mb-2 text-gray-600">
-            Replying to message #{message.chat_message_reply_to}
+        {message.chat_message_reply_message && (
+          <div className="p-2 mb-2 text-xs text-gray-600 bg-gray-100 rounded">
+            Replying to message #{message.chat_message_reply_message}
             {/* TODO: 실제 reply 메시지 내용 연결 */}
           </div>
         )}
 
         {/* 메시지 내용 */}
-        <div className="whitespace-pre-wrap break-words">
+        <div className="break-words whitespace-pre-wrap">
           {message.chat_message_content}
         </div>
 
@@ -47,14 +47,14 @@ export function MessageBubble({ message, onReply }: MessageBubbleProps) {
                   <img
                     key={i}
                     src={img}
-                    className="rounded-lg max-h-60 object-cover"
+                    className="object-cover rounded-lg max-h-60"
                   />
                 ),
               )}
             </div>
           )}
 
-        <div className="flex justify-between items-center mt-2">
+        <div className="flex items-center justify-between mt-2">
           <span
             className={`text-xs ${isUser ? "text-blue-100" : "text-gray-400"}`}
           >
