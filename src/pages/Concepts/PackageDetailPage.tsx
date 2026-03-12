@@ -16,8 +16,8 @@ import MarkdownRenderer from "../../components/Markdown/MarkdownRenderer";
 import RelatedMaterialGrid from "../../components/Concepts/PackageDetailPage/RelatedMaterialGrid";
 import AIChat from "../../components/CompanyInformation/CompanyInformationAIChat";
 import AddTodoModal from "../../components/CompanyInformation/AddTodoModal";
-import { MaterialNotFound } from "../../components/Concepts/PackageDetailPage/MaterialNotFound";
 import { PackageManagerMaterial } from "../../types/common/concepts";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function PackageDetailPage() {
   const { materialId } = useParams<{ materialId: string }>();
@@ -107,7 +107,7 @@ export default function PackageDetailPage() {
     );
   }
 
-  if (!data) return <MaterialNotFound />;
+  if (!data) return <NotFoundPage />;
 
   return (
     <div className="max-w-5xl p-8 mx-auto">

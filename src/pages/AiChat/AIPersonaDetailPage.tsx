@@ -12,9 +12,9 @@ import { AIPersonaDetailService } from "../../api/AiChat/AIPersonaDetailPage";
 
 import { PersonaHero } from "../../components/AiChat/AIPersonaDetailPage/PersonaHero/PersonaHero";
 import { PersonaInfoCard } from "../../components/AiChat/AIPersonaDetailPage/PersonaInfoCard";
-import { NotFoundState } from "../../components/AiChat/AIPersonaDetailPage/NotFoundState";
 import { DetailHeader } from "../../components/AiChat/AIPersonaDetailPage/DetailHeader";
 import { AIPersona, AiUserSettings } from "../../types/common/aiChat";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function AIPersonaDetailPage() {
   const { personaId } = useParams<{ personaId: string }>();
@@ -30,10 +30,8 @@ export default function AIPersonaDetailPage() {
   // -- 데이터 로드 (Lifecycle) --
   useEffect(() => {
     const fetchPersonaDetail = async () => {
-      // -- 상세 페이지 데이터 예외 처리 --
       if (!personaId) {
-        setError("잘못된 접근입니다.");
-        return;
+        return <NotFoundPage />;
       }
 
       setIsLoading(true);
@@ -44,8 +42,9 @@ export default function AIPersonaDetailPage() {
         setUserId(currentUserId);
 
         if (!currentUserId) {
-          //TODO 404 패이지 넣기
-          return "404 page";
+          toast.error("로그인이 필요합니다.");
+          navigate("/login");
+          return;
         }
 
         // 2. 페르소나 상세 정보 조회
@@ -98,7 +97,7 @@ export default function AIPersonaDetailPage() {
 
   // -- 데이터가 없을 때 UX --
   if (error || !persona) {
-    return <NotFoundState message={error || "페르소나를 찾을 수 없습니다."} />;
+    return <NotFoundPage />;
   }
 
   return (

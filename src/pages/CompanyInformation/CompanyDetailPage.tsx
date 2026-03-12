@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { CompanyMatchService } from "../../api/CompanyInformation/CompanyMatchPage";
 import { UserInfoService } from "../../api/AiChat/UserInfoPage";
 import { Company } from "../../types/common/companyInformation";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function CompanyDetailPage() {
   const { companyId } = useParams<{ companyId: string }>();
@@ -173,27 +174,7 @@ export default function CompanyDetailPage() {
 
   // 5. 에러 또는 회사 정보 없음 처리
   if (error || !company || !companyId) {
-    return (
-      <div className="min-h-screen p-4 md:p-8 bg-gray-50">
-        <div className="max-w-4xl mx-auto">
-          <div className="overflow-hidden bg-white border border-gray-200 shadow-sm rounded-xl">
-            <div className="p-6 md:p-8">
-              <div className="flex flex-col items-center justify-center py-20">
-                <div className="mb-4 text-lg text-red-500">
-                  {error || "회사 정보를 찾을 수 없습니다."}
-                </div>
-                <button
-                  onClick={() => navigate("/companies")}
-                  className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
-                >
-                  목록으로 돌아가기
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+    return <NotFoundPage />;
   }
 
   return (

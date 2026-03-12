@@ -15,6 +15,7 @@ import AssignRecommendedFieldModal from "../../components/Woomoonjeong/AssignRec
 import FieldDetailHeader from "../../components/Woomoonjeong/FieldDetailPage/FieldDetailHeader";
 import PinList from "../../components/Woomoonjeong/FieldDetailPage/PinList";
 import { GROUP_TYPE_COLORS } from "../../constants/Woomoonjeong/woomoonjeong";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function FieldDetailPage() {
   const { fieldId } = useParams<{ fieldId: string }>();
@@ -30,8 +31,6 @@ export default function FieldDetailPage() {
   useEffect(() => {
     const initPage = async () => {
       if (!fieldId) {
-        toast.error("잘못된 접근입니다.");
-        navigate("/woomoonjeong/documents/management");
         return;
       }
 
@@ -70,22 +69,7 @@ export default function FieldDetailPage() {
 
   // 데이터가 없을 때 (NotFoundView)
   if (!data) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900">Field not found</h2>
-          <p className="mt-2 text-gray-500">
-            요청하신 분야 정보를 찾을 수 없습니다.
-          </p>
-          <button
-            onClick={() => navigate("/woomoonjeong/documents/recommended")}
-            className="px-6 py-2 mt-4 font-medium text-white rounded-lg bg-[#587CF0]"
-          >
-            Back
-          </button>
-        </div>
-      </div>
-    );
+    return <NotFoundPage />;
   }
 
   return (

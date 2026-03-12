@@ -5,6 +5,7 @@ import { Fortune } from "../../types/common/Mbit";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import DetailHeader from "../../components/Mbit/FortuneEncyclopediaDetailPage/DetailHeader";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function FortuneEncyclopediaDetailPage() {
   const { fortuneId } = useParams<{ fortuneId: string }>();
@@ -12,12 +13,9 @@ export default function FortuneEncyclopediaDetailPage() {
   const [loading, setLoading] = useState<boolean>(true);
   const navigate = useNavigate();
 
-  if (!fortuneId) {
-    navigate("/fortune-encyclopedias");
-    return;
-  }
-
   const fetchData = async () => {
+    if (!fortuneId) return;
+
     setLoading(true);
     const fortune =
       await FortuneEncyclopediaDetailService.getFortuneById(fortuneId);
@@ -39,6 +37,10 @@ export default function FortuneEncyclopediaDetailPage() {
         로딩 중...
       </div>
     );
+  }
+
+  if (!selectedFortune) {
+    return <NotFoundPage />;
   }
 
   return (

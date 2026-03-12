@@ -25,7 +25,7 @@ export interface AiUserSettings {
   //서바스 접근 여부
   user_ai_setting_service_integration: boolean;
   //감정
-  user_ai_setting_emotion: string;
+  user_ai_setting_emotion?: string;
 }
 
 export interface ChatRoom {

@@ -16,7 +16,7 @@ import BackButton from "../../components/Concepts/BackButton";
 import LibraryHeader from "../../components/Concepts/LibraryDetailPage/LibraryHeader";
 import LibraryActionButtons from "../../components/Concepts/LibraryDetailPage/LibraryActionButtons";
 import RelatedItemGrid from "../../components/Concepts/CodingToolDetailPage/RelatedItemGrid";
-import { LibraryNotFound } from "../../components/Concepts/LibraryDetailPage/LibraryNotFound";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function LibraryDetailPage() {
   const { libraryId } = useParams<{ libraryId: string }>();
@@ -109,7 +109,7 @@ export default function LibraryDetailPage() {
         Loading library details...
       </div>
     );
-  if (!data) return <LibraryNotFound />;
+  if (!data) return <NotFoundPage />;
 
   return (
     <div className="max-w-5xl p-8 mx-auto">
@@ -137,7 +137,7 @@ export default function LibraryDetailPage() {
         />
 
         {/* 4. 마크다운 본문 */}
-        <div className="prose max-w-none mt-8">
+        <div className="mt-8 prose max-w-none">
           <MarkdownRenderer content={data.content} />
         </div>
       </div>

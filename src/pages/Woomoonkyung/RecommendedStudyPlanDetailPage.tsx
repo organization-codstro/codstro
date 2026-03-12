@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { StudyPlanNode } from "../../types/common/Woomoonkyung";
 import { RecommendedPlan } from "../../types/pages/Woomoonkyung/RecommendedStudyPlansPage/RecommendedStudyPlansPage";
 import { RecommendedStudyPlansService } from "../../api/Woomoonkyung/RecommendedStudyPlansPage";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function RecommendedStudyPlanDetailPage() {
   const { planId } = useParams<{ planId: string }>();
@@ -96,15 +97,6 @@ export default function RecommendedStudyPlanDetailPage() {
     navigate("/woomoonkyung/recommended");
   };
 
-  /* 상세 페이지 예외 처리 (ID가 없는 경우) */
-  if (!planId) {
-    return (
-      <div className="p-8 text-center text-red-500">
-        잘못된 경로입니다. 플랜 ID를 확인해주세요.
-      </div>
-    );
-  }
-
   /* 로딩 상태 UX 처리 */
   if (isLoading) {
     return (
@@ -117,12 +109,8 @@ export default function RecommendedStudyPlanDetailPage() {
   }
 
   /* 데이터가 없는 경우 EmptyState 처리 */
-  if (error || !plan) {
-    return (
-      <div className="p-8 text-center text-gray-600">
-        {error || "해당 공부 계획을 찾을 수 없습니다."}
-      </div>
-    );
+  if (error || !plan || !planId) {
+    return <NotFoundPage />;
   }
 
   return (

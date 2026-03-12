@@ -13,6 +13,7 @@ import {
 } from "../../types/api/CompanyInformation/InterviewDetailPage";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { InterviewDetailService } from "../../api/CompanyInformation/InterviewDetailPage";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function InterviewDetailPage() {
   const { companyId } = useParams<{ companyId: string }>();
@@ -135,17 +136,7 @@ export default function InterviewDetailPage() {
   }
 
   if (!company || questions.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center p-8 text-center">
-        <p className="mb-4 text-gray-500">준비된 면접 질문이 없습니다.</p>
-        <button
-          onClick={() => navigate(-1)}
-          className="text-blue-500 hover:underline"
-        >
-          뒤로 가기
-        </button>
-      </div>
-    );
+    return <NotFoundPage />;
   }
 
   const currentQuestion = questions[currentQuestionIndex];

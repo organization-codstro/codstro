@@ -54,6 +54,10 @@ export default function TodoManagementUpdatePage() {
 
         if (groupIds) setAvailableGroups(groupIds);
 
+        if (!todoId) {
+          return;
+        }
+
         // 데이터 조회
         const data = await TodoManagementDetailService.getTodoDetail({
           todoId,
@@ -61,7 +65,6 @@ export default function TodoManagementUpdatePage() {
 
         if (!data) {
           toast.error("할일을 찾을 수 없습니다.");
-          navigate("/woomoonjeong/todo");
           return;
         }
 

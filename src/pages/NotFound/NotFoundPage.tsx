@@ -1,7 +1,7 @@
 import { Home, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-export default function NotFound() {
+export default function NotFoundPage() {
   const navigate = useNavigate();
 
   return (

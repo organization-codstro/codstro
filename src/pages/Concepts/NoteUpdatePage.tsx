@@ -80,7 +80,7 @@ export default function NoteUpdatePage() {
           page: currentPage + 1, // 1-based
         });
 
-        // 🔹 availableConcepts 세팅
+        //availableConcepts 세팅
         setAvailableConcepts(
           data.map((item: any) => ({
             id: item.id,
@@ -89,7 +89,7 @@ export default function NoteUpdatePage() {
           })),
         );
 
-        // 🔹 totalPages 계산 (hasMore 사용)
+        // totalPages 계산 (hasMore 사용)
         setTotalPages(currentPage + 1 + (hasMore ? 1 : 0));
       } catch (error) {
         console.error(error);
@@ -143,11 +143,9 @@ export default function NoteUpdatePage() {
     }
   };
 
-  if (!noteId) return <div className="p-20 text-center">404 패이지</div>;
-
   // [저장] 노트 저장 및 수정
   const handleSave = async () => {
-    if (!userId) return;
+    if (!userId || !noteId) return;
     if (!title.trim() || !content.trim()) {
       toast.warning("제목과 내용을 모두 입력해주세요.");
       return;

@@ -8,6 +8,7 @@ import { MeetingTab } from "../../components/ProjectPlanning/ProjectMeetingPage/
 import { MeetingItemCard } from "../../components/ProjectPlanning/ProjectMeetingPage/MeetingItemCard";
 import { ProjectMeetingListService } from "../../api/ProjectPlanning/ProjectMeetingPage";
 import { PROJECT_ROOM_TYPE } from "../../constants/ProjectPlanning/ProjectPlanning";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function ProjectMeetingPage() {
   const { projectId } = useParams<{ projectId: string }>();
@@ -22,12 +23,11 @@ export default function ProjectMeetingPage() {
   // 데이터 로드
   useEffect(() => {
     const fetchMeetings = async () => {
-      console.log("로드 시작");
       if (!projectId) return;
 
       try {
         setIsLoading(true);
-        console.log("api 연결");
+
         const data = await ProjectMeetingListService.getMeetingList({
           projectId,
         });
@@ -46,6 +46,10 @@ export default function ProjectMeetingPage() {
   // 카운트 계산
   const featureCount = meetings.filter((m) => m.type === "Feature").length;
   const freeCount = meetings.filter((m) => m.type === "Free").length;
+
+  if (!meetings) {
+    return <NotFoundPage />;
+  }
 
   return (
     <div className="flex-1 overflow-auto bg-gray-50">

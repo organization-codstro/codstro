@@ -102,4 +102,4 @@ export { default as NoticesList } from "../pages/Notice/NoticesListPage";
 export { default as NoticeDetail } from "../pages/Notice/NoticeDetailPage";
 
 /* ================= 404 ================= */
-export { default as NotFound } from "../pages/NotFound/NotFound";
+export { default as NotFoundPage } from "../pages/NotFound/NotFoundPage";

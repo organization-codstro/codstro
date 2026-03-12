@@ -5,6 +5,7 @@ import { MaterialsHeader } from "../../components/ProjectPlanning/MeetingMateria
 import { EditableField } from "../../components/ProjectPlanning/MeetingMaterialsPage/EditableField";
 // API Service 임포트
 import { MeetingMaterialsService } from "../../api/ProjectPlanning/MeetingMaterialsPage";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function MeetingMaterialsPage() {
   const { meetingId } = useParams<{ meetingId: string }>();
@@ -26,7 +27,6 @@ export default function MeetingMaterialsPage() {
     const fetchMeetingData = async () => {
       if (!meetingId) {
         toast.error("회의 ID가 유효하지 않습니다.");
-        navigate(-1);
         return;
       }
 
@@ -106,6 +106,10 @@ export default function MeetingMaterialsPage() {
         <div className="text-gray-500">Meeting Materials Loading...</div>
       </div>
     );
+  }
+
+  if (!meetingId) {
+    return <NotFoundPage />;
   }
 
   return (

@@ -79,10 +79,14 @@ export default function AddFriendPage() {
         //todo 하위 컴포넌트에서 모달 띄우고 수정한 값이 여기 들어갈수 있도록 수정
         await AddFriendService.addFriend({
           userId,
-          personaId,
-          callMeName: "사용자",
-          aiSelfAwareness: false,
-          serviceIntegration: false,
+          aiPersonaId: personaId,
+
+          aiUserSettings: {
+            user_ai_setting_call_me_name: "사용자",
+            user_ai_setting_ai_self_awareness: false,
+            user_ai_setting_service_integration: false,
+            
+          },
         });
 
         const target = allPersonas.find((p) => p.ai_persona_id === personaId);

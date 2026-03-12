@@ -12,6 +12,7 @@ import BackButton from "../../components/Concepts/BackButton";
 import NoteDetailHeader from "../../components/Concepts/NoteDetailPage/NoteDetailHeader";
 import NoteActionButtons from "../../components/Concepts/NoteDetailPage/NoteActionButtons";
 import MarkdownRenderer from "../../components/Markdown/MarkdownRenderer";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function NoteDetailPage() {
   const { noteId } = useParams<{ noteId: string }>();
@@ -77,12 +78,7 @@ export default function NoteDetailPage() {
   }
 
   if (!note) {
-    return (
-      <div className="max-w-5xl p-8 mx-auto text-center">
-        <p className="mb-4 text-gray-600">노트를 찾을 수 없습니다.</p>
-        <BackButton to="/notes" label="Back to Notes list" />
-      </div>
-    );
+    return <NotFoundPage />;
   }
 
   // 서비스에서 온 중첩된 개념 데이터를 문자열 배열로 변환

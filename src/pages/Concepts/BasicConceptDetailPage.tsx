@@ -16,6 +16,7 @@ import ConceptActionButtons from "../../components/Concepts/BasicConceptDetailPa
 import RelatedConceptGrid from "../../components/Concepts/BasicConceptDetailPage/RelatedConceptGrid";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { BasicConceptDetailService } from "../../api/Concepts/BasicConceptDetailPage";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 // 로딩 및 에러 뷰
 const LoadingView = () => (
@@ -23,14 +24,6 @@ const LoadingView = () => (
     <p className="text-gray-500 animate-pulse">
       개념 정보를 불러오는 중입니다...
     </p>
-  </div>
-);
-
-const NotFoundView = () => (
-  <div className="flex flex-col items-center justify-center min-h-[400px] text-center">
-    <h2 className="text-xl font-semibold text-gray-800">Concept not found.</h2>
-    <p className="mt-2 text-gray-500">요청하신 개념 정보를 찾을 수 없습니다.</p>
-    <BackButton to="/basic-concepts" />
   </div>
 );
 
@@ -128,7 +121,7 @@ export default function BasicConceptDetailPage() {
 
   // 4. 조건부 렌더링
   if (isLoading) return <LoadingView />;
-  if (!conceptId || !data) return <NotFoundView />;
+  if (!conceptId || !data) return <NotFoundPage />;
 
   return (
     <div className="max-w-5xl p-8 mx-auto">
@@ -152,7 +145,7 @@ export default function BasicConceptDetailPage() {
         />
 
         {/* 마크다운 본문 영역 */}
-        <div className="prose max-w-none mt-10 border-t pt-10">
+        <div className="pt-10 mt-10 prose border-t max-w-none">
           <MarkdownRenderer content={data.content} />
         </div>
       </div>

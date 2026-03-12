@@ -17,6 +17,7 @@ import MarkdownRenderer from "../../components/Markdown/MarkdownRenderer";
 import RelatedItemGrid from "../../components/Concepts/CodingToolDetailPage/RelatedItemGrid";
 import AIChat from "../../components/CompanyInformation/CompanyInformationAIChat";
 import AddTodoModal from "../../components/CompanyInformation/AddTodoModal";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function ThirdPartyDetailPage() {
   const { serviceId } = useParams<{ serviceId: string }>();
@@ -107,7 +108,7 @@ export default function ThirdPartyDetailPage() {
     return (
       <div className="flex flex-col items-center justify-center py-20">
         <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
-        <p className="mt-4 text-gray-500 font-medium">
+        <p className="mt-4 font-medium text-gray-500">
           서비스 정보를 가져오는 중...
         </p>
       </div>
@@ -115,17 +116,7 @@ export default function ThirdPartyDetailPage() {
   }
 
   if (!service) {
-    return (
-      <div className="p-8 text-center">
-        <p className="text-gray-600 font-medium">Service not found.</p>
-        <button
-          onClick={() => navigate("/third-partys")}
-          className="px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
-        >
-          Back to Services
-        </button>
-      </div>
-    );
+    return <NotFoundPage />;
   }
 
   return (
@@ -149,7 +140,7 @@ export default function ThirdPartyDetailPage() {
           onAddTodo={(type) => setShowTodoModal(type)}
         />
 
-        <div className="prose max-w-none mt-8">
+        <div className="mt-8 prose max-w-none">
           <MarkdownRenderer content={service.content} />
         </div>
       </div>

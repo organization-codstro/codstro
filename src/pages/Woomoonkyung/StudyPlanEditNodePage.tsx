@@ -6,7 +6,12 @@ import { WoomoonkyungEditNodeService } from "../../api/Woomoonkyung/StudyPlanEdi
 import DraggableNodeItem from "../../components/Woomoonkyung/StudyPlanEditNodePage/DraggableNodeItem";
 import TechStackPicker from "../../components/Woomoonkyung/StudyPlanEditNodePage/TechStackPicker";
 import NodeEditForm from "../../components/Woomoonkyung/StudyPlanEditNodePage/NodeEditForm";
-import { StudyPlan, StudyPlanNode, TechStack } from "../../types/common/Woomoonkyung";
+import {
+  StudyPlan,
+  StudyPlanNode,
+  TechStack,
+} from "../../types/common/Woomoonkyung";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function StudyPlanEditNodePage() {
   const navigate = useNavigate();
@@ -24,7 +29,7 @@ export default function StudyPlanEditNodePage() {
   >("techStacks");
   const [editingNode, setEditingNode] = useState<StudyPlanNode | null>(null);
   const [deletePendingNodeId, setDeletePendingNodeId] = useState<string | null>(
-    null
+    null,
   );
   const [draggedItem, setDraggedItem] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -96,7 +101,7 @@ export default function StudyPlanEditNodePage() {
     const item = newNodes.splice(draggedItem, 1)[0];
     newNodes.splice(index, 0, item);
     setNodes(
-      newNodes.map((n, i) => ({ ...n, study_plan_node_position: i + 1 }))
+      newNodes.map((n, i) => ({ ...n, study_plan_node_position: i + 1 })),
     );
     setDraggedItem(index);
   };
@@ -116,8 +121,8 @@ export default function StudyPlanEditNodePage() {
       nodes.map((n) =>
         n.study_plan_node_id === editingNode.study_plan_node_id
           ? editingNode
-          : n
-      )
+          : n,
+      ),
     );
     setRightSidebarMode("techStacks");
     setEditingNode(null);
@@ -151,6 +156,10 @@ export default function StudyPlanEditNodePage() {
         <Loader2 className="w-10 h-10 text-[#587CF0] animate-spin" />
       </div>
     );
+  }
+
+  if (!planId) {
+    return <NotFoundPage />;
   }
 
   return (
@@ -223,7 +232,7 @@ export default function StudyPlanEditNodePage() {
                           .map((n, i) => ({
                             ...n,
                             study_plan_node_position: i + 1,
-                          }))
+                          })),
                       );
                       toast.info("노드가 삭제되었습니다.");
                     } else {
@@ -250,7 +259,7 @@ export default function StudyPlanEditNodePage() {
             techStacks={techStacks.filter((s) =>
               s.tech_stack_name
                 .toLowerCase()
-                .includes(searchQuery.toLowerCase())
+                .includes(searchQuery.toLowerCase()),
             )}
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}

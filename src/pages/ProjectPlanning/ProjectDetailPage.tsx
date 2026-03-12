@@ -16,6 +16,7 @@ import { ProjectInfoView } from "../../components/ProjectPlanning/ProjectDetailP
 import { ProjectPagesView } from "../../components/ProjectPlanning/ProjectDetailPage/ProjectPagesView";
 import { ProjectStatsSidebar } from "../../components/ProjectPlanning/ProjectDetailPage/ProjectStatsSidebar";
 import { ProjectDetailService } from "../../api/ProjectPlanning/ProjectDetailPage";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function ProjectDetailPage() {
   const { projectId } = useParams<{ projectId: string }>();
@@ -44,7 +45,7 @@ export default function ProjectDetailPage() {
 
       try {
         setIsLoading(true);
-        const idNum = parseInt(projectId);
+        const idNum = Number.parseInt(projectId);
 
         // 1) 프로젝트 상세 정보 조회 (기본적으로 active로 시도 후 에러 시 planning 확인 로직 또는 이전 페이지 state 활용)
         // 여기서는 URL 파라미터나 전역 상태 등으로 isPlanning 여부를 알 수 있다고 가정하거나 두 곳 다 체크합니다.
@@ -178,22 +179,8 @@ export default function ProjectDetailPage() {
     );
   }
 
-  if (!originalProject) {
-    return (
-      <div className="flex items-center justify-center flex-1">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900">
-            Project not found
-          </h2>
-          <button
-            onClick={() => navigate("/projects")}
-            className="px-6 py-2 mt-4 font-medium text-white rounded-lg bg-[#587CF0]"
-          >
-            Back to Projects
-          </button>
-        </div>
-      </div>
-    );
+  if (!originalProject || !originalPages) {
+    return <NotFoundPage />;
   }
 
   const project = isEditing ? editedProject! : originalProject;

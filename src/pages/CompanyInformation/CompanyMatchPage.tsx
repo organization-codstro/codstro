@@ -6,6 +6,7 @@ import { MatchInfoFooter } from "../../components/CompanyInformation/CompanyMatc
 import { GetCompanyMatchDetailResponse } from "../../types/api/CompanyInformation/CompanyMatchPage";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { CompanyMatchService } from "../../api/CompanyInformation/CompanyMatchPage";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function CompanyMatchPage() {
   const { companyId } = useParams<{ companyId: string }>();
@@ -58,19 +59,7 @@ export default function CompanyMatchPage() {
 
   // 매칭 결과가 없을 경우 (조회만 하고 끝남)
   if (!matchData) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen p-8 text-center">
-        <p className="mb-4 text-xl font-semibold text-gray-600">
-          아직 분석된 매칭 결과가 없습니다.
-        </p>
-        <button
-          onClick={() => navigate(-1)}
-          className="px-6 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
-        >
-          뒤로 가기
-        </button>
-      </div>
-    );
+    return <NotFoundPage />;
   }
 
   return (

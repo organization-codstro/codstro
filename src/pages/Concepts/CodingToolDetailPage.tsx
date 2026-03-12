@@ -16,6 +16,7 @@ import ToolActionButtons from "../../components/Concepts/CodingToolDetailPage/To
 import RelatedItemGrid from "../../components/Concepts/CodingToolDetailPage/RelatedItemGrid";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { CodingToolDetailService } from "../../api/Concepts/CodingToolDetailPage";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function CodingToolDetailPage() {
   const { toolId } = useParams<{ toolId: string }>();
@@ -30,11 +31,13 @@ export default function CodingToolDetailPage() {
     false | "documentation" | "clone_project"
   >(false);
 
+
+
   // 2. 초기 데이터 페칭 (useEffect)
   useEffect(() => {
-    const initPage = async () => {
-      if (!toolId) return;
+    if (!toolId) return;
 
+    const initPage = async () => {
       try {
         setIsLoading(true);
         // 유저 세션 확인
@@ -112,10 +115,7 @@ export default function CodingToolDetailPage() {
         데이터를 불러오는 중입니다...
       </div>
     );
-  if (!toolId || !data)
-    return (
-      <div className="p-20 text-center text-gray-500">Tool not found.</div>
-    );
+  if (!toolId || !data) return <NotFoundPage />;
 
   return (
     <div className="max-w-5xl p-8 mx-auto">
@@ -136,7 +136,7 @@ export default function CodingToolDetailPage() {
           onAddTodo={(type) => setShowTodoModal(type)}
         />
 
-        <div className="prose max-w-none mt-8 border-t pt-8">
+        <div className="pt-8 mt-8 prose border-t max-w-none">
           <MarkdownRenderer content={data.content} />
         </div>
       </div>

@@ -10,6 +10,7 @@ import { Personality } from "../../types/common/Mbit";
 import PersonalityDetailHeader from "../../components/Mbit/PersonalityEncyclopediaDetailPage/PersonalityDetailHeader";
 import TraitList from "../../components/Mbit/MajorEncyclopediaDetailPage/TraitList";
 import PersonalityInformationSection from "../../components/Mbit/PersonalityEncyclopediaDetailPage/PersonalityInformationSection";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function PersonalityEncyclopediaDetailPage() {
   const { personalityId } = useParams();
@@ -22,17 +23,11 @@ export default function PersonalityEncyclopediaDetailPage() {
     navigate("/mbit/personality-encyclopedias");
   };
 
-  if (!personalityId) {
-    //추후 404 패이지 연결
-    console.log(
-      "personalityId 관련 테스트 : personalityId가 없습니다",
-      personalityId,
-    );
-    //navigate("/mbit/personality-encyclopedias");
-    return;
-  }
-
   const fetchPersonalities = async () => {
+    if (!personalityId) {
+      return;
+    }
+
     try {
       setLoading(true);
       const data =
@@ -60,13 +55,7 @@ export default function PersonalityEncyclopediaDetailPage() {
     );
 
   if (!personality) {
-    //추후 404 패이지 연결
-    console.log(
-      "personality 관련 테스트 : personalityId가 없습니다",
-      personality,
-    );
-    //navigate("/mbit/personality-encyclopedias");
-    return;
+    return <NotFoundPage />;
   }
 
   return (

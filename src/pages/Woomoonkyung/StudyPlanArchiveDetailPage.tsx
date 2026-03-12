@@ -13,10 +13,8 @@ import {
 import { StudyPlanArchiveDetailService } from "../../api/Woomoonkyung/StudyPlanArchiveDetailPage";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { stateColors } from "../../data/Woomoonkyung/woomoonkyungData";
-import {
-  StudyPlan,
-  StudyPlanNode,
-} from "../../types/common/Woomoonkyung"
+import { StudyPlan, StudyPlanNode } from "../../types/common/Woomoonkyung";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function StudyPlanArchiveDetailPage() {
   const { planId } = useParams<{ planId: string }>();
@@ -33,7 +31,10 @@ export default function StudyPlanArchiveDetailPage() {
    * 페이지 진입 시 유저 ID 확인 및 상세 정보/노드 리스트 확보
    */
   const fetchData = useCallback(async () => {
-    if (!planId) return;
+    if (!planId) {
+      return;
+    }
+
     try {
       setIsLoading(true);
       const currentUserId = await LoginService.getCurrentUserId();
@@ -80,14 +81,14 @@ export default function StudyPlanArchiveDetailPage() {
         prev.map((n) =>
           n.study_plan_node_id === nodeId
             ? { ...n, completed: !currentStatus }
-            : n
-        )
+            : n,
+        ),
       );
       if (result.updatedPlan) {
         setPlan(result.updatedPlan as unknown as StudyPlan);
       }
       toast.success(
-        currentStatus ? "미완료 처리되었습니다." : "완료 처리되었습니다."
+        currentStatus ? "미완료 처리되었습니다." : "완료 처리되었습니다.",
       );
     } catch (error) {
       toast.error("상태 변경 중 오류가 발생했습니다.");
@@ -120,14 +121,15 @@ export default function StudyPlanArchiveDetailPage() {
   };
 
   /* 계산된 변수 (진행률) */
-  const completedNodes = nodes.filter((node) => node.study_plan_node_completed).length;
+  const completedNodes = nodes.filter(
+    (node) => node.study_plan_node_completed,
+  ).length;
   const totalNodes = nodes.length;
   const progressPercentage =
     totalNodes > 0 ? (completedNodes / totalNodes) * 100 : 0;
 
   if (isLoading) return <div className="p-8 text-center">Loading...</div>;
-  if (!plan)
-    return <div className="p-8 text-center text-gray-500">Plan not found.</div>;
+  if (!plan) return <NotFoundPage />;
 
   return (
     <div className="p-8 bg-gray-50">
@@ -190,7 +192,9 @@ export default function StudyPlanArchiveDetailPage() {
                   <div className="flex items-center gap-1">
                     <Calendar className="w-4 h-4" />
                     <span>
-                      {new Date(plan.study_plan_start_date).toLocaleDateString()}{" "}
+                      {new Date(
+                        plan.study_plan_start_date,
+                      ).toLocaleDateString()}{" "}
                       -{" "}
                       {new Date(plan.study_plan_end_date).toLocaleDateString()}
                     </span>
@@ -245,7 +249,10 @@ export default function StudyPlanArchiveDetailPage() {
               <div
                 key={node.study_plan_node_id}
                 onClick={() =>
-                  handleToggleNode(node.study_plan_node_id, node.study_plan_node_completed)
+                  handleToggleNode(
+                    node.study_plan_node_id,
+                    node.study_plan_node_completed,
+                  )
                 }
                 className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${
                   node.study_plan_node_completed
@@ -261,7 +268,9 @@ export default function StudyPlanArchiveDetailPage() {
                     <div className="flex-1">
                       <h4
                         className={`font-semibold text-gray-800 mb-2 ${
-                          node.study_plan_node_completed ? "line-through text-gray-500" : ""
+                          node.study_plan_node_completed
+                            ? "line-through text-gray-500"
+                            : ""
                         }`}
                       >
                         {node.study_plan_node_name}
@@ -277,8 +286,13 @@ export default function StudyPlanArchiveDetailPage() {
                         <div className="flex items-center gap-1">
                           <Calendar className="w-3 h-3" />
                           <span>
-                            {new Date(node.study_plan_node_start_date).toLocaleDateString()} -{" "}
-                            {new Date(node.study_plan_node_end_date).toLocaleDateString()}
+                            {new Date(
+                              node.study_plan_node_start_date,
+                            ).toLocaleDateString()}{" "}
+                            -{" "}
+                            {new Date(
+                              node.study_plan_node_end_date,
+                            ).toLocaleDateString()}
                           </span>
                         </div>
                       </div>

@@ -252,7 +252,7 @@ export default function AppRoutes() {
 
       {/* ================= 잘못된 경로 ================= */}
 
-      <Route path="*" element={<Page.NotFound />} />
+      <Route path="*" element={<Page.NotFoundPage />} />
     </Routes>
   );
 }

@@ -3,10 +3,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 // 컴포넌트 임포트
-import { NotFoundView } from "../../components/CompanyInformation/NotFoundView";
 import { BackButton } from "../../components/CompanyInformation/BackButton";
 import { InfoSection } from "../../components/CompanyInformation/InterviewHistoryDetailPage/InfoSection";
 import { DetailHeader } from "../../components/CompanyInformation/InterviewHistoryDetailPage/DetailHeader";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 // 서비스 및 타입 임포트
 import { GetInterviewHistoryDetailResponse } from "../../types/api/CompanyInformation/InterviewHistoryDetailPage";
@@ -71,7 +71,7 @@ export default function InterviewHistoryDetailPage() {
 
   // 2. 예외 처리 (데이터가 없는 경우)
   if (!interview) {
-    return <NotFoundView />;
+    return <NotFoundPage />;
   }
 
   return (

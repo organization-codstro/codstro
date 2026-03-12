@@ -3,10 +3,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { WoomoonkyungEditService } from "../../api/Woomoonkyung/StudyPlanEditPage"; // 경로 확인 필요
 import StudyPlanForm from "../../components/Woomoonkyung/StudyPlanForm";
-import PlanNotFound from "../../components/Woomoonkyung/StudyPlanEditPage/PlanNotFound";
 import PageHeader from "../../components/Woomoonkyung/StudyPlanEditPage/PageHeader";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { StudyPlan } from "../../types/common/Woomoonkyung";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function StudyPlanEditPage() {
   const { planId } = useParams<{ planId: string }>();
@@ -17,7 +17,7 @@ export default function StudyPlanEditPage() {
   const [isUpdating, setIsUpdating] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
 
-  /** 🔹 1. 기존 플랜 데이터 로드 (DB 조회) */
+  /** 1. 기존 플랜 데이터 로드 (DB 조회) */
   useEffect(() => {
     const fetchPlan = async () => {
       if (!planId) return;
@@ -82,9 +82,9 @@ export default function StudyPlanEditPage() {
     );
   }
 
-  /** 🔹 플랜이 없을 경우 처리 */
+  /** 플랜이 없을 경우 처리 */
   if (!plan) {
-    return <PlanNotFound message="해당 공부 계획을 찾을 수 없습니다." />;
+    return <NotFoundPage />;
   }
 
   return (

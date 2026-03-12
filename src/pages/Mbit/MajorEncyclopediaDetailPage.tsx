@@ -11,6 +11,7 @@ import {
   DollarSign,
 } from "lucide-react";
 import MajorDetailHeader from "../../components/Mbit/MajorEncyclopediaDetailPage/MajorDetailHeader";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function MajorEncyclopediaDetailPage() {
   const { majorId } = useParams<{ majorId: string }>();
@@ -19,20 +20,13 @@ export default function MajorEncyclopediaDetailPage() {
 
   const navigate = useNavigate();
 
-  if (!majorId) {
-    navigate("/mbit/major-encyclopedias");
-    return;
-  }
-
   const fetchMajors = async () => {
+    if (!majorId) {
+      return;
+    }
     try {
       setLoading(true);
       const data = await MajorEncyclopediaDetailService.getMajorById(majorId);
-
-      if (!data) {
-        navigate("/mbit/major-encyclopedias");
-        return;
-      }
 
       setMajor(data);
     } catch (error) {
@@ -61,11 +55,7 @@ export default function MajorEncyclopediaDetailPage() {
   }
 
   if (!major) {
-    return (
-      <div className="flex items-center justify-center flex-1 p-8 bg-gray-50">
-        로딩 중...
-      </div>
-    );
+    return <NotFoundPage />;
   }
 
   return (

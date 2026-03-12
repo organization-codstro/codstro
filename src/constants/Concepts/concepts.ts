@@ -16,3 +16,4 @@ export const FILTER_TYPES: (MATERIAL_TYPE | "all")[] = [
   "third_party_service",
   "package_manager",
 ];
+

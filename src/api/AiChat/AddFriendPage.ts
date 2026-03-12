@@ -7,6 +7,10 @@ import {
   RemoveFriendParams,
   SearchPersonasParams,
 } from "../../types/api/AiChat/AddFriendPage";
+import {
+  AddFriendParams,
+  AddFriendResponse,
+} from "../../types/api/AiChat/AIPersonaDetailPage";
 
 /**
  * 친구 찾기 및 유저 AI 설정 관리 서비스
@@ -73,22 +77,25 @@ export const AddFriendService = {
    * 2. ai_persona_id에 추가하려는 AI 페르소나 ID 연결
    * 3. 기본 설정값들과 함께 저장
    */
-  // async addFriend(params: AddFriendParams): Promise<AddFriendResponse> {
-  //   const insertData = {
-  //     user_id: params.userId,
-  //     ai_persona_id: params.personaId, // 추가하려는 AI 페르소나 ID
-  //     user_ai_setting_call_me_name: params.callMeName,
-  //     user_ai_setting_emotion: "Normal",
-  //     user_ai_setting_ai_self_awareness: params.aiSelfAwareness,
-  //     user_ai_setting_service_integration: params.serviceIntegration,
-  //   };
+  async addFriend(params: AddFriendParams) {
+    const insertData = {
+      user_id: params.userId,
+      ai_persona_id: params.aiPersonaId, // 추가하려는 AI 페르소나 ID
+      user_ai_setting_call_me_name:
+        params.aiUserSettings.user_ai_setting_call_me_name,
+      user_ai_setting_emotion: "Normal",
+      user_ai_setting_ai_self_awareness:
+        params.aiUserSettings.user_ai_setting_ai_self_awareness,
+      user_ai_setting_service_integration:
+        params.aiUserSettings.user_ai_setting_service_integration,
+    };
 
-  //   const { data, error } = await supabase
-  //     .from("user_ai_settings")
-  //     .insert(insertData);
+    const { data, error } = await supabase
+      .from("user_ai_settings")
+      .insert(insertData);
 
-  //   if (error) throw new Error(`[addFriend Error]: ${error.message}`);
-  // },
+    if (error) throw new Error(`[addFriend Error]: ${error.message}`);
+  },
 
   /**
    * [친구 삭제 (AI 설정 제거)]

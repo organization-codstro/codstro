@@ -6,8 +6,9 @@ import { MeetingTypeSelector } from "../../components/ProjectPlanning/MeetingCre
 import { ProjectPageItem } from "../../components/ProjectPlanning/MeetingCreatePage/ProjectPageItem";
 
 // API Service 및 타입 임포트
-import { MeetingCreateService } from "../../api/ProjectPlanning/MeetingCreatePage"; 
+import { MeetingCreateService } from "../../api/ProjectPlanning/MeetingCreatePage";
 import { PROJECT_ROOM_TYPE } from "../../constants/ProjectPlanning/ProjectPlanning";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function MeetingCreatePage() {
   const navigate = useNavigate();
@@ -19,8 +20,12 @@ export default function MeetingCreatePage() {
   const [planningPages, setPlanningPages] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  const [meetingType, setMeetingType] = useState<PROJECT_ROOM_TYPE | null>(null);
-  const [meetingName, setMeetingName] = useState(new Date().toISOString().split("T")[0]);
+  const [meetingType, setMeetingType] = useState<PROJECT_ROOM_TYPE | null>(
+    null,
+  );
+  const [meetingName, setMeetingName] = useState(
+    new Date().toISOString().split("T")[0],
+  );
   const [meetingPurpose, setMeetingPurpose] = useState("");
   const [selectedPages, setSelectedPages] = useState<string[]>([]);
 
@@ -28,15 +33,15 @@ export default function MeetingCreatePage() {
   useEffect(() => {
     const fetchData = async () => {
       if (!projectId) {
-        setError("프로젝트 정보를 찾을 수 없습니다.");
-        setIsLoading(false);
         return;
       }
 
       try {
         setIsLoading(true);
         // 기획 페이지 목록 조회 API 호출
-        const pages = await MeetingCreateService.getPlanningPages({ projectId });
+        const pages = await MeetingCreateService.getPlanningPages({
+          projectId,
+        });
         setPlanningPages(pages);
       } catch (err: any) {
         setError(err.message || "데이터를 불러오는 중 오류가 발생했습니다.");
@@ -50,7 +55,7 @@ export default function MeetingCreatePage() {
 
   const togglePageSelection = (id: string) => {
     setSelectedPages((prev) =>
-      prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id],
     );
   };
 
@@ -98,11 +103,15 @@ export default function MeetingCreatePage() {
 
   // 4. 로딩 및 에러 대응 UX
   if (isLoading) {
-    return <div className="flex items-center justify-center h-screen">Loading project data...</div>;
+    return (
+      <div className="flex items-center justify-center h-screen">
+        Loading project data...
+      </div>
+    );
   }
 
-  if (error || !projectId) {
-    return <div className="flex items-center justify-center h-screen text-red-500">{error || "Project ID is missing"}</div>;
+  if (!projectId) {
+    <NotFoundPage />;
   }
 
   return (
@@ -111,7 +120,9 @@ export default function MeetingCreatePage() {
       <div className="max-w-4xl p-8 mx-auto">
         <div className="p-6 space-y-6 bg-white border border-gray-200 rounded-lg">
           <div>
-            <label className="block mb-2 text-sm font-medium text-gray-700">Meeting Name</label>
+            <label className="block mb-2 text-sm font-medium text-gray-700">
+              Meeting Name
+            </label>
             <input
               type="text"
               value={meetingName}
@@ -120,12 +131,17 @@ export default function MeetingCreatePage() {
             />
           </div>
 
-          <MeetingTypeSelector selectedType={meetingType} onSelect={setMeetingType} />
+          <MeetingTypeSelector
+            selectedType={meetingType}
+            onSelect={setMeetingType}
+          />
 
           {meetingType && (
             <>
               <div>
-                <label className="block mb-2 text-sm font-medium text-gray-700">Meeting Purpose</label>
+                <label className="block mb-2 text-sm font-medium text-gray-700">
+                  Meeting Purpose
+                </label>
                 <textarea
                   value={meetingPurpose}
                   onChange={(e) => setMeetingPurpose(e.target.value)}
@@ -137,16 +153,22 @@ export default function MeetingCreatePage() {
 
               {meetingType === "Feature" && (
                 <div>
-                  <label className="block mb-3 text-sm font-medium text-gray-700">Select Pages</label>
+                  <label className="block mb-3 text-sm font-medium text-gray-700">
+                    Select Pages
+                  </label>
                   {planningPages.length === 0 ? (
-                    <p className="text-sm italic text-gray-500">선택 가능한 기획 페이지가 없습니다.</p>
+                    <p className="text-sm italic text-gray-500">
+                      선택 가능한 기획 페이지가 없습니다.
+                    </p>
                   ) : (
                     <div className="space-y-2">
                       {planningPages.map((page) => (
                         <ProjectPageItem
                           key={page.project_planning_page_id} // 서비스 컬럼명에 맞춤
                           page={page}
-                          isSelected={selectedPages.includes(page.project_planning_page_id)}
+                          isSelected={selectedPages.includes(
+                            page.project_planning_page_id,
+                          )}
                           onToggle={togglePageSelection}
                         />
                       ))}

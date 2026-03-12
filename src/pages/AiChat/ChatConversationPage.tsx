@@ -8,6 +8,7 @@ import { ChatInput } from "../../components/AiChat/ChatConversation/ChatInput";
 import { ChatConversationService } from "../../api/AiChat/ChatConversationPage";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { ChatMessage, ChatRoom, ChatRoomAI } from "../../types/common/aiChat";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function ChatConversationPage() {
   const { roomId } = useParams<{ roomId: string }>();
@@ -38,12 +39,6 @@ export default function ChatConversationPage() {
 
   // -- 데이터 초기화 및 실시간 구독 (Lifecycle) --
   useEffect(() => {
-    if (!roomId) {
-      toast.error("잘못된 접근입니다.");
-      navigate("/ai-chat");
-      return;
-    }
-
     const initChat = async () => {
       setIsLoading(true);
       try {
@@ -54,6 +49,10 @@ export default function ChatConversationPage() {
           return;
         }
         setUserId(currentUserId);
+
+        if (!roomId) {
+          return;
+        }
 
         // 2. 방 정보 및 메시지 이력 병렬 로드
         const [roomInfo, messageHistory, personaList] = await Promise.all([
@@ -132,7 +131,7 @@ export default function ChatConversationPage() {
     );
   }
 
-  if (!room) return null;
+  if (!room || !messages || personas) return <NotFoundPage />;
 
   return (
     <div className="relative flex flex-col h-screen overflow-hidden bg-gray-50">

@@ -15,6 +15,7 @@ import {
 } from "../../constants/Woomoonro/woomoonro";
 import { UserProjectStatus } from "../../types/pages/Woomoonro/CloneCodingProjectDetailPage/CloneCodingProjectDetailPage";
 import { CloneCodingProject } from "../../types/common/woomoonro";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function CloneCodingProjectDetailPage() {
   const { projectId } = useParams<{ projectId: string }>();
@@ -36,6 +37,9 @@ export default function CloneCodingProjectDetailPage() {
   const loadProjectData = useCallback(
     async (uid: string, pid: string) => {
       try {
+        if (!projectId) {
+          return;
+        }
         setIsLoading(true);
         const [projectDetail, userStatus] = await Promise.all([
           CloneCodingService.getProjectDetail({ projectId: pid }),
@@ -159,7 +163,7 @@ export default function CloneCodingProjectDetailPage() {
     );
   }
 
-  if (!project) return null;
+  if (!project) return <NotFoundPage />;
 
   return (
     <div className="min-h-screen p-8 bg-gray-50">

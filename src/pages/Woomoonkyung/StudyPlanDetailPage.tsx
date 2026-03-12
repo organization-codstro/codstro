@@ -6,6 +6,7 @@ import BackButton from "../../components/Woomoonkyung/RecommendedStudyPlanDetail
 import PlanDetailHeader from "../../components/Woomoonkyung/StudyPlanArchiveDetailPage/PlanDetailHeader";
 import MyNodeList from "../../components/Woomoonkyung/StudyPlanArchiveDetailPage/MyNodeList";
 import { StudyPlanWithNodes } from "../../types/common/Woomoonkyung";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function StudyPlanDetailPage() {
   const { planId } = useParams<{ planId: string }>();
@@ -66,10 +67,8 @@ export default function StudyPlanDetailPage() {
     );
   }
 
-  if (!detail || !detail.plan) {
-    return (
-      <div className="p-8 text-center text-gray-600">Study plan not found.</div>
-    );
+  if (!detail) {
+    return <NotFoundPage />;
   }
 
   const { plan, nodes, stats } = detail;

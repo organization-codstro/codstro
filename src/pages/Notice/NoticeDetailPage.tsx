@@ -4,28 +4,35 @@ import { useNavigate, useParams } from "react-router-dom";
 import { NoticeDetailService } from "../../api/Notice/NoticeDetailPage";
 import { NoticeResponse } from "../../types/api/Notice/NoticeDetailPage";
 import MarkdownRenderer from "../../components/Markdown/MarkdownRenderer";
+import { LoginService } from "../../api/Auth/LoginPage";
+import { toast } from "react-toastify";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function NoticeDetailPage() {
   const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
+  const { noticeId } = useParams<{ noticeId: string }>();
   const [notice, setNotice] = useState<NoticeResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  // const [isBookmarked, setIsBookmarked] = useState(false);
-
-  // 현재 로그인한 유저 ID (실제로는 auth context나 store에서 가져와야 함)
-  const currentUserId = "your-user-id"; // TODO: 실제 유저 ID로 교체
+  //const [isBookmarked, setIsBookmarked] = useState(false);
 
   useEffect(() => {
-    if (id) {
-      fetchNoticeDetail(id);
+    if (noticeId) {
+      fetchNoticeDetail(noticeId);
     }
-  }, [id]);
+  }, [noticeId]);
 
   const fetchNoticeDetail = async (noticeId: string) => {
     try {
       setLoading(true);
       setError(null);
+
+      const currentUserId = await LoginService.getCurrentUserId();
+
+      if (!currentUserId) {
+        toast.error("로그인이 필요합니다.");
+        return;
+      }
 
       const data = await NoticeDetailService.getNoticeById({
         noticeId: noticeId,
@@ -50,6 +57,7 @@ export default function NoticeDetailPage() {
     }
   };
 
+  //todo 상수로 분리
   const getCategoryColor = (category: string) => {
     const colors: Record<string, string> = {
       update: "bg-blue-100 text-blue-800",
@@ -96,29 +104,8 @@ export default function NoticeDetailPage() {
     );
   }
 
-  if (error || !notice) {
-    return (
-      <div className="max-w-4xl p-8 mx-auto">
-        <button
-          onClick={() => navigate("/notices")}
-          className="flex items-center gap-2 mb-6 text-gray-600 hover:text-gray-900"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          Back to Notices
-        </button>
-        <div className="flex flex-col items-center justify-center h-64 gap-4">
-          <div className="text-lg text-red-600">
-            {error || "공지사항을 찾을 수 없습니다."}
-          </div>
-          <button
-            onClick={() => navigate("/notices")}
-            className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
-          >
-            목록으로 돌아가기
-          </button>
-        </div>
-      </div>
-    );
+  if (!notice) {
+    return <NotFoundPage />;
   }
 
   return (
@@ -137,7 +124,7 @@ export default function NoticeDetailPage() {
           <div className="flex items-center justify-between mb-4">
             <span
               className={`px-4 py-2 rounded-full text-sm font-semibold ${getCategoryColor(
-                notice.notice_type
+                notice.notice_type,
               )}`}
             >
               {notice.notice_type}

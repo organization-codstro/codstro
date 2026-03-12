@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 
 // 컴포넌트 임포트
 import { BackButton } from "../../components/CompanyInformation/BackButton";
-import { NotFoundView } from "../../components/CompanyInformation/NotFoundView";
 import { MatchScoreHeader } from "../../components/CompanyInformation/MatchingHistoryDetailPage/MatchScoreHeader";
 import { ReportSection } from "../../components/CompanyInformation/MatchingHistoryDetailPage/ReportSection";
 import { ReportFooter } from "../../components/CompanyInformation/MatchingHistoryDetailPage/ReportFooter";
@@ -13,6 +12,7 @@ import { ReportFooter } from "../../components/CompanyInformation/MatchingHistor
 
 import { GetMatchingHistoryDetailResponse } from "../../types/api/CompanyInformation/MatchingHistoryDetailPage";
 import { MatchingHistoryDetailService } from "../../api/CompanyInformation/MatchingHistoryDetailPage";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function MatchingHistoryDetailPage() {
   const navigate = useNavigate();
@@ -74,7 +74,7 @@ export default function MatchingHistoryDetailPage() {
 
   // 데이터 없음 처리
   if (!match) {
-    return <NotFoundView message="Matching record not found" />;
+    return <NotFoundPage />;
   }
 
   return (

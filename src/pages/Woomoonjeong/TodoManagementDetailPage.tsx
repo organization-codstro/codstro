@@ -12,6 +12,7 @@ import TodoDetailHeader from "../../components/Woomoonjeong/TodoManagementDetail
 import TodoStatusBadge from "../../components/Woomoonjeong/TodoManagementDetailPage/TodoStatusBadge";
 import TodoInfoSection from "../../components/Woomoonjeong/TodoManagementDetailPage/TodoInfoSection";
 import { TodoDetail } from "../../types/pages/Woomoonjeong/TodoManagementDetailPage/TodoManagementDetailPage";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function TodoManagementDetailPage() {
   const { todoId } = useParams<{ todoId: string }>();
@@ -67,29 +68,16 @@ export default function TodoManagementDetailPage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen gap-4">
         <Loader2 className="w-10 h-10 text-purple-600 animate-spin" />
-        <p className="text-gray-500 font-medium">
+        <p className="font-medium text-gray-500">
           상세 내용을 불러오는 중입니다...
         </p>
       </div>
     );
   }
 
-  // 데이터 부재 시 UI (NotFoundView)
+  // 데이터 부재 시 UI 
   if (!todo) {
-    return (
-      <div className="flex flex-col items-center justify-center p-8 min-h-screen text-center">
-        <p className="text-xl font-semibold text-gray-800">Todo not found.</p>
-        <p className="text-gray-500 mt-2">
-          삭제되었거나 존재하지 않는 할일입니다.
-        </p>
-        <button
-          onClick={() => navigate("/woomoonjeong")}
-          className="mt-6 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-        >
-          Back to list
-        </button>
-      </div>
-    );
+    return <NotFoundPage />;
   }
 
   return (
@@ -107,7 +95,7 @@ export default function TodoManagementDetailPage() {
           <h2 className="text-2xl font-bold text-gray-800">{todo.todo_name}</h2>
 
           <TodoInfoSection label="Description">
-            <p className="text-gray-600 leading-relaxed">
+            <p className="leading-relaxed text-gray-600">
               {todo.todo_description || "No description provided."}
             </p>
           </TodoInfoSection>
@@ -135,7 +123,7 @@ export default function TodoManagementDetailPage() {
           </TodoInfoSection>
 
           <TodoInfoSection label="Created">
-            <div className="flex items-center gap-2 text-gray-400 text-sm">
+            <div className="flex items-center gap-2 text-sm text-gray-400">
               <Clock className="w-4 h-4" />
               {new Date(todo.todo_created_date).toLocaleString()}
             </div>
