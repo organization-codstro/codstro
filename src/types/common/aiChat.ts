@@ -18,9 +18,14 @@ export interface ChatRoomAI {
   ai_persona_name: string;
 }
 export interface AiUserSettings {
+  //사용자를 부르는 호칠
   user_ai_setting_call_me_name: string;
+  //자기 ai 인식
   user_ai_setting_ai_self_awareness: boolean;
+  //서바스 접근 여부
   user_ai_setting_service_integration: boolean;
+  //감정
+  user_ai_setting_emotion: string;
 }
 
 export interface ChatRoom {

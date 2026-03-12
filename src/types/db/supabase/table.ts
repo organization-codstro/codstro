@@ -57,7 +57,7 @@ export interface ChatRooms {
   chat_room_summary_message_index: number;
 }
 
-export interface ChatMemory {
+export interface ChatMemorys {
   chat_memory_id: string;
   chat_room_id: string;
   chat_memory_contents: string;
@@ -259,8 +259,6 @@ export interface Todos {
   group_id: number | null; // FK / number
   project_id: number | null; // FK / number
   project_page_id: number | null; // FK / number
-  group_name: string | null; // 이 할일이 속하여 있는 그룹의 이름 / text
-  project_name: string | null; // 이 할일이 속하여 있는 프로젝트의 이름
 }
 
 export interface AiPersonas {

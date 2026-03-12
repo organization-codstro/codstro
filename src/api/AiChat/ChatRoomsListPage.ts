@@ -15,6 +15,31 @@ import {
  */
 export const ChatRoomsListService = {
   /**
+   * [채팅방 목록 조회]
+   * 유저가 참여 중인 모든 채팅방을 가져옵니다.
+   * 각 방의 마지막 메시지 미리보기를 위해 daily_new_chats와 chat_messages를 참조할 수 있습니다.
+   * 참조 테이블: chat_rooms, daily_new_chats
+   */
+  async getChatRooms(
+    params: GetChatRoomsParams,
+  ): Promise<GetChatRoomsResponse> {
+    const { data, error } = await supabase
+      .from("chat_rooms")
+      .select(
+        `
+        *
+      `,
+      )
+      .eq("user_id", params.userId)
+      .order("created_at", { ascending: false });
+
+    if (error) throw new Error(`[getChatRooms Error]: ${error.message}`);
+
+    // daily_new_chats가 없을 경우를 대비해 데이터를 가공하여 반환할 수 있습니다.
+    return data;
+  },
+
+  /**
    * [채팅방 검색]
    * 채팅방 이름 또는 주제어를 통해 참여 중인 방을 검색합니다.
    * 참조 테이블: chat_rooms
