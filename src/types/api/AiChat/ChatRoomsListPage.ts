@@ -8,12 +8,6 @@ export interface GetChatRoomsParams {
   userId: string;
 }
 
-/**
- * daily_new_chats 테이블 조인 결과 타입
- */
-export interface DailyNewChats {
-  daily_new_chats: number;
-}
 
 /**
  * chat_rooms 테이블 기본 엔티티

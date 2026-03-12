@@ -1,11 +1,9 @@
 import { Home, ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-interface NotFoundProps {
-  onHome?: () => void;
-  onBack?: () => void;
-}
+export default function NotFound() {
+  const navigate = useNavigate();
 
-export default function NotFound({ onHome, onBack }: NotFoundProps) {
   return (
     <div className="flex items-center justify-center min-h-screen p-4 bg-gradient-to-br from-blue-50 to-purple-50">
       <div className="max-w-md text-center">
@@ -32,26 +30,22 @@ export default function NotFound({ onHome, onBack }: NotFoundProps) {
         </p>
 
         <div className="space-y-3 sm:space-y-0 sm:flex sm:gap-3 sm:justify-center">
-          {onBack && (
-            <button
-              onClick={onBack}
-              className="flex items-center justify-center w-full gap-2 px-6 py-3 font-medium text-gray-700 transition-colors border-2 border-gray-300 rounded-lg sm:w-auto hover:border-gray-400 hover:bg-gray-50"
-            >
-              <ArrowLeft className="w-5 h-5" />
-              이전 페이지
-            </button>
-          )}
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center justify-center w-full gap-2 px-6 py-3 font-medium text-gray-700 transition-colors border-2 border-gray-300 rounded-lg sm:w-auto hover:border-gray-400 hover:bg-gray-50"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            이전 페이지
+          </button>
 
-          {onHome && (
-            <button
-              onClick={onHome}
-              className="flex items-center justify-center w-full gap-2 px-6 py-3 font-medium text-white transition-opacity rounded-lg sm:w-auto hover:opacity-90"
-              style={{ backgroundColor: "#587CF0" }}
-            >
-              <Home className="w-5 h-5" />
-              홈으로 이동
-            </button>
-          )}
+          <button
+            onClick={() => navigate("/woomoonjeong")}
+            className="flex items-center justify-center w-full gap-2 px-6 py-3 font-medium text-white transition-opacity rounded-lg sm:w-auto hover:opacity-90"
+            style={{ backgroundColor: "#587CF0" }}
+          >
+            <Home className="w-5 h-5" />
+            홈으로 이동
+          </button>
         </div>
 
         <div className="pt-8 mt-12 border-t border-gray-200">

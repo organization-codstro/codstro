@@ -251,7 +251,8 @@ export default function AppRoutes() {
       </Route>
 
       {/* ================= 잘못된 경로 ================= */}
-      <Route path="*" element={<Navigate to="/login" replace />} />
+
+      <Route path="*" element={<Page.NotFound />} />
     </Routes>
   );
 }

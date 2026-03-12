@@ -57,6 +57,14 @@ export interface ChatRooms {
   chat_room_summary_message_index: number;
 }
 
+export interface ChatMemory {
+  chat_memory_id: string;
+  chat_room_id: string;
+  chat_memory_contents: string;
+  start_message_index: number;
+  end_message_index: number;
+}
+
 export interface UserFortune {
   user_fortune_id: number; // PK / number
   user_fortune_create_date: Date; // date
@@ -143,12 +151,6 @@ export interface ToolDescriptionMaterials {
   tool_description_material_image_urls: string | null; // text[]
   tool_description_material_created_date: Date; // date
   tool_description_material_update_date: Date; // date
-}
-
-export interface DailyNewChats {
-  daily_new_chat_id: number; // PK / number
-  daily_new_chat: string; // text
-  daily_chat_room_id: number; // FK / number
 }
 
 export interface Link {

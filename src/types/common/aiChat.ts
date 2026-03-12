@@ -33,9 +33,6 @@ export interface ChatRoom {
   chat_room_last_read_message_index: number;
   created_at: string;
   chat_room_daily_is_main?: boolean;
-  daily_new_chats?: {
-    daily_new_chat: string;
-  };
 }
 
 export interface ChatMessage {
