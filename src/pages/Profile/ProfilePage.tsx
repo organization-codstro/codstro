@@ -13,6 +13,7 @@ import ProfileFooter from "../../components/Profile/ProfilePage/ProfileFooter";
 /* API 응답 데이터 타입                                                        */
 /* -------------------------------------------------------------------------- */
 import { GetUserFullProfileResponse } from "../../types/api/Profile/ProfilePage";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function ProfilePage() {
   const navigate = useNavigate();
@@ -68,13 +69,7 @@ export default function ProfilePage() {
   }
 
   if (error || !profileData) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <p className="text-red-500">
-          {error || "사용자 정보를 찾을 수 없습니다."}
-        </p>
-      </div>
-    );
+    return <NotFoundPage />;
   }
 
   const { userData, levelInfo } = profileData;

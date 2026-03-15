@@ -38,8 +38,8 @@ export interface UserBadges {
 export interface Emoticons {
   emoticon_id: number; // PK / number
   emoticon_name: number; // number
-  emoticon_img_url: string; // text
-  emoticon_tags: string; // text
+  emoticon_img_pach: string; // text
+  emoticon_tags: string[]; // text
   emoticon_created_date: Date; // date
 }
 

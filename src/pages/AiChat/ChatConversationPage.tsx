@@ -131,7 +131,7 @@ export default function ChatConversationPage() {
     );
   }
 
-  if (!room || !messages || personas) return <NotFoundPage />;
+  if (!room) return <NotFoundPage />;
 
   return (
     <div className="relative flex flex-col h-screen overflow-hidden bg-gray-50">

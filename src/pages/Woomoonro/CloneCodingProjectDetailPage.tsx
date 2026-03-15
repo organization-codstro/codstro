@@ -51,7 +51,6 @@ export default function CloneCodingProjectDetailPage() {
 
         if (!projectDetail) {
           toast.error("프로젝트 정보를 찾을 수 없습니다.");
-          navigate("/woomoonro");
           return;
         }
 

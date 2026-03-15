@@ -45,7 +45,7 @@ export default function UserInfoPage() {
         if (record) {
           setRecordId(record.ai_user_record_id);
           setContent(record.ai_user_record_summary);
-          setLastUpdated(record.ai_user_record_created_date);
+          setLastUpdated(record.created_at);
         }
       } catch (error: any) {
         console.error(error);
@@ -77,7 +77,7 @@ export default function UserInfoPage() {
         summary: content,
       });
 
-      setLastUpdated(updatedRecord.ai_user_record_created_date);
+      setLastUpdated(updatedRecord.created_at);
       setIsEditing(false);
 
       toast.update(toastId, {
