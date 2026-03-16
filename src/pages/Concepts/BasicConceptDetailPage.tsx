@@ -111,7 +111,7 @@ export default function BasicConceptDetailPage() {
         type: showTodoModal,
       });
 
-      toast.success("🚀 할 일 리스트에 성공적으로 추가되었습니다!");
+      toast.success("할 일 리스트에 성공적으로 추가되었습니다!");
       setShowTodoModal(false);
     } catch (error) {
       toast.error("Todo 등록 중 오류가 발생했습니다.");

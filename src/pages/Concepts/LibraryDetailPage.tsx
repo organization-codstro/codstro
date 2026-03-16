@@ -94,7 +94,7 @@ export default function LibraryDetailPage() {
         type: showTodoModal,
       });
 
-      toast.success("🚀 Todo 리스트에 추가되었습니다.");
+      toast.success("Todo 리스트에 추가되었습니다.");
       setShowTodoModal(false);
     } catch (error) {
       toast.error("Todo 등록 중 오류가 발생했습니다.");

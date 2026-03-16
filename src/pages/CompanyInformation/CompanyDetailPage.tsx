@@ -88,7 +88,7 @@ export default function CompanyDetailPage() {
           render: "유저 활동 기록이 부족하여 AI 분석을 시작할 수 없습니다.",
           type: "error",
           isLoading: false,
-          autoClose: 3000,
+          autoClose: 500,
         });
         return;
       }
@@ -121,7 +121,7 @@ export default function CompanyDetailPage() {
         render: "매칭 정보가 성공적으로 생성되었습니다!",
         type: "success",
         isLoading: false,
-        autoClose: 1500,
+        autoClose: 500,
       });
 
       setTimeout(() => {
@@ -133,7 +133,7 @@ export default function CompanyDetailPage() {
         render: "매칭 정보 생성 중 오류가 발생했습니다.",
         type: "error",
         isLoading: false,
-        autoClose: 3000,
+        autoClose: 500,
       });
     } finally {
       setIsAnalyzing(false);

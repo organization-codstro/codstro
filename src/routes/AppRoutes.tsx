@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import * as Page from "./pages";
 
 export default function AppRoutes() {
@@ -171,7 +171,6 @@ export default function AppRoutes() {
         />
         <Route path="/ai-chat/create-room" element={<Page.CreateChatRoom />} />
         <Route path="/ai-chat/user-info" element={<Page.UserInfo />} />
-        <Route path="/ai-chat/add-friend" element={<Page.AddFriend />} />
 
         {/* ================= MBIT ================= */}
         {/* <Route path="/mbit" element={<Page.MbitHome />} /> */}

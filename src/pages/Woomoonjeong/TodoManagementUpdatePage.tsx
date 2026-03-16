@@ -130,7 +130,7 @@ export default function TodoManagementUpdatePage() {
         render: "수정이 완료되었습니다.",
         type: "success",
         isLoading: false,
-        autoClose: 2000,
+        autoClose: 500,
       });
 
       navigate(`/woomoonjeong/todo/${todoId}`);
@@ -139,7 +139,7 @@ export default function TodoManagementUpdatePage() {
         render: "수정에 실패했습니다.",
         type: "error",
         isLoading: false,
-        autoClose: 2000,
+        autoClose: 500,
       });
     } finally {
       setIsUpdating(false);

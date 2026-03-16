@@ -200,14 +200,14 @@ export function ChatInput({
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       // Alt+E (Mac: Option+E) → 열기/닫기
-      if (e.altKey && e.key === "e") {
+      if (e.altKey && e.code === "KeyE") {
         e.preventDefault();
         isEmojiOpen ? closePicker() : openPicker();
         return;
       }
 
       // Alt+M → 메세지 모드 전환 (이모지 피커와 무관하게 항상 동작)
-      if (e.altKey && (e.key === "m" || e.key === "µ")) {
+      if (e.altKey && e.code === "KeyM") {
         e.preventDefault();
         setMessageMode((prev) =>
           prev === "CASUAL" ? "ACTION_REQUEST" : "CASUAL",

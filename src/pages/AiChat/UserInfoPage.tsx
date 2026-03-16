@@ -84,7 +84,7 @@ export default function UserInfoPage() {
         render: "내용이 성공적으로 저장되었습니다.",
         type: "success",
         isLoading: false,
-        autoClose: 2000,
+        autoClose: 500,
       });
     } catch (error: any) {
       console.error(error);
@@ -92,7 +92,7 @@ export default function UserInfoPage() {
         render: "저장에 실패했습니다. 다시 시도해주세요.",
         type: "error",
         isLoading: false,
-        autoClose: 3000,
+        autoClose: 500,
       });
     }
   };

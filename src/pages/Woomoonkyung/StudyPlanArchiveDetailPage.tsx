@@ -105,9 +105,9 @@ export default function StudyPlanArchiveDetailPage() {
     if (!isDeleting) {
       setIsDeleting(true);
       toast.info("한 번 더 클릭하면 삭제됩니다. (3초 후 취소)", {
-        autoClose: 3000,
+        autoClose: 500,
       });
-      setTimeout(() => setIsDeleting(false), 3000);
+      setTimeout(() => setIsDeleting(false), 500);
       return;
     }
 

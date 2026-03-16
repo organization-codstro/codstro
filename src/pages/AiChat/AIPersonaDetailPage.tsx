@@ -111,7 +111,7 @@ export default function AIPersonaDetailPage() {
           gender={persona.ai_persona_gender}
           age={persona.ai_persona_age}
           createdDate={persona.created_at}
-          profileImageUrl={persona.ai_persona_profile_image_url}
+          profilePath={persona.ai_persona_profile_image_path}
           isFriend={isFriend}
           onAddFriendClick={onAddFriendClick}
         />

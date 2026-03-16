@@ -97,7 +97,7 @@ export default function BadgeManagerPage() {
         render: "대표 배지가 변경되었습니다.",
         type: "success",
         isLoading: false,
-        autoClose: 3000,
+        autoClose: 500,
       });
       setShowDetails(false);
     } catch (err) {
@@ -105,7 +105,7 @@ export default function BadgeManagerPage() {
         render: "설정 변경에 실패했습니다.",
         type: "error",
         isLoading: false,
-        autoClose: 3000,
+        autoClose: 500,
       });
     }
   };

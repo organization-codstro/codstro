@@ -92,7 +92,7 @@ export default function ProfileEditPage() {
           render: "프로필이 성공적으로 수정되었습니다.",
           type: "success",
           isLoading: false,
-          autoClose: 2000,
+          autoClose: 500,
         });
         // 약간의 지연 후 이동하여 사용자에게 완료 상태 인지시킴
         setTimeout(() => navigate("/profile"), 1000);
@@ -103,7 +103,7 @@ export default function ProfileEditPage() {
         render: "업데이트 중 오류가 발생했습니다.",
         type: "error",
         isLoading: false,
-        autoClose: 3000,
+        autoClose: 500,
       });
     } finally {
       setIsSaving(false);

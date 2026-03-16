@@ -8,7 +8,7 @@ export interface AIPersona {
   ai_persona_preferred_features: string;
   ai_persona_speech_style: string;
   ai_persona_one_line_introduction?: string;
-  ai_persona_profile_image_url?: string;
+  ai_persona_profile_image_path?: string;
   created_at: string;
 }
 //채팅에서 사용하는 이모지

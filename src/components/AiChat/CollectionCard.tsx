@@ -1,4 +1,8 @@
+import { useState, useEffect } from "react";
 import { CollectionCardProps } from "../../types/pages/AiChat/AIPersonasCollectionPage/CollectionCard";
+import { getFirebaseImageUrl } from "../../db/firebase/firebase";
+import { useImageStore } from "../../store/ImageStore";
+
 import clsx from "clsx";
 
 export function CollectionCard({
@@ -6,26 +10,42 @@ export function CollectionCard({
   gender,
   oneLineIntroduction,
   preferredFeatures,
-  profileImageUrl,
+  profileImagePath,
   onClick,
   isSelected = false,
 }: CollectionCardProps) {
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const getUrl = useImageStore((state) => state.getUrl);
+
+  useEffect(() => {
+    if (!profileImagePath) return;
+    getUrl(profileImagePath).then(setAvatarUrl);
+  }, [profileImagePath]);
+
+  useEffect(() => {
+    if (!profileImagePath) return;
+
+    getFirebaseImageUrl(profileImagePath).then((url) => {
+      setAvatarUrl(url);
+    });
+  }, [profileImagePath]);
+
   return (
     <div
       onClick={onClick}
       className={clsx(
         "p-6 transition-all border cursor-pointer rounded-xl hover:shadow-lg",
         {
-          "bg-blue-50 border-blue-400": isSelected, // 선택 시 스타일
-          "bg-white border-gray-100": !isSelected, // 기본 스타일
+          "bg-blue-50 border-blue-400": isSelected,
+          "bg-white border-gray-100": !isSelected,
         },
       )}
     >
       <div className="flex flex-col items-center text-center">
         {/* 아바타 */}
-        {profileImageUrl ? (
+        {avatarUrl ? (
           <img
-            src={profileImageUrl}
+            src={avatarUrl}
             alt={name}
             className="object-cover w-20 h-20 mb-4 rounded-full"
           />

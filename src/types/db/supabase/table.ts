@@ -273,6 +273,7 @@ export interface AiPersonas {
   ai_persona_age: number; // integer
   ai_persona_preferred_topics: string; // text
   ai_persona_one_line_introduction: string;
+  ai_persona_profile_image_path: string;
 }
 
 export interface StudyPlans {

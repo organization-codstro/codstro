@@ -86,7 +86,7 @@ export default function CodingToolsListPage() {
         type: showTodoModal,
       });
 
-      toast.success("🚀 Todo가 성공적으로 추가되었습니다!");
+      toast.success("todo가 성공적으로 추가되었습니다!");
       setShowTodoModal(false);
     } catch (error) {
       toast.error("Todo 등록 실패");

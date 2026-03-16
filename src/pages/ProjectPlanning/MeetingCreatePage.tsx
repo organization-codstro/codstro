@@ -84,7 +84,7 @@ export default function MeetingCreatePage() {
         render: "회의실이 성공적으로 생성되었습니다!",
         type: "success",
         isLoading: false,
-        autoClose: 2000,
+        autoClose: 500,
       });
 
       navigate(`/projects/meetings/${newRoom.project_meeting_room_id}`);
@@ -93,7 +93,7 @@ export default function MeetingCreatePage() {
         render: "생성에 실패했습니다. 다시 시도해주세요.",
         type: "error",
         isLoading: false,
-        autoClose: 3000,
+        autoClose: 500,
       });
       console.error(err);
     } finally {

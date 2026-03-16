@@ -110,7 +110,7 @@ export default function ProjectCreateChatPage() {
         render: "분석 완료!",
         type: "success",
         isLoading: false,
-        autoClose: 1000,
+        autoClose: 500,
       });
     } catch (error) {
       toast.error("응답 생성 중 오류가 발생했습니다.");

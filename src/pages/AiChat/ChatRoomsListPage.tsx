@@ -84,7 +84,6 @@ export default function ChatRoomsListPage() {
   // 내비게이션 버튼 설정
   const navButtons = [
     { label: "Friend Collection", onClick: () => navigate("/ai-chat/friends") },
-    { label: "Add Friend", onClick: () => navigate("/ai-chat/add-friend") },
     { label: "My Info", onClick: () => navigate("/ai-chat/user-info") },
   ];
 

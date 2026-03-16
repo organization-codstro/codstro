@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AddFriendModalProps } from "../../../../../types/pages/AiChat/AIPersonaDetailPage/PersonaHero/Addfriendmodal/Addfriendmodal";
-import { Bot, MessageCircle, User, UserPlus, X, Zap } from "lucide-react";
+import { Bot, User, UserPlus, X, Zap } from "lucide-react";
 import Tooltip from "./Tooltip";
 import Toggle from "./Toggle";
 
@@ -9,7 +9,7 @@ export function AddFriendModal({
   onClose,
   onConfirm,
   personaName,
-  profileImageUrl,
+  profileImagePath,
 }: AddFriendModalProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
 
@@ -86,9 +86,9 @@ export function AddFriendModal({
           </button>
 
           <div className="relative z-10">
-            {profileImageUrl ? (
+            {profileImagePath ? (
               <img
-                src={profileImageUrl}
+                src={profileImagePath}
                 alt={personaName}
                 className="object-cover w-32 h-32 border-4 rounded-full shadow-lg border-white/40"
               />

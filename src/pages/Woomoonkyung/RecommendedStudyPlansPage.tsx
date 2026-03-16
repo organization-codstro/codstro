@@ -107,14 +107,14 @@ export default function RecommendedStudyPlansPage() {
         render: `"${plan.study_plan_name}" 계획이 추가되었습니다!`,
         type: "success",
         isLoading: false,
-        autoClose: 3000,
+        autoClose: 500,
       });
     } catch (error) {
       toast.update(loadingToast, {
         render: "계획 추가에 실패했습니다.",
         type: "error",
         isLoading: false,
-        autoClose: 3000,
+        autoClose: 500,
       });
     }
   };

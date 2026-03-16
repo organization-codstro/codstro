@@ -111,7 +111,7 @@ export default function CloneCodingProjectArchivePage() {
         render: "북마크가 해제되었습니다.",
         type: "success",
         isLoading: false,
-        autoClose: 3000,
+        autoClose: 500,
       });
     } catch (err) {
       toast.error("북마크 해제 실패");

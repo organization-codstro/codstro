@@ -42,7 +42,7 @@ export interface ProjectTodo {
 }
 
 //생성시 입력할 정보들
-export interface NewTodo {
+export interface NewProjectTodo {
   group_id?: string;
   project_page_id?: string;
   name: string;

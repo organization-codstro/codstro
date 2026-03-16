@@ -229,7 +229,7 @@ export default function StudyPlanCreateNodePage() {
         render: "공부 계획이 성공적으로 생성되었습니다!",
         type: "success",
         isLoading: false,
-        autoClose: 3000,
+        autoClose: 500,
       });
       navigate(`/woomoonkyung/plan/${planId}`);
     } catch (error) {
@@ -237,7 +237,7 @@ export default function StudyPlanCreateNodePage() {
         render: "계획 저장 중 오류가 발생했습니다.",
         type: "error",
         isLoading: false,
-        autoClose: 3000,
+        autoClose: 500,
       });
     }
   };

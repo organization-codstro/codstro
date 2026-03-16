@@ -1,23 +1,31 @@
 import { Calendar, UserPlus } from "lucide-react";
 import { PersonaHeroProps } from "../../../../types/pages/AiChat/AIPersonaDetailPage/PersonaHero/PersonaHero";
 import { AddFriendModal } from "./Addfriendmodal/Addfriendmodal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiUserSettings } from "../../../../types/common/aiChat";
+import { useImageStore } from "../../../../store/ImageStore";
 
 export function PersonaHero({
   name,
   gender,
   age,
   createdDate,
-  profileImageUrl,
+  profilePath,
   onAddFriendClick,
   isFriend,
 }: PersonaHeroProps) {
   // -- 모달 열림/닫힘 상태 --
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const getUrl = useImageStore((state) => state.getUrl);
 
   const handleOpenModal = () => setIsModalOpen(true);
-  const handleCloseModal = () => setIsModalOpen(false);
+  //const handleCloseModal = () => setIsModalOpen(false);
+
+  useEffect(() => {
+    if (!profilePath) return;
+    getUrl(profilePath).then(setAvatarUrl);
+  }, [profilePath]);
 
   // 모달에서 확인 클릭 시 부모의 onAddFriendClick 실행
   const handleConfirm = (settings: AiUserSettings) => {
@@ -30,9 +38,9 @@ export function PersonaHero({
       <div className="p-8 bg-white border-b border-gray-100">
         <div className="flex flex-col items-center text-center">
           {/* 아바타 */}
-          {profileImageUrl ? (
+          {avatarUrl ? (
             <img
-              src={profileImageUrl}
+              src={avatarUrl}
               alt={name}
               className="object-cover w-32 h-32 mb-6 rounded-full"
             />
@@ -71,11 +79,11 @@ export function PersonaHero({
 
             <button
               className={`flex items-center gap-2 px-5 py-2 text-sm font-medium text-white rounded-full transition-opacity
-  ${
-    isFriend
-      ? "bg-gray-400 cursor-not-allowed"
-      : "bg-[#587CF0] hover:opacity-90"
-  }`}
+              ${
+                isFriend
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-[#587CF0] hover:opacity-90"
+              }`}
               disabled={isFriend}
               onClick={handleOpenModal}
             >
@@ -91,7 +99,7 @@ export function PersonaHero({
         onClose={() => setIsModalOpen(false)}
         onConfirm={handleConfirm}
         personaName={name}
-        profileImageUrl={profileImageUrl}
+        profileImagePath={avatarUrl}
       />
     </>
   );

@@ -84,7 +84,7 @@ export default function ProjectBasicInfoInputPage() {
         render: "정보가 저장되었습니다. 다음 단계로 이동합니다.",
         type: "success",
         isLoading: false,
-        autoClose: 1000,
+        autoClose: 500,
       });
 
       // 생성된 혹은 기존의 projectId를 가지고 채팅 페이지로 이동
@@ -99,7 +99,7 @@ export default function ProjectBasicInfoInputPage() {
         render: "저장 중 오류가 발생했습니다.",
         type: "error",
         isLoading: false,
-        autoClose: 3000,
+        autoClose: 500,
       });
     }
   };

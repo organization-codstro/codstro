@@ -15,6 +15,10 @@ export default function AIPersonasCollectionPage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  const [selectedPersonaId, setSelectedPersonaId] = useState<string | null>(
+    null,
+  );
+
   // -- 데이터 로드 (Lifecycle) --
   useEffect(() => {
     const fetchPersonas = async () => {
@@ -35,6 +39,9 @@ export default function AIPersonasCollectionPage() {
   }, []);
 
   const handleSelectPersona = (personaId: string) => {
+    // ✅ 선택 상태 변경
+    setSelectedPersonaId(personaId);
+
     navigate(`/ai-chat/persona/${personaId}`);
   };
 
@@ -73,9 +80,10 @@ export default function AIPersonasCollectionPage() {
                 key={persona.ai_persona_id}
                 name={persona.ai_persona_name}
                 gender={persona.ai_persona_gender}
-                profileImageUrl={persona.ai_persona_profile_image_url}
+                profileImagePath={persona.ai_persona_profile_image_path}
                 oneLineIntroduction={persona.ai_persona_one_line_introduction}
                 preferredFeatures={persona.ai_persona_preferred_features}
+                isSelected={selectedPersonaId === persona.ai_persona_id}
                 onClick={() => handleSelectPersona(persona.ai_persona_id)}
               />
             ))}

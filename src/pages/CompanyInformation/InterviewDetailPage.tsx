@@ -97,7 +97,7 @@ export default function InterviewDetailPage() {
         render: "분석이 완료되었습니다.",
         type: "success",
         isLoading: false,
-        autoClose: 2000,
+        autoClose: 500,
       });
     } catch (error) {
       console.error("제출 실패:", error);
@@ -105,7 +105,7 @@ export default function InterviewDetailPage() {
         render: "분석 중 오류가 발생했습니다.",
         type: "error",
         isLoading: false,
-        autoClose: 3000,
+        autoClose: 500,
       });
     } finally {
       setIsSubmitting(false);

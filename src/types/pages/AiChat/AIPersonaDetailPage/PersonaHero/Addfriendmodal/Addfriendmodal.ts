@@ -5,5 +5,5 @@ export interface AddFriendModalProps {
   onClose: () => void;
   onConfirm: (settings: AiUserSettings) => void;
   personaName: string;
-  profileImageUrl?: string;
+  profileImagePath?: string | null;
 }

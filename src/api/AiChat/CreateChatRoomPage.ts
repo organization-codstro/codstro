@@ -31,7 +31,7 @@ export const CreateChatRoomService = {
           ai_persona_gender,
           ai_persona_one_line_introduction,
           ai_persona_preferred_features,
-          ai_persona_profile_image_url
+          ai_persona_profile_image_path
 
         )
       `,

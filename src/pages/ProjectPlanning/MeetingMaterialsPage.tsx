@@ -86,7 +86,7 @@ export default function MeetingMaterialsPage() {
         render: "성공적으로 저장되었습니다.",
         type: "success",
         isLoading: false,
-        autoClose: 2000,
+        autoClose: 500,
       });
       setIsEditing(false);
     } catch (error) {
@@ -94,7 +94,7 @@ export default function MeetingMaterialsPage() {
         render: "저장에 실패했습니다.",
         type: "error",
         isLoading: false,
-        autoClose: 3000,
+        autoClose: 500,
       });
     }
   };

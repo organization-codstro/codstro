@@ -91,7 +91,7 @@ export default function CreateChatRoomPage() {
           render: "채팅방이 성공적으로 생성되었습니다!",
           type: "success",
           isLoading: false,
-          autoClose: 1500,
+          autoClose: 500,
         });
 
         // 생성된 방으로 이동
@@ -102,7 +102,7 @@ export default function CreateChatRoomPage() {
           render: `방 생성 실패: ${error.message}`,
           type: "error",
           isLoading: false,
-          autoClose: 3000,
+          autoClose: 500,
         });
       }
     }
@@ -153,8 +153,8 @@ export default function CreateChatRoomPage() {
                   <CollectionCard
                     name={friend.ai_personas.ai_persona_name}
                     gender={friend.ai_personas.ai_persona_gender}
-                    profileImageUrl={
-                      friend.ai_personas.ai_persona_profile_image_url
+                    profileImagePath={
+                      friend.ai_personas.ai_persona_profile_image_path
                     }
                     preferredFeatures={
                       friend.ai_personas.ai_persona_preferred_features

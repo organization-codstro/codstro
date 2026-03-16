@@ -117,7 +117,7 @@ export default function MeetingProgressPage() {
         render: "답변이 도착했습니다.",
         type: "success",
         isLoading: false,
-        autoClose: 1000,
+        autoClose: 500,
       });
     } catch (error) {
       toast.error("메시지 전송에 실패했습니다.");
@@ -175,7 +175,7 @@ export default function MeetingProgressPage() {
                     render: "회의가 삭제되었습니다.",
                     type: "success",
                     isLoading: false,
-                    autoClose: 2000,
+                    autoClose: 500,
                   });
                   navigate("/projects/meetings");
                 } catch (e) {
@@ -183,7 +183,7 @@ export default function MeetingProgressPage() {
                     render: "삭제 실패",
                     type: "error",
                     isLoading: false,
-                    autoClose: 2000,
+                    autoClose: 500,
                   });
                 }
               }}

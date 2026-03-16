@@ -56,7 +56,7 @@ export default function StudyPlanEditPage() {
         render: "공부 계획이 성공적으로 수정되었습니다.",
         type: "success",
         isLoading: false,
-        autoClose: 2000,
+        autoClose: 500,
       });
 
       // 상세 페이지로 이동

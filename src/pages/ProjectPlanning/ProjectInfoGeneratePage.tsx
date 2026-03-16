@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
-  Todo,
   ProjectPage,
   ProjectBasicInfo,
-  newTodo,
   UITodo,
+  ProjectTodo,
+  NewProjectTodo,
 } from "../../types/common/projectPlanning";
 
 // 컴포넌트 임포트
@@ -54,7 +54,7 @@ export default function ProjectInfoGeneratePage() {
   );
   const [showTodoForm, setShowTodoForm] = useState(false);
   const [projectTodos, setProjectTodos] = useState<UITodo[]>([]);
-  const [pages, setPages] = useState<Array<ProjectPage & { todos: Todo[] }>>(
+  const [pages, setPages] = useState<Array<ProjectPage & { todos: ProjectTodo[] }>>(
     [],
   );
 
@@ -120,7 +120,7 @@ export default function ProjectInfoGeneratePage() {
         render: "임시 저장되었습니다.",
         type: "success",
         isLoading: false,
-        autoClose: 2000,
+        autoClose: 500,
       });
       navigate("/projects");
     } catch (error) {
@@ -128,7 +128,7 @@ export default function ProjectInfoGeneratePage() {
         render: "저장에 실패했습니다.",
         type: "error",
         isLoading: false,
-        autoClose: 3000,
+        autoClose: 500,
       });
     } finally {
       setIsSubmitting(false);
@@ -153,7 +153,7 @@ export default function ProjectInfoGeneratePage() {
         render: "프로젝트가 생성되었습니다!",
         type: "success",
         isLoading: false,
-        autoClose: 2000,
+        autoClose: 500,
       });
       navigate(`/projects/${newProject.project_id}`);
     } catch (error) {
@@ -161,7 +161,7 @@ export default function ProjectInfoGeneratePage() {
         render: "프로젝트 생성에 실패했습니다.",
         type: "error",
         isLoading: false,
-        autoClose: 3000,
+        autoClose: 500,
       });
     } finally {
       setIsSubmitting(false);
@@ -190,7 +190,7 @@ export default function ProjectInfoGeneratePage() {
     setProjectTodos((prev) => prev.filter((t) => t.id !== todoId));
   };
 
-  const addProjectTodo = (todo: newTodo) => {
+  const addProjectTodo = (todo: NewProjectTodo) => {
     const uiTodo: UITodo = {
       ...todo,
       client_id: crypto.randomUUID(), // UI 전용
@@ -209,7 +209,7 @@ export default function ProjectInfoGeneratePage() {
   const updatePageTodo = (
     pageId: string,
     todoId: string,
-    updates: Partial<Todo>,
+    updates: Partial<ProjectTodo>,
   ) => {
     setPages((prev) =>
       prev.map((p) =>
@@ -235,7 +235,7 @@ export default function ProjectInfoGeneratePage() {
     );
   };
 
-  const addPageTodo = (pageId: string, newTodo: Todo) => {
+  const addPageTodo = (pageId: string, newTodo: ProjectTodo) => {
     setPages((prev) =>
       prev.map((p) =>
         p.project_page_id === pageId

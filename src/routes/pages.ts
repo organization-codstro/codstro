@@ -61,7 +61,6 @@ export { default as AIPersonasCollection } from "../pages/AiChat/AIPersonasColle
 export { default as AIPersonaDetail } from "../pages/AiChat/AIPersonaDetailPage";
 export { default as CreateChatRoom } from "../pages/AiChat/CreateChatRoomPage";
 export { default as UserInfo } from "../pages/AiChat/UserInfoPage";
-export { default as AddFriend } from "../pages/AiChat/AddFriendPage";
 
 /* ================= MBIT ================= */
 export { default as MbitHome } from "../pages/Mbit/MbitMainPage";

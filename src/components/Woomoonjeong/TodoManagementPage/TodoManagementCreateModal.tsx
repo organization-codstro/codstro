@@ -106,7 +106,7 @@ const TodoManagementCreateModal: React.FC<TodoManagementCreateProps> = ({
         render: "새로운 할일이 생성되었습니다!",
         type: "success",
         isLoading: false,
-        autoClose: 2000,
+        autoClose: 500,
       });
 
       if (onAdd) onAdd(); // 리스트 갱신 함수 호출
@@ -127,7 +127,7 @@ const TodoManagementCreateModal: React.FC<TodoManagementCreateProps> = ({
         render: "생성에 실패했습니다. 다시 시도해주세요.",
         type: "error",
         isLoading: false,
-        autoClose: 3000,
+        autoClose: 500,
       });
     } finally {
       setIsSubmitting(false);
