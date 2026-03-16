@@ -78,7 +78,7 @@ export interface ChatMessage {
   updated_at?: string; // timestamp with time zone, nullable
 
   // 이미지 url 목록
-  chat_message_img_content_url?: string[]; // ARRAY, nullable
+  chat_message_file_content_url?: string[]; // ARRAY, nullable
 
   // 메세지 타입
   chat_message_format: string; // text, NOT NULL, default: ''

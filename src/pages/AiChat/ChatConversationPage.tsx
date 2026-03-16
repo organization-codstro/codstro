@@ -9,6 +9,10 @@ import { ChatConversationService } from "../../api/AiChat/ChatConversationPage";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { ChatMessage, ChatRoom, ChatRoomAI } from "../../types/common/aiChat";
 import NotFoundPage from "../NotFound/NotFoundPage";
+import {
+  ChatMessageInteractionType,
+  SendMessageParams,
+} from "../../types/api/AiChat/ChatConversationPage";
 
 export default function ChatConversationPage() {
   const { roomId } = useParams<{ roomId: string }>();
@@ -99,7 +103,7 @@ export default function ChatConversationPage() {
   // -- 메시지 전송 --
   const handleSend = async (
     emoticonId?: string,
-    interactionType: "CASUAL" | "ACTION_REQUEST" = "CASUAL", // 추가
+    interactionType: ChatMessageInteractionType = "CASUAL",
   ) => {
     if (!emoticonId && !inputValue.trim() && images.length === 0) return;
 
@@ -108,17 +112,17 @@ export default function ChatConversationPage() {
       ? personas.find((p) => p.ai_persona_name === mentions[0])
       : null;
 
-    const payload = {
-      chat_message_sender_type: "USER" as const,
+    const payload: SendMessageParams = {
+      chat_message_sender_type: "USER",
       chat_message_sender_agent_id: null,
       chat_message_content: emoticonId ? null : inputValue.trim() || null,
       chat_message_index: messages.length + 1,
       emoticon_id: emoticonId ?? null,
       chat_room_id: roomId!,
-      chat_message_img_content_url:
+      chat_message_file_content_url:
         images.length > 0 ? images.map((f) => f.name) : null,
       chat_message_format: emoticonId ? "EMOTICON" : "TEXT",
-      chat_message_interaction_type: interactionType, // ChatInput에서 받아옴
+      chat_message_interaction_type: interactionType,
       chat_message_reply_message_id: replyingTo?.chat_message_id ?? null,
       chat_message_reply_target_agent_id:
         replyingTo?.chat_message_sender_agent_id ?? null,
@@ -127,7 +131,7 @@ export default function ChatConversationPage() {
     };
 
     console.log("[handleSend] payload →", payload);
-    // await ChatConversationService.sendMessage(payload);
+    await ChatConversationService.sendMessage(payload);
 
     setInputValue("");
     setImages([]);

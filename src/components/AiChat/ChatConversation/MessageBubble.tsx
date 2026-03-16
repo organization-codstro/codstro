@@ -39,10 +39,10 @@ import { MessageBubbleProps } from "../../../types/pages/AiChat/ChatConversation
 
 //         {/* 이미지 표시 (UI만) */}
 //         {/* TODO: 실제 이미지 데이터 연결 */}
-//         {message.chat_message_img_content_url &&
-//           message.chat_message_img_content_url.length > 0 && (
+//         {message.chat_message_file_content_url &&
+//           message.chat_message_file_content_url.length > 0 && (
 //             <div className="mt-2 space-y-2">
-//               {message.chat_message_img_content_url.map(
+//               {message.chat_message_file_content_url.map(
 //                 (img: string, i: number) => (
 //                   <img
 //                     key={i}
@@ -154,10 +154,10 @@ export function MessageBubble({
         </div>
 
         {/* 이미지 표시 */}
-        {message.chat_message_img_content_url &&
-          message.chat_message_img_content_url.length > 0 && (
+        {message.chat_message_file_content_url &&
+          message.chat_message_file_content_url.length > 0 && (
             <div className="mt-2 space-y-2">
-              {message.chat_message_img_content_url.map(
+              {message.chat_message_file_content_url.map(
                 (img: string, i: number) => (
                   <img
                     key={i}

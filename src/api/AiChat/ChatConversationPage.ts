@@ -128,15 +128,32 @@ export const ChatConversationService = {
       .from("chat_messages")
       .insert([
         {
-          chat_room_id: params.roomId,
-          chat_message_content: params.content,
-          chat_message_sender_type: params.sender,
-          chat_message_index: params.nextIndex,
-          chat_message_sent_at: new Date().toISOString(),
+          chat_room_id: params.chat_room_id,
+
+          chat_message_sender_type: params.chat_message_sender_type,
+          chat_message_sender_agent_id: params.chat_message_sender_agent_id,
+
+          chat_message_content: params.chat_message_content,
+          chat_message_file_content_url: params.chat_message_file_content_url,
+
+          emoticon_id: params.emoticon_id,
+
+          chat_message_format: params.chat_message_format,
+          chat_message_index: params.chat_message_index,
+
+          chat_message_interaction_type: params.chat_message_interaction_type,
+
+          chat_message_reply_message_id: params.chat_message_reply_message_id,
+
+          chat_message_reply_target_agent_id:
+            params.chat_message_reply_target_agent_id,
+
+          chat_message_mention_target_agent_id:
+            params.chat_message_mention_target_agent_id,
         },
       ])
-      .select();
-
+      .select()
+      .single();
     if (error) throw new Error(`[sendMessage Error]: ${error.message}`);
     return data[0];
   },
