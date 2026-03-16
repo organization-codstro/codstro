@@ -1,15 +1,20 @@
 export interface GetRoomInfoParams {
   roomId: string;
 }
+export interface GetEmoticonsParams {
+  page: number;
+  limit: number;
+  keyword?: string;
+}
 
 export interface GetMessagesParams {
   roomId: string;
 }
 
-export interface getChatRoomAIPersonasParams {
+export interface GetChatRoomAIPersonasParams {
   roomId: string;
 }
-export interface getChatRoomAIPersonasResponse {
+export interface GetChatRoomAIPersonasResponse {
   /**
    * chat_room에 있는 ai 관계의 id
    */

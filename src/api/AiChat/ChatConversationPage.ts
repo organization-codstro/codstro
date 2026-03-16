@@ -1,14 +1,16 @@
 import { supabase } from "../../db/supabase/supabase";
 import {
-  GenerateAiReplyParams,
-  getChatRoomAIPersonasParams,
-  getChatRoomAIPersonasResponse,
+  //GenerateAiReplyParams,
+  GetChatRoomAIPersonasParams,
+  GetChatRoomAIPersonasResponse,
+  GetEmoticonsParams,
   GetMessagesParams,
   GetRoomInfoParams,
   SendMessageParams,
   SubscribeToMessagesParams,
 } from "../../types/api/AiChat/ChatConversationPage";
-import { AIPersona } from "../../types/common/aiChat";
+import { Emoticon } from "../../types/common/aiChat";
+//import { AIPersona } from "../../types/common/aiChat";
 
 /**
  * 실시간 채팅 및 메시지 관리를 위한 서비스
@@ -28,6 +30,38 @@ export const ChatConversationService = {
 
     if (error) throw new Error(`[getRoomInfo Error]: ${error.message}`);
     return data;
+  },
+
+  /**
+   * [이모지 조회]
+   * 사용 가능한 이모티콘을 조회합니다.
+   * 참조 테이블: emoticons
+   */
+
+  async getEmoticons(
+    params: GetEmoticonsParams,
+  ): Promise<{ data: Emoticon[]; count: number }> {
+    const from = (params.page - 1) * params.limit;
+    const to = from + params.limit - 1;
+
+    let query = supabase
+      .from("emoticons")
+      .select("*", { count: "exact" })
+      .order("created_at", { ascending: false })
+      .range(from, to);
+
+    if (params.keyword && params.keyword.trim() !== "") {
+      query = query.ilike("emoticon_name", `%${params.keyword}%`);
+    }
+
+    const { data, count, error } = await query;
+
+    if (error) throw error;
+
+    return {
+      data: data ?? [],
+      count: count ?? 0,
+    };
   },
 
   /**
@@ -67,8 +101,8 @@ export const ChatConversationService = {
    * 해당 채팅방에 참여중인 패르소나의 이름, id를 가져옵니다
    */
   async getChatRoomAIPersonas(
-    params: getChatRoomAIPersonasParams,
-  ): Promise<getChatRoomAIPersonasResponse[]> {
+    params: GetChatRoomAIPersonasParams,
+  ): Promise<GetChatRoomAIPersonasResponse[]> {
     const { roomId } = params;
     const { data, error } = await supabase.rpc("get_chat_room_ai_personas", {
       room_id: roomId,
@@ -80,7 +114,7 @@ export const ChatConversationService = {
     }
 
     // data는 array 형태, 없으면 빈 배열 반환
-    return (data as getChatRoomAIPersonasResponse[]) || [];
+    return (data as GetChatRoomAIPersonasResponse[]) || [];
   },
 
   /**
@@ -96,7 +130,7 @@ export const ChatConversationService = {
         {
           chat_room_id: params.roomId,
           chat_message_content: params.content,
-          chat_message_sender: params.sender,
+          chat_message_sender_type: params.sender,
           chat_message_index: params.nextIndex,
           chat_message_sent_at: new Date().toISOString(),
         },
@@ -133,27 +167,28 @@ export const ChatConversationService = {
  * [ChatConversation]
  * Gemini를 사용하여 페르소나 설정에 맞는 답변을 생성합니다.
  */
-export const AiResponseService = {
-  async generateAiReply(params: GenerateAiReplyParams) {
-    // todo : 패르소나 정보 가져오는 로직 추가
+// export const AiResponseService = {
+//   async generateAiReply(params: GenerateAiReplyParams) {
+//     // todo : 패르소나 정보 가져오는 로직 추가
 
-    // 1. Gemini에게 페르소나 주입 (System Prompt)
-    const prompt = `
-      You are "${params.persona.ai_persona_name}". 
-      Personality: ${params.persona.ai_persona_personality}
-      Speech Style: ${params.persona.ai_persona_speech_style}
-      Current emotion: ${params.persona.user_ai_setting_emotion}
-      User's message: "${params.userMessage}"
-      
-      Respond naturally in Korean as this persona.
-    `;
+//     // 1. Gemini에게 페르소나 주입 (System Prompt)
+//     const prompt = `
+//       You are "${params.persona.ai_persona_name}".
+//       Personality: ${params.persona.ai_persona_personality}
+//       Speech Style: ${params.persona.ai_persona_speech_style}
+//       Current emotion: ${params.persona.user_ai_setting_emotion}
+//       User's message: "${params.userMessage}"
 
-    // 2. Edge Function 호출 (Gemini API 로직 포함)
-    const { data, error } = await supabase.functions.invoke("gemini-chat", {
-      body: { prompt, roomId: params.roomId },
-    });
+//       Respond naturally in Korean as this persona.
+//     `;
 
-    if (error) throw new Error(`[Gemini Error]: ${error.message}`);
-    return data.reply;
-  },
-};
+//     // 2. Edge Function 호출 (Gemini API 로직 포함)
+//     const { data, error } = await supabase.functions.invoke("gemini-chat", {
+//       body: { prompt, roomId: params.roomId },
+//     });
+
+//     if (error) throw new Error(`[Gemini Error]: ${error.message}`);
+//     return data.reply;
+//   },
+
+// };

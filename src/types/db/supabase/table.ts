@@ -38,7 +38,7 @@ export interface UserBadges {
 export interface Emoticons {
   emoticon_id: number; // PK / number
   emoticon_name: number; // number
-  emoticon_img_pach: string; // text
+  emoticon_img_path: string; // text
   emoticon_tags: string[]; // text
   emoticon_created_date: Date; // date
 }
@@ -189,7 +189,7 @@ export interface Majors {
   major_id: number | null; // PK / number
   major_name: string; // text
   major_description: string; // text
-  "major_recommended occupation": string; // text
+  major_recommended_occupation: string; // text
   major_strengths: string; // text
   major_weaknesses: string; // text
   major_stress_management: string; // text
@@ -492,7 +492,9 @@ export interface ChatMessage {
   chat_message_img_content_url?: string[] | null;
   chat_message_format: "TEXT" | "IMG" | "MULTIMODAL";
   chat_message_interaction_type: "CASUAL" | "ACTION_REQUEST";
-  chat_message_reply_to: string | null;
+  chat_message_reply_message_id: string;
+  chat_message_reply_target_agent_id: string | null;
+  mention_target_agent_id: string;
 }
 
 export interface UserFavoriteCompanies {

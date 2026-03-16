@@ -25,7 +25,6 @@ export default function ChatConversationPage() {
   const [replyingTo, setReplyingTo] = useState<ChatMessage | null>(null);
   const [images, setImages] = useState<File[]>([]);
   const [personas, setPersonas] = useState<ChatRoomAI[]>([]);
-
   // 스크롤 하단 이동
   const scrollToBottom = () => {
     if (scrollRef.current) {
@@ -97,20 +96,38 @@ export default function ChatConversationPage() {
     initChat();
   }, [roomId, navigate]);
 
-  // -- 메시지 전송 및 AI 응답 로직 --
-  const handleSend = async () => {
-    if (!inputValue.trim()) return;
+  // -- 메시지 전송 --
+  const handleSend = async (
+    emoticonId?: string,
+    interactionType: "CASUAL" | "ACTION_REQUEST" = "CASUAL", // 추가
+  ) => {
+    if (!emoticonId && !inputValue.trim() && images.length === 0) return;
 
-    console.log({
-      text: inputValue,
-      mentions: extractMentions(inputValue),
-      replyTo: replyingTo?.chat_message_id || null,
-      images,
-    });
+    const mentions = extractMentions(inputValue);
+    const mentionTargetAgent = mentions[0]
+      ? personas.find((p) => p.ai_persona_name === mentions[0])
+      : null;
 
-    // TODO: API 연결
-    // ChatConversationService.sendMessage()
-    // AiResponseService.generateAiReply()
+    const payload = {
+      chat_message_sender_type: "USER" as const,
+      chat_message_sender_agent_id: null,
+      chat_message_content: emoticonId ? null : inputValue.trim() || null,
+      chat_message_index: messages.length + 1,
+      emoticon_id: emoticonId ?? null,
+      chat_room_id: roomId!,
+      chat_message_img_content_url:
+        images.length > 0 ? images.map((f) => f.name) : null,
+      chat_message_format: emoticonId ? "EMOTICON" : "TEXT",
+      chat_message_interaction_type: interactionType, // ChatInput에서 받아옴
+      chat_message_reply_message_id: replyingTo?.chat_message_id ?? null,
+      chat_message_reply_target_agent_id:
+        replyingTo?.chat_message_sender_agent_id ?? null,
+      chat_message_mention_target_agent_id:
+        mentionTargetAgent?.chat_room_ai_id ?? null,
+    };
+
+    console.log("[handleSend] payload →", payload);
+    // await ChatConversationService.sendMessage(payload);
 
     setInputValue("");
     setImages([]);
@@ -151,6 +168,8 @@ export default function ChatConversationPage() {
               key={message.chat_message_id}
               message={message}
               onReply={(msg) => setReplyingTo(msg)}
+              personas={personas}
+              allMessages={messages}
             />
           ))
         ) : (

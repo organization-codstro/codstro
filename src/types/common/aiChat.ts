@@ -11,6 +11,15 @@ export interface AIPersona {
   ai_persona_profile_image_url?: string;
   created_at: string;
 }
+//채팅에서 사용하는 이모지
+export interface Emoticon {
+  emoticon_id: string;
+  emoticon_name: string;
+  emoticon_img_path: string;
+  emoticon_tags: string[];
+  created_at: string;
+  updated_at: string | null;
+}
 
 //getChatRoomAIPersonas에서 반환하는 chat room 에 있는 ai 정보들
 export interface ChatRoomAI {
@@ -41,33 +50,51 @@ export interface ChatRoom {
 }
 
 export interface ChatMessage {
-  chat_message_id: string;
-  //전송한 사람
-  chat_message_sender: "AI" | "USER";
-  //내용
-  chat_message_content: string;
-  //이모지 id
-  emoticon_id?: string;
-  //포함되어있는 chat id
-  chat_room_id: string;
-  //메세지 위치
-  chat_message_index: number;
-  // 생성시간
-  created_at: string;
-  //이미지 id
-  chat_message_img_content_url: string[];
-  //멘션시 들어가는 에이전트 id
-  mention_target_agent_id?: string;
-  //답장
-  chat_message_reply_message?: string;
-  //답장시에 들어가는 ai 에이전트 id
-  chat_message_reply_target_agent_id?: string;
-  //메세지 타입
-  chat_message_format: string;
-  //메세지 의도
-  chat_message_interaction_type: "CASUAL" | "ACTION_REQUEST";
-}
+  // Primary Key
+  chat_message_id: string; // uuid, PK, default: gen_random_uuid()
 
+  // 전송한 사람
+  chat_message_sender_type: "AI" | "USER"; // text, NOT NULL
+
+  // AI 발신자일 경우 에이전트 id
+  chat_message_sender_agent_id?: string; // uuid, nullable
+
+  // 내용
+  chat_message_content?: string; // text, nullable
+
+  // 메세지 위치
+  chat_message_index: number; // bigint, NOT NULL, default: 1
+
+  // 이모지 id (FK -> emoticons.emoticon_id)
+  emoticon_id?: string; // uuid, nullable
+
+  // 포함되어있는 chat id (FK -> chat_rooms.chat_room_id)
+  chat_room_id: string; // uuid, NOT NULL
+
+  // 생성시간
+  created_at?: string; // timestamp with time zone, nullable, default: now()
+
+  // 수정시간
+  updated_at?: string; // timestamp with time zone, nullable
+
+  // 이미지 url 목록
+  chat_message_img_content_url?: string[]; // ARRAY, nullable
+
+  // 메세지 타입
+  chat_message_format: string; // text, NOT NULL, default: ''
+
+  // 메세지 의도
+  chat_message_interaction_type: "CASUAL" | "ACTION_REQUEST"; // text, NOT NULL, default: ''
+
+  // 답장 메세지 id
+  chat_message_reply_message_id?: string; // uuid, nullable
+
+  // 답장 대상 AI 에이전트 id (FK -> chat_room_ai_settings.chat_room_ai_id)
+  chat_message_reply_target_agent_id?: string; // uuid, nullable
+
+  // 멘션 대상 AI 에이전트 id (FK -> chat_room_ai_settings.chat_room_ai_id)
+  chat_message_mention_target_agent_id?: string; // uuid, nullable (renamed from mention_target_agent_id)
+}
 export interface UserAiSettings {
   user_ai_setting_call_me_name: string;
   //자기를 ai로 인식할수 있는가
