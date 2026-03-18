@@ -2,7 +2,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../db/firebase/firebase";
 import { supabase } from "../../db/supabase/supabase";
 import { SignUpParams, SignUpResponse } from "../../types/api/Auth/SignupPage";
-import { GROUP_TYPES } from "../../constants/Woomoonjeong/woomoonjeong";
+import { GROUP_NAME_TYPES } from "../../constants/Woomoonjeong/woomoonjeong";
 
 export const SignupService = {
   /**
@@ -45,7 +45,7 @@ export const SignupService = {
         throw new Error("유저 ID를 가져올 수 없습니다.");
       }
 
-      const groupInsertPayload = GROUP_TYPES.map((type) => ({
+      const groupInsertPayload = GROUP_NAME_TYPES.map((type) => ({
         group_name: type,
         group_description: null,
         user_id: userId,

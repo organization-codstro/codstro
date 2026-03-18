@@ -21,11 +21,14 @@ export interface Emoticon {
   updated_at: string | null;
 }
 
-//getChatRoomAIPersonas에서 반환하는 chat room 에 있는 ai 정보들
+//getChatRoomAIPersonas에서 반환한 정보가 합쳐져 MessageBubbleProps로 전해지는 타입
 export interface ChatRoomAI {
   chat_room_ai_id: string;
+  ai_persona_id: string;
   ai_persona_name: string;
+  ai_persona_profile_image_path: string | null;
 }
+
 export interface AiUserSettings {
   //사용자를 부르는 호칠
   user_ai_setting_call_me_name: string;
@@ -78,7 +81,7 @@ export interface ChatMessage {
   updated_at?: string; // timestamp with time zone, nullable
 
   // 이미지 url 목록
-  chat_message_file_content_url?: string[]; // ARRAY, nullable
+  chat_message_file_content_path?: string[]; // ARRAY, nullable
 
   // 메세지 타입
   chat_message_format: string; // text, NOT NULL, default: ''

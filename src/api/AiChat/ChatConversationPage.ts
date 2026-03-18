@@ -1,6 +1,5 @@
 import { supabase } from "../../db/supabase/supabase";
 import {
-  //GenerateAiReplyParams,
   GetChatRoomAIPersonasParams,
   GetChatRoomAIPersonasResponse,
   GetEmoticonsParams,
@@ -10,7 +9,6 @@ import {
   SubscribeToMessagesParams,
 } from "../../types/api/AiChat/ChatConversationPage";
 import { Emoticon } from "../../types/common/aiChat";
-//import { AIPersona } from "../../types/common/aiChat";
 
 /**
  * 실시간 채팅 및 메시지 관리를 위한 서비스
@@ -37,7 +35,6 @@ export const ChatConversationService = {
    * 사용 가능한 이모티콘을 조회합니다.
    * 참조 테이블: emoticons
    */
-
   async getEmoticons(
     params: GetEmoticonsParams,
   ): Promise<{ data: Emoticon[]; count: number }> {
@@ -68,11 +65,10 @@ export const ChatConversationService = {
    * [메시지 이력 조회]
    * 해당 채팅방의 과거 메시지들을 인덱스 순으로 가져옵니다.
    * 참조 테이블: chat_messages
-(*/
+   */
   async getMessages(params: GetMessagesParams) {
     const { roomId } = params;
 
-    // chat_messages 조회
     const { data: messages, error: messageError } = await supabase
       .from("chat_messages")
       .select("*")
@@ -82,8 +78,6 @@ export const ChatConversationService = {
     if (messageError)
       throw new Error(`[getMessages Error]: ${messageError.message}`);
 
-    // chat_rooms 업데이트
-    // 마지막 메시지 index 추출
     const { error: rpcError } = await supabase.rpc("update_last_read", {
       room_id: roomId,
     });
@@ -98,7 +92,7 @@ export const ChatConversationService = {
 
   /**
    * [채팅방 인원 확인]
-   * 해당 채팅방에 참여중인 패르소나의 이름, id를 가져옵니다
+   * 해당 채팅방에 참여중인 페르소나의 이름, id를 가져옵니다
    */
   async getChatRoomAIPersonas(
     params: GetChatRoomAIPersonasParams,
@@ -113,14 +107,12 @@ export const ChatConversationService = {
       throw error;
     }
 
-    // data는 array 형태, 없으면 빈 배열 반환
     return (data as GetChatRoomAIPersonasResponse[]) || [];
   },
 
   /**
    * [메시지 전송]
    * 유저가 입력한 메시지를 DB에 저장합니다.
-   * chat_message_index는 서버 트리거로 처리하거나 클라이언트에서 최대값+1로 계산합니다.
    * 참조 테이블: chat_messages
    */
   async sendMessage(params: SendMessageParams) {
@@ -129,83 +121,73 @@ export const ChatConversationService = {
       .insert([
         {
           chat_room_id: params.chat_room_id,
-
           chat_message_sender_type: params.chat_message_sender_type,
           chat_message_sender_agent_id: params.chat_message_sender_agent_id,
-
           chat_message_content: params.chat_message_content,
-          chat_message_file_content_url: params.chat_message_file_content_url,
-
+          chat_message_file_content_path: params.chat_message_file_content_path,
           emoticon_id: params.emoticon_id,
-
           chat_message_format: params.chat_message_format,
           chat_message_index: params.chat_message_index,
-
           chat_message_interaction_type: params.chat_message_interaction_type,
-
           chat_message_reply_message_id: params.chat_message_reply_message_id,
-
           chat_message_reply_target_agent_id:
             params.chat_message_reply_target_agent_id,
-
           chat_message_mention_target_agent_id:
             params.chat_message_mention_target_agent_id,
         },
       ])
       .select()
       .single();
+
     if (error) throw new Error(`[sendMessage Error]: ${error.message}`);
-    return data[0];
+    return data;
+  },
+
+  /**
+   * [AI 응답 생성 요청]
+   * 유저 메시지 저장 후 ai-chat Edge Function을 호출하여 AI 응답을 생성합니다.
+   * AI 응답은 Edge Function 내부에서 chat_messages 테이블에 저장되며
+   * 실시간 구독을 통해 화면에 반영됩니다.
+   */
+  async requestAiResponse(params: {
+    chat_room_id: string;
+    userMessage: SendMessageParams;
+  }) {
+    const { error } = await supabase.functions.invoke("ai-chat", {
+      body: {
+        chat_room_id: params.chat_room_id,
+        userMessage: params.userMessage,
+      },
+    });
+
+    if (error) throw new Error(`[requestAiResponse Error]: ${error.message}`);
   },
 
   /**
    * [실시간 메시지 구독]
    * 새로운 메시지가 DB에 추가될 때마다 클라이언트에서 감지하도록 설정합니다.
-   * 이를 통해 AI의 답변이나 상대방의 메시지를 즉각적으로 화면에 반영합니다.
+   * AI의 답변이나 상대방의 메시지를 즉각적으로 화면에 반영합니다.
    */
   subscribeToMessages(params: SubscribeToMessagesParams) {
-    return supabase
-      .channel(`room_${params.roomId}`)
+    const channel = supabase
+      .channel(`room_${params.roomId}_${Date.now()}`)
       .on(
         "postgres_changes",
         {
           event: "INSERT",
           schema: "public",
           table: "chat_messages",
-          filter: `chat_room_id=eq.${params.roomId}`,
         },
-        params.callback,
+        (payload) => {
+          if (payload.new?.chat_room_id !== params.roomId) return;
+          params.callback(payload);
+        },
       )
-      .subscribe();
+      .subscribe((status, err) => {
+        console.log("[subscription] status:", status);
+        if (err) console.error("[subscription] error:", err);
+      });
+
+    return channel;
   },
 };
-
-/**
- * [ChatConversation]
- * Gemini를 사용하여 페르소나 설정에 맞는 답변을 생성합니다.
- */
-// export const AiResponseService = {
-//   async generateAiReply(params: GenerateAiReplyParams) {
-//     // todo : 패르소나 정보 가져오는 로직 추가
-
-//     // 1. Gemini에게 페르소나 주입 (System Prompt)
-//     const prompt = `
-//       You are "${params.persona.ai_persona_name}".
-//       Personality: ${params.persona.ai_persona_personality}
-//       Speech Style: ${params.persona.ai_persona_speech_style}
-//       Current emotion: ${params.persona.user_ai_setting_emotion}
-//       User's message: "${params.userMessage}"
-
-//       Respond naturally in Korean as this persona.
-//     `;
-
-//     // 2. Edge Function 호출 (Gemini API 로직 포함)
-//     const { data, error } = await supabase.functions.invoke("gemini-chat", {
-//       body: { prompt, roomId: params.roomId },
-//     });
-
-//     if (error) throw new Error(`[Gemini Error]: ${error.message}`);
-//     return data.reply;
-//   },
-
-// };

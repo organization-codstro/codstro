@@ -1,9 +1,9 @@
-import { GROUP_TYPE } from "../../../../../constants/Woomoonjeong/woomoonjeong";
+import { GROUP_NAME } from "../../../../../constants/Woomoonjeong/woomoonjeong";
 import { CreatePinParams } from "../../../../api/Woomoonjeong/DocumentsManagementPage";
 import { Group } from "../../../../common/woomoonjeong";
 
 export interface AddDocumentPayload {
-  groupName: GROUP_TYPE;
+  groupName: GROUP_NAME;
   fieldName: string;
   documentName: string;
   documentUrl: string;

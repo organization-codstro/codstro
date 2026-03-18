@@ -102,7 +102,7 @@ export default function AIPersonaDetailPage() {
 
   return (
     <div className="flex flex-col h-screen bg-gray-50">
-      <DetailHeader onBack={() => navigate("/ai-chat/friends")} />
+      <DetailHeader onBack={() => navigate(-1)} />
 
       <div className="flex-1 overflow-y-auto">
         {/* 히어로 섹션: 아바타 및 기본 정보 */}

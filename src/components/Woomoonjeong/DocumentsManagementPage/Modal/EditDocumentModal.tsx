@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import {
-  DEFAULT_GROUP_TYPE,
-  GROUP_TYPE,
-  GROUP_TYPES,
+  DEFAULT_GROUP_NAME,
+  GROUP_NAME,
+  GROUP_NAME_TYPES,
 } from "../../../../constants/Woomoonjeong/woomoonjeong";
 import { EditDocumentModalProps } from "../../../../types/pages/Woomoonjeong/DocumentsManagementPage/Modal/EditDocumentModal";
 
@@ -22,7 +22,7 @@ const EditDocumentModal: React.FC<EditDocumentModalProps> = ({
   const [categories, setCategories] = useState<string[]>([]);
 
   const [selectedGroupType, setSelectedGroupType] =
-    useState<GROUP_TYPE>(DEFAULT_GROUP_TYPE);
+    useState<GROUP_NAME>(DEFAULT_GROUP_NAME);
 
   const [fieldInfo, setFieldInfo] = useState("");
   const [fieldOptions, setFieldOptions] = useState<string[]>([]);
@@ -34,7 +34,7 @@ const EditDocumentModal: React.FC<EditDocumentModalProps> = ({
         const foundPin = field.pins.find((p) => p.pin_id === pinId);
         if (foundPin) {
           return {
-            groupType: group.group_name as GROUP_TYPE,
+            groupType: group.group_name as GROUP_NAME,
             fieldName: field.field_name,
             fieldOptions: group.fields.map((f) => f.field_name),
             pin: foundPin,
@@ -53,7 +53,7 @@ const EditDocumentModal: React.FC<EditDocumentModalProps> = ({
         setDocumentUrl(result.pin.pin_url);
         setDescription(result.pin.pin_description);
         setCategories(result.pin.pin_label ?? []);
-        setSelectedGroupType(result.groupType ?? DEFAULT_GROUP_TYPE);
+        setSelectedGroupType(result.groupType ?? DEFAULT_GROUP_NAME);
         setFieldInfo(result.fieldName ?? "");
         setFieldOptions(result.fieldOptions ?? []);
         setCategoryInput("");
@@ -219,7 +219,7 @@ const EditDocumentModal: React.FC<EditDocumentModalProps> = ({
               그룹
             </label>
             <div className="grid grid-cols-2 gap-2">
-              {GROUP_TYPES.map((type) => (
+              {GROUP_NAME_TYPES.map((type) => (
                 <button
                   key={type}
                   type="button"

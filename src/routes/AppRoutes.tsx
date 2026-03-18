@@ -4,7 +4,7 @@ import * as Page from "./pages";
 export default function AppRoutes() {
   return (
     <Routes>
-      {/* 🔐 Auth Layout */}
+      {/* Auth Layout */}
       <Route element={<Page.AuthLayout />}>
         <Route path="/login" element={<Page.Login />} />
         <Route path="/signup" element={<Page.Signup />} />

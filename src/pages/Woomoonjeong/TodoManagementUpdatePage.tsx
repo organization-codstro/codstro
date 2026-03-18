@@ -95,8 +95,29 @@ export default function TodoManagementUpdatePage() {
     >,
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: "" }));
+
+    setFormData((prev) => {
+      //시작 날짜 변경 시 검사
+      if (name === "todo_start_date") {
+        const start = value;
+        const end = prev.todo_end_date;
+
+        // 끝나는 날짜가 있고 + 시작보다 앞이면 → 자동 보정
+        if (end && new Date(end) < new Date(start)) {
+          return {
+            ...prev,
+            todo_start_date: start,
+            todo_end_date: start, // 핵심
+          };
+        }
+      }
+
+      return { ...prev, [name]: value };
+    });
+
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

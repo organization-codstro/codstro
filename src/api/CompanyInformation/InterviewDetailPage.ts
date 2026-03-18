@@ -1,5 +1,4 @@
 import { supabase } from "../../db/supabase/supabase";
-import { generateAiContent } from "../Gemini/Gemini";
 import {
   GetCompanyQuestionsParams,
   GetCompanyQuestionsResponse,
@@ -12,6 +11,7 @@ import {
   GenerateAiInterviewFeedbackParams,
   GenerateAiInterviewFeedbackResponse,
 } from "../../types/api/CompanyInformation/InterviewDetailPage";
+import { generateAiContent } from "../Gemini/Gemini";
 
 /**
  * [InterviewDetailService]

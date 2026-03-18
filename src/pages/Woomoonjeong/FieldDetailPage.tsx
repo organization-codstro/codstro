@@ -14,7 +14,7 @@ import { FieldDetailData } from "../../types/pages/Woomoonjeong/FieldDetailPage/
 import AssignRecommendedFieldModal from "../../components/Woomoonjeong/AssignRecommendedCreateFieldModal";
 import FieldDetailHeader from "../../components/Woomoonjeong/FieldDetailPage/FieldDetailHeader";
 import PinList from "../../components/Woomoonjeong/FieldDetailPage/PinList";
-import { GROUP_TYPE_COLORS } from "../../constants/Woomoonjeong/woomoonjeong";
+import { GROUP_NAME_COLORS } from "../../constants/Woomoonjeong/woomoonjeong";
 import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function FieldDetailPage() {
@@ -78,8 +78,8 @@ export default function FieldDetailPage() {
         fieldName={data.field_name}
         groupName={data.groups.group_name}
         groupColorClass={
-          GROUP_TYPE_COLORS[
-            data.groups.group_name as keyof typeof GROUP_TYPE_COLORS
+          GROUP_NAME_COLORS[
+            data.groups.group_name as keyof typeof GROUP_NAME_COLORS
           ] || "border-gray-200"
         }
         description={data.field_description}

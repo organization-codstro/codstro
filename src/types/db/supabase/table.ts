@@ -65,6 +65,16 @@ export interface ChatMemorys {
   end_message_index: number;
 }
 
+export interface ChatMemoryJobs {
+  chat_memory_job_id: string;
+  chat_room_id: string;
+  chat_memory_job_start_index: string;
+  chat_memory_job_end_index: string;
+  chat_memory_job_status: "pending" | "processing" | "done" | "failed";
+  chat_memory_job_retry_count: string;
+  created_at: string;
+}
+
 export interface UserFortune {
   user_fortune_id: number; // PK / number
   user_fortune_create_date: Date; // date
@@ -490,7 +500,7 @@ export interface ChatMessage {
   chat_room_id: string;
   created_at?: string | null;
   updated_at?: string | null;
-  chat_message_file_content_url?: string[] | null;
+  chat_message_file_content_path?: string[] | null;
   chat_message_format: "TEXT" | "IMG" | "MULTIMODAL";
   chat_message_interaction_type: "CASUAL" | "ACTION_REQUEST";
   chat_message_reply_message_id: string;

@@ -3,9 +3,9 @@
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import {
-  DEFAULT_GROUP_TYPE,
-  GROUP_TYPE,
-  GROUP_TYPES,
+  DEFAULT_GROUP_NAME,
+  GROUP_NAME,
+  GROUP_NAME_TYPES,
 } from "../../../constants/Woomoonjeong/woomoonjeong";
 import { RecommendedCreateDocumentModalProps } from "../../../types/pages/Woomoonjeong/RecommendedDocumentsMainPage/RecommendedCreateDocumentModal";
 
@@ -18,7 +18,7 @@ const RecommendedCreateDocumentModal: React.FC<
   const [categoryInput, setCategoryInput] = useState("");
   const [categories, setCategories] = useState<string[]>(pin.pin_label);
   const [selectedGroupType, setSelectedGroupType] =
-    useState<GROUP_TYPE>(DEFAULT_GROUP_TYPE);
+    useState<GROUP_NAME>(DEFAULT_GROUP_NAME);
   const [fieldInfo, setFieldInfo] = useState("");
   const [fieldOptions, setFieldOptions] = useState<
     { field_id: string; field_name: string }[]
@@ -214,7 +214,7 @@ const RecommendedCreateDocumentModal: React.FC<
               그룹
             </label>
             <div className="grid grid-cols-4 gap-2">
-              {GROUP_TYPES.map((type) => (
+              {GROUP_NAME_TYPES.map((type) => (
                 <button
                   key={type}
                   type="button"

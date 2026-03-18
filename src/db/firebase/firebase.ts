@@ -1,5 +1,7 @@
 import { initializeApp } from "firebase/app";
-import { getDownloadURL, getStorage, ref } from "firebase/storage";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { UploadResult } from "../../types/db/firebase/firebase";
+import { compressFile } from "../../util/file/compression";
 
 // Firebase 설정 (Vite 환경변수)
 const firebaseConfig = {
@@ -33,4 +35,57 @@ export const getFirebaseImageUrl = async (
     console.error("Firebase image url error:", error);
     return null;
   }
+};
+
+/**
+ * 파일 배열을 압축 후 Firebase Storage에 업로드하고 URL 배열을 반환합니다.
+ *
+ * @param files       업로드할 파일 배열
+ * @param storagePath Firebase Storage 저장 경로
+ * @returns           업로드된 파일들의 다운로드 URL 배열
+ */
+export const uploadFilesToStorage = async (
+  files: File[],
+  storagePath: string,
+): Promise<UploadResult[]> => {
+  if (files.length === 0 || !storagePath) return [];
+
+  const results = await Promise.allSettled(
+    files.map(async (file) => {
+      // 1. 압축
+      const compressedFile = await compressFile(file);
+
+      // 2. 고유 파일명 생성 (충돌 방지)
+      const uniqueName = `${Date.now()}_${Math.random()
+        .toString(36)
+        .slice(2, 7)}_${compressedFile.name}`;
+      const fileRef = ref(storage, `${storagePath}/${uniqueName}`);
+
+      // 3. 업로드
+      await uploadBytes(fileRef, compressedFile, {
+        contentType: compressedFile.type || "application/octet-stream",
+      });
+
+      // 4. 다운로드 URL 획득
+      const url = await getDownloadURL(fileRef);
+
+      return {
+        url,
+        fileName: file.name, // 원본 파일명
+        fileType: file.type, // 원본 MIME 타입
+      } satisfies UploadResult;
+    }),
+  );
+
+  // 실패한 항목은 경고 출력 후 제외
+  const urls: UploadResult[] = [];
+  results.forEach((result, i) => {
+    if (result.status === "fulfilled") {
+      urls.push(result.value);
+    } else {
+      console.warn(`파일 업로드 실패 [${files[i].name}]:`, result.reason);
+    }
+  });
+
+  return urls;
 };

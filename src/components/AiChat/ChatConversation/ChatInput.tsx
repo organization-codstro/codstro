@@ -8,6 +8,7 @@ import {
   EMOTICONS_PAGE_SIZE,
 } from "../../../constants/AiChat/aiChat";
 import { getFirebaseImageUrl } from "../../../db/firebase/firebase";
+import { useEmoticonStore } from "../../../store/emoticonStore";
 
 export function ChatInput({
   value,
@@ -21,6 +22,7 @@ export function ChatInput({
   personas,
 }: ChatInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const setEmoticonStore = useEmoticonStore((s) => s.setEmoticons); // 상단에 추가
 
   // -- 이모지 피커 상태 --
   const [messageMode, setMessageMode] = useState<"CASUAL" | "ACTION_REQUEST">(
@@ -83,6 +85,8 @@ export function ChatInput({
           count: first.count,
         };
         setTotalCount(first.count);
+        setEmoticons(first.data);
+        setEmoticonStore(first.data);
 
         const total = Math.ceil(first.count / EMOTICONS_PAGE_SIZE);
         for (let p = 2; p <= total; p++) {
@@ -97,6 +101,7 @@ export function ChatInput({
             urls,
             count: result.count,
           };
+          setEmoticonStore(result.data);
         }
       } catch (err) {
         console.error("이모티콘 프리패치 실패", err);
@@ -137,6 +142,7 @@ export function ChatInput({
       setEmoticons(result.data);
       setEmoticonUrls(urlMap);
       setTotalCount(result.count);
+      setEmoticonStore(result.data);
 
       // 검색어 없을 때만 캐싱
       if (!kw) {

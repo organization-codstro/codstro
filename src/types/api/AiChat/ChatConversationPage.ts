@@ -18,8 +18,10 @@ export interface GetChatRoomAIPersonasResponse {
   /**
    * chat_room에 있는 ai 관계의 id
    */
-  chat_room_ai_id: string; // UUID
-  ai_persona_name: string; // 이름
+  chat_room_ai_id: string;
+  ai_persona_id: string; 
+  ai_persona_name: string;
+  ai_persona_profile_image_path: string | null; 
 }
 export type ChatMessageSenderType = "USER" | "AI";
 export type ChatMessageFormat = "TEXT" | "EMOTICON";
@@ -32,7 +34,7 @@ export interface SendMessageParams {
   chat_message_sender_agent_id: string | null;
 
   chat_message_content: string | null;
-  chat_message_file_content_url: string[] | null;
+  chat_message_file_content_path: string[] | null;
   emoticon_id: string | null;
 
   chat_message_format: ChatMessageFormat;

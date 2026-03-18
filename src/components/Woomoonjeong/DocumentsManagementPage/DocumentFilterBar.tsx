@@ -1,6 +1,6 @@
 import React from "react";
 import { Filter, Search } from "lucide-react";
-import { GROUP_TYPES } from "../../../constants/Woomoonjeong/woomoonjeong";
+import { GROUP_NAME_TYPES } from "../../../constants/Woomoonjeong/woomoonjeong";
 import { DocumentFilterBarProps } from "../../../types/pages/Woomoonjeong/DocumentsManagementPage/DocumentFilterBar";
 
 const DocumentFilterBar: React.FC<DocumentFilterBarProps> = ({
@@ -16,7 +16,7 @@ const DocumentFilterBar: React.FC<DocumentFilterBarProps> = ({
           <Filter className="w-4 h-4 text-gray-500" />
           <span className="text-sm font-medium text-gray-700">Group Type:</span>
           <div className="flex flex-wrap gap-2">
-            {GROUP_TYPES.map((type) => (
+            {GROUP_NAME_TYPES.map((type) => (
               <button
                 key={type}
                 onClick={() => onSelectType(type)}

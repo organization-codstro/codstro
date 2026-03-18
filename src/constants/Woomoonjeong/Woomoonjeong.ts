@@ -1,10 +1,10 @@
 //필드 설정할때 표시할수 있는 그룹의 종류
 
-export type GROUP_TYPE = "web" | "app" | "server" | "ai" | "work" | "other";
-
 export type WOOMOONJEONG_HIERARCHY = "group" | "field" | "pin";
 
-export const GROUP_TYPES: GROUP_TYPE[] = [
+export type GROUP_NAME = "web" | "app" | "server" | "ai" | "work" | "other";
+
+export const GROUP_NAME_TYPES: GROUP_NAME[] = [
   "web",
   "app",
   "server",
@@ -13,7 +13,7 @@ export const GROUP_TYPES: GROUP_TYPE[] = [
   "other",
 ];
 
-export const DEFAULT_GROUP_TYPE: GROUP_TYPE = "web";
+export const DEFAULT_GROUP_NAME: GROUP_NAME = "web";
 
 export type TODO_STATUS_TYPE = "waiting" | "in progress" | "done";
 
@@ -33,7 +33,7 @@ import {
 } from "lucide-react";
 
 //그룹 아이콘 표시할때 사용되는 아이콘
-export const GROUP_TYPE_ICONS: Record<GROUP_TYPE, React.ElementType> = {
+export const GROUP_NAME_ICONS: Record<GROUP_NAME, React.ElementType> = {
   web: Code,
   app: Smartphone,
   server: Server,
@@ -43,7 +43,7 @@ export const GROUP_TYPE_ICONS: Record<GROUP_TYPE, React.ElementType> = {
 };
 
 //그룹 배경 색 설정
-export const GROUP_TYPE_COLORS: Record<GROUP_TYPE, string> = {
+export const GROUP_NAME_COLORS: Record<GROUP_NAME, string> = {
   web: "bg-amber-50 text-amber-400 border-amber-100",
   app: "bg-yellow-50 text-yellow-400 border-yellow-100",
   server: "bg-lime-50 text-lime-400 border-lime-100",

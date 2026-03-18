@@ -24,7 +24,7 @@ import {
   CreatePinParams,
 } from "../../types/api/Woomoonjeong/DocumentsManagementPage";
 import {
-  GROUP_TYPE_COLORS,
+  GROUP_NAME_COLORS,
   WOOMOONJEONG_HIERARCHY,
 } from "../../constants/Woomoonjeong/woomoonjeong";
 
@@ -282,8 +282,8 @@ export default function DocumentsManagementPage() {
                           )}
                           <span
                             className={`px-3 py-1 text-sm rounded-full border ${
-                              GROUP_TYPE_COLORS[
-                                gName as keyof typeof GROUP_TYPE_COLORS
+                              GROUP_NAME_COLORS[
+                                gName as keyof typeof GROUP_NAME_COLORS
                               ] || "border-gray-200"
                             }`}
                           >

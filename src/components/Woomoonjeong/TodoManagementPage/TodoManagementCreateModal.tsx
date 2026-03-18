@@ -52,12 +52,40 @@ const TodoManagementCreateModal: React.FC<TodoManagementCreateProps> = ({
     >,
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
 
-    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: "" }));
+    setFormData((prev) => {
+      const start = prev.todo_start_date;
+      const end = prev.todo_end_date;
+
+      // 시작 날짜 변경 시
+      if (name === "todo_start_date") {
+        if (end && new Date(end) < new Date(value)) {
+          return {
+            ...prev,
+            todo_start_date: value,
+            todo_end_date: value,
+          };
+        }
+      }
+
+      if (name === "todo_end_date") {
+        if (start && new Date(value) < new Date(start)) {
+          return {
+            ...prev,
+            todo_end_date: start, // 핵심
+          };
+        }
+      }
+
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
   };
 
   const validateForm = () => {

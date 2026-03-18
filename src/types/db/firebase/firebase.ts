@@ -9,5 +9,5 @@ export type StoragePath =
 export interface UploadResult {
   url: string;
   fileName: string;
-  size: number;
+  fileType: string;
 }

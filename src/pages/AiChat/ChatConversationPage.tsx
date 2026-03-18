@@ -13,6 +13,7 @@ import {
   ChatMessageInteractionType,
   SendMessageParams,
 } from "../../types/api/AiChat/ChatConversationPage";
+import { uploadFilesToStorage } from "../../db/firebase/firebase";
 
 export default function ChatConversationPage() {
   const { roomId } = useParams<{ roomId: string }>();
@@ -29,6 +30,7 @@ export default function ChatConversationPage() {
   const [replyingTo, setReplyingTo] = useState<ChatMessage | null>(null);
   const [images, setImages] = useState<File[]>([]);
   const [personas, setPersonas] = useState<ChatRoomAI[]>([]);
+
   // 스크롤 하단 이동
   const scrollToBottom = () => {
     if (scrollRef.current) {
@@ -42,22 +44,19 @@ export default function ChatConversationPage() {
 
   // -- 데이터 초기화 및 실시간 구독 (Lifecycle) --
   useEffect(() => {
+    let subscription: any = null; // ← useEffect 스코프에 선언
+
     const initChat = async () => {
       setIsLoading(true);
       try {
-        // 1. 유저 확인
         const currentUserId = await LoginService.getCurrentUserId();
         if (!currentUserId) {
           navigate("/login");
           return;
         }
         setUserId(currentUserId);
+        if (!roomId) return;
 
-        if (!roomId) {
-          return;
-        }
-
-        // 2. 방 정보 및 메시지 이력 병렬 로드
         const [roomInfo, messageHistory, personaList] = await Promise.all([
           ChatConversationService.getRoomInfo({ roomId }),
           ChatConversationService.getMessages({ roomId }),
@@ -68,27 +67,23 @@ export default function ChatConversationPage() {
         setMessages(messageHistory as ChatMessage[]);
         setPersonas(personaList);
 
-        // 3. 실시간 구독 설정
-        // const subscription = ChatConversationService.subscribeToMessages({
-        //   roomId,
-        //   callback: (payload) => {
-        //     const newMessage = payload.new as ChatMessage;
-        //     setMessages((prev) => {
-        //       // 중복 방지 로직 (내가 보낸 메시지가 즉시 반영되었을 경우 대비)
-        //       if (
-        //         prev.find(
-        //           (m) => m.chat_message_id === newMessage.chat_message_id,
-        //         )
-        //       )
-        //         return prev;
-        //       return [...prev, newMessage];
-        //     });
-        //   },
-        // });
-
-        // return () => {
-        //   subscription.unsubscribe();
-        // };
+        // subscription을 바깥 변수에 할당
+        subscription = ChatConversationService.subscribeToMessages({
+          roomId,
+          callback: (payload) => {
+            console.log("[subscription] new message:", payload); // 로그 확인용
+            const newMessage = payload.new as ChatMessage;
+            setMessages((prev) => {
+              if (
+                prev.find(
+                  (m) => m.chat_message_id === newMessage.chat_message_id,
+                )
+              )
+                return prev;
+              return [...prev, newMessage];
+            });
+          },
+        });
       } catch (error: any) {
         console.error(error);
         toast.error("채팅방을 불러오는 데 실패했습니다.");
@@ -98,50 +93,81 @@ export default function ChatConversationPage() {
     };
 
     initChat();
-  }, [roomId, navigate]);
 
-  // -- 메시지 전송 --
-  const handleSend = async (
-    emoticonId?: string,
-    interactionType: ChatMessageInteractionType = "CASUAL",
-  ) => {
-    if (!emoticonId && !inputValue.trim() && images.length === 0) return;
-
-    const mentions = extractMentions(inputValue);
-    const mentionTargetAgent = mentions[0]
-      ? personas.find((p) => p.ai_persona_name === mentions[0])
-      : null;
-
-    const payload: SendMessageParams = {
-      chat_message_sender_type: "USER",
-      chat_message_sender_agent_id: null,
-      chat_message_content: emoticonId ? null : inputValue.trim() || null,
-      chat_message_index: messages.length + 1,
-      emoticon_id: emoticonId ?? null,
-      chat_room_id: roomId!,
-      chat_message_file_content_url:
-        images.length > 0 ? images.map((f) => f.name) : null,
-      chat_message_format: emoticonId ? "EMOTICON" : "TEXT",
-      chat_message_interaction_type: interactionType,
-      chat_message_reply_message_id: replyingTo?.chat_message_id ?? null,
-      chat_message_reply_target_agent_id:
-        replyingTo?.chat_message_sender_agent_id ?? null,
-      chat_message_mention_target_agent_id:
-        mentionTargetAgent?.chat_room_ai_id ?? null,
+    // useEffect 레벨에서 cleanup → 이제 실제로 실행됨
+    return () => {
+      subscription?.unsubscribe();
     };
-
-    console.log("[handleSend] payload →", payload);
-    await ChatConversationService.sendMessage(payload);
-
-    setInputValue("");
-    setImages([]);
-    setReplyingTo(null);
-  };
+  }, [roomId, navigate]);
 
   const extractMentions = (text: string) => {
     const regex = /@(\w+)/g;
     const matches = [...text.matchAll(regex)];
     return matches.map((m) => m[1]);
+  };
+
+  const handleSend = async (
+    emoticonId?: string,
+    interactionType: ChatMessageInteractionType = "CASUAL",
+  ) => {
+    if (!emoticonId && !inputValue.trim() && images.length === 0) return;
+    if (isSending) return;
+
+    setIsSending(true);
+    try {
+      const mentions = extractMentions(inputValue);
+      const mentionTargetAgent = mentions[0]
+        ? personas.find((p) => p.ai_persona_name === mentions[0])
+        : null;
+
+      let uploadedUrls: string[] = [];
+      if (images.length > 0) {
+        const results = await uploadFilesToStorage(
+          images,
+          `aichat-assets/${roomId}`,
+        );
+        uploadedUrls = results.map((r) => r.url);
+      }
+
+      const payload: SendMessageParams = {
+        chat_message_sender_type: "USER",
+        chat_message_sender_agent_id: null,
+        chat_message_content: emoticonId ? null : inputValue.trim() || null,
+        chat_message_index: messages.length + 1,
+        emoticon_id: emoticonId ?? null,
+        chat_room_id: roomId!,
+        chat_message_file_content_path:
+          uploadedUrls.length > 0 ? uploadedUrls : null,
+        chat_message_format: emoticonId ? "EMOTICON" : "TEXT",
+        chat_message_interaction_type: interactionType,
+        chat_message_reply_message_id: replyingTo?.chat_message_id ?? null,
+        chat_message_reply_target_agent_id:
+          replyingTo?.chat_message_sender_agent_id ?? null,
+        chat_message_mention_target_agent_id:
+          mentionTargetAgent?.chat_room_ai_id ?? null,
+      };
+
+      // 1. 유저 메시지 저장
+      await ChatConversationService.sendMessage(payload);
+
+      // 2. AI 응답 생성 요청 (fire & forget - AI 응답은 구독으로 받음)
+      ChatConversationService.requestAiResponse({
+        chat_room_id: roomId!,
+        userMessage: payload,
+      }).catch((err) => {
+        console.error("AI 응답 요청 실패:", err);
+        toast.error("AI 응답 생성에 실패했습니다.");
+      });
+
+      setInputValue("");
+      setImages([]);
+      setReplyingTo(null);
+    } catch (error) {
+      console.error("전송 실패:", error);
+      toast.error("메시지 전송에 실패했습니다.");
+    } finally {
+      setIsSending(false);
+    }
   };
 
   if (isLoading) {
