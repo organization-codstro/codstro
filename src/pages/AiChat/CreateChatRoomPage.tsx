@@ -53,7 +53,7 @@ export default function CreateChatRoomPage() {
         const friends = await CreateChatRoomService.getMyFriends({
           userId: currentUserId,
         });
-        console.log(friends);
+        //console.log(friends);
         setMyFriends(friends as unknown as UserAIFriend[]);
       } catch (error) {
         console.error(error);

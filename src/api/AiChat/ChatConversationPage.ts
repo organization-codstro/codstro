@@ -167,7 +167,7 @@ export const ChatConversationService = {
    */
   subscribeToMessages(params: SubscribeToMessagesParams) {
     const channel = supabase
-      .channel(`room_${params.roomId}_${Date.now()}`)
+      .channel(`room_messages_${params.roomId}_${Date.now()}`)
       .on(
         "postgres_changes",
         {
@@ -176,9 +176,7 @@ export const ChatConversationService = {
           table: "chat_messages",
         },
         (payload) => {
-          // 다른 채팅방 메시지는 무시
           if (payload.new?.chat_room_id !== params.roomId) return;
-
           params.callback(payload);
         },
       )
@@ -189,7 +187,6 @@ export const ChatConversationService = {
 
     return channel;
   },
-
   /**
    * [타이핑 상태 INSERT]
    * - 유저 메시지 직후 호출
@@ -227,10 +224,18 @@ export const ChatConversationService = {
     ) => void;
     onTypingEnd: (chat_room_ai_id: string) => void;
   }) {
+    const channelName = `room_typing_${params.roomId}`;
+
+    // 기존 채널 제거
+    supabase.getChannels().forEach((ch) => {
+      if (ch.topic === channelName) {
+        supabase.removeChannel(ch);
+      }
+    });
+
     const channel = supabase
-      .channel(`room_${params.roomId}`)
+      .channel(channelName)
       .on("broadcast", { event: "typing" }, (payload) => {
-        console.log("[typing] broadcast:", payload);
         if (payload.payload.type === "typing_start") {
           params.onTypingStart(payload.payload.personas);
         } else if (payload.payload.type === "typing_end") {
@@ -244,7 +249,6 @@ export const ChatConversationService = {
 
     return channel;
   },
-
   /**
    * [타이핑 상태 초기화]
    * - 채팅방 입장 시 실행

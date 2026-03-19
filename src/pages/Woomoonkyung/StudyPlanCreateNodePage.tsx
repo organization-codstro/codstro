@@ -212,7 +212,7 @@ export default function StudyPlanCreateNodePage() {
 
     const loadingToast = toast.loading("공부 계획 노드를 저장 중입니다...");
     try {
-      console.log(nodes);
+      //console.log(nodes);
 
       await WoomoonkyungCreateNodeService.saveAllNodes({
         planId,

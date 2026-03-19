@@ -98,6 +98,11 @@ export interface ChatMessage {
   // 멘션 대상 AI 에이전트 id (FK -> chat_room_ai_settings.chat_room_ai_id)
   chat_message_mention_target_agent_id?: string; // uuid, nullable (renamed from mention_target_agent_id)
 }
+
+export interface TypingPersona {
+  chat_room_ai_id: string;
+  persona_name: string;
+}
 export interface UserAiSettings {
   user_ai_setting_call_me_name: string;
   //자기를 ai로 인식할수 있는가

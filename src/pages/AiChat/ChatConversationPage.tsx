@@ -1,24 +1,25 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { uploadFilesToStorage } from "../../db/firebase/firebase";
 
 import { ChatHeader } from "../../components/AiChat/ChatConversation/ChatHeader";
 import { MessageBubble } from "../../components/AiChat/ChatConversation/MessageBubble";
 import { ChatInput } from "../../components/AiChat/ChatConversation/ChatInput/ChatInput";
-import { ChatConversationService } from "../../api/AiChat/ChatConversationPage";
-import { LoginService } from "../../api/Auth/LoginPage";
-import { ChatMessage, ChatRoom, ChatRoomAI } from "../../types/common/aiChat";
+
+import {
+  ChatMessage,
+  ChatRoom,
+  ChatRoomAI,
+  TypingPersona,
+} from "../../types/common/aiChat";
 import NotFoundPage from "../NotFound/NotFoundPage";
 import {
   ChatMessageInteractionType,
   SendMessageParams,
 } from "../../types/api/AiChat/ChatConversationPage";
-import { uploadFilesToStorage } from "../../db/firebase/firebase";
-
-interface TypingPersona {
-  chat_room_ai_id: string;
-  persona_name: string;
-}
+import { ChatConversationService } from "../../api/AiChat/ChatConversationPage";
+import { LoginService } from "../../api/Auth/LoginPage";
 
 export default function ChatConversationPage() {
   const { roomId } = useParams<{ roomId: string }>();
@@ -49,6 +50,7 @@ export default function ChatConversationPage() {
   useEffect(() => {
     let subscription: any = null;
     let typingSubscription: any = null;
+    let cancelled = false;
 
     const initChat = async () => {
       setIsLoading(true);
@@ -66,6 +68,8 @@ export default function ChatConversationPage() {
           ChatConversationService.getMessages({ roomId }),
           ChatConversationService.getChatRoomAIPersonas({ roomId }),
         ]);
+
+        if (cancelled) return;
 
         setRoom(roomInfo as ChatRoom);
         setMessages(messageHistory as ChatMessage[]);
@@ -109,6 +113,7 @@ export default function ChatConversationPage() {
     initChat();
 
     return () => {
+      cancelled = true;
       subscription?.unsubscribe();
       typingSubscription?.unsubscribe();
     };
@@ -143,7 +148,7 @@ export default function ChatConversationPage() {
         uploadedUrls = results.map((r) => r.url);
       }
 
-      // ✅ format 결정 로직
+      //  format 결정 로직
       const hasText = !!inputValue.trim();
       const hasImage = uploadedUrls.length > 0;
       const hasEmoticon = !!emoticonId;
@@ -158,7 +163,7 @@ export default function ChatConversationPage() {
       const payload: SendMessageParams = {
         chat_message_sender_type: "USER",
         chat_message_sender_agent_id: null,
-        chat_message_content: emoticonId ? null : inputValue.trim() || null,
+        chat_message_content: inputValue.trim() || null,
         chat_message_index: messages.length + 1,
         emoticon_id: emoticonId ?? null,
         chat_room_id: roomId!,
