@@ -18,7 +18,7 @@ export function MessageBubble({
   const setEmoticons = useEmoticonStore((s) => s.setEmoticons);
 
   const aiPersona = personas.find(
-    (p) => p.ai_persona_id === message.chat_message_sender_agent_id,
+    (p) => p.chat_room_ai_id === message.chat_message_sender_agent_id,
   );
 
   const senderName = isUser ? "You" : (aiPersona?.ai_persona_name ?? "AI");

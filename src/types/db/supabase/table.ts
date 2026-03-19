@@ -57,6 +57,13 @@ export interface ChatRooms {
   chat_room_summary_message_index: number;
 }
 
+export interface TypingStatus {
+  chat_room_id: string; // uuid
+  chat_room_ai_id: string; // uuid
+  persona_name: string; // text
+  created_at?: string;
+}
+
 export interface ChatMemorys {
   chat_memory_id: string;
   chat_room_id: string;

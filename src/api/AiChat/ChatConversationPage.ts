@@ -8,16 +8,15 @@ import {
   SendMessageParams,
   SubscribeToMessagesParams,
 } from "../../types/api/AiChat/ChatConversationPage";
-import { Emoticon } from "../../types/common/aiChat";
+import { ChatRoomAI, Emoticon } from "../../types/common/aiChat";
 
 /**
- * 실시간 채팅 및 메시지 관리를 위한 서비스
+ * 채팅방 관련 데이터 및 실시간 처리 서비스
  */
 export const ChatConversationService = {
   /**
-   * [채팅방 정보 단일 조회]
-   * 상단 헤더에 표시할 채팅방의 이름과 주제 정보를 가져옵니다.
-   * 참조 테이블: chat_rooms
+   * [채팅방 정보 조회]
+   * - 채팅방 기본 정보 (이름, 주제 등) 조회
    */
   async getRoomInfo(params: GetRoomInfoParams) {
     const { data, error } = await supabase
@@ -31,9 +30,9 @@ export const ChatConversationService = {
   },
 
   /**
-   * [이모지 조회]
-   * 사용 가능한 이모티콘을 조회합니다.
-   * 참조 테이블: emoticons
+   * [이모티콘 목록 조회 - 페이지네이션]
+   * - 키워드 검색 지원 (ilike)
+   * - 최신순 정렬
    */
   async getEmoticons(
     params: GetEmoticonsParams,
@@ -47,24 +46,21 @@ export const ChatConversationService = {
       .order("created_at", { ascending: false })
       .range(from, to);
 
+    // 키워드 검색 필터
     if (params.keyword && params.keyword.trim() !== "") {
       query = query.ilike("emoticon_name", `%${params.keyword}%`);
     }
 
     const { data, count, error } = await query;
-
     if (error) throw error;
 
-    return {
-      data: data ?? [],
-      count: count ?? 0,
-    };
+    return { data: data ?? [], count: count ?? 0 };
   },
 
   /**
-   * [메시지 이력 조회]
-   * 해당 채팅방의 과거 메시지들을 인덱스 순으로 가져옵니다.
-   * 참조 테이블: chat_messages
+   * [메시지 조회 + 읽음 처리]
+   * - 해당 채팅방 메시지 전체 조회 (index 기준 오름차순)
+   * - 조회 후 마지막 읽은 메시지 index 업데이트 (RPC)
    */
   async getMessages(params: GetMessagesParams) {
     const { roomId } = params;
@@ -78,6 +74,7 @@ export const ChatConversationService = {
     if (messageError)
       throw new Error(`[getMessages Error]: ${messageError.message}`);
 
+    // 읽음 처리 (서버 RPC)
     const { error: rpcError } = await supabase.rpc("update_last_read", {
       room_id: roomId,
     });
@@ -91,13 +88,14 @@ export const ChatConversationService = {
   },
 
   /**
-   * [채팅방 인원 확인]
-   * 해당 채팅방에 참여중인 페르소나의 이름, id를 가져옵니다
+   * [채팅방 AI 페르소나 목록 조회]
+   * - RPC 통해 AI 캐릭터 목록 가져옴
    */
   async getChatRoomAIPersonas(
     params: GetChatRoomAIPersonasParams,
   ): Promise<GetChatRoomAIPersonasResponse[]> {
     const { roomId } = params;
+
     const { data, error } = await supabase.rpc("get_chat_room_ai_personas", {
       room_id: roomId,
     });
@@ -112,8 +110,8 @@ export const ChatConversationService = {
 
   /**
    * [메시지 전송]
-   * 유저가 입력한 메시지를 DB에 저장합니다.
-   * 참조 테이블: chat_messages
+   * - chat_messages 테이블에 메시지 INSERT
+   * - insert 후 생성된 row 반환
    */
   async sendMessage(params: SendMessageParams) {
     const { data, error } = await supabase
@@ -144,10 +142,9 @@ export const ChatConversationService = {
   },
 
   /**
-   * [AI 응답 생성 요청]
-   * 유저 메시지 저장 후 ai-chat Edge Function을 호출하여 AI 응답을 생성합니다.
-   * AI 응답은 Edge Function 내부에서 chat_messages 테이블에 저장되며
-   * 실시간 구독을 통해 화면에 반영됩니다.
+   * [AI 응답 요청]
+   * - Supabase Edge Function 호출
+   * - 실제 AI 응답 생성은 서버에서 비동기 처리
    */
   async requestAiResponse(params: {
     chat_room_id: string;
@@ -164,9 +161,9 @@ export const ChatConversationService = {
   },
 
   /**
-   * [실시간 메시지 구독]
-   * 새로운 메시지가 DB에 추가될 때마다 클라이언트에서 감지하도록 설정합니다.
-   * AI의 답변이나 상대방의 메시지를 즉각적으로 화면에 반영합니다.
+   * [메시지 실시간 구독]
+   * - chat_messages INSERT 이벤트 감지
+   * - 동일 채팅방 메시지만 필터링 후 callback 실행
    */
   subscribeToMessages(params: SubscribeToMessagesParams) {
     const channel = supabase
@@ -179,7 +176,9 @@ export const ChatConversationService = {
           table: "chat_messages",
         },
         (payload) => {
+          // 다른 채팅방 메시지는 무시
           if (payload.new?.chat_room_id !== params.roomId) return;
+
           params.callback(payload);
         },
       )
@@ -189,5 +188,70 @@ export const ChatConversationService = {
       });
 
     return channel;
+  },
+
+  /**
+   * [타이핑 상태 INSERT]
+   * - 유저 메시지 직후 호출
+   * - AI가 응답 준비 중임을 표시
+   * - 여러 AI 페르소나에 대해 row 생성
+   */
+  async insertTypingStatus({
+    roomId,
+    personas,
+  }: {
+    roomId: string;
+    personas: ChatRoomAI[];
+  }) {
+    const { error } = await supabase.from("typing_status").insert(
+      personas.map((p) => ({
+        chat_room_id: roomId,
+        chat_room_ai_id: p.chat_room_ai_id,
+        persona_name: p.ai_persona_name,
+      })),
+    );
+
+    if (error) console.error("[insertTypingStatus Error]:", error);
+  },
+
+  /**
+   * [타이핑 상태 실시간 구독]
+   * - typing_status DELETE 이벤트만 감지
+   * - AI 응답 완료 시 row 삭제 → 타이핑 종료 처리
+   *
+   */
+  subscribeToTyping(params: {
+    roomId: string;
+    onTypingStart: (
+      personas: { chat_room_ai_id: string; persona_name: string }[],
+    ) => void;
+    onTypingEnd: (chat_room_ai_id: string) => void;
+  }) {
+    const channel = supabase
+      .channel(`room_${params.roomId}`)
+      .on("broadcast", { event: "typing" }, (payload) => {
+        console.log("[typing] broadcast:", payload);
+        if (payload.payload.type === "typing_start") {
+          params.onTypingStart(payload.payload.personas);
+        } else if (payload.payload.type === "typing_end") {
+          params.onTypingEnd(payload.payload.chat_room_ai_id);
+        }
+      })
+      .subscribe((status, err) => {
+        console.log("[typing broadcast] status:", status);
+        if (err) console.error("[typing broadcast] error:", err);
+      });
+
+    return channel;
+  },
+
+  /**
+   * [타이핑 상태 초기화]
+   * - 채팅방 입장 시 실행
+   * - 이전에 남아있던 typing_status 제거
+   * - AI 응답 실패/중단 시 남은 데이터 정리용
+   */
+  clearTypingStatus({ roomId }: { roomId: string }) {
+    return supabase.from("typing_status").delete().eq("chat_room_id", roomId);
   },
 };

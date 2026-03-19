@@ -19,12 +19,12 @@ export interface GetChatRoomAIPersonasResponse {
    * chat_room에 있는 ai 관계의 id
    */
   chat_room_ai_id: string;
-  ai_persona_id: string; 
+  ai_persona_id: string;
   ai_persona_name: string;
-  ai_persona_profile_image_path: string | null; 
+  ai_persona_profile_image_path: string | null;
 }
 export type ChatMessageSenderType = "USER" | "AI";
-export type ChatMessageFormat = "TEXT" | "EMOTICON";
+export type ChatMessageFormat = "TEXT" | "MULTIMODAL" | "IMG";
 export type ChatMessageInteractionType = "CASUAL" | "ACTION_REQUEST";
 
 export interface SendMessageParams {
@@ -51,10 +51,4 @@ export interface SendMessageParams {
 export interface SubscribeToMessagesParams {
   roomId: string;
   callback: (payload: any) => void;
-}
-
-export interface GenerateAiReplyParams {
-  roomId: string;
-  userMessage: string;
-  persona: any;
 }

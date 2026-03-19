@@ -1,4 +1,13 @@
-import { ChatMessage, ChatRoomAI } from "../../../common/aiChat";
+import { ChatMessage, ChatRoomAI, Emoticon } from "../../../../common/aiChat";
+
+export type EmoticonCache = Record<
+  number,
+  {
+    data: Emoticon[];
+    urls: Record<string, string>;
+    count: number;
+  }
+>;
 
 export interface ChatInputProps {
   value: string;

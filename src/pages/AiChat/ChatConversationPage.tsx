@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 import { ChatHeader } from "../../components/AiChat/ChatConversation/ChatHeader";
 import { MessageBubble } from "../../components/AiChat/ChatConversation/MessageBubble";
-import { ChatInput } from "../../components/AiChat/ChatConversation/ChatInput";
+import { ChatInput } from "../../components/AiChat/ChatConversation/ChatInput/ChatInput";
 import { ChatConversationService } from "../../api/AiChat/ChatConversationPage";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { ChatMessage, ChatRoom, ChatRoomAI } from "../../types/common/aiChat";
@@ -15,12 +15,16 @@ import {
 } from "../../types/api/AiChat/ChatConversationPage";
 import { uploadFilesToStorage } from "../../db/firebase/firebase";
 
+interface TypingPersona {
+  chat_room_ai_id: string;
+  persona_name: string;
+}
+
 export default function ChatConversationPage() {
   const { roomId } = useParams<{ roomId: string }>();
   const navigate = useNavigate();
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // -- 상태 관리 (State) --
   const [room, setRoom] = useState<ChatRoom | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputValue, setInputValue] = useState("");
@@ -30,8 +34,8 @@ export default function ChatConversationPage() {
   const [replyingTo, setReplyingTo] = useState<ChatMessage | null>(null);
   const [images, setImages] = useState<File[]>([]);
   const [personas, setPersonas] = useState<ChatRoomAI[]>([]);
+  const [typingPersonas, setTypingPersonas] = useState<TypingPersona[]>([]);
 
-  // 스크롤 하단 이동
   const scrollToBottom = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -42,9 +46,9 @@ export default function ChatConversationPage() {
     scrollToBottom();
   }, [messages]);
 
-  // -- 데이터 초기화 및 실시간 구독 (Lifecycle) --
   useEffect(() => {
-    let subscription: any = null; // ← useEffect 스코프에 선언
+    let subscription: any = null;
+    let typingSubscription: any = null;
 
     const initChat = async () => {
       setIsLoading(true);
@@ -67,11 +71,9 @@ export default function ChatConversationPage() {
         setMessages(messageHistory as ChatMessage[]);
         setPersonas(personaList);
 
-        // subscription을 바깥 변수에 할당
         subscription = ChatConversationService.subscribeToMessages({
           roomId,
           callback: (payload) => {
-            console.log("[subscription] new message:", payload); // 로그 확인용
             const newMessage = payload.new as ChatMessage;
             setMessages((prev) => {
               if (
@@ -84,6 +86,18 @@ export default function ChatConversationPage() {
             });
           },
         });
+
+        typingSubscription = ChatConversationService.subscribeToTyping({
+          roomId,
+          onTypingStart: (incomingPersonas) => {
+            setTypingPersonas(incomingPersonas);
+          },
+          onTypingEnd: (chat_room_ai_id) => {
+            setTypingPersonas((prev) =>
+              prev.filter((t) => t.chat_room_ai_id !== chat_room_ai_id),
+            );
+          },
+        });
       } catch (error: any) {
         console.error(error);
         toast.error("채팅방을 불러오는 데 실패했습니다.");
@@ -94,9 +108,9 @@ export default function ChatConversationPage() {
 
     initChat();
 
-    // useEffect 레벨에서 cleanup → 이제 실제로 실행됨
     return () => {
       subscription?.unsubscribe();
+      typingSubscription?.unsubscribe();
     };
   }, [roomId, navigate]);
 
@@ -129,6 +143,18 @@ export default function ChatConversationPage() {
         uploadedUrls = results.map((r) => r.url);
       }
 
+      // ✅ format 결정 로직
+      const hasText = !!inputValue.trim();
+      const hasImage = uploadedUrls.length > 0;
+      const hasEmoticon = !!emoticonId;
+
+      const chat_message_format =
+        hasText && (hasEmoticon || hasImage)
+          ? "MULTIMODAL"
+          : hasEmoticon || hasImage
+            ? "IMG"
+            : "TEXT";
+
       const payload: SendMessageParams = {
         chat_message_sender_type: "USER",
         chat_message_sender_agent_id: null,
@@ -138,7 +164,7 @@ export default function ChatConversationPage() {
         chat_room_id: roomId!,
         chat_message_file_content_path:
           uploadedUrls.length > 0 ? uploadedUrls : null,
-        chat_message_format: emoticonId ? "EMOTICON" : "TEXT",
+        chat_message_format,
         chat_message_interaction_type: interactionType,
         chat_message_reply_message_id: replyingTo?.chat_message_id ?? null,
         chat_message_reply_target_agent_id:
@@ -150,13 +176,14 @@ export default function ChatConversationPage() {
       // 1. 유저 메시지 저장
       await ChatConversationService.sendMessage(payload);
 
-      // 2. AI 응답 생성 요청 (fire & forget - AI 응답은 구독으로 받음)
+      // 2. AI 응답 생성 요청 (fire & forget - 브로드캐스트로 타이핑 표시)
       ChatConversationService.requestAiResponse({
         chat_room_id: roomId!,
         userMessage: payload,
       }).catch((err) => {
         console.error("AI 응답 요청 실패:", err);
         toast.error("AI 응답 생성에 실패했습니다.");
+        setTypingPersonas([]);
       });
 
       setInputValue("");
@@ -165,6 +192,7 @@ export default function ChatConversationPage() {
     } catch (error) {
       console.error("전송 실패:", error);
       toast.error("메시지 전송에 실패했습니다.");
+      setTypingPersonas([]);
     } finally {
       setIsSending(false);
     }
@@ -208,6 +236,23 @@ export default function ChatConversationPage() {
           </div>
         )}
       </div>
+
+      {/* 타이핑 표시 */}
+      {typingPersonas.length > 0 && (
+        <div className="flex items-center gap-2 px-4 py-2 text-sm text-gray-400">
+          <span>
+            {typingPersonas.map((t) => t.persona_name).join(", ")}
+            {typingPersonas.length === 1 ? "이 " : "이 "}
+            입력 중입니다
+          </span>
+          <span className="flex gap-1">
+            <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce [animation-delay:0ms]" />
+            <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce [animation-delay:150ms]" />
+            <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce [animation-delay:300ms]" />
+          </span>
+        </div>
+      )}
+
       <ChatInput
         value={inputValue}
         onChange={setInputValue}
