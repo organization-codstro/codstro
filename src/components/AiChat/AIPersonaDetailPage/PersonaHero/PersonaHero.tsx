@@ -12,6 +12,7 @@ export function PersonaHero({
   createdDate,
   profilePath,
   onAddFriendClick,
+  onDeleteFriendClick,
   isFriend,
 }: PersonaHeroProps) {
   // -- 모달 열림/닫힘 상태 --
@@ -79,16 +80,13 @@ export function PersonaHero({
 
             <button
               className={`flex items-center gap-2 px-5 py-2 text-sm font-medium text-white rounded-full transition-opacity
-              ${
-                isFriend
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-[#587CF0] hover:opacity-90"
-              }`}
-              disabled={isFriend}
-              onClick={handleOpenModal}
+  ${
+    isFriend ? "bg-red-400 hover:opacity-90" : "bg-[#587CF0] hover:opacity-90"
+  }`}
+              onClick={isFriend ? onDeleteFriendClick : handleOpenModal}
             >
               <UserPlus size={18} />
-              {isFriend ? "Already Friend" : "Add Friend"}
+              {isFriend ? "Remove Friend" : "Add Friend"}
             </button>
           </div>
         </div>

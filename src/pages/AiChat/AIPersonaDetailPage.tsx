@@ -21,11 +21,12 @@ export default function AIPersonaDetailPage() {
   const navigate = useNavigate();
 
   // -- 상태 관리 (State) --
-  const [persona, setPersona] = useState<AIPersona | null>(null);
-  const [isFriend, setIsFriend] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [persona, setPersona] = useState<AIPersona | null>(null);
+  const [isFriend, setIsFriend] = useState(false);
+  const [userAiSettingId, setUserAiSettingId] = useState<string | null>(null);
 
   // -- 데이터 로드 (Lifecycle) --
   useEffect(() => {
@@ -54,6 +55,7 @@ export default function AIPersonaDetailPage() {
         });
         setPersona(data.aiPersona);
         setIsFriend(data.isFriend);
+        setUserAiSettingId(data.userAiSettingId ?? null);
       } catch (err: any) {
         console.error(err);
         setError(err.message);
@@ -73,16 +75,32 @@ export default function AIPersonaDetailPage() {
       return;
     }
     try {
-      await AIPersonaDetailService.addFriend({
+      const data = await AIPersonaDetailService.addFriend({
         aiPersonaId: personaId!,
         userId,
         aiUserSettings: settings,
       });
 
+      setIsFriend(true);
+      setUserAiSettingId(data.user_ai_setting_id);
       toast.success("친구 추가에 성공하였습니다.");
     } catch (error) {
       console.error(error);
       toast.error("친구 추가에 실패했습니다. 잠시 후 다시 시도해주세요.");
+    }
+  };
+
+  //친구 삭제 헨들러
+  const onDeleteFriendClick = async () => {
+    if (!userAiSettingId) return;
+    try {
+      await AIPersonaDetailService.deleteFriend({ userAiSettingId });
+      setIsFriend(false);
+      setUserAiSettingId(null);
+      toast.success("친구가 삭제되었습니다.");
+    } catch (error) {
+      console.error(error);
+      toast.error("친구 삭제에 실패했습니다. 잠시 후 다시 시도해주세요.");
     }
   };
 
@@ -112,8 +130,9 @@ export default function AIPersonaDetailPage() {
           age={persona.ai_persona_age}
           createdDate={persona.created_at}
           profilePath={persona.ai_persona_profile_image_path}
-          isFriend={isFriend}
           onAddFriendClick={onAddFriendClick}
+          onDeleteFriendClick={onDeleteFriendClick}
+          isFriend={isFriend}
         />
 
         {/* 상세 정보 리스트 섹션 */}

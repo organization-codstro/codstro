@@ -2,6 +2,7 @@ import { supabase } from "../../db/supabase/supabase";
 import {
   AddFriendParams,
   AddFriendResponse,
+  DeleteFriendParams,
   GetPersonaDetailParams,
   // StartChattingParams,
 } from "../../types/api/AiChat/AIPersonaDetailPage";
@@ -51,6 +52,7 @@ export const AIPersonaDetailService = {
       return {
         aiPersona: persona,
         isFriend,
+        userAiSettingId: friendData?.user_ai_setting_id ?? null,
       };
     } catch (error) {
       console.error("[getPersonaDetail]:", error);
@@ -61,7 +63,7 @@ export const AIPersonaDetailService = {
   /**
    * [AI 친구 추가]
    * 특정 ID를 가진 AI 페르소나에 유저 정보를 추가해서 친구 추가를 하는 것
-   * 참조 테이블: ai_personas
+   * 참조 테이블: user_ai_settings
    */
 
   async addFriend(params: AddFriendParams) {
@@ -87,6 +89,27 @@ export const AIPersonaDetailService = {
     }
 
     return data;
+  },
+
+  /**
+   * [AI 친구 삭제]
+   * 특정 ID를 가진 AI 페르소나 삭제
+   * 참조 테이블: ai_personas
+   */
+
+  async deleteFriend(params: DeleteFriendParams) {
+    const { userAiSettingId } = params;
+    const { error } = await supabase
+      .from("user_ai_settings")
+      .delete()
+      .eq("user_ai_setting_id", userAiSettingId);
+
+    if (error) {
+      console.error("AI Setting 삭제 실패:", error);
+      throw error;
+    }
+
+    return true;
   },
 
   /**
