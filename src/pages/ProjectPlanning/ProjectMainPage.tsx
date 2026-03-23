@@ -8,7 +8,6 @@ import { Project } from "../../types/common/projectPlanning";
 import { ProjectListHeader } from "../../components/ProjectPlanning/ProjectMainPage/ProjectListHeader";
 import { EmptyProjectState } from "../../components/ProjectPlanning/EmptyProjectState";
 import { ProjectCard } from "../../components/ProjectPlanning/ProjectCard";
-import { TrendingSection } from "../../components/ProjectPlanning/ProjectMainPage/TrendingSection";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { ProjectMainService } from "../../api/ProjectPlanning/ProjectMainPage";
 
@@ -18,7 +17,6 @@ export default function ProjectMainPage() {
   // 1. 상태 관리
   const [activeProjects, setActiveProjects] = useState<Project[]>([]);
   const [planningProjects, setPlanningProjects] = useState<Project[]>([]);
-  const [trendingNews, setTrendingNews] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   // 2. 데이터 로드 (useEffect)
@@ -35,15 +33,13 @@ export default function ProjectMainPage() {
         setIsLoading(true);
         // 모든 데이터를 병렬로 로드
 
-        const [active, planning, news] = await Promise.all([
+        const [active, planning] = await Promise.all([
           ProjectMainService.getActiveProjects({ userId }),
           ProjectMainService.getPlanningProjects({ userId }),
-          ProjectMainService.getTrendingNews(),
         ]);
 
         setActiveProjects(active as any);
         setPlanningProjects(planning as any);
-        setTrendingNews(news);
       } catch (error) {
         toast.error("데이터를 불러오는데 실패했습니다.");
       } finally {
@@ -106,9 +102,6 @@ export default function ProjectMainPage() {
     <div className="flex-1 overflow-auto bg-gray-50">
       <div className="p-8 mx-auto max-w-7xl">
         <ProjectListHeader onNewProject={handleCreateNew} />
-
-        {/* Trending Section */}
-        {trendingNews.length > 0 && <TrendingSection news={trendingNews} />}
 
         <div className="grid grid-cols-1 gap-8 mb-8">
           {/* Active Projects Section */}

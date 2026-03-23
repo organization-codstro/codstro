@@ -103,26 +103,4 @@ export const ProjectMainService = {
       throw error;
     }
   },
-
-  /**
-   * [뉴스 데이터 조회 (Mock/RSS)]
-   * Gemini API 등을 활용하거나 외부 RSS를 파싱하여 뉴스 데이터를 반환합니다.
-   */
-  async getTrendingNews() {
-    // 실제 구현 시 RSS 파서나 AI 생성 함수 호출
-    // 현재는 인터페이스 규격에 맞춰 반환
-    return [
-      {
-        id: 1,
-        title: "AI-powered development tools gaining popularity",
-        date: "2026-01-10",
-      },
-      { id: 2, title: "Next-gen React patterns for 2026", date: "2026-01-09" },
-      {
-        id: 3,
-        title: "The rise of Supabase in Enterprise",
-        date: "2026-01-08",
-      },
-    ];
-  },
 };
