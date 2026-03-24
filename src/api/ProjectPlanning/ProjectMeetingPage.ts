@@ -30,7 +30,7 @@ export const ProjectMeetingListService = {
         `,
         )
         .eq("project_id", params.projectId)
-        .order("project_meeting_logs_created_at", { ascending: false });
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
 
@@ -67,7 +67,7 @@ export const ProjectMeetingListService = {
           "project_meeting_room_type",
           params.type.charAt(0).toUpperCase() + params.type.slice(1),
         ) // 'feature' -> 'Feature'
-        .order("project_meeting_logs_created_at", { ascending: false });
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
       return data as MeetingListItem[];

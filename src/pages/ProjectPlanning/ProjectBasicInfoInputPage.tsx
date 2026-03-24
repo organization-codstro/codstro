@@ -15,6 +15,7 @@ export default function ProjectBasicInfoInputPage() {
   // 1. 상태 관리
   const [isLoading, setIsLoading] = useState(!!projectId); // 수정 모드일 때만 초기 로딩 활성화
   const [basicInfo, setBasicInfo] = useState<ProjectBasicInfo>({
+    project_name: "",
     project_topic: "",
     desired_features: "",
     concepts_to_cover: "",
@@ -53,6 +54,9 @@ export default function ProjectBasicInfoInputPage() {
 
   const validateForm = () => {
     const newErrors: Record<string, boolean> = {};
+    if (!basicInfo.project_name?.trim()) {
+      newErrors.project_name = true; // 추가
+    }
     if (!basicInfo.project_topic?.trim()) {
       newErrors.project_topic = true;
     }
@@ -118,6 +122,18 @@ export default function ProjectBasicInfoInputPage() {
 
       <div className="max-w-4xl p-8 mx-auto">
         <div className="p-8 space-y-6 bg-white border border-gray-200 rounded-lg">
+          <ProjectInputField
+            id="project_name"
+            label="프로젝트 이름"
+            required
+            value={basicInfo.project_name || ""}
+            onChange={(val) => handleInputChange("project_name", val)}
+            placeholder="예: MyChat"
+            description="프로젝트의 이름을 입력해주세요"
+            error={errors.project_name}
+            errorMessage="프로젝트 이름을 입력해주세요."
+          />
+
           <ProjectInputField
             id="project_topic"
             label="프로젝트 주제"

@@ -1,9 +1,4 @@
-export interface ProjectBasicInfo {
-  project_topic?: string;
-  desired_features?: string;
-  concepts_to_cover?: string;
-  other_info?: string;
-}
+
 
 /**
  * [기초 정보 저장 및 프로젝트 초기화 파라미터]

@@ -11,7 +11,7 @@ export interface Projects {
   project_main_color: string; // text
   project_style: string; // text
   project_effect: string; // 다지인에서 주요되는 에니매이션이나 전반적인 효과들 / text
-  project_created_date: Date; // date
+  created_at: string; // date
   user_id: number; // FK / number
 }
 
@@ -122,7 +122,7 @@ export interface ProjectPlannings {
   project_main_color: string | null; // text
   project_style: string | null; // text
   project_effect: string | null; // 다지인에서 주요되는 에니매이션이나 전반적인 효과들 / text
-  project_created_date: Date; // date
+  created_at: string; // date
   user_id: number; // FK / number
 }
 

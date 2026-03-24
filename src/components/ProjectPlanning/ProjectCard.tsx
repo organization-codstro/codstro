@@ -1,19 +1,56 @@
-import { Calendar } from "lucide-react";
+import { useState, useRef } from "react";
+import { Calendar, Trash2 } from "lucide-react";
 import { ProjectCardProps } from "../../types/pages/ProjectPlanning/ProjectCard";
 
 export const ProjectCard = ({
   project,
   onClick,
   onContinue,
+  onDelete,
 }: ProjectCardProps) => {
   const isPlanning = project.project_status === "waiting";
+  const [deleteState, setDeleteState] = useState<"idle" | "confirm">("idle");
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleDeleteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+
+    if (deleteState === "idle") {
+      setDeleteState("confirm");
+      timerRef.current = setTimeout(() => {
+        setDeleteState("idle");
+      }, 3000);
+    } else if (deleteState === "confirm") {
+      if (timerRef.current) clearTimeout(timerRef.current);
+      onDelete?.(project.project_id);
+      setDeleteState("idle");
+    }
+  };
 
   return (
     <div
-      className="p-6 transition-shadow bg-white border border-gray-200 rounded-lg cursor-pointer hover:shadow-md"
+      className="relative p-6 transition-shadow bg-white border border-gray-200 rounded-lg cursor-pointer hover:shadow-md"
       onClick={onClick}
     >
-      <div className="flex items-start justify-between mb-3">
+      {/* Delete Button */}
+      <button
+        onClick={handleDeleteClick}
+        className={`
+          absolute top-3 right-3 p-1.5 rounded-md transition-all duration-300
+          ${
+            deleteState === "confirm"
+              ? "bg-red-500 text-white scale-110"
+              : "text-gray-300 hover:text-red-400 hover:bg-red-50"
+          }
+        `}
+        title={
+          deleteState === "confirm" ? "한 번 더 클릭하면 삭제됩니다" : "삭제"
+        }
+      >
+        <Trash2 className="w-4 h-4" />
+      </button>
+
+      <div className="flex items-start justify-between pr-6 mb-3">
         <div className="flex-1">
           <h3 className="text-lg font-semibold text-gray-900">
             {project.project_name}
@@ -21,7 +58,7 @@ export const ProjectCard = ({
           <p className="mt-1 text-sm text-gray-600">{project.project_topic}</p>
         </div>
         <div
-          className="flex-shrink-0 w-4 h-4 rounded-full"
+          className="flex-shrink-0 w-4 h-4 ml-2 rounded-full"
           style={{ backgroundColor: project.project_main_color }}
         />
       </div>
@@ -51,6 +88,13 @@ export const ProjectCard = ({
               {project.project_start_date} - {project.project_end_date}
             </span>
           </div>
+        </div>
+      )}
+
+      {/* Confirm Delete Overlay Message */}
+      {deleteState === "confirm" && (
+        <div className="absolute text-xs font-medium text-red-500 bottom-3 right-3 animate-pulse">
+          한 번 더 클릭하면 삭제 됩니다.
         </div>
       )}
     </div>

@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   ProjectPage,
-  ProjectBasicInfo,
   UITodo,
   ProjectTodo,
   NewProjectTodo,
@@ -18,34 +17,27 @@ import { ProjectFooterActions } from "../../components/ProjectPlanning/ProjectIn
 import { ProjectTodoModal } from "../../components/ProjectPlanning/ProjectInfoGeneratePage/ProjectTodoModal/ProjectTodoModal";
 import { ProjectInfoGenerateService } from "../../api/ProjectPlanning/ProjectInfoGeneratePage";
 import { SavePlanningDraftParams } from "../../types/api/ProjectPlanning/ProjectInfoGeneratePage";
+import { getKSTDateString } from "../../util/date/getKSTDateString";
 
 export default function ProjectInfoGeneratePage() {
   const navigate = useNavigate();
   const location = useLocation();
 
   // 1. 이전 단계에서 넘어온 데이터 확인
-  const { basicInfo, projectId } =
-    (location.state as { basicInfo?: ProjectBasicInfo; projectId?: string }) ||
-    {};
+  const { projectId } = (location.state as { projectId?: string }) || {};
 
   // 2. 상태 관리
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // 프로젝트 기본 정보
-  const [projectName, setProjectName] = useState("AI Chat App");
-  const [projectTopic, setProjectTopic] = useState(
-    basicInfo?.project_topic || "",
-  );
-  const [projectDescription, setProjectDescription] = useState(
-    basicInfo?.desired_features || "",
-  );
+  const [projectName, setProjectName] = useState("");
+  const [projectTopic, setProjectTopic] = useState("");
+  const [projectDescription, setProjectDescription] = useState("");
   const [mainColor, setMainColor] = useState("#587CF0");
   const [designStyle, setDesignStyle] = useState("Modern, minimalist");
   const [projectEffect, setProjectEffect] = useState("Smooth transitions");
-  const [startDate, setStartDate] = useState(
-    new Date().toISOString().split("T")[0],
-  );
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState(getKSTDateString(0));
+  const [endDate, setEndDate] = useState(getKSTDateString(1));
 
   // 상세 구조 (페이지 및 할 일)
   const [expandedPage, setExpandedPage] = useState<string | null>(null);
@@ -54,17 +46,59 @@ export default function ProjectInfoGeneratePage() {
   );
   const [showTodoForm, setShowTodoForm] = useState(false);
   const [projectTodos, setProjectTodos] = useState<UITodo[]>([]);
-  const [pages, setPages] = useState<Array<ProjectPage & { todos: ProjectTodo[] }>>(
-    [],
-  );
+  const [pages, setPages] = useState<
+    Array<ProjectPage & { todos: ProjectTodo[] }>
+  >([]);
+
+  //창 닫을때 프로젝트 todo가 소실되니 이를 경고하기 위한 이벤트 등록
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = "";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
 
   useEffect(() => {
-    if (!basicInfo || !projectId) {
+    if (!projectId) {
       toast.error("비정상적인 접근입니다.");
       navigate("/projects/new", { replace: true });
+      return;
     }
-    // TODO: 초기 진입 시 AI가 생성한 초안이 있다면 API로 받아와서 setPages, setProjectTodos 수행
-  }, [basicInfo, projectId, navigate]);
+
+    const loadPlanningData = async () => {
+      try {
+        // project_plannings 테이블에서 기본 정보 조회
+        // 아래 함수는 기존 ProjectInfoGenerateService 또는 별도 API 함수로 구현
+        const data =
+          await ProjectInfoGenerateService.getPlanningDetail(projectId);
+
+        setProjectName(data.project_name ?? "");
+        setProjectTopic(data.project_topic ?? "");
+        setProjectDescription(data.project_description ?? "");
+        setMainColor(data.project_main_color ?? "#587CF0");
+        setDesignStyle(data.project_style ?? "");
+        setProjectEffect(data.project_effect ?? "");
+        setStartDate(data.project_start_date ?? getKSTDateString(0));
+        setEndDate(data.project_end_date ?? getKSTDateString(1));
+
+        // pages & todos가 있다면 함께 세팅
+        if (data.pages) {
+          setPages(data.pages);
+        }
+      } catch (e) {
+        toast.error("프로젝트 정보를 불러오는데 실패했습니다.");
+        navigate("/projects/new", { replace: true });
+      }
+    };
+
+    loadPlanningData();
+  }, [projectId, navigate]);
 
   // 3. 공통 저장 데이터 생성 헬퍼
   // 3. 공통 저장 데이터 생성 헬퍼 (필드명 매핑 추가)
@@ -91,19 +125,24 @@ export default function ProjectInfoGeneratePage() {
         project_page_is_complete: page.project_page_is_complete,
         // 내부의 todos도 변환
         todos: page.todos.map((t) => ({
-          id: t.id,
-          project_id: projectId!,
-          project_page_id: page.project_page_id,
-          project_todo_content: t.content, // content -> project_todo_content
-          project_todo_status: t.status,
+          todo_id: t.id,
+          todo_name: t.name,
+          todo_content: t.content,
+          todo_description: t.description ?? "",
+          todo_start_date: t.start_date,
+          todo_end_date: t.end_date,
+          todo_status: t.status,
         })),
       })),
 
       projectTodos: projectTodos.map((t) => ({
-        id: t.id, // 있으면 update, 없으면 insert
-        project_id: projectId!,
-        project_todo_content: t.content,
-        project_todo_status: t.status,
+        todo_id: t.id,
+        todo_name: t.name,
+        todo_content: t.content,
+        todo_description: t.description ?? "",
+        todo_start_date: t.start_date,
+        todo_end_date: t.end_date,
+        todo_status: t.status,
       })),
     };
   };
@@ -147,6 +186,8 @@ export default function ProjectInfoGeneratePage() {
       // 정식 프로젝트로 전환
       const newProject = await ProjectInfoGenerateService.finalizeProject({
         projectId: projectId!,
+        pages: getSaveParams().pages,
+        projectTodos: getSaveParams().projectTodos,
       });
 
       toast.update(toastId, {
@@ -168,7 +209,7 @@ export default function ProjectInfoGeneratePage() {
     }
   };
 
-  // --- 기존 데이터 조작 로직 (유지) ---
+  // --- 기존 데이터 조작 로직 ---
   const getStatusColor = (status: string) => {
     switch (status) {
       case "done":
@@ -245,6 +286,23 @@ export default function ProjectInfoGeneratePage() {
     );
   };
 
+  const addPage = () => {
+    const newPage: ProjectPage & { todos: ProjectTodo[] } = {
+      project_page_id: crypto.randomUUID(),
+      project_page_name: "New Page",
+      project_page_role: "",
+      project_page_function: "",
+      project_page_is_complete: false,
+      project_id: projectId!,
+      todos: [],
+    };
+    setPages((prev) => [...prev, newPage]);
+  };
+
+  const deletePage = (pageId: string) => {
+    setPages((prev) => prev.filter((p) => p.project_page_id !== pageId));
+  };
+
   return (
     <div className="flex-1 overflow-auto bg-gray-50">
       <ProjectHeaderSection
@@ -284,6 +342,8 @@ export default function ProjectInfoGeneratePage() {
               onUpdateTodo={updatePageTodo}
               onDeleteTodo={deletePageTodo}
               onAddTodo={addPageTodo}
+              onAddPage={addPage}
+              onDeletePage={deletePage}
             />
           </div>
 

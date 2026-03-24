@@ -1,20 +1,21 @@
-import { ProjectPage, Todo } from "../../../common/projectPlanning";
+import { ProjectPage, ProjectTodo } from "../../../common/projectPlanning";
 
 export interface ProjectPagesSectionProps {
-  pages: Array<ProjectPage & { todos: Todo[] }>;
+  pages: Array<ProjectPage & { todos: ProjectTodo[] }>;
   expandedPage: string | null;
   setExpandedPage: (id: string | null) => void;
   getStatusColor: (status: string) => string;
   onUpdatePage?: (
     pageId: string,
-    updates: Partial<ProjectPage & { todos: Todo[] }>,
+    updates: Partial<ProjectPage & { todos: ProjectTodo[] }>,
   ) => void;
   onUpdateTodo?: (
     pageId: string,
     todoId: string,
-    updates: Partial<Todo>,
+    updates: Partial<ProjectTodo>,
   ) => void;
   onDeleteTodo?: (pageId: string, todoId: string) => void;
   onDeletePage?: (pageId: string) => void; // 페이지 삭제 추가
-  onAddTodo?: (pageId: string, newTodo: Todo) => void;
+  onAddTodo?: (pageId: string, newTodo: ProjectTodo) => void;
+  onAddPage?: () => void;
 }

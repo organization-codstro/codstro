@@ -1,4 +1,5 @@
 import { Send, ArrowRight } from "lucide-react";
+import { useRef, useEffect } from "react";
 import { ProjectChatInputProps } from "../../../types/pages/ProjectPlanning/ProjectCreateChatPage/ProjectChatInput";
 
 export const ProjectChatInput = ({
@@ -9,19 +10,34 @@ export const ProjectChatInput = ({
   onBack,
   disabled,
 }: ProjectChatInputProps) => {
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !disabled) {
-      onSend();
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // 내용에 따라 높이 자동 조절 (최대 5줄)
+  useEffect(() => {
+    const ta = textareaRef.current;
+    if (!ta) return;
+    ta.style.height = "auto";
+    ta.style.height = `${Math.min(ta.scrollHeight, 120)}px`;
+  }, [input]);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault(); // 기본 줄바꿈 방지
+      if (!disabled && input.trim()) {
+        onSend();
+      }
     }
+    // Shift + Enter → 기본 동작(줄바꿈) 허용
   };
 
   return (
     <div className="p-6 bg-white border-t border-gray-200">
       <div className="max-w-4xl mx-auto">
         {/* Chat Input Field */}
-        <div className="flex items-center mb-4 space-x-4">
-          <input
-            type="text"
+        <div className="flex items-end mb-4 space-x-4">
+          <textarea
+            ref={textareaRef}
+            rows={1}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
@@ -31,12 +47,13 @@ export const ProjectChatInput = ({
                 : "Type your message..."
             }
             disabled={disabled}
-            className="flex-1 px-6 py-3 border border-gray-300 rounded-full focus:outline-none focus:border-blue-400 disabled:bg-gray-100 disabled:cursor-not-allowed transition-colors"
+            className="flex-1 px-6 py-3 overflow-hidden leading-relaxed transition-colors border border-gray-300 resize-none rounded-2xl focus:outline-none focus:border-blue-400 disabled:bg-gray-100 disabled:cursor-not-allowed"
+            style={{ minHeight: "48px", maxHeight: "120px" }}
           />
           <button
             onClick={onSend}
             disabled={disabled || !input.trim()}
-            className="p-3 text-white transition-all rounded-full hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-shrink-0 p-3 text-white transition-all rounded-full hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
             style={{ backgroundColor: "#587CF0" }}
           >
             <Send className="w-5 h-5" />

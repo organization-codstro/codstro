@@ -1,9 +1,9 @@
 import { supabase } from "../../db/supabase/supabase";
 import {
-  ProjectBasicInfo,
   SaveOrUpdateBasicInfoParams,
   GetPlanningBasicInfoParams,
 } from "../../types/api/ProjectPlanning/ProjectBasicInfoInputPage";
+import { ProjectBasicInfo } from "../../types/common/projectPlanning";
 
 /**
  * [ProjectBasicInfoInputService]
@@ -19,12 +19,11 @@ export const ProjectBasicInfoInputService = {
     try {
       const payload = {
         user_id: params.userId,
+        project_name: params.info.project_name,
         project_topic: params.info.project_topic,
-        project_description: params.info.desired_features, // '하고 싶은 기능'을 설명 필드에 매핑
-        project_stacks: params.info.concepts_to_cover, // '다루고 싶은 개념'을 스택 필드에 매핑
-        // 기타 정보(other_info)는 로그 테이블이나 별도 컬럼이 필요할 수 있으나,
-        // 현재 스키마 기준으로는 주요 필드에 통합하거나 비고란 활용
-        project_created_date: new Date().toISOString().split("T")[0],
+        project_description: params.info.desired_features,
+        project_stacks: params.info.concepts_to_cover,
+        created_at: new Date().toISOString().split("T")[0],
       };
 
       if (params.projectId) {
@@ -47,6 +46,15 @@ export const ProjectBasicInfoInputService = {
           .single();
 
         if (error) throw error;
+
+        // 3. 첫 질문 생성 Edge Function 호출 (신규 생성 시에만)
+        const { error: fnError } = await supabase.functions.invoke(
+          "project_planning-generating_first_question",
+          { body: { project_id: data.project_id } },
+        );
+
+        if (fnError) throw fnError;
+
         return data;
       }
     } catch (error) {
@@ -71,6 +79,7 @@ export const ProjectBasicInfoInputService = {
 
       // UI 구조에 맞게 변환하여 반환
       return {
+        project_name: data.project_name,
         project_topic: data.project_topic || "",
         desired_features: data.project_description || "",
         concepts_to_cover: data.project_stacks || "",

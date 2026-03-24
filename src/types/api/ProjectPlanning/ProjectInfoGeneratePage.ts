@@ -27,12 +27,16 @@ export interface ProjectResponse {
  * [할 일 응답 인터페이스]
  */
 export interface TodoResponse {
-  project_todo_id?: string;
-  project_todo_content: string;
+  todo_id?: string; // project_todo_id → todo_id
+  todo_name: string; // 추가 (NOT NULL)
+  todo_content: string; // project_todo_content → todo_content
+  todo_description?: string; // 추가
+  todo_start_date: string; // 추가 (NOT NULL)
+  todo_end_date: string; // 추가 (NOT NULL)
+  todo_status: string; // 추가
   project_page_id?: string;
   project_id?: string;
 }
-
 /**
  * [중간 저장 파라미터]
  */
@@ -48,4 +52,6 @@ export interface SavePlanningDraftParams {
  */
 export interface FinalizeProjectParams {
   projectId: string;
+  pages: Array<ProjectPageResponse & { todos: TodoResponse[] }>;
+  projectTodos: TodoResponse[];
 }

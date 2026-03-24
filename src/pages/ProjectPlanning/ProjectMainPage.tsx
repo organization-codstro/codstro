@@ -87,6 +87,30 @@ export default function ProjectMainPage() {
     }
   };
 
+  //프로젝트 삭제
+  const handleDeleteProject = async (
+    projectId: string,
+    isPlanning: boolean,
+  ) => {
+    try {
+      await ProjectMainService.deleteProject({ projectId, isPlanning });
+
+      if (isPlanning) {
+        setPlanningProjects((prev) =>
+          prev.filter((p) => p.project_id !== projectId),
+        );
+      } else {
+        setActiveProjects((prev) =>
+          prev.filter((p) => p.project_id !== projectId),
+        );
+      }
+
+      toast.success("프로젝트가 삭제되었습니다.");
+    } catch {
+      toast.error("프로젝트 삭제에 실패했습니다.");
+    }
+  };
+
   const handleCreateNew = () => navigate("/projects/new");
 
   if (isLoading) {
@@ -128,6 +152,7 @@ export default function ProjectMainPage() {
                     key={project.project_id}
                     project={project}
                     onClick={() => navigate(`/projects/${project.project_id}`)}
+                    onDelete={(id) => handleDeleteProject(id, false)}
                   />
                 ))}
               </div>
@@ -164,6 +189,7 @@ export default function ProjectMainPage() {
                       e.stopPropagation();
                       handleContinuePlanning(project.project_id);
                     }}
+                    onDelete={(id) => handleDeleteProject(id, true)}
                   />
                 ))}
               </div>

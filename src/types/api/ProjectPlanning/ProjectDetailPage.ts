@@ -12,7 +12,7 @@ export interface ProjectResponse {
   project_main_color: string;
   project_style: string;
   project_effect: string;
-  project_created_date: string;
+  created_at: string;
   user_id: string;
   project_status?: PROJECT_STATUS_TYPE; // 기획중 | 진행중
 }

@@ -1,4 +1,8 @@
-import { ProjectPage, Todo, Project } from "../../types/common/projectPlanning";
+import {
+  Project,
+  ProjectPage,
+  ProjectTodo,
+} from "../../types/common/projectPlanning";
 
 // 예시 데이터: 진행중인 프로젝트 (기획 완료)
 export const activeProjectsData: Project[] = [
@@ -13,9 +17,9 @@ export const activeProjectsData: Project[] = [
     project_main_color: "#587CF0",
     project_style: "Modern, minimalist",
     project_effect: "Smooth transitions, fade animations",
-    project_created_date: "2025-11-15",
+    created_at: "2025-11-15",
     user_id: "1",
-    project_status: "active",
+    project_status: "waiting",
   },
   {
     project_id: "2",
@@ -29,14 +33,14 @@ export const activeProjectsData: Project[] = [
     project_main_color: "#10B981",
     project_style: "Clean, professional",
     project_effect: "Hover effects, loading animations",
-    project_created_date: "2025-11-10",
+    created_at: "2025-11-10",
     user_id: "1",
-    project_status: "active",
+    project_status: "waiting",
   },
 ];
 
 // 예시 데이터: 기획중인 프로젝트
-export const planningProjectsData: Project[] = [
+export const waitingProjectsData: Project[] = [
   {
     project_id: "3",
     project_name: "Task Management Tool",
@@ -48,9 +52,9 @@ export const planningProjectsData: Project[] = [
     project_main_color: "#F59E0B",
     project_style: "",
     project_effect: "",
-    project_created_date: "2025-12-20",
+    created_at: "2025-12-20",
     user_id: "1",
-    project_status: "planning",
+    project_status: "waiting",
   },
   {
     project_id: "4",
@@ -63,13 +67,13 @@ export const planningProjectsData: Project[] = [
     project_main_color: "#8B5CF6",
     project_style: "",
     project_effect: "",
-    project_created_date: "2025-12-22",
+    created_at: "2025-12-22",
     user_id: "1",
-    project_status: "planning",
+    project_status: "waiting",
   },
 ];
 
-export const projectTodosData: Todo[] = [
+export const projectTodosData: ProjectTodo[] = [
   {
     id: "1",
     name: "Setup project repository",
@@ -92,7 +96,7 @@ export const projectTodosData: Todo[] = [
   },
 ];
 
-export const pagesData: Array<ProjectPage & { todos: Todo[] }> = [
+export const pagesData: Array<ProjectPage & { todos: ProjectTodo[] }> = [
   {
     project_page_id: "1",
     project_page_name: "Authentication",
@@ -158,9 +162,9 @@ export const archivedProjectsData: Project[] = [
     project_main_color: "#6366F1",
     project_style: "Modern, clean",
     project_effect: "Smooth scroll animations",
-    project_created_date: "2024-12-15",
+    created_at: "2024-12-15",
     user_id: "1",
-    project_status: "active",
+    project_status: "waiting",
   },
   {
     project_id: "6",
@@ -173,9 +177,9 @@ export const archivedProjectsData: Project[] = [
     project_main_color: "#14B8A6",
     project_style: "Minimalist, informative",
     project_effect: "Weather animations",
-    project_created_date: "2025-01-20",
+    created_at: "2025-01-20",
     user_id: "1",
-    project_status: "active",
+    project_status: "waiting",
   },
 ];
 

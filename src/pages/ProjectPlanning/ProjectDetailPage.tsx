@@ -17,6 +17,7 @@ import { ProjectPagesView } from "../../components/ProjectPlanning/ProjectDetail
 import { ProjectStatsSidebar } from "../../components/ProjectPlanning/ProjectDetailPage/ProjectStatsSidebar";
 import { ProjectDetailService } from "../../api/ProjectPlanning/ProjectDetailPage";
 import NotFoundPage from "../NotFound/NotFoundPage";
+import { ProjectDetailSkeleton } from "../../components/ProjectPlanning/ProjectDetailPage/ProjectDetailSkeleton";
 
 export default function ProjectDetailPage() {
   const { projectId } = useParams<{ projectId: string }>();
@@ -45,7 +46,6 @@ export default function ProjectDetailPage() {
 
       try {
         setIsLoading(true);
-        const idNum = Number.parseInt(projectId);
 
         // 1) 프로젝트 상세 정보 조회 (기본적으로 active로 시도 후 에러 시 planning 확인 로직 또는 이전 페이지 state 활용)
         // 여기서는 URL 파라미터나 전역 상태 등으로 isPlanning 여부를 알 수 있다고 가정하거나 두 곳 다 체크합니다.
@@ -54,15 +54,20 @@ export default function ProjectDetailPage() {
 
         try {
           projectData = await ProjectDetailService.getProjectDetail(
-            idNum,
+            projectId,
             false,
           );
         } catch (e) {
-          projectData = await ProjectDetailService.getProjectDetail(
-            idNum,
-            true,
-          );
-          planningFlag = true;
+          try {
+            projectData = await ProjectDetailService.getProjectDetail(
+              projectId,
+              true,
+            );
+            planningFlag = true;
+          } catch (e2) {
+            toast.error("프로젝트 데이터를 불러오는중 오류가 발생하였습니다.");
+            return;
+          }
         }
 
         setOriginalProject(projectData);
@@ -71,7 +76,7 @@ export default function ProjectDetailPage() {
         // 2) 페이지 및 Todo 로드 (active 상태일 때 주로 로드)
         if (!planningFlag) {
           const pagesData =
-            await ProjectDetailService.getProjectPagesWithTodos(idNum);
+            await ProjectDetailService.getProjectPagesWithTodos(projectId);
           setOriginalPages(pagesData as any);
         }
       } catch (error) {
@@ -101,7 +106,7 @@ export default function ProjectDetailPage() {
 
       // 1) 기본 정보 저장
       await ProjectDetailService.updateProjectInfo(
-        idNum,
+        projectId,
         isPlanning,
         editedProject,
       );
@@ -172,11 +177,7 @@ export default function ProjectDetailPage() {
     editedProject && setEditedProject({ ...editedProject, [field]: value });
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center flex-1">
-        Loading project details...
-      </div>
-    );
+    return <ProjectDetailSkeleton />;
   }
 
   if (!originalProject || !originalPages) {
@@ -270,11 +271,24 @@ export default function ProjectDetailPage() {
                       This project is currently in the planning phase.
                     </p>
                     <button
-                      onClick={() =>
-                        navigate("/projects/new", {
-                          state: { projectId: project.project_id },
-                        })
-                      }
+                      onClick={async () => {
+                        try {
+                          const stage =
+                            await ProjectDetailService.getProjectPlanningStage(
+                              project.project_id,
+                            );
+                          const path =
+                            stage === "chat"
+                              ? "/projects/new/chat"
+                              : "/projects/new/info";
+
+                          navigate(path, {
+                            state: { projectId: project.project_id },
+                          });
+                        } catch (e) {
+                          toast.error("기획 단계를 불러오는데 실패했습니다.");
+                        }
+                      }}
                       className="px-4 py-2 mt-3 text-sm font-medium text-white rounded-lg bg-[#587CF0]"
                     >
                       Continue Planning

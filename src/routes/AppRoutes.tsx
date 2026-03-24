@@ -39,12 +39,18 @@ export default function AppRoutes() {
         />
 
         {/* ================= Woomoonro ================= */}
-        <Route path="/woomoonro" element={<Page.WoomoonroMain />} />
+        <Route
+          path="/woomoonro"
+          element={<Page.CloneCodingProjectMainPage />}
+        />
         <Route
           path="/woomoonro/project/:projectId"
-          element={<Page.ProjectDetailPage />}
+          element={<Page.CloneCodingProjectDetailPage />}
         />
-        <Route path="/woomoonro/archive" element={<Page.WoomoonroArchive />} />
+        <Route
+          path="/woomoonro/archive"
+          element={<Page.CloneCodingProjectArchivePage />}
+        />
 
         {/* ================= Woomoonkyung ================= */}
         {/* 목록 (list) */}

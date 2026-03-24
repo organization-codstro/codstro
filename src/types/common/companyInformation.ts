@@ -71,7 +71,7 @@ export interface CompanyUserMatchRecord {
 //회사 AI 채팅
 export interface CompanyInformationAIChatMessage {
   id: string;
-  sender: "user" | "ai";
+  sender: "USER" | "AI";
   text: string;
   timestamp: Date;
 }

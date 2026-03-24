@@ -18,3 +18,9 @@ export interface GetPlanningProjectsParams {
 export interface DeterminePlanningStepParams {
   projectId: string;
 }
+
+// types/api/ProjectPlanning/ProjectMainPage.ts 에 추가
+export interface DeleteProjectParams {
+  projectId: string;
+  isPlanning: boolean;
+}

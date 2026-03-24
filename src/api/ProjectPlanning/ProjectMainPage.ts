@@ -3,6 +3,7 @@ import {
   GetActiveProjectsParams,
   GetPlanningProjectsParams,
   DeterminePlanningStepParams,
+  DeleteProjectParams,
 } from "../../types/api/ProjectPlanning/ProjectMainPage";
 
 /**
@@ -100,6 +101,96 @@ export const ProjectMainService = {
       return { step: 3, data: project };
     } catch (error) {
       console.error("[determinePlanningStep Error]:", error);
+      throw error;
+    }
+  },
+
+  /**
+   * [프로젝트 삭제]
+   * 기획 여부에 따라 다른 테이블에서 연관 데이터를 cascade 삭제합니다.
+   *
+   * [기획중 삭제 순서]
+   * project_planning_pages → project_planning_logs → project_plannings
+   *
+   * [활성 프로젝트 삭제 순서]
+   * project_meeting_logs → project_meeting_summarys → project_meeting_rooms
+   * todos → projects
+   */
+  async deleteProject(params: DeleteProjectParams) {
+    const { projectId, isPlanning } = params;
+
+    try {
+      if (isPlanning) {
+        // ── 기획중 프로젝트 삭제 ──────────────────────────────
+
+        const { error: pagesError } = await supabase
+          .from("project_planning_pages")
+          .delete()
+          .eq("project_id", projectId);
+        if (pagesError) throw pagesError;
+
+        const { error: logsError } = await supabase
+          .from("project_planning_logs")
+          .delete()
+          .eq("project_id", projectId);
+        if (logsError) throw logsError;
+
+        const { error: planningError } = await supabase
+          .from("project_plannings")
+          .delete()
+          .eq("project_id", projectId);
+        if (planningError) throw planningError;
+      } else {
+        // ── 활성 프로젝트 삭제 ───────────────────────────────
+
+        // 1. 해당 프로젝트의 meeting room id 목록 조회
+        const { data: rooms, error: roomsQueryError } = await supabase
+          .from("project_meeting_rooms")
+          .select("project_meeting_room_id")
+          .eq("project_id", projectId);
+        if (roomsQueryError) throw roomsQueryError;
+
+        if (rooms && rooms.length > 0) {
+          const roomIds = rooms.map((r) => r.project_meeting_room_id);
+
+          // 2. meeting logs 삭제
+          const { error: meetingLogsError } = await supabase
+            .from("project_meeting_logs")
+            .delete()
+            .in("project_meeting_room_id", roomIds);
+          if (meetingLogsError) throw meetingLogsError;
+
+          // 3. meeting summarys 삭제
+          const { error: meetingSummarysError } = await supabase
+            .from("project_meeting_summarys")
+            .delete()
+            .in("project_meeting_room_id", roomIds);
+          if (meetingSummarysError) throw meetingSummarysError;
+
+          // 4. meeting rooms 삭제
+          const { error: meetingRoomsError } = await supabase
+            .from("project_meeting_rooms")
+            .delete()
+            .eq("project_id", projectId);
+          if (meetingRoomsError) throw meetingRoomsError;
+        }
+
+        // 5. todos 삭제
+        const { error: todosError } = await supabase
+          .from("todos")
+          .delete()
+          .eq("project_id", projectId);
+        if (todosError) throw todosError;
+
+        // 6. 프로젝트 본체 삭제
+        const { error: projectError } = await supabase
+          .from("projects")
+          .delete()
+          .eq("project_id", projectId);
+        if (projectError) throw projectError;
+      }
+    } catch (error) {
+      console.error("[deleteProject Error]:", error);
       throw error;
     }
   },

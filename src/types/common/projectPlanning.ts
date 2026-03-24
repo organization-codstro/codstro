@@ -1,4 +1,5 @@
 import {
+  PROJECT_CHAT_SENDER,
   PROJECT_ROOM_TYPE,
   PROJECT_STATUS_TYPE,
 } from "../../constants/ProjectPlanning/ProjectPlanning";
@@ -14,9 +15,23 @@ export interface Project {
   project_main_color: string;
   project_style: string;
   project_effect: string;
-  project_created_date: string;
+  created_at: string;
   user_id: string;
   project_status?: PROJECT_STATUS_TYPE;
+}
+
+export interface ProjectPlanningDetail {
+  project_id: string;
+  project_name: string;
+  project_topic: string;
+  project_description: string;
+  project_main_color: string;
+  project_style: string;
+  project_effect: string;
+  project_start_date: string;
+  project_end_date: string;
+  project_stacks: string;
+  pages: Array<ProjectPage & { todos: ProjectTodo[] }>;
 }
 
 export interface ProjectPage {
@@ -26,6 +41,7 @@ export interface ProjectPage {
   project_page_function: string;
   project_page_is_complete: boolean;
   project_id: string;
+  project_page_status?: PROJECT_STATUS_TYPE;
 }
 
 export interface ProjectTodo {
@@ -67,6 +83,11 @@ export interface UITodo {
   status: PROJECT_STATUS_TYPE;
 }
 
+// ProjectPage + todos 를 함께 다루는 뷰 전용 타입
+export interface ProjectPageWithTodos extends ProjectPage {
+  todos: ProjectTodo[];
+}
+
 export interface Meeting {
   meeting_id: string;
   meeting_name: string;
@@ -81,7 +102,7 @@ export interface Meeting {
 
 export interface MeetingMessage {
   message_id?: string;
-  sender: "AI" | "USER";
+  sender: PROJECT_CHAT_SENDER;
   message: string;
   created_at?: string;
   meeting_id?: string;
@@ -89,7 +110,7 @@ export interface MeetingMessage {
 
 export interface ProjectPlanningLog {
   project_meeting_log_id: string;
-  project_meeting_log_sender: "AI" | "USER";
+  project_meeting_log_sender: PROJECT_CHAT_SENDER;
   project_meeting_log_message: string;
   project_meeting_log_created_at: string;
   project_meeting_log_meeting_index: number;
@@ -97,6 +118,7 @@ export interface ProjectPlanningLog {
 }
 
 export interface ProjectBasicInfo {
+  project_name: string;
   project_topic?: string;
   desired_features?: string;
   concepts_to_cover?: string;
@@ -104,7 +126,7 @@ export interface ProjectBasicInfo {
 }
 
 export interface ProjectMessage {
-  sender: "AI" | "USER";
+  sender: PROJECT_CHAT_SENDER;
   message: string;
   create_at: string;
 }

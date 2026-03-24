@@ -1,3 +1,4 @@
+import { PROJECT_PLANNING_STAGE } from "../../constants/ProjectPlanning/ProjectPlanning";
 import { supabase } from "../../db/supabase/supabase";
 import {
   ProjectPageResponse,
@@ -11,10 +12,30 @@ import {
  */
 export const ProjectDetailService = {
   /**
+   * project_plannings 테이블에서 project_id로 planning_stage 조회
+   * @returns "chat" | "info"
+   */
+  async getProjectPlanningStage(
+    projectId: string,
+  ): Promise<PROJECT_PLANNING_STAGE> {
+    const { data, error } = await supabase
+      .from("project_plannings")
+      .select("project_planning_stage")
+      .eq("project_id", projectId)
+      .single();
+
+    if (error || !data) {
+      throw new Error("기획 단계를 불러오는데 실패했습니다.");
+    }
+
+    return data.project_planning_stage as PROJECT_PLANNING_STAGE;
+  },
+
+  /**
    * [프로젝트 상세 정보 조회]
    * 프로젝트 상태에 따라 다른 테이블(projects 또는 project_plannings)에서 정보를 가져옵니다.
    */
-  async getProjectDetail(projectId: number, isPlanning: boolean) {
+  async getProjectDetail(projectId: string, isPlanning: boolean) {
     const table = isPlanning ? "project_plannings" : "projects";
 
     try {
@@ -22,9 +43,10 @@ export const ProjectDetailService = {
         .from(table)
         .select("*")
         .eq("project_id", projectId)
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
+      if (!data) throw new Error("Project not found");
 
       const today = new Date();
       const endDate = new Date(data.project_end_date);
@@ -32,15 +54,14 @@ export const ProjectDetailService = {
       const project_status = isPlanning
         ? "planning"
         : endDate < today
-        ? "done"
-        : "active";
+          ? "done"
+          : "active";
 
       return {
         ...data,
         project_status,
       };
     } catch (error) {
-      console.error("[getProjectDetail Error]:", error);
       throw error;
     }
   },
@@ -50,7 +71,7 @@ export const ProjectDetailService = {
    * 프로젝트에 종속된 기획 페이지들과 각 페이지별 할 일(Todo)을 조인하여 가져옵니다.
    * @table project_planning_pages (기존 project_page_... 컬럼 기준)
    */
-  async getProjectPagesWithTodos(projectId: number) {
+  async getProjectPagesWithTodos(projectId: string) {
     try {
       // 페이지 정보와 해당 페이지의 할 일들을 가져옴
       const { data, error } = await supabase
@@ -58,8 +79,8 @@ export const ProjectDetailService = {
         .select(
           `
           *,
-          todos:project_todos(*)
-        `
+          todos:todos(*)
+        `,
         )
         .eq("project_id", projectId);
 
@@ -76,9 +97,9 @@ export const ProjectDetailService = {
    * 확정된 프로젝트나 기획 중인 프로젝트의 메타데이터를 수정합니다.
    */
   async updateProjectInfo(
-    projectId: number,
+    projectId: string,
     isPlanning: boolean,
-    updates: Partial<ProjectResponse>
+    updates: Partial<ProjectResponse>,
   ) {
     const table = isPlanning ? "project_plannings" : "projects";
     try {
@@ -112,7 +133,7 @@ export const ProjectDetailService = {
    * 편집 모드에서 수정된 페이지 정보와 할 일들을 저장합니다.
    */
   async saveProjectStructure(
-    pages: Array<ProjectPageResponse & { todos: TodoResponse[] }>
+    pages: Array<ProjectPageResponse & { todos: TodoResponse[] }>,
   ) {
     try {
       for (const page of pages) {
@@ -132,14 +153,12 @@ export const ProjectDetailService = {
 
         // 2. 할 일(Todo) 목록 업데이트 (Upsert)
         if (page.todos && page.todos.length > 0) {
-          const { error: todoError } = await supabase
-            .from("project_todos")
-            .upsert(
-              page.todos.map((todo) => ({
-                ...todo,
-                project_page_id: page.project_page_id, // 외래키 연결
-              }))
-            );
+          const { error: todoError } = await supabase.from("todos").upsert(
+            page.todos.map((todo) => ({
+              ...todo,
+              project_page_id: page.project_page_id, // 외래키 연결
+            })),
+          );
           if (todoError) throw todoError;
         }
       }
@@ -153,11 +172,8 @@ export const ProjectDetailService = {
   /**
    * [할 일 삭제]
    */
-  async deleteTodo(todoId: number) {
-    const { error } = await supabase
-      .from("project_todos")
-      .delete()
-      .eq("id", todoId);
+  async deleteTodo(todoId: string) {
+    const { error } = await supabase.from("todos").delete().eq("id", todoId);
 
     if (error) throw error;
   },

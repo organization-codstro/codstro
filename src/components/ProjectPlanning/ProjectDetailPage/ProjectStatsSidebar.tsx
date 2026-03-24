@@ -74,7 +74,7 @@ export const ProjectStatsSidebar = ({
           <div>
             <span className="text-gray-600">Created:</span>
             <span className="ml-2 text-gray-900">
-              {new Date(project.project_created_date).toLocaleDateString()}
+              {new Date(project.created_at).toLocaleDateString()}
             </span>
           </div>
           <div>

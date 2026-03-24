@@ -15,9 +15,9 @@ export { default as TodoManagementUpdate } from "../pages/Woomoonjeong/TodoManag
 export { default as DocumentsManagement } from "../pages/Woomoonjeong/DocumentsManagementPage";
 
 /* ================= WOOMOONRO ================= */
-export { default as WoomoonroMain } from "../pages/Woomoonro/CloneCodingProjectMainPage";
-export { default as WoomoonroArchive } from "../pages/Woomoonro/CloneCodingProjectArchivePage";
-export { default as ProjectDetailPage } from "../pages/Woomoonro/CloneCodingProjectDetailPage";
+export { default as CloneCodingProjectMainPage } from "../pages/Woomoonro/CloneCodingProjectMainPage";
+export { default as CloneCodingProjectArchivePage } from "../pages/Woomoonro/CloneCodingProjectArchivePage";
+export { default as CloneCodingProjectDetailPage } from "../pages/Woomoonro/CloneCodingProjectDetailPage";
 
 /* ================= WOOMOONKYUNG ================= */
 export { default as WoomoonkyungMain } from "../pages/Woomoonkyung/StudyPlanMainPage";

@@ -1,20 +1,18 @@
 import { supabase } from "../../db/supabase/supabase";
-import { generateAiContent } from "../Gemini/Gemini";
 import {
   GetChatHistoryParams,
   SaveChatMessageParams,
-  GetAiResponseParams,
   PausePlanningParams,
 } from "../../types/api/ProjectPlanning/ProjectCreateChatPage";
 
 /**
  * [ProjectCreateChatService]
- * 프로젝트 기획 2단계(AI 채팅)에서의 메시지 저장 및 AI 응답 처리를 담당합니다.
+ * 프로젝트 기획 2단계(AI 채팅) 메시지 저장 및 히스토리 조회를 담당합니다.
+ * 유저 메시지 저장 후 Edge Function을 직접 호출해 AI 응답을 받습니다.
  */
 export const ProjectCreateChatService = {
   /**
    * [이전 대화 내역 불러오기]
-   * 기존에 진행 중이던 기획 채팅 로그를 가져옵니다.
    * @table project_planning_logs
    */
   async getChatHistory(params: GetChatHistoryParams) {
@@ -23,10 +21,10 @@ export const ProjectCreateChatService = {
         .from("project_planning_logs")
         .select("*")
         .eq("project_id", params.projectId)
-        .order("project_meeting_logs_created_at", { ascending: true });
+        .order("created_at", { ascending: true });
 
       if (error) throw error;
-      return data;
+      return data ?? [];
     } catch (error) {
       console.error("[ProjectCreateChatService.getChatHistory Error]:", error);
       throw error;
@@ -34,8 +32,7 @@ export const ProjectCreateChatService = {
   },
 
   /**
-   * [메시지 저장]
-   * 유저 또는 AI의 메시지를 기획 로그 테이블에 저장합니다.
+   * [유저 메시지 저장]
    * @table project_planning_logs
    */
   async saveChatMessage(params: SaveChatMessageParams) {
@@ -45,10 +42,10 @@ export const ProjectCreateChatService = {
         .insert([
           {
             project_id: params.projectId,
-            project_meeting_logs_sender: params.sender,
-            project_meeting_logs_message: params.message,
-            project_meeting_logs_meeting_index: params.meetingIndex,
-            project_meeting_logs_created_at: new Date().toISOString(),
+            project_planning_log_sender: params.sender,
+            project_planning_log_message: params.message,
+            project_planning_log_index: params.meetingIndex,
+            created_at: new Date().toISOString(),
           },
         ])
         .select()
@@ -63,50 +60,27 @@ export const ProjectCreateChatService = {
   },
 
   /**
-   * [AI 응답 생성 및 자동 저장]
-   * 대화 맥락을 기반으로 Gemini 응답을 생성하고 DB에 기록합니다.
+   * [AI 응답 요청]
+   * Edge Function을 fire & forget으로 직접 호출합니다.
+   * AI 응답은 DB에 저장되고 프론트 구독으로 수신됩니다.
    */
-  async getAiResponse(params: GetAiResponseParams) {
-    try {
-      // 1. 맥락 파악 (최근 10개 대화 추출)
-      const context = params.history
-        .map(
-          (m) =>
-            `${m.sender || m.project_meeting_logs_sender}: ${
-              m.message || m.project_meeting_logs_message
-            }`,
-        )
-        .join("\n");
-
-      // 2. Gemini 프롬프트 구성 (나중에 프롬프트 고도화 가능)
-      const prompt = `프로젝트 기획 중입니다. 아래 대화 맥락을 참고해서 사용자의 의견에 피드백을 주고 구체적인 기능을 제안해줘.\n\n맥락:\n${context}\n\n사용자 메시지: ${params.userMessage}`;
-
-      const aiText = await generateAiContent(prompt);
-
-      // 3. AI 답변 DB 저장
-      const savedAiMsg = await this.saveChatMessage({
-        projectId: params.projectId,
-        sender: "AI",
-        message: aiText,
-        meetingIndex: 1, // 초기 기획은 index 1로 고정하거나 관리
+  async requestAiResponse(params: { projectId: string }) {
+    supabase.functions
+      .invoke("project-ai-chat", {
+        body: { project_id: params.projectId },
+      })
+      .catch((err) => {
+        console.error("[requestAiResponse error]:", err);
       });
-
-      return savedAiMsg;
-    } catch (error) {
-      console.error("[getAiResponse Error]:", error);
-      throw error;
-    }
   },
 
   /**
    * [기획 중단/임시 저장]
-   * 현재까지의 대화 상태를 유지하고 메인으로 돌아갈 때 사용합니다.
    */
   async pausePlanning(params: PausePlanningParams) {
-    // 필요 시 project_plannings 테이블의 status나 수정일자를 업데이트
     const { error } = await supabase
       .from("project_plannings")
-      .update({ project_created_date: new Date().toISOString().split("T")[0] })
+      .update({ updated_at: new Date().toISOString() })
       .eq("project_id", params.projectId);
 
     if (error) throw error;
