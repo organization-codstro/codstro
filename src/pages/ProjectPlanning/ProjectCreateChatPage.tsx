@@ -23,6 +23,7 @@ export default function ProjectCreateChatPage() {
   const [isSending, setIsSending] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isAiTyping, setIsAiTyping] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const scrollToBottom = () => {
     if (scrollRef.current) {
@@ -135,11 +136,42 @@ export default function ProjectCreateChatPage() {
     }
   };
 
-  const handleNext = () => {
-    navigate("/projects/new/info", {
-      state: { basicInfo, projectId },
-      replace: true,
-    });
+  const handleNext = async () => {
+    if (!projectId || isGenerating) return;
+
+    setIsGenerating(true);
+
+    const toastId = toast.loading("프로젝트 정보를 생성 중입니다...");
+
+    try {
+      const result = await ProjectCreateChatService.generateProjectInfo({
+        projectId,
+      });
+
+      toast.update(toastId, {
+        render: "프로젝트 정보 생성 완료",
+        type: "success",
+        isLoading: false,
+        autoClose: 800,
+      });
+
+      navigate("/projects/new/info", {
+        state: {
+          projectId,
+          todos: result.todos,
+        },
+        replace: true,
+      });
+    } catch (e) {
+      toast.update(toastId, {
+        render: "프로젝트 정보 생성 실패",
+        type: "error",
+        isLoading: false,
+        autoClose: 800,
+      });
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   const handleBack = async () => {
@@ -196,7 +228,7 @@ export default function ProjectCreateChatPage() {
           onSend={handleSend}
           onNext={handleNext}
           onBack={handleBack}
-          disabled={isSending}
+          disabled={isSending || isGenerating}
         />
       </div>
     </div>

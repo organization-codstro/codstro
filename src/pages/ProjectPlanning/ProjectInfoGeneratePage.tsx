@@ -24,7 +24,11 @@ export default function ProjectInfoGeneratePage() {
   const location = useLocation();
 
   // 1. 이전 단계에서 넘어온 데이터 확인
-  const { projectId } = (location.state as { projectId?: string }) || {};
+  const { projectId, todos } =
+    (location.state as {
+      projectId?: string;
+      todos?: any[];
+    }) || {};
 
   // 2. 상태 관리
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -49,6 +53,24 @@ export default function ProjectInfoGeneratePage() {
   const [pages, setPages] = useState<
     Array<ProjectPage & { todos: ProjectTodo[] }>
   >([]);
+
+  //todos → UI 변환 useEffect
+  useEffect(() => {
+    if (!todos || todos.length === 0) return;
+
+    const mapped: UITodo[] = todos.map((t) => ({
+      id: crypto.randomUUID(),
+      client_id: crypto.randomUUID(),
+      name: t.todo_name,
+      content: t.todo_content,
+      description: t.todo_description ?? "",
+      start_date: t.todo_start_date,
+      end_date: t.todo_end_date,
+      status: t.todo_status,
+    }));
+
+    setProjectTodos(mapped);
+  }, [todos]);
 
   //창 닫을때 프로젝트 todo가 소실되니 이를 경고하기 위한 이벤트 등록
   useEffect(() => {

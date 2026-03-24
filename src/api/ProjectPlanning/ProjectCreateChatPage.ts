@@ -85,4 +85,20 @@ export const ProjectCreateChatService = {
 
     if (error) throw error;
   },
+
+  //ai가 만들어준 프로젝트 기본정보 가져오는 함수
+  async generateProjectInfo({ projectId }: { projectId: string }) {
+    const { data, error } = await supabase.functions.invoke(
+      "generate-project-info",
+      {
+        body: { project_id: projectId },
+      },
+    );
+
+    if (error) {
+      throw new Error(error.message || "AI 분석 실패");
+    }
+
+    return data; // { success, todos }
+  },
 };
