@@ -1,7 +1,7 @@
-import { newTodo } from "../../../../common/projectPlanning";
+import { NewProjectTodo } from "../../../../common/projectPlanning";
 
 export interface ProjectTodoModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onAdd: (todo: newTodo) => void;
+  onAdd: (todo: NewProjectTodo) => void;
 }

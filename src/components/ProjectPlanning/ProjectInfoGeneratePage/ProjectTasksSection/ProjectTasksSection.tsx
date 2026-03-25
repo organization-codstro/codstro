@@ -27,7 +27,7 @@ export const ProjectTasksSection: React.FC<ProjectTasksSectionProps> = ({
         </button>
       </div>
 
-      <div className="space-y-3 overflow-y-auto max-h-96">
+      <div className="space-y-3 overflow-y-auto h-[1280px]">
         {projectTodos.length === 0 ? (
           <p className="py-4 text-sm text-center text-gray-500">
             No project tasks yet

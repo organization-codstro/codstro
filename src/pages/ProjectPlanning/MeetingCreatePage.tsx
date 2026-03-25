@@ -14,6 +14,8 @@ export default function MeetingCreatePage() {
   const navigate = useNavigate();
   const { projectId } = useParams<{ projectId: string }>(); // URL에서 프로젝트 ID 추출
 
+  console.log(projectId);
+
   // 1. 상태 관리 (State Management)
   const [isLoading, setIsLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
@@ -87,7 +89,7 @@ export default function MeetingCreatePage() {
         autoClose: 500,
       });
 
-      navigate(`/projects/meetings/${newRoom.project_meeting_room_id}`);
+      navigate(`projects/${projectId}`);
     } catch (err: any) {
       toast.update(toastId, {
         render: "생성에 실패했습니다. 다시 시도해주세요.",

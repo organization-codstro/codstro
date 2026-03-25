@@ -1,4 +1,4 @@
-import { ProjectPage, ProjectTodo } from "../../../common/projectPlanning";
+import { ProjectPage, ProjectPageWithTodos, ProjectTodo } from "../../../common/projectPlanning";
 
 export interface ProjectPagesSectionProps {
   pages: Array<ProjectPage & { todos: ProjectTodo[] }>;
@@ -17,5 +17,6 @@ export interface ProjectPagesSectionProps {
   onDeleteTodo?: (pageId: string, todoId: string) => void;
   onDeletePage?: (pageId: string) => void; // 페이지 삭제 추가
   onAddTodo?: (pageId: string, newTodo: ProjectTodo) => void;
-  onAddPage?: () => void;
+  onAddPage?: (newPage: ProjectPage & { todos: ProjectTodo[] }) => void;
+  onSave?: (pages: ProjectPageWithTodos[]) => Promise<void>;
 }

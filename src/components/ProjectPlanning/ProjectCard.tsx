@@ -32,36 +32,40 @@ export const ProjectCard = ({
       className="relative p-6 transition-shadow bg-white border border-gray-200 rounded-lg cursor-pointer hover:shadow-md"
       onClick={onClick}
     >
-      {/* Delete Button */}
-      <button
-        onClick={handleDeleteClick}
-        className={`
-          absolute top-3 right-3 p-1.5 rounded-md transition-all duration-300
-          ${
-            deleteState === "confirm"
-              ? "bg-red-500 text-white scale-110"
-              : "text-gray-300 hover:text-red-400 hover:bg-red-50"
-          }
-        `}
-        title={
-          deleteState === "confirm" ? "한 번 더 클릭하면 삭제됩니다" : "삭제"
-        }
-      >
-        <Trash2 className="w-4 h-4" />
-      </button>
-
-      <div className="flex items-start justify-between pr-6 mb-3">
+      <div className="flex items-start justify-between mb-3">
         <div className="flex-1">
           <h3 className="text-lg font-semibold text-gray-900">
             {project.project_name}
           </h3>
           <p className="mt-1 text-sm text-gray-600">{project.project_topic}</p>
         </div>
-        <div
-          className="flex-shrink-0 w-4 h-4 ml-2 rounded-full"
-          style={{ backgroundColor: project.project_main_color }}
-        />
+
+        <div className="flex items-center flex-shrink-0 gap-4 ml-2 -mt">
+          <div
+            className="w-4 h-4 rounded-full"
+            style={{ backgroundColor: project.project_main_color }}
+          />
+          <button
+            onClick={handleDeleteClick}
+            className={`
+        p-1.5 rounded-md transition-all duration-300
+        ${
+          deleteState === "confirm"
+            ? "bg-red-500 text-white scale-110"
+            : "text-gray-300 hover:text-red-400 hover:bg-red-50"
+        }
+      `}
+            title={
+              deleteState === "confirm"
+                ? "한 번 더 클릭하면 삭제됩니다"
+                : "삭제"
+            }
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
+        </div>
       </div>
+
       <p className="mb-3 text-sm text-gray-500 line-clamp-2">
         {project.project_description}
       </p>
@@ -91,7 +95,6 @@ export const ProjectCard = ({
         </div>
       )}
 
-      {/* Confirm Delete Overlay Message */}
       {deleteState === "confirm" && (
         <div className="absolute text-xs font-medium text-red-500 bottom-3 right-3 animate-pulse">
           한 번 더 클릭하면 삭제 됩니다.

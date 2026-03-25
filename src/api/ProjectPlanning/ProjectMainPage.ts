@@ -123,17 +123,17 @@ export const ProjectMainService = {
       if (isPlanning) {
         // ── 기획중 프로젝트 삭제 ──────────────────────────────
 
-        const { error: pagesError } = await supabase
-          .from("project_planning_pages")
-          .delete()
-          .eq("project_id", projectId);
-        if (pagesError) throw pagesError;
-
         const { error: logsError } = await supabase
           .from("project_planning_logs")
           .delete()
           .eq("project_id", projectId);
         if (logsError) throw logsError;
+
+        const { error: pagesError } = await supabase
+          .from("project_planning_pages")
+          .delete()
+          .eq("project_id", projectId);
+        if (pagesError) throw pagesError;
 
         const { error: planningError } = await supabase
           .from("project_plannings")
@@ -142,6 +142,13 @@ export const ProjectMainService = {
         if (planningError) throw planningError;
       } else {
         // ── 활성 프로젝트 삭제 ───────────────────────────────
+
+        // 0. project_pages 삭제 (FK 때문에 먼저 삭제)
+        const { error: pagesError } = await supabase
+          .from("project_pages")
+          .delete()
+          .eq("project_id", projectId);
+        if (pagesError) throw pagesError;
 
         // 1. 해당 프로젝트의 meeting room id 목록 조회
         const { data: rooms, error: roomsQueryError } = await supabase

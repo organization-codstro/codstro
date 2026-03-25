@@ -89,7 +89,7 @@ export const ProjectCreateChatService = {
   //ai가 만들어준 프로젝트 기본정보 가져오는 함수
   async generateProjectInfo({ projectId }: { projectId: string }) {
     const { data, error } = await supabase.functions.invoke(
-      "generate-project-info",
+      "project-create-basic_information",
       {
         body: { project_id: projectId },
       },

@@ -1,45 +1,60 @@
 import { ProjectStatsSidebarProps } from "../../../types/pages/ProjectPlanning/ProjectDetailPage/ProjectStatsSidebar";
 
-
 export const ProjectStatsSidebar = ({
-  project,
   todos,
   isPlanning,
   onNewMeeting,
   onViewMeetings,
 }: ProjectStatsSidebarProps) => {
+  const total = todos.length;
+  const done = todos.filter((t) => t.status === "done").length;
+  const inProgress = todos.filter((t) => t.status === "in progress").length;
+  const waiting = todos.filter((t) => t.status === "waiting").length;
+  const progressPercent = total > 0 ? Math.round((done / total) * 100) : 0;
+
   return (
     <div className="space-y-6">
       {!isPlanning && (
         <>
           <div className="p-6 bg-white border border-gray-200 rounded-lg">
             <h3 className="mb-4 text-sm font-semibold text-gray-900">
-              Project Tasks
+              Task Progress
             </h3>
+
+            {/* 진행률 바 */}
+            <div className="mb-4">
+              <div className="flex items-center justify-between mb-1 text-xs text-gray-500">
+                <span>전체 진행률</span>
+                <span className="font-medium text-gray-700">
+                  {progressPercent}%
+                </span>
+              </div>
+              <div className="w-full h-2 bg-gray-100 rounded-full">
+                <div
+                  className="h-2 rounded-full bg-[#587CF0] transition-all"
+                  style={{ width: `${progressPercent}%` }}
+                />
+              </div>
+            </div>
+
             <div className="space-y-3 text-sm">
               <div className="flex items-center justify-between">
                 <span className="text-gray-600">Total</span>
-                <span className="font-medium text-gray-900">
-                  {todos.length}
-                </span>
+                <span className="font-medium text-gray-900">{total}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-gray-600">Completed</span>
-                <span className="font-medium text-green-600">
-                  {todos.filter((t) => t.status === "done").length}
-                </span>
+                <span className="font-medium text-green-600">{done}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-gray-600">In Progress</span>
                 <span className="font-medium text-yellow-600">
-                  {todos.filter((t) => t.status === "in progress").length}
+                  {inProgress}
                 </span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-gray-600">Waiting</span>
-                <span className="font-medium text-gray-600">
-                  {todos.filter((t) => t.status === "waiting").length}
-                </span>
+                <span className="font-medium text-gray-600">{waiting}</span>
               </div>
             </div>
           </div>
@@ -65,26 +80,6 @@ export const ProjectStatsSidebar = ({
           </div>
         </>
       )}
-
-      <div className="p-6 bg-white border border-gray-200 rounded-lg">
-        <h3 className="mb-4 text-sm font-semibold text-gray-900">
-          Project Details
-        </h3>
-        <div className="space-y-2 text-sm">
-          <div>
-            <span className="text-gray-600">Created:</span>
-            <span className="ml-2 text-gray-900">
-              {new Date(project.created_at).toLocaleDateString()}
-            </span>
-          </div>
-          <div>
-            <span className="text-gray-600">Status:</span>
-            <span className="ml-2 text-gray-900">
-              {isPlanning ? "Planning" : "Active"}
-            </span>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

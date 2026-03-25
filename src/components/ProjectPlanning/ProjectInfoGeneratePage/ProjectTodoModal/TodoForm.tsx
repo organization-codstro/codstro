@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { NewTodo } from "../../../../types/common/projectPlanning";
+
 import { TodoFormProps } from "../../../../types/pages/ProjectPlanning/ProjectInfoGeneratePage/ProjectTodoModal/TodoForm";
+import { NewProjectTodo } from "../../../../types/common/projectPlanning";
 
 export function TodoForm({ onAdd, onCancel }: TodoFormProps) {
   const [name, setName] = useState("");
@@ -17,7 +18,7 @@ export function TodoForm({ onAdd, onCancel }: TodoFormProps) {
     e.preventDefault();
     if (!name.trim()) return;
 
-    const newTodo: NewTodo = {
+    const newTodo: NewProjectTodo = {
       name: name,
       content: content,
       description: description,
@@ -27,6 +28,7 @@ export function TodoForm({ onAdd, onCancel }: TodoFormProps) {
     };
 
     onAdd(newTodo);
+    onCancel();
   };
 
   return (

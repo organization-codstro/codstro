@@ -43,7 +43,7 @@ export const ProjectChatInput = ({
             onKeyDown={handleKeyDown}
             placeholder={
               disabled
-                ? "AI가 응답을 생성하고 있습니다..."
+                ? "AI가 응답을 생성하고 있습니다... (평균 소요 시간 5~8초)"
                 : "Type your message..."
             }
             disabled={disabled}

@@ -1,17 +1,15 @@
-import { ArrowLeft, Edit, Play, Clock, Save, X } from "lucide-react";
+import { ArrowLeft, Play, Clock } from "lucide-react";
 import { ProjectDetailHeaderProps } from "../../../types/pages/ProjectPlanning/ProjectDetailPage/ProjectDetailHeader";
 
 export const ProjectDetailHeader = ({
   project,
-  isEditing,
   onBack,
   onContinuePlanning,
-  onEdit,
-  onCancel,
-  onSave,
-}: ProjectDetailHeaderProps) => {
+}: Omit<
+  ProjectDetailHeaderProps,
+  "isEditing" | "onEdit" | "onCancel" | "onSave"
+>) => {
   const isPlanning = project.project_status === "waiting";
-  const isActive = project.project_status === "done";
 
   return (
     <div className="px-8 py-6 bg-white border-b border-gray-200">
@@ -45,44 +43,14 @@ export const ProjectDetailHeader = ({
             </div>
           </div>
 
-          <div className="flex items-center space-x-2">
-            {isPlanning && (
-              <button
-                onClick={onContinuePlanning}
-                className="flex items-center px-4 py-2 space-x-2 font-medium text-white rounded-lg bg-[#587CF0]"
-              >
-                <Edit className="w-4 h-4" />
-                <span>Continue Planning</span>
-              </button>
-            )}
-            {isActive && !isEditing && (
-              <button
-                onClick={onEdit}
-                className="flex items-center px-4 py-2 space-x-2 font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"
-              >
-                <Edit className="w-4 h-4" />
-                <span>Edit Project</span>
-              </button>
-            )}
-            {isActive && isEditing && (
-              <>
-                <button
-                  onClick={onCancel}
-                  className="flex items-center px-4 py-2 space-x-2 font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"
-                >
-                  <X className="w-4 h-4" />
-                  <span>Cancel</span>
-                </button>
-                <button
-                  onClick={onSave}
-                  className="flex items-center px-4 py-2 space-x-2 font-medium text-white rounded-lg bg-[#587CF0]"
-                >
-                  <Save className="w-4 h-4" />
-                  <span>Save</span>
-                </button>
-              </>
-            )}
-          </div>
+          {isPlanning && (
+            <button
+              onClick={onContinuePlanning}
+              className="flex items-center px-4 py-2 space-x-2 font-medium text-white rounded-lg bg-[#587CF0]"
+            >
+              <span>Continue Planning</span>
+            </button>
+          )}
         </div>
       </div>
     </div>

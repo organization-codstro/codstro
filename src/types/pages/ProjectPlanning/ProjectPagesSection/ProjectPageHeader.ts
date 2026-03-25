@@ -9,6 +9,6 @@ export interface PageHeaderProps {
   onUpdateField: (field: keyof ProjectPage, value: string) => void;
   onSave: () => void;
   onCancel: () => void;
-  onEdit: () => void;
-  onDelete: (e: React.MouseEvent) => void;
+  onEdit?: () => void;
+  onDelete?: (e: React.MouseEvent) => void;
 }

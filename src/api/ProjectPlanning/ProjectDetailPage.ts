@@ -1,180 +1,224 @@
-import { PROJECT_PLANNING_STAGE } from "../../constants/ProjectPlanning/ProjectPlanning";
+import { PROJECT_STATUS_TYPE } from "../../constants/ProjectPlanning/ProjectPlanning";
 import { supabase } from "../../db/supabase/supabase";
-import {
-  ProjectPageResponse,
-  ProjectResponse,
-  TodoResponse,
-} from "../../types/api/ProjectPlanning/ProjectDetailPage";
 
-/**
- * [ProjectDetailService]
- * 프로젝트 상세 정보, 기획 페이지, 할 일(Todo)의 조회 및 수정을 담당합니다.
- */
 export const ProjectDetailService = {
   /**
-   * project_plannings 테이블에서 project_id로 planning_stage 조회
-   * @returns "chat" | "info"
-   */
-  async getProjectPlanningStage(
-    projectId: string,
-  ): Promise<PROJECT_PLANNING_STAGE> {
-    const { data, error } = await supabase
-      .from("project_plannings")
-      .select("project_planning_stage")
-      .eq("project_id", projectId)
-      .single();
-
-    if (error || !data) {
-      throw new Error("기획 단계를 불러오는데 실패했습니다.");
-    }
-
-    return data.project_planning_stage as PROJECT_PLANNING_STAGE;
-  },
-
-  /**
    * [프로젝트 상세 정보 조회]
-   * 프로젝트 상태에 따라 다른 테이블(projects 또는 project_plannings)에서 정보를 가져옵니다.
    */
   async getProjectDetail(projectId: string, isPlanning: boolean) {
     const table = isPlanning ? "project_plannings" : "projects";
 
-    try {
-      const { data, error } = await supabase
-        .from(table)
-        .select("*")
-        .eq("project_id", projectId)
-        .maybeSingle();
+    const { data, error } = await supabase
+      .from(table)
+      .select("*")
+      .eq("project_id", projectId)
+      .maybeSingle();
 
-      if (error) throw error;
-      if (!data) throw new Error("Project not found");
+    if (error) throw error;
+    if (!data) throw new Error("Project not found");
 
-      const today = new Date();
-      const endDate = new Date(data.project_end_date);
+    const today = new Date();
+    const endDate = new Date(data.project_end_date);
+    const project_status: PROJECT_STATUS_TYPE = isPlanning
+      ? "waiting"
+      : endDate < today
+        ? "done"
+        : "in progress";
 
-      const project_status = isPlanning
-        ? "planning"
-        : endDate < today
-          ? "done"
-          : "active";
-
-      return {
-        ...data,
-        project_status,
-      };
-    } catch (error) {
-      throw error;
-    }
+    return { ...data, project_status };
   },
 
   /**
-   * [프로젝트 페이지 및 할 일 목록 조회]
-   * 프로젝트에 종속된 기획 페이지들과 각 페이지별 할 일(Todo)을 조인하여 가져옵니다.
-   * @table project_planning_pages (기존 project_page_... 컬럼 기준)
+   * [프로젝트 페이지 + 페이지별 todos 조회]
+   * isPlanning: true  → project_planning_pages (todos 없음)
+   * isPlanning: false → project_pages + todos(project_page_id 있는 것)
    */
-  async getProjectPagesWithTodos(projectId: string) {
-    try {
-      // 페이지 정보와 해당 페이지의 할 일들을 가져옴
+  async getProjectPagesWithTodos(projectId: string, isPlanning: boolean) {
+    if (isPlanning) {
       const { data, error } = await supabase
         .from("project_planning_pages")
-        .select(
-          `
-          *,
-          todos:todos(*)
-        `,
-        )
-        .eq("project_id", projectId);
+        .select("*")
+        .eq("project_id", projectId)
+        .order("created_at", { ascending: true });
 
       if (error) throw error;
-      return data as Array<ProjectPageResponse & { todos: TodoResponse[] }>;
-    } catch (error) {
-      console.error("[getProjectPagesWithTodos Error]:", error);
-      throw error;
+      return (data ?? []).map((page) => ({ ...page, todos: [] }));
     }
+
+    // active: project_pages 조회
+    const { data: pages, error: pagesError } = await supabase
+      .from("project_pages")
+      .select("*")
+      .eq("project_id", projectId)
+      .order("created_at", { ascending: true });
+
+    if (pagesError) throw pagesError;
+    if (!pages || pages.length === 0) return [];
+
+    const pageIds = pages.map((p) => p.project_page_id);
+
+    // 페이지에 속한 todos (project_page_id 있는 것)
+    const { data: todos, error: todosError } = await supabase
+      .from("todos")
+      .select("*")
+      .in("project_page_id", pageIds);
+
+    if (todosError) throw todosError;
+
+    return pages.map((page) => ({
+      ...page,
+      todos: (todos ?? [])
+        .filter((t) => t.project_page_id === page.project_page_id)
+        .map((t) => ({
+          id: t.todo_id,
+          name: t.todo_name,
+          content: t.todo_content,
+          description: t.todo_description,
+          start_date: t.todo_start_date,
+          end_date: t.todo_end_date,
+          status: t.todo_status,
+          created_at: t.created_at,
+          project_page_id: t.project_page_id,
+        })),
+    }));
+  },
+
+  /**
+   * [프로젝트 전체 todos 조회]
+   * project_page_id = null 인 것만 (프로젝트 레벨 todo)
+   */
+  async getProjectTodos(projectId: string) {
+    const { data, error } = await supabase
+      .from("todos")
+      .select("*")
+      .eq("project_id", projectId)
+      .is("project_page_id", null)
+      .order("created_at", { ascending: true });
+
+    if (error) throw error;
+
+    return (data ?? []).map((t) => ({
+      id: t.todo_id,
+      client_id: t.todo_id,
+      name: t.todo_name,
+      content: t.todo_content,
+      description: t.todo_description,
+      start_date: t.todo_start_date,
+      end_date: t.todo_end_date,
+      status: t.todo_status,
+      created_at: t.created_at,
+    }));
   },
 
   /**
    * [프로젝트 기본 정보 업데이트]
-   * 확정된 프로젝트나 기획 중인 프로젝트의 메타데이터를 수정합니다.
    */
-  async updateProjectInfo(
-    projectId: string,
-    isPlanning: boolean,
-    updates: Partial<ProjectResponse>,
-  ) {
+  async updateProjectInfo(projectId: string, isPlanning: boolean, data: any) {
     const table = isPlanning ? "project_plannings" : "projects";
-    try {
-      const { data, error } = await supabase
-        .from(table)
-        .update({
-          project_name: updates.project_name,
-          project_topic: updates.project_topic,
-          project_description: updates.project_description,
-          project_start_date: updates.project_start_date,
-          project_end_date: updates.project_end_date,
-          project_main_color: updates.project_main_color,
-          project_style: updates.project_style,
-          project_effect: updates.project_effect,
-          project_stacks: updates.project_stacks,
-        })
-        .eq("project_id", projectId)
-        .select()
-        .single();
-
-      if (error) throw error;
-      return data;
-    } catch (error) {
-      console.error("[updateProjectInfo Error]:", error);
-      throw error;
-    }
-  },
-
-  /**
-   * [페이지 및 할 일 일괄 저장]
-   * 편집 모드에서 수정된 페이지 정보와 할 일들을 저장합니다.
-   */
-  async saveProjectStructure(
-    pages: Array<ProjectPageResponse & { todos: TodoResponse[] }>,
-  ) {
-    try {
-      for (const page of pages) {
-        // 1. 페이지 정보 업데이트
-        const { error: pageError } = await supabase
-          .from("project_planning_pages")
-          .upsert({
-            project_page_id: page.project_page_id,
-            project_page_name: page.project_page_name,
-            project_page_role: page.project_page_role,
-            project_page_function: page.project_page_function,
-            project_page_is_complete: page.project_page_is_complete,
-            project_id: page.project_id,
-          });
-
-        if (pageError) throw pageError;
-
-        // 2. 할 일(Todo) 목록 업데이트 (Upsert)
-        if (page.todos && page.todos.length > 0) {
-          const { error: todoError } = await supabase.from("todos").upsert(
-            page.todos.map((todo) => ({
-              ...todo,
-              project_page_id: page.project_page_id, // 외래키 연결
-            })),
-          );
-          if (todoError) throw todoError;
-        }
-      }
-      return { success: true };
-    } catch (error) {
-      console.error("[saveProjectStructure Error]:", error);
-      throw error;
-    }
-  },
-
-  /**
-   * [할 일 삭제]
-   */
-  async deleteTodo(todoId: string) {
-    const { error } = await supabase.from("todos").delete().eq("id", todoId);
+    const { error } = await supabase
+      .from(table)
+      .update({ ...data, updated_at: new Date().toISOString() })
+      .eq("project_id", projectId);
 
     if (error) throw error;
+  },
+
+  /**
+   * [페이지 구조 저장]
+   */
+  async saveProjectStructure(pages: any[]) {
+    for (const page of pages) {
+      const { error } = await supabase.from("project_pages").upsert({
+        project_page_id: page.project_page_id,
+        project_id: page.project_id,
+        project_page_name: page.project_page_name,
+        project_page_role: page.project_page_role,
+        project_page_function: page.project_page_function,
+        project_page_is_complete: page.project_page_is_complete,
+        updated_at: new Date().toISOString(),
+      });
+      if (error) throw error;
+    }
+  },
+
+  /**
+   * [Todo 업데이트]
+   */
+  async updateTodo(
+    todoId: string,
+    updates: {
+      todo_name: string;
+      todo_content: string;
+      todo_description: string;
+      todo_start_date: string;
+      todo_end_date: string;
+      todo_status: string;
+    },
+  ) {
+    const { error } = await supabase
+      .from("todos")
+      .update({ ...updates, updated_at: new Date().toISOString() })
+      .eq("todo_id", todoId);
+
+    if (error) throw error;
+  },
+
+  /**
+   * [Todo 삭제]
+   */
+  async deleteTodo(todoId: string) {
+    const { error } = await supabase
+      .from("todos")
+      .delete()
+      .eq("todo_id", todoId);
+
+    if (error) throw error;
+  },
+
+  /**
+   * [Todo 추가]
+   */
+  async addProjectTodo(
+    projectId: string,
+    todo: {
+      name: string;
+      content: string;
+      description: string;
+      start_date: string;
+      end_date: string;
+      status: string;
+    },
+  ) {
+    const { data, error } = await supabase
+      .from("todos")
+      .insert({
+        todo_name: todo.name,
+        todo_content: todo.content,
+        todo_description: todo.description,
+        todo_start_date: todo.start_date,
+        todo_end_date: todo.end_date,
+        todo_status: todo.status,
+        project_id: projectId,
+        project_page_id: null,
+      })
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data;
+  },
+
+  /**
+   * [기획 단계 조회]
+   */
+  async getProjectPlanningStage(projectId: string) {
+    const { data, error } = await supabase
+      .from("project_plannings")
+      .select("project_planning_stage")
+      .eq("project_id", projectId)
+      .maybeSingle();
+
+    if (error) throw error;
+    return data?.project_planning_stage ?? "chat";
   },
 };

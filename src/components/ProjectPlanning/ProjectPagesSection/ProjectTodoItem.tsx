@@ -73,7 +73,7 @@ export const ProjectTodoItem: React.FC<TodoItemProps> = ({
             <div className="flex items-center space-x-1">
               <span
                 className={`px-2 py-1 rounded text-xs text-white ${getStatusColor(
-                  todo.status
+                  todo.status,
                 )}`}
               >
                 {todo.status}

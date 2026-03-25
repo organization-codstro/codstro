@@ -18,6 +18,7 @@ import { ProjectTodoModal } from "../../components/ProjectPlanning/ProjectInfoGe
 import { ProjectInfoGenerateService } from "../../api/ProjectPlanning/ProjectInfoGeneratePage";
 import { SavePlanningDraftParams } from "../../types/api/ProjectPlanning/ProjectInfoGeneratePage";
 import { getKSTDateString } from "../../util/date/getKSTDateString";
+import { SaveDraftWarningModal } from "../../components/ProjectPlanning/ProjectInfoGeneratePage/SaveDraftWarningModal";
 
 export default function ProjectInfoGeneratePage() {
   const navigate = useNavigate();
@@ -49,6 +50,7 @@ export default function ProjectInfoGeneratePage() {
     null,
   );
   const [showTodoForm, setShowTodoForm] = useState(false);
+  const [showSaveDraftWarning, setShowSaveDraftWarning] = useState(false);
   const [projectTodos, setProjectTodos] = useState<UITodo[]>([]);
   const [pages, setPages] = useState<
     Array<ProjectPage & { todos: ProjectTodo[] }>
@@ -169,12 +171,10 @@ export default function ProjectInfoGeneratePage() {
     };
   };
 
-  // 4. 중간 저장 핸들러
-  const handleSaveDraft = async () => {
+  const executeSaveDraft = async () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
     const toastId = toast.loading("기획안을 임시 저장 중입니다...");
-
     try {
       await ProjectInfoGenerateService.savePlanningDraft(getSaveParams());
       toast.update(toastId, {
@@ -194,6 +194,15 @@ export default function ProjectInfoGeneratePage() {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  // 4. 중간 저장 핸들러
+  const handleSaveDraft = async () => {
+    if (projectTodos.length > 0) {
+      setShowSaveDraftWarning(true);
+      return;
+    }
+    await executeSaveDraft();
   };
 
   // 5. 최종 프로젝트 생성 (Active 전환)
@@ -250,7 +259,7 @@ export default function ProjectInfoGeneratePage() {
   };
 
   const deleteProjectTodo = (todoId: string) => {
-    setProjectTodos((prev) => prev.filter((t) => t.id !== todoId));
+    setProjectTodos((prev) => prev.filter((t) => t.client_id !== todoId));
   };
 
   const addProjectTodo = (todo: NewProjectTodo) => {
@@ -393,6 +402,16 @@ export default function ProjectInfoGeneratePage() {
         isOpen={showTodoForm}
         onClose={() => setShowTodoForm(false)}
         onAdd={addProjectTodo}
+      />
+
+      <SaveDraftWarningModal
+        isOpen={showSaveDraftWarning}
+        todoCount={projectTodos.length}
+        onConfirm={() => {
+          setShowSaveDraftWarning(false);
+          executeSaveDraft();
+        }}
+        onClose={() => setShowSaveDraftWarning(false)}
       />
     </div>
   );

@@ -1,6 +1,6 @@
-import { newTodo } from "../../../../common/projectPlanning";
+import { NewProjectTodo } from "../../../../common/projectPlanning";
 
 export interface TodoFormProps {
-  onAdd: (todo: newTodo) => void;
+  onAdd: (todo: NewProjectTodo) => void;
   onCancel: () => void;
 }

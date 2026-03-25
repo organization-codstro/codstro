@@ -91,7 +91,7 @@ export const ProjectInfoGenerateService = {
   async savePlanningDraft(params: SavePlanningDraftParams) {
     console.log("projectId:", params.projectId);
     const { data, error } = await supabase
-      .from("projects")
+      .from("project_plannings")
       .select("project_id, user_id")
       .eq("project_id", params.projectId);
 
@@ -134,37 +134,37 @@ export const ProjectInfoGenerateService = {
 
         if (pageError) throw pageError;
 
-        // if (page.todos.length > 0) {
-        //   await supabase.from("todos").upsert(
-        //     page.todos.map((t) => ({
-        //       todo_id: t.todo_id,
-        //       project_id: params.projectId,
-        //       todo_name: t.todo_name,
-        //       todo_content: t.todo_content,
-        //       todo_description: t.todo_description ?? "",
-        //       todo_start_date: t.todo_start_date,
-        //       todo_end_date: t.todo_end_date,
-        //       todo_status: t.todo_status,
-        //     })),
-        //   );
-        // }
+        if (page.todos.length > 0) {
+          await supabase.from("todos").upsert(
+            page.todos.map((t) => ({
+              todo_id: t.todo_id,
+              project_id: params.projectId,
+              todo_name: t.todo_name,
+              todo_content: t.todo_content,
+              todo_description: t.todo_description ?? "",
+              todo_start_date: t.todo_start_date,
+              todo_end_date: t.todo_end_date,
+              todo_status: t.todo_status,
+            })),
+          );
+        }
       }
 
       // 3. 프로젝트 전체 할 일 저장
-      // if (params.projectTodos.length > 0) {
-      //   await supabase.from("todos").upsert(
-      //     params.projectTodos.map((t) => ({
-      //       todo_id: t.todo_id, // id → todo_id
-      //       project_id: params.projectId,
-      //       todo_name: t.todo_name, // name → todo_name
-      //       todo_content: t.todo_content, // content → todo_content
-      //       todo_description: t.todo_description ?? "", // description → todo_description
-      //       todo_start_date: t.todo_start_date, // start_date → todo_start_date
-      //       todo_end_date: t.todo_end_date, // end_date → todo_end_date
-      //       todo_status: t.todo_status, // status → todo_status
-      //     })),
-      //   );
-      // }
+      if (params.projectTodos.length > 0) {
+        await supabase.from("todos").upsert(
+          params.projectTodos.map((t) => ({
+            todo_id: t.todo_id, // id → todo_id
+            project_id: params.projectId,
+            todo_name: t.todo_name, // name → todo_name
+            todo_content: t.todo_content, // content → todo_content
+            todo_description: t.todo_description ?? "", // description → todo_description
+            todo_start_date: t.todo_start_date, // start_date → todo_start_date
+            todo_end_date: t.todo_end_date, // end_date → todo_end_date
+            todo_status: t.todo_status, // status → todo_status
+          })),
+        );
+      }
       return { success: true };
     } catch (error) {
       console.error("[savePlanningDraft Error]:", error);
@@ -269,6 +269,12 @@ export const ProjectInfoGenerateService = {
       }
 
       // 5. planning 데이터 삭제 (초기화)
+
+      await supabase
+        .from("project_planning_logs")
+        .delete()
+        .eq("project_id", params.projectId);
+
       await supabase
         .from("project_planning_pages")
         .delete()

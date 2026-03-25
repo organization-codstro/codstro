@@ -1,54 +1,39 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { Edit, Save, X } from "lucide-react";
 import "react-toastify/dist/ReactToastify.css";
 
-// ── 타입 ──────────────────────────────────────────────────────
 import {
   ProjectPage,
   ProjectTodo,
   ProjectPageWithTodos,
 } from "../../../types/common/projectPlanning";
-import { PROJECT_STATUS_TYPE } from "../../../constants/ProjectPlanning/ProjectPlanning";
+import {
+  GET_NEXT_STATUS,
+  PROJECT_STATUS_TYPE,
+  PROJECT_STATUS_TYPE_ARRAY,
+  STATUS_LABEL,
+  STATUS_STYLE,
+} from "../../../constants/ProjectPlanning/ProjectPlanning";
 import { ProjectPagesSectionProps } from "../../../types/pages/ProjectPlanning/ProjectPagesSection/ProjectPagesSection";
 
-// ── 하위 컴포넌트 ─────────────────────────────────────────────
 import { ProjectTodoItem } from "./ProjectTodoItem";
 import { ProjectPageHeader } from "./ProjectPageHeader";
 
-// Supabase API 호출 없음 — 저장은 부모의 Save/Create 버튼에서 일괄 처리
-
-// 상태 순환: waiting → in progress → done → waiting
-const STATUS_CYCLE: PROJECT_STATUS_TYPE[] = ["waiting", "in progress", "done"];
-
-const getNextStatus = (current: PROJECT_STATUS_TYPE): PROJECT_STATUS_TYPE => {
-  const idx = STATUS_CYCLE.indexOf(current);
-  return STATUS_CYCLE[(idx + 1) % STATUS_CYCLE.length];
-};
-
-const STATUS_STYLE: Record<PROJECT_STATUS_TYPE, string> = {
-  waiting: "bg-gray-100 text-gray-700 hover:bg-gray-200",
-  "in progress": "bg-blue-100 text-blue-700 hover:bg-blue-200",
-  done: "bg-green-100 text-green-700 hover:bg-green-200",
-};
-
-const STATUS_LABEL: Record<PROJECT_STATUS_TYPE, string> = {
-  waiting: "Waiting",
-  "in progress": "In Progress",
-  done: "✓ Done",
-};
 
 export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
   pages,
   expandedPage,
   setExpandedPage,
   getStatusColor,
-  onUpdatePage,
   onUpdateTodo,
   onDeleteTodo,
   onDeletePage,
   onAddTodo,
   onAddPage,
+  onSave,
 }) => {
+  const [isEditing, setIsEditing] = useState(false);
   const [editingPageId, setEditingPageId] = useState<string | null>(null);
   const [editingTodoId, setEditingTodoId] = useState<{
     pageId: string;
@@ -56,6 +41,8 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
   } | null>(null);
 
   const [editedPages, setEditedPages] = useState<ProjectPageWithTodos[]>(pages);
+  const [workingPages, setWorkingPages] =
+    useState<ProjectPageWithTodos[]>(pages);
 
   const [deletePending, setDeletePending] = useState<{
     type: "page" | "todo";
@@ -64,6 +51,7 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
 
   useEffect(() => {
     setEditedPages(pages);
+    setWorkingPages(pages);
   }, [pages]);
 
   useEffect(() => {
@@ -72,11 +60,31 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
     return () => clearTimeout(timer);
   }, [deletePending]);
 
+  const handleEdit = () => {
+    setWorkingPages(editedPages);
+    setIsEditing(true);
+  };
+
+  const handleCancel = () => {
+    setWorkingPages(editedPages);
+    setEditingPageId(null);
+    setEditingTodoId(null);
+    setIsEditing(false);
+  };
+
+  const handleSave = async () => {
+    await onSave?.(workingPages);
+    setEditedPages(workingPages);
+    setEditingPageId(null);
+    setEditingTodoId(null);
+    setIsEditing(false);
+  };
+
   const patchLocalPage = (
     pageId: string,
     partial: Partial<ProjectPageWithTodos>,
   ) => {
-    setEditedPages((prev) =>
+    setWorkingPages((prev) =>
       prev.map((p) =>
         p.project_page_id === pageId ? { ...p, ...partial } : p,
       ),
@@ -88,7 +96,7 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
     todoId: string,
     partial: Partial<ProjectTodo>,
   ) => {
-    setEditedPages((prev) =>
+    setWorkingPages((prev) =>
       prev.map((p) =>
         p.project_page_id === pageId
           ? {
@@ -102,19 +110,16 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
     );
   };
 
-  // ── 개발 상태 순환 토글 ────────────────────────────────────
   const handleCyclePageStatus = (
     e: React.MouseEvent,
     page: ProjectPageWithTodos,
   ) => {
     e.stopPropagation();
+    if (!isEditing) return;
     const currentStatus =
       (page.project_page_status as PROJECT_STATUS_TYPE) ?? "waiting";
-    const next = getNextStatus(currentStatus);
-    onUpdatePage?.(page.project_page_id, {
-      ...page,
-      project_page_status: next,
-    });
+    const next = GET_NEXT_STATUS(currentStatus);
+    patchLocalPage(page.project_page_id, { project_page_status: next });
   };
 
   const updatePageField = (
@@ -126,15 +131,14 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
   };
 
   const handleSavePage = (pageId: string) => {
-    const page = editedPages.find((p) => p.project_page_id === pageId);
+    const page = workingPages.find((p) => p.project_page_id === pageId);
     if (!page) return;
-    onUpdatePage?.(pageId, page);
     setEditingPageId(null);
   };
 
   const handleCancelPage = () => {
     setEditingPageId(null);
-    setEditedPages(pages);
+    setWorkingPages(editedPages);
   };
 
   const handleDeleteAction = (
@@ -144,6 +148,7 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
     parentPageId?: string,
   ) => {
     e.stopPropagation();
+    if (!isEditing) return;
 
     const isConfirm = deletePending?.type === type && deletePending?.id === id;
     if (!isConfirm) {
@@ -154,18 +159,27 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
     setDeletePending(null);
 
     if (type === "page") {
+      setWorkingPages((prev) => prev.filter((p) => p.project_page_id !== id));
       onDeletePage?.(id);
       toast.success("페이지가 삭제되었습니다.");
       return;
     }
 
     if (type === "todo" && parentPageId) {
+      setWorkingPages((prev) =>
+        prev.map((p) =>
+          p.project_page_id === parentPageId
+            ? { ...p, todos: p.todos.filter((t) => t.id !== id) }
+            : p,
+        ),
+      );
       onDeleteTodo?.(parentPageId, id);
       toast.success("작업이 삭제되었습니다.");
     }
   };
 
   const handleAddTodo = (pageId: string) => {
+    if (!isEditing) return;
     const today = new Date().toISOString().split("T")[0];
     const newTodo: ProjectTodo = {
       id: crypto.randomUUID(),
@@ -178,9 +192,30 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
       created_at: today,
       project_page_id: pageId,
     };
-
+    setWorkingPages((prev) =>
+      prev.map((p) =>
+        p.project_page_id === pageId
+          ? { ...p, todos: [...p.todos, newTodo] }
+          : p,
+      ),
+    );
     onAddTodo?.(pageId, newTodo);
     setEditingTodoId({ pageId, todoId: newTodo.id });
+  };
+
+  const handleAddPage = () => {
+    if (!isEditing) return;
+    const newPage: ProjectPageWithTodos = {
+      project_page_id: crypto.randomUUID(),
+      project_page_name: "New Page",
+      project_page_role: "",
+      project_page_function: "",
+      project_page_is_complete: false,
+      project_id: "",
+      todos: [],
+    };
+    setWorkingPages((prev) => [...prev, newPage]);
+    onAddPage?.(newPage);
   };
 
   const updateTodoField = (
@@ -193,7 +228,7 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
   };
 
   const handleSaveTodo = (pageId: string, todoId: string) => {
-    const todo = editedPages
+    const todo = workingPages
       .find((p) => p.project_page_id === pageId)
       ?.todos.find((t) => t.id === todoId);
     if (!todo) return;
@@ -202,12 +237,14 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
   };
 
   const handleCancelTodo = (pageId: string, todoId: string) => {
-    const original = pages
+    const original = editedPages
       .find((p) => p.project_page_id === pageId)
       ?.todos.find((t) => t.id === todoId);
     if (original) patchLocalTodo(pageId, todoId, original);
     setEditingTodoId(null);
   };
+
+  const displayPages = isEditing ? workingPages : editedPages;
 
   return (
     <div
@@ -216,18 +253,51 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
     >
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-gray-900">Project Pages</h2>
-        <button
-          type="button"
-          onClick={onAddPage}
-          className="px-3 py-1 text-sm font-medium text-blue-600 hover:text-blue-700"
-        >
-          + Add Page
-        </button>
+        <div className="flex items-center gap-2">
+          {isEditing ? (
+            <>
+              <button
+                type="button"
+                onClick={handleAddPage}
+                className="px-3 py-1 text-sm font-medium text-blue-600 hover:text-blue-700"
+              >
+                + Add Page
+              </button>
+              <button
+                type="button"
+                onClick={handleCancel}
+                className="flex items-center gap-1 px-3 py-1 text-sm text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50"
+              >
+                <X className="w-3.5 h-3.5" />
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleSave}
+                className="flex items-center gap-1 px-3 py-1 text-sm text-white rounded-lg bg-[#587CF0]"
+              >
+                <Save className="w-3.5 h-3.5" />
+                Save
+              </button>
+            </>
+          ) : (
+            onSave && (
+              <button
+                type="button"
+                onClick={handleEdit}
+                className="flex items-center gap-1 px-3 py-1 text-sm text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50"
+              >
+                <Edit className="w-3.5 h-3.5" />
+                Edit
+              </button>
+            )
+          )}
+        </div>
       </div>
 
       <div className="space-y-3">
-        {editedPages.map((page) => {
-          const isEditing = editingPageId === page.project_page_id;
+        {displayPages.map((page) => {
+          const isEditingThisPage = editingPageId === page.project_page_id;
           const isExpanded = expandedPage === page.project_page_id;
           const pageStatus = ((page as any).project_page_status ??
             "waiting") as PROJECT_STATUS_TYPE;
@@ -239,7 +309,7 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
             >
               <ProjectPageHeader
                 page={page}
-                isEditing={isEditing}
+                isEditing={isEditingThisPage}
                 isExpanded={isExpanded}
                 isPagePending={
                   deletePending?.type === "page" &&
@@ -253,17 +323,22 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                 }
                 onSave={() => handleSavePage(page.project_page_id)}
                 onCancel={handleCancelPage}
-                onEdit={() => setEditingPageId(page.project_page_id)}
-                onDelete={(e) =>
-                  handleDeleteAction(e, "page", page.project_page_id)
+                onEdit={
+                  isEditing
+                    ? () => setEditingPageId(page.project_page_id)
+                    : undefined
+                }
+                onDelete={
+                  isEditing
+                    ? (e) => handleDeleteAction(e, "page", page.project_page_id)
+                    : undefined
                 }
               />
 
               {isExpanded && (
                 <div className="p-4 space-y-4 bg-white">
-                  {/* 이 페이지의 개발 상태 */}
                   <div className="space-y-3">
-                    {isEditing ? (
+                    {isEditingThisPage ? (
                       <div className="space-y-2">
                         <label className="block text-xs font-medium text-gray-700">
                           Role
@@ -280,21 +355,19 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                           }
                           className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
                         />
-                        {/* 편집 모드에서도 상태 선택 가능 */}
                         <div>
                           <label className="block mb-1 text-xs font-medium text-gray-700">
                             이 페이지의 개발 상태
                           </label>
                           <div className="flex gap-2">
-                            {STATUS_CYCLE.map((s) => (
+                            {PROJECT_STATUS_TYPE_ARRAY.map((s) => (
                               <button
                                 key={s}
                                 type="button"
                                 onClick={() =>
-                                  onUpdatePage?.(page.project_page_id, {
-                                    ...page,
+                                  patchLocalPage(page.project_page_id, {
                                     project_page_status: s,
-                                  } as any)
+                                  })
                                 }
                                 className={`px-2 py-1 rounded text-xs font-medium border transition-colors ${
                                   pageStatus === s
@@ -314,12 +387,11 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                         <span className="font-medium text-gray-500">
                           이 페이지의 개발 상태
                         </span>
-                        {/* 클릭할 때마다 waiting → in progress → done 순환 */}
                         <button
                           type="button"
                           onClick={(e) => handleCyclePageStatus(e, page)}
-                          title="클릭하여 상태 변경"
-                          className={`px-2 py-1 rounded text-xs font-medium transition-colors select-none ${STATUS_STYLE[pageStatus]}`}
+                          title={isEditing ? "클릭하여 상태 변경" : undefined}
+                          className={`px-2 py-1 rounded text-xs font-medium transition-colors select-none ${STATUS_STYLE[pageStatus]} ${!isEditing ? "cursor-default" : ""}`}
                         >
                           {STATUS_LABEL[pageStatus]}
                         </button>
@@ -327,28 +399,31 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                     )}
                   </div>
 
-                  {/* Tasks */}
                   <div className="pt-3 border-t border-gray-200">
                     <div className="flex items-center justify-between mb-2">
                       <p className="text-xs font-medium text-gray-500">
                         Tasks ({page.todos.length})
                       </p>
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleAddTodo(page.project_page_id);
-                        }}
-                        className="px-2 py-1 text-xs font-medium text-blue-600 hover:text-blue-700"
-                      >
-                        + Add Task
-                      </button>
+                      {isEditing && (
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleAddTodo(page.project_page_id);
+                          }}
+                          className="px-2 py-1 text-xs font-medium text-blue-600 hover:text-blue-700"
+                        >
+                          + Add Task
+                        </button>
+                      )}
                     </div>
 
                     <div className="space-y-2">
                       {page.todos.length === 0 && (
                         <p className="py-3 text-xs text-center text-gray-400">
-                          작업이 없습니다. + Add Task를 눌러 추가하세요.
+                          {isEditing
+                            ? "작업이 없습니다. + Add Task를 눌러 추가하세요."
+                            : "작업이 없습니다."}
                         </p>
                       )}
                       {page.todos.map((todo) => (
@@ -363,7 +438,7 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                             deletePending?.type === "todo" &&
                             deletePending?.id === todo.id
                           }
-                          canEdit={true}
+                          canEdit={isEditing}
                           getStatusColor={getStatusColor}
                           onUpdateField={(f, v) =>
                             updateTodoField(
@@ -373,11 +448,14 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                               v,
                             )
                           }
-                          onStartEdit={() =>
-                            setEditingTodoId({
-                              pageId: page.project_page_id,
-                              todoId: todo.id,
-                            })
+                          onStartEdit={
+                            isEditing
+                              ? () =>
+                                  setEditingTodoId({
+                                    pageId: page.project_page_id,
+                                    todoId: todo.id,
+                                  })
+                              : undefined
                           }
                           onSave={() =>
                             handleSaveTodo(page.project_page_id, todo.id)
@@ -385,13 +463,16 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
                           onCancel={() =>
                             handleCancelTodo(page.project_page_id, todo.id)
                           }
-                          onDelete={(e) =>
-                            handleDeleteAction(
-                              e,
-                              "todo",
-                              todo.id,
-                              page.project_page_id,
-                            )
+                          onDelete={
+                            isEditing
+                              ? (e) =>
+                                  handleDeleteAction(
+                                    e,
+                                    "todo",
+                                    todo.id,
+                                    page.project_page_id,
+                                  )
+                              : undefined
                           }
                         />
                       ))}

@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useRef, useState } from "react";
 import { Calendar, Trash2, X, Check } from "lucide-react";
 import { UITodo } from "../../../../types/common/projectPlanning";
 import { ProjectTodoItemProps } from "../../../../types/pages/ProjectPlanning/ProjectInfoGeneratePage/ProjectTasksSection/ProjectTodoItem";
@@ -12,19 +12,48 @@ export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
   onDelete,
   getStatusColor,
 }) => {
-  const [editedTodo, setEditedTodo] = React.useState<UITodo>(todo);
+  const [editedTodo, setEditedTodo] = useState<UITodo>(todo);
+  const [deleteConfirming, setDeleteConfirming] = useState(false);
+  const deleteTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setEditedTodo(todo);
-  }, [todo, isEditing]);
+  }, [todo]);
+
+  useEffect(() => {
+    if (isEditing) {
+      setDeleteConfirming(false);
+    }
+  }, [isEditing]);
+
+  useEffect(() => {
+    return () => {
+      if (deleteTimerRef.current) clearTimeout(deleteTimerRef.current);
+    };
+  }, []);
 
   const handleSave = () => {
     onUpdate(todo.client_id, editedTodo);
+    onCancelEdit();
   };
 
   const handleCancel = () => {
     setEditedTodo(todo);
     onCancelEdit();
+  };
+
+  const handleDeleteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    if (!deleteConfirming) {
+      setDeleteConfirming(true);
+      deleteTimerRef.current = setTimeout(() => {
+        setDeleteConfirming(false);
+      }, 3000);
+    } else {
+      if (deleteTimerRef.current) clearTimeout(deleteTimerRef.current);
+      onDelete(todo.client_id);
+    }
   };
 
   return (
@@ -40,9 +69,9 @@ export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
         <div className="space-y-3">
           <input
             type="text"
-            value={editedTodo.content}
+            value={editedTodo.name}
             onChange={(e) =>
-              setEditedTodo({ ...editedTodo, content: e.target.value })
+              setEditedTodo({ ...editedTodo, name: e.target.value })
             }
             placeholder="Task name"
             className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-400"
@@ -61,12 +90,9 @@ export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
           />
 
           <textarea
-            value={editedTodo.description}
+            value={editedTodo.description ?? ""}
             onChange={(e) =>
-              setEditedTodo({
-                ...editedTodo,
-                description: e.target.value,
-              })
+              setEditedTodo({ ...editedTodo, description: e.target.value })
             }
             placeholder="Task description"
             rows={2}
@@ -83,16 +109,12 @@ export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
                 type="date"
                 value={editedTodo.start_date}
                 onChange={(e) =>
-                  setEditedTodo({
-                    ...editedTodo,
-                    start_date: e.target.value,
-                  })
+                  setEditedTodo({ ...editedTodo, start_date: e.target.value })
                 }
                 className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-400"
                 onClick={(e) => e.stopPropagation()}
               />
             </div>
-
             <div>
               <label className="block mb-1 text-xs font-medium text-gray-700">
                 End Date
@@ -101,10 +123,7 @@ export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
                 type="date"
                 value={editedTodo.end_date}
                 onChange={(e) =>
-                  setEditedTodo({
-                    ...editedTodo,
-                    end_date: e.target.value,
-                  })
+                  setEditedTodo({ ...editedTodo, end_date: e.target.value })
                 }
                 className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-400"
                 onClick={(e) => e.stopPropagation()}
@@ -132,16 +151,19 @@ export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
             <div className="flex space-x-2">
               <button
                 type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (window.confirm("정말 삭제하시겠습니까?")) {
-                    onDelete(todo.client_id);
-                  }
-                }}
-                className="p-2 text-red-600 rounded hover:bg-red-50"
+                onClick={handleDeleteClick}
+                className={`p-2 rounded transition-colors ${
+                  deleteConfirming
+                    ? "bg-red-500 text-white hover:bg-red-600"
+                    : "text-red-400 hover:bg-red-50"
+                }`}
+                title={
+                  deleteConfirming ? "한 번 더 클릭하면 삭제됩니다" : "삭제"
+                }
               >
                 <Trash2 className="w-4 h-4" />
               </button>
+
               <button
                 type="button"
                 onClick={(e) => {
@@ -152,6 +174,7 @@ export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
               >
                 <X className="w-4 h-4" />
               </button>
+
               <button
                 type="button"
                 onClick={(e) => {
@@ -169,13 +192,27 @@ export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
         <div className="cursor-pointer">
           <div className="flex items-center justify-between mb-2">
             <h4 className="font-medium text-gray-900">{todo.name}</h4>
-            <span
-              className={`px-2 py-1 rounded text-xs text-white ${getStatusColor(
-                todo.start_date,
-              )}`}
-            >
-              {todo.start_date}
-            </span>
+            <div className="flex items-center gap-2">
+              <span
+                className={`px-2 py-1 rounded text-xs text-white ${getStatusColor(todo.status)}`}
+              >
+                {todo.status}
+              </span>
+              <button
+                type="button"
+                onClick={handleDeleteClick}
+                className={`p-1.5 rounded transition-colors ${
+                  deleteConfirming
+                    ? "bg-red-500 text-white hover:bg-red-600"
+                    : "text-red-300 hover:bg-red-50"
+                }`}
+                title={
+                  deleteConfirming ? "한 번 더 클릭하면 삭제됩니다" : "삭제"
+                }
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+              </button>
+            </div>
           </div>
 
           <p className="mb-2 text-sm text-gray-600">{todo.content}</p>
@@ -184,7 +221,7 @@ export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({
           <div className="flex items-center space-x-2 text-xs text-gray-500">
             <Calendar className="w-3 h-3" />
             <span>
-              {todo.start_date} - {todo.end_date}
+              {todo.start_date} ~ {todo.end_date}
             </span>
           </div>
         </div>

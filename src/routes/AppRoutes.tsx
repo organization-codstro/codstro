@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import * as Page from "./pages";
 
 export default function AppRoutes() {
@@ -13,7 +13,7 @@ export default function AppRoutes() {
       {/* ================= 서비스 영역 (Layout 적용) ================= */}
       <Route element={<Page.Layout />}>
         {/* 기본 진입 */}
-        {/* <Route path="/" element={<Navigate to="/woomoonjeong" replace />} /> */}
+        <Route path="/" element={<Navigate to="/woomoonjeong" replace />} />
 
         {/* ================= Woomoonjeong ================= */}
         <Route path="/woomoonjeong" element={<Page.TodoManagement />} />
