@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Clock, Edit, Save, X } from "lucide-react";
+import { Clock } from "lucide-react";
 import { toast } from "react-toastify";
 import {
   ProjectPage,
@@ -13,7 +13,6 @@ import {
 import { ProjectPagesSection } from "../../components/ProjectPlanning/ProjectPagesSection/ProjectPagesSection";
 import { ProjectDetailHeader } from "../../components/ProjectPlanning/ProjectDetailPage/ProjectDetailHeader";
 import { ProjectInfoView } from "../../components/ProjectPlanning/ProjectDetailPage/ProjectInfoView";
-import { ProjectPagesView } from "../../components/ProjectPlanning/ProjectDetailPage/ProjectPagesView";
 import { ProjectTasksSection } from "../../components/ProjectPlanning/ProjectInfoGeneratePage/ProjectTasksSection/ProjectTasksSection";
 import { ProjectTodoModal } from "../../components/ProjectPlanning/ProjectInfoGeneratePage/ProjectTodoModal/ProjectTodoModal";
 import { ProjectDetailService } from "../../api/ProjectPlanning/ProjectDetailPage";
@@ -274,7 +273,7 @@ export default function ProjectDetailPage() {
       />
 
       <div className="p-8 mx-auto max-w-7xl">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-start">
           {/* Left: 기본 정보 & 페이지 구성 */}
           <div className="space-y-6">
             {/* Project Information - 내부에서 편집 */}

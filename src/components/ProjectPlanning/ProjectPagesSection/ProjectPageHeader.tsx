@@ -81,28 +81,32 @@ export const ProjectPageHeader: React.FC<PageHeaderProps> = ({
               <X className="w-4 h-4" />
             </button>
           </div>
-        ) : (
+        ) : onEdit || onDelete ? (
           <div className="flex items-center space-x-1">
-            <button
-              onClick={onEdit}
-              className="p-2 text-blue-600 transition-all bg-white border border-gray-200 rounded-md shadow-sm hover:bg-blue-50"
-              title="Edit Page"
-            >
-              <Edit2 className="w-4 h-4" />
-            </button>
-            <button
-              onClick={onDelete}
-              className={`p-2 transition-all rounded-md border ${
-                isPagePending
-                  ? "bg-red-500 text-white border-red-500 shadow-md scale-105"
-                  : "text-gray-400 bg-white border-gray-200 hover:text-red-500 hover:bg-red-50"
-              }`}
-              title={isPagePending ? "한 번 더 눌러서 삭제" : "Delete Page"}
-            >
-              <Trash2 className="w-4 h-4" />
-            </button>
+            {onEdit && (
+              <button
+                onClick={onEdit}
+                className="p-2 text-blue-600 transition-all bg-white border border-gray-200 rounded-md shadow-sm hover:bg-blue-50"
+                title="Edit Page"
+              >
+                <Edit2 className="w-4 h-4" />
+              </button>
+            )}
+            {onDelete && (
+              <button
+                onClick={onDelete}
+                className={`p-2 transition-all rounded-md border ${
+                  isPagePending
+                    ? "bg-red-500 text-white border-red-500 shadow-md scale-105"
+                    : "text-gray-400 bg-white border-gray-200 hover:text-red-500 hover:bg-red-50"
+                }`}
+                title={isPagePending ? "한 번 더 눌러서 삭제" : "Delete Page"}
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
+            )}
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   );

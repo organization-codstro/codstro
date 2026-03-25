@@ -27,7 +27,7 @@ export const PackageManagerService = {
           category: package_manager_description_material_category,
           documentUrl: package_manager_description_material_document_url,
           representativeImageUrl: package_manager_description_material_image_url,
-          imageUrls : third_party_services_description_material_image_urls
+          imageUrls : package_manager_description_material_image_urls
         `,
         )
         .eq("package_manager_description_material_id", materialId)

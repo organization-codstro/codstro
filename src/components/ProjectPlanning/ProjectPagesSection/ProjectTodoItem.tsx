@@ -86,16 +86,18 @@ export const ProjectTodoItem: React.FC<TodoItemProps> = ({
                   <Edit2 className="w-3 h-3" />
                 </button>
               )}
-              <button
-                onClick={onDelete}
-                className={`p-1 transition-all rounded ${
-                  isTodoPending
-                    ? "bg-red-500 text-white scale-110"
-                    : "text-gray-400 hover:text-red-500 hover:bg-red-50"
-                }`}
-              >
-                <Trash2 className="w-3 h-3" />
-              </button>
+              {onDelete && (
+                <button
+                  onClick={onDelete}
+                  className={`p-1 transition-all rounded ${
+                    isTodoPending
+                      ? "bg-red-500 text-white scale-110"
+                      : "text-gray-400 hover:text-red-500 hover:bg-red-50"
+                  }`}
+                >
+                  <Trash2 className="w-3 h-3" />
+                </button>
+              )}
             </div>
           )}
         </div>

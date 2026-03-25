@@ -13,7 +13,7 @@ export const ProjectTasksSection: React.FC<ProjectTasksSectionProps> = ({
   onAddClick,
 }) => {
   return (
-    <div className="p-6 bg-white border border-gray-200 rounded-lg">
+    <div className="sticky p-6 bg-white border border-gray-200 rounded-lg top-8">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-gray-900">Project Tasks</h2>
         <button
@@ -27,7 +27,7 @@ export const ProjectTasksSection: React.FC<ProjectTasksSectionProps> = ({
         </button>
       </div>
 
-      <div className="space-y-3 overflow-y-auto h-[1280px]">
+      <div className="space-y-3 overflow-y-auto max-h-[calc(100vh-200px)]">
         {projectTodos.length === 0 ? (
           <p className="py-4 text-sm text-center text-gray-500">
             No project tasks yet
