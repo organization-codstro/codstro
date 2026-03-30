@@ -15,18 +15,19 @@ export const ProjectDetailHeader = ({
     <div className="px-8 py-6 bg-white border-b border-gray-200">
       <div className="mx-auto max-w-7xl">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <button
-              onClick={onBack}
-              className="p-2 text-gray-600 transition-colors rounded-lg hover:bg-gray-100"
-            >
-              <ArrowLeft className="w-5 h-5" />
-            </button>
+          <div className="flex items-center ml-10 space-x-4">
             <div>
               <div className="flex items-center space-x-3">
+                <button
+                  onClick={onBack}
+                  className="p-2 pr-4 text-gray-600 transition-colors rounded-lg hover:bg-gray-100"
+                >
+                  <ArrowLeft className="w-5 h-5" />
+                </button>
                 <h1 className="text-2xl font-bold text-gray-900">
                   {project.project_name}
                 </h1>
+
                 {isPlanning ? (
                   <span className="flex items-center px-3 py-1 space-x-1 text-sm font-medium text-orange-700 bg-orange-100 rounded-full">
                     <Clock className="w-4 h-4" />
@@ -39,7 +40,9 @@ export const ProjectDetailHeader = ({
                   </span>
                 )}
               </div>
-              <p className="mt-1 text-gray-600">{project.project_topic}</p>
+              <p className="mt-1 text-gray-600 pl-14">
+                {project.project_topic}
+              </p>
             </div>
           </div>
 

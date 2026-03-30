@@ -1,6 +1,7 @@
 import { ProjectPage, ProjectPageWithTodos, ProjectTodo } from "../../../common/projectPlanning";
 
 export interface ProjectPagesSectionProps {
+  projectId : string
   pages: Array<ProjectPage & { todos: ProjectTodo[] }>;
   expandedPage: string | null;
   setExpandedPage: (id: string | null) => void;

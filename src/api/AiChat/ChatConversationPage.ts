@@ -150,7 +150,7 @@ export const ChatConversationService = {
     chat_room_id: string;
     userMessage: SendMessageParams;
   }) {
-    const { error } = await supabase.functions.invoke("ai-chat", {
+    const { error } = await supabase.functions.invoke("ai_chat-chat", {
       body: {
         chat_room_id: params.chat_room_id,
         userMessage: params.userMessage,

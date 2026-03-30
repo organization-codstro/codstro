@@ -19,7 +19,7 @@ export const MeetingCreateService = {
   async getPlanningPages(params: GetPlanningPagesParams) {
     try {
       const { data, error } = await supabase
-        .from("project_planning_pages")
+        .from("project_pages")
         .select("*")
         .eq("project_id", params.projectId);
 
@@ -44,14 +44,15 @@ export const MeetingCreateService = {
         .insert([
           {
             project_id: params.projectId,
-            project__meeting_purpose: params.purpose,
+            project_meeting_name: params.name,
+            project_meeting_purpose: params.purpose,
             project_meeting_detail: params.detail,
             project_meeting_room_type: params.roomType,
             project_meeting_index: 1,
-            project_meeting_log_created_date: new Date().toISOString(),
-            project_meeting_room_id: `room_${Date.now()}_${Math.floor(
-              Math.random() * 1000
-            )}`,
+            created_at: new Date().toISOString(),
+            // project_meeting_room_id: `room_${Date.now()}_${Math.floor(
+            //   Math.random() * 1000,
+            // )}`,
           },
         ])
         .select()
@@ -61,6 +62,33 @@ export const MeetingCreateService = {
       return data;
     } catch (error) {
       console.error("[MeetingCreateService.createMeetingRoom Error]:", error);
+      throw error;
+    }
+  },
+
+  /**
+   * [회의방-페이지 관계 생성]
+   * 기능 회의에서 선택된 페이지들을 project_meeting_room_pages에 저장합니다.
+   * @table project_meeting_room_pages
+   */
+  async createMeetingRoomPages(params: { roomId: string; pageIds: string[] }) {
+    try {
+      const rows = params.pageIds.map((pageId) => ({
+        project_meeting_room_id: params.roomId,
+        project_page_id: pageId,
+      }));
+
+      const { data, error } = await supabase
+        .from("project_meeting_room_pages")
+        .insert(rows);
+
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error(
+        "[MeetingCreateService.createMeetingRoomPages Error]:",
+        error,
+      );
       throw error;
     }
   },
@@ -76,9 +104,9 @@ export const MeetingCreateService = {
         .from("project_meeting_summarys")
         .insert([
           {
-            project_meeting_summary_id: `sum_${params.roomId}`,
+            project_meeting_summary_id: `${params.roomId}`,
             project_meeting_room_id: params.roomId,
-            "project meeting summary":
+            project_meeting_summary:
               "회의가 시작되었습니다. 요약 내용이 여기에 표시됩니다.",
             project_meeting_summary_meeting_index: 1,
           },
@@ -87,7 +115,10 @@ export const MeetingCreateService = {
       if (error) throw error;
       return data;
     } catch (error) {
-      console.error("[MeetingCreateService.createInitialSummary Error]:", error);
+      console.error(
+        "[MeetingCreateService.createInitialSummary Error]:",
+        error,
+      );
       throw error;
     }
   },

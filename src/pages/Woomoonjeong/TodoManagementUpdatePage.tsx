@@ -27,6 +27,7 @@ export default function TodoManagementUpdatePage() {
   const [formData, setFormData] = useState<TodoFormData>({
     group_id: "",
     todo_name: "",
+    todo_content: "",
     todo_description: "",
     todo_start_date: "",
     todo_end_date: "",
@@ -71,6 +72,7 @@ export default function TodoManagementUpdatePage() {
         // DB 데이터를 Form 데이터로 매핑
         setFormData({
           todo_name: data.todo_name,
+          todo_content: data.todo_content,
           todo_description: data.todo_description || "",
           group_id: data.group_id,
           todo_start_date: data.todo_start_date,
@@ -139,6 +141,7 @@ export default function TodoManagementUpdatePage() {
         todoId: todoId,
         payload: {
           todo_name: formData.todo_name,
+          todo_content: formData.todo_content,
           todo_description: formData.todo_description,
           group_id: formData.group_id,
           todo_start_date: formData.todo_start_date,
@@ -204,9 +207,24 @@ export default function TodoManagementUpdatePage() {
             error={errors.name}
             required
           />
+
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-700">
-              todo_description
+              Content
+            </label>
+            <textarea
+              name="todo_content"
+              rows={6}
+              value={formData.todo_content}
+              onChange={handleChange}
+              placeholder="할일의 상세 내용을 입력하세요."
+              className="w-full px-4 py-3 border border-gray-200 rounded-lg resize-none focus:ring-2 focus:ring-[#587CF0] outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="block mb-2 text-sm font-medium text-gray-700">
+              todo Description
             </label>
             <textarea
               name="todo_description"
@@ -216,6 +234,7 @@ export default function TodoManagementUpdatePage() {
               className="w-full px-4 py-3 border border-gray-200 rounded-lg resize-none focus:ring-2 focus:ring-[#587CF0] outline-none"
             />
           </div>
+
           <GroupSelector
             groups={availableGroups}
             selectedId={formData.group_id}
@@ -253,9 +272,9 @@ export default function TodoManagementUpdatePage() {
               onChange={handleChange}
               className="w-full px-4 py-3 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-[#587CF0]"
             >
-              <option value="waiting">Waiting</option>
-              <option value="in progress">In Progress</option>
-              <option value="done">Completed</option>
+              <option value="waiting">waiting</option>
+              <option value="in progress">in Progress</option>
+              <option value="done">done</option>
             </select>
           </div>
           <div className="flex justify-end gap-4 pt-6 border-t border-gray-200">

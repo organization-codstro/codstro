@@ -17,9 +17,9 @@ export const ConceptsService = {
     const tableMap: Record<MATERIAL_TYPE, string> = {
       concept: "concept_description_materials",
       tool: "tool_description_materials",
-      librarie: "librarie_description_materials",
-      third_party_service: "third_party_services_description_materials",
-      package_manager: "package_manager_description_materials",
+      library: "library_description_materials",
+      thirdPartyService: "third_party_services_description_materials",
+      packageManager: "package_manager_description_materials",
     };
 
     // ----------------------
@@ -51,9 +51,9 @@ export const ConceptsService = {
                 id = item.tool_description_material_id;
                 name = item.tool_description_material_name;
                 break;
-              case "librarie":
-                id = item.librarie_description_material_id;
-                name = item.librarie_description_material_name;
+              case "library":
+                id = item.library_description_material_id;
+                name = item.library_description_material_name;
                 break;
               case "third_party_service":
                 id = item.third_party_services_description_material_id;
@@ -125,15 +125,15 @@ export const ConceptsService = {
             id = item.tool_description_material_id;
             name = item.tool_description_material_name;
             break;
-          case "librarie":
-            id = item.librarie_description_material_id;
-            name = item.librarie_description_material_name;
+          case "library":
+            id = item.library_description_material_id;
+            name = item.library_description_material_name;
             break;
-          case "third_party_service":
+          case "thirdPartyService":
             id = item.third_party_services_description_material_id;
             name = item.third_party_services_description_material_name;
             break;
-          case "package_manager":
+          case "packageManager":
             id = item.package_manager_description_material_id;
             name = item.package_manager_description_material_name;
             break;

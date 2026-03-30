@@ -22,7 +22,6 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
     study_plan_image_url: "",
     study_plan_start_date: "",
     study_plan_end_date: "",
-    study_plan_is_archived: false,
     study_plan_state: "waiting",
     user_id: "1", // 실제 환경에서는 로그인된 유저 ID
     study_plan_is_recommendation: false,
@@ -38,7 +37,6 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
         study_plan_image_url: existingPlan.study_plan_image_url || "",
         study_plan_start_date: existingPlan.study_plan_start_date,
         study_plan_end_date: existingPlan.study_plan_end_date,
-        study_plan_is_archived: existingPlan.study_plan_is_archived,
         study_plan_state: existingPlan.study_plan_state,
         user_id: existingPlan.user_id,
         study_plan_is_recommendation: existingPlan.study_plan_is_recommendation,
@@ -71,7 +69,7 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
     if (!formData.study_plan_name.trim())
       newErrors.study_plan_name = "계획 이름을 입력해주세요.";
 
-    // ✅ 계획 설명 필수 체크 삭제
+    //  계획 설명 필수 체크 삭제
 
     if (!formData.study_plan_start_date)
       newErrors.study_plan_start_date = "시작일을 선택해주세요.";
@@ -145,7 +143,7 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
             )}
           </div>
 
-          {/* 계획 설명 - ✅ 비필수로 변경 */}
+          {/* 계획 설명 -비필수로 변경 */}
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-700">
               계획 설명

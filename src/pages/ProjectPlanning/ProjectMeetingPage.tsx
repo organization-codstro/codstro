@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { MessageSquare, Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 import { MeetingListItem } from "../../types/pages/ProjectPlanning/ProjectMeetingPage/ProjectMeetingPage";
-import { MeetingHeader } from "../../components/ProjectPlanning/ProjectMeetingPage/MeetingHeader";
+import { MeetingHeader } from "../../components/ProjectPlanning/MeetingHeader";
 import { MeetingTab } from "../../components/ProjectPlanning/ProjectMeetingPage/MeetingTab";
 import { MeetingItemCard } from "../../components/ProjectPlanning/ProjectMeetingPage/MeetingItemCard";
 import { ProjectMeetingListService } from "../../api/ProjectPlanning/ProjectMeetingPage";
@@ -20,6 +20,18 @@ export default function ProjectMeetingPage() {
   const [meetings, setMeetings] = useState<MeetingListItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  // ESC 키 핸들러 추가
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        navigate(`/projects/${projectId}`);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [navigate, projectId]);
+
   // 데이터 로드
   useEffect(() => {
     const fetchMeetings = async () => {
@@ -31,6 +43,7 @@ export default function ProjectMeetingPage() {
         const data = await ProjectMeetingListService.getMeetingList({
           projectId,
         });
+
         setMeetings(data);
       } catch (error) {
         console.error(error);
@@ -46,6 +59,7 @@ export default function ProjectMeetingPage() {
   // 카운트 계산
   const featureCount = meetings.filter((m) => m.type === "Feature").length;
   const freeCount = meetings.filter((m) => m.type === "Free").length;
+  const filteredMeetings = meetings.filter((m) => m.type === selectedType);
 
   if (!meetings) {
     return <NotFoundPage />;
@@ -54,10 +68,8 @@ export default function ProjectMeetingPage() {
   return (
     <div className="flex-1 overflow-auto bg-gray-50">
       <MeetingHeader
-        projectId={projectId}
-        onCreate={() =>
-          navigate(`/projects/meetings/new`, { state: { projectId } })
-        }
+        onBack={() => navigate(`/projects/${projectId}`)}
+        onCreate={() => navigate(`/projects/${projectId}/meetings/new`)}
       />
 
       {/* Tabs Section */}
@@ -87,7 +99,7 @@ export default function ProjectMeetingPage() {
             <Loader2 className="w-10 h-10 mb-4 text-blue-500 animate-spin" />
             <p className="text-gray-500">회의 목록을 불러오고 있습니다...</p>
           </div>
-        ) : meetings.length === 0 ? (
+        ) : filteredMeetings.length === 0 ? (
           <div className="p-12 text-center bg-white border-2 border-gray-300 border-dashed rounded-lg">
             <MessageSquare className="w-12 h-12 mx-auto mb-4 text-gray-400" />
             <h3 className="mb-2 text-lg font-medium text-gray-900">
@@ -103,11 +115,13 @@ export default function ProjectMeetingPage() {
           </div>
         ) : (
           <div className="space-y-3">
-            {meetings.map((meeting) => (
+            {filteredMeetings.map((meeting) => (
               <MeetingItemCard
                 key={meeting.meeting_id}
                 meeting={meeting}
-                onClick={(id) => navigate(`/projects/meetings/${id}`)}
+                onClick={(id) =>
+                  navigate(`/projects/${projectId}/meetings/${id}`)
+                }
               />
             ))}
           </div>

@@ -44,7 +44,7 @@ export const NoteDetailService = {
         `
         concept_description_materials(concept_description_material_name),
         tool_description_materials(tool_description_material_name),
-        librarie_description_materials(librarie_description_material_name),
+        library_description_materials(library_description_material_name),
         package_manager_description_materials(package_manager_description_material_name),
         third_party_services_description_materials(third_party_services_description_material_name)
       `,
@@ -77,8 +77,8 @@ export const NoteDetailService = {
 
     const libraryNames = extractNames(
       concepts,
-      "librarie_description_materials",
-      "librarie_description_material_name",
+      "library_description_materials",
+      "library_description_material_name",
     );
 
     const packageManagerNames = extractNames(

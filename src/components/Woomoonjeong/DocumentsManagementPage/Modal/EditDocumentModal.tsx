@@ -61,7 +61,7 @@ const EditDocumentModal: React.FC<EditDocumentModalProps> = ({
     }
   }, [isOpen, pin]);
 
-  /** ✅ 칩 추가 */
+  /**칩 추가 */
   const addCategory = () => {
     if (!categoryInput.trim()) return;
     if (categories.includes(categoryInput.trim())) return;
@@ -70,7 +70,7 @@ const EditDocumentModal: React.FC<EditDocumentModalProps> = ({
     setCategoryInput("");
   };
 
-  /** ✅ 칩 제거 */
+  /** 칩 제거 */
   const removeCategory = (value: string) => {
     setCategories((prev) => prev.filter((c) => c !== value));
   };

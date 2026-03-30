@@ -22,6 +22,7 @@ import { ProjectPageHeader } from "./ProjectPageHeader";
 
 
 export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
+  projectId,
   pages,
   expandedPage,
   setExpandedPage,
@@ -51,7 +52,9 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
 
   useEffect(() => {
     setEditedPages(pages);
-    setWorkingPages(pages);
+     if (!isEditing) {
+      setWorkingPages(pages);
+     }
   }, [pages]);
 
   useEffect(() => {
@@ -211,7 +214,7 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
       project_page_role: "",
       project_page_function: "",
       project_page_is_complete: false,
-      project_id: "",
+      project_id: projectId,
       todos: [],
     };
     setWorkingPages((prev) => [...prev, newPage]);

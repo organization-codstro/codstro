@@ -39,7 +39,7 @@ export default function AIPersonasCollectionPage() {
   }, []);
 
   const handleSelectPersona = (personaId: string) => {
-    // ✅ 선택 상태 변경
+    //  선택 상태 변경
     setSelectedPersonaId(personaId);
 
     navigate(`/ai-chat/persona/${personaId}`);

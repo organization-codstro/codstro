@@ -1,28 +1,53 @@
+import ReactMarkdown from "react-markdown";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { MaterialsHeader } from "../../components/ProjectPlanning/MeetingMaterialsPage/MaterialsHeader";
 import { EditableField } from "../../components/ProjectPlanning/MeetingMaterialsPage/EditableField";
-// API Service 임포트
 import { MeetingMaterialsService } from "../../api/ProjectPlanning/MeetingMaterialsPage";
 import NotFoundPage from "../NotFound/NotFoundPage";
+import { Edit2, X } from "lucide-react";
 
 export default function MeetingMaterialsPage() {
-  const { meetingId } = useParams<{ meetingId: string }>();
+  const { projectId, meetingId } = useParams<{
+    projectId: string;
+    meetingId: string;
+  }>();
   const navigate = useNavigate();
 
-  // 1. 상태 관리 (State Management)
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        navigate(`/projects/${projectId}/meetings/${meetingId}`);
+      }
+    };
+    window.addEventListener("keydown", handleEsc);
+    return () => {
+      window.removeEventListener("keydown", handleEsc);
+    };
+  }, [navigate, projectId, meetingId]);
+
+  // 1. 상태 관리
   const [isLoading, setIsLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [summaryId, setSummaryId] = useState<string | null>(null);
+  const [isSummaryEditing, setIsSummaryEditing] = useState(false);
+  const [summaryDraft, setSummaryDraft] = useState("");
 
   // DB 필드 매칭 상태
-  const [meetingName, setMeetingName] = useState(""); // project_meeting_logs_created_date (날짜 기반 이름)
-  const [meetingPurpose, setMeetingPurpose] = useState(""); // project__meeting_purpose
-  const [meetingDetail, setMeetingDetail] = useState(""); // project_meeting_detail
-  const [meetingSummary, setMeetingSummary] = useState(""); // project meeting summary (요약 테이블)
+  const [meetingName, setMeetingName] = useState("");
+  const [meetingPurpose, setMeetingPurpose] = useState("");
+  const [meetingDetail, setMeetingDetail] = useState("");
+  const [meetingSummary, setMeetingSummary] = useState("");
 
-  // 2. 생명주기 (useEffect): 데이터 로드
+  // 원본값 스냅샷
+  const [originalData, setOriginalData] = useState({
+    meetingName: "",
+    meetingPurpose: "",
+    meetingDetail: "",
+  });
+
+  // 2. 데이터 로드
   useEffect(() => {
     const fetchMeetingData = async () => {
       if (!meetingId) {
@@ -38,14 +63,14 @@ export default function MeetingMaterialsPage() {
           });
 
         if (room) {
-          setMeetingName(room.project_meeting_logs_created_date || "");
-          setMeetingPurpose(room.project__meeting_purpose || "");
+          setMeetingName(room.project_meeting_name || "");
+          setMeetingPurpose(room.project_meeting_purpose || "");
           setMeetingDetail(room.project_meeting_detail || "");
         }
 
         if (summary) {
           setSummaryId(summary.project_meeting_summary_id);
-          setMeetingSummary(summary["project meeting summary"] || "");
+          setMeetingSummary(summary.project_meeting_summary || "");
         }
       } catch (error) {
         console.error("Failed to fetch meeting data:", error);
@@ -58,27 +83,29 @@ export default function MeetingMaterialsPage() {
     fetchMeetingData();
   }, [meetingId, navigate]);
 
-  // 3. 저장 로직 (API 연동)
+  // 3. 저장 로직
   const handleSave = async () => {
     if (!meetingId) return;
 
     const toastId = toast.loading("변경 내용을 저장 중입니다...");
     try {
-      // 1) 회의 기본 정보 업데이트
       await MeetingMaterialsService.updateMeetingRoom({
         roomId: meetingId,
         updates: {
+          name: meetingName,
           purpose: meetingPurpose,
           detail: meetingDetail,
-          date: meetingName,
         },
       });
 
-      // 2) 요약본 업데이트 (기존 요약본 ID가 있을 경우)
+      const finalSummary = isSummaryEditing ? summaryDraft : meetingSummary;
+      setMeetingSummary(finalSummary);
+      setIsSummaryEditing(false);
+
       if (summaryId) {
         await MeetingMaterialsService.updateMeetingSummary({
-          summaryId: summaryId,
-          summaryText: meetingSummary,
+          summaryId,
+          summaryText: finalSummary,
         });
       }
 
@@ -99,7 +126,16 @@ export default function MeetingMaterialsPage() {
     }
   };
 
-  // 4. 로딩 UX 처리
+  // 4. 취소 로직
+  const handleCancel = () => {
+    setMeetingName(originalData.meetingName);
+    setMeetingPurpose(originalData.meetingPurpose);
+    setMeetingDetail(originalData.meetingDetail);
+    setIsEditing(false);
+    setIsSummaryEditing(false);
+  };
+
+  // 5. 로딩 UX
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-screen bg-gray-50">
@@ -115,11 +151,14 @@ export default function MeetingMaterialsPage() {
   return (
     <div className="flex-1 overflow-auto bg-gray-50">
       <MaterialsHeader
-        meetingId={meetingId}
         isEditing={isEditing}
-        onBack={() => navigate(`/projects/meetings/${meetingId}`)}
-        onEdit={() => setIsEditing(true)}
+        onBack={() => navigate(`/projects/${projectId}/meetings/${meetingId}`)}
+        onEdit={() => {
+          setOriginalData({ meetingName, meetingPurpose, meetingDetail });
+          setIsEditing(true);
+        }}
         onSave={handleSave}
+        onCancel={handleCancel}
       />
 
       <div className="max-w-5xl p-8 mx-auto space-y-6">
@@ -129,7 +168,7 @@ export default function MeetingMaterialsPage() {
             Basic Information
           </h2>
           <EditableField
-            label="Meeting Date/Name"
+            label="Name"
             isEditing={isEditing}
             value={meetingName}
             onChange={setMeetingName}
@@ -161,17 +200,49 @@ export default function MeetingMaterialsPage() {
 
         {/* Summary Section */}
         <div className="p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
-          <h2 className="mb-4 text-lg font-semibold text-gray-900">
-            Meeting Summary
-          </h2>
-          <EditableField
-            label=""
-            isEditing={isEditing}
-            type="textarea"
-            rows={8}
-            value={meetingSummary}
-            onChange={setMeetingSummary}
-          />
+          {isEditing && !isSummaryEditing && (
+            <div className="flex justify-end mb-2">
+              <button
+                onClick={() =>
+                  navigate(
+                    `/projects/${projectId}/meetings/${meetingId}/materials/summary/edit`,
+                  )
+                }
+                className="flex items-center gap-1 px-3 py-1.5 text-sm text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"
+              >
+                <Edit2 className="w-3.5 h-3.5" />
+                <span>Edit</span>
+              </button>
+            </div>
+          )}
+          {isEditing && isSummaryEditing && (
+            <div className="flex justify-end mb-2">
+              <button
+                onClick={() => setIsSummaryEditing(false)}
+                className="flex items-center gap-1 px-3 py-1.5 text-sm text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"
+              >
+                <X className="w-3.5 h-3.5" />
+                <span>Cancel</span>
+              </button>
+            </div>
+          )}
+
+          {isSummaryEditing ? (
+            <textarea
+              className="w-full p-3 text-sm border border-gray-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+              rows={8}
+              value={summaryDraft}
+              onChange={(e) => setSummaryDraft(e.target.value)}
+            />
+          ) : meetingSummary ? (
+            <div className="prose-sm prose text-gray-700 max-w-none">
+              <ReactMarkdown>{meetingSummary}</ReactMarkdown>
+            </div>
+          ) : (
+            <p className="text-sm text-gray-400">
+              아직 저장된 요약이 없습니다.
+            </p>
+          )}
         </div>
       </div>
     </div>

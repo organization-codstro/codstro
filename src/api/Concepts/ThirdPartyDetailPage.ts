@@ -19,7 +19,7 @@ export const ThirdPartyDetailService = {
    * [조회] 특정 서드파티 서비스의 상세 데이터와 현재 사용자의 학습 상태를 가져옵니다.
    */
   async getServiceDetail(
-    params: GetServiceDetailParams
+    params: GetServiceDetailParams,
   ): Promise<ThirdPartyDetailResponse> {
     const { serviceId, userId } = params;
 
@@ -34,7 +34,7 @@ export const ThirdPartyDetailService = {
         content:third_party_services_description_material_content,
         category:third_party_services_description_material_category,
         officialSite:third_party_services_description_material_document_url
-      `
+      `,
       )
       .eq("third_party_services_description_material_id", serviceId)
       .single();
@@ -65,7 +65,7 @@ export const ThirdPartyDetailService = {
    * 참조 테이블: user_concepts
    */
   async toggleServiceUnderstood(
-    params: ToggleServiceUnderstoodParams
+    params: ToggleServiceUnderstoodParams,
   ): Promise<boolean> {
     const { userId, serviceId, currentStatus } = params;
 
@@ -87,7 +87,7 @@ export const ThirdPartyDetailService = {
         user_concept_is_starred: false,
         concept_description_material_id: 1,
         tool_description_material_id: 1,
-        librarie_description_material_id: 1,
+        library_description_material_id: 1,
         package_manager_description_material_id: 1,
       });
 
@@ -104,7 +104,7 @@ export const ThirdPartyDetailService = {
 
     try {
       const response = await generateAiContent(
-        `서드파티 서비스 [${serviceName}]에 대한 전문적인 질문입니다: ${question}`
+        `서드파티 서비스 [${serviceName}]에 대한 전문적인 질문입니다: ${question}`,
       );
       return response;
     } catch (error) {

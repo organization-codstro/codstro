@@ -144,16 +144,16 @@ export const navigationData: NavigationItem[] = [
     route: "/concepts", // 변경
     children: [
       {
-        id: "concept-main",
-        title: "Home",
-        icon: "Home",
-        route: "/concepts", // 변경
+        id: "notes-list",
+        title: "My Notes",
+        icon: "StickyNote",
+        route: "/notes", // 변경
       },
       {
-        id: "libraries-list",
-        title: "Libraries & Frameworks",
+        id: "librarys-list",
+        title: "librarys & Frameworks",
         icon: "Package",
-        route: "/libraries", // 변경
+        route: "/librarys", // 변경
       },
       {
         id: "basic-concepts-list",
@@ -178,12 +178,6 @@ export const navigationData: NavigationItem[] = [
         title: "Package Managers",
         icon: "CloudCog",
         route: "/package-managers", // 변경
-      },
-      {
-        id: "notes-list",
-        title: "My Notes",
-        icon: "StickyNote",
-        route: "/notes", // 변경
       },
     ],
   },

@@ -106,7 +106,7 @@ export interface NoteConcept {
   note_id: number; // FK / number
   concept_description_material_id: number; // FK / number
   tool_description_material_id: number; // FK / number
-  librarie_description_material_id: number; // FK / number
+  library_description_material_id: number; // FK / number
   package_manager_description_material_id: number; // FK / number
   third_party_services_description_material_id: number; // FK / number
 }
@@ -234,18 +234,18 @@ export interface CompanyUserQnas {
   company_qna_id: number; // FK / number
 }
 
-export interface LibrarieDescriptionMaterials {
-  librarie_description_material_id: number; // PK / number
-  librarie_description_material_name: string; // text
-  librarie_description_material_description: string | null; // text
-  librarie_description_material_content: string | null; // text
-  librarie_description_material_category: string | null; // text[]
-  librarie_description_material_document_url: string | null; // 아마 깃허브 아니면 npm? / text
-  librarie_description_material_included_language: string | null; // 해당하는 라이브러리가 어디 언어에 포함되는가? / text
-  librarie_description_material_representative_image_url: string | null; // text
-  librarie_description_material_image_urls: string | null; // text[]
-  librarie_description_materials_created_date: Date; // date
-  librarie_description_materials_update_date: Date; // date
+export interface libraryDescriptionMaterials {
+  library_description_material_id: number; // PK / number
+  library_description_material_name: string; // text
+  library_description_material_description: string | null; // text
+  library_description_material_content: string | null; // text
+  library_description_material_category: string | null; // text[]
+  library_description_material_document_url: string | null; // 아마 깃허브 아니면 npm? / text
+  library_description_material_included_language: string | null; // 해당하는 라이브러리가 어디 언어에 포함되는가? / text
+  library_description_material_representative_image_url: string | null; // text
+  library_description_material_image_urls: string | null; // text[]
+  library_description_materials_created_date: Date; // date
+  library_description_materials_update_date: Date; // date
 }
 
 export interface Fields {
@@ -362,7 +362,7 @@ export interface Pins {
 
 export interface ProjectMeetingRooms {
   project_meeting_room_id: any; // PK
-  project__meeting_purpose: any; // 이 회의는 무엇을 위한 회의이고, 어떤걸 결정하고 싶은지 (유저가 입력한거)
+  project_meeting_purpose: any; // 이 회의는 무엇을 위한 회의이고, 어떤걸 결정하고 싶은지 (유저가 입력한거)
   project_meeting_log_created_date: any;
   project_meeting_detail: any; // 이 회의에서 다루는 프로젝트의 기본정보 (유저가 회의 생성시 정하는거 [프롬프트에 들어감])
   project_id: number; // FK / 한 프로젝트에서 여러가지 주제로 여러게의 회의를 만들수 있음 / number
@@ -461,7 +461,7 @@ export interface UserConcepts {
   user_id: number; // FK / number
   tool_description_material_id: number | null; // FK / number
   concept_description_material_id: number | null; // FK / number
-  librarie_description_material_id: number | null; // FK / number
+  library_description_material_id: number | null; // FK / number
   package_manager_description_material_id: number | null; // FK / number
   third_party_services_description_material_id: number; // FK / number
 }

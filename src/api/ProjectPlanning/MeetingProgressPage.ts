@@ -1,11 +1,10 @@
 import { supabase } from "../../db/supabase/supabase";
-import { generateAiContent } from "../Gemini/Gemini";
 import {
   GetChatMessagesParams,
   SaveMessageParams,
-  GetAiResponseParams,
   DeleteMeetingParams,
-  IncrementMeetingIndexParams,
+  SaveMeetingSummaryParams,
+  RequestAiResponseParams,
 } from "../../types/api/ProjectPlanning/MeetingProgressPage";
 
 /**
@@ -27,7 +26,7 @@ export const MeetingProgressService = {
       .from("project_meeting_logs")
       .select("*")
       .eq("project_meeting_room_id", params.roomId)
-      .order("project_meeting_log_created_at", { ascending: true });
+      .order("created_at", { ascending: true });
 
     if (error) throw error;
     return data;
@@ -47,7 +46,7 @@ export const MeetingProgressService = {
           project_meeting_log_sender: params.sender,
           project_meeting_log_message: params.message,
           project_meeting_log_meeting_index: params.meetingIndex,
-          project_meeting_log_created_at: new Date().toISOString(),
+          created_at: new Date().toISOString(),
         },
       ])
       .select()
@@ -58,37 +57,19 @@ export const MeetingProgressService = {
   },
 
   /**
-   * [AI 실시간 응답 생성]
-   * 유저의 질문과 이전 대화 맥락을 파악하여 AI 답변을 생성하고 DB에 저장합니다.
+   * [AI 응답 요청 - fire & forget]
+   * Edge Function을 호출하고 응답을 기다리지 않습니다.
+   * AI 응답은 realtime 구독으로 수신합니다.
    */
-  async getAiResponse(params: GetAiResponseParams) {
-    // 1. 맥락 파악을 위해 최근 대화 내역 가져오기 (최근 5개)
-    const { data: history } = await supabase
-      .from("project_meeting_logs")
-      .select("project_meeting_log_sender, project_meeting_log_message")
-      .eq("project_meeting_room_id", params.roomId)
-      .order("project_meeting_log_created_at", { ascending: false })
-      .limit(5);
-
-    const context = history
-      ?.reverse()
-      .map(
-        (m) =>
-          `${m.project_meeting_log_sender}: ${m.project_meeting_log_message}`,
-      )
-      .join("\n");
-
-    // 2. Gemini 프롬프트 구성
-    const prompt = `이전 대화 내역:\n${context}\n\n사용자 메시지: ${params.userMessage}\n위 맥락을 바탕으로 적절한 답변을 해줘.`;
-    const aiText = await generateAiContent(prompt);
-
-    // 3. AI 답변 저장
-    return await this.saveMessage({
-      roomId: params.roomId,
-      sender: "AI",
-      message: aiText,
-      meetingIndex: params.meetingIndex,
-    });
+  requestAiResponse(params: RequestAiResponseParams) {
+    supabase.functions
+      .invoke("project_planning-meeting_ai_chat", {
+        body: JSON.stringify({ room_id: params.roomId }),
+        headers: { "Content-Type": "application/json" },
+      })
+      .catch((err) => {
+        console.error("[requestAiResponse error]:", err);
+      });
   },
 
   // ==========================================
@@ -101,17 +82,22 @@ export const MeetingProgressService = {
    * @table project_meeting_rooms, project_meeting_logs, project_meeting_summarys
    */
   async deleteMeeting(params: DeleteMeetingParams) {
-    // 1. 관련 로그 삭제
+    // 1. 관련 페이지 삭제 (FK 참조 해제)
+    await supabase
+      .from("project_meeting_room_pages")
+      .delete()
+      .eq("project_meeting_room_id", params.roomId);
+    // 2. 관련 로그 삭제
     await supabase
       .from("project_meeting_logs")
       .delete()
       .eq("project_meeting_room_id", params.roomId);
-    // 2. 관련 요약 삭제
+    // 3. 관련 요약 삭제
     await supabase
       .from("project_meeting_summarys")
       .delete()
       .eq("project_meeting_room_id", params.roomId);
-    // 3. 회의실 삭제
+    // 4. 회의실 삭제
     const { error } = await supabase
       .from("project_meeting_rooms")
       .delete()
@@ -122,18 +108,21 @@ export const MeetingProgressService = {
   },
 
   /**
-   * [회의 인덱스 증가 및 저장]
-   * 회의가 저장될 때 회차(Index)를 올리거나 상태를 갱신합니다.
+   * [회의 요약 저장 - Save Meeting]
+   * project_planning-meeting_summation Edge Function을 호출합니다.
+   * 내부적으로 요약 생성 → project_meeting_summarys 저장 → meeting_index +1 을 한 번에 처리합니다.
    */
-  async incrementMeetingIndex(params: IncrementMeetingIndexParams) {
-    const { data, error } = await supabase
-      .from("project_meeting_rooms")
-      .update({ project_meeting_index: params.currentIndex + 1 })
-      .eq("project_meeting_room_id", params.roomId)
-      .select()
-      .single();
+  async saveMeetingSummary(params: SaveMeetingSummaryParams) {
+    const { data, error } = await supabase.functions.invoke(
+      "project_planning-meeting_summation",
+      {
+        body: JSON.stringify({ room_id: params.roomId }),
+        headers: { "Content-Type": "application/json" },
+      },
+    );
 
     if (error) throw error;
-    return data;
+    if (data?.skipped) throw new Error("요약할 메시지가 없습니다.");
+    return data; // { success, summary, previous_index, new_index }
   },
 };

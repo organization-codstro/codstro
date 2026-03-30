@@ -114,7 +114,7 @@ export default function LibraryDetailPage() {
   return (
     <div className="max-w-5xl p-8 mx-auto">
       {/* 1. 뒤로가기 */}
-      <BackButton to="/libraries" label="Back to Libraries" />
+      <BackButton to="/librarys" label="Back to librarys" />
 
       <div className="p-8 mb-6 bg-white border border-gray-200 rounded-lg shadow-sm">
         {/* 2. 라이브러리 상단 정보 (tags 제거, category 배열 사용) */}

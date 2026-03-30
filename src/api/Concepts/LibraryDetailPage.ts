@@ -25,19 +25,19 @@ export const LibraryDetailService = {
     const { libraryId, userId } = params;
 
     const { data: libraryData, error: libraryError } = await supabase
-      .from("librarie_description_materials")
+      .from("library_description_materials")
       .select(
         `
-        id:librarie_description_material_id,
-        name:librarie_description_material_name,
-        language:librarie_description_material_included_language,
-        description:librarie_description_material_description,
-        content:librarie_description_material_content,
-        category:librarie_description_material_category,
-        officialSite:librarie_description_material_document_url
+        id:library_description_material_id,
+        name:library_description_material_name,
+        language:library_description_material_included_language,
+        description:library_description_material_description,
+        content:library_description_material_content,
+        category:library_description_material_category,
+        officialSite:library_description_material_document_url
       `,
       )
-      .eq("librarie_description_material_id", libraryId)
+      .eq("library_description_material_id", libraryId)
       .single();
 
     if (libraryError || !libraryData) {
@@ -48,7 +48,7 @@ export const LibraryDetailService = {
       .from("user_concepts")
       .select("user_concept_id")
       .eq("user_id", userId)
-      .eq("librarie_description_material_id", libraryId)
+      .eq("library_description_material_id", libraryId)
       .maybeSingle();
 
     const relatedItems: any[] = [];
@@ -74,7 +74,7 @@ export const LibraryDetailService = {
         .from("user_concepts")
         .delete()
         .eq("user_id", userId)
-        .eq("librarie_description_material_id", libraryId);
+        .eq("library_description_material_id", libraryId);
 
       if (error) throw error;
       return false;
@@ -82,7 +82,7 @@ export const LibraryDetailService = {
 
     const { error } = await supabase.from("user_concepts").insert({
       user_id: userId,
-      librarie_description_material_id: libraryId,
+      library_description_material_id: libraryId,
       user_concept_is_starred: false,
       third_party_services_description_material_id: null,
     });

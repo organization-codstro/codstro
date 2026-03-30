@@ -1,4 +1,4 @@
-export const libraries = [
+export const librarys = [
   {
     id: "1",
     name: "React",

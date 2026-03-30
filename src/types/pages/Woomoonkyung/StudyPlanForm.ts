@@ -2,8 +2,7 @@
 
 import { StudyPlan } from "../../common/Woomoonkyung";
 
-export interface StudyPlanFormFormData
-  extends Omit<
-    StudyPlan,
-    "study_plan_id" | "study_plans_created_date" | "created_at" // created_at 추가
-  > {}
+export interface StudyPlanFormFormData extends Omit<
+  StudyPlan,
+  "study_plan_id" | "study_plans_created_date" | "created_at"
+> {}

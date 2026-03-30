@@ -152,12 +152,16 @@ export default function AppRoutes() {
           element={<Page.CreateProjectMeeting />}
         />
         <Route
-          path="/projects/meetings/:meetingId"
+          path="/projects/:projectId/meetings/:meetingId"
           element={<Page.MeetingProgress />}
         />
         <Route
-          path="/projects/meetings/:meetingId/materials"
+          path="/projects/:projectId/meetings/:meetingId/materials"
           element={<Page.MeetingMaterials />}
+        />
+        <Route
+          path="/projects/:projectId/meetings/:meetingId/materials/summary/edit"
+          element={<Page.SummaryEditorPage />}
         />
         <Route
           path="/projects/archive"
@@ -214,9 +218,15 @@ export default function AppRoutes() {
         />
 
         {/* ================= Coding Concepts ================= */}
-        <Route path="/concepts" element={<Page.ConceptMain />} />
-        <Route path="/libraries" element={<Page.LibrariesList />} />
-        <Route path="/libraries/:libraryId" element={<Page.LibraryDetail />} />
+        {/* <Route path="/concepts" element={<Page.ConceptMain />} /> */}
+
+        <Route path="/notes" element={<Page.NotesList />} />
+        <Route path="/notes/:noteId" element={<Page.NoteDetail />} />
+        <Route path="/notes/create" element={<Page.NoteCreate />} />
+        <Route path="/notes/:noteId/edit" element={<Page.NoteUpdate />} />
+
+        <Route path="/librarys" element={<Page.LibrarysList />} />
+        <Route path="/librarys/:libraryId" element={<Page.LibraryDetail />} />
         <Route path="/basic-concepts" element={<Page.BasicConceptsList />} />
         <Route
           path="/basic-concepts/:conceptId"
@@ -240,10 +250,6 @@ export default function AppRoutes() {
           path="/package-managers/:materialId"
           element={<Page.PackageManagerMaterialsDetail />}
         />
-        <Route path="/notes" element={<Page.NotesList />} />
-        <Route path="/notes/:noteId" element={<Page.NoteDetail />} />
-        <Route path="/notes/create" element={<Page.NoteCreate />} />
-        <Route path="/notes/:noteId/edit" element={<Page.NoteUpdate />} />
 
         {/* ================= Profile ================= */}
         <Route path="/profile" element={<Page.Profile />} />

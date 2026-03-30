@@ -66,7 +66,7 @@ export const ProjectCreateChatService = {
    */
   async requestAiResponse(params: { projectId: string }) {
     supabase.functions
-      .invoke("project-ai-chat", {
+      .invoke("project_planning-ai_chat", {
         body: { project_id: params.projectId },
       })
       .catch((err) => {

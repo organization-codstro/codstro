@@ -24,6 +24,10 @@ export interface GetAiResponseParams {
   meetingIndex: number;
 }
 
+export interface RequestAiResponseParams {
+  roomId: string;
+}
+
 /**
  * [회의실 삭제 파라미터]
  */
@@ -34,7 +38,6 @@ export interface DeleteMeetingParams {
 /**
  * [회의 인덱스 증가 및 저장 파라미터]
  */
-export interface IncrementMeetingIndexParams {
+export interface SaveMeetingSummaryParams {
   roomId: string;
-  currentIndex: number;
 }

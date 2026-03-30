@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Loader2 } from "lucide-react";
@@ -22,6 +22,8 @@ export default function NoteDetailPage() {
   const [note, setNote] = useState<NoteDetailResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteConfirmMode, setDeleteConfirmMode] = useState(false);
+  const deleteTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // 2. 초기 데이터 로드
   useEffect(() => {
@@ -52,8 +54,20 @@ export default function NoteDetailPage() {
 
   // 노트 삭제
   const handleDelete = async () => {
-    if (!noteId || !window.confirm("정말로 이 노트를 삭제하시겠습니까?"))
+    if (!noteId) return;
+
+    // 1단계: 아직 확인 모드가 아니면 → 확인 모드 진입 (3초 타이머)
+    if (!deleteConfirmMode) {
+      setDeleteConfirmMode(true);
+      deleteTimerRef.current = setTimeout(() => {
+        setDeleteConfirmMode(false); // 3초 후 자동 해제
+      }, 3000);
       return;
+    }
+
+    // 2단계: 확인 모드에서 한 번 더 누르면 → 실제 삭제
+    if (deleteTimerRef.current) clearTimeout(deleteTimerRef.current);
+    setDeleteConfirmMode(false);
 
     try {
       setIsDeleting(true);
@@ -66,6 +80,12 @@ export default function NoteDetailPage() {
       setIsDeleting(false);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (deleteTimerRef.current) clearTimeout(deleteTimerRef.current);
+    };
+  }, []);
 
   // 4. 예외 및 로딩 처리 UI
   if (isLoading) {
@@ -109,6 +129,7 @@ export default function NoteDetailPage() {
             onEdit={handleEdit}
             onDelete={handleDelete}
             isDeleting={isDeleting}
+            deleteConfirmMode={deleteConfirmMode}
           />
         </div>
 

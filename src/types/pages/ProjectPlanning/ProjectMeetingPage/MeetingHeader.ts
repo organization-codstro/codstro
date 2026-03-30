@@ -1,4 +1,4 @@
 export interface MeetingHeaderProps {
-  projectId: string | undefined;
-  onCreate: () => void;
+  onCreate?: () => void;
+  onBack: () => void;
 }

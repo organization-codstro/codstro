@@ -41,9 +41,11 @@ export interface ProjectPage {
   project_page_function: string;
   project_page_is_complete: boolean;
   project_id: string;
+  created_at?: string;
+  updated_at?: string;
+
   project_page_status?: PROJECT_STATUS_TYPE;
 }
-
 export interface ProjectTodo {
   id: string;
   field_id?: string;
@@ -72,7 +74,7 @@ export interface NewProjectTodo {
 //생성시 임시적으로 id필요할때 사용하는 인터페이스
 export interface UITodo {
   client_id: string;
-  id?: string;
+  id: string;
   project_id?: string;
   project_page_id?: string;
   name: string;
@@ -81,6 +83,7 @@ export interface UITodo {
   start_date: string;
   end_date: string;
   status: PROJECT_STATUS_TYPE;
+  created_at: string;
 }
 
 // ProjectPage + todos 를 함께 다루는 뷰 전용 타입
@@ -112,7 +115,7 @@ export interface ProjectPlanningLog {
   project_meeting_log_id: string;
   project_meeting_log_sender: PROJECT_CHAT_SENDER;
   project_meeting_log_message: string;
-  project_meeting_log_created_at: string;
+  created_at: string;
   project_meeting_log_meeting_index: number;
   project_id: string;
 }

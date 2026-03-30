@@ -1,4 +1,4 @@
-import { Loader2, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ConceptSelectorProps } from "../../types/pages/Concepts/NoteCreatePage/ConceptSelector";
 import { FILTER_TYPES } from "../../constants/Concepts/concepts";
 import { ConceptItem } from "../../types/common/concepts";
@@ -23,7 +23,7 @@ export default function ConceptSelector({
   return (
     <div className="p-4 mb-6 rounded-lg bg-gray-50">
       {/* 헤더: 제목 + 필터 버튼 + Hide */}
-      <div className="flex items-center justify-between mb-4 gap-2 flex-wrap">
+      <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
         <label className="block text-sm font-medium text-gray-700 shrink-0">
           Select Concepts to Include
         </label>
@@ -53,14 +53,14 @@ export default function ConceptSelector({
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 0 || isGenerating || isLoadingConcepts}
-          className="shrink-0 p-1 rounded-full text-gray-500 hover:text-gray-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+          className="p-1 text-gray-500 transition-colors rounded-full shrink-0 hover:text-gray-800 disabled:opacity-30 disabled:cursor-not-allowed"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
 
         <div className="grid grid-cols-2 gap-3 flex-1 md:grid-cols-4 min-h-[120px]">
           {availableConcepts.length === 0 ? (
-            <div className="col-span-4 flex items-center justify-center py-8 text-sm text-gray-400">
+            <div className="flex items-center justify-center col-span-4 py-8 text-sm text-gray-400">
               No concepts found
             </div>
           ) : (
@@ -90,7 +90,7 @@ export default function ConceptSelector({
           disabled={
             currentPage >= totalPages - 1 || isGenerating || isLoadingConcepts
           }
-          className="shrink-0 p-1 rounded-full text-gray-500 hover:text-gray-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+          className="p-1 text-gray-500 transition-colors rounded-full shrink-0 hover:text-gray-800 disabled:opacity-30 disabled:cursor-not-allowed"
         >
           <ChevronRight className="w-5 h-5" />
         </button>
@@ -111,33 +111,6 @@ export default function ConceptSelector({
               }`}
             />
           ))}
-        </div>
-      )}
-
-      {/* AI 생성 버튼 */}
-      {selectedConcepts.length > 0 && (
-        <div className="mt-4">
-          <button
-            onClick={onGenerateAI}
-            disabled={isGenerating}
-            className={`flex items-center gap-2 px-4 py-2 text-white transition-all rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 ${
-              isGenerating
-                ? "opacity-70 cursor-not-allowed"
-                : "hover:from-blue-600 hover:to-purple-700 shadow-sm"
-            }`}
-          >
-            {isGenerating ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin" />
-                Generating Content...
-              </>
-            ) : (
-              <>
-                <Sparkles className="w-4 h-4" />
-                Generate Initial Content with AI
-              </>
-            )}
-          </button>
         </div>
       )}
     </div>

@@ -2,29 +2,29 @@ import { useNavigate } from "react-router-dom";
 import ConceptListHeader from "../../components/Concepts/ConceptListHeader";
 import ConceptSearchBar from "../../components/Concepts/ConceptSearchBar";
 import ConceptGrid from "../../components/Concepts/ConceptGrid";
-import LibraryCard from "../../components/Concepts/LibrariesListPage/LibraryCard";
+import LibraryCard from "../../components/Concepts/LibraryListPage/LibraryCard";
 import { useEffect, useState } from "react";
 import { LibraryDescriptionMaterial } from "../../types/common/concepts";
 import { LibraryListService } from "../../api/Concepts/LibrariesListPage";
 
-export default function LibrariesListPage() {
+export default function LibrarysListPage() {
   const navigate = useNavigate();
-  const [libraries, setLibraries] = useState<LibraryDescriptionMaterial[]>([]);
+  const [librarys, setlibrarys] = useState<LibraryDescriptionMaterial[]>([]);
 
-  const fetchLibraries = async () => {
-    const response = await LibraryListService.getLibraries();
-    setLibraries(response);
+  const fetchlibrarys = async () => {
+    const response = await LibraryListService.getlibrarys();
+    setlibrarys(response);
   };
 
   useEffect(() => {
-    fetchLibraries();
+    fetchlibrarys();
   }, []);
 
   const handleLibraryClick = (id: string) => {
-    navigate(`/libraries/${id}`);
+    navigate(`/librarys/${id}`);
   };
 
-  if (!libraries) {
+  if (!librarys) {
     return <div>Loading...</div>;
   }
 
@@ -32,8 +32,8 @@ export default function LibrariesListPage() {
     <div className="p-8 mx-auto max-w-7xl">
       {/* 1. 헤더 섹션 */}
       <ConceptListHeader
-        title="Libraries & Frameworks"
-        description="Explore popular libraries and frameworks"
+        title="librarys & Frameworks"
+        description="Explore popular librarys and frameworks"
       />
 
       {/* 2. 검색 및 필터 바 */}
@@ -44,7 +44,7 @@ export default function LibrariesListPage() {
 
       {/* 3. 라이브러리 카드 그리드 리스트 */}
       <ConceptGrid>
-        {libraries.map((library) => (
+        {librarys.map((library) => (
           <LibraryCard
             key={library.id}
             id={library.id}

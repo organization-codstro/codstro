@@ -75,7 +75,7 @@ export default function TodoManagementDetailPage() {
     );
   }
 
-  // 데이터 부재 시 UI 
+  // 데이터 부재 시 UI
   if (!todo) {
     return <NotFoundPage />;
   }
@@ -97,6 +97,12 @@ export default function TodoManagementDetailPage() {
           <TodoInfoSection label="Description">
             <p className="leading-relaxed text-gray-600">
               {todo.todo_description || "No description provided."}
+            </p>
+          </TodoInfoSection>
+
+          <TodoInfoSection label="Content">
+            <p className="leading-relaxed text-gray-600 whitespace-pre-wrap">
+              {todo.todo_content || "No content provided."}
             </p>
           </TodoInfoSection>
 
@@ -125,7 +131,7 @@ export default function TodoManagementDetailPage() {
           <TodoInfoSection label="Created">
             <div className="flex items-center gap-2 text-sm text-gray-400">
               <Clock className="w-4 h-4" />
-              {new Date(todo.todo_created_date).toLocaleString()}
+              {new Date(todo.created_at).toLocaleString()}
             </div>
           </TodoInfoSection>
         </div>

@@ -8,12 +8,12 @@ export interface LibrarySummaryResponse {
   includedLanguage: string;
   representativeImageUrl?: string;
 }
-export interface SearchLibrariesParams {
+export interface SearchlibrarysParams {
   keyword: string;
 }
 
-export interface FilterLibrariesParams {
-  column: string,
+export interface FilterlibrarysParams {
+  column: string;
   value: string;
 }
 

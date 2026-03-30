@@ -63,11 +63,11 @@ export const NoteCreateService = {
         note_id: note.note_id,
         concept_description_material_id: c.type === "concept" ? c.id : null,
         tool_description_material_id: c.type === "tool" ? c.id : null,
-        librarie_description_material_id: c.type === "librarie" ? c.id : null,
+        library_description_material_id: c.type === "library" ? c.id : null,
         package_manager_description_material_id:
-          c.type === "package_manager" ? c.id : null,
+          c.type === "packageManager" ? c.id : null,
         third_party_services_description_material_id:
-          c.type === "third_party_service" ? c.id : null,
+          c.type === "thirdPartyService" ? c.id : null,
       }));
 
       const { error: relError } = await supabase

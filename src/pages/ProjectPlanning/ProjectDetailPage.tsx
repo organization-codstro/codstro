@@ -19,6 +19,7 @@ import { ProjectDetailService } from "../../api/ProjectPlanning/ProjectDetailPag
 import NotFoundPage from "../NotFound/NotFoundPage";
 import { ProjectDetailSkeleton } from "../../components/ProjectPlanning/ProjectDetailPage/ProjectDetailSkeleton";
 import { supabase } from "../../db/supabase/supabase";
+import { ProjectStatsSidebar } from "../../components/ProjectPlanning/ProjectDetailPage/ProjectStatsSidebar";
 
 export default function ProjectDetailPage() {
   const { projectId } = useParams<{ projectId: string }>();
@@ -38,6 +39,18 @@ export default function ProjectDetailPage() {
     null,
   );
   const [showTodoForm, setShowTodoForm] = useState(false);
+
+  //esc 헨들러
+  useEffect(() => {
+    console.log(projectId);
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        navigate(`/projects`);
+      }
+    };
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, [navigate, projectId]);
 
   useEffect(() => {
     const fetchAllData = async () => {
@@ -253,6 +266,7 @@ export default function ProjectDetailPage() {
         start_date: data.todo_start_date,
         end_date: data.todo_end_date,
         status: data.todo_status,
+        created_at: data.created_at,
       },
     ]);
   };
@@ -276,7 +290,7 @@ export default function ProjectDetailPage() {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-start">
           {/* Left: 기본 정보 & 페이지 구성 */}
           <div className="space-y-6">
-            {/* Project Information - 내부에서 편집 */}
+            {/* Project Information */}
             <ProjectInfoView
               project={originalProject}
               onSave={handleSaveInfo}
@@ -284,8 +298,9 @@ export default function ProjectDetailPage() {
             />
 
             {/* Pages 섹션 */}
-            {!isPlanning && (
+            {!isPlanning && projectId && (
               <ProjectPagesSection
+                projectId={projectId}
                 pages={originalPages}
                 expandedPage={expandedPage}
                 setExpandedPage={setExpandedPage}
@@ -338,18 +353,30 @@ export default function ProjectDetailPage() {
             )}
           </div>
 
-          {/* Right: Project Tasks */}
-          {!isPlanning && (
-            <ProjectTasksSection
-              projectTodos={projectTodos}
-              editingTodoClientId={editingTodoClientId}
-              setEditingTodoClientId={setEditingTodoClientId}
-              getStatusColor={getStatusColor}
-              updateProjectTodo={updateProjectTodo}
-              deleteProjectTodo={deleteProjectTodo}
-              onAddClick={() => setShowTodoForm(true)}
+          {/* Right 컬럼 */}
+          <div className="space-y-6">
+            <ProjectStatsSidebar
+              todos={projectTodos}
+              isPlanning={isPlanning}
+              onNewMeeting={() =>
+                navigate(`/projects/${projectId}/meetings/new`)
+              }
+              onViewMeetings={() => navigate(`/projects/${projectId}/meetings`)}
             />
-          )}
+
+            {/* Right: Project Tasks */}
+            {!isPlanning && (
+              <ProjectTasksSection
+                projectTodos={projectTodos}
+                editingTodoClientId={editingTodoClientId}
+                setEditingTodoClientId={setEditingTodoClientId}
+                getStatusColor={getStatusColor}
+                updateProjectTodo={updateProjectTodo}
+                deleteProjectTodo={deleteProjectTodo}
+                onAddClick={() => setShowTodoForm(true)}
+              />
+            )}
+          </div>
         </div>
       </div>
 

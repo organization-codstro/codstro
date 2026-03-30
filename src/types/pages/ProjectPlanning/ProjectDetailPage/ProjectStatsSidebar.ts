@@ -1,4 +1,4 @@
-import { Project, ProjectTodo } from "../../../common/projectPlanning";
+import { ProjectTodo } from "../../../common/projectPlanning";
 
 export interface ProjectStatsSidebarProps {
   todos: ProjectTodo[];

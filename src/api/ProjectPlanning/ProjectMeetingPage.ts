@@ -22,10 +22,10 @@ export const ProjectMeetingListService = {
         .from("project_meeting_rooms")
         .select(
           `
+          meeting_name:project_meeting_name,
           meeting_id:project_meeting_room_id,
-          meeting_name:project_meeting_logs_created_date, 
-          meeting_purpose:project__meeting_purpose,
-          meeting_created_date:project_meeting_logs_created_date,
+          meeting_purpose:project_meeting_purpose,
+          meeting_created_date:created_at,
           type:project_meeting_room_type
         `,
         )
@@ -37,7 +37,7 @@ export const ProjectMeetingListService = {
       // DB의 대문자/소문자 타입을 UI 타입(feature, free)으로 매핑
       return data.map((item) => ({
         ...item,
-        type: item.type?.toLowerCase() as PROJECT_ROOM_TYPE,
+        type: item.type,
       })) as MeetingListItem[];
     } catch (error) {
       console.error("[getMeetingList Error]:", error);
@@ -57,7 +57,7 @@ export const ProjectMeetingListService = {
           `
           meeting_id:project_meeting_room_id,
           meeting_name:project_meeting_logs_created_date,
-          meeting_purpose:project__meeting_purpose,
+          meeting_purpose:project_meeting_purpose,
           meeting_created_date:project_meeting_logs_created_date,
           type:project_meeting_room_type
         `,

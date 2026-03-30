@@ -23,6 +23,7 @@ export interface RecommendedField {
 
 export interface TodoFormData {
   todo_name: string;
+  todo_content: string;
   todo_description: string;
   group_id: string;
   todo_start_date: string;

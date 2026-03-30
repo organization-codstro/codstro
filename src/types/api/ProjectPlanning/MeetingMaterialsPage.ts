@@ -30,9 +30,9 @@ export interface CreateMeetingRoomParams {
 export interface UpdateMeetingRoomParams {
   roomId: string;
   updates: {
+    name: string;
     purpose?: string;
     detail?: string;
-    date?: string;
   };
 }
 

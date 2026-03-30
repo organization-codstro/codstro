@@ -6,64 +6,131 @@ import { MeetingChatHeader } from "../../components/ProjectPlanning/MeetingProgr
 import { ChatMessage } from "../../components/ProjectPlanning/MeetingProgressPage/ChatMessage";
 import { MeetingProgressService } from "../../api/ProjectPlanning/MeetingProgressPage";
 import { ChatInput } from "../../components/ProjectPlanning/MeetingProgressPage/ChatInput";
+import { supabase } from "../../db/supabase/supabase";
 
 export default function MeetingProgressPage() {
-  const { meetingId } = useParams<{ meetingId: string }>();
+  const { projectId, meetingId } = useParams<{
+    projectId: string;
+    meetingId: string;
+  }>();
   const navigate = useNavigate();
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // 1. 상태 관리
   const [messages, setMessages] = useState<ProjectMessage[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isSending, setIsSending] = useState(false);
-  const [meetingIndex, setMeetingIndex] = useState(1); // 회차 관리
+  const [isAiTyping, setIsAiTyping] = useState(false);
+  const [meetingIndex, setMeetingIndex] = useState(1);
 
-  // 스크롤 하단 이동
+  // ESC 키 핸들러 추가
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        navigate(`/projects/${projectId}/meetings`);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [navigate, projectId]);
+
   const scrollToBottom = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   };
 
-  // 2. 초기 데이터 로드 (useEffect)
+  // 초기 데이터 로드 + 구독
   useEffect(() => {
-    const fetchChatHistory = async () => {
-      if (!meetingId) return;
+    if (!meetingId) return;
+    let cancelled = false;
+    let subscription: ReturnType<typeof supabase.channel> | null = null;
+    let typingSubscription: ReturnType<typeof supabase.channel> | null = null;
+
+    const initChat = async () => {
+      setIsLoading(true);
       try {
-        setIsLoading(true);
         const data = await MeetingProgressService.getChatMessages({
           roomId: meetingId,
         });
 
-        // DB 데이터를 UI 메시지 포맷으로 변환
         const formattedMessages: ProjectMessage[] = data.map((log: any) => ({
-          sender: log.project_tasks_log_sender,
-          message: log.project_tasks_log_message,
-          create_at: new Date(
-            log.project_tasks_log_created_at,
-          ).toLocaleTimeString([], {
+          sender: log.project_meeting_log_sender,
+          message: log.project_meeting_log_message,
+          create_at: new Date(log.created_at).toLocaleTimeString([], {
             hour: "2-digit",
             minute: "2-digit",
           }),
         }));
 
-        setMessages(formattedMessages);
         if (data.length > 0) {
-          setMeetingIndex(data[0].project_tasks_log_meeting_index || 1);
+          setMeetingIndex(data[0].project_meeting_log_meeting_index || 1);
         }
-      } catch (error) {
+
+        if (cancelled) return;
+
+        setMessages(formattedMessages);
+        setTimeout(scrollToBottom, 100);
+
+        subscription = supabase
+          .channel(`room_messages_${meetingId}_${Date.now()}`)
+          .on(
+            "postgres_changes",
+            {
+              event: "INSERT",
+              schema: "public",
+              table: "project_meeting_logs",
+              filter: `project_meeting_room_id=eq.${meetingId}`,
+            },
+            (payload) => {
+              const log = payload.new;
+              if (log.project_meeting_log_sender !== "AI") return;
+
+              const newMessage: ProjectMessage = {
+                sender: log.project_meeting_log_sender,
+                message: log.project_meeting_log_message,
+                create_at: new Date(log.created_at).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                }),
+              };
+              setMessages((prev) => [...prev, newMessage]);
+              setTimeout(scrollToBottom, 50);
+            },
+          )
+          .subscribe((status, err) => {
+            if (err) console.error("[messages] error:", err);
+          });
+
+        typingSubscription = supabase
+          .channel(`room_typing_${meetingId}`)
+          .on("broadcast", { event: "typing_start" }, () => {
+            setIsAiTyping(true);
+            setTimeout(scrollToBottom, 50);
+          })
+          .on("broadcast", { event: "typing_end" }, () => {
+            setIsAiTyping(false);
+          })
+          .subscribe((_, err) => {
+            if (err) console.error("[typing] error:", err);
+          });
+      } catch {
         toast.error("대화 내역을 불러오지 못했습니다.");
       } finally {
         setIsLoading(false);
-        setTimeout(scrollToBottom, 100);
       }
     };
 
-    fetchChatHistory();
+    initChat();
+
+    return () => {
+      cancelled = true;
+      subscription?.unsubscribe();
+      typingSubscription?.unsubscribe();
+    };
   }, [meetingId]);
 
-  // 3. 메시지 전송 및 AI 응답 처리
   const handleSend = async () => {
     if (!input.trim() || isSending || !meetingId) return;
 
@@ -72,15 +139,15 @@ export default function MeetingProgressPage() {
     setInput("");
 
     try {
-      // 1) 유저 메시지 저장
+      // 1. 유저 메시지 DB 저장
       await MeetingProgressService.saveMessage({
         roomId: meetingId,
         sender: "USER",
         message: userText,
-        meetingIndex: meetingIndex,
+        meetingIndex,
       });
 
-      // UI 즉시 반영
+      // 2. UI 즉시 반영
       const now = new Date().toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
@@ -91,111 +158,66 @@ export default function MeetingProgressPage() {
       ]);
       setTimeout(scrollToBottom, 50);
 
-      // 2) AI 응답 대기 (Toast Loading)
-      const toastId = toast.loading("AI가 답변을 생각하고 있습니다...");
-
-      const aiResponse = await MeetingProgressService.getAiResponse({
-        roomId: meetingId,
-        userMessage: userText,
-        meetingIndex: meetingIndex,
-      });
-
-      // UI에 AI 메시지 추가
-      setMessages((prev) => [
-        ...prev,
-        {
-          sender: "AI",
-          message: aiResponse.project_tasks_log_message,
-          create_at: new Date().toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
-        },
-      ]);
-
-      toast.update(toastId, {
-        render: "답변이 도착했습니다.",
-        type: "success",
-        isLoading: false,
-        autoClose: 500,
-      });
-    } catch (error) {
+      // 3. Edge Function 호출 (fire & forget)
+      MeetingProgressService.requestAiResponse({ roomId: meetingId });
+    } catch {
       toast.error("메시지 전송에 실패했습니다.");
     } finally {
       setIsSending(false);
-      setTimeout(scrollToBottom, 50);
     }
   };
 
   const handleViewMaterials = () => {
-    navigate(`/projects/meetings/${meetingId}/materials`);
+    navigate(`/projects/${projectId}/meetings/${meetingId}/materials`);
   };
 
   const handleSaveMeeting = async () => {
     if (!meetingId) return;
+    const tid = toast.loading("회의를 요약하고 저장 중입니다...");
     try {
-      await MeetingProgressService.incrementMeetingIndex({
+      const result = await MeetingProgressService.saveMeetingSummary({
         roomId: meetingId,
-        currentIndex: meetingIndex,
       });
-      toast.success("회의 상태가 저장되었습니다.");
-    } catch (error) {
-      toast.error("저장 중 오류가 발생했습니다.");
+
+      // Edge Function이 index를 올렸으니 로컬 상태도 동기화
+      setMeetingIndex(result.new_index);
+
+      toast.update(tid, {
+        render: "회의가 저장되었습니다.",
+        type: "success",
+        isLoading: false,
+        autoClose: 2000,
+      });
+    } catch (err: any) {
+      toast.update(tid, {
+        render: err?.message ?? "저장 중 오류가 발생했습니다.",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
     }
   };
 
-  // 4. 회의 삭제 (Pending UI 적용)
-  const handleEndMeeting = () => {
-    toast(
-      ({ closeToast }) => (
-        <div className="p-1">
-          <p className="mb-2 font-bold text-gray-800">
-            회의를 완전히 삭제할까요?
-          </p>
-          <p className="mb-4 text-xs text-gray-500">
-            이 작업은 되돌릴 수 없으며 모든 로그가 삭제됩니다.
-          </p>
-          <div className="flex justify-end gap-2">
-            <button
-              onClick={closeToast}
-              className="px-3 py-1.5 text-xs font-medium border rounded-md hover:bg-gray-50"
-            >
-              취소
-            </button>
-            <button
-              onClick={async () => {
-                closeToast();
-                if (!meetingId) return;
-                const tid = toast.loading("회의 정보를 삭제 중...");
-                try {
-                  await MeetingProgressService.deleteMeeting({
-                    roomId: meetingId,
-                  });
-                  toast.update(tid, {
-                    render: "회의가 삭제되었습니다.",
-                    type: "success",
-                    isLoading: false,
-                    autoClose: 500,
-                  });
-                  navigate("/projects/meetings");
-                } catch (e) {
-                  toast.update(tid, {
-                    render: "삭제 실패",
-                    type: "error",
-                    isLoading: false,
-                    autoClose: 500,
-                  });
-                }
-              }}
-              className="px-3 py-1.5 text-xs font-medium text-white bg-red-500 rounded-md hover:bg-red-600"
-            >
-              삭제 확정
-            </button>
-          </div>
-        </div>
-      ),
-      { position: "top-center", autoClose: false, closeOnClick: false },
-    );
+  const handleEndMeeting = async () => {
+    if (!meetingId) return;
+    const tid = toast.loading("회의 정보를 삭제 중...");
+    try {
+      await MeetingProgressService.deleteMeeting({ roomId: meetingId });
+      toast.update(tid, {
+        render: "회의가 삭제되었습니다.",
+        type: "success",
+        isLoading: false,
+        autoClose: 500,
+      });
+      navigate(`/projects/${projectId}/meetings`);
+    } catch {
+      toast.update(tid, {
+        render: "삭제 실패",
+        type: "error",
+        isLoading: false,
+        autoClose: 500,
+      });
+    }
   };
 
   if (isLoading) {
@@ -209,8 +231,7 @@ export default function MeetingProgressPage() {
   return (
     <div className="flex flex-col flex-1 h-screen bg-gray-50">
       <MeetingChatHeader
-        meetingId={meetingId}
-        onBack={() => navigate("/projects/meetings")}
+        onBack={() => navigate(`/projects/${projectId}/meetings`)}
         onViewMaterials={handleViewMaterials}
         onSave={handleSaveMeeting}
         onEnd={handleEndMeeting}
@@ -218,12 +239,30 @@ export default function MeetingProgressPage() {
 
       <div className="flex-1 overflow-auto" ref={scrollRef}>
         <div className="max-w-6xl p-6 mx-auto space-y-4">
-          {messages.length === 0 ? (
+          {messages.length === 0 && !isAiTyping ? (
             <div className="mt-20 text-center text-gray-400">
-              대화 내용이 없습니다. 먼저 인사를 건네보세요!
+              대화 내용이 없습니다.
             </div>
           ) : (
             messages.map((msg, idx) => <ChatMessage key={idx} message={msg} />)
+          )}
+          {isAiTyping && (
+            <div className="flex items-center px-2 space-x-2 text-sm text-gray-400">
+              <span className="animate-bounce">●</span>
+              <span
+                className="animate-bounce"
+                style={{ animationDelay: "0.1s" }}
+              >
+                ●
+              </span>
+              <span
+                className="animate-bounce"
+                style={{ animationDelay: "0.2s" }}
+              >
+                ●
+              </span>
+              <span className="ml-2">AI가 입력 중...</span>
+            </div>
           )}
         </div>
       </div>

@@ -86,7 +86,7 @@ export const MeetingMaterialsService = {
         {
           project_meeting_room_id: roomId,
           project_id: params.projectId,
-          project__meeting_purpose: params.purpose,
+          project_meeting_purpose: params.purpose,
           project_meeting_detail: params.detail,
           project_meeting_room_type: params.roomType,
           project_meeting_index: 1,
@@ -109,9 +109,9 @@ export const MeetingMaterialsService = {
     const { data, error } = await supabase
       .from("project_meeting_rooms")
       .update({
+        project_meeting_name: params.updates.name,
         project_meeting_purpose: params.updates.purpose,
         project_meeting_detail: params.updates.detail,
-        project_meeting_log_created_date: params.updates.date,
       })
       .eq("project_meeting_room_id", params.roomId)
       .select()
@@ -129,7 +129,7 @@ export const MeetingMaterialsService = {
   async updateMeetingSummary(params: UpdateMeetingSummaryParams) {
     const { data, error } = await supabase
       .from("project_meeting_summarys")
-      .update({ "project meeting summary": params.summaryText })
+      .update({ project_meeting_summary: params.summaryText })
       .eq("project_meeting_summary_id", params.summaryId)
       .select()
       .single();
@@ -178,7 +178,7 @@ export const MeetingMaterialsService = {
       .from("project_meeting_logs")
       .select("project_meeting_log_sender, project_meeting_log_message")
       .eq("project_meeting_room_id", params.roomId)
-      .order("project_meeting_log_created_at", { ascending: true });
+      .order("created_at", { ascending: true });
 
     const history = logs
       ?.map(

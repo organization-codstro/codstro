@@ -9,7 +9,7 @@ import ConceptSelector from "../../components/Concepts/ConceptSelector";
 import NoteEditor from "../../components/Concepts/NoteCreatePage/NoteEditor";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { NoteUpdateService } from "../../api/Concepts/NoteUpdatePage";
-import { MATERIAL_TYPE } from "../../constants/Concepts/concepts";
+import { MATERIAL_TYPE, typeMap } from "../../constants/Concepts/concepts";
 import { ConceptItem } from "../../types/common/concepts";
 import { ConceptsService } from "../../api/Concepts/Concepts";
 import NoteInput from "../../components/Concepts/NoteCreatePage/NoteInput";
@@ -85,7 +85,7 @@ export default function NoteUpdatePage() {
           data.map((item: any) => ({
             id: item.id,
             name: item.name,
-            type: item.type,
+            type: typeMap[item.type] ?? item.type,
           })),
         );
 

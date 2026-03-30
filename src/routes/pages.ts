@@ -52,6 +52,7 @@ export { default as ProjectMeeting } from "../pages/ProjectPlanning/ProjectMeeti
 export { default as CreateProjectMeeting } from "../pages/ProjectPlanning/MeetingCreatePage";
 export { default as MeetingProgress } from "../pages/ProjectPlanning/MeetingProgressPage";
 export { default as MeetingMaterials } from "../pages/ProjectPlanning/MeetingMaterialsPage";
+export { default as SummaryEditorPage } from "../pages/ProjectPlanning/SummaryEditorPage";
 export { default as ProjectPlanningArchive } from "../pages/ProjectPlanning/ProjectPlanningArchivePage";
 
 /* ================= AI CHAT ================= */
@@ -75,8 +76,7 @@ export { default as MajorEncyclopediaList } from "../pages/Mbit/MajorEncyclopedi
 export { default as MajorEncyclopediaDetail } from "../pages/Mbit/MajorEncyclopediaDetailPage";
 
 /* ================= CONCEPTS ================= */
-export { default as ConceptMain } from "../pages/Concepts/ConceptMainPage";
-export { default as LibrariesList } from "../pages/Concepts/LibrariesListPage";
+export { default as LibrarysList } from "../pages/Concepts/LibraryListPage";
 export { default as LibraryDetail } from "../pages/Concepts/LibraryDetailPage";
 export { default as BasicConceptsList } from "../pages/Concepts/BasicConceptsListPage";
 export { default as BasicConceptDetail } from "../pages/Concepts/BasicConceptDetailPage";

@@ -12,9 +12,18 @@ export interface GetPlanningPagesParams {
  */
 export interface CreateMeetingRoomParams {
   projectId: string;
+  name: string;
   purpose: string;
   detail: string;
   roomType: PROJECT_ROOM_TYPE;
+}
+
+/**
+ * [채팅방 생성 파라미터]
+ */
+export interface CreateMeetingRoomPagesParams {
+  roomId: string;
+  pageIds: string[];
 }
 
 /**

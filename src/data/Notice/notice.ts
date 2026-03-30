@@ -103,7 +103,7 @@ const id = useId(); // Ensures unique ID across SSR
 \`\`\`
 
 ### 5. Suspense for Data Fetching
-Full support for Suspense with data fetching libraries.
+Full support for Suspense with data fetching librarys.
 
 \`\`\`javascript
 <Suspense fallback={<Loading />}>

@@ -89,7 +89,7 @@ export const PackageManagerService = {
         // 다른 FK 필드들은 기본값(1) 또는 NULL 처리
         concept_description_material_id: 1,
         tool_description_material_id: 1,
-        librarie_description_material_id: 1,
+        library_description_material_id: 1,
         third_party_services_description_material_id: 1,
       });
       if (error) throw error;
