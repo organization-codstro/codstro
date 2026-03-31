@@ -24,10 +24,13 @@ export const SummaryEditorService = {
     summaryText: string;
   }) => {
     const { error } = await supabase
-      .from("project_meeting_summary")
+      .from("project_meeting_summarys")
       .update({ project_meeting_summary: summaryText })
       .eq("project_meeting_summary_id", summaryId);
 
-    if (error) throw error;
+    if (error) {
+      console.log("저장중 에러 발생", error.message);
+      throw error;
+    }
   },
 };

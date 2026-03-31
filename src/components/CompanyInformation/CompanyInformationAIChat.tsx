@@ -3,7 +3,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { CompanyInformationAIChatProps } from "../../types/pages/CompanyInformation/CompanyInformationAIChat";
 import { BasicConceptDetailService } from "../../api/Concepts/BasicConceptDetailPage";
-import { CompanyInformationAIChatMessage } from "../../types/common/companyInformation";
+import { CompanyInformationAIChatMessage } from "../../types/common/CompanyInformation";
 
 export default function CompanyInformationAIChat({
   isOpen,

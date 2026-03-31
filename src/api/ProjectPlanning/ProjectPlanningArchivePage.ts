@@ -3,7 +3,7 @@ import {
   GetArchivedProjectsParams,
   ExtendProjectPeriodParams,
 } from "../../types/api/ProjectPlanning/ProjectPlanningArchivePage";
-import { Project } from "../../types/common/projectPlanning";
+import { Project } from "../../types/common/ProjectPlanning";
 
 /**
  * [ProjectArchiveService]

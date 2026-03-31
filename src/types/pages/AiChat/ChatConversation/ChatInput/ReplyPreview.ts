@@ -1,4 +1,4 @@
-import { ChatMessage } from "../../../../common/aiChat";
+import { ChatMessage } from "../../../../common/AiChat";
 
 export interface ReplyPreviewProps {
   replyingTo: ChatMessage;

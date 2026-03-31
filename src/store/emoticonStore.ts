@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Emoticon } from "../types/common/aiChat";
+import { Emoticon } from "../types/common/AiChat";
 
 interface EmoticonStore {
   cache: Record<string, Emoticon>; // emoticon_id -> Emoticon

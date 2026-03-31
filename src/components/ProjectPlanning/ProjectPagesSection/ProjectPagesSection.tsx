@@ -7,7 +7,7 @@ import {
   ProjectPage,
   ProjectTodo,
   ProjectPageWithTodos,
-} from "../../../types/common/projectPlanning";
+} from "../../../types/common/ProjectPlanning";
 import {
   GET_NEXT_STATUS,
   PROJECT_STATUS_TYPE,

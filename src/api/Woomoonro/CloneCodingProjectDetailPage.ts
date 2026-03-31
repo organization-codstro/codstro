@@ -9,7 +9,7 @@ import {
   GenerateProjectGuideParams,
   UpdateProjectStatusData,
 } from "../../types/api/Woomoonro/CloneCodingProjectDetailPage";
-import { CloneCodingProject } from "../../types/common/woomoonro";
+import { CloneCodingProject } from "../../types/common/Woomoonro";
 
 export const CloneCodingService = {
   async getProjectDetail(

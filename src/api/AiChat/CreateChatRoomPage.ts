@@ -6,7 +6,7 @@ import {
   CreateChatRoomWithAiParams,
   CreateChatRoomWithAiResponse,
 } from "../../types/api/AiChat/CreateChatRoomPage";
-import { ChatRoom } from "../../types/common/aiChat";
+import { ChatRoom } from "../../types/common/AiChat";
 
 /**
  * 채팅방 생성 및 참여 AI 설정 관리를 위한 서비스

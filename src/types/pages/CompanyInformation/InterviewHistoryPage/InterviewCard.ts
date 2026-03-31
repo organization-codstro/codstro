@@ -1,4 +1,4 @@
-import { CompanyInterview } from "../../../common/companyInformation";
+import { CompanyInterview } from "../../../common/CompanyInformation";
 
 export interface InterviewCardProps {
   interview: CompanyInterview;

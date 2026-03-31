@@ -15,9 +15,9 @@ export { default as TodoManagementUpdate } from "../pages/Woomoonjeong/TodoManag
 export { default as DocumentsManagement } from "../pages/Woomoonjeong/DocumentsManagementPage";
 
 /* ================= WOOMOONRO ================= */
-export { default as CloneCodingProjectMainPage } from "../pages/Woomoonro/CloneCodingProjectMainPage";
-export { default as CloneCodingProjectArchivePage } from "../pages/Woomoonro/CloneCodingProjectArchivePage";
-export { default as CloneCodingProjectDetailPage } from "../pages/Woomoonro/CloneCodingProjectDetailPage";
+export { default as CloneCodingProjectMain } from "../pages/Woomoonro/CloneCodingProjectMainPage";
+export { default as CloneCodingProjectArchive } from "../pages/Woomoonro/CloneCodingProjectArchivePage";
+export { default as CloneCodingProjectDetail } from "../pages/Woomoonro/CloneCodingProjectDetailPage";
 
 /* ================= WOOMOONKYUNG ================= */
 export { default as WoomoonkyungMain } from "../pages/Woomoonkyung/StudyPlanMainPage";
@@ -52,7 +52,7 @@ export { default as ProjectMeeting } from "../pages/ProjectPlanning/ProjectMeeti
 export { default as CreateProjectMeeting } from "../pages/ProjectPlanning/MeetingCreatePage";
 export { default as MeetingProgress } from "../pages/ProjectPlanning/MeetingProgressPage";
 export { default as MeetingMaterials } from "../pages/ProjectPlanning/MeetingMaterialsPage";
-export { default as SummaryEditorPage } from "../pages/ProjectPlanning/SummaryEditorPage";
+export { default as SummaryEditor} from "../pages/ProjectPlanning/SummaryEditorPage";
 export { default as ProjectPlanningArchive } from "../pages/ProjectPlanning/ProjectPlanningArchivePage";
 
 /* ================= AI CHAT ================= */
@@ -101,4 +101,4 @@ export { default as NoticesList } from "../pages/Notice/NoticesListPage";
 export { default as NoticeDetail } from "../pages/Notice/NoticeDetailPage";
 
 /* ================= 404 ================= */
-export { default as NotFoundPage } from "../pages/NotFound/NotFoundPage";
+export { default as NotFound } from "../pages/NotFound/NotFoundPage";

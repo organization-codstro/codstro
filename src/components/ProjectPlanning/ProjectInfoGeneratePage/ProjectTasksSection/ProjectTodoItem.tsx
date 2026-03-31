@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Calendar, Trash2, X, Check } from "lucide-react";
-import { UITodo } from "../../../../types/common/projectPlanning";
+import { UITodo } from "../../../../types/common/ProjectPlanning";
 import { ProjectTodoItemProps } from "../../../../types/pages/ProjectPlanning/ProjectInfoGeneratePage/ProjectTasksSection/ProjectTodoItem";
 
 export const ProjectTodoItem: React.FC<ProjectTodoItemProps> = ({

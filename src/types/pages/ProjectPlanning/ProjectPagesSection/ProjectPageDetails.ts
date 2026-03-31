@@ -1,4 +1,4 @@
-import { ProjectPage } from "../../../common/projectPlanning";
+import { ProjectPage } from "../../../common/ProjectPlanning";
 
 export interface ProjectPageDetailsProps {
   isEditing: boolean;

@@ -8,7 +8,7 @@ import {
   SendMessageParams,
   SubscribeToMessagesParams,
 } from "../../types/api/AiChat/ChatConversationPage";
-import { ChatRoomAI, Emoticon } from "../../types/common/aiChat";
+import { ChatRoomAI, Emoticon } from "../../types/common/AiChat";
 
 /**
  * 채팅방 관련 데이터 및 실시간 처리 서비스

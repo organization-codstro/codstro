@@ -5,7 +5,7 @@ import { BookmarkEmptyState } from "../../components/CompanyInformation/Bookmark
 import { BookmarkHeader } from "../../components/CompanyInformation/BookmarksPage/BookmarkHeader";
 import { BookmarksService } from "../../api/CompanyInformation/BookmarksPage";
 import { LoginService } from "../../api/Auth/LoginPage";
-import { Company } from "../../types/common/companyInformation";
+import { Company } from "../../types/common/CompanyInformation";
 
 export default function BookmarksPage() {
   const navigate = useNavigate();

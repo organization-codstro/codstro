@@ -1,4 +1,4 @@
-import { ProjectTodo } from "../../../common/projectPlanning";
+import { ProjectTodo } from "../../../common/ProjectPlanning";
 
 export interface TodoItemProps {
   todo: ProjectTodo;

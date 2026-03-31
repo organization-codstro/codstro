@@ -2,7 +2,7 @@ import { Calendar, UserPlus } from "lucide-react";
 import { PersonaHeroProps } from "../../../../types/pages/AiChat/AIPersonaDetailPage/PersonaHero/PersonaHero";
 import { AddFriendModal } from "./Addfriendmodal/Addfriendmodal";
 import { useEffect, useState } from "react";
-import { AiUserSettings } from "../../../../types/common/aiChat";
+import { AiUserSettings } from "../../../../types/common/AiChat";
 import { useImageStore } from "../../../../store/ImageStore";
 
 export function PersonaHero({

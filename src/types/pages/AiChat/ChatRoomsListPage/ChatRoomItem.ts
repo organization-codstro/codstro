@@ -1,4 +1,4 @@
-import { ChatRoom } from "../../../common/aiChat";
+import { ChatRoom } from "../../../common/AiChat";
 
 export interface ChatRoomItemProps {
   room: ChatRoom;

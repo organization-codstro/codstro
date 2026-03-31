@@ -1,12 +1,5 @@
 import { ArrowLeft, Save, Edit2 } from "lucide-react";
-
-interface UserInfoHeaderProps {
-  lastUpdated: string;
-  isEditing: boolean;
-  onBack: () => void;
-  onEdit: () => void;
-  onSave: () => void;
-}
+import { UserInfoHeaderProps } from "../../../types/pages/AiChat/UserInfoPage/UserInfoHeader";
 
 export function UserInfoHeader({
   lastUpdated,

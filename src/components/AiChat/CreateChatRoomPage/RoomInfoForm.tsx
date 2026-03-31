@@ -1,5 +1,5 @@
 import { useState, KeyboardEvent } from "react";
-import { ChatRoom } from "../../../types/common/aiChat";
+import { ChatRoom } from "../../../types/common/AiChat";
 import { RoomInfoFormProps } from "../../../types/pages/AiChat/CreateChatRoomPage/RoomInfoForm";
 
 export function RoomInfoForm({ data, onChange }: RoomInfoFormProps) {

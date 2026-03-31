@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { ProjectMessage } from "../../types/common/projectPlanning";
+import { ProjectMessage } from "../../types/common/ProjectPlanning";
 import { MeetingChatHeader } from "../../components/ProjectPlanning/MeetingProgressPage/MeetingChatHeader";
 import { ChatMessage } from "../../components/ProjectPlanning/MeetingProgressPage/ChatMessage";
 import { MeetingProgressService } from "../../api/ProjectPlanning/MeetingProgressPage";

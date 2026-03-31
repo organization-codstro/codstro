@@ -1,4 +1,4 @@
-import { AIPersona, ChatRoom } from "../../common/aiChat";
+import { AIPersona, ChatRoom } from "../../common/AiChat";
 
 /**
  * [내 친구 목록 조회]

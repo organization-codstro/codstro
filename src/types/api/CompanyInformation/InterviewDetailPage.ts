@@ -1,4 +1,4 @@
-import { CompanyQna } from "../../common/companyInformation";
+import { CompanyQna } from "../../common/CompanyInformation";
 
 /**
  * [회사 면접 질문 조회] Params

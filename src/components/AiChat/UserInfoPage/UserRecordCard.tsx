@@ -1,8 +1,4 @@
-interface UserRecordCardProps {
-  isEditing: boolean;
-  content: string;
-  onContentChange: (value: string) => void;
-}
+import { UserRecordCardProps } from "../../../types/pages/AiChat/UserInfoPage/UserRecordCard";
 
 export function UserRecordCard({
   isEditing,

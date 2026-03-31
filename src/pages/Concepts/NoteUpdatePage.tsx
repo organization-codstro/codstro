@@ -1,257 +1,108 @@
-import { useState, useEffect } from "react";
+/**
+ * NoteEditorPage.jsx
+ *
+ * 역할:
+ *  - useNoteEditor 훅에서 모든 상태/핸들러를 가져와 하위 컴포넌트에 전달
+ *  - 레이아웃 구성: Header / EditorPanel / Divider / (PreviewPanel | ChatPanel) / FAB
+ *  - FAB 클릭 시 채팅 패널 토글 (아이콘: MessageSquare ↔ FileText)
+ *
+ * Props:
+ *  - onBack: () => void  — 뒤로가기 버튼 클릭 시 호출 (노트 상세 화면으로 이동)
+ */
+
 import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import { Save, Loader2 } from "lucide-react";
+import { MessageSquare, FileText } from "lucide-react";
+import { useNoteEditor } from "../../hooks/Concepts/Noteeditorpage";
+import NoteEditorHeader from "../../components/Concepts/NoteUpdatePage/NoteEditorHeader";
+import EditorPanel from "../../components/Concepts/NoteUpdatePage/EditorPanel";
+import PreviewPanel from "../../components/Concepts/NoteUpdatePage/PreviewPanel";
+import ChatPanel from "../../components/Concepts/NoteUpdatePage/ChatPanel/ChatPanel";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
-// 공통 컴포넌트
-import BackButton from "../../components/Concepts/BackButton";
-import ConceptSelector from "../../components/Concepts/ConceptSelector";
-import NoteEditor from "../../components/Concepts/NoteCreatePage/NoteEditor";
-import { LoginService } from "../../api/Auth/LoginPage";
-import { NoteUpdateService } from "../../api/Concepts/NoteUpdatePage";
-import { MATERIAL_TYPE, typeMap } from "../../constants/Concepts/concepts";
-import { ConceptItem } from "../../types/common/concepts";
-import { ConceptsService } from "../../api/Concepts/Concepts";
-import NoteInput from "../../components/Concepts/NoteCreatePage/NoteInput";
-
-export default function NoteUpdatePage() {
+export default function NoteEditorPage() {
   const navigate = useNavigate();
   const { noteId } = useParams<{ noteId: string }>();
 
-  // 1. 상태 관리
-  const [userId, setUserId] = useState<string | null>(null);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [content, setContent] = useState("");
-  const [selectedConcepts, setSelectedConcepts] = useState<ConceptItem[]>([]); // 여기서는 ID 배열로 관리
+  if (!noteId) {
+    return <NotFoundPage />;
+  }
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const [isGeneratingAI, setIsGeneratingAI] = useState(false);
-  const [showConceptSelector, setShowConceptSelector] = useState(true);
+  const {
+    markdown,
+    setMarkdown,
+    isDirty,
+    chatOpen,
+    messages,
+    inputValue,
+    setInputValue,
+    isLoading,
+    pendingNote,
+    handleSave,
+    handleToggleChat,
+    handleSend,
+    handleAccept,
+    handleReject,
+  } = useNoteEditor({ noteId });
 
-  const [activeFilter, setActiveFilter] = useState<MATERIAL_TYPE | "all">(
-    "all",
-  );
-  const [currentPage, setCurrentPage] = useState(0); // 0-based (UI용)
-  const [availableConcepts, setAvailableConcepts] = useState<ConceptItem[]>([]);
-  const [totalPages, setTotalPages] = useState(1);
-  const [isLoadingConcepts, setIsLoadingConcepts] = useState(false);
-
-  // 2. 초기 데이터 로드 (유저 세션 및 기존 노트)
-  useEffect(() => {
-    const initPage = async () => {
-      try {
-        setIsLoading(true);
-        const currentUserId = await LoginService.getCurrentUserId();
-        setUserId(currentUserId);
-
-        if (noteId) {
-          const noteData = await NoteUpdateService.getNoteById({ noteId });
-          setTitle(noteData.note_title);
-          setDescription(noteData.note_description);
-          setContent(noteData.note_content || "");
-
-          const { noteConceptIds } = await NoteUpdateService.getNoteConcepts({
-            NoteId: noteId,
-          });
-          setSelectedConcepts(noteConceptIds);
-        }
-      } catch (error) {
-        toast.error("데이터를 불러오는데 실패했습니다.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    initPage();
-  }, [noteId]);
-
-  // 필터/페이지 변경 시 API 호출
-  useEffect(() => {
-    if (!showConceptSelector) return;
-
-    const fetchConcepts = async () => {
-      try {
-        setIsLoadingConcepts(true);
-
-        // API 호출 (변경된 반환 타입 사용)
-        const { data, hasMore } = await ConceptsService.getConceptsByType({
-          type: activeFilter,
-          page: currentPage + 1, // 1-based
-        });
-
-        //availableConcepts 세팅
-        setAvailableConcepts(
-          data.map((item: any) => ({
-            id: item.id,
-            name: item.name,
-            type: typeMap[item.type] ?? item.type,
-          })),
-        );
-
-        // totalPages 계산 (hasMore 사용)
-        setTotalPages(currentPage + 1 + (hasMore ? 1 : 0));
-      } catch (error) {
-        console.error(error);
-        toast.error("개념 목록을 불러오는데 실패했습니다.");
-      } finally {
-        setIsLoadingConcepts(false);
-      }
-    };
-
-    fetchConcepts();
-  }, [activeFilter, currentPage, showConceptSelector]);
-
-  // 3. 핸들러 로직
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+  const onBack = () => {
+    navigate(`/notes/${noteId}`);
   };
-
-  // 개념 선택 토글 (ID 기반)
-  const handleConceptToggle = (concept: ConceptItem) => {
-    setSelectedConcepts(
-      (prev) =>
-        prev.some((c) => c.id === concept.id)
-          ? prev.filter((c) => c.id !== concept.id) // 이미 선택된 경우 제거
-          : [...prev, concept], // 새로 선택된 경우 추가
-    );
-  };
-  // [AI 서비스] 선택된 개념 기반 초안 생성
-  const handleGenerateWithAI = async () => {
-    if (selectedConcepts.length === 0) {
-      toast.warning("최소 하나 이상의 개념을 선택해주세요.");
-      return;
-    }
-
-    try {
-      // setIsGeneratingAI(true);
-      // const selectedNames = availableConcepts
-      //   .filter((c) => selectedConcepts.some((s) => s.id === c.id))
-      //   .map((c) => c.name);
-
-      // const aiContent = await NoteUpdateService.generateNoteContent({
-      //   concepts: selectedNames,
-      // });
-
-      // setContent(aiContent);
-      toast.success("AI가 노트 초안을 생성했습니다!");
-    } catch (error) {
-      toast.error("AI 콘텐츠 생성 중 오류가 발생했습니다.");
-    } finally {
-      setIsGeneratingAI(false);
-    }
-  };
-
-  // [저장] 노트 저장 및 수정
-  const handleSave = async () => {
-    if (!userId || !noteId) return;
-    if (!title.trim() || !content.trim()) {
-      toast.warning("제목과 내용을 모두 입력해주세요.");
-      return;
-    }
-
-    try {
-      setIsSaving(true);
-      await NoteUpdateService.updateNote({
-        id: noteId,
-        userId,
-        title,
-        content,
-        labels: ["personal", "study"],
-        concept: selectedConcepts,
-        description,
-      });
-
-      toast.success(
-        noteId ? "노트가 수정되었습니다!" : "새 노트가 저장되었습니다!",
-      );
-      navigate("/notes");
-    } catch (error) {
-      console.error(error);
-      toast.error("저장에 실패했습니다.");
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
-  const handleFilterChange = (type: MATERIAL_TYPE | "all") => {
-    setActiveFilter(type);
-    setCurrentPage(0); // 필터 변경 시 첫 페이지로
-  };
-
-  if (isLoading)
-    return <div className="p-20 text-center">노트 정보를 불러오는 중...</div>;
 
   return (
-    <div className="max-w-6xl p-8 mx-auto">
-      <BackButton to="/notes" label="Back to Notes" />
+    <div className="flex flex-col h-screen overflow-hidden font-sans bg-zinc-100">
+      {/* ── 헤더 ── */}
+      <NoteEditorHeader isDirty={isDirty} onSave={handleSave} onBack={onBack} />
 
-      <div className="p-8 bg-white border border-gray-200 rounded-lg shadow-sm">
-        <h1 className="mb-6 text-3xl font-bold text-gray-900">
-          {noteId ? "Edit Note" : "Create New Note"}
-        </h1>
-
-        <NoteInput title={"name"} value={title} onChange={setTitle} />
-
-        <NoteInput
-          title={"description"}
-          value={description}
-          onChange={setDescription}
+      {/* ── 바디 ── */}
+      <div className="flex flex-1 overflow-hidden">
+        {/* 왼쪽: Monaco 에디터 — 채팅 열리면 슬라이드아웃 */}
+        <EditorPanel
+          markdown={markdown}
+          onChange={setMarkdown}
+          chatOpen={chatOpen}
+          isLoading={isLoading}
         />
 
-        {showConceptSelector ? (
-          <ConceptSelector
-            availableConcepts={availableConcepts}
-            selectedConcepts={selectedConcepts}
-            onToggle={handleConceptToggle}
-            onHide={() => setShowConceptSelector(false)}
-            onGenerateAI={handleGenerateWithAI}
-            isGenerating={isGeneratingAI}
-            activeFilter={activeFilter}
-            onFilterChange={handleFilterChange}
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-            isLoadingConcepts={isLoadingConcepts}
-          />
-        ) : (
-          <div className="mb-6">
-            <button
-              onClick={() => setShowConceptSelector(true)}
-              className="text-sm font-medium text-blue-600 hover:text-blue-700"
-            >
-              + Add more concepts
-            </button>
-          </div>
-        )}
+        {/* 구분선 — 항상 표시 (에디터↔미리보기, 미리보기↔채팅 모두 동일) */}
+        <div className="flex-shrink-0 w-px bg-zinc-200" />
 
-        <NoteEditor value={content} onChange={setContent} />
+        {/* 미리보기 — 채팅 열려도 왼쪽에 유지 */}
+        <PreviewPanel markdown={markdown} isLoading={isLoading}/>
 
-        {/* 하단 액션 버튼 그룹 */}
-        <div className="flex items-center gap-3 pt-6 border-t border-gray-100">
-          <button
-            onClick={handleSave}
-            disabled={isSaving}
-            className="flex items-center gap-2 px-6 py-2.5 text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700 disabled:bg-blue-400"
-          >
-            {isSaving ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <Save className="w-4 h-4" />
-            )}
-            {noteId ? "Update Note" : "Save Note"}
-          </button>
+        {/* 채팅 구분선 — 채팅 열릴 때만 표시 */}
+        <div
+          className={`flex-shrink-0 bg-zinc-200 transition-all duration-[380ms] ease-[cubic-bezier(.4,0,.2,1)] ${
+            chatOpen ? "w-px opacity-100" : "w-0 opacity-0"
+          }`}
+        />
 
-          <button
-            onClick={() => navigate("/notes")}
-            disabled={isSaving}
-            className="px-6 py-2.5 transition-colors border border-gray-300 rounded-lg hover:bg-gray-50 text-gray-700"
-          >
-            Cancel
-          </button>
-        </div>
+        {/* 채팅 패널 — 오른쪽에서 슬라이드인 */}
+        <ChatPanel
+          chatOpen={chatOpen}
+          messages={messages}
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+          isLoading={isLoading}
+          onSend={handleSend}
+          pendingNote={pendingNote}
+          currentMarkdown={markdown}
+          onAccept={handleAccept}
+          onReject={handleReject}
+        />
       </div>
+
+      {/* ── FAB: 채팅 ↔ 에디터 토글 ── */}
+      <button
+        onClick={handleToggleChat}
+        title={chatOpen ? "에디터로 돌아가기" : "AI 채팅 열기"}
+        className={`fixed bottom-7 right-7 w-12 h-12 rounded-full flex items-center justify-center shadow-xl z-50 transition-all duration-200 ${
+          isLoading
+            ? "bg-zinc-400 cursor-not-allowed"
+            : "bg-indigo-600 hover:bg-indigo-700 hover:scale-105 active:scale-95"
+        } text-white`}
+      >
+        {chatOpen ? <FileText size={20} /> : <MessageSquare size={20} />}
+      </button>
     </div>
   );
 }

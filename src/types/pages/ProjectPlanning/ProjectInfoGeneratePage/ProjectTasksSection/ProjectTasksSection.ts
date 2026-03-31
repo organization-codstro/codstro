@@ -1,4 +1,4 @@
-import { UITodo } from "../../../../common/projectPlanning";
+import { UITodo } from "../../../../common/ProjectPlanning";
 
 export interface ProjectTasksSectionProps {
   projectTodos: UITodo[];

@@ -1,4 +1,4 @@
-import { Emoticon } from "../../../../common/aiChat";
+import { Emoticon } from "../../../../common/AiChat";
 
 export interface EmoticonPickerProps {
   emoticons: Emoticon[];

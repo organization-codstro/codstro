@@ -5,7 +5,7 @@ import { CollectionCard } from "../../components/AiChat/CollectionCard";
 import { CollectionEmptyState } from "../../components/AiChat/AIPersonasCollectionPage/CollectionEmptyState";
 import { CollectionHeader } from "../../components/AiChat/AIPersonasCollectionPage/CollectionHeader";
 import { AIPersonasCollectionService } from "../../api/AiChat/AIPersonasCollectionPage";
-import { AIPersona } from "../../types/common/aiChat";
+import { AIPersona } from "../../types/common/AiChat";
 
 export default function AIPersonasCollectionPage() {
   const navigate = useNavigate();

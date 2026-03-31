@@ -1,4 +1,4 @@
-import { CompanyMatch } from "../../../common/companyInformation";
+import { CompanyMatch } from "../../../common/CompanyInformation";
 
 export interface MatchingCardProps {
   match: CompanyMatch;

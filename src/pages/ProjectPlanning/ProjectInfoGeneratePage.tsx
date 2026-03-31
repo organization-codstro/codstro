@@ -6,7 +6,7 @@ import {
   UITodo,
   ProjectTodo,
   NewProjectTodo,
-} from "../../types/common/projectPlanning";
+} from "../../types/common/ProjectPlanning";
 
 // 컴포넌트 임포트
 import { ProjectBasicInfoSection } from "../../components/ProjectPlanning/ProjectBasicInfoSection";
@@ -17,8 +17,9 @@ import { ProjectFooterActions } from "../../components/ProjectPlanning/ProjectIn
 import { ProjectTodoModal } from "../../components/ProjectPlanning/ProjectInfoGeneratePage/ProjectTodoModal/ProjectTodoModal";
 import { ProjectInfoGenerateService } from "../../api/ProjectPlanning/ProjectInfoGeneratePage";
 import { SavePlanningDraftParams } from "../../types/api/ProjectPlanning/ProjectInfoGeneratePage";
-import { getKSTDateString } from "../../util/date/getKSTDateString";
+import { getKSTDateString } from "../../utils/date/getKSTDateString";
 import { SaveDraftWarningModal } from "../../components/ProjectPlanning/ProjectInfoGeneratePage/SaveDraftWarningModal";
+import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function ProjectInfoGeneratePage() {
   const navigate = useNavigate();
@@ -265,6 +266,7 @@ export default function ProjectInfoGeneratePage() {
   const addProjectTodo = (todo: NewProjectTodo) => {
     const uiTodo: UITodo = {
       ...todo,
+      id: crypto.randomUUID(),  
       client_id: crypto.randomUUID(), // UI 전용
     };
 
@@ -334,6 +336,10 @@ export default function ProjectInfoGeneratePage() {
     setPages((prev) => prev.filter((p) => p.project_page_id !== pageId));
   };
 
+  if(!projectId){
+    return <NotFoundPage/>
+  }
+
   return (
     <div className="flex-1 overflow-auto bg-gray-50">
       <ProjectHeaderSection
@@ -365,6 +371,7 @@ export default function ProjectInfoGeneratePage() {
             />
 
             <ProjectPagesSection
+              projectId={projectId}
               pages={pages}
               expandedPage={expandedPage}
               setExpandedPage={setExpandedPage}

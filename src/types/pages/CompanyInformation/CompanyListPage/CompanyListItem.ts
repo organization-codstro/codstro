@@ -1,4 +1,4 @@
-import { Company } from "../../../common/companyInformation";
+import { Company } from "../../../common/CompanyInformation";
 
 export interface CompanyListItemProps {
   company: Company;

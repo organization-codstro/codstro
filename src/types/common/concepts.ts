@@ -57,3 +57,23 @@ export interface PackageManagerSummary {
   category: string[];
   representativeImageUrl?: string;
 }
+
+
+/**
+ * [GetConceptsByType]
+ * 자료 타입에 따라 최신꺼 10개 반환하는 api 파라미터
+ */
+export interface GetConceptsByType {
+  type: MATERIAL_TYPE | "all";
+  page: number;
+}
+
+/**
+ * [updateNoteMessage]
+ * 노트 업데이트 할때 chat에 사용하는 메세지 타입
+ */
+export type UpdateNoteChatMessage = {
+  role: "user" | "assistant";
+  content: string;
+};
+

@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { TodoFormProps } from "../../../../types/pages/ProjectPlanning/ProjectInfoGeneratePage/ProjectTodoModal/TodoForm";
-import { NewProjectTodo } from "../../../../types/common/projectPlanning";
+import { NewProjectTodo } from "../../../../types/common/ProjectPlanning";
 
 export function TodoForm({ onAdd, onCancel }: TodoFormProps) {
   const [name, setName] = useState("");

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Calendar, Edit, Save, X } from "lucide-react";
-import { Project } from "../../../types/common/projectPlanning";
+import { Project } from "../../../types/common/ProjectPlanning";
 import { ProjectInfoViewProps } from "../../../types/pages/ProjectPlanning/ProjectDetailPage/ProjectInfoView";
 
 export const ProjectInfoView = ({

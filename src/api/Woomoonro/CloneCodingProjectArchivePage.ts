@@ -5,7 +5,7 @@ import {
   GetFilteredArchiveParams,
   RemoveBookmarkParams,
 } from "../../types/api/Woomoonro/CloneCodingProjectArchivePage";
-import { CloneCodingProject } from "../../types/common/woomoonro";
+import { CloneCodingProject } from "../../types/common/Woomoonro";
 
 /**
  * [아카이브 서비스]

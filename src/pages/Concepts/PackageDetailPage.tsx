@@ -16,7 +16,7 @@ import MarkdownRenderer from "../../components/Markdown/MarkdownRenderer";
 import RelatedMaterialGrid from "../../components/Concepts/PackageDetailPage/RelatedMaterialGrid";
 import AIChat from "../../components/CompanyInformation/CompanyInformationAIChat";
 import AddTodoModal from "../../components/CompanyInformation/AddTodoModal";
-import { PackageManagerMaterial } from "../../types/common/concepts";
+import { PackageManagerMaterial } from "../../types/common/Concepts";
 import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function PackageDetailPage() {

@@ -13,7 +13,7 @@ import { AIPersonaDetailService } from "../../api/AiChat/AIPersonaDetailPage";
 import { PersonaHero } from "../../components/AiChat/AIPersonaDetailPage/PersonaHero/PersonaHero";
 import { PersonaInfoCard } from "../../components/AiChat/AIPersonaDetailPage/PersonaInfoCard";
 import { DetailHeader } from "../../components/AiChat/AIPersonaDetailPage/DetailHeader";
-import { AIPersona, AiUserSettings } from "../../types/common/aiChat";
+import { AIPersona, AiUserSettings } from "../../types/common/AiChat";
 import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function AIPersonaDetailPage() {

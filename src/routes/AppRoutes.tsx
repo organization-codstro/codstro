@@ -41,15 +41,15 @@ export default function AppRoutes() {
         {/* ================= Woomoonro ================= */}
         <Route
           path="/woomoonro"
-          element={<Page.CloneCodingProjectMainPage />}
+          element={<Page.CloneCodingProjectMain />}
         />
         <Route
           path="/woomoonro/project/:projectId"
-          element={<Page.CloneCodingProjectDetailPage />}
+          element={<Page.CloneCodingProjectDetail />}
         />
         <Route
           path="/woomoonro/archive"
-          element={<Page.CloneCodingProjectArchivePage />}
+          element={<Page.CloneCodingProjectArchive/>}
         />
 
         {/* ================= Woomoonkyung ================= */}
@@ -161,7 +161,7 @@ export default function AppRoutes() {
         />
         <Route
           path="/projects/:projectId/meetings/:meetingId/materials/summary/edit"
-          element={<Page.SummaryEditorPage />}
+          element={<Page.SummaryEditor />}
         />
         <Route
           path="/projects/archive"
@@ -263,7 +263,7 @@ export default function AppRoutes() {
 
       {/* ================= 잘못된 경로 ================= */}
 
-      <Route path="*" element={<Page.NotFoundPage />} />
+      <Route path="*" element={<Page.NotFound/>} />
     </Routes>
   );
 }

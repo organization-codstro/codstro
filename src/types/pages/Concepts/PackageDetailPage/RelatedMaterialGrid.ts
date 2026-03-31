@@ -1,4 +1,4 @@
-import { RelatedConcept } from "../../../common/concepts";
+import { RelatedConcept } from "../../../common/Concepts";
 
 export interface RelatedMaterialGridProps {
   relatedMaterials: RelatedConcept[];

@@ -1,4 +1,4 @@
-import { ChatMessage, ChatRoomAI } from "../../../common/aiChat";
+import { ChatMessage, ChatRoomAI } from "../../../common/AiChat";
 export interface MessageBubbleProps {
   message: ChatMessage;
   onReply: (msg: ChatMessage) => void;

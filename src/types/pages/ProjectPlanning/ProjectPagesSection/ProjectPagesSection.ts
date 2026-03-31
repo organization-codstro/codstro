@@ -1,4 +1,4 @@
-import { ProjectPage, ProjectPageWithTodos, ProjectTodo } from "../../../common/projectPlanning";
+import { ProjectPage, ProjectPageWithTodos, ProjectTodo } from "../../../common/ProjectPlanning";
 
 export interface ProjectPagesSectionProps {
   projectId : string

@@ -8,7 +8,7 @@ import {
   Project,
   UITodo,
   NewProjectTodo,
-} from "../../types/common/projectPlanning";
+} from "../../types/common/ProjectPlanning";
 
 import { ProjectPagesSection } from "../../components/ProjectPlanning/ProjectPagesSection/ProjectPagesSection";
 import { ProjectDetailHeader } from "../../components/ProjectPlanning/ProjectDetailPage/ProjectDetailHeader";

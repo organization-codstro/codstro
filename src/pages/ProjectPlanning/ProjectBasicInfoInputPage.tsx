@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { ProjectBasicInfo } from "../../types/common/projectPlanning";
+import { ProjectBasicInfo } from "../../types/common/ProjectPlanning";
 import { ProjectInfoHeader } from "../../components/ProjectPlanning/ProjectBasicInfoInputPage/ProjectInfoHeader";
 import { ProjectInputField } from "../../components/ProjectPlanning/ProjectBasicInfoInputPage/ProjectInputField";
 import { ProjectInfoActions } from "../../components/ProjectPlanning/ProjectBasicInfoInputPage/ProjectInfoActions";

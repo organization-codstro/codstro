@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { UploadResult } from "../../types/db/firebase/firebase";
-import { compressFile } from "../../util/file/compression";
+import { compressFile } from "../../utils/file/compression";
 
 // Firebase 설정 (Vite 환경변수)
 const firebaseConfig = {

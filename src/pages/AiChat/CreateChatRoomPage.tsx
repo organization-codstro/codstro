@@ -6,7 +6,7 @@ import { RoomInfoForm } from "../../components/AiChat/CreateChatRoomPage/RoomInf
 import { CreateRoomFooter } from "../../components/AiChat/CreateChatRoomPage/CreateRoomFooter";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { CreateChatRoomService } from "../../api/AiChat/CreateChatRoomPage";
-import { ChatRoom, UserAIFriend } from "../../types/common/aiChat";
+import { ChatRoom, UserAIFriend } from "../../types/common/AiChat";
 import { CollectionCard } from "../../components/AiChat/CollectionCard";
 
 export default function CreateChatRoomPage() {

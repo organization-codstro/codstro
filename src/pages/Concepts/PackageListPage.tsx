@@ -12,7 +12,7 @@ import ConceptListHeader from "../../components/Concepts/ConceptListHeader";
 import ConceptSearchBar from "../../components/Concepts/ConceptSearchBar";
 import ConceptGrid from "../../components/Concepts/ConceptGrid";
 import MaterialCard from "../../components/Concepts/PackageListPage/MaterialCard";
-import { PackageManagerSummary } from "../../types/common/concepts";
+import { PackageManagerSummary } from "../../types/common/Concepts";
 
 export default function PackageListPage() {
   const navigate = useNavigate();

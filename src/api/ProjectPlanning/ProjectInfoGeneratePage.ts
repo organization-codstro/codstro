@@ -7,7 +7,7 @@ import {
   ProjectPage,
   ProjectTodo,
   ProjectPlanningDetail,
-} from "../../types/common/projectPlanning";
+} from "../../types/common/ProjectPlanning";
 
 /**
  * [ProjectInfoGenerateService]

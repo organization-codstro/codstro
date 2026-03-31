@@ -1,4 +1,4 @@
-import { CompanyMatch } from "../../common/companyInformation";
+import { CompanyMatch } from "../../common/CompanyInformation";
 
 /** 매칭 상세 조회 Params */
 export interface GetMatchingHistoryDetailParams {

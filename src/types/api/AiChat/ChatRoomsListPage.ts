@@ -1,4 +1,4 @@
-import { ChatRoom } from "../../common/aiChat";
+import { ChatRoom } from "../../common/AiChat";
 
 /**
  * [채팅방 목록 조회]

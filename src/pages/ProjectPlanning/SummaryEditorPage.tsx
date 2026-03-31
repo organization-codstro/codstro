@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+// pages/ProjectPlanning/SummaryEditorPage.tsx
+import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Editor } from "@monaco-editor/react";
-import ReactMarkdown from "react-markdown";
 import { toast } from "react-toastify";
-import { ArrowLeft, Save } from "lucide-react";
 import { SummaryEditorService } from "../../api/ProjectPlanning/SummaryEditorPage";
+import SummaryEditorHeader from "../../components/Concepts/SummaryEditorPage/SummaryEditorHeader";
+import MarkdownEditorPanel from "../../components/Concepts/SummaryEditorPage/MarkdownEditorPanel";
+import MarkdownPreviewPanel from "../../components/Concepts/SummaryEditorPage/MarkdownPreviewPanel";
 
 export default function SummaryEditorPage() {
   const { projectId, meetingId } = useParams<{
@@ -16,17 +17,15 @@ export default function SummaryEditorPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [summaryId, setSummaryId] = useState<string | null>(null);
   const [summaryText, setSummaryText] = useState("");
+  const [savedText, setSavedText] = useState(""); // 마지막 저장값
+  const [isDirty, setIsDirty] = useState(false); // 변경 감지
+  const [isWarning, setIsWarning] = useState(false); // 뒤로가기 경고
+  const warningTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // ESC 누르면 뒤로
+  // 변경 감지
   useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        navigate(`/projects/${projectId}/meetings/${meetingId}/materials`);
-      }
-    };
-    window.addEventListener("keydown", handleEsc);
-    return () => window.removeEventListener("keydown", handleEsc);
-  }, [navigate, projectId, meetingId]);
+    setIsDirty(summaryText !== savedText);
+  }, [summaryText, savedText]);
 
   // 데이터 로드
   useEffect(() => {
@@ -37,9 +36,11 @@ export default function SummaryEditorPage() {
         const { summary } = await SummaryEditorService.getMeetingSummary({
           roomId: meetingId,
         });
+
         if (summary) {
           setSummaryId(summary.project_meeting_summary_id);
           setSummaryText(summary.project_meeting_summary || "");
+          setSavedText(summary.project_meeting_summary || "");
         }
       } catch (error) {
         toast.error("데이터를 불러오는 중 오류가 발생했습니다.");
@@ -47,10 +48,11 @@ export default function SummaryEditorPage() {
         setIsLoading(false);
       }
     };
+
     fetchData();
   }, [meetingId]);
 
-  // 저장
+  // Save 버튼
   const handleSave = async () => {
     if (!meetingId || !summaryId) return;
 
@@ -60,13 +62,16 @@ export default function SummaryEditorPage() {
         summaryId,
         summaryText,
       });
+
+      setSavedText(summaryText);
+      setIsDirty(false);
+
       toast.update(toastId, {
         render: "성공적으로 저장되었습니다.",
         type: "success",
         isLoading: false,
         autoClose: 500,
       });
-      navigate(`/projects/${projectId}/meetings/${meetingId}`);
     } catch (error) {
       toast.update(toastId, {
         render: "저장에 실패했습니다.",
@@ -77,87 +82,77 @@ export default function SummaryEditorPage() {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen bg-gray-900">
-        <div className="text-gray-400">Loading...</div>
-      </div>
-    );
-  }
+  // 뒤로가기 2단계 경고
+  const clearWarning = () => {
+    setIsWarning(false);
+    if (warningTimerRef.current) {
+      clearTimeout(warningTimerRef.current);
+      warningTimerRef.current = null;
+    }
+  };
+
+  const triggerWarning = () => {
+    setIsWarning(true);
+    warningTimerRef.current = setTimeout(() => {
+      setIsWarning(false);
+      warningTimerRef.current = null;
+    }, 3000);
+  };
+
+  const handleBack = () => {
+    if (!isDirty) {
+      navigate(`/projects/${projectId}/meetings/${meetingId}/materials`);
+      return;
+    }
+
+    if (isWarning) {
+      clearWarning();
+      navigate(`/projects/${projectId}/meetings/${meetingId}/materials`);
+    } else {
+      triggerWarning();
+    }
+  };
+
+  // ESC → 뒤로가기 처리
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+
+      if (!isDirty) {
+        navigate(`/projects/${projectId}/meetings/${meetingId}/materials`);
+        return;
+      }
+
+      if (isWarning) {
+        clearWarning();
+        navigate(`/projects/${projectId}/meetings/${meetingId}/materials`);
+      } else {
+        triggerWarning();
+      }
+    };
+
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, [isDirty, isWarning, navigate, projectId, meetingId]);
 
   return (
-    <div className="flex flex-col h-screen bg-gray-900">
+    <div className="flex flex-col h-screen overflow-hidden font-sans bg-zinc-100">
       {/* Header */}
-      <div className="flex items-center justify-between px-6 py-4 bg-white border-b border-gray-200">
-        <div className="flex items-center gap-4">
-          <button
-            onClick={() =>
-              navigate(`/projects/${projectId}/meetings/${meetingId}/materials`)
-            }
-            className="text-gray-400 hover:text-gray-100"
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </button>
-          <div>
-            <h1 className="text-lg font-semibold text-gray-900">
-              Summary Editor
-            </h1>
-            <p className="text-sm text-gray-500">Edit meeting summary</p>
-          </div>
-        </div>
-        <button
-          onClick={handleSave}
-          className="flex items-center gap-2 px-4 py-2 text-white rounded-lg"
-          style={{ backgroundColor: "#587CF0" }}
-        >
-          <Save className="w-4 h-4" />
-          <span>Save</span>
-        </button>
-      </div>
+      <SummaryEditorHeader
+        onBack={handleBack}
+        onSave={handleSave}
+        isDirty={isDirty}
+        isWarning={isWarning}
+      />
 
       {/* Editor + Preview */}
       <div className="flex flex-1 overflow-hidden">
-        {/* Monaco Editor */}
-        <div className="flex flex-col w-1/2 border-r border-gray-200">
-          <div className="px-4 py-2 text-xs font-medium tracking-wide text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-            Markdown
-          </div>
-          <div className="flex-1">
-            <Editor
-              height="100%"
-              defaultLanguage="markdown"
-              value={summaryText}
-              onChange={(value) => setSummaryText(value || "")}
-              theme="vs" // ← vs-dark → vs (흰색 테마)
-              options={{
-                fontSize: 14,
-                lineNumbers: "on",
-                wordWrap: "on",
-                minimap: { enabled: false },
-                scrollBeyondLastLine: false,
-                padding: { top: 16, bottom: 16 },
-              }}
-            />
-          </div>
-        </div>
-
-        {/* Preview */}
-        <div className="flex flex-col w-1/2 bg-white border-l border-gray-200">
-          <div className="px-4 py-2 text-xs font-medium tracking-wide text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-            Preview
-          </div>
-          <div className="flex-1 p-8 overflow-auto">
-            {summaryText ? (
-              <div className="prose-sm prose text-gray-700 max-w-none">
-                <ReactMarkdown>{summaryText}</ReactMarkdown>
-              </div>
-            ) : (
-              <p className="text-sm text-gray-400">
-                마크다운을 입력하면 미리보기가 표시됩니다.
-              </p>
-            )}
-          </div>
-        </div>
+        <MarkdownEditorPanel
+          value={summaryText}
+          onChange={setSummaryText}
+          isLoading={isLoading}
+        />
+        <MarkdownPreviewPanel value={summaryText} isLoading={isLoading} />
       </div>
     </div>
   );

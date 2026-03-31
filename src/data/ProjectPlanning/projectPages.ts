@@ -1,4 +1,4 @@
-import { ProjectPage } from "../../types/common/projectPlanning";
+import { ProjectPage } from "../../types/common/ProjectPlanning";
 
 export const projectPages: ProjectPage[] = [
   {

@@ -1,4 +1,4 @@
-import { AiUserSettings } from "../../../../common/aiChat";
+import { AiUserSettings } from "../../../../common/AiChat";
 
 export interface PersonaHeroProps {
   name: string;

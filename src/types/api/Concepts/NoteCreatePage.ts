@@ -1,4 +1,4 @@
-import { ConceptItem } from "../../common/concepts";
+import { ConceptItem } from "../../common/Concepts";
 
 /**
  * [GetNoteByIdParams]
@@ -14,25 +14,9 @@ export interface GetNoteByIdParams {
  */
 export interface CreateNoteParams {
   title: string;
-  content: string;
+  prompt: string;
   description: string;
   labels: string[]; // concepts 목록을 labels로 활용
   userId: string;
-  concepts: ConceptItem[]
-}
-
-/**
- * [GenerateNoteContentParams]
- * AI 노트 본문 생성 파라미터
- */
-export interface GenerateNoteContentParams {
-  concepts: string[];
-}
-
-/**
- * [DeleteNoteParams]
- * 노트 삭제 파라미터
- */
-export interface DeleteNoteParams {
-  noteId: string;
+  concepts: ConceptItem[];
 }

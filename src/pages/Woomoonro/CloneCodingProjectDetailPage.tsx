@@ -14,7 +14,7 @@ import {
   STATUS_COLORS,
 } from "../../constants/Woomoonro/woomoonro";
 import { UserProjectStatus } from "../../types/pages/Woomoonro/CloneCodingProjectDetailPage/CloneCodingProjectDetailPage";
-import { CloneCodingProject } from "../../types/common/woomoonro";
+import { CloneCodingProject } from "../../types/common/Woomoonro";
 import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function CloneCodingProjectDetailPage() {

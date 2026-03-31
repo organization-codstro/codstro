@@ -1,4 +1,4 @@
-import { Todo } from "../../../common/projectPlanning";
+import { Todo } from "../../../common/ProjectPlanning";
 
 export interface ProjectTodoListProps {
   isEditing: boolean;

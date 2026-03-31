@@ -1,6 +1,6 @@
 import { MATERIAL_TYPE, PAGE_SIZE } from "../../constants/Concepts/concepts";
 import { supabase } from "../../db/supabase/supabase";
-import { GetConceptsByType } from "../../types/pages/Concepts/Concepts";
+import { GetConceptsByType } from "../../types/common/Concepts";
 
 export const ConceptsService = {
   /**
@@ -47,19 +47,23 @@ export const ConceptsService = {
                 id = item.concept_description_material_id;
                 name = item.concept_description_material_name;
                 break;
+
               case "tool":
                 id = item.tool_description_material_id;
                 name = item.tool_description_material_name;
                 break;
+
               case "library":
                 id = item.library_description_material_id;
                 name = item.library_description_material_name;
                 break;
-              case "third_party_service":
+
+              case "thirdPartyService":
                 id = item.third_party_services_description_material_id;
                 name = item.third_party_services_description_material_name;
                 break;
-              case "package_manager":
+
+              case "packageManager":
                 id = item.package_manager_description_material_id;
                 name = item.package_manager_description_material_name;
                 break;
@@ -143,4 +147,6 @@ export const ConceptsService = {
       hasMore: offset + PAGE_SIZE < sorted.length,
     };
   },
+
+  
 };

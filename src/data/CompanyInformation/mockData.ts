@@ -4,7 +4,7 @@ import {
   CompanyQna,
   CompanyUserQna,
   CompanyUserMatchRecord,
-} from "../../types/common/companyInformation";
+} from "../../types/common/CompanyInformation";
 
 export const mockCompanies: Company[] = [
   {

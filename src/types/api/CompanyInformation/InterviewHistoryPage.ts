@@ -1,4 +1,4 @@
-import { CompanyInterview } from "../../common/companyInformation";
+import { CompanyInterview } from "../../common/CompanyInformation";
 
 /** 특정 유저 면접 기록 리스트 조회 Params */
 export interface GetUserInterviewListParams {

@@ -1,4 +1,4 @@
-import { ChatMessage, ChatRoomAI, Emoticon } from "../../../../common/aiChat";
+import { ChatMessage, ChatRoomAI, Emoticon } from "../../../../common/AiChat";
 
 export type EmoticonCache = Record<
   number,

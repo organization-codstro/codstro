@@ -1,4 +1,4 @@
-import { Company } from "../../common/companyInformation";
+import { Company } from "../../common/CompanyInformation";
 
 /**
  * [회사 리스트 조회] Response

@@ -1,14 +1,12 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ConceptSelectorProps } from "../../types/pages/Concepts/NoteCreatePage/ConceptSelector";
 import { FILTER_TYPES } from "../../constants/Concepts/concepts";
-import { ConceptItem } from "../../types/common/concepts";
+import { ConceptItem } from "../../types/common/Concepts";
 
 export default function ConceptSelector({
   availableConcepts,
   selectedConcepts,
   onToggle,
-  onHide,
-  onGenerateAI,
   isGenerating = false,
   activeFilter,
   onFilterChange,
@@ -19,6 +17,8 @@ export default function ConceptSelector({
 }: ConceptSelectorProps) {
   const isSelected = (concept: ConceptItem) =>
     selectedConcepts.some((c) => c.id === concept.id);
+
+  console.log(availableConcepts);
 
   return (
     <div className="p-4 mb-6 rounded-lg bg-gray-50">

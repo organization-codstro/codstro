@@ -29,8 +29,13 @@ export default function NoteCard({
         ))}
       </div>
       <div className="flex items-center gap-2 text-xs text-gray-500">
-        <Calendar className="w-4 h-4" />
-        Updated {lastUpdated}
+        {lastUpdated && (
+          <>
+            <Calendar className="w-4 h-4" />
+            Updated{" "}
+            {`${new Date(lastUpdated).getFullYear()} ${String(new Date(lastUpdated).getMonth() + 1).padStart(2, "0")} ${String(new Date(lastUpdated).getDate()).padStart(2, "0")}`}
+          </>
+        )}
       </div>
     </div>
   );

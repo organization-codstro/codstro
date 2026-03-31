@@ -1,4 +1,4 @@
-import { Project } from "../../common/projectPlanning";
+import { Project } from "../../common/ProjectPlanning";
 
 export interface ProjectCardProps {
   project: Project;

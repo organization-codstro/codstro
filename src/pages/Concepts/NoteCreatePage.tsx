@@ -10,8 +10,11 @@ import ConceptSelector from "../../components/Concepts/ConceptSelector";
 import NoteEditor from "../../components/Concepts/NoteCreatePage/NoteEditor";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { NoteCreateService } from "../../api/Concepts/NoteCreatePage";
-import { MATERIAL_TYPE } from "../../constants/Concepts/concepts";
-import { ConceptItem } from "../../types/common/concepts";
+import {
+  LABEL_OPTIONS,
+  MATERIAL_TYPE,
+} from "../../constants/Concepts/concepts";
+import { ConceptItem } from "../../types/common/Concepts";
 import { ConceptsService } from "../../api/Concepts/Concepts";
 
 export default function NoteCreatePage() {
@@ -21,7 +24,7 @@ export default function NoteCreatePage() {
   const [userId, setUserId] = useState<string | null>(null);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState("");
-  const [content, setContent] = useState<string>("");
+  const [prompt, setPrompt] = useState<string>("");
   const [selectedConcepts, setSelectedConcepts] = useState<ConceptItem[]>([]);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -36,6 +39,10 @@ export default function NoteCreatePage() {
   const [availableConcepts, setAvailableConcepts] = useState<ConceptItem[]>([]);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoadingConcepts, setIsLoadingConcepts] = useState(false);
+  const [selectedLabels, setSelectedLabels] = useState<string[]>([
+    "personal",
+    "study",
+  ]);
 
   // 초기 유저 정보
   useEffect(() => {
@@ -96,36 +103,16 @@ export default function NoteCreatePage() {
     );
   };
 
-  // AI 콘텐츠 생성
-  const handleGenerateWithAI = async () => {
-    if (selectedConcepts.length === 0) {
-      toast.warning("최소 하나 이상의 개념을 선택해주세요.");
-      return;
-    }
-
-    try {
-      // setIsGeneratingAI(true);
-
-      // const selectedNames = availableConcepts
-      //   .filter((c) => selectedConcepts.includes(c.id))
-      //   .map((c) => c.name);
-
-      // const aiContent = await NoteCreateService.generateNoteContent({
-      //   concepts: selectedNames,
-      // });
-
-      // setContent(aiContent);
-      toast.success("AI가 노트 초안을 생성했습니다!");
-    } catch (error) {
-      toast.error("AI 콘텐츠 생성 중 오류가 발생했습니다.");
-    } finally {
-      setIsGeneratingAI(false);
-    }
+  //라벨 선택 토글
+  const handleLabelToggle = (value: string) => {
+    setSelectedLabels((prev) =>
+      prev.includes(value) ? prev.filter((l) => l !== value) : [...prev, value],
+    );
   };
 
   // 노트 생성
-  const handleSave = async () => {
-    if (!userId || !title.trim() || !content.trim()) {
+  const handleCreate = async () => {
+    if (!userId || !title.trim() || !prompt.trim()) {
       toast.warning("제목과 내용을 모두 입력해주세요.");
       return;
     }
@@ -133,22 +120,38 @@ export default function NoteCreatePage() {
     try {
       setIsSaving(true);
 
-      // conceptId + type 같이 전달
       const conceptPayload = selectedConcepts.map((c) => ({
         id: c.id,
         type: c.type,
       }));
 
+      // 1단계: 저장 시작
+      const savingToast = toast.loading("노트를 저장하는 중...");
+
       await NoteCreateService.createNote({
         userId,
         title,
-        content,
+        prompt,
         description,
-        labels: ["personal", "study"],
+        labels: selectedLabels,
         concepts: conceptPayload,
       });
 
-      toast.success("노트가 생성되었습니다!");
+      // 2단계: DB 저장 완료, AI 생성 중
+      toast.update(savingToast, {
+        render: "AI가 노트를 작성하는 중...",
+        type: "info",
+        isLoading: true,
+      });
+
+      // Edge Function이 완료되면 (현재 구조상 createNote 내부에서 invoke까지 await)
+      toast.update(savingToast, {
+        render: "노트가 생성되었습니다! 🎉",
+        type: "success",
+        isLoading: false,
+        autoClose: 2000,
+      });
+
       navigate("/notes");
     } catch (error) {
       console.error(error);
@@ -187,13 +190,36 @@ export default function NoteCreatePage() {
           onChange={setDescription}
         />
 
+        <div className="mb-6">
+          <label className="block mb-2 text-sm font-medium text-gray-700">
+            Labels
+          </label>
+          <div className="flex flex-wrap gap-2">
+            {LABEL_OPTIONS.map((option) => {
+              const isSelected = selectedLabels.includes(option.value);
+              return (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() => handleLabelToggle(option.value)}
+                  className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors ${
+                    isSelected
+                      ? "bg-blue-600 text-white border-blue-600"
+                      : "bg-white text-gray-600 border-gray-300 hover:border-blue-400 hover:text-blue-600"
+                  }`}
+                >
+                  {option.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         {showConceptSelector ? (
           <ConceptSelector
             availableConcepts={availableConcepts}
             selectedConcepts={selectedConcepts}
             onToggle={handleConceptToggle}
-            onHide={() => setShowConceptSelector(false)}
-            onGenerateAI={handleGenerateWithAI}
             isGenerating={isGeneratingAI}
             activeFilter={activeFilter}
             onFilterChange={handleFilterChange}
@@ -213,11 +239,11 @@ export default function NoteCreatePage() {
           </div>
         )}
 
-        <NoteEditor value={content} onChange={setContent} />
+        <NoteEditor value={prompt} onChange={setPrompt} />
 
         <div className="flex items-center gap-3 pt-6 border-t border-gray-100">
           <button
-            onClick={handleSave}
+            onClick={handleCreate}
             disabled={isSaving}
             className="flex items-center gap-2 px-6 py-2.5 text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700 disabled:bg-blue-400"
           >
@@ -226,7 +252,7 @@ export default function NoteCreatePage() {
             ) : (
               <Save className="w-4 h-4" />
             )}
-            Save Note
+            Create Note
           </button>
 
           <button

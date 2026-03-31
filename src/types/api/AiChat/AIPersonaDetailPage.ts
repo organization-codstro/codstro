@@ -1,4 +1,4 @@
-import { AIPersona, AiUserSettings } from "../../common/aiChat";
+import { AIPersona, AiUserSettings } from "../../common/AiChat";
 
 export interface GetPersonaDetailParams {
   personaId: string;

@@ -1,6 +1,6 @@
 // types/api/AiChat/UserRecordService.ts
 
-import { UserRecord } from "../../common/aiChat";
+import { UserRecord } from "../../common/AiChat";
 
 /**
  * [유저 기록 조회]

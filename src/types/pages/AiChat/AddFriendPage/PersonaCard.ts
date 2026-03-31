@@ -1,4 +1,4 @@
-import { AIPersona } from "../../../common/aiChat";
+import { AIPersona } from "../../../common/AiChat";
 
 export interface PersonaCardProps {
   persona: AIPersona;

@@ -8,7 +8,7 @@ import { MeetingCreateService } from "../../api/ProjectPlanning/MeetingCreatePag
 import { PROJECT_ROOM_TYPE } from "../../constants/ProjectPlanning/ProjectPlanning";
 import NotFoundPage from "../NotFound/NotFoundPage";
 import { MeetingHeader } from "../../components/ProjectPlanning/MeetingHeader";
-import { ProjectPage } from "../../types/common/projectPlanning";
+import { ProjectPage } from "../../types/common/ProjectPlanning";
 
 export default function MeetingCreatePage() {
   const navigate = useNavigate();

@@ -8,7 +8,7 @@ import { CompanyDetailService } from "../../api/CompanyInformation/CompanyDetail
 import { toast } from "react-toastify";
 import { CompanyMatchService } from "../../api/CompanyInformation/CompanyMatchPage";
 import { UserInfoService } from "../../api/AiChat/UserInfoPage";
-import { Company } from "../../types/common/companyInformation";
+import { Company } from "../../types/common/CompanyInformation";
 import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function CompanyDetailPage() {

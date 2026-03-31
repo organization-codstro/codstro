@@ -12,7 +12,7 @@ import {
   ChatRoom,
   ChatRoomAI,
   TypingPersona,
-} from "../../types/common/aiChat";
+} from "../../types/common/AiChat";
 import NotFoundPage from "../NotFound/NotFoundPage";
 import {
   ChatMessageInteractionType,

@@ -15,9 +15,6 @@ export const NoteDetailService = {
   /**
    * [조회] 특정 ID의 노트 상세 정보와 연결된 개념들을 가져옵니다.
    */
-  /**
-   * [조회] 특정 ID의 노트 상세 정보와 연결된 개념들을 가져옵니다.
-   */
   async getNoteDetail(
     params: GetNoteDetailParams,
   ): Promise<NoteDetailResponse> {

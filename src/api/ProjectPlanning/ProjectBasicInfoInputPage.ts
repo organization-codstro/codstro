@@ -3,7 +3,7 @@ import {
   SaveOrUpdateBasicInfoParams,
   GetPlanningBasicInfoParams,
 } from "../../types/api/ProjectPlanning/ProjectBasicInfoInputPage";
-import { ProjectBasicInfo } from "../../types/common/projectPlanning";
+import { ProjectBasicInfo } from "../../types/common/ProjectPlanning";
 
 /**
  * [ProjectBasicInfoInputService]

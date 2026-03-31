@@ -1,4 +1,4 @@
-import { CompanyInterview } from "../../common/companyInformation";
+import { CompanyInterview } from "../../common/CompanyInformation";
 
 /**
  * [면접 이력 상세 조회] Params

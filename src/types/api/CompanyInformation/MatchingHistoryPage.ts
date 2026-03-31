@@ -1,4 +1,4 @@
-import { CompanyMatch } from "../../common/companyInformation";
+import { CompanyMatch } from "../../common/CompanyInformation";
 
 /** 유저 매칭 리스트 조회 Params */
 export interface GetUserMatchingListParams {

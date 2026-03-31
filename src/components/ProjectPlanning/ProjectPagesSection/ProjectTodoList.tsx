@@ -1,5 +1,5 @@
 import React from "react";
-import { ProjectTodo } from "../../../types/common/projectPlanning";
+import { ProjectTodo } from "../../../types/common/ProjectPlanning";
 import { ProjectTodoItem } from "./ProjectTodoItem";
 import { ProjectTodoListProps } from "../../../types/pages/ProjectPlanning/ProjectPagesSection/ProjectTodoList";
 

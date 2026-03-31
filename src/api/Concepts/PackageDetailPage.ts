@@ -1,5 +1,5 @@
 import { supabase } from "../../db/supabase/supabase";
-import { PackageManagerMaterial } from "../../types/common/concepts";
+import { PackageManagerMaterial } from "../../types/common/Concepts";
 
 /**
  * [PackageManagerService]

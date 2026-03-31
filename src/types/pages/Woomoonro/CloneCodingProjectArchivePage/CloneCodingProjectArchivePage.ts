@@ -1,7 +1,7 @@
 import {
   CloneCodingProject,
   UserCloneCodingProject,
-} from "../../../common/woomoonro";
+} from "../../../common/Woomoonro";
 
 /**
  * [아카이브 데이터 인터페이스]

@@ -8,7 +8,7 @@ import { supabase } from "../../db/supabase/supabase";
 import {
   Company,
   FavoriteCompanyRow,
-} from "../../types/common/companyInformation";
+} from "../../types/common/CompanyInformation";
 
 /**
  * [BookmarksService]

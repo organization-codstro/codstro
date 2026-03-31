@@ -1,12 +1,10 @@
 import { MATERIAL_TYPE } from "../../../../constants/Concepts/concepts";
-import { ConceptItem } from "../../../common/concepts";
+import { ConceptItem } from "../../../common/Concepts";
 
 export interface ConceptSelectorProps {
   availableConcepts: ConceptItem[];
   selectedConcepts: ConceptItem[];
   onToggle: (concept: ConceptItem) => void;
-  onHide: () => void;
-  onGenerateAI: () => void;
   isGenerating?: boolean;
 
   activeFilter: MATERIAL_TYPE | "all";

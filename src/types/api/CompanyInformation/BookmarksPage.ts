@@ -1,4 +1,4 @@
-import { Company } from "../../common/companyInformation";
+import { Company } from "../../common/CompanyInformation";
 
 /**
  * [북마크된 회사 목록 조회] Params

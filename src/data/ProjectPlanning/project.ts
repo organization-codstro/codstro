@@ -2,7 +2,7 @@ import {
   Project,
   ProjectPage,
   ProjectTodo,
-} from "../../types/common/projectPlanning";
+} from "../../types/common/ProjectPlanning";
 
 // 예시 데이터: 진행중인 프로젝트 (기획 완료)
 export const activeProjectsData: Project[] = [

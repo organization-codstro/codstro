@@ -12,7 +12,7 @@ import { EmoticonPreview } from "./EmoticonPreview";
 import { ImagePreview } from "./ImagePreview";
 import { ReplyPreview } from "./ReplyPreview";
 import { MessageModeToggle } from "./MessageModeToggle";
-import { Emoticon, ChatRoomAI } from "../../../../types/common/aiChat";
+import { Emoticon, ChatRoomAI } from "../../../../types/common/AiChat";
 import {
   ChatInputProps,
   EmoticonCache,

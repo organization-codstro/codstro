@@ -11,7 +11,7 @@ import { ChatListNav } from "../../components/AiChat/ChatRoomsListPage/ChatListN
 import { ChatRoomItem } from "../../components/AiChat/ChatRoomsListPage/ChatRoomItem";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { ChatRoomsListService } from "../../api/AiChat/ChatRoomsListPage";
-import { ChatRoom } from "../../types/common/aiChat";
+import { ChatRoom } from "../../types/common/AiChat";
 
 export default function ChatRoomsListPage() {
   const navigate = useNavigate();
