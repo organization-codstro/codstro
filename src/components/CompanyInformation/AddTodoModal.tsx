@@ -1,26 +1,25 @@
-import { X, Calendar, AlertCircle, FolderOpen, Loader2 } from "lucide-react";
+import { X, Calendar, AlertCircle, Loader2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import {
-  AddTodoModalProps,
+  AddTodoModalProeps,
   TodoForm,
 } from "../../types/pages/CompanyInformation/AddTodoModal";
-
-// Props 타입에 onConfirm이 포함되어 있다고 가정합니다.
-// 만약 타입 정의에 없다면 (formData: TodoForm) => Promise<void> 를 추가해야 합니다.
-interface ExtendedAddTodoModalProps extends AddTodoModalProps {
-  onConfirm: (formData: TodoForm) => Promise<void>;
-}
+import {
+  DEFAULT_GROUP_NAME,
+  TODO_STATUS_TYPE,
+} from "../../constants/Woomoonjeong/woomoonjeong";
 
 export default function AddTodoModal({
   isOpen,
   onClose,
   conceptName,
   todoType,
-  onConfirm, // 부모로부터 받은 확정 함수
-}: ExtendedAddTodoModalProps) {
+  onConfirm,
+  availableGroups,
+}: AddTodoModalProeps) {
   const [isPending, setIsPending] = useState(false);
 
-  const getDefaultTitle = () => {
+  const getDefaultName = () => {
     if (todoType === "documentation")
       return `Explore ${conceptName} Documentation`;
     if (todoType === "clone_project")
@@ -29,29 +28,20 @@ export default function AddTodoModal({
   };
 
   const [formData, setFormData] = useState<TodoForm>({
-    title: "",
-    description: "",
-    dueDate: "",
-    priority: "medium",
-    group: "personal",
+    todo_name: "",
+    todo_content: "",
+    todo_description: "",
+    todo_start_date: "",
+    todo_end_date: "",
+    todo_status: "waiting",
+    group_name: DEFAULT_GROUP_NAME,
   });
 
-  // 모달이 열릴 때마다 기본 타이틀 설정
   useEffect(() => {
     if (isOpen) {
-      setFormData((prev) => ({ ...prev, title: getDefaultTitle() }));
+      setFormData((prev) => ({ ...prev, todo_name: getDefaultName() }));
     }
   }, [isOpen, conceptName, todoType]);
-
-  const groups = [
-    { id: "app", name: "App" },
-    { id: "web", name: "Web" },
-    { id: "server", name: "Server" },
-    { id: "game", name: "Game" },
-    { id: "security", name: "Security" },
-    { id: "work", name: "Work" },
-    { id: "other", name: "Other" },
-  ];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,11 +49,8 @@ export default function AddTodoModal({
 
     try {
       setIsPending(true);
-      // 부모 컴포넌트의 handleAddTodo 실행 (formData 전체 전달)
       await onConfirm(formData);
       handleClose();
-    } catch (error) {
-      // 에러 처리는 부모의 toast에서 수행됨
     } finally {
       setIsPending(false);
     }
@@ -71,11 +58,13 @@ export default function AddTodoModal({
 
   const handleClose = () => {
     setFormData({
-      title: "",
-      group: "personal",
-      description: "",
-      dueDate: "",
-      priority: "medium",
+      todo_name: "",
+      todo_content: "",
+      todo_description: "",
+      todo_start_date: "",
+      todo_end_date: "",
+      todo_status: "waiting",
+      group_name: DEFAULT_GROUP_NAME,
     });
     onClose();
   };
@@ -87,7 +76,7 @@ export default function AddTodoModal({
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50"
       onClick={(e) => e.target === e.currentTarget && handleClose()}
     >
-      <div className="w-full max-w-md bg-white rounded-lg shadow-xl">
+      <div className="w-full max-w-2xl bg-white rounded-lg shadow-xl">
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <h2 className="text-xl font-bold text-gray-900">Add Todo</h2>
           <button
@@ -105,33 +94,41 @@ export default function AddTodoModal({
             </label>
             <input
               type="text"
-              value={formData.title}
+              value={formData.todo_name}
               onChange={(e) =>
-                setFormData({ ...formData, title: e.target.value })
+                setFormData({ ...formData, todo_name: e.target.value })
               }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
 
+          {/* 그룹 선택 버튼 */}
           <div>
-            <label className="flex items-center gap-1 mb-2 text-sm font-medium text-gray-700">
-              <FolderOpen className="w-4 h-4" /> Group *
+            <label className="block mb-2 text-sm font-medium text-gray-700">
+              그룹 이름 <span className="text-red-500">*</span>
             </label>
-            <select
-              value={formData.group}
-              onChange={(e) =>
-                setFormData({ ...formData, group: e.target.value })
-              }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none"
-              required
-            >
-              {groups.map((group) => (
-                <option key={group.id} value={group.id}>
-                  {group.name}
-                </option>
+            <div className="flex flex-wrap gap-2">
+              {availableGroups.map((group) => (
+                <button
+                  key={group.group_id}
+                  type="button"
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      group_name: group.group_id,
+                    }))
+                  }
+                  className={`px-4 py-2 rounded-lg border text-sm transition-colors ${
+                    formData.group_name === group.group_id
+                      ? "bg-[#587CF0] text-white border-[#587CF0]"
+                      : "bg-white text-gray-700 border-gray-200 hover:bg-gray-100"
+                  }`}
+                >
+                  {group.group_name}
+                </button>
               ))}
-            </select>
+            </div>
           </div>
 
           <div>
@@ -139,11 +136,11 @@ export default function AddTodoModal({
               Description
             </label>
             <textarea
-              value={formData.description}
+              value={formData.todo_description}
               onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
+                setFormData({ ...formData, todo_description: e.target.value })
               }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg resize-none outline-none"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none resize-none"
               rows={3}
             />
           </div>
@@ -151,40 +148,57 @@ export default function AddTodoModal({
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="flex items-center gap-1 mb-2 text-sm font-medium text-gray-700">
-                <Calendar className="w-4 h-4" /> Due Date
+                <Calendar className="w-4 h-4" /> Start Date
               </label>
               <input
                 type="date"
-                value={formData.dueDate}
+                value={formData.todo_start_date}
                 onChange={(e) =>
-                  setFormData({ ...formData, dueDate: e.target.value })
+                  setFormData({ ...formData, todo_start_date: e.target.value })
                 }
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none"
               />
             </div>
             <div>
               <label className="flex items-center gap-1 mb-2 text-sm font-medium text-gray-700">
-                <AlertCircle className="w-4 h-4" /> Priority
+                <Calendar className="w-4 h-4" /> End Date
               </label>
-              <select
-                value={formData.priority}
+              <input
+                type="date"
+                value={formData.todo_end_date}
                 onChange={(e) =>
-                  setFormData({ ...formData, priority: e.target.value as any })
+                  setFormData({ ...formData, todo_end_date: e.target.value })
                 }
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none"
-              >
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-              </select>
+              />
             </div>
+          </div>
+
+          <div>
+            <label className="flex items-center gap-1 mb-2 text-sm font-medium text-gray-700">
+              <AlertCircle className="w-4 h-4" /> Status
+            </label>
+            <select
+              value={formData.todo_status}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  todo_status: e.target.value as TODO_STATUS_TYPE,
+                })
+              }
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none"
+            >
+              <option value="waiting">Waiting</option>
+              <option value="in progress">In Progress</option>
+              <option value="done">Done</option>
+            </select>
           </div>
 
           <div className="flex gap-3 pt-4 border-t">
             <button
               type="submit"
               disabled={isPending}
-              className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex justify-center items-center"
+              className="flex items-center justify-center flex-1 px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700"
             >
               {isPending ? (
                 <Loader2 className="w-5 h-5 animate-spin" />

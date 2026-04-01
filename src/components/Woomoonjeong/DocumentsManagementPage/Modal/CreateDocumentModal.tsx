@@ -5,8 +5,8 @@ import { X } from "lucide-react";
 import { CreateDocumentModalProps } from "../../../../types/pages/Woomoonjeong/DocumentsManagementPage/Modal/CreateDocumentModal";
 import {
   DEFAULT_GROUP_NAME,
+  GROUP_NAME_TYPE,
   GROUP_NAME,
-  GROUP_NAME_TYPES,
 } from "../../../../constants/Woomoonjeong/woomoonjeong";
 
 const CreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
@@ -21,7 +21,7 @@ const CreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
   const [categoryInput, setCategoryInput] = useState("");
   const [categories, setCategories] = useState<string[]>([]);
   const [selectedGroupType, setSelectedGroupType] =
-    useState<GROUP_NAME>(DEFAULT_GROUP_NAME);
+    useState<GROUP_NAME_TYPE>(DEFAULT_GROUP_NAME);
   const [selectedFieldId, setSelectedFieldId] = useState<string>("");
   const [fieldOptions, setFieldOptions] = useState<
     { field_id: string; field_name: string }[]
@@ -241,7 +241,7 @@ const CreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
               그룹 선택
             </label>
             <div className="grid grid-cols-4 gap-2">
-              {GROUP_NAME_TYPES.map((type) => (
+              {GROUP_NAME.map((type) => (
                 <button
                   key={type}
                   type="button"

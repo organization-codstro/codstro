@@ -1,3 +1,5 @@
+// ThirdPartyDetailPage.tsx
+
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -19,11 +21,17 @@ import AIChat from "../../components/CompanyInformation/CompanyInformationAIChat
 import AddTodoModal from "../../components/CompanyInformation/AddTodoModal";
 import NotFoundPage from "../NotFound/NotFoundPage";
 
+// 그룹 관련 상수
+import {
+  GROUP_NAME,
+  GROUP_NAME_TYPE,
+  DEFAULT_GROUP_NAME,
+} from "../../constants/Woomoonjeong/woomoonjeong";
+
 export default function ThirdPartyDetailPage() {
   const { serviceId } = useParams<{ serviceId: string }>();
   const navigate = useNavigate();
 
-  // 1. 상태 관리
   const [service, setService] = useState<ThirdPartyDetailResponse | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -33,7 +41,14 @@ export default function ThirdPartyDetailPage() {
     false | "documentation" | "clone_project"
   >(false);
 
-  // 2. 초기 데이터 로드
+  // 부모에서 availableGroups 정의
+  const availableGroups = GROUP_NAME.map(
+    (groupName): { group_id: GROUP_NAME_TYPE; group_name: string } => ({
+      group_id: groupName,
+      group_name: groupName.charAt(0).toUpperCase() + groupName.slice(1),
+    }),
+  );
+
   useEffect(() => {
     const fetchDetail = async () => {
       if (!serviceId) return;
@@ -65,9 +80,6 @@ export default function ThirdPartyDetailPage() {
     fetchDetail();
   }, [serviceId]);
 
-  // 3. 핸들러 로직
-
-  // [이해함 토글]
   const handleToggleUnderstood = async () => {
     if (!service || !userId || !serviceId) return;
 
@@ -77,7 +89,6 @@ export default function ThirdPartyDetailPage() {
         serviceId,
         currentStatus: service.isUnderstood,
       });
-
       setService({ ...service, isUnderstood: newStatus });
       toast.success(newStatus ? "학습 완료!" : "학습 취소됨");
     } catch (error) {
@@ -85,7 +96,6 @@ export default function ThirdPartyDetailPage() {
     }
   };
 
-  // [Todo 추가 확정]
   const handleAddTodoConfirm = async (formData: TodoForm) => {
     if (!userId || !service || !showTodoModal) return;
 
@@ -99,11 +109,10 @@ export default function ThirdPartyDetailPage() {
       setShowTodoModal(false);
     } catch (error) {
       toast.error("Todo 저장에 실패했습니다.");
-      throw error; // 모달 내부 에러 처리를 위해 throw
+      throw error;
     }
   };
 
-  // 4. 로딩 및 예외 처리
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center py-20">
@@ -115,9 +124,7 @@ export default function ThirdPartyDetailPage() {
     );
   }
 
-  if (!service) {
-    return <NotFoundPage />;
-  }
+  if (!service) return <NotFoundPage />;
 
   return (
     <div className="max-w-5xl p-8 mx-auto">
@@ -164,6 +171,7 @@ export default function ThirdPartyDetailPage() {
           conceptName={service.name}
           todoType={showTodoModal}
           onConfirm={handleAddTodoConfirm}
+          availableGroups={availableGroups} // 여기서 전달
         />
       )}
     </div>

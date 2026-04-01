@@ -1,5 +1,5 @@
 import {
-  GROUP_NAME,
+  GROUP_NAME_TYPE,
   TODO_STATUS_TYPE,
 } from "../../constants/Woomoonjeong/woomoonjeong";
 
@@ -33,7 +33,7 @@ export interface TodoFormData {
 
 export interface Group {
   group_id: string;
-  group_name: GROUP_NAME;
+  group_name: GROUP_NAME_TYPE;
   group_description: string;
   fields: Field[];
   created_at: string;

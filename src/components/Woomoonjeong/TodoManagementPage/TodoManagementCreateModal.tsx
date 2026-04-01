@@ -247,7 +247,7 @@ const TodoManagementCreateModal: React.FC<TodoManagementCreateProps> = ({
           {/* 그룹 선택 */}
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-700">
-              Related Field <span className="text-red-500">*</span>
+              그룹 이름 <span className="text-red-500">*</span>
             </label>
             <div className="flex flex-wrap gap-2">
               {availableGroups.map((grop) => (

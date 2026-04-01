@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import {
   DEFAULT_GROUP_NAME,
+  GROUP_NAME_TYPE,
   GROUP_NAME,
-  GROUP_NAME_TYPES,
 } from "../../../../constants/Woomoonjeong/woomoonjeong";
 import { CreateCustomFieldModalProps } from "../../../../types/pages/Woomoonjeong/DocumentsManagementPage/Modal/CreateCustomFieldModal";
 
@@ -17,7 +17,7 @@ const CreateCustomFieldModal: React.FC<CreateCustomFieldModalProps> = ({
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [selectedGroupType, setSelectedGroupType] =
-    useState<GROUP_NAME>(DEFAULT_GROUP_NAME);
+    useState<GROUP_NAME_TYPE>(DEFAULT_GROUP_NAME);
 
   // 폼 검증 에러 상태
   const [errors, setErrors] = useState<Record<string, boolean>>({});
@@ -122,7 +122,7 @@ const CreateCustomFieldModal: React.FC<CreateCustomFieldModalProps> = ({
               그룹
             </label>
             <div className="grid grid-cols-2 gap-2">
-              {GROUP_NAME_TYPES.map((type) => (
+              {GROUP_NAME.map((type) => (
                 <button
                   key={type}
                   type="button"
