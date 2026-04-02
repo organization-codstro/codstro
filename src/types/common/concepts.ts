@@ -58,7 +58,6 @@ export interface PackageManagerSummary {
   representativeImageUrl?: string;
 }
 
-
 /**
  * [GetConceptsByType]
  * 자료 타입에 따라 최신꺼 10개 반환하는 api 파라미터
@@ -77,3 +76,8 @@ export type UpdateNoteChatMessage = {
   content: string;
 };
 
+export interface AskConceptChatParams {
+  material_id: string;
+  material_type: MATERIAL_TYPE;
+  messages: { role: "user" | "assistant"; content: string }[];
+}

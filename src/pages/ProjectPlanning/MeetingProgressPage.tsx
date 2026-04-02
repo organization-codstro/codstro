@@ -241,7 +241,7 @@ export default function MeetingProgressPage() {
         <div className="max-w-6xl p-6 mx-auto space-y-4">
           {messages.length === 0 && !isAiTyping ? (
             <div className="mt-20 text-center text-gray-400">
-              대화 내용이 없습니다.
+              첫 매세지를 입력하여 회의의 방향을 정해보세요!
             </div>
           ) : (
             messages.map((msg, idx) => <ChatMessage key={idx} message={msg} />)

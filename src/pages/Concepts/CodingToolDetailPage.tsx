@@ -17,6 +17,10 @@ import RelatedItemGrid from "../../components/Concepts/CodingToolDetailPage/Rela
 import { LoginService } from "../../api/Auth/LoginPage";
 import { CodingToolDetailService } from "../../api/Concepts/CodingToolDetailPage";
 import NotFoundPage from "../NotFound/NotFoundPage";
+import {
+  GROUP_NAME,
+  GROUP_NAME_TYPE,
+} from "../../constants/Woomoonjeong/woomoonjeong";
 
 export default function CodingToolDetailPage() {
   const { toolId } = useParams<{ toolId: string }>();
@@ -31,7 +35,13 @@ export default function CodingToolDetailPage() {
     false | "documentation" | "clone_project"
   >(false);
 
-
+  // availableGroups 정의
+  const availableGroups = GROUP_NAME.map(
+    (groupName): { group_id: GROUP_NAME_TYPE; group_name: string } => ({
+      group_id: groupName,
+      group_name: groupName.charAt(0).toUpperCase() + groupName.slice(1),
+    }),
+  );
 
   // 2. 초기 데이터 페칭 (useEffect)
   useEffect(() => {
@@ -122,7 +132,6 @@ export default function CodingToolDetailPage() {
       <BackButton to="/coding-tools" label="Back to Tools" />
 
       <div className="p-8 mb-6 bg-white border border-gray-200 rounded-lg shadow-sm">
-        {/* ToolHeader: tags 제거 및 category 전달 */}
         <ToolHeader
           name={data.name}
           category={data.category}
@@ -153,6 +162,8 @@ export default function CodingToolDetailPage() {
         isOpen={showAIChat}
         onClose={() => setShowAIChat(false)}
         conceptName={data.name}
+        materialId={toolId}
+        materialType="tool"
       />
 
       {showTodoModal && (
@@ -161,7 +172,8 @@ export default function CodingToolDetailPage() {
           onClose={() => setShowTodoModal(false)}
           conceptName={data.name}
           todoType={showTodoModal}
-          onConfirm={handleAddTodoConfirm} // API 연동을 위한 함수 전달
+          onConfirm={handleAddTodoConfirm}
+          availableGroups={availableGroups}
         />
       )}
     </div>

@@ -1,14 +1,16 @@
-import { Edit, Loader2, Trash2 } from "lucide-react";
+import { Edit, Info, Loader2, Trash2 } from "lucide-react";
 import { NoteActionButtonsProps } from "../../../types/pages/Concepts/NoteDetailPage/NoteActionButtons";
 
 export default function NoteActionButtons({
   onEdit,
+  onEditMeta,
   onDelete,
   isDeleting = false,
   deleteConfirmMode,
 }: NoteActionButtonsProps) {
   return (
     <div className="flex gap-2">
+      {/* 마크다운 편집 */}
       <button
         onClick={onEdit}
         disabled={isDeleting}
@@ -18,6 +20,17 @@ export default function NoteActionButtons({
         Edit
       </button>
 
+      {/* 기본 정보 편집 (이름 / 설명 / 라벨) */}
+      <button
+        onClick={onEditMeta}
+        disabled={isDeleting}
+        className="flex items-center gap-2 px-4 py-2 transition-colors border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        <Info className="w-4 h-4" />
+        Info
+      </button>
+
+      {/* 삭제 */}
       <button
         onClick={onDelete}
         disabled={isDeleting}

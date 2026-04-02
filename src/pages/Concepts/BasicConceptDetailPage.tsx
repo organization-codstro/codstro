@@ -17,6 +17,10 @@ import RelatedConceptGrid from "../../components/Concepts/BasicConceptDetailPage
 import { LoginService } from "../../api/Auth/LoginPage";
 import { BasicConceptDetailService } from "../../api/Concepts/BasicConceptDetailPage";
 import NotFoundPage from "../NotFound/NotFoundPage";
+import {
+  GROUP_NAME,
+  GROUP_NAME_TYPE,
+} from "../../constants/Woomoonjeong/woomoonjeong";
 
 // 로딩 및 에러 뷰
 const LoadingView = () => (
@@ -40,6 +44,14 @@ export default function BasicConceptDetailPage() {
   const [showTodoModal, setShowTodoModal] = useState<
     false | "documentation" | "clone_project"
   >(false);
+
+  // availableGroups 정의
+  const availableGroups = GROUP_NAME.map(
+    (groupName): { group_id: GROUP_NAME_TYPE; group_name: string } => ({
+      group_id: groupName,
+      group_name: groupName.charAt(0).toUpperCase() + groupName.slice(1),
+    }),
+  );
 
   // 2. 초기 데이터 페칭 (Core Principle: useEffect)
   useEffect(() => {
@@ -159,6 +171,8 @@ export default function BasicConceptDetailPage() {
           isOpen={showAIChat}
           onClose={() => setShowAIChat(false)}
           conceptName={data.name}
+          materialId={conceptId}
+          materialType={"concept"}
         />
       )}
 
@@ -169,6 +183,7 @@ export default function BasicConceptDetailPage() {
           conceptName={data.name}
           todoType={showTodoModal}
           onConfirm={handleAddTodoConfirm}
+          availableGroups={availableGroups}
         />
       )}
     </div>

@@ -17,6 +17,10 @@ import LibraryHeader from "../../components/Concepts/LibraryDetailPage/LibraryHe
 import LibraryActionButtons from "../../components/Concepts/LibraryDetailPage/LibraryActionButtons";
 import RelatedItemGrid from "../../components/Concepts/CodingToolDetailPage/RelatedItemGrid";
 import NotFoundPage from "../NotFound/NotFoundPage";
+import {
+  GROUP_NAME,
+  GROUP_NAME_TYPE,
+} from "../../constants/Woomoonjeong/woomoonjeong";
 
 export default function LibraryDetailPage() {
   const { libraryId } = useParams<{ libraryId: string }>();
@@ -30,6 +34,14 @@ export default function LibraryDetailPage() {
   const [showTodoModal, setShowTodoModal] = useState<
     false | "documentation" | "clone_project"
   >(false);
+
+  // availableGroups 정의
+  const availableGroups = GROUP_NAME.map(
+    (groupName): { group_id: GROUP_NAME_TYPE; group_name: string } => ({
+      group_id: groupName,
+      group_name: groupName.charAt(0).toUpperCase() + groupName.slice(1),
+    }),
+  );
 
   // 2. 초기 데이터 로딩
   useEffect(() => {
@@ -109,7 +121,8 @@ export default function LibraryDetailPage() {
         Loading library details...
       </div>
     );
-  if (!data) return <NotFoundPage />;
+
+  if (!data || !libraryId) return <NotFoundPage />;
 
   return (
     <div className="max-w-5xl p-8 mx-auto">
@@ -154,6 +167,8 @@ export default function LibraryDetailPage() {
         isOpen={showAIChat}
         onClose={() => setShowAIChat(false)}
         conceptName={data.name}
+        materialId={libraryId}
+        materialType={"library"}
       />
 
       {showTodoModal && (
@@ -162,7 +177,8 @@ export default function LibraryDetailPage() {
           onClose={() => setShowTodoModal(false)}
           conceptName={data.name}
           todoType={showTodoModal}
-          onConfirm={handleAddTodoConfirm} // onConfirm 전달
+          onConfirm={handleAddTodoConfirm}
+          availableGroups={availableGroups}
         />
       )}
     </div>

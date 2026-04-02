@@ -1,52 +1,88 @@
+import { useState, useEffect } from "react";
 import { X, Send, Loader2 } from "lucide-react";
-import { useState } from "react";
 import { toast } from "react-toastify";
 import { CompanyInformationAIChatProps } from "../../types/pages/CompanyInformation/CompanyInformationAIChat";
-import { BasicConceptDetailService } from "../../api/Concepts/BasicConceptDetailPage";
 import { CompanyInformationAIChatMessage } from "../../types/common/CompanyInformation";
+import { ConceptsService } from "../../api/Concepts/Concepts";
+import MarkdownRenderer from "../Markdown/MarkdownRenderer";
 
 export default function CompanyInformationAIChat({
   isOpen,
   onClose,
   conceptName,
+  materialId,
+  materialType,
 }: CompanyInformationAIChatProps) {
+  // messages: UI 표시용 / chatHistory: 엣지 함수에 넘길 OpenAI 형식 히스토리
   const [messages, setMessages] = useState<CompanyInformationAIChatMessage[]>([
     {
       id: "1",
-      sender: "ai",
+      sender: "AI",
       text: `안녕하세요! ${conceptName}에 대해 궁금한 점이 있으신가요? 무엇이든 물어보세요.`,
       timestamp: new Date(),
     },
   ]);
+  const [chatHistory, setChatHistory] = useState<
+    { role: "user" | "assistant"; content: string }[]
+  >([]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  //새로고침 방지용 알림
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (messages.length > 1) {
+        e.preventDefault();
+        e.returnValue = ""; 
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [messages]);
 
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
 
     const userQuestion = inputValue.trim();
+
+    // UI 메시지 추가
     const userMessage: CompanyInformationAIChatMessage = {
       id: Date.now().toString(),
-      sender: "user",
+      sender: "USER",
       text: userQuestion,
       timestamp: new Date(),
     };
-
     setMessages((prev) => [...prev, userMessage]);
     setInputValue("");
     setIsLoading(true);
 
+    // 히스토리에 유저 메시지 추가
+    const updatedHistory: { role: "user" | "assistant"; content: string }[] = [
+      ...chatHistory,
+      { role: "user", content: userQuestion },
+    ];
+
     try {
-      // API 호출: Gemini Assistant 연동
-      const aiResponse = await BasicConceptDetailService.askAIChat({
-        conceptName,
-        userQuestion,
+      const reply = await ConceptsService.askChat({
+        material_id: materialId,
+        material_type: materialType,
+        messages: updatedHistory,
       });
+
+      // 히스토리에 AI 응답 추가
+      setChatHistory([
+        ...updatedHistory,
+        { role: "assistant", content: reply },
+      ]);
 
       const aiMessage: CompanyInformationAIChatMessage = {
         id: (Date.now() + 1).toString(),
-        sender: "ai",
-        text: aiResponse,
+        sender: "AI",
+        text: reply,
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, aiMessage]);
@@ -54,7 +90,7 @@ export default function CompanyInformationAIChat({
       toast.error("AI 응답을 가져오지 못했습니다.");
       const errorMessage: CompanyInformationAIChatMessage = {
         id: (Date.now() + 1).toString(),
-        sender: "ai",
+        sender: "AI",
         text: "죄송합니다. 답변을 생성하는 중 오류가 발생했습니다.",
         timestamp: new Date(),
       };
@@ -106,22 +142,20 @@ export default function CompanyInformationAIChat({
               <div
                 key={message.id}
                 className={`flex ${
-                  message.sender === "user" ? "justify-end" : "justify-start"
+                  message.sender === "USER" ? "justify-end" : "justify-start"
                 }`}
               >
                 <div
                   className={`max-w-xs px-4 py-3 rounded-lg ${
-                    message.sender === "user"
+                    message.sender === "USER"
                       ? "bg-blue-600 text-white rounded-br-none"
                       : "bg-gray-100 text-gray-900 rounded-bl-none"
                   }`}
                 >
-                  <p className="text-sm leading-relaxed whitespace-pre-wrap">
-                    {message.text}
-                  </p>
+                  <MarkdownRenderer content={message.text} />
                   <p
                     className={`text-xs mt-1 ${
-                      message.sender === "user"
+                      message.sender === "USER"
                         ? "text-blue-100"
                         : "text-gray-500"
                     }`}

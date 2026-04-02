@@ -18,6 +18,10 @@ import AIChat from "../../components/CompanyInformation/CompanyInformationAIChat
 import AddTodoModal from "../../components/CompanyInformation/AddTodoModal";
 import { PackageManagerMaterial } from "../../types/common/Concepts";
 import NotFoundPage from "../NotFound/NotFoundPage";
+import {
+  GROUP_NAME,
+  GROUP_NAME_TYPE,
+} from "../../constants/Woomoonjeong/woomoonjeong";
 
 export default function PackageDetailPage() {
   const { materialId } = useParams<{ materialId: string }>();
@@ -31,6 +35,14 @@ export default function PackageDetailPage() {
   const [showTodoModal, setShowTodoModal] = useState<
     false | "documentation" | "clone_project"
   >(false);
+
+  // availableGroups 정의
+  const availableGroups = GROUP_NAME.map(
+    (groupName): { group_id: GROUP_NAME_TYPE; group_name: string } => ({
+      group_id: groupName,
+      group_name: groupName.charAt(0).toUpperCase() + groupName.slice(1),
+    }),
+  );
 
   // 2. 초기 데이터 페칭
   useEffect(() => {
@@ -107,7 +119,7 @@ export default function PackageDetailPage() {
     );
   }
 
-  if (!data) return <NotFoundPage />;
+  if (!data || !materialId) return <NotFoundPage />;
 
   return (
     <div className="max-w-5xl p-8 mx-auto">
@@ -149,6 +161,8 @@ export default function PackageDetailPage() {
         isOpen={showAIChat}
         onClose={() => setShowAIChat(false)}
         conceptName={data.name}
+        materialId={materialId}
+        materialType="packageManager"
       />
 
       {showTodoModal && (
@@ -158,6 +172,7 @@ export default function PackageDetailPage() {
           conceptName={data.name}
           todoType={showTodoModal}
           onConfirm={handleAddTodoConfirm}
+          availableGroups={availableGroups}
         />
       )}
     </div>

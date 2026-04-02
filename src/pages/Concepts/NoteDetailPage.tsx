@@ -13,6 +13,7 @@ import NoteDetailHeader from "../../components/Concepts/NoteDetailPage/NoteDetai
 import NoteActionButtons from "../../components/Concepts/NoteDetailPage/NoteActionButtons";
 import MarkdownRenderer from "../../components/Markdown/MarkdownRenderer";
 import NotFoundPage from "../NotFound/NotFoundPage";
+import NoteEditMetaModal from "../../components/Concepts/NoteDetailPage/Noteeditmetamodal";
 
 export default function NoteDetailPage() {
   const { noteId } = useParams<{ noteId: string }>();
@@ -24,6 +25,10 @@ export default function NoteDetailPage() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteConfirmMode, setDeleteConfirmMode] = useState(false);
   const deleteTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // 기본 정보 수정 모달
+  const [isMetaModalOpen, setIsMetaModalOpen] = useState(false);
+  const [isSavingMeta, setIsSavingMeta] = useState(false);
 
   // 2. 초기 데이터 로드
   useEffect(() => {
@@ -46,26 +51,61 @@ export default function NoteDetailPage() {
 
   // 3. 핸들러 로직
 
-  // 수정 페이지 이동
+  // 마크다운 수정 페이지 이동
   const handleEdit = () => {
     if (!note) return;
     navigate(`/notes/${note.noteId}/edit`);
+  };
+
+  // 기본 정보 수정 모달 저장
+  const handleSaveMeta = async (data: {
+    title: string;
+    description: string;
+    labels: string[];
+  }) => {
+    if (!noteId) return;
+    try {
+      setIsSavingMeta(true);
+      await NoteDetailService.updateNoteMeta({
+        noteId,
+        title: data.title,
+        description: data.description,
+        labels: data.labels,
+      });
+      // 로컬 상태 업데이트 (재요청 없이 반영)
+      setNote((prev) =>
+        prev
+          ? {
+              ...prev,
+              title: data.title,
+              description: data.description,
+              labels: data.labels,
+            }
+          : prev,
+      );
+      toast.success("노트 정보가 수정되었습니다.");
+      setIsMetaModalOpen(false);
+    } catch (error) {
+      toast.error("노트 정보 수정 중 오류가 발생했습니다.");
+    } finally {
+      setIsSavingMeta(false);
+    }
   };
 
   // 노트 삭제
   const handleDelete = async () => {
     if (!noteId) return;
 
-    // 1단계: 아직 확인 모드가 아니면 → 확인 모드 진입 (3초 타이머)
+    // 1단계: 확인 모드 진입 (3초 타이머)
     if (!deleteConfirmMode) {
       setDeleteConfirmMode(true);
       deleteTimerRef.current = setTimeout(() => {
-        setDeleteConfirmMode(false); // 3초 후 자동 해제
+        setDeleteConfirmMode(false);
       }, 3000);
       return;
     }
 
-    // 2단계: 확인 모드에서 한 번 더 누르면 → 실제 삭제
+    // 2단계: 확인 모드에서 한 번 더 누르면 실제 삭제
     if (deleteTimerRef.current) clearTimeout(deleteTimerRef.current);
     setDeleteConfirmMode(false);
 
@@ -101,7 +141,6 @@ export default function NoteDetailPage() {
     return <NotFoundPage />;
   }
 
-  // 서비스에서 온 중첩된 개념 데이터를 문자열 배열로 변환
   const formattedConcepts: string[] = [
     ...(note.conceptNames || []),
     ...(note.toolNames || []),
@@ -117,23 +156,23 @@ export default function NoteDetailPage() {
 
       <div className="p-8 bg-white border border-gray-200 rounded-lg shadow-sm">
         <div className="flex items-start justify-between mb-6">
-          {/* 2. 헤더 정보 (제목, 가공된 개념 배열, 날짜) */}
+          {/* 2. 헤더 정보 */}
           <NoteDetailHeader
             title={note.title}
             concepts={formattedConcepts}
             lastUpdated={note.lastUpdated}
           />
 
-          {/* 3. 액션 버튼 (수정, 삭제) */}
+          {/* 3. 액션 버튼 */}
           <NoteActionButtons
             onEdit={handleEdit}
+            onEditMeta={() => setIsMetaModalOpen(true)}
             onDelete={handleDelete}
             isDeleting={isDeleting}
             deleteConfirmMode={deleteConfirmMode}
           />
         </div>
 
-        {/* 구분선 */}
         <hr className="mb-8 border-gray-100" />
 
         {/* 4. 본문 영역 */}
@@ -141,6 +180,17 @@ export default function NoteDetailPage() {
           <MarkdownRenderer content={note.content || "내용이 없습니다."} />
         </div>
       </div>
+
+      {/* 5. 기본 정보 수정 모달 */}
+      <NoteEditMetaModal
+        isOpen={isMetaModalOpen}
+        onClose={() => setIsMetaModalOpen(false)}
+        onSave={handleSaveMeta}
+        initialTitle={note.title}
+        initialDescription={note.description || ""}
+        initialLabels={note.labels || []}
+        isSaving={isSavingMeta}
+      />
     </div>
   );
 }

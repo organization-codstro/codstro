@@ -3,4 +3,5 @@ export interface NoteActionButtonsProps {
   onDelete: () => void;
   isDeleting?: boolean;
   deleteConfirmMode: boolean;
+  onEditMeta: () => void;
 }

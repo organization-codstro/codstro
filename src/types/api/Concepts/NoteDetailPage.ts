@@ -14,17 +14,11 @@ export interface DeleteNoteDetailParams {
   noteId: string;
 }
 
-/**
- * [SummarizeNoteWithAIParams]
- * AI 노트 요약 파라미터
- */
-export interface SummarizeNoteWithAIParams {
-  content: string;
-}
-
 export interface NoteDetailResponse {
   noteId: string;
   title: string;
+  labels: string[];
+  description: string;
   lastUpdated: string;
   content: string;
   conceptNames: string[];
@@ -32,4 +26,12 @@ export interface NoteDetailResponse {
   libraryNames: string[];
   packageManagerNames: string[];
   thirdPartyNames: string[];
+}
+
+// updateNoteMeta 파라미터 타입
+export interface UpdateNoteMetaParams {
+  noteId: string;
+  title: string;
+  description: string;
+  labels: string[];
 }

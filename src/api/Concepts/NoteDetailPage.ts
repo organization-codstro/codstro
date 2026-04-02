@@ -2,9 +2,11 @@ import { supabase } from "../../db/supabase/supabase";
 import {
   GetNoteDetailParams,
   DeleteNoteDetailParams,
-  SummarizeNoteWithAIParams,
   NoteDetailResponse,
+  UpdateNoteMetaParams,
 } from "../../types/api/Concepts/NoteDetailPage";
+
+
 
 /**
  * [NoteDetailService]
@@ -25,6 +27,8 @@ export const NoteDetailService = {
         `
         id:note_id,
         title:note_title,
+        description:note_description,
+        labels:note_labels,
         content:note_content,
         lastUpdated:updated_at
       `,
@@ -93,6 +97,8 @@ export const NoteDetailService = {
     return {
       noteId: note.id,
       title: note.title,
+      labels: note.labels,
+      description: note.description,
       lastUpdated: note.lastUpdated,
       content: note.content,
       conceptNames,
@@ -102,6 +108,25 @@ export const NoteDetailService = {
       thirdPartyNames,
     };
   },
+
+  /**
+   * [수정] 노트의 기본 정보(제목, 설명, 라벨)를 수정합니다.
+   * note_content(마크다운 본문)는 수정하지 않습니다.
+   */
+  async updateNoteMeta(params: UpdateNoteMetaParams): Promise<void> {
+    const { error } = await supabase
+      .from("notes")
+      .update({
+        note_title: params.title,
+        note_description: params.description,
+        note_labels: params.labels,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("note_id", params.noteId);
+
+    if (error) throw new Error(error.message);
+  },
+
   /**
    * [삭제] 노트를 삭제합니다.
    * (스키마에 ON DELETE CASCADE가 설정되어 있지 않다면 note_concepts 관계를 먼저 삭제해야 합니다.)
@@ -124,29 +149,5 @@ export const NoteDetailService = {
     if (noteError) throw new Error(noteError.message);
 
     return true;
-  },
-
-  /**
-   * [AI 서비스] 노트 내용을 분석하여 요약본을 생성합니다.
-   * Gemini API를 활용합니다.
-   */
-  async summarizeNoteWithAI(params: SummarizeNoteWithAIParams) {
-    try {
-      const response = await fetch("/api/gemini/summarize", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          prompt: `다음 학습 노트 내용을 3줄로 요약해줘: ${params.content.substring(
-            0,
-            1000,
-          )}`,
-        }),
-      });
-      const data = await response.json();
-      return data.summary;
-    } catch (error) {
-      console.error("Gemini Summarization Error:", error);
-      return null;
-    }
   },
 };

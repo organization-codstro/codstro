@@ -25,7 +25,6 @@ import NotFoundPage from "../NotFound/NotFoundPage";
 import {
   GROUP_NAME,
   GROUP_NAME_TYPE,
-  DEFAULT_GROUP_NAME,
 } from "../../constants/Woomoonjeong/woomoonjeong";
 
 export default function ThirdPartyDetailPage() {
@@ -41,7 +40,7 @@ export default function ThirdPartyDetailPage() {
     false | "documentation" | "clone_project"
   >(false);
 
-  // 부모에서 availableGroups 정의
+  // availableGroups 정의
   const availableGroups = GROUP_NAME.map(
     (groupName): { group_id: GROUP_NAME_TYPE; group_name: string } => ({
       group_id: groupName,
@@ -124,7 +123,7 @@ export default function ThirdPartyDetailPage() {
     );
   }
 
-  if (!service) return <NotFoundPage />;
+  if (!service || !serviceId) return <NotFoundPage />;
 
   return (
     <div className="max-w-5xl p-8 mx-auto">
@@ -162,6 +161,8 @@ export default function ThirdPartyDetailPage() {
         isOpen={showAIChat}
         onClose={() => setShowAIChat(false)}
         conceptName={service.name}
+        materialId={serviceId}
+        materialType={"thirdPartyService"}
       />
 
       {showTodoModal && (
@@ -171,7 +172,7 @@ export default function ThirdPartyDetailPage() {
           conceptName={service.name}
           todoType={showTodoModal}
           onConfirm={handleAddTodoConfirm}
-          availableGroups={availableGroups} // 여기서 전달
+          availableGroups={availableGroups}
         />
       )}
     </div>
