@@ -76,12 +76,12 @@ export { default as MajorEncyclopediaList } from "../pages/Mbit/MajorEncyclopedi
 export { default as MajorEncyclopediaDetail } from "../pages/Mbit/MajorEncyclopediaDetailPage";
 
 /* ================= CONCEPTS ================= */
-export { default as LibrarysList } from "../pages/Concepts/LibraryListPage";
-export { default as LibraryDetail } from "../pages/Concepts/LibraryDetailPage";
-export { default as NotesList } from "../pages/Concepts/NotesListPage";
-export { default as NoteDetail } from "../pages/Concepts/NoteDetailPage";
-export { default as NoteCreate } from "../pages/Concepts/NoteCreatePage";
-export { default as NoteUpdate } from "../pages/Concepts/NoteUpdatePage";
+export { default as LibrarysList } from "../pages/Concept/LibraryListPage";
+export { default as LibraryDetail } from "../pages/Concept/LibraryDetailPage";
+export { default as NotesList } from "../pages/Concept/NotesListPage";
+export { default as NoteDetail } from "../pages/Concept/NoteDetailPage";
+export { default as NoteCreate } from "../pages/Concept/NoteCreatePage";
+export { default as NoteUpdate } from "../pages/Concept/NoteUpdatePage";
 
 /* ================= PROFILE ================= */
 export { default as Profile } from "../pages/Profile/ProfilePage";

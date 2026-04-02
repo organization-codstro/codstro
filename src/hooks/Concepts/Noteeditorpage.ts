@@ -29,11 +29,11 @@
 import { useState, useEffect, useCallback } from "react";
 import { UpdateNoteChatMessage } from "../../types/common/Concepts";
 import { UseNoteEditorProps } from "../../types/hooks/Concepts/Noteeditorpage";
-import { NoteUpdatePageService } from "../../api/Concepts/NoteUpdatePage";
+import { NoteUpdatePageService } from "../../api/Concept/NoteUpdatePage";
 import {
   GetNoteContentByIdParams,
   GetNoteContentByIdResponse,
-} from "../../types/api/Concepts/NoteUpdatePage";
+} from "../../types/api/Concept/NoteUpdatePage";
 
 export function useNoteEditor({ noteId }: UseNoteEditorProps) {
   const [markdown, setMarkdown] = useState<string>("");

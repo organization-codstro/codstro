@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { RecommendedStudyPlanDetailService } from "../../api/Woomoonkyung/RecommendedStudyPlanDetailPage";
 import { LoginService } from "../../api/Auth/LoginPage";
-import BackButton from "../../components/Concepts/BackButton";
+import BackButton from "../../components/Concept/BackButton";
 import PlanHeader from "../../components/Woomoonkyung/RecommendedStudyPlanDetailPage/PlanHeader";
 import NodeList from "../../components/Woomoonkyung/RecommendedStudyPlanDetailPage/NodeList";
 import { toast } from "react-toastify";
