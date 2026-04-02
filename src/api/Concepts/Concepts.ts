@@ -1,6 +1,8 @@
 import { MATERIAL_TYPE, PAGE_SIZE } from "../../constants/Concepts/concepts";
 import { supabase } from "../../db/supabase/supabase";
 import {
+  AIChatResponse,
+  AIChatSource,
   AskConceptChatParams,
   GetConceptsByType,
 } from "../../types/common/Concepts";
@@ -154,7 +156,7 @@ export const ConceptsService = {
   /**
    * 기본개념 자세히 보기에서 chat 기능
    */
-  async askChat(params: AskConceptChatParams): Promise<string> {
+  async askChat(params: AskConceptChatParams): Promise<AIChatResponse> {
     const { data, error } = await supabase.functions.invoke(
       "concepts-concept_chat",
       {
@@ -168,6 +170,9 @@ export const ConceptsService = {
 
     if (error) throw new Error(error.message);
 
-    return data.reply as string;
+    return {
+      reply: data.reply as string,
+      sources: (data.sources ?? []) as AIChatSource[],
+    };
   },
 };

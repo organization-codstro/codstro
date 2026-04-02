@@ -81,3 +81,13 @@ export interface AskConceptChatParams {
   material_type: MATERIAL_TYPE;
   messages: { role: "user" | "assistant"; content: string }[];
 }
+
+export interface AIChatSource {
+  title: string;
+  url: string;
+}
+
+export interface AIChatResponse {
+  reply: string;
+  sources: AIChatSource[];
+}

@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
-import { X, Send, Loader2 } from "lucide-react";
+import { useState } from "react";
+import { X, Send, Loader2, ExternalLink } from "lucide-react";
 import { toast } from "react-toastify";
 import { CompanyInformationAIChatProps } from "../../types/pages/CompanyInformation/CompanyInformationAIChat";
 import { CompanyInformationAIChatMessage } from "../../types/common/CompanyInformation";
 import { ConceptsService } from "../../api/Concepts/Concepts";
-import MarkdownRenderer from "../Markdown/MarkdownRenderer";
 
 export default function CompanyInformationAIChat({
   isOpen,
@@ -13,13 +12,13 @@ export default function CompanyInformationAIChat({
   materialId,
   materialType,
 }: CompanyInformationAIChatProps) {
-  // messages: UI 표시용 / chatHistory: 엣지 함수에 넘길 OpenAI 형식 히스토리
   const [messages, setMessages] = useState<CompanyInformationAIChatMessage[]>([
     {
       id: "1",
       sender: "AI",
       text: `안녕하세요! ${conceptName}에 대해 궁금한 점이 있으신가요? 무엇이든 물어보세요.`,
       timestamp: new Date(),
+      sources: [],
     },
   ]);
   const [chatHistory, setChatHistory] = useState<
@@ -28,28 +27,11 @@ export default function CompanyInformationAIChat({
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  //새로고침 방지용 알림
-  useEffect(() => {
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      if (messages.length > 1) {
-        e.preventDefault();
-        e.returnValue = ""; 
-      }
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [messages]);
-
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
 
     const userQuestion = inputValue.trim();
 
-    // UI 메시지 추가
     const userMessage: CompanyInformationAIChatMessage = {
       id: Date.now().toString(),
       sender: "USER",
@@ -60,20 +42,18 @@ export default function CompanyInformationAIChat({
     setInputValue("");
     setIsLoading(true);
 
-    // 히스토리에 유저 메시지 추가
     const updatedHistory: { role: "user" | "assistant"; content: string }[] = [
       ...chatHistory,
       { role: "user", content: userQuestion },
     ];
 
     try {
-      const reply = await ConceptsService.askChat({
+      const { reply, sources } = await ConceptsService.askChat({
         material_id: materialId,
         material_type: materialType,
         messages: updatedHistory,
       });
 
-      // 히스토리에 AI 응답 추가
       setChatHistory([
         ...updatedHistory,
         { role: "assistant", content: reply },
@@ -84,6 +64,7 @@ export default function CompanyInformationAIChat({
         sender: "AI",
         text: reply,
         timestamp: new Date(),
+        sources,
       };
       setMessages((prev) => [...prev, aiMessage]);
     } catch (error) {
@@ -93,6 +74,7 @@ export default function CompanyInformationAIChat({
         sender: "AI",
         text: "죄송합니다. 답변을 생성하는 중 오류가 발생했습니다.",
         timestamp: new Date(),
+        sources: [],
       };
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
@@ -122,6 +104,7 @@ export default function CompanyInformationAIChat({
         }`}
       >
         <div className="flex flex-col h-full">
+          {/* 헤더 */}
           <div className="flex items-center justify-between p-6 border-b border-gray-200">
             <div>
               <h2 className="text-xl font-bold text-gray-900">AI Assistant</h2>
@@ -137,14 +120,16 @@ export default function CompanyInformationAIChat({
             </button>
           </div>
 
+          {/* 메시지 목록 */}
           <div className="flex-1 p-6 space-y-4 overflow-y-auto">
             {messages.map((message) => (
               <div
                 key={message.id}
-                className={`flex ${
-                  message.sender === "USER" ? "justify-end" : "justify-start"
+                className={`flex flex-col ${
+                  message.sender === "USER" ? "items-end" : "items-start"
                 }`}
               >
+                {/* 말풍선 */}
                 <div
                   className={`max-w-xs px-4 py-3 rounded-lg ${
                     message.sender === "USER"
@@ -152,7 +137,9 @@ export default function CompanyInformationAIChat({
                       : "bg-gray-100 text-gray-900 rounded-bl-none"
                   }`}
                 >
-                  <MarkdownRenderer content={message.text} />
+                  <p className="text-sm leading-relaxed whitespace-pre-wrap">
+                    {message.text}
+                  </p>
                   <p
                     className={`text-xs mt-1 ${
                       message.sender === "USER"
@@ -166,8 +153,47 @@ export default function CompanyInformationAIChat({
                     })}
                   </p>
                 </div>
+
+                {/* 소스 카드 - AI 메시지이고 sources가 있을 때만 렌더링 */}
+                {message.sender === "AI" &&
+                  message.sources &&
+                  message.sources.length > 0 && (
+                    <div className="w-full max-w-xs mt-2 space-y-2">
+                      {message.sources.map((source, index) => (
+                        <a
+                          key={index}
+                          href={source.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-3 p-3 transition-all bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md hover:border-blue-300 group"
+                        >
+                          {/* 파비콘 */}
+                          <img
+                            src={`https://www.google.com/s2/favicons?domain=${new URL(source.url).hostname}&sz=32`}
+                            alt=""
+                            className="flex-shrink-0 w-5 h-5"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).style.display =
+                                "none";
+                            }}
+                          />
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs font-medium text-gray-800 truncate transition-colors group-hover:text-blue-600">
+                              {source.title}
+                            </p>
+                            <p className="text-xs text-gray-400 truncate">
+                              {new URL(source.url).hostname}
+                            </p>
+                          </div>
+                          <ExternalLink className="flex-shrink-0 w-3 h-3 text-gray-400 transition-colors group-hover:text-blue-500" />
+                        </a>
+                      ))}
+                    </div>
+                  )}
               </div>
             ))}
+
+            {/* 로딩 */}
             {isLoading && (
               <div className="flex justify-start">
                 <div className="px-4 py-3 bg-gray-100 rounded-lg rounded-bl-none">
@@ -177,6 +203,7 @@ export default function CompanyInformationAIChat({
             )}
           </div>
 
+          {/* 입력창 */}
           <div className="p-4 border-t border-gray-200 bg-gray-50">
             <div className="flex gap-2">
               <textarea

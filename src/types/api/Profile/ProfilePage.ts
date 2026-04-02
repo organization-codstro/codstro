@@ -13,20 +13,6 @@ export interface GetUserFullProfileResponse {
     name: string;
     email: string;
     joinDate: string;
-    points: number;
     profileUrl: string;
-    selectedBadge: number;
-  };
-  levelInfo: {
-    currentLevel: {
-      id: string;
-      name: string;
-      description: string;
-      requiredPoints: number;
-    };
-    nextLevel: {
-      name: string;
-      requiredPoints: number;
-    } | null;
   };
 }

@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Mail, Calendar } from "lucide-react";
+import { Mail } from "lucide-react";
 import { toast } from "react-toastify";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { ProfileService } from "../../api/Profile/ProfilePage";
 import ProfileHeader from "../../components/Profile/ProfilePage/ProfileHeader";
 import InfoField from "../../components/Profile/ProfilePage/InfoField";
-import LevelProgress from "../../components/Profile/ProfilePage/LevelProgress";
 import ProfileFooter from "../../components/Profile/ProfilePage/ProfileFooter";
 
 /* -------------------------------------------------------------------------- */
@@ -72,24 +71,7 @@ export default function ProfilePage() {
     return <NotFoundPage />;
   }
 
-  const { userData, levelInfo } = profileData;
-  const { currentLevel, nextLevel } = levelInfo;
-
-  // 프로그레스 바 계산 로직
-  const pointsToNextLevel = nextLevel
-    ? nextLevel.requiredPoints - userData.points
-    : 0;
-
-  const pointsForCurrentLevel = nextLevel
-    ? nextLevel.requiredPoints - currentLevel.requiredPoints
-    : 0;
-
-  const pointsInCurrentLevel = userData.points - currentLevel.requiredPoints;
-
-  const progressPercentage =
-    pointsForCurrentLevel > 0
-      ? (pointsInCurrentLevel / pointsForCurrentLevel) * 100
-      : 100;
+  const { userData } = profileData;
 
   return (
     <div className="max-w-6xl p-8 mx-auto">
@@ -99,38 +81,18 @@ export default function ProfilePage() {
           <ProfileHeader
             name={userData.name}
             profileUrl={userData.profileUrl}
-            levelName={currentLevel.name}
-            levelDescription={currentLevel.description}
           />
 
           {/* 2. 상세 정보 그리드 영역 */}
           <div className="grid grid-cols-1 gap-6 ml-4 md:grid-cols-2">
             <InfoField label="Name" value={userData.name} />
             <InfoField label="Email" value={userData.email} icon={Mail} />
-            <InfoField
-              label="Join Date"
-              value={userData.joinDate}
-              icon={Calendar}
-            />
           </div>
-
-          {/* 3. 포인트 및 레벨 프로그레스 영역 */}
-          <LevelProgress
-            points={userData.points}
-            progressPercentage={progressPercentage}
-            pointsToNextLevel={pointsToNextLevel}
-            currentLevelName={currentLevel.name}
-            nextLevelName={nextLevel?.name}
-          />
         </div>
       </div>
 
       {/* 4. 하단 액션 버튼 영역 */}
-      <ProfileFooter
-        onManageBadges={() => navigate("/profile/badges")}
-        onNotices={() => navigate("/notices")}
-        onEditProfile={() => navigate("/profile/edit")}
-      />
+      <ProfileFooter onEditProfile={() => navigate("/profile/edit")} />
     </div>
   );
 }

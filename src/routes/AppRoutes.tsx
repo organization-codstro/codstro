@@ -39,17 +39,14 @@ export default function AppRoutes() {
         />
 
         {/* ================= Woomoonro ================= */}
-        <Route
-          path="/woomoonro"
-          element={<Page.CloneCodingProjectMain />}
-        />
+        <Route path="/woomoonro" element={<Page.CloneCodingProjectMain />} />
         <Route
           path="/woomoonro/project/:projectId"
           element={<Page.CloneCodingProjectDetail />}
         />
         <Route
           path="/woomoonro/archive"
-          element={<Page.CloneCodingProjectArchive/>}
+          element={<Page.CloneCodingProjectArchive />}
         />
 
         {/* ================= Woomoonkyung ================= */}
@@ -255,15 +252,11 @@ export default function AppRoutes() {
         <Route path="/profile" element={<Page.Profile />} />
         <Route path="/profile/edit" element={<Page.ProfileEdit />} />
         <Route path="/profile/badges" element={<Page.BadgeManager />} />
-
-        {/* ================= Notices ================= */}
-        <Route path="/notices" element={<Page.NoticesList />} />
-        <Route path="/notices/:id" element={<Page.NoticeDetail />} />
       </Route>
 
       {/* ================= 잘못된 경로 ================= */}
 
-      <Route path="*" element={<Page.NotFound/>} />
+      <Route path="*" element={<Page.NotFound />} />
     </Routes>
   );
 }

@@ -68,10 +68,16 @@ export interface CompanyUserMatchRecord {
   user_id: string;
 }
 
+export interface AIChatSource {
+  title: string;
+  url: string;
+}
+
 //회사 AI 채팅
 export interface CompanyInformationAIChatMessage {
   id: string;
   sender: "USER" | "AI";
   text: string;
   timestamp: Date;
+  sources?: AIChatSource[];
 }
