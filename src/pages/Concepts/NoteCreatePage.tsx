@@ -6,7 +6,7 @@ import { Save, Loader2 } from "lucide-react";
 // 공통 컴포넌트
 import BackButton from "../../components/Concepts/BackButton";
 import NoteTitleInput from "../../components/Concepts/NoteCreatePage/NoteInput";
-import ConceptSelector from "../../components/Concepts/ConceptSelector";
+import ConceptSelector from "../../components/Concepts/NoteCreatePage/ConceptSelector";
 import NoteEditor from "../../components/Concepts/NoteCreatePage/NoteEditor";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { NoteCreateService } from "../../api/Concepts/NoteCreatePage";

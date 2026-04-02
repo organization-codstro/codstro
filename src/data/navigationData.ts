@@ -5,7 +5,7 @@ export const navigationData: NavigationItem[] = [
     id: "woomoonjeong",
     title: "Woomoonjeong",
     icon: "FolderOpen",
-    route: "/woomoonjeong",
+    route: "/woomoonjeong/main",
     children: [
       {
         id: "todo-management",
@@ -31,7 +31,7 @@ export const navigationData: NavigationItem[] = [
     id: "woomoonro",
     title: "Woomoonro",
     icon: "Code2", // 클론 코딩
-    route: "/woomoonro",
+    route: "/woomoonro/main",
     children: [
       {
         id: "woomoonro-main",
@@ -51,7 +51,7 @@ export const navigationData: NavigationItem[] = [
     id: "woomoonkyung",
     title: "Woomoonkyung",
     icon: "BookOpen",
-    route: "/woomoonkyung",
+    route: "/woomoonkyung/main",
     children: [
       {
         id: "my-study-plans",
@@ -77,7 +77,7 @@ export const navigationData: NavigationItem[] = [
     id: "mbit",
     title: "MBIT",
     icon: "Brain", // 성격/테스트
-    route: "/mbit",
+    route: "/mbit/main",
     children: [
       {
         id: "today-fortune",
@@ -121,7 +121,7 @@ export const navigationData: NavigationItem[] = [
     id: "project-planning",
     title: "Project Planning",
     icon: "Briefcase", // 프로젝트 기획
-    route: "/projects",
+    route: "/projects/main",
     children: [
       {
         id: "projects",
@@ -141,7 +141,7 @@ export const navigationData: NavigationItem[] = [
     id: "coding-concepts",
     title: "Coding Concepts",
     icon: "Terminal",
-    route: "/concepts", // 변경
+    route: "/concepts/main", // 변경
     children: [
       {
         id: "notes-list",
@@ -155,43 +155,19 @@ export const navigationData: NavigationItem[] = [
         icon: "Package",
         route: "/librarys", // 변경
       },
-      {
-        id: "basic-concepts-list",
-        title: "Basic Concepts",
-        icon: "GraduationCap",
-        route: "/basic-concepts", // 변경
-      },
-      {
-        id: "coding-tools-list",
-        title: "Coding Tools",
-        icon: "Wrench",
-        route: "/coding-tools", // 변경
-      },
-      {
-        id: "third-party-list",
-        title: "Third-party Services",
-        icon: "CloudCog",
-        route: "/third-partys", // 변경
-      },
-      {
-        id: "package-manager-list",
-        title: "Package Managers",
-        icon: "CloudCog",
-        route: "/package-managers", // 변경
-      },
     ],
   },
   {
     id: "ai-chat",
     title: "AI Chat Service",
     icon: "MessageCircle", // AI 채팅
-    route: "/ai-chat",
+    route: "/ai-chat/main",
   },
   {
     id: "company-info",
     title: "Company Info Sharing",
     icon: "Building2", // 회사 정보
-    route: "/companies",
+    route: "/company",
     children: [
       {
         id: "company-list",

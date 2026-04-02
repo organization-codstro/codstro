@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Mail } from "lucide-react";
 import { toast } from "react-toastify";
 import { LoginService } from "../../api/Auth/LoginPage";
-import { ProfileService } from "../../api/Profile/ProfilePage";
+import { ProfileService } from "../../api/Profile/Profile";
 import ProfileHeader from "../../components/Profile/ProfilePage/ProfileHeader";
 import InfoField from "../../components/Profile/ProfilePage/InfoField";
 import ProfileFooter from "../../components/Profile/ProfilePage/ProfileFooter";
@@ -80,7 +80,7 @@ export default function ProfilePage() {
           {/* 1. 상단 프로필 요약 (아바타, 레벨박스) */}
           <ProfileHeader
             name={userData.name}
-            profileUrl={userData.profileUrl}
+            profileUrl={userData.profilePath}
           />
 
           {/* 2. 상세 정보 그리드 영역 */}

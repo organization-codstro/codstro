@@ -4,7 +4,6 @@
 export interface ProfileFormData {
   name: string;
   email: string;
-  joinDate: string;
-  profileUrl: string;
+  profilePath: string;
   imageFile?: File; // 새로 업로드할 이미지 파일
 }

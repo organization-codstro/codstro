@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { User, Mail, Calendar } from "lucide-react";
+import { User, Mail } from "lucide-react";
 import { toast } from "react-toastify";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { ProfileEditService } from "../../api/Profile/ProfileEditPage";
@@ -9,6 +9,7 @@ import ProfileAvatar from "../../components/Profile/ProfileEditPage/ProfileAvata
 import FormInput from "../../components/Profile/ProfileEditPage/FormInput";
 import EditActionButtons from "../../components/Profile/ProfileEditPage/EditActionButtons";
 import { ProfileFormData } from "../../types/pages/Profile/ProfileEditPage/ProfileEditPage";
+import { ProfileService } from "../../api/Profile/Profile";
 
 /* -------------------------------------------------------------------------- */
 /* API 및 데이터 관련 타입                                */
@@ -24,8 +25,7 @@ export default function ProfileEditPage() {
   const [formData, setFormData] = useState<ProfileFormData>({
     name: "",
     email: "",
-    joinDate: "",
-    profileUrl: "",
+    profilePath: "",
   });
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isSaving, setIsSaving] = useState<boolean>(false);
@@ -48,15 +48,14 @@ export default function ProfileEditPage() {
         setUserId(currentUserId);
 
         // 2. DB에서 프로필 정보 조회
-        const profile = await ProfileEditService.getUserProfile({
+        const profile = await ProfileService.getUserFullProfile({
           userId: currentUserId,
         });
 
         setFormData({
-          name: profile.user_name || "",
-          email: profile.user_email || "",
-          joinDate: profile.user_join_date || "",
-          profileUrl: profile.user_profile_url || "",
+          name: profile.userData.name || "",
+          email: profile.userData.email || "",
+          profilePath: profile.userData.profilePath || "",
         });
       } catch (error) {
         console.error(error);
@@ -142,7 +141,7 @@ export default function ProfileEditPage() {
           {/* 2. 아바타 영역 - 이미지 변경 로직 연결 필요 시 onImageChange 추가 */}
           <ProfileAvatar
             name={formData.name}
-            src={formData.profileUrl}
+            src={formData.profilePath}
             onImageChange={handleImageChange} // 이전에 만든 핸들러 연결
           />
 
@@ -164,14 +163,6 @@ export default function ProfileEditPage() {
               value={formData.email}
               disabled
               helperText="Email cannot be changed"
-            />
-
-            <FormInput
-              label="Join Date"
-              type="text" // Date Picker 대신 일반 텍스트로 표시하거나 DB 형식에 맞춰 수정
-              icon={Calendar}
-              value={formData.joinDate}
-              disabled
             />
           </div>
 

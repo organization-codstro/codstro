@@ -78,14 +78,6 @@ export { default as MajorEncyclopediaDetail } from "../pages/Mbit/MajorEncyclope
 /* ================= CONCEPTS ================= */
 export { default as LibrarysList } from "../pages/Concepts/LibraryListPage";
 export { default as LibraryDetail } from "../pages/Concepts/LibraryDetailPage";
-export { default as BasicConceptsList } from "../pages/Concepts/BasicConceptsListPage";
-export { default as BasicConceptDetail } from "../pages/Concepts/BasicConceptDetailPage";
-export { default as CodingToolsList } from "../pages/Concepts/CodingToolsListPage";
-export { default as CodingToolDetail } from "../pages/Concepts/CodingToolDetailPage";
-export { default as ThirdPartyList } from "../pages/Concepts/ThirdPartyListPage";
-export { default as ThirdPartyDetail } from "../pages/Concepts/ThirdPartyDetailPage";
-export { default as PackageManagerMaterialsList } from "../pages/Concepts/PackageListPage";
-export { default as PackageManagerMaterialsDetail } from "../pages/Concepts/PackageDetailPage";
 export { default as NotesList } from "../pages/Concepts/NotesListPage";
 export { default as NoteDetail } from "../pages/Concepts/NoteDetailPage";
 export { default as NoteCreate } from "../pages/Concepts/NoteCreatePage";
@@ -94,7 +86,6 @@ export { default as NoteUpdate } from "../pages/Concepts/NoteUpdatePage";
 /* ================= PROFILE ================= */
 export { default as Profile } from "../pages/Profile/ProfilePage";
 export { default as ProfileEdit } from "../pages/Profile/ProfileEditPage";
-export { default as BadgeManager } from "../pages/Profile/BadgeManagerPage";
 
 
 /* ================= 404 ================= */

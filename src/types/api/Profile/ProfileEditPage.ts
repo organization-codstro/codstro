@@ -12,8 +12,7 @@ export interface GetUserProfileResponse {
   user_id: string;
   user_name: string;
   user_email: string;
-  user_profile_url: string;
-  user_join_date: string;
+  user_profile_path: string;
 }
 
 /**

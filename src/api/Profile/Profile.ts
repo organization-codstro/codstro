@@ -6,8 +6,7 @@ import {
 
 /**
  * [프로필 메인 서비스]
- * 유저의 상세 정보 조회 및 제공된 USER_LEVELS 기준에 따른 레벨 계산을 담당합니다.
- * 관련 테이블: users, user_levels
+ * 관련 테이블: users
  */
 export const ProfileService = {
   /**
@@ -27,12 +26,13 @@ export const ProfileService = {
 
       if (userError) throw userError;
 
+      console.log(user);
+
       return {
         userData: {
           name: user.user_name,
           email: user.user_email,
-          joinDate: user.user_join_date,
-          profileUrl: user.user_profile_url,
+          profilePath: user.user_profile_path,
         },
       };
     } catch (error) {

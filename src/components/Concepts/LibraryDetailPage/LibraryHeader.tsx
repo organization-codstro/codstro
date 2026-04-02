@@ -7,32 +7,9 @@ export default function LibraryHeader({
   description,
   category,
   officialSite,
-  isUnderstood,
-  onToggleUnderstood,
 }: LibraryHeaderProps) {
   return (
     <div className="relative">
-      {/* 우측 상단 학습 완료 버튼 */}
-      <div className="absolute top-0 right-0">
-        <button
-          onClick={onToggleUnderstood}
-          className={`flex items-center gap-2 px-4 py-2 rounded-full border transition-all ${
-            isUnderstood
-              ? "bg-green-50 border-green-200 text-green-600 shadow-sm"
-              : "bg-white border-gray-200 text-gray-400 hover:border-green-200 hover:text-green-500"
-          }`}
-        >
-          <CheckCircle
-            className={`w-5 h-5 ${
-              isUnderstood ? "fill-green-600 text-white" : ""
-            }`}
-          />
-          <span className="text-sm font-medium">
-            {isUnderstood ? "Completed" : "Mark as Learned"}
-          </span>
-        </button>
-      </div>
-
       <div className="flex items-center gap-3 pr-40 mb-2">
         {" "}
         {/* 버튼과 겹치지 않게 패딩 추가 */}

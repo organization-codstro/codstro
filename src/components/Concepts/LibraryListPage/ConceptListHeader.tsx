@@ -1,4 +1,4 @@
-import { ConceptListHeaderProps } from "../../types/pages/Concepts/ConceptListHeader";
+import { ConceptListHeaderProps } from "../../../types/pages/Concepts/ConceptListHeader";
 
 export default function ConceptListHeader({
   title,

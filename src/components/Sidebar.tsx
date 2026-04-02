@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   FileText,
@@ -49,7 +49,9 @@ import {
 import { navigationData } from "../data/navigationData";
 import Logo from "../assets/images/logo.svg";
 import { SidebarProps } from "../types/pages/Sidebar";
-import { NavigationItem } from "../types/pages/Sidebar/sidebar";
+import { NavigationItem } from "../types/pages/Sidebar/sidebar"
+import { supabase } from "../db/supabase/supabase";
+import { useUserStore } from "../store/profileStore";
 
 const iconMap = {
   CheckSquare,
@@ -103,6 +105,19 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   const location = useLocation();
   const currentRoute = location.pathname;
 
+  const { profile, profileImageUrl, fetchProfile } = useUserStore();
+
+  // 로그인된 유저 ID 가져와서 프로필 fetch
+  useEffect(() => {
+    const loadUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user) fetchProfile(user.id);
+    };
+    loadUser();
+  }, []);
+
   const toggleExpanded = (itemId: string) => {
     const newExpanded = new Set(expandedItems);
     if (newExpanded.has(itemId)) {
@@ -118,7 +133,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       toggleExpanded(item.id);
     } else if (item.route) {
       navigate(item.route);
-      onClose(); // 모바일에서 닫기
+      onClose();
     }
   };
 
@@ -132,16 +147,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     const hasChildren = item.children && item.children.length > 0;
     const isExpanded = expandedItems.has(item.id);
     const isActive = currentRoute === item.route;
-    const hasActiveChild =
-      hasChildren &&
-      item.children!.some((child) => currentRoute === child.route);
 
     return (
       <div key={item.id} className="mb-1">
-        {/* Main Item */}
         <div
           className={`flex items-center justify-between px-4 py-3 rounded-lg cursor-pointer transition-all duration-200 ${
-            isActive && !hasActiveChild
+            isActive
               ? "bg-[#587CF0] text-white shadow-md"
               : "text-gray-700 hover:bg-purple-50 hover:text-[#587CF0]"
           }`}
@@ -153,16 +164,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           </div>
           {hasChildren && (
             <div
-              className={`transition-transform duration-200 ${
-                isExpanded ? "rotate-180" : ""
-              }`}
+              className={`transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`}
             >
               <ChevronDown className="w-4 h-4" />
             </div>
           )}
         </div>
 
-        {/* Submenu with Animation */}
         {hasChildren && (
           <div
             className={`overflow-hidden transition-all duration-300 ease-in-out ${
@@ -199,7 +207,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
 
   return (
     <>
-      {/* Mobile Overlay */}
       {isOpen && (
         <div
           className="fixed inset-0 z-30 bg-black bg-opacity-50 lg:hidden"
@@ -207,7 +214,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         />
       )}
 
-      {/* Sidebar */}
       <div
         className={`fixed left-0 top-0 h-screen bg-white shadow-xl z-40 transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
@@ -221,7 +227,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             </div>
             <div>
               <h1 className="text-xl font-bold text-gray-800">Codstro</h1>
-              {/* <p className="text-xs text-gray-500">Coding Journey</p> */}
             </div>
           </div>
           <button
@@ -239,19 +244,34 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           </nav>
         </div>
 
-        {/* Footer */}
+        {/* Footer - 유저 프로필 */}
         <button
           type="button"
           onClick={() => navigate("/profile")}
           className="w-full p-4 text-left border-t border-purple-100"
         >
           <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-purple-50 to-blue-50">
-            <div className="w-8 h-8 bg-[#587CF0] rounded-full flex items-center justify-center">
-              <User className="w-4 h-4 text-white" />
+            {/* 프로필 이미지 */}
+            <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 bg-[#587CF0] flex items-center justify-center">
+              {profileImageUrl ? (
+                <img
+                  src={profileImageUrl}
+                  alt="profile"
+                  className="object-cover w-full h-full"
+                />
+              ) : (
+                <User className="w-4 h-4 text-white" />
+              )}
             </div>
-            <div className="flex-1">
-              <p className="text-sm font-medium text-gray-800">Student User</p>
-              <p className="text-xs text-gray-500">Level 1 • 120 points</p>
+
+            {/* 이름 + 이메일 */}
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-gray-800 truncate">
+                {profile?.name ?? "이름 없음"}
+              </p>
+              <p className="text-xs text-gray-500 truncate">
+                {profile?.email ?? ""}
+              </p>
             </div>
           </div>
         </button>

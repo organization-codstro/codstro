@@ -5,6 +5,4 @@ export interface LibraryHeaderProps {
   category: string[];
   officialSite: string | null;
 
-  isUnderstood: boolean;
-  onToggleUnderstood: () => void;
 }

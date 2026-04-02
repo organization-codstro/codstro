@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import ConceptListHeader from "../../components/Concepts/ConceptListHeader";
-import ConceptSearchBar from "../../components/Concepts/ConceptSearchBar";
+import ConceptListHeader from "../../components/Concepts/LibraryListPage/ConceptListHeader";
+import ConceptSearchBar from "../../components/Concepts/LibraryDetailPage/ConceptSearchBar";
 import ConceptGrid from "../../components/Concepts/ConceptGrid";
 import LibraryCard from "../../components/Concepts/LibraryListPage/LibraryCard";
 import { useEffect, useState } from "react";

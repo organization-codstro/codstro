@@ -1,7 +1,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { ConceptSelectorProps } from "../../types/pages/Concepts/NoteCreatePage/ConceptSelector";
-import { FILTER_TYPES } from "../../constants/Concepts/concepts";
-import { ConceptItem } from "../../types/common/Concepts";
+import { ConceptSelectorProps } from "../../../types/pages/Concepts/NoteCreatePage/ConceptSelector";
+import { FILTER_TYPES } from "../../../constants/Concepts/concepts";
+import { ConceptItem } from "../../../types/common/Concepts";
 
 export default function ConceptSelector({
   availableConcepts,

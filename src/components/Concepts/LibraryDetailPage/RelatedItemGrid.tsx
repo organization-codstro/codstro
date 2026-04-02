@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { RelatedItemGridProps } from "../../../types/pages/Concepts/CodingToolDetailPage/RelatedItemGrid";
+import { RelatedItemGridProps } from "../../../types/pages/Concepts/LibraryDetailPage/RelatedItemGrid";
 
 export default function RelatedItemGrid({
   title = "Related Concepts",

@@ -15,37 +15,6 @@ import {
  */
 export const ProfileEditService = {
   /**
-   * [사용자 정보 조회]
-   * 편집 페이지 진입 시 현재 사용자의 최신 정보를 DB에서 가져옵니다.
-   * @param userId 조회할 유저의 ID
-   */
-  async getUserProfile(
-    params: GetUserProfileParams
-  ): Promise<GetUserProfileResponse> {
-    try {
-      const { data, error } = await supabase
-        .from("users")
-        .select(
-          `
-          user_id,
-          user_name,
-          user_email,
-          user_profile_url,
-          user_join_date
-        `
-        )
-        .eq("user_id", params.userId)
-        .single();
-
-      if (error) throw error;
-      return data;
-    } catch (error) {
-      console.error("[ProfileEditService.getUserProfile Error]:", error);
-      throw error;
-    }
-  },
-
-  /**
    * [프로필 통합 업데이트]
    * 이미지 파일이 있을 경우 Firebase에 먼저 업로드 후, 모든 정보를 Supabase에 저장합니다.
    * @param userId 유저 ID
@@ -53,7 +22,7 @@ export const ProfileEditService = {
    * @param imageFile (선택) 변경할 프로필 이미지 파일
    */
   async updateProfile(
-    params: UpdateProfileParams
+    params: UpdateProfileParams,
   ): Promise<UpdateProfileResponse> {
     try {
       let profileUrl: string | undefined;
@@ -62,7 +31,7 @@ export const ProfileEditService = {
       if (params.imageFile) {
         const uploadResult = await FirebaseStorageService.uploadImage(
           params.imageFile,
-          "profiles"
+          "profiles",
         );
         profileUrl = uploadResult.url;
       }
@@ -73,7 +42,7 @@ export const ProfileEditService = {
       };
 
       if (profileUrl) {
-        updatePayload.user_profile_url = profileUrl;
+        updatePayload.user_profile_path = profileUrl;
       }
 
       const { error } = await supabase
@@ -104,13 +73,13 @@ export const ProfileEditService = {
       // 2. 새 이미지 업로드
       const { url } = await FirebaseStorageService.uploadImage(
         params.file,
-        "profiles"
+        "profiles",
       );
 
       // 3. DB 업데이트
       const { error } = await supabase
         .from("users")
-        .update({ user_profile_url: url })
+        .update({ user_profile_path: url })
         .eq("user_id", params.userId);
 
       if (error) throw error;

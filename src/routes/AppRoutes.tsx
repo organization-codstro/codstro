@@ -224,34 +224,10 @@ export default function AppRoutes() {
 
         <Route path="/librarys" element={<Page.LibrarysList />} />
         <Route path="/librarys/:libraryId" element={<Page.LibraryDetail />} />
-        <Route path="/basic-concepts" element={<Page.BasicConceptsList />} />
-        <Route
-          path="/basic-concepts/:conceptId"
-          element={<Page.BasicConceptDetail />}
-        />
-        <Route path="/coding-tools" element={<Page.CodingToolsList />} />
-        <Route
-          path="/coding-tools/:toolId"
-          element={<Page.CodingToolDetail />}
-        />
-        <Route path="/third-partys" element={<Page.ThirdPartyList />} />
-        <Route
-          path="/third-partys/:serviceId"
-          element={<Page.ThirdPartyDetail />}
-        />
-        <Route
-          path="/package-managers"
-          element={<Page.PackageManagerMaterialsList />}
-        />
-        <Route
-          path="/package-managers/:materialId"
-          element={<Page.PackageManagerMaterialsDetail />}
-        />
 
         {/* ================= Profile ================= */}
         <Route path="/profile" element={<Page.Profile />} />
         <Route path="/profile/edit" element={<Page.ProfileEdit />} />
-        <Route path="/profile/badges" element={<Page.BadgeManager />} />
       </Route>
 
       {/* ================= 잘못된 경로 ================= */}

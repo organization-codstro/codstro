@@ -10,7 +10,7 @@ import { LoginService } from "../../api/Auth/LoginPage";
 
 // 컴포넌트
 import NotesListHeader from "../../components/Concepts/NotesListPage/NotesListHeader";
-import ConceptSearchBar from "../../components/Concepts/ConceptSearchBar";
+import ConceptSearchBar from "../../components/Concepts/LibraryDetailPage/ConceptSearchBar";
 import ConceptGrid from "../../components/Concepts/ConceptGrid";
 import NoteCard from "../../components/Concepts/NotesListPage/NoteCard";
 import EmptyNotesState from "../../components/Concepts/NotesListPage/EmptyNotesState";

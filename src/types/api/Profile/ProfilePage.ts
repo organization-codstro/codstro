@@ -12,7 +12,6 @@ export interface GetUserFullProfileResponse {
   userData: {
     name: string;
     email: string;
-    joinDate: string;
-    profileUrl: string;
+    profilePath: string;
   };
 }

@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { X, Send, Loader2, ExternalLink } from "lucide-react";
 import { toast } from "react-toastify";
-import { CompanyInformationAIChatProps } from "../../types/pages/CompanyInformation/CompanyInformationAIChat";
-import { CompanyInformationAIChatMessage } from "../../types/common/CompanyInformation";
-import { ConceptsService } from "../../api/Concepts/Concepts";
+import { ConceptsService } from "../../../api/Concepts/Concepts";
+import { CompanyInformationAIChatMessage } from "../../../types/common/CompanyInformation";
+import { CompanyInformationAIChatProps } from "../../../types/pages/CompanyInformation/CompanyInformationAIChat";
 
 export default function CompanyInformationAIChat({
   isOpen,

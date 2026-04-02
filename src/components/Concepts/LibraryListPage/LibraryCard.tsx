@@ -1,4 +1,4 @@
-import { LibraryCardProps } from "../../../types/pages/Concepts/librarysListPage/LibraryCard";
+import { LibraryCardProps } from "../../../types/pages/Concepts/LibrariesListPage/LibraryCard";
 
 export default function LibraryCard({
   id,

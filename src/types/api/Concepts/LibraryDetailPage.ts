@@ -13,15 +13,6 @@ export interface GetLibraryDetailParams {
 }
 
 /**
- * 라이브러리 이해 상태 토글 파라미터
- */
-export interface ToggleLibraryUnderstoodParams {
-  userId: string;
-  libraryId: string;
-  currentStatus: boolean;
-}
-
-/**
  * 라이브러리 AI 질의 파라미터
  */
 export interface AskLibraryAIParams {
@@ -49,10 +40,9 @@ export interface LibraryDetailResponse {
   name: string;
   language: string;
   category: string[];
-  tags: string[]; // category 배열을 tags로 활용
+  tags: string[];
   officialSite: string | null;
   description: string;
   content: string;
-  isUnderstood: boolean;
   relatedConcepts: RelatedItem[];
 }

@@ -4,7 +4,6 @@ import { generateAiContent } from "../Gemini/Gemini";
 import {
   LibraryDetailResponse,
   GetLibraryDetailParams,
-  ToggleLibraryUnderstoodParams,
   AskLibraryAIParams,
   AddLibraryTodoParams,
 } from "../../types/api/Concepts/LibraryDetailPage";
@@ -22,7 +21,7 @@ export const LibraryDetailService = {
   async getLibraryDetail(
     params: GetLibraryDetailParams,
   ): Promise<LibraryDetailResponse> {
-    const { libraryId, userId } = params;
+    const { libraryId } = params;
 
     const { data: libraryData, error: libraryError } = await supabase
       .from("library_description_materials")
@@ -44,57 +43,19 @@ export const LibraryDetailService = {
       throw new Error("라이브러리 정보를 불러올 수 없습니다.");
     }
 
-    const { data: userStatus } = await supabase
-      .from("user_concepts")
-      .select("user_concept_id")
-      .eq("user_id", userId)
-      .eq("library_description_material_id", libraryId)
-      .maybeSingle();
-
     const relatedItems: any[] = [];
 
     return {
       ...libraryData,
       tags: libraryData.category ?? [],
-      isUnderstood: Boolean(userStatus),
       relatedConcepts: relatedItems,
     };
   },
 
   /**
-   * 라이브러리에 대한 유저의 이해 상태를 토글합니다.
-   */
-  async toggleLibraryUnderstood(
-    params: ToggleLibraryUnderstoodParams,
-  ): Promise<boolean> {
-    const { userId, libraryId, currentStatus } = params;
-
-    if (currentStatus) {
-      const { error } = await supabase
-        .from("user_concepts")
-        .delete()
-        .eq("user_id", userId)
-        .eq("library_description_material_id", libraryId);
-
-      if (error) throw error;
-      return false;
-    }
-
-    const { error } = await supabase.from("user_concepts").insert({
-      user_id: userId,
-      library_description_material_id: libraryId,
-      user_concept_is_starred: false,
-      third_party_services_description_material_id: null,
-    });
-
-    if (error) throw error;
-    return true;
-  },
-
-  /**
    * AI(Gemini)를 사용하여 라이브러리 관련 질의를 수행합니다.
    */
-  async askLibraryAI(params: AskLibraryAIParams) {
+  async askAIChat(params: AskLibraryAIParams) {
     const { libraryName, question } = params;
 
     try {

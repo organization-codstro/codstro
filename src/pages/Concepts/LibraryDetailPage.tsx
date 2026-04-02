@@ -9,13 +9,13 @@ import { LoginService } from "../../api/Auth/LoginPage";
 import { LibraryDetailService } from "../../api/Concepts/LibraryDetailPage";
 
 // 공통 컴포넌트
-import AIChat from "../../components/CompanyInformation/CompanyInformationAIChat";
+import AIChat from "../../components/Concepts/LibraryDetailPage/CompanyInformationAIChat";
 import AddTodoModal from "../../components/CompanyInformation/AddTodoModal";
 import MarkdownRenderer from "../../components/Markdown/MarkdownRenderer";
 import BackButton from "../../components/Concepts/BackButton";
 import LibraryHeader from "../../components/Concepts/LibraryDetailPage/LibraryHeader";
 import LibraryActionButtons from "../../components/Concepts/LibraryDetailPage/LibraryActionButtons";
-import RelatedItemGrid from "../../components/Concepts/CodingToolDetailPage/RelatedItemGrid";
+import RelatedItemGrid from "../../components/Concepts/LibraryDetailPage/RelatedItemGrid";
 import NotFoundPage from "../NotFound/NotFoundPage";
 import {
   GROUP_NAME,
@@ -75,26 +75,6 @@ export default function LibraryDetailPage() {
 
   // 3. 핸들러 함수
 
-  // [이해함 상태 토글]
-  const handleToggleUnderstood = async () => {
-    if (!userId || !libraryId || !data) return;
-
-    try {
-      const updatedStatus = await LibraryDetailService.toggleLibraryUnderstood({
-        userId,
-        libraryId,
-        currentStatus: data.isUnderstood,
-      });
-
-      setData({ ...data, isUnderstood: updatedStatus });
-      toast.success(
-        updatedStatus ? "학습 완료로 표시되었습니다." : "취소되었습니다.",
-      );
-    } catch (error) {
-      toast.error("상태 변경에 실패했습니다.");
-    }
-  };
-
   // [Todo 추가 확정 - onConfirm]
   const handleAddTodoConfirm = async (formData: TodoForm) => {
     if (!userId || !data || !showTodoModal) return;
@@ -137,8 +117,6 @@ export default function LibraryDetailPage() {
           description={data.description}
           category={data.category}
           officialSite={data.officialSite}
-          isUnderstood={data.isUnderstood}
-          onToggleUnderstood={handleToggleUnderstood}
         />
 
         <div className="my-8 border-t border-gray-100" />
