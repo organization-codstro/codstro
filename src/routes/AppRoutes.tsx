@@ -222,8 +222,8 @@ export default function AppRoutes() {
         <Route path="/notes/create" element={<Page.NoteCreate />} />
         <Route path="/notes/:noteId/edit" element={<Page.NoteUpdate />} />
 
-        <Route path="/concepts" element={<Page.LibrarysList />} />
-        <Route path="/concept/:conceptId" element={<Page.LibraryDetail />} />
+        <Route path="/concepts" element={<Page.ConceptList />} />
+        <Route path="/concepts/:conceptId" element={<Page.ConceptDetail />} />
 
         {/* ================= Profile ================= */}
         <Route path="/profile" element={<Page.Profile />} />

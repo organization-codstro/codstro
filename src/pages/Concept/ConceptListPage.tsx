@@ -7,24 +7,24 @@ import { useEffect, useState } from "react";
 import { ConceptListService } from "../../api/Concept/ConceptListPage";
 import { ConceptDescriptionMaterial } from "../../types/common/Concepts";
 
-export default function LibrarysListPage() {
+export default function ConceptsListPage() {
   const navigate = useNavigate();
-  const [librarys, setlibrarys] = useState<ConceptDescriptionMaterial[]>([]);
+  const [concepts, setConcepts] = useState<ConceptDescriptionMaterial[]>([]);
 
-  const fetchlibrarys = async () => {
+  const fetchConcepts = async () => {
     const response = await ConceptListService.getConcept();
-    setlibrarys(response);
+    setConcepts(response);
   };
 
   useEffect(() => {
-    fetchlibrarys();
+    fetchConcepts();
   }, []);
 
-  const handleLibraryClick = (id: string) => {
-    navigate(`/librarys/${id}`);
+  const handleConceptClick = (id: string) => {
+    navigate(`/concepts/${id}`);
   };
 
-  if (!librarys) {
+  if (!concepts) {
     return <div>Loading...</div>;
   }
 
@@ -33,26 +33,26 @@ export default function LibrarysListPage() {
       {/* 1. 헤더 섹션 */}
       <ConceptListHeader
         title="My Concepts"
-        description="Explore popular librarys and frameworks"
+        description="Explore popular concepts and frameworks"
       />
 
       {/* 2. 검색 및 필터 바 */}
       <ConceptSearchBar
-        onSearchChange={(val) => console.log("Library Search:", val)}
-        onFilterClick={() => console.log("Library Filter Click")}
+        onSearchChange={(val) => console.log("Concept Search:", val)}
+        onFilterClick={() => console.log("Concept Filter Click")}
       />
 
-      {/* 3. 라이브러리 카드 그리드 리스트 */}
+      {/* 3. 컨셉 카드 그리드 리스트 */}
       <ConceptGrid>
-        {librarys.map((library) => (
+        {concepts.map((concept) => (
           <ConceptCard
-            key={library.id}
-            id={library.id}
-            name={library.name}
-            language={library.includedLanguage}
-            description={library.description}
-            category={library.category}
-            onClick={handleLibraryClick}
+            key={concept.id}
+            id={concept.id}
+            name={concept.name}
+            language={concept.includedLanguage}
+            description={concept.description}
+            category={concept.category}
+            onClick={handleConceptClick}
           />
         ))}
       </ConceptGrid>

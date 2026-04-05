@@ -22,7 +22,7 @@ import {
   GROUP_NAME_TYPE,
 } from "../../constants/Woomoonjeong/woomoonjeong";
 
-export default function LibraryDetailPage() {
+export default function ConceptDetailPage() {
   const { conceptId } = useParams<{ conceptId: string }>();
 
   // 1. 상태 관리
@@ -64,7 +64,7 @@ export default function LibraryDetailPage() {
         setData(response);
       } catch (error: any) {
         console.error(error);
-        toast.error("라이브러리 정보를 불러오는데 실패했습니다.");
+        toast.error("개념 정보를 불러오는데 실패했습니다.");
       } finally {
         setIsLoading(false);
       }
@@ -80,7 +80,7 @@ export default function LibraryDetailPage() {
     if (!userId || !data || !showTodoModal) return;
 
     try {
-      await ConceptDetailService.addLibraryTodo({
+      await ConceptDetailService.addConceptTodo({
         userId,
         conceptName: data.name,
         type: showTodoModal,
@@ -98,7 +98,7 @@ export default function LibraryDetailPage() {
   if (isLoading)
     return (
       <div className="p-20 text-center text-gray-500">
-        Loading library details...
+        Loading concept details...
       </div>
     );
 
@@ -107,10 +107,10 @@ export default function LibraryDetailPage() {
   return (
     <div className="max-w-5xl p-8 mx-auto">
       {/* 1. 뒤로가기 */}
-      <BackButton to="/librarys" label="Back to librarys" />
+      <BackButton to="/concepts" label="Back to concepts" />
 
       <div className="p-8 mb-6 bg-white border border-gray-200 rounded-lg shadow-sm">
-        {/* 2. 라이브러리 상단 정보 (tags 제거, category 배열 사용) */}
+        {/* 2. 개념 상단 정보 (tags 제거, category 배열 사용) */}
         <ConceptHeader
           name={data.name}
           language={data.language}
@@ -146,7 +146,7 @@ export default function LibraryDetailPage() {
         onClose={() => setShowAIChat(false)}
         conceptName={data.name}
         materialId={conceptId}
-        materialType={"library"}
+        materialType={"concept"}
       />
 
       {showTodoModal && (
