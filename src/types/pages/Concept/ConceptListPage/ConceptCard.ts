@@ -1,4 +1,4 @@
-export interface LibraryCardProps {
+export interface ConceptCardProps {
   id: string;
   name: string;
   language: string;

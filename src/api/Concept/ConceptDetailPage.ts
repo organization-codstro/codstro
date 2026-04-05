@@ -2,28 +2,28 @@ import { supabase } from "../../db/supabase/supabase";
 import { generateAiContent } from "../Gemini/Gemini";
 
 import {
-  LibraryDetailResponse,
-  GetLibraryDetailParams,
-  AskLibraryAIParams,
-  AddLibraryTodoParams,
-} from "../../types/api/Concept/LibraryDetailPage";
+  ConceptDetailResponse,
+  GetConceptDetailParams,
+  AskConceptAIParams,
+  AddConceptTodoParams,
+} from "../../types/api/Concept/ConceptDetailPage";
 
 /**
  * LibraryDetailService
  *
  * 라이브러리 상세 페이지에서 필요한 모든 비즈니스 로직을 담당하는 서비스
  */
-export const LibraryDetailService = {
+export const ConceptDetailService = {
   /**
    * 특정 라이브러리의 상세 정보와
    * 해당 라이브러리에 대한 유저의 학습(이해) 상태를 함께 조회합니다.
    */
-  async getLibraryDetail(
-    params: GetLibraryDetailParams,
-  ): Promise<LibraryDetailResponse> {
-    const { libraryId } = params;
+  async getConceptDetail(
+    params: GetConceptDetailParams,
+  ): Promise<ConceptDetailResponse> {
+    const { conceptId } = params;
 
-    const { data: libraryData, error: libraryError } = await supabase
+    const { data: conceptData, error: conceptError } = await supabase
       .from("library_description_materials")
       .select(
         `
@@ -36,18 +36,18 @@ export const LibraryDetailService = {
         officialSite:library_description_material_document_url
       `,
       )
-      .eq("library_description_material_id", libraryId)
+      .eq("library_description_material_id", conceptId)
       .single();
 
-    if (libraryError || !libraryData) {
+    if (conceptError || !conceptData) {
       throw new Error("라이브러리 정보를 불러올 수 없습니다.");
     }
 
     const relatedItems: any[] = [];
 
     return {
-      ...libraryData,
-      tags: libraryData.category ?? [],
+      ...conceptData,
+      tags: conceptData.category ?? [],
       relatedConcepts: relatedItems,
     };
   },
@@ -55,12 +55,12 @@ export const LibraryDetailService = {
   /**
    * AI(Gemini)를 사용하여 라이브러리 관련 질의를 수행합니다.
    */
-  async askAIChat(params: AskLibraryAIParams) {
-    const { libraryName, question } = params;
+  async askAIChat(params: AskConceptAIParams) {
+    const { conceptName, question } = params;
 
     try {
       return await generateAiContent(
-        `라이브러리 [${libraryName}]에 대한 질문: ${question}`,
+        `라이브러리 [${conceptName}]에 대한 질문: ${question}`,
       );
     } catch (error) {
       console.error("Gemini API Error:", error);
@@ -71,13 +71,13 @@ export const LibraryDetailService = {
   /**
    * 라이브러리 학습 Todo(노트)를 생성합니다.
    */
-  async addLibraryTodo(params: AddLibraryTodoParams): Promise<boolean> {
-    const { userId, libraryName, type } = params;
+  async addLibraryTodo(params: AddConceptTodoParams): Promise<boolean> {
+    const { userId, conceptName, type } = params;
 
     const { error } = await supabase.from("notes").insert({
       user_id: userId,
-      note_title: `[학습] ${libraryName} - ${type}`,
-      note_description: `${libraryName} 라이브러리의 ${type} 관련 과제입니다.`,
+      note_title: `[학습] ${conceptName} - ${type}`,
+      note_description: `${conceptName} 라이브러리의 ${type} 관련 과제입니다.`,
       note_labels: ["Library", type],
       created_at: new Date().toISOString().split("T")[0],
     });

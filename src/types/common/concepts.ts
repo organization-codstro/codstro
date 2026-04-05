@@ -17,7 +17,7 @@ export type ConceptItem = {
   name?: string;
 };
 
-export interface LibraryDescriptionMaterial {
+export interface ConceptDescriptionMaterial {
   id: string;
   name: string;
   description: string;

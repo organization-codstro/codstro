@@ -1,13 +1,13 @@
-import { LibraryCardProps } from "../../../types/pages/Concept/LibrariesListPage/LibraryCard";
+import { ConceptCardProps } from "../../../types/pages/Concept/ConceptListPage/ConceptCard";
 
-export default function LibraryCard({
+export default function ConceptCard({
   id,
   name,
   language,
   description,
   category,
   onClick,
-}: LibraryCardProps) {
+}: ConceptCardProps) {
   return (
     <div
       onClick={() => onClick(id)}

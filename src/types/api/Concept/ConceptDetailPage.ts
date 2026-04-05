@@ -7,25 +7,25 @@
 /**
  * 라이브러리 상세 조회 파라미터
  */
-export interface GetLibraryDetailParams {
-  libraryId: string;
+export interface GetConceptDetailParams {
+  conceptId: string;
   userId: string;
 }
 
 /**
  * 라이브러리 AI 질의 파라미터
  */
-export interface AskLibraryAIParams {
-  libraryName: string;
+export interface AskConceptAIParams {
+  conceptName: string;
   question: string;
 }
 
 /**
  * 라이브러리 Todo 생성 파라미터
  */
-export interface AddLibraryTodoParams {
+export interface AddConceptTodoParams {
   userId: string;
-  libraryName: string;
+  conceptName: string;
   type: string;
 }
 
@@ -35,7 +35,7 @@ interface RelatedItem {
   type: string;
 }
 
-export interface LibraryDetailResponse {
+export interface ConceptDetailResponse {
   id: string;
   name: string;
   language: string;

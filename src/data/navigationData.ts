@@ -150,10 +150,10 @@ export const navigationData: NavigationItem[] = [
         route: "/notes", // 변경
       },
       {
-        id: "librarys-list",
-        title: "librarys & Frameworks",
+        id: "concepts-list",
+        title: "My Concepts",
         icon: "Package",
-        route: "/librarys", // 변경
+        route: "/concepts",
       },
     ],
   },

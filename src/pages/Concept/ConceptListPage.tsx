@@ -1,18 +1,18 @@
 import { useNavigate } from "react-router-dom";
-import ConceptListHeader from "../../components/Concept/LibraryListPage/ConceptListHeader";
-import ConceptSearchBar from "../../components/Concept/LibraryDetailPage/ConceptSearchBar";
+import ConceptListHeader from "../../components/Concept/ConceptListPage/ConceptListHeader";
+import ConceptSearchBar from "../../components/Concept/ConceptDetailPage/ConceptSearchBar";
 import ConceptGrid from "../../components/Concept/ConceptGrid";
-import LibraryCard from "../../components/Concept/LibraryListPage/LibraryCard";
+import ConceptCard from "../../components/Concept/ConceptListPage/ConceptCard";
 import { useEffect, useState } from "react";
-import { LibraryDescriptionMaterial } from "../../types/common/Concepts";
-import { LibraryListService } from "../../api/Concept/LibrariesListPage";
+import { ConceptListService } from "../../api/Concept/ConceptListPage";
+import { ConceptDescriptionMaterial } from "../../types/common/Concepts";
 
 export default function LibrarysListPage() {
   const navigate = useNavigate();
-  const [librarys, setlibrarys] = useState<LibraryDescriptionMaterial[]>([]);
+  const [librarys, setlibrarys] = useState<ConceptDescriptionMaterial[]>([]);
 
   const fetchlibrarys = async () => {
-    const response = await LibraryListService.getlibrarys();
+    const response = await ConceptListService.getConcept();
     setlibrarys(response);
   };
 
@@ -32,7 +32,7 @@ export default function LibrarysListPage() {
     <div className="p-8 mx-auto max-w-7xl">
       {/* 1. 헤더 섹션 */}
       <ConceptListHeader
-        title="librarys & Frameworks"
+        title="My Concepts"
         description="Explore popular librarys and frameworks"
       />
 
@@ -45,7 +45,7 @@ export default function LibrarysListPage() {
       {/* 3. 라이브러리 카드 그리드 리스트 */}
       <ConceptGrid>
         {librarys.map((library) => (
-          <LibraryCard
+          <ConceptCard
             key={library.id}
             id={library.id}
             name={library.name}

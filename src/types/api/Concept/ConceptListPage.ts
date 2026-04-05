@@ -16,7 +16,3 @@ export interface FilterlibrarysParams {
   column: string;
   value: string;
 }
-
-export interface GetAILibraryStackRecommendationParams {
-  projectType: string;
-}

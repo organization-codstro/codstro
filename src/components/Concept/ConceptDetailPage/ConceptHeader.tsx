@@ -1,7 +1,7 @@
-import { ExternalLink, CheckCircle } from "lucide-react";
-import { LibraryHeaderProps } from "../../../types/pages/Concept/LibraryDetailPage/LibraryHeader";
+import { ExternalLink } from "lucide-react";
+import { LibraryHeaderProps } from "../../../types/pages/Concept/ConceptDetailPage/ConceptHeader";
 
-export default function LibraryHeader({
+export default function ConceptHeader({
   name,
   language,
   description,

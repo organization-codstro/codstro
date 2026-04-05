@@ -3,19 +3,19 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 // 서비스 및 타입
-import { LibraryDetailResponse } from "../../types/api/Concept/LibraryDetailPage";
+import { ConceptDetailResponse } from "../../types/api/Concept/ConceptDetailPage";
 import { TodoForm } from "../../types/pages/CompanyInformation/AddTodoModal";
 import { LoginService } from "../../api/Auth/LoginPage";
-import { LibraryDetailService } from "../../api/Concept/LibraryDetailPage";
+import { ConceptDetailService } from "../../api/Concept/ConceptDetailPage";
 
 // 공통 컴포넌트
-import AIChat from "../../components/Concept/LibraryDetailPage/CompanyInformationAIChat";
+import AIChat from "../../components/Concept/ConceptDetailPage/CompanyInformationAIChat";
 import AddTodoModal from "../../components/CompanyInformation/AddTodoModal";
 import MarkdownRenderer from "../../components/Markdown/MarkdownRenderer";
 import BackButton from "../../components/Concept/BackButton";
-import LibraryHeader from "../../components/Concept/LibraryDetailPage/LibraryHeader";
-import LibraryActionButtons from "../../components/Concept/LibraryDetailPage/LibraryActionButtons";
-import RelatedItemGrid from "../../components/Concept/LibraryDetailPage/RelatedItemGrid";
+import ConceptHeader from "../../components/Concept/ConceptDetailPage/ConceptHeader";
+import ConceptHeaderActionButtons from "../../components/Concept/ConceptDetailPage/ConceptActionButtons";
+import RelatedItemGrid from "../../components/Concept/ConceptDetailPage/RelatedItemGrid";
 import NotFoundPage from "../NotFound/NotFoundPage";
 import {
   GROUP_NAME,
@@ -23,10 +23,10 @@ import {
 } from "../../constants/Woomoonjeong/woomoonjeong";
 
 export default function LibraryDetailPage() {
-  const { libraryId } = useParams<{ libraryId: string }>();
+  const { conceptId } = useParams<{ conceptId: string }>();
 
   // 1. 상태 관리
-  const [data, setData] = useState<LibraryDetailResponse | null>(null);
+  const [data, setData] = useState<ConceptDetailResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [userId, setUserId] = useState<string | null>(null);
 
@@ -46,7 +46,7 @@ export default function LibraryDetailPage() {
   // 2. 초기 데이터 로딩
   useEffect(() => {
     const initPage = async () => {
-      if (!libraryId) return;
+      if (!conceptId) return;
 
       try {
         setIsLoading(true);
@@ -57,8 +57,8 @@ export default function LibraryDetailPage() {
           return;
         }
 
-        const response = await LibraryDetailService.getLibraryDetail({
-          libraryId,
+        const response = await ConceptDetailService.getConceptDetail({
+          conceptId,
           userId: currentUserId,
         });
         setData(response);
@@ -71,7 +71,7 @@ export default function LibraryDetailPage() {
     };
 
     initPage();
-  }, [libraryId]);
+  }, [conceptId]);
 
   // 3. 핸들러 함수
 
@@ -80,9 +80,9 @@ export default function LibraryDetailPage() {
     if (!userId || !data || !showTodoModal) return;
 
     try {
-      await LibraryDetailService.addLibraryTodo({
+      await ConceptDetailService.addLibraryTodo({
         userId,
-        libraryName: data.name,
+        conceptName: data.name,
         type: showTodoModal,
       });
 
@@ -102,7 +102,7 @@ export default function LibraryDetailPage() {
       </div>
     );
 
-  if (!data || !libraryId) return <NotFoundPage />;
+  if (!data || !conceptId) return <NotFoundPage />;
 
   return (
     <div className="max-w-5xl p-8 mx-auto">
@@ -111,7 +111,7 @@ export default function LibraryDetailPage() {
 
       <div className="p-8 mb-6 bg-white border border-gray-200 rounded-lg shadow-sm">
         {/* 2. 라이브러리 상단 정보 (tags 제거, category 배열 사용) */}
-        <LibraryHeader
+        <ConceptHeader
           name={data.name}
           language={data.language}
           description={data.description}
@@ -122,7 +122,7 @@ export default function LibraryDetailPage() {
         <div className="my-8 border-t border-gray-100" />
 
         {/* 3. 액션 버튼 */}
-        <LibraryActionButtons
+        <ConceptHeaderActionButtons
           onShowAIChat={() => setShowAIChat(true)}
           onAddTodo={(type) => setShowTodoModal(type)}
         />
@@ -145,7 +145,7 @@ export default function LibraryDetailPage() {
         isOpen={showAIChat}
         onClose={() => setShowAIChat(false)}
         conceptName={data.name}
-        materialId={libraryId}
+        materialId={conceptId}
         materialType={"library"}
       />
 
