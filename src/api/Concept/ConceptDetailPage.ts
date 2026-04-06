@@ -71,6 +71,28 @@ export const ConceptDetailService = {
   },
 
   /**
+   * 개념의 일부 정보를 업데이트 합니다.
+   */
+  async updateConceptMeta(params: {
+    conceptId: string;
+    title: string;
+    description: string;
+    labels: string[];
+  }): Promise<void> {
+    const { error } = await supabase
+      .from("concepts")
+      .update({
+        concept_name: params.title,
+        concept_description: params.description,
+        concept_category: params.labels,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("concept_id", params.conceptId);
+
+    if (error) throw new Error(error.message);
+  },
+
+  /**
    * 개념을 삭제합니다.
    * - 해당 개념만 연결된 노트는 함께 삭제
    * - 다른 개념도 연결된 노트는 관계만 끊고 노트는 유지

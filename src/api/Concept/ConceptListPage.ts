@@ -40,7 +40,7 @@ export const ConceptListService = {
   },
 
   /**
-   * [검색] 라이브러리 이름 또는 포함된 언어로 검색합니다.
+   * [검색] 개념 이름 또는 포함된 언어로 검색합니다.
    */
   async searchConcept(
     params: SearchlibrarysParams,

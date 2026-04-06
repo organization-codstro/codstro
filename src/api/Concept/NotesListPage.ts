@@ -51,7 +51,7 @@ export const NoteListService = {
         id:note_id,
         title:note_title,
         concepts:note_labels,
-        lastUpdated:created_date,
+        lastUpdated:created_at,
         description:note_description
       `,
       )
@@ -60,7 +60,7 @@ export const NoteListService = {
       .or(
         `note_title.ilike.%${params.keyword}%,note_labels.cs.{${params.keyword}}`,
       )
-      .order("created_date", { ascending: false });
+      .order("created_at", { ascending: false });
 
     if (error) throw new Error(error.message);
 

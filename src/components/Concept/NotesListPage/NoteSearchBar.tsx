@@ -1,8 +1,8 @@
 import { Search } from "lucide-react";
-import { ConceptSearchBarProps } from "../../../types/pages/Concept/ConceptListPage/ConceptSearchBar";
+import { NoteSearchBarProps } from "../../../types/pages/Concept/NotesListPage/NoteSearchBar";
 import { useState } from "react";
 
-export default function ConceptSearchBar({ onSearch }: ConceptSearchBarProps) {
+export default function NoteSearchBar({ onSearch }: NoteSearchBarProps) {
   const [value, setValue] = useState("");
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -17,7 +17,7 @@ export default function ConceptSearchBar({ onSearch }: ConceptSearchBarProps) {
         <Search className="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-3 top-1/2" />
         <input
           type="text"
-          placeholder="Search concepts..."
+          placeholder="Search notes..."
           onChange={(e) => {
             setValue(e.target.value);
           }}

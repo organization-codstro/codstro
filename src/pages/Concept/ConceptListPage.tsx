@@ -10,16 +10,38 @@ import { ConceptDescriptionMaterial } from "../../types/common/Concepts";
 export default function ConceptsListPage() {
   const navigate = useNavigate();
   const [concepts, setConcepts] = useState<ConceptDescriptionMaterial[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchConcepts = async () => {
     const response = await ConceptListService.getConcept();
     setConcepts(response);
   };
 
+  // 검색 핸들러: 엔터 시 호출
+  const handleSearch = async (keyword: string) => {
+    if (!keyword.trim()) {
+      // 검색어 없으면 전체 목록 복원
+      fetchConcepts();
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const result = await ConceptListService.searchConcept({ keyword });
+      setConcepts(result);
+    } catch (err) {
+      console.error("검색 실패:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchConcepts();
   }, []);
 
+  // 4. 핸들러
+  const handleCreateClick = () => navigate("/concepts/create");
   const handleConceptClick = (id: string) => {
     navigate(`/concepts/${id}`);
   };
@@ -34,13 +56,11 @@ export default function ConceptsListPage() {
       <ConceptListHeader
         title="My Concepts"
         description="Explore popular concepts and frameworks"
+        onCreateClick={handleCreateClick}
       />
 
       {/* 2. 검색 및 필터 바 */}
-      <ConceptSearchBar
-        onSearchChange={(val) => console.log("Concept Search:", val)}
-        onFilterClick={() => console.log("Concept Filter Click")}
-      />
+      <ConceptSearchBar onSearch={handleSearch} />
 
       {/* 3. 컨셉 카드 그리드 리스트 */}
       <ConceptGrid>

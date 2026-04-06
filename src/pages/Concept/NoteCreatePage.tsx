@@ -213,7 +213,7 @@ export default function NoteCreatePage() {
 
         <NoteEditor value={prompt} onChange={setPrompt} />
 
-        <div className="flex items-center gap-3 pt-6 border-t border-gray-100">
+        <div className="flex items-center justify-end gap-3 pt-6 border-t border-gray-100">
           <button
             onClick={handleCreate}
             disabled={isSaving}

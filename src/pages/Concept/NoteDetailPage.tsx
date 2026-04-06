@@ -49,6 +49,20 @@ export default function NoteDetailPage() {
     fetchNoteDetail();
   }, [noteId]);
 
+  //esc누르면 뒤로 가는 함수
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        navigate("/notes");
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [navigate]);
+
   // 3. 핸들러 로직
 
   // 마크다운 수정 페이지 이동
@@ -149,11 +163,7 @@ export default function NoteDetailPage() {
       <div className="p-8 bg-white border border-gray-200 rounded-lg shadow-sm">
         <div className="flex items-start justify-between mb-6">
           {/* 2. 헤더 정보 */}
-          <NoteDetailHeader
-            title={note.title}
-            concepts={note.concepts}
-            lastUpdated={note.lastUpdated}
-          />
+          <NoteDetailHeader title={note.title} lastUpdated={note.lastUpdated} />
 
           {/* 3. 액션 버튼 */}
           <NoteActionButtons

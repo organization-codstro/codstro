@@ -10,10 +10,10 @@ import { LoginService } from "../../api/Auth/LoginPage";
 
 // 컴포넌트
 import NotesListHeader from "../../components/Concept/NotesListPage/NotesListHeader";
-import ConceptSearchBar from "../../components/Concept/ConceptDetailPage/ConceptSearchBar";
 import ConceptGrid from "../../components/Concept/ConceptGrid";
 import NoteCard from "../../components/Concept/NotesListPage/NoteCard";
 import EmptyNotesState from "../../components/Concept/NotesListPage/EmptyNotesState";
+import NoteSearchBar from "../../components/Concept/NotesListPage/noteSearchBar";
 
 export default function NotesListPage() {
   const navigate = useNavigate();
@@ -30,14 +30,19 @@ export default function NotesListPage() {
       try {
         setIsLoading(true);
         const currentUserId = await LoginService.getCurrentUserId();
+
+        if (!currentUserId) {
+          toast.error("로그인이 필요합니다.");
+          navigate("/login");
+          return;
+        }
+
         setUserId(currentUserId);
 
-        if (currentUserId) {
-          const data = await NoteListService.getUserNotes({
-            userId: currentUserId,
-          });
-          setNotes(data);
-        }
+        const data = await NoteListService.getUserNotes({
+          userId: currentUserId,
+        });
+        setNotes(data);
       } catch (error) {
         toast.error("노트 목록을 불러오는데 실패했습니다.");
       } finally {
@@ -47,27 +52,20 @@ export default function NotesListPage() {
     initNotes();
   }, []);
 
-  // 3. 검색 로직 (Debounce 500ms 적용)
-  useEffect(() => {
-    // 초기 로딩 중이거나 유저 ID가 없을 때는 실행 방지
-    if (isLoading || !userId) return;
+  // 3. 엔터 검색 핸들러
+  const handleSearch = async (keyword: string) => {
+    if (!userId ) return;
 
-    const delayDebounceFn = setTimeout(async () => {
-      try {
-        const data = searchTerm.trim()
-          ? await NoteListService.searchUserNotes({
-              userId,
-              keyword: searchTerm,
-            })
-          : await NoteListService.getUserNotes({ userId });
-        setNotes(data);
-      } catch (error) {
-        console.error("Search Error:", error);
-      }
-    }, 500);
-
-    return () => clearTimeout(delayDebounceFn);
-  }, [searchTerm, userId]);
+    try {
+      const data = keyword.trim()
+        ? await NoteListService.searchUserNotes({ userId, keyword })
+        : await NoteListService.getUserNotes({ userId });
+      setNotes(data);
+    } catch (error) {
+      console.error("Search Error:", error);
+      toast.error("검색 중 오류가 발생했습니다.");
+    }
+  };
 
   // 4. 핸들러
   const handleCreateClick = () => navigate("/notes/create");
@@ -82,8 +80,8 @@ export default function NotesListPage() {
         onCreateClick={handleCreateClick}
       />
 
-      {/* 2. 검색 바 */}
-      <ConceptSearchBar onSearchChange={(val) => setSearchTerm(val)} />
+      {/* 2. 검색 바 - onSearch로 변경 (엔터 시 실행) */}
+      <NoteSearchBar onSearch={handleSearch} />
 
       {/* 3. 리스트 표시 영역 */}
       {isLoading ? (
@@ -96,7 +94,7 @@ export default function NotesListPage() {
           {notes.map((note) => (
             <NoteCard
               key={note.id}
-              id={note.id.toString()} // NoteCard가 string ID를 기대할 경우
+              id={note.id.toString()}
               title={note.title}
               concepts={note.concepts}
               lastUpdated={note.lastUpdated}

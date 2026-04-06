@@ -54,6 +54,20 @@ export default function TodoManagementDetailPage() {
     initPage();
   }, [todoId, navigate]);
 
+  //esc눌러서 뒤로 가는 이벤트
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        navigate("/woomoonjeong");
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [navigate]);
+
   // --- 기간 계산 로직 ---
   const diffDays = useMemo(() => {
     if (!todo) return 0;

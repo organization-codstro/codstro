@@ -22,6 +22,7 @@ import {
   GROUP_NAME_TYPE,
 } from "../../constants/Woomoonjeong/woomoonjeong";
 import ConceptActionButtons from "../../components/Concept/ConceptDetailPage/ConceptActionButtons";
+import ConceptEditMetaModal from "../../components/Concept/ConceptDetailPage/ConceptEditMetaModal";
 
 export default function ConceptDetailPage() {
   const { conceptId } = useParams<{ conceptId: string }>();
@@ -83,6 +84,20 @@ export default function ConceptDetailPage() {
     initPage();
   }, [conceptId]);
 
+  //esc 누르면 뒤로 가는 이벤트 함수
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        navigate("/concepts");
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [navigate]);
+
   // 3. 핸들러 함수
 
   // 개념 마크다운 수정 페이지 이동
@@ -111,7 +126,43 @@ export default function ConceptDetailPage() {
     }
   };
 
-  // 노트 삭제
+  // 기본 정보 수정 모달 저장
+  const handleSaveMeta = async (formData: {
+    title: string;
+    description: string;
+    labels: string[];
+  }) => {
+    if (!conceptId) return;
+    try {
+      setIsSavingMeta(true);
+      await ConceptDetailService.updateConceptMeta({
+        conceptId,
+        title: formData.title,
+        description: formData.description,
+        labels: formData.labels,
+      });
+
+      // name, category로 맞춰서 업데이트
+      setData((prev) =>
+        prev
+          ? {
+              ...prev,
+              name: formData.title,
+              description: formData.description,
+              category: formData.labels,
+            }
+          : prev,
+      );
+      toast.success("개념 정보가 수정되었습니다.");
+      setIsMetaModalOpen(false);
+    } catch (error) {
+      toast.error("개념 정보 수정 중 오류가 발생했습니다.");
+    } finally {
+      setIsSavingMeta(false);
+    }
+  };
+
+  // 개념 삭제
   const handleDelete = async () => {
     if (!conceptId) return;
 
@@ -237,6 +288,17 @@ export default function ConceptDetailPage() {
           availableGroups={availableGroups}
         />
       )}
+
+      {/* 7. 기본 정보 수정 모달 */}
+      <ConceptEditMetaModal
+        isOpen={isMetaModalOpen}
+        onClose={() => setIsMetaModalOpen(false)}
+        onSave={handleSaveMeta}
+        initialTitle={data.name}
+        initialDescription={data.description || ""}
+        initialLabels={data.category || []}
+        isSaving={isSavingMeta}
+      />
     </div>
   );
 }
