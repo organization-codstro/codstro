@@ -4,4 +4,5 @@ export interface ConceptActionButtonsProps {
   isDeleting?: boolean;
   deleteConfirmMode: boolean;
   onEditMeta: () => void;
+  officialSite: string | null;
 }

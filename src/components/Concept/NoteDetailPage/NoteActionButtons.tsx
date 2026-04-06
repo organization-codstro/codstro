@@ -9,7 +9,7 @@ export default function NoteActionButtons({
   deleteConfirmMode,
 }: NoteActionButtonsProps) {
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 mt-1.5">
       {/* 마크다운 편집 */}
       <button
         onClick={onEdit}

@@ -13,8 +13,8 @@
  *  - @tailwindcss/typography 플러그인이 있으면 prose 클래스로 대체 가능
  */
 
-import { PreviewPanelProps } from "../../../types/pages/Concept/NoteUpdatePage/PreviewPanel";
-import MarkdownRenderer from "../../../components/Markdown/MarkdownRenderer"
+import { PreviewPanelProps } from "../../../types/pages/Concept/ConceptUpdatePage/PreviewPanel";
+import MarkdownRenderer from "../../../components/Markdown/MarkdownRenderer"; 
 
 export default function PreviewPanel({
   markdown,

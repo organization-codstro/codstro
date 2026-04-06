@@ -1,4 +1,4 @@
-import { ConceptItem, UpdateNoteChatMessage } from "../../common/Concepts";
+import { ConceptItem, UpdateChatMessage } from "../../common/Concepts";
 
 /**
  * [GetNoteByIdParams]
@@ -32,7 +32,7 @@ export interface UpdateNoteParams {
  */
 export interface NoteUpdateAIRequest {
   noteId: string;
-  messages: UpdateNoteChatMessage[];
+  messages: UpdateChatMessage[];
 }
 
 /**

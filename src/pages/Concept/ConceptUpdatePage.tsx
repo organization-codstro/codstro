@@ -1,5 +1,5 @@
 /**
- * NoteUpdatePage.jsx
+ * ConceptUpdatePage.jsx
  *
  * 역할:
  *  - useNoteEditor 훅에서 모든 상태/핸들러를 가져와 하위 컴포넌트에 전달
@@ -12,22 +12,22 @@
 
 import { useNavigate, useParams } from "react-router-dom";
 import { MessageSquare, FileText } from "lucide-react";
-import { useNoteEditor } from "../../hooks/Concepts/Noteeditorpage";
-import NoteEditorHeader from "../../components/Concept/NoteUpdatePage/NoteEditorHeader";
-import EditorPanel from "../../components/Concept/NoteUpdatePage/EditorPanel";
-import PreviewPanel from "../../components/Concept/NoteUpdatePage/PreviewPanel";
-import ChatPanel from "../../components/Concept/NoteUpdatePage/ChatPanel/ChatPanel";
+import { useConceptEditor } from "../../hooks/Concepts/Concepteditorpage";
+import ConceptEditorHeader from "../../components/Concept/ConceptUpdatePage/ConceptEditorHeader";
+import EditorPanel from "../../components/Concept/ConceptUpdatePage/EditorPanel";
+import PreviewPanel from "../../components/Concept/ConceptUpdatePage/PreviewPanel";
+import ChatPanel from "../../components/Concept/ConceptUpdatePage/ChatPanel/ChatPanel";
 import NotFoundPage from "../NotFound/NotFoundPage";
 
-export default function NoteUpdatePage() {
+export default function ConceptUpdatePage() {
   const navigate = useNavigate();
-  const { noteId } = useParams<{ noteId: string }>();
+  const { conceptId } = useParams<{ conceptId: string }>();
 
-  const editor = useNoteEditor({
-    noteId: noteId ?? "",
+  const editor = useConceptEditor({
+    conceptId: conceptId ?? "",
   });
 
-  if (!noteId) {
+  if (!conceptId) {
     return <NotFoundPage />;
   }
 
@@ -40,7 +40,7 @@ export default function NoteUpdatePage() {
     inputValue,
     setInputValue,
     isLoading,
-    pendingNote,
+    pendingConcept,
     handleSave,
     handleToggleChat,
     handleSend,
@@ -49,17 +49,18 @@ export default function NoteUpdatePage() {
   } = editor;
 
   const onBack = () => {
-    navigate(`/notes/${noteId}`);
+    navigate(`/concepts/${conceptId}`);
   };
 
   return (
     <div className="flex flex-col h-screen overflow-hidden font-sans bg-zinc-100">
-      {/* ── 헤더 ── */}
-      <NoteEditorHeader isDirty={isDirty} onSave={handleSave} onBack={onBack} />
+      <ConceptEditorHeader
+        isDirty={isDirty}
+        onSave={handleSave}
+        onBack={onBack}
+      />
 
-      {/* ── 바디 ── */}
       <div className="flex flex-1 overflow-hidden">
-        {/* 왼쪽: Monaco 에디터 — 채팅 열리면 슬라이드아웃 */}
         <EditorPanel
           markdown={markdown}
           onChange={setMarkdown}
@@ -67,20 +68,16 @@ export default function NoteUpdatePage() {
           isLoading={isLoading}
         />
 
-        {/* 구분선 — 항상 표시 (에디터↔미리보기, 미리보기↔채팅 모두 동일) */}
         <div className="flex-shrink-0 w-px bg-zinc-200" />
 
-        {/* 미리보기 — 채팅 열려도 왼쪽에 유지 */}
         <PreviewPanel markdown={markdown} isLoading={isLoading} />
 
-        {/* 채팅 구분선 — 채팅 열릴 때만 표시 */}
         <div
           className={`flex-shrink-0 bg-zinc-200 transition-all duration-[380ms] ease-[cubic-bezier(.4,0,.2,1)] ${
             chatOpen ? "w-px opacity-100" : "w-0 opacity-0"
           }`}
         />
 
-        {/* 채팅 패널 — 오른쪽에서 슬라이드인 */}
         <ChatPanel
           chatOpen={chatOpen}
           messages={messages}
@@ -88,14 +85,13 @@ export default function NoteUpdatePage() {
           setInputValue={setInputValue}
           isLoading={isLoading}
           onSend={handleSend}
-          pendingNote={pendingNote}
+          pendingConcept={pendingConcept}
           currentMarkdown={markdown}
           onAccept={handleAccept}
           onReject={handleReject}
         />
       </div>
 
-      {/* ── FAB: 채팅 ↔ 에디터 토글 ── */}
       <button
         onClick={handleToggleChat}
         title={chatOpen ? "에디터로 돌아가기" : "AI 채팅 열기"}

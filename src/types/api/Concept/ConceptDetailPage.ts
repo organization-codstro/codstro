@@ -12,8 +12,6 @@ export interface GetConceptDetailParams {
   userId: string;
 }
 
-
-
 /**
  * 라이브러리 Todo 생성 파라미터
  */
@@ -42,5 +40,10 @@ export interface ConceptDetailResponse {
 }
 
 export interface DeleteConceptDetailParams {
-  conceptId : string;
+  conceptId: string;
+}
+
+export interface DeleteConceptDetailResponse {
+  deletedNoteCount: number;
+  unlinkedNoteCount: number;
 }

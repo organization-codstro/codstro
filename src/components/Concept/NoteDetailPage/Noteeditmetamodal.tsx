@@ -111,28 +111,10 @@ export default function NoteEditMetaModal({
         </div>
 
         {/* 라벨 */}
-        <div className="mb-6">
+        <div className="mb-2">
           <label className="block mb-1.5 text-sm font-medium text-gray-700">
             라벨
           </label>
-
-          {/* 태그 목록 */}
-          <div className="flex flex-wrap gap-1.5 mb-2 min-h-[28px]">
-            {labels.map((label) => (
-              <span
-                key={label}
-                className="flex items-center gap-1 px-2.5 py-1 text-xs text-blue-600 bg-blue-50 rounded-full"
-              >
-                {label}
-                <button
-                  onClick={() => removeLabel(label)}
-                  className="text-blue-400 transition-colors hover:text-blue-600"
-                >
-                  <X className="w-3 h-3" />
-                </button>
-              </span>
-            ))}
-          </div>
 
           {/* 라벨 입력 */}
           <div className="flex gap-2">
@@ -153,6 +135,24 @@ export default function NoteEditMetaModal({
               추가
             </button>
           </div>
+        </div>
+
+        {/* 태그 목록 */}
+        <div className="flex flex-wrap gap-1.5 mb-2 min-h-[28px]">
+          {labels.map((label) => (
+            <span
+              key={label}
+              className="flex items-center gap-1 px-2.5 py-1 text-xs text-blue-600 bg-blue-50 rounded-full"
+            >
+              {label}
+              <button
+                onClick={() => removeLabel(label)}
+                className="text-blue-400 transition-colors hover:text-blue-600"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            </span>
+          ))}
         </div>
 
         {/* 버튼 */}

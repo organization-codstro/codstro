@@ -36,10 +36,12 @@ export interface RelatedConcept {
  * [updateNoteMessage]
  * 노트 업데이트 할때 chat에 사용하는 메세지 타입
  */
-export type UpdateNoteChatMessage = {
+export type UpdateChatMessage = {
   role: "user" | "assistant";
   content: string;
 };
+
+
 
 export interface AskConceptChatParams {
   material_id: string;

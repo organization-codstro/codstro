@@ -4,7 +4,8 @@ import {
   ConceptDetailResponse,
   GetConceptDetailParams,
   AddConceptTodoParams,
-  DeleteConceptDetailParams
+  DeleteConceptDetailParams,
+  DeleteConceptDetailResponse,
 } from "../../types/api/Concept/ConceptDetailPage";
 
 /**
@@ -51,7 +52,6 @@ export const ConceptDetailService = {
     };
   },
 
-
   /**
    * 라이브러리 학습 Todo(노트)를 생성합니다.
    */
@@ -70,78 +70,75 @@ export const ConceptDetailService = {
     return true;
   },
 
+  /**
+   * 개념을 삭제합니다.
+   * - 해당 개념만 연결된 노트는 함께 삭제
+   * - 다른 개념도 연결된 노트는 관계만 끊고 노트는 유지
+   */
+  async deleteConcept(
+    params: DeleteConceptDetailParams,
+  ): Promise<DeleteConceptDetailResponse> {
+    const { conceptId } = params;
 
-/**
- * 개념을 삭제합니다.
- * - 해당 개념만 연결된 노트는 함께 삭제
- * - 다른 개념도 연결된 노트는 관계만 끊고 노트는 유지
- */
-async deleteConcept(params: DeleteConceptDetailParams): Promise<boolean> {
-  const { conceptId } = params;
-
-  // 1. 이 concept에 연결된 note_id 목록 조회
-  const { data: linkedNotes, error: linkedNotesError } = await supabase
-    .from("note_concepts")
-    .select("note_id")
-    .eq("concept_id", conceptId);
-
-  if (linkedNotesError) throw new Error(linkedNotesError.message);
-
-  const noteIds = (linkedNotes ?? []).map((row) => row.note_id);
-
-  // 2. 각 노트에 연결된 concept 수 조회
-  const noteIdsToDelete: string[] = [];
-
-  if (noteIds.length > 0) {
-    const { data: noteCounts, error: noteCountsError } = await supabase
+    const { data: linkedNotes, error: linkedNotesError } = await supabase
       .from("note_concepts")
       .select("note_id")
-      .in("note_id", noteIds);
+      .eq("concept_id", conceptId);
 
-    if (noteCountsError) throw new Error(noteCountsError.message);
+    if (linkedNotesError) throw new Error(linkedNotesError.message);
 
-    const conceptCountByNote = (noteCounts ?? []).reduce<Record<string, number>>(
-      (acc, row) => {
+    const noteIds = (linkedNotes ?? []).map((row) => row.note_id);
+
+    const noteIdsToDelete: string[] = [];
+
+    if (noteIds.length > 0) {
+      const { data: noteCounts, error: noteCountsError } = await supabase
+        .from("note_concepts")
+        .select("note_id")
+        .in("note_id", noteIds);
+
+      if (noteCountsError) throw new Error(noteCountsError.message);
+
+      const conceptCountByNote = (noteCounts ?? []).reduce<
+        Record<string, number>
+      >((acc, row) => {
         acc[row.note_id] = (acc[row.note_id] ?? 0) + 1;
         return acc;
-      },
-      {}
-    );
+      }, {});
 
-    // concept이 1개뿐인 노트만 삭제 대상
-    for (const noteId of noteIds) {
-      if (conceptCountByNote[noteId] === 1) {
-        noteIdsToDelete.push(noteId);
+      for (const noteId of noteIds) {
+        if (conceptCountByNote[noteId] === 1) {
+          noteIdsToDelete.push(noteId);
+        }
       }
     }
-  }
 
-  // 3. note_concepts 관계 레코드 삭제
-  const { error: relError } = await supabase
-    .from("note_concepts")
-    .delete()
-    .eq("concept_id", conceptId);
-
-  if (relError) throw new Error(relError.message);
-
-  // 4. 단독 연결 노트 삭제
-  if (noteIdsToDelete.length > 0) {
-    const { error: noteError } = await supabase
-      .from("notes")
+    const { error: relError } = await supabase
+      .from("note_concepts")
       .delete()
-      .in("note_id", noteIdsToDelete);
+      .eq("concept_id", conceptId);
 
-    if (noteError) throw new Error(noteError.message);
-  }
+    if (relError) throw new Error(relError.message);
 
-  // 5. concept 삭제
-  const { error: conceptError } = await supabase
-    .from("concepts")
-    .delete()
-    .eq("concept_id", conceptId);
+    if (noteIdsToDelete.length > 0) {
+      const { error: noteError } = await supabase
+        .from("notes")
+        .delete()
+        .in("note_id", noteIdsToDelete);
 
-  if (conceptError) throw new Error(conceptError.message);
+      if (noteError) throw new Error(noteError.message);
+    }
 
-  return true;
-}
+    const { error: conceptError } = await supabase
+      .from("concepts")
+      .delete()
+      .eq("concept_id", conceptId);
+
+    if (conceptError) throw new Error(conceptError.message);
+
+    return {
+      deletedNoteCount: noteIdsToDelete.length,
+      unlinkedNoteCount: noteIds.length - noteIdsToDelete.length,
+    };
+  },
 };

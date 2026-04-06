@@ -141,7 +141,6 @@ export default function NoteDetailPage() {
     return <NotFoundPage />;
   }
 
-
   return (
     <div className="max-w-5xl p-8 mx-auto">
       {/* 1. 뒤로가기 버튼 */}
@@ -166,7 +165,7 @@ export default function NoteDetailPage() {
           />
         </div>
 
-        <hr className="mb-8 border-gray-100" />
+        <div className="mt-4 mb-8 border-t border-gray-100" />
 
         {/* 4. 본문 영역 */}
         <div className="prose max-w-none min-h-[400px]">

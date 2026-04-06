@@ -8,18 +8,9 @@ export default function NoteDetailHeader({
   lastUpdated,
 }: NoteDetailHeaderProps) {
   return (
-    <div className="flex-1">
-      <h1 className="mb-4 text-3xl font-bold text-gray-900">{title}</h1>
-      <div className="flex flex-wrap gap-2 mb-4">
-        {concepts.map((concept, idx) => (
-          <span
-            key={idx}
-            className="px-3 py-1 text-sm text-blue-600 rounded-full bg-blue-50"
-          >
-            {concept}
-          </span>
-        ))}
-      </div>
+    <div className="flex-1 mt-2">
+      <h1 className="mb-4 text-4xl font-bold text-gray-900">{title}</h1>
+      {/* <div className="flex flex-wrap gap-2 mb-4"></div> */}
       <p className="text-sm text-gray-500">Last updated: {lastUpdated}</p>
     </div>
   );

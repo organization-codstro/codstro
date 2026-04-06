@@ -52,7 +52,7 @@ export { default as ProjectMeeting } from "../pages/ProjectPlanning/ProjectMeeti
 export { default as CreateProjectMeeting } from "../pages/ProjectPlanning/MeetingCreatePage";
 export { default as MeetingProgress } from "../pages/ProjectPlanning/MeetingProgressPage";
 export { default as MeetingMaterials } from "../pages/ProjectPlanning/MeetingMaterialsPage";
-export { default as SummaryEditor} from "../pages/ProjectPlanning/SummaryEditorPage";
+export { default as SummaryEditor } from "../pages/ProjectPlanning/SummaryEditorPage";
 export { default as ProjectPlanningArchive } from "../pages/ProjectPlanning/ProjectPlanningArchivePage";
 
 /* ================= AI CHAT ================= */
@@ -78,6 +78,7 @@ export { default as MajorEncyclopediaDetail } from "../pages/Mbit/MajorEncyclope
 /* ================= CONCEPTS ================= */
 export { default as ConceptList } from "../pages/Concept/ConceptListPage";
 export { default as ConceptDetail } from "../pages/Concept/ConceptDetailPage";
+export { default as ConceptUpdatePage } from "../pages/Concept/ConceptUpdatePage";
 export { default as NotesList } from "../pages/Concept/NotesListPage";
 export { default as NoteDetail } from "../pages/Concept/NoteDetailPage";
 export { default as NoteCreate } from "../pages/Concept/NoteCreatePage";
@@ -86,7 +87,6 @@ export { default as NoteUpdate } from "../pages/Concept/NoteUpdatePage";
 /* ================= PROFILE ================= */
 export { default as Profile } from "../pages/Profile/ProfilePage";
 export { default as ProfileEdit } from "../pages/Profile/ProfileEditPage";
-
 
 /* ================= 404 ================= */
 export { default as NotFound } from "../pages/NotFound/NotFoundPage";

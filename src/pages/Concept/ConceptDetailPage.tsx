@@ -88,11 +88,12 @@ export default function ConceptDetailPage() {
   // 개념 마크다운 수정 페이지 이동
   const handleEdit = () => {
     if (!data) return;
-    navigate(`/notes/${conceptId}/edit`);
+    navigate(`/concepts/${conceptId}/edit`);
   };
 
   // [Todo 추가 확정 - onConfirm]
   const handleAddTodoConfirm = async (formData: TodoForm) => {
+    console.log("삭제요청");
     if (!userId || !data || !showTodoModal) return;
 
     try {
@@ -129,8 +130,25 @@ export default function ConceptDetailPage() {
 
     try {
       setIsDeleting(true);
-      await ConceptDetailService.deleteConcept({ conceptId });
-      toast.success("개념이 삭제되었습니다.");
+      const { deletedNoteCount, unlinkedNoteCount } =
+        await ConceptDetailService.deleteConcept({ conceptId });
+
+      if (deletedNoteCount > 0 && unlinkedNoteCount > 0) {
+        toast.success(
+          `개념이 삭제되었습니다. (노트 ${deletedNoteCount}개 함께 삭제, ${unlinkedNoteCount}개는 유지)`,
+        );
+      } else if (deletedNoteCount > 0) {
+        toast.success(
+          `개념이 삭제되었습니다. (연결된 노트 ${deletedNoteCount}개 함께 삭제)`,
+        );
+      } else if (unlinkedNoteCount > 0) {
+        toast.success(
+          `개념이 삭제되었습니다. (연결된 노트 ${unlinkedNoteCount}개는 다른 개념이 있어 유지)`,
+        );
+      } else {
+        toast.success("개념이 삭제되었습니다.");
+      }
+
       navigate("/concepts");
     } catch (error) {
       toast.error("개념 삭제 중 오류가 발생했습니다.");
@@ -160,15 +178,13 @@ export default function ConceptDetailPage() {
       {/* 1. 뒤로가기 */}
       <BackButton to="/concepts" label="Back to concepts" />
 
-      <div className="p-8 mb-6 bg-white border border-gray-200 rounded-lg shadow-sm">
-        <div className="flex items-start justify-between mb-6">
+      <div className="p-8 bg-white border border-gray-200 rounded-lg shadow-sm">
+        <div className="flex items-start justify-between ">
           {/* 2. 개념 상단 정보 (tags 제거, category 배열 사용) */}
           <ConceptHeader
             name={data.name}
             field={data.field}
             description={data.description}
-            category={data.category}
-            officialSite={data.officialSite}
           />
 
           <ConceptActionButtons
@@ -177,10 +193,11 @@ export default function ConceptDetailPage() {
             onDelete={handleDelete}
             isDeleting={isDeleting}
             deleteConfirmMode={deleteConfirmMode}
+            officialSite={data.officialSite}
           />
         </div>
 
-        <div className="my-8 border-t border-gray-100" />
+        <div className="mt-4 mb-8 border-t border-gray-100" />
 
         {/* 3. 액션 버튼 */}
         <ConceptServiceActionButtons

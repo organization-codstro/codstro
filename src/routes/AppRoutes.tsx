@@ -215,7 +215,6 @@ export default function AppRoutes() {
         />
 
         {/* ================= Coding Concepts ================= */}
-        {/* <Route path="/concepts" element={<Page.ConceptMain />} /> */}
 
         <Route path="/notes" element={<Page.NotesList />} />
         <Route path="/notes/:noteId" element={<Page.NoteDetail />} />
@@ -224,6 +223,11 @@ export default function AppRoutes() {
 
         <Route path="/concepts" element={<Page.ConceptList />} />
         <Route path="/concepts/:conceptId" element={<Page.ConceptDetail />} />
+        <Route
+          path="/concepts/:conceptId/edit"
+          element={<Page.ConceptUpdatePage />}
+        />
+        <Route path="/notes/create" element={<Page.NoteCreate />} />
 
         {/* ================= Profile ================= */}
         <Route path="/profile" element={<Page.Profile />} />

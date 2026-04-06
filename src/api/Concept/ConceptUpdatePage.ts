@@ -1,10 +1,10 @@
 import { supabase } from "../../db/supabase/supabase";
 import {
-  GetNoteContentByIdParams,
-  GetNoteContentByIdResponse,
-  NoteUpdateAIRequest,
-  NoteUpdateAIResponse,
-} from "../../types/api/Concept/NoteUpdatePage";
+  GetConceptContentByIdParams,
+  GetConceptContentByIdResponse,
+  ConceptUpdateAIRequest,
+  ConceptUpdateAIResponse,
+} from "../../types/api/Concept/ConceptUpdatePage";
 
 /**
  * aiService.js
@@ -17,60 +17,59 @@ import {
  *   - updatedNote : 노트 수정이 필요한 경우 수정된 마크다운 전문, 없으면 null
  */
 
-export const NoteUpdatePageService = {
-  async getNoteContentById(
-    params: GetNoteContentByIdParams,
-  ): Promise<GetNoteContentByIdResponse> {
-    // 1. 노트 기본 정보 조회
-    const { data: note, error } = await supabase
-      .from("notes")
+export const ConceptUpdatePageService = {
+  async getConceptContentById(
+    params: GetConceptContentByIdParams,
+  ): Promise<GetConceptContentByIdResponse> {
+    const { data: concept, error } = await supabase
+      .from("concepts")
       .select(
         `
-          content:note_content
+          content:concept_content
         `,
       )
-      .eq("note_id", params.noteId)
+      .eq("concept_id", params.conceptId)
       .single();
 
     if (error) throw new Error(error.message);
     return {
-      content: note.content,
+      content: concept.content,
     };
   },
 
-  async saveNote({
-    noteId,
+  async saveConcept({
+    conceptId,
     content,
   }: {
-    noteId: string;
+    conceptId: string;
     content: string;
   }): Promise<void> {
     const { error } = await supabase
-      .from("notes")
+      .from("concepts")
       .update({
-        note_content: content,
+        concept_content: content,
         updated_at: new Date().toISOString(),
       })
-      .eq("note_id", noteId);
+      .eq("concept_id", conceptId);
 
     if (error) throw new Error(error.message);
   },
 
   async callAI({
-    noteId,
+    conceptId,
     messages,
-  }: NoteUpdateAIRequest): Promise<NoteUpdateAIResponse> {
+  }: ConceptUpdateAIRequest): Promise<ConceptUpdateAIResponse> {
     try {
       const { data, error } = await supabase.functions.invoke(
-        "concepts-note_ai_update_chat",
+        "concepts-concept_ai_update_chat",
         {
-          body: { noteId, messages },
+          body: { conceptId, messages },
         },
       );
 
       if (error) throw error;
 
-      return data as NoteUpdateAIResponse;
+      return data as ConceptUpdateAIResponse;
     } catch (err) {
       console.error("[callAI] Edge function invoke failed", err);
       throw new Error(

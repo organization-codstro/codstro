@@ -27,7 +27,7 @@
 //todo : setMarkdown, setSavedMarkdown 에 id로 기존 마크다운 가져와서 넣는 함수 실행
 
 import { useState, useEffect, useCallback } from "react";
-import { UpdateNoteChatMessage } from "../../types/common/Concepts";
+import { UpdateChatMessage } from "../../types/common/Concepts";
 import { UseNoteEditorProps } from "../../types/hooks/Concepts/Noteeditorpage";
 import { NoteUpdatePageService } from "../../api/Concept/NoteUpdatePage";
 import {
@@ -41,7 +41,7 @@ export function useNoteEditor({ noteId }: UseNoteEditorProps) {
   const [isDirty, setIsDirty] = useState<boolean>(false);
 
   const [chatOpen, setChatOpen] = useState<boolean>(false);
-  const [messages, setMessages] = useState<UpdateNoteChatMessage[]>([]);
+  const [messages, setMessages] = useState<UpdateChatMessage[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   // AI가 제안한 수정안 — null이면 대기 중인 수정 없음
@@ -82,12 +82,15 @@ export function useNoteEditor({ noteId }: UseNoteEditorProps) {
   }, [noteId]);
 
   // ── 저장 ─────────────────────────────────────────────────────────────
-  // updatedNote가 있을 때 Edge Function이 백그라운드로 DB 저장을 처리하므로
-  // 여기서는 UI 상태(savedMarkdown)만 갱신합니다.
-  const handleSave = useCallback(() => {
-    setSavedMarkdown(markdown);
-    setIsDirty(false);
-  }, [markdown]);
+  const handleSave = useCallback(async () => {
+    try {
+      await NoteUpdatePageService.saveNote({ noteId, content: markdown });
+      setSavedMarkdown(markdown);
+      setIsDirty(false);
+    } catch (err) {
+      console.error("[handleSave] Failed to save note:", err);
+    }
+  }, [markdown, noteId]);
 
   // ── 채팅 토글 ────────────────────────────────────────────────────────
   const handleToggleChat = useCallback(() => {
@@ -102,7 +105,7 @@ export function useNoteEditor({ noteId }: UseNoteEditorProps) {
     const text = inputValue.trim();
     if (!text || isLoading) return;
 
-    const nextMessages: UpdateNoteChatMessage[] = [
+    const nextMessages: UpdateChatMessage[] = [
       ...messages,
       { role: "user", content: text },
     ];
