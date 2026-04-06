@@ -1,11 +1,5 @@
 import { create } from "zustand";
-import { Emoticon } from "../types/common/AiChat";
-
-interface EmoticonStore {
-  cache: Record<string, Emoticon>; // emoticon_id -> Emoticon
-  setEmoticons: (emoticons: Emoticon[]) => void;
-  getEmoticon: (id: string) => Emoticon | null;
-}
+import { EmoticonStore } from "../types/store/emoticonStore";
 
 export const useEmoticonStore = create<EmoticonStore>((set, get) => ({
   cache: {},

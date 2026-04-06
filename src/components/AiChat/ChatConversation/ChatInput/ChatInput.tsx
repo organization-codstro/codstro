@@ -3,7 +3,7 @@ import { Smile, File, Send } from "lucide-react";
 import {
   ALLOWEDKEYS,
   EMOTICONS_PAGE_SIZE,
-} from "../../../../constants/AiChat/aiChat";
+} from "../../../../constants/AiChat/AiChat";
 import { getFirebaseImageUrl } from "../../../../db/firebase/firebase";
 import { useEmoticonStore } from "../../../../store/emoticonStore";
 import { useImageStore } from "../../../../store/ImageStore";

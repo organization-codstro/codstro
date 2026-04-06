@@ -1,34 +1,54 @@
-import { MessageCircle, Plus } from "lucide-react";
-import { LibraryActionButtonsProps } from "../../../types/pages/Concept/ConceptDetailPage/ConceptActionButtons";
+import { Edit, Info, Loader2, Trash2 } from "lucide-react";
+import { ConceptActionButtonsProps } from "../../../types/pages/Concept/ConceptDetailPage/ConceptActionButtons";
 
-export default function ConceptHeaderActionButtons({
-  onShowAIChat,
-  onAddTodo,
-}: LibraryActionButtonsProps) {
+export default function ConceptActionButtons({
+  onEdit,
+  onEditMeta,
+  onDelete,
+  isDeleting = false,
+  deleteConfirmMode,
+}: ConceptActionButtonsProps) {
   return (
-    <div className="flex gap-3 mb-8">
+    <div className="flex gap-2">
+      {/* 마크다운 편집 */}
       <button
-        onClick={onShowAIChat}
-        className="flex items-center gap-2 px-4 py-2 text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700"
+        onClick={onEdit}
+        disabled={isDeleting}
+        className="flex items-center gap-2 px-4 py-2 transition-colors border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        <MessageCircle className="w-4 h-4" />
-        Chat with AI
+        <Edit className="w-4 h-4" />
+        Edit
       </button>
 
+      {/* 기본 정보 편집 (이름 / 설명 / 라벨) */}
       <button
-        onClick={() => onAddTodo("documentation")}
-        className="flex items-center gap-2 px-4 py-2 transition-colors border border-gray-300 rounded-lg hover:bg-gray-50"
+        onClick={onEditMeta}
+        disabled={isDeleting}
+        className="flex items-center gap-2 px-4 py-2 transition-colors border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        <Plus className="w-4 h-4" />
-        Add Todo: Explore Documentation
+        <Info className="w-4 h-4" />
+        Info
       </button>
 
+      {/* 삭제 */}
       <button
-        onClick={() => onAddTodo("clone_project")}
-        className="flex items-center gap-2 px-4 py-2 transition-colors border border-gray-300 rounded-lg hover:bg-gray-50"
+        onClick={onDelete}
+        disabled={isDeleting}
+        className={`
+          flex items-center justify-center w-11 h-11 rounded-lg border transition-all duration-300
+          ${
+            deleteConfirmMode
+              ? "bg-red-500 border-red-500 text-white"
+              : "bg-white border-gray-300 text-gray-500 hover:border-red-300 hover:text-red-400"
+          }
+          disabled:opacity-50 disabled:cursor-not-allowed
+        `}
       >
-        <Plus className="w-4 h-4" />
-        Add Todo: Build Clone Project
+        {isDeleting ? (
+          <Loader2 className="w-5 h-5 animate-spin" />
+        ) : (
+          <Trash2 className="w-5 h-5" />
+        )}
       </button>
     </div>
   );

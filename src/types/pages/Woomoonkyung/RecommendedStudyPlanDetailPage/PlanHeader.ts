@@ -1,4 +1,4 @@
-import { STUDY_PLAN_STATE_TYPE } from "../../../../constants/Woomoonkyung/woomoonkyung";
+import { STUDY_PLAN_STATE_TYPE } from "../../../../constants/Woomoonkyung/Woomoonkyung";
 import { StudyPlan } from "../../../common/Woomoonkyung";
 
 export interface PlanHeaderProps {

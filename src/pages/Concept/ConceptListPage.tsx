@@ -49,7 +49,7 @@ export default function ConceptsListPage() {
             key={concept.id}
             id={concept.id}
             name={concept.name}
-            language={concept.includedLanguage}
+            language={concept.includedField}
             description={concept.description}
             category={concept.category}
             onClick={handleConceptClick}

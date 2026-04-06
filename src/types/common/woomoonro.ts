@@ -1,7 +1,7 @@
 import {
   CLONE_CODING_STATE_TYPE,
   PROJECT_DIFFICULTY,
-} from "../../constants/Woomoonro/woomoonro";
+} from "../../constants/Woomoonro/Woomoonro";
 
 interface CloneCodingSteps {
   title: string;

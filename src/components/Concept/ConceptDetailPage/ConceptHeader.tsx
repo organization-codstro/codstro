@@ -3,7 +3,7 @@ import { LibraryHeaderProps } from "../../../types/pages/Concept/ConceptDetailPa
 
 export default function ConceptHeader({
   name,
-  language,
+  field,
   description,
   category,
   officialSite,
@@ -15,7 +15,7 @@ export default function ConceptHeader({
         {/* 버튼과 겹치지 않게 패딩 추가 */}
         <h1 className="text-3xl font-bold text-gray-900">{name}</h1>
         <span className="px-3 py-1 text-sm text-gray-600 bg-gray-100 rounded">
-          {language}
+          {field}
         </span>
       </div>
 

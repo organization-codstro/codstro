@@ -1,4 +1,4 @@
-import { STUDY_PLAN_STATE_TYPE } from "../../constants/Woomoonkyung/woomoonkyung";
+import { STUDY_PLAN_STATE_TYPE } from "../../constants/Woomoonkyung/Woomoonkyung";
 import { supabase } from "../../db/supabase/supabase";
 import {
   GetPlanDetailParams,

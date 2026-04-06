@@ -12,13 +12,7 @@ export interface GetConceptDetailParams {
   userId: string;
 }
 
-/**
- * 라이브러리 AI 질의 파라미터
- */
-export interface AskConceptAIParams {
-  conceptName: string;
-  question: string;
-}
+
 
 /**
  * 라이브러리 Todo 생성 파라미터
@@ -38,11 +32,15 @@ interface RelatedItem {
 export interface ConceptDetailResponse {
   id: string;
   name: string;
-  language: string;
+  field: string;
   category: string[];
   tags: string[];
   officialSite: string | null;
   description: string;
   content: string;
   relatedConcepts: RelatedItem[];
+}
+
+export interface DeleteConceptDetailParams {
+  conceptId : string;
 }

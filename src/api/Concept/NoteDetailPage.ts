@@ -23,74 +23,30 @@ export const NoteDetailService = {
       .from("notes")
       .select(
         `
-        id:note_id,
-        title:note_title,
-        description:note_description,
-        labels:note_labels,
-        content:note_content,
-        lastUpdated:updated_at
-      `,
+      id:note_id,
+      title:note_title,
+      description:note_description,
+      labels:note_labels,
+      content:note_content,
+      lastUpdated:updated_at
+    `,
       )
       .eq("note_id", params.noteId)
       .single();
 
     if (error) throw new Error(error.message);
 
-    // 2. 연결된 개념 조회
-    const { data: concepts } = await supabase
+    // 2. 연결된 개념 이름 조회 (note_concepts → concepts join)
+    const { data: noteConcepts, error: conceptsError } = await supabase
       .from("note_concepts")
-      .select(
-        `
-        concept_description_materials(concept_description_material_name),
-        tool_description_materials(tool_description_material_name),
-        library_description_materials(library_description_material_name),
-        package_manager_description_materials(package_manager_description_material_name),
-        third_party_services_description_materials(third_party_services_description_material_name)
-      `,
-      )
+      .select(`concepts(concept_name)`)
       .eq("note_id", params.noteId);
 
-    // 이름 추출 헬퍼 함수
-    const extractNames = (
-      concepts: any[] | null,
-      relation: string,
-      field: string,
-    ): string[] => {
-      return (
-        concepts?.map((c) => c[relation]?.[0]?.[field]).filter(Boolean) ?? []
-      );
-    };
+    if (conceptsError) throw new Error(conceptsError.message);
 
-    // 3. 이름 배열 생성
-    const conceptNames = extractNames(
-      concepts,
-      "concept_description_materials",
-      "concept_description_material_name",
-    );
-
-    const toolNames = extractNames(
-      concepts,
-      "tool_description_materials",
-      "tool_description_material_name",
-    );
-
-    const libraryNames = extractNames(
-      concepts,
-      "library_description_materials",
-      "library_description_material_name",
-    );
-
-    const packageManagerNames = extractNames(
-      concepts,
-      "package_manager_description_materials",
-      "package_manager_description_material_name",
-    );
-
-    const thirdPartyNames = extractNames(
-      concepts,
-      "third_party_services_description_materials",
-      "third_party_services_description_material_name",
-    );
+    const conceptNames = (noteConcepts ?? [])
+      .map((row) => (row.concepts as any)?.concept_name)
+      .filter(Boolean) as string[];
 
     return {
       noteId: note.id,
@@ -99,11 +55,7 @@ export const NoteDetailService = {
       description: note.description,
       lastUpdated: note.lastUpdated,
       content: note.content,
-      conceptNames,
-      toolNames,
-      libraryNames,
-      packageManagerNames,
-      thirdPartyNames,
+      concepts: conceptNames,
     };
   },
 

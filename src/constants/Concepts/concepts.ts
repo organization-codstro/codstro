@@ -1,29 +1,5 @@
-export type MATERIAL_TYPE =
-  | "concept"
-  | "tool"
-  | "library"
-  | "thirdPartyService"
-  | "packageManager";
-
 //ConceptSelector
 export const PAGE_SIZE = 10;
-
-export const FILTER_TYPES: (MATERIAL_TYPE | "all")[] = [
-  "all",
-  "concept",
-  "tool",
-  "library",
-  "thirdPartyService",
-  "packageManager",
-];
-
-export const TYPE_MAP: Record<string, MATERIAL_TYPE> = {
-  concept: "concept",
-  tool: "tool",
-  library: "library",
-  third_party_service: "thirdPartyService",
-  package_manager: "packageManager",
-};
 
 //노트 생성시에 선택할수 있는 라벨들
 export const LABEL_OPTIONS = [

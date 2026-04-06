@@ -1,4 +1,4 @@
-import { STUDY_PLAN_STATE_TYPE } from "../../../../constants/Woomoonkyung/woomoonkyung";
+import { STUDY_PLAN_STATE_TYPE } from "../../../../constants/Woomoonkyung/Woomoonkyung";
 
 /**
  * [추천 공부 계획 인터페이스]

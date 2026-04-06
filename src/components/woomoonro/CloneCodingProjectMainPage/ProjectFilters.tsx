@@ -2,7 +2,7 @@ import React from "react";
 import { Filter } from "lucide-react";
 import { FilterGroup } from "../FilterGroup";
 import { CloneCodingProjectFiltersProps } from "../../../types/pages/Woomoonro/CloneCodingProjectMainPage/CloneCodingProjectFilters";
-import { CLONE_CODINGS_DIFFICULTIES } from "../../../constants/Woomoonro/woomoonro";
+import { CLONE_CODINGS_DIFFICULTIES } from "../../../constants/Woomoonro/Woomoonro";
 
 const ProjectFilters: React.FC<CloneCodingProjectFiltersProps> = ({
   selectedFilter,

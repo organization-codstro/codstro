@@ -6,7 +6,7 @@ import { Personality } from "../../types/common/Mbit";
 import PersonalityCard from "../../components/Mbit/PersonalityEncyclopediaListPage/PersonalityCard";
 import { PersonalityEncyclopediaListService } from "../../api/Mbit/PersonalityEncyclopediaListPage";
 import { useNavigate } from "react-router-dom";
-import { MBTI_THEME } from "../../constants/Mbit/mbit";
+import { MBTI_THEME } from "../../constants/Mbit/Mbit";
 
 export default function PersonalityEncyclopediaPage() {
   const navigate = useNavigate();

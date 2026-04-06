@@ -26,8 +26,6 @@ export const ProfileService = {
 
       if (userError) throw userError;
 
-      console.log(user);
-
       return {
         userData: {
           name: user.user_name,

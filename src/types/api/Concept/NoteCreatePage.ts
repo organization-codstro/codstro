@@ -20,3 +20,12 @@ export interface CreateNoteParams {
   userId: string;
   concepts: ConceptItem[];
 }
+
+/**
+ * [GetConceptsByType]
+ * 자료 타입에 따라 최신꺼 10개 반환하는 api 파라미터
+ */
+export interface GetConceptsByType {
+  type: string;
+  page: number;
+}

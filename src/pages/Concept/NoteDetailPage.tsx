@@ -141,13 +141,6 @@ export default function NoteDetailPage() {
     return <NotFoundPage />;
   }
 
-  const formattedConcepts: string[] = [
-    ...(note.conceptNames || []),
-    ...(note.toolNames || []),
-    ...(note.libraryNames || []),
-    ...(note.packageManagerNames || []),
-    ...(note.thirdPartyNames || []),
-  ];
 
   return (
     <div className="max-w-5xl p-8 mx-auto">
@@ -159,7 +152,7 @@ export default function NoteDetailPage() {
           {/* 2. 헤더 정보 */}
           <NoteDetailHeader
             title={note.title}
-            concepts={formattedConcepts}
+            concepts={note.concepts}
             lastUpdated={note.lastUpdated}
           />
 

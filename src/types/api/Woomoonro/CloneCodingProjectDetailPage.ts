@@ -1,4 +1,4 @@
-import { CLONE_CODING_STATE_TYPE } from "../../../constants/Woomoonro/woomoonro";
+import { CLONE_CODING_STATE_TYPE } from "../../../constants/Woomoonro/Woomoonro";
 
 export interface UserCloneCodingResponse {
   user_clone_coding_id: string; // PK / number

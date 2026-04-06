@@ -21,11 +21,7 @@ export interface NoteDetailResponse {
   description: string;
   lastUpdated: string;
   content: string;
-  conceptNames: string[];
-  toolNames: string[];
-  libraryNames: string[];
-  packageManagerNames: string[];
-  thirdPartyNames: string[];
+  concepts: string[];
 }
 
 // updateNoteMeta 파라미터 타입

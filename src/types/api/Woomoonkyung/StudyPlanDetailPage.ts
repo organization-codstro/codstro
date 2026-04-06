@@ -2,7 +2,7 @@
 // WoomoonkyungDetailService 타입 파일
 // ===========================
 
-import { STUDY_PLAN_STATE_TYPE } from "../../../constants/Woomoonkyung/woomoonkyung";
+import { STUDY_PLAN_STATE_TYPE } from "../../../constants/Woomoonkyung/Woomoonkyung";
 
 /**
  * [GetPlanWithNodesParams]

@@ -1,5 +1,3 @@
-import { MATERIAL_TYPE } from "../../constants/Concepts/concepts";
-
 //개념 정보
 export interface Concept {
   id: string;
@@ -12,9 +10,9 @@ export interface Concept {
  * 노트 업데이트 페이지에서 노트에 포함되어 있던 개념들 확인하기 위해 조회후 db 함수에서 반환하는 아이템
  */
 export type ConceptItem = {
-  id: string; // concept id
-  type?: MATERIAL_TYPE;
+  id: string;
   name?: string;
+  category?: string[];
 };
 
 export interface ConceptDescriptionMaterial {
@@ -24,8 +22,7 @@ export interface ConceptDescriptionMaterial {
   category: string[];
   content: string;
   documentUrl: string;
-  includedLanguage: string;
-  representativeImageUrl?: string;
+  includedField: string;
 }
 
 //관련 개념
@@ -33,15 +30,6 @@ export interface RelatedConcept {
   id: string;
   name: string;
   type?: string;
-}
-
-/**
- * [GetConceptsByType]
- * 자료 타입에 따라 최신꺼 10개 반환하는 api 파라미터
- */
-export interface GetConceptsByType {
-  type: MATERIAL_TYPE | "all";
-  page: number;
 }
 
 /**
@@ -55,7 +43,7 @@ export type UpdateNoteChatMessage = {
 
 export interface AskConceptChatParams {
   material_id: string;
-  material_type: MATERIAL_TYPE;
+  material_type: string;
   messages: { role: "user" | "assistant"; content: string }[];
 }
 

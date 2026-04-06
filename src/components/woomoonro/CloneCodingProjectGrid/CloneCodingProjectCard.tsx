@@ -13,7 +13,7 @@ import { CloneCodingProjectCardProps } from "../../../types/pages/Woomoonro/Clon
 import {
   DIFFICULTY_COLORS,
   STATUS_COLORS,
-} from "../../../constants/Woomoonro/woomoonro";
+} from "../../../constants/Woomoonro/Woomoonro";
 import CloneCodingProjectImg from "../../../assets/images/woomoonro/CloneCodingProjectbasicImg.png";
 
 // --- ProjectCard 컴포넌트 ---

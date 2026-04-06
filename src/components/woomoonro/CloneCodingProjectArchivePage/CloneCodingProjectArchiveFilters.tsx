@@ -1,7 +1,7 @@
 import React from "react";
 import { FilterGroup } from "../FilterGroup";
 import { CloneCodingProjectArchiveFiltersProps } from "../../../types/pages/Woomoonro/CloneCodingProjectArchivePage/CloneCodingProjectArchiveFilters";
-import { CLONE_CODINGS_DIFFICULTIES } from "../../../constants/Woomoonro/woomoonro";
+import { CLONE_CODINGS_DIFFICULTIES } from "../../../constants/Woomoonro/Woomoonro";
 
 const ArchiveFilters: React.FC<CloneCodingProjectArchiveFiltersProps> = ({
   selectedFilter,

@@ -1,11 +1,10 @@
 import { supabase } from "../../db/supabase/supabase";
-import { generateAiContent } from "../Gemini/Gemini";
 
 import {
   ConceptDetailResponse,
   GetConceptDetailParams,
-  AskConceptAIParams,
   AddConceptTodoParams,
+  DeleteConceptDetailParams
 } from "../../types/api/Concept/ConceptDetailPage";
 
 /**
@@ -24,19 +23,19 @@ export const ConceptDetailService = {
     const { conceptId } = params;
 
     const { data: conceptData, error: conceptError } = await supabase
-      .from("library_description_materials")
+      .from("concepts")
       .select(
         `
-        id:library_description_material_id,
-        name:library_description_material_name,
-        language:library_description_material_included_language,
-        description:library_description_material_description,
-        content:library_description_material_content,
-        category:library_description_material_category,
-        officialSite:library_description_material_document_url
+        id:concept_id,
+        name:concept_name,
+        field:concept_field,
+        description:concept_description,
+        content:concept_content,
+        category:concept_category,
+        officialSite:concept_document_url
       `,
       )
-      .eq("library_description_material_id", conceptId)
+      .eq("concept_id", conceptId)
       .single();
 
     if (conceptError || !conceptData) {
@@ -52,21 +51,6 @@ export const ConceptDetailService = {
     };
   },
 
-  /**
-   * AI(Gemini)를 사용하여 라이브러리 관련 질의를 수행합니다.
-   */
-  async askAIChat(params: AskConceptAIParams) {
-    const { conceptName, question } = params;
-
-    try {
-      return await generateAiContent(
-        `라이브러리 [${conceptName}]에 대한 질문: ${question}`,
-      );
-    } catch (error) {
-      console.error("Gemini API Error:", error);
-      throw error;
-    }
-  },
 
   /**
    * 라이브러리 학습 Todo(노트)를 생성합니다.
@@ -85,4 +69,79 @@ export const ConceptDetailService = {
     if (error) throw error;
     return true;
   },
+
+
+/**
+ * 개념을 삭제합니다.
+ * - 해당 개념만 연결된 노트는 함께 삭제
+ * - 다른 개념도 연결된 노트는 관계만 끊고 노트는 유지
+ */
+async deleteConcept(params: DeleteConceptDetailParams): Promise<boolean> {
+  const { conceptId } = params;
+
+  // 1. 이 concept에 연결된 note_id 목록 조회
+  const { data: linkedNotes, error: linkedNotesError } = await supabase
+    .from("note_concepts")
+    .select("note_id")
+    .eq("concept_id", conceptId);
+
+  if (linkedNotesError) throw new Error(linkedNotesError.message);
+
+  const noteIds = (linkedNotes ?? []).map((row) => row.note_id);
+
+  // 2. 각 노트에 연결된 concept 수 조회
+  const noteIdsToDelete: string[] = [];
+
+  if (noteIds.length > 0) {
+    const { data: noteCounts, error: noteCountsError } = await supabase
+      .from("note_concepts")
+      .select("note_id")
+      .in("note_id", noteIds);
+
+    if (noteCountsError) throw new Error(noteCountsError.message);
+
+    const conceptCountByNote = (noteCounts ?? []).reduce<Record<string, number>>(
+      (acc, row) => {
+        acc[row.note_id] = (acc[row.note_id] ?? 0) + 1;
+        return acc;
+      },
+      {}
+    );
+
+    // concept이 1개뿐인 노트만 삭제 대상
+    for (const noteId of noteIds) {
+      if (conceptCountByNote[noteId] === 1) {
+        noteIdsToDelete.push(noteId);
+      }
+    }
+  }
+
+  // 3. note_concepts 관계 레코드 삭제
+  const { error: relError } = await supabase
+    .from("note_concepts")
+    .delete()
+    .eq("concept_id", conceptId);
+
+  if (relError) throw new Error(relError.message);
+
+  // 4. 단독 연결 노트 삭제
+  if (noteIdsToDelete.length > 0) {
+    const { error: noteError } = await supabase
+      .from("notes")
+      .delete()
+      .in("note_id", noteIdsToDelete);
+
+    if (noteError) throw new Error(noteError.message);
+  }
+
+  // 5. concept 삭제
+  const { error: conceptError } = await supabase
+    .from("concepts")
+    .delete()
+    .eq("concept_id", conceptId);
+
+  if (conceptError) throw new Error(conceptError.message);
+
+  return true;
+}
 };

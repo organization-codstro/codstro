@@ -1,4 +1,7 @@
-export interface LibraryActionButtonsProps {
-  onShowAIChat: () => void;
-  onAddTodo: (type: "documentation" | "clone_project") => void;
+export interface ConceptActionButtonsProps {
+  onEdit: () => void;
+  onDelete: () => void;
+  isDeleting?: boolean;
+  deleteConfirmMode: boolean;
+  onEditMeta: () => void;
 }

@@ -1,5 +1,5 @@
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
 // 서비스 및 타입
@@ -14,26 +14,36 @@ import AddTodoModal from "../../components/CompanyInformation/AddTodoModal";
 import MarkdownRenderer from "../../components/Markdown/MarkdownRenderer";
 import BackButton from "../../components/Concept/BackButton";
 import ConceptHeader from "../../components/Concept/ConceptDetailPage/ConceptHeader";
-import ConceptHeaderActionButtons from "../../components/Concept/ConceptDetailPage/ConceptActionButtons";
+import ConceptServiceActionButtons from "../../components/Concept/ConceptDetailPage/ConceptServiceActionButtons";
 import RelatedItemGrid from "../../components/Concept/ConceptDetailPage/RelatedItemGrid";
 import NotFoundPage from "../NotFound/NotFoundPage";
 import {
   GROUP_NAME,
   GROUP_NAME_TYPE,
 } from "../../constants/Woomoonjeong/woomoonjeong";
+import ConceptActionButtons from "../../components/Concept/ConceptDetailPage/ConceptActionButtons";
 
 export default function ConceptDetailPage() {
   const { conceptId } = useParams<{ conceptId: string }>();
+  const navigate = useNavigate();
 
   // 1. 상태 관리
   const [data, setData] = useState<ConceptDetailResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [userId, setUserId] = useState<string | null>(null);
-
   const [showAIChat, setShowAIChat] = useState(false);
   const [showTodoModal, setShowTodoModal] = useState<
     false | "documentation" | "clone_project"
   >(false);
+
+  //삭제 상태 관리
+  const [deleteConfirmMode, setDeleteConfirmMode] = useState(false);
+  const deleteTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  // 기본 정보 수정 모달
+  const [isMetaModalOpen, setIsMetaModalOpen] = useState(false);
+  const [isSavingMeta, setIsSavingMeta] = useState(false);
 
   // availableGroups 정의
   const availableGroups = GROUP_NAME.map(
@@ -75,6 +85,12 @@ export default function ConceptDetailPage() {
 
   // 3. 핸들러 함수
 
+  // 개념 마크다운 수정 페이지 이동
+  const handleEdit = () => {
+    if (!data) return;
+    navigate(`/notes/${conceptId}/edit`);
+  };
+
   // [Todo 추가 확정 - onConfirm]
   const handleAddTodoConfirm = async (formData: TodoForm) => {
     if (!userId || !data || !showTodoModal) return;
@@ -94,6 +110,41 @@ export default function ConceptDetailPage() {
     }
   };
 
+  // 노트 삭제
+  const handleDelete = async () => {
+    if (!conceptId) return;
+
+    // 1단계: 확인 모드 진입 (3초 타이머)
+    if (!deleteConfirmMode) {
+      setDeleteConfirmMode(true);
+      deleteTimerRef.current = setTimeout(() => {
+        setDeleteConfirmMode(false);
+      }, 3000);
+      return;
+    }
+
+    // 2단계: 확인 모드에서 한 번 더 누르면 실제 삭제
+    if (deleteTimerRef.current) clearTimeout(deleteTimerRef.current);
+    setDeleteConfirmMode(false);
+
+    try {
+      setIsDeleting(true);
+      await ConceptDetailService.deleteConcept({ conceptId });
+      toast.success("개념이 삭제되었습니다.");
+      navigate("/concepts");
+    } catch (error) {
+      toast.error("개념 삭제 중 오류가 발생했습니다.");
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (deleteTimerRef.current) clearTimeout(deleteTimerRef.current);
+    };
+  }, []);
+
   // 4. 로딩 및 예외 처리 UI
   if (isLoading)
     return (
@@ -110,19 +161,29 @@ export default function ConceptDetailPage() {
       <BackButton to="/concepts" label="Back to concepts" />
 
       <div className="p-8 mb-6 bg-white border border-gray-200 rounded-lg shadow-sm">
-        {/* 2. 개념 상단 정보 (tags 제거, category 배열 사용) */}
-        <ConceptHeader
-          name={data.name}
-          language={data.language}
-          description={data.description}
-          category={data.category}
-          officialSite={data.officialSite}
-        />
+        <div className="flex items-start justify-between mb-6">
+          {/* 2. 개념 상단 정보 (tags 제거, category 배열 사용) */}
+          <ConceptHeader
+            name={data.name}
+            field={data.field}
+            description={data.description}
+            category={data.category}
+            officialSite={data.officialSite}
+          />
+
+          <ConceptActionButtons
+            onEdit={handleEdit}
+            onEditMeta={() => setIsMetaModalOpen(true)}
+            onDelete={handleDelete}
+            isDeleting={isDeleting}
+            deleteConfirmMode={deleteConfirmMode}
+          />
+        </div>
 
         <div className="my-8 border-t border-gray-100" />
 
         {/* 3. 액션 버튼 */}
-        <ConceptHeaderActionButtons
+        <ConceptServiceActionButtons
           onShowAIChat={() => setShowAIChat(true)}
           onAddTodo={(type) => setShowTodoModal(type)}
         />

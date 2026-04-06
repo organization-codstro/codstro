@@ -2,19 +2,7 @@ import { create } from "zustand";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "../db/firebase/firebase";
 import { ProfileService } from "../api/Profile/Profile";
-
-interface UserProfile {
-  name: string;
-  email: string;
-  profilePath: string | null;
-}
-
-interface UserStore {
-  profile: UserProfile | null;
-  profileImageUrl: string | null;
-  isLoading: boolean;
-  fetchProfile: (userId: string) => Promise<void>;
-}
+import { UserProfile, UserStore } from "../types/store/profileStore";
 
 const isExternalUrl = (src: string) =>
   src.startsWith("http://") || src.startsWith("https://");

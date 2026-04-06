@@ -1,8 +1,7 @@
 export interface LibraryHeaderProps {
   name: string;
-  language: string;
+  field: string;
   description: string;
   category: string[];
   officialSite: string | null;
-
 }

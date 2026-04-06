@@ -1,10 +1,7 @@
 import { create } from "zustand";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "../db/firebase/firebase";
-interface ImageStore {
-  cache: Record<string, string>;
-  getUrl: (src: string) => Promise<string | null>;
-}
+import { ImageStore } from "../types/store/ImageStore";
 
 const isExternalUrl = (src: string) => {
   return src.startsWith("http://") || src.startsWith("https://");

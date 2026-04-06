@@ -8,7 +8,7 @@ import {
 /**
  * [LibraryListService]
  * 라이브러리 및 프레임워크 리스트의 조회, 검색, 필터링을 담당합니다.
- * 참조 테이블: library_description_materials
+ * 참조 테이블: concepts
  */
 export const ConceptListService = {
   /**
@@ -16,17 +16,16 @@ export const ConceptListService = {
    */
   async getConcept(): Promise<LibrarySummaryResponse[]> {
     const { data, error } = await supabase
-      .from("library_description_materials")
+      .from("concepts")
       .select(
         `
-        id:library_description_material_id,
-        name:library_description_material_name,
-        description:library_description_material_description,
-        category:library_description_material_category,
-        content:library_description_material_content,
-        documentUrl : library_description_material_document_url,
-        includedLanguage:library_description_material_included_language,
-        representativeImageUrl:library_description_material_image_url
+        id:concept_id,
+        name:concept_name,
+        description:concept_description,
+        category:concept_category,
+        content:concept_content,
+        documentUrl : concept_document_url,
+        includedField:concept_field
       `,
       )
       .order("created_at", {
@@ -49,23 +48,19 @@ export const ConceptListService = {
     const { keyword } = params;
 
     const { data, error } = await supabase
-      .from("library_description_materials")
+      .from("concepts")
       .select(
         `
-        id:library_description_material_id,
-        name:library_description_material_name,
-        description:library_description_material_description,
-        category:library_description_material_category,
-        content:library_description_material_content,
-        documentUrl : library_description_material_document_url,
-        includedLanguage:library_description_material_included_language,
-        representativeImageUrl:library_description_material_image_url
-      `,
+        id:concept_id,
+        name:concept_name,
+        description:concept_description,
+        category:concept_category,
+        content:concept_content,
+        documentUrl : concept_document_url,
+        includedField:concept_field      `,
       )
-      .or(
-        `library_description_material_name.ilike.%${keyword}%,library_description_material_included_language.ilike.%${keyword}%`,
-      )
-      .order("library_description_material_name", { ascending: true });
+      .or(`concept_name.ilike.%${keyword}%,concept_field.ilike.%${keyword}%`)
+      .order("concept_name", { ascending: true });
 
     if (error) throw new Error(error.message);
 
@@ -82,21 +77,20 @@ export const ConceptListService = {
   ): Promise<LibrarySummaryResponse[]> {
     const { column, value } = params;
 
-    let query = supabase.from("library_description_materials").select(`
-        id:library_description_material_id,
-        name:library_description_material_name,
-        description:library_description_material_description,
-        category:library_description_material_category,
-        content:library_description_material_content,
-        documentUrl : library_description_material_document_url,
-        includedLanguage:library_description_material_included_language,
-        representativeImageUrl:library_description_material_image_url
-      `);
+    let query = supabase.from("concepts").select(`
+    concept_id,
+    concept_name,
+    concept_description,
+    concept_category,
+    concept_content,
+    concept_document_url,
+    concept_field
+  `);
 
     if (column === "language") {
-      query = query.eq("library_description_material_included_language", value);
-    } else {
-      query = query.contains("library_description_material_category", [value]);
+      query = query.eq("concept_field", value);
+    } else if (column === "category") {
+      query = query.contains("concept_category", [value]);
     }
 
     const { data, error } = await query.order("created_at", {
@@ -106,7 +100,13 @@ export const ConceptListService = {
     if (error) throw new Error(error.message);
 
     return (data || []).map((item) => ({
-      ...item,
+      id: item.concept_id,
+      name: item.concept_name,
+      description: item.concept_description,
+      category: item.concept_category,
+      content: item.concept_content,
+      documentUrl: item.concept_document_url,
+      includedField: item.concept_field,
     }));
   },
 };

@@ -12,7 +12,7 @@ import {
   CLONE_CODINGS_DIFFICULTY_TYPE,
   DIFFICULTY_COLORS,
   STATUS_COLORS,
-} from "../../constants/Woomoonro/woomoonro";
+} from "../../constants/Woomoonro/Woomoonro";
 import { UserProjectStatus } from "../../types/pages/Woomoonro/CloneCodingProjectDetailPage/CloneCodingProjectDetailPage";
 import { CloneCodingProject } from "../../types/common/Woomoonro";
 import NotFoundPage from "../NotFound/NotFoundPage";

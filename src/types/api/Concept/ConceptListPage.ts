@@ -5,8 +5,7 @@ export interface LibrarySummaryResponse {
   category: string[];
   content: string;
   documentUrl: string;
-  includedLanguage: string;
-  representativeImageUrl?: string;
+  includedField: string;
 }
 export interface SearchlibrarysParams {
   keyword: string;
