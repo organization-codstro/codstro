@@ -78,6 +78,7 @@ export { default as MajorEncyclopediaDetail } from "../pages/Mbit/MajorEncyclope
 /* ================= CONCEPTS ================= */
 export { default as ConceptList } from "../pages/Concept/ConceptListPage";
 export { default as ConceptDetail } from "../pages/Concept/ConceptDetailPage";
+export { default as ConceptCreate } from "../pages/Concept/ConceptCreatePage";
 export { default as ConceptUpdatePage } from "../pages/Concept/ConceptUpdatePage";
 export { default as NotesList } from "../pages/Concept/NotesListPage";
 export { default as NoteDetail } from "../pages/Concept/NoteDetailPage";

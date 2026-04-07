@@ -227,8 +227,7 @@ export default function AppRoutes() {
           path="/concepts/:conceptId/edit"
           element={<Page.ConceptUpdatePage />}
         />
-        {/* todo 이거 만들어야 함 */}
-        {/* <Route path="/notes/create" element={<Page.NoteCreate />} /> */}
+        <Route path="/concepts/create" element={<Page.ConceptCreate />} />
 
         {/* ================= Profile ================= */}
         <Route path="/profile" element={<Page.Profile />} />
