@@ -9,8 +9,7 @@ export default function CompanyInformationAIChat({
   isOpen,
   onClose,
   conceptName,
-  materialId,
-  materialType,
+  conceptId,
 }: CompanyInformationAIChatProps) {
   const [messages, setMessages] = useState<CompanyInformationAIChatMessage[]>([
     {
@@ -49,8 +48,7 @@ export default function CompanyInformationAIChat({
 
     try {
       const { reply, sources } = await ConceptsService.askChat({
-        material_id: materialId,
-        material_type: materialType,
+        concept_id: conceptId,
         messages: updatedHistory,
       });
 

@@ -41,11 +41,8 @@ export type UpdateChatMessage = {
   content: string;
 };
 
-
-
 export interface AskConceptChatParams {
-  material_id: string;
-  material_type: string;
+  concept_id: string;
   messages: { role: "user" | "assistant"; content: string }[];
 }
 

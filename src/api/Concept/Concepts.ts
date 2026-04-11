@@ -6,8 +6,6 @@ import {
 } from "../../types/common/Concepts";
 
 export const ConceptsService = {
-
-
   /**
    * 기본개념 자세히 보기에서 chat 기능
    */
@@ -16,8 +14,7 @@ export const ConceptsService = {
       "concepts-concept_chat",
       {
         body: {
-          material_id: params.material_id,
-          material_type: params.material_type,
+          concept_id: params.concept_id,
           messages: params.messages,
         },
       },

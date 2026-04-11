@@ -274,8 +274,7 @@ export default function ConceptDetailPage() {
         isOpen={showAIChat}
         onClose={() => setShowAIChat(false)}
         conceptName={data.name}
-        materialId={conceptId}
-        materialType={"concept"}
+        conceptId={conceptId}
       />
 
       {showTodoModal && (
