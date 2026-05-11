@@ -104,6 +104,7 @@ export default function ChatConversationPage() {
         });
       } catch (error: any) {
         console.error(error);
+        navigate("/ai-chat");
         toast.error("채팅방을 불러오는 데 실패했습니다.");
       } finally {
         setIsLoading(false);
@@ -203,15 +204,13 @@ export default function ChatConversationPage() {
     }
   };
 
-  if (isLoading) {
+  if (isLoading || !room) {
     return (
       <div className="flex items-center justify-center h-screen bg-gray-50">
         <p className="text-gray-500">채팅 내용을 불러오는 중...</p>
       </div>
     );
   }
-
-  if (!room) return <NotFoundPage />;
 
   return (
     <div className="relative flex flex-col h-screen overflow-hidden bg-gray-50">

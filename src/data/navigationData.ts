@@ -19,12 +19,6 @@ export const navigationData: NavigationItem[] = [
         icon: "FolderOpen",
         route: "/woomoonjeong/documents",
       },
-      {
-        id: "recommended-documents",
-        title: "Recommended Documents",
-        icon: "Star",
-        route: "/woomoonjeong/documents/recommended",
-      },
     ],
   },
   {
@@ -161,7 +155,7 @@ export const navigationData: NavigationItem[] = [
     id: "ai-chat",
     title: "AI Chat Service",
     icon: "MessageCircle", // AI 채팅
-    route: "/ai-chat/main",
+    route: "/ai-chat",
   },
   {
     id: "company-info",

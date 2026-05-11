@@ -9,7 +9,6 @@ export { default as Layout } from "../pages/Layout";
 /* ================= WOOMOONJEONG ================= */
 export { default as TodoManagement } from "../pages/Woomoonjeong/TodoManagementPage";
 export { default as TodoManagementDetail } from "../pages/Woomoonjeong/TodoManagementDetailPage";
-export { default as RecommendedDocumentsMain } from "../pages/Woomoonjeong/RecommendedDocumentsMainPage";
 export { default as FieldDetail } from "../pages/Woomoonjeong/FieldDetailPage";
 export { default as TodoManagementUpdate } from "../pages/Woomoonjeong/TodoManagementUpdatePage";
 export { default as DocumentsManagement } from "../pages/Woomoonjeong/DocumentsManagementPage";

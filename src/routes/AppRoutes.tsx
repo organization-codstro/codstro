@@ -30,10 +30,6 @@ export default function AppRoutes() {
           element={<Page.DocumentsManagement />}
         />
         <Route
-          path="/woomoonjeong/documents/recommended"
-          element={<Page.RecommendedDocumentsMain />}
-        />
-        <Route
           path="/woomoonjeong/fields/:fieldId"
           element={<Page.FieldDetail />}
         />
