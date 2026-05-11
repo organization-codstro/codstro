@@ -21,13 +21,12 @@ export interface ValidationErrors {
 //   tech_stack_id: string;
 // }
 
-/**
- * [공부 계획 노드 데이터 타입]
- * 기술 스택 정보가 포함된 study_plan_nodes 레코드 구조 정의
- */
-export interface StudyPlanNode extends NewStudyPlanNode {
-  tech_stack_name: string;
-  tech_stack_img_url: string;
+export interface NewStudyPlanNode extends BaseStudyPlanNode {
+  study_plan_id: string;
+  study_plan_node_description: string;
+  study_plan_node_start_date: string;
+  study_plan_node_end_date: string;
+  tech_stack_id: string;
 }
 
 // 노드 UI에서 공통으로 필요한 최소 필드
@@ -39,14 +38,6 @@ export interface BaseStudyPlanNode {
   tech_stack_name?: string;
   tech_stack_img_url?: string;
   study_plan_node_description?: string;
-  study_plan_node_start_date? : string
-  study_plan_node_end_date? : string
-}
-
-export interface NewStudyPlanNode extends BaseStudyPlanNode {
-  study_plan_id: string;
-  study_plan_node_description: string;
-  study_plan_node_start_date: string;
-  study_plan_node_end_date: string;
-  tech_stack_id: string;
+  study_plan_node_start_date?: string;
+  study_plan_node_end_date?: string;
 }

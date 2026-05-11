@@ -45,7 +45,7 @@ const PinItem: React.FC<PinItemProps> = ({
       <button
         onClick={(e) => {
           e.stopPropagation();
-          onEdit;
+          onEdit(e);
         }}
         className="p-1 text-gray-400 hover:text-blue-500"
       >
@@ -54,7 +54,7 @@ const PinItem: React.FC<PinItemProps> = ({
       <button
         onClick={(e) => {
           e.stopPropagation();
-          onDelete;
+          onDelete(e);
         }}
         className={`p-1 transition-all ${
           isDeletePending
@@ -68,7 +68,6 @@ const PinItem: React.FC<PinItemProps> = ({
           <Trash2 className="w-3 h-3" />
         )}
       </button>
-      <ExternalLink className="w-3 h-3 text-gray-400" />
     </div>
   </a>
 );

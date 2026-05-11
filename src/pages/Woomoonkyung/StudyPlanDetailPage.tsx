@@ -67,7 +67,7 @@ export default function StudyPlanDetailPage() {
     );
   }
 
-  if (!detail) {
+  if (!detail || !planId) {
     return <NotFoundPage />;
   }
 
@@ -79,7 +79,7 @@ export default function StudyPlanDetailPage() {
         <BackButton label="Back to Archive" to="/Woomoonkyung" />
 
         <PlanDetailHeader
-          planId={planId!}
+          planId={planId}
           name={plan.title}
           description={plan.description}
           imageUrl={plan.imageUrl}
@@ -110,6 +110,7 @@ export default function StudyPlanDetailPage() {
             tech_stack_id: node.tech_stack_id || "",
           }))}
           onToggleNode={handleToggleNode}
+          planId={planId}
         />
       </div>
     </div>

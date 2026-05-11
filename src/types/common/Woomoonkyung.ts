@@ -29,28 +29,6 @@ export interface TechStack {
 }
 
 /**
- * [NodeItem]
- * 공부 계획 노드 정보
- */
-export interface NodeItem {
-  study_plan_node_id?: string;
-  study_plan_id: string;
-  study_plan_node_name: string;
-  study_plan_node_description?: string;
-  start_date?: string;
-  end_date?: string;
-  study_plan_node_completed: boolean;
-  study_plan_node_position: number;
-  tech_stack_id?: string;
-  created_at?: string;
-  tech_stacks?: {
-    tech_stack_name: string;
-    tech_stack_img_url?: string;
-  }[];
-  [key: string]: any;
-}
-
-/**
  * [PlanStatsResult]
  * 각 플랜의 진행률 및 노드 완료 상태 정의
  */
@@ -98,7 +76,7 @@ export interface StudyPlanStats {
   progressPercentage: number;
 }
 
-export interface StudyPlanNodeWithTechStack extends NodeItem {
+export interface StudyPlanNodeWithTechStack extends StudyPlanNode {
   tech_stacks: {
     tech_stack_name: string;
     tech_stack_img_url: string;

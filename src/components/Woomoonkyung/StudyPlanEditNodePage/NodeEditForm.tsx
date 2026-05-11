@@ -60,7 +60,9 @@ const NodeEditForm: React.FC<NodeEditFormProps> = ({
           </label>
           <textarea
             value={node.study_plan_node_description}
-            onChange={(e) => onChange({ ...node, study_plan_node_description: e.target.value })}
+            onChange={(e) =>
+              onChange({ ...node, study_plan_node_description: e.target.value })
+            }
             rows={4}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#587CF0] outline-none resize-none"
           />
@@ -75,7 +77,10 @@ const NodeEditForm: React.FC<NodeEditFormProps> = ({
               type="date"
               value={node.study_plan_node_start_date}
               onChange={(e) =>
-                onChange({ ...node, study_plan_node_start_date: e.target.value })
+                onChange({
+                  ...node,
+                  study_plan_node_start_date: e.target.value,
+                })
               }
               className={`w-full px-3 py-2 border rounded-lg ${
                 errors.startDate ? "border-red-500" : "border-gray-300"
@@ -89,7 +94,9 @@ const NodeEditForm: React.FC<NodeEditFormProps> = ({
             <input
               type="date"
               value={node.study_plan_node_end_date}
-              onChange={(e) => onChange({ ...node, study_plan_node_end_date: e.target.value })}
+              onChange={(e) =>
+                onChange({ ...node, study_plan_node_end_date: e.target.value })
+              }
               className={`w-full px-3 py-2 border rounded-lg ${
                 errors.endDate ? "border-red-500" : "border-gray-300"
               }`}

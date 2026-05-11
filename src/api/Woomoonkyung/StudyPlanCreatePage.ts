@@ -2,7 +2,7 @@ import { supabase } from "../../db/supabase/supabase";
 import { FirebaseStorageService } from "../Image/FirebaseStorageService";
 import {
   CreateBasePlanParams,
-  UpdatePlanInfoParams
+  UpdatePlanInfoParams,
 } from "../../types/api/Woomoonkyung/StudyPlanCreatePage";
 import { StudyPlan } from "../../types/common/Woomoonkyung";
 
@@ -28,7 +28,7 @@ export const PlanRegistrationService = {
       if (imageFile) {
         const uploadResult = await FirebaseStorageService.uploadImage(
           imageFile,
-          "plans", 
+          "plans",
         );
 
         imageUrl = uploadResult.url;
@@ -49,7 +49,6 @@ export const PlanRegistrationService = {
             study_plan_start_date: planData.study_plan_start_date,
             study_plan_end_date: planData.study_plan_end_date,
             study_plan_state: "waiting",
-            study_plan_is_archived: false,
             study_plan_is_recommendation: false,
             user_id: planData.user_id,
           },

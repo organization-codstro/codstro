@@ -293,7 +293,6 @@ export interface StudyPlans {
   study_plan_image_url: string | null; // text
   study_plan_start_date: string; // date
   study_plan_end_date: string; // date
-  study_plan_is_archived: boolean; // 공부계획이 종료되면 이 속성이 참이됨 / boolean
   study_plan_state: string; // waiting / in progress / done / text
   created_at: string; // timestamptz
   user_id: number; // FK / number

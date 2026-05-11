@@ -12,7 +12,6 @@ export interface RecommendedPlan {
   study_plan_start_date: string;
   study_plan_end_date: string;
   study_plan_state: STUDY_PLAN_STATE_TYPE;
-  study_plan_is_archived: boolean;
   totalNodes: number;
   created_at: string;
   study_plan_is_recommendation: boolean;

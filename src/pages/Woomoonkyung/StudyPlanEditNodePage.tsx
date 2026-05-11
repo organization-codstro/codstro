@@ -12,6 +12,7 @@ import {
   TechStack,
 } from "../../types/common/Woomoonkyung";
 import NotFoundPage from "../NotFound/NotFoundPage";
+import { v4 as uuidv4 } from "uuid";
 
 export default function StudyPlanEditNodePage() {
   const navigate = useNavigate();
@@ -75,7 +76,7 @@ export default function StudyPlanEditNodePage() {
   /** 2. 노드 추가 (기술 스택 선택 시) */
   const handleAddTechStack = (techStack: TechStack) => {
     const newNode: StudyPlanNode = {
-      study_plan_node_id: Date.now().toString(), // 임시 ID
+      study_plan_node_id: `temp_${uuidv4()}`,
       study_plan_id: planId!,
       study_plan_node_name: techStack.tech_stack_name,
       study_plan_node_description: "",
@@ -85,6 +86,7 @@ export default function StudyPlanEditNodePage() {
       study_plan_node_position: nodes.length + 1,
       tech_stack_id: techStack.tech_stack_id,
       tech_stack_name: techStack.tech_stack_name,
+      tech_stack_img_url: techStack.tech_stack_img_url,
     };
     setNodes([...nodes, newNode]);
     setEditingNode(newNode);

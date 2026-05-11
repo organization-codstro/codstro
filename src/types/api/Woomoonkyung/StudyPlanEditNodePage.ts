@@ -1,4 +1,4 @@
-import { NodeItem } from "../../common/Woomoonkyung";
+import { StudyPlanNode } from "../../common/Woomoonkyung";
 
 /**
  * [GetNodesByPlanIdParams]
@@ -13,7 +13,7 @@ export interface GetNodesByPlanIdParams {
  * 학습 노드 일괄 저장 파라미터
  */
 export interface SaveAllNodesParams {
-  nodes: NodeItem[];
+  nodes: StudyPlanNode[];
 }
 
 /**

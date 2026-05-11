@@ -29,7 +29,6 @@ export interface UpdatePlanParams {
     study_plan_start_date: string;
     study_plan_end_date: string;
     study_plan_image_url: string;
-    study_plan_is_archived: boolean;
   }>;
 }
 

@@ -5,7 +5,11 @@ import {
   DeleteNodeParams,
   GetPlanInfoParams,
 } from "../../types/api/Woomoonkyung/StudyPlanEditNodePage";
-import { NodeItem, StudyPlan, TechStack } from "../../types/common/Woomoonkyung";
+import {
+  StudyPlan,
+  StudyPlanNode,
+  TechStack,
+} from "../../types/common/Woomoonkyung";
 
 /**
  * [우문경 노드 편집 페이지 서비스]
@@ -15,7 +19,9 @@ export const WoomoonkyungEditNodeService = {
   /**
    * [학습 노드 리스트 조회]
    */
-  async getNodesByPlanId(params: GetNodesByPlanIdParams): Promise<NodeItem[]> {
+  async getNodesByPlanId(
+    params: GetNodesByPlanIdParams,
+  ): Promise<StudyPlanNode[]> {
     try {
       const { planId } = params;
 
@@ -31,10 +37,10 @@ export const WoomoonkyungEditNodeService = {
         `,
         )
         .eq("study_plan_id", planId)
-        .order("position", { ascending: true });
+        .order("study_plan_node_position", { ascending: true });
 
       if (error) throw error;
-      return data as NodeItem[];
+      return data as StudyPlanNode[];
     } catch (error) {
       console.error("[getNodesByPlanId Error]:", error);
       throw error;
@@ -44,35 +50,54 @@ export const WoomoonkyungEditNodeService = {
   /**
    * [학습 노드 일괄 저장]
    */
-  async saveAllNodes(params: SaveAllNodesParams): Promise<NodeItem[]> {
+  async saveAllNodes(params: SaveAllNodesParams): Promise<StudyPlanNode[]> {
     try {
       const { nodes } = params;
 
       const nodesToUpsert = nodes.map((node) => ({
-        study_plan_node_id:
-          typeof node.study_plan_node_id === "number" &&
-          node.study_plan_node_id > 1000000000000
-            ? undefined
-            : node.study_plan_node_id,
+        study_plan_node_id: node.study_plan_node_id,
         study_plan_id: node.study_plan_id,
         study_plan_node_name: node.study_plan_node_name,
-        description: node.description,
-        start_date: node.start_date,
-        end_date: node.end_date,
-        completed: node.completed || false,
-        position: node.position,
+        study_plan_node_description: node.study_plan_node_description,
+        study_plan_node_start_date: node.study_plan_node_start_date,
+        study_plan_node_end_date: node.study_plan_node_end_date,
+        study_plan_node_completed: node.study_plan_node_completed || false,
+        study_plan_node_position: node.study_plan_node_position,
         tech_stack_id: node.tech_stack_id,
-        created_date:
-          node.created_date || new Date().toISOString().split("T")[0],
+        created_at: new Date(),
       }));
 
-      const { data, error } = await supabase
-        .from("study_plan_nodes")
-        .upsert(nodesToUpsert)
-        .select();
+      // 신규 vs 기존 분리 (temp_ 접두사 기준)
+      const newNodes = nodesToUpsert.filter((n) =>
+        String(n.study_plan_node_id).startsWith("temp_"),
+      );
+      const existingNodes = nodesToUpsert.filter(
+        (n) => !String(n.study_plan_node_id).startsWith("temp_"),
+      );
 
-      if (error) throw error;
-      return data as NodeItem[];
+      const results: StudyPlanNode[] = [];
+
+      // 기존 노드 upsert
+      if (existingNodes.length > 0) {
+        const { data, error } = await supabase
+          .from("study_plan_nodes")
+          .upsert(existingNodes)
+          .select();
+        if (error) throw error;
+        results.push(...(data as StudyPlanNode[]));
+      }
+
+      // 신규 노드 insert (id 필드 제거 → DB가 UUID 자동 생성)
+      if (newNodes.length > 0) {
+        const { data, error } = await supabase
+          .from("study_plan_nodes")
+          .insert(newNodes.map(({ study_plan_node_id, ...rest }) => rest))
+          .select();
+        if (error) throw error;
+        results.push(...(data as StudyPlanNode[]));
+      }
+
+      return results;
     } catch (error) {
       console.error("[saveAllNodes Error]:", error);
       throw error;

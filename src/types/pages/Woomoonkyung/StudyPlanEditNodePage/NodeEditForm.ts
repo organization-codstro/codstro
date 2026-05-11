@@ -1,4 +1,4 @@
-import { StudyPlanNode } from "../Woomoonkyung";
+import { StudyPlanNode } from "../../../common/Woomoonkyung";
 
 export interface NodeEditFormProps {
   node: StudyPlanNode;

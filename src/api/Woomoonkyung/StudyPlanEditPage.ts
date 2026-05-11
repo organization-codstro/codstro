@@ -79,7 +79,6 @@ export const WoomoonkyungEditService = {
           study_plan_start_date: planData.study_plan_start_date,
           study_plan_end_date: planData.study_plan_end_date,
           study_plan_state: planData.study_plan_state,
-          study_plan_is_archived: planData.study_plan_is_archived,
         })
         .eq("study_plan_id", planId)
         .select()
