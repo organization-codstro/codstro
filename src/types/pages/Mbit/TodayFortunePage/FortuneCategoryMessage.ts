@@ -1,3 +1,6 @@
+import { FortuneCategoryMessage } from "../../../common/Mbit";
+
+
 export interface FortuneCategoryMessageProps {
-  message: string;
+  message: FortuneCategoryMessage;
 }

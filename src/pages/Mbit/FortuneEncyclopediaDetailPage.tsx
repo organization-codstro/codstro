@@ -59,7 +59,7 @@ export default function FortuneEncyclopediaDetailPage() {
 
           <div className="p-8 pb-4 space-y-8">
             <section>
-              <h2 className="mb-4 text-2xl font-bold text-gray-800">Name</h2>
+              <h2 className="mb-4 text-2xl font-bold text-gray-800">Code</h2>
               <p className="leading-relaxed text-gray-700">
                 {selectedFortune?.name}
               </p>

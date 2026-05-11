@@ -50,9 +50,8 @@ export default function MajorTestPage() {
       // 2. Toastify 로딩 및 결과 조회 동시 처리
       await toast.promise(
         async () => {
-          const detail = await MajorTestService.getMajorDetailByTrait(
-            topMajorTrait
-          );
+          const detail =
+            await MajorTestService.getMajorDetailByTrait(topMajorTrait);
           if (!detail) throw new Error("데이터를 찾을 수 없습니다.");
           setResultData(detail);
         },
@@ -60,7 +59,7 @@ export default function MajorTestPage() {
           pending: "결과를 분석하고 저장 중입니다...",
           success: "분석 완료! 결과를 확인하세요.",
           error: "결과를 가져오는 중 오류가 발생했습니다.",
-        }
+        },
       );
     }
   };
@@ -72,27 +71,31 @@ export default function MajorTestPage() {
     setResultData(null);
   };
 
-  if (loading)
+  if (loading) {
     return (
-      <div className="flex items-center justify-center flex-1">Loading...</div>
+      <div className="flex-1 min-h-screen flex items-center justify-center p-8 bg-gradient-to-br from-green-50 via-teal-50 to-blue-50"></div>
     );
+  }
 
   return (
-    <div className="flex-1 min-h-screen p-8 bg-gradient-to-br from-green-50 via-teal-50 to-blue-50">
-      {!started ? (
-        <TestIntro onStart={() => setStarted(true)} />
-      ) : resultData ? (
-        <TestResult result={resultData} onReset={resetTest} />
-      ) : (
-        <>
-          <TestProgress current={currentQuestion} total={questions.length} />
-          <TestQuestion
-            content={questions[currentQuestion].major_question_content}
-            scale={questions[currentQuestion].major_question_score_value}
-            onAnswer={handleAnswer}
-          />
-        </>
-      )}
+    <div className="flex-1 min-h-screen flex items-center justify-center p-8 bg-gradient-to-br from-green-50 via-teal-50 to-blue-50">
+      <div className="w-full max-w-5xl">
+        {!started ? (
+          <TestIntro onStart={() => setStarted(true)} />
+        ) : resultData ? (
+          <TestResult result={resultData} onReset={resetTest} />
+        ) : (
+          <>
+            <TestProgress current={currentQuestion} total={questions.length} />
+
+            <TestQuestion
+              content={questions[currentQuestion].major_question_content}
+              scale={questions[currentQuestion].major_question_score_value}
+              onAnswer={handleAnswer}
+            />
+          </>
+        )}
+      </div>
     </div>
   );
 }
