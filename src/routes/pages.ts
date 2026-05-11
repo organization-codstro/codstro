@@ -20,7 +20,6 @@ export { default as CloneCodingProjectDetail } from "../pages/Woomoonro/CloneCod
 
 /* ================= WOOMOONKYUNG ================= */
 export { default as WoomoonkyungMain } from "../pages/Woomoonkyung/StudyPlanMainPage";
-export { default as RecommendedStudyPlans } from "../pages/Woomoonkyung/RecommendedStudyPlansPage";
 export { default as StudyPlanArchive } from "../pages/Woomoonkyung/StudyPlanArchivePage";
 export { default as WoomoonkyungDetail } from "../pages/Woomoonkyung/StudyPlanDetailPage";
 export { default as WoomoonkyungCreate } from "../pages/Woomoonkyung/StudyPlanCreatePage";

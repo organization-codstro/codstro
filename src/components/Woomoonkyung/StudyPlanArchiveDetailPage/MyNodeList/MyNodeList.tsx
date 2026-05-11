@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import MyNodeItem from "./MyNodeItem";
-import EmptyState from "../RecommendedStudyPlansPage/EmptyState";
-import { MyNodeListProps } from "../../../types/pages/Woomoonkyung/StudyPlanArchiveDetailPage/MyNodeList";
+import MyNodeItem from "../MyNodeItem";
+import { MyNodeListProps } from "../../../../types/pages/Woomoonkyung/StudyPlanArchiveDetailPage/MyNodeList/MyNodeList";
 import { Edit3 } from "lucide-react";
+import StudyPlanNodeEmptyState from "./StudyPlanNodeEmptyState";
 
 const MyNodeList: React.FC<MyNodeListProps> = ({
   nodes,
@@ -19,7 +19,7 @@ const MyNodeList: React.FC<MyNodeListProps> = ({
           Study Plan Nodes
         </h3>
         <button
-          onClick={() => navigate(`/woomoonkyung/${planId}/nodes`)}
+          onClick={() => navigate(`/woomoonkyung/edit/${planId}`)}
           className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-gray-500 border border-gray-200 rounded-lg hover:text-blue-500 hover:border-blue-300 transition-colors"
         >
           <Edit3 className="w-3.5 h-3.5" />
@@ -38,7 +38,7 @@ const MyNodeList: React.FC<MyNodeListProps> = ({
           ))}
         </div>
       ) : (
-        <EmptyState
+        <StudyPlanNodeEmptyState
           title="No study nodes yet"
           description="This study plan doesn't have any nodes configured yet."
         />

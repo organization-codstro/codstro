@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { WoomoonkyungDetailService } from "../../api/Woomoonkyung/StudyPlanDetailPage"; // 경로 확인 필요3
 import BackButton from "../../components/Woomoonkyung/RecommendedStudyPlanDetailPage/BackButton";
 import PlanDetailHeader from "../../components/Woomoonkyung/StudyPlanArchiveDetailPage/PlanDetailHeader";
-import MyNodeList from "../../components/Woomoonkyung/StudyPlanArchiveDetailPage/MyNodeList";
+import MyNodeList from "../../components/Woomoonkyung/StudyPlanArchiveDetailPage/MyNodeList/MyNodeList";
 import { StudyPlanWithNodes } from "../../types/common/Woomoonkyung";
 import NotFoundPage from "../NotFound/NotFoundPage";
 

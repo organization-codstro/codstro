@@ -4,9 +4,9 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // 컴포넌트 임포트
-import { HistoryHeader } from "../../components/CompanyInformation/InterviewHistoryPage/HistoryHeader";
-import { EmptyState } from "../../components/CompanyInformation/InterviewHistoryPage/EmptyState";
-import { InterviewCard } from "../../components/CompanyInformation/InterviewHistoryPage/InterviewCard";
+import HistoryHeader from "../../components/CompanyInformation/InterviewHistoryPage/HistoryHeader";
+import InterviewHistoryEmptyState from "../../components/CompanyInformation/InterviewHistoryPage/InterviewHistoryEmptyState";
+import InterviewCard from "../../components/CompanyInformation/InterviewHistoryPage/InterviewCard";
 
 // 서비스 및 타입 임포트
 import { GetUserInterviewListResponse } from "../../types/api/CompanyInformation/InterviewHistoryPage";
@@ -103,7 +103,7 @@ export default function InterviewHistoryPage() {
         />
 
         {interviews.length === 0 ? (
-          <EmptyState />
+          <InterviewHistoryEmptyState />
         ) : (
           <div className="space-y-4">
             {interviews.map((interview) => (

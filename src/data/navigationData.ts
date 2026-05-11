@@ -54,12 +54,6 @@ export const navigationData: NavigationItem[] = [
         route: "/woomoonkyung",
       },
       {
-        id: "recommended-plans",
-        title: "Recommended Study Plans",
-        icon: "Star",
-        route: "/woomoonkyung/recommended",
-      },
-      {
         id: "study-archive",
         title: "Archive",
         icon: "Archive",

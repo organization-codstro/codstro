@@ -1,9 +1,11 @@
 import React from "react";
 import { BookOpen } from "lucide-react";
-import { EmptyStateProps } from "../../../types/pages/Woomoonkyung/RecommendedStudyPlansPage/EmptyState";
+import { EmptyStateProps } from "../../../../types/pages/Woomoonkyung/StudyPlanArchiveDetailPage/MyNodeList/EmptyState";
 
-
-const EmptyState: React.FC<EmptyStateProps> = ({ title, description }) => {
+const StudyPlanNodeEmptyState: React.FC<EmptyStateProps> = ({
+  title,
+  description,
+}) => {
   return (
     <div className="py-12 text-center">
       <BookOpen className="w-12 h-12 mx-auto mb-4 text-gray-400" />
@@ -13,4 +15,4 @@ const EmptyState: React.FC<EmptyStateProps> = ({ title, description }) => {
   );
 };
 
-export default EmptyState;
+export default StudyPlanNodeEmptyState;

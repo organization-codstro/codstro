@@ -2,20 +2,21 @@ import { FileText, Calendar } from "lucide-react";
 import { DeleteButton } from "../DeleteButton";
 import { InterviewCardProps } from "../../../types/pages/CompanyInformation/InterviewHistoryPage/InterviewCard";
 
-export const InterviewCard = ({
+const InterviewCard = ({
   interview,
   isPending,
   onDelete,
   onClick,
 }: InterviewCardProps) => {
   // 날짜 포맷팅 (YYYY. MM. DD.)
-  const formattedDate = new Date(
-    interview.created_at
-  ).toLocaleDateString("ko-KR", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const formattedDate = new Date(interview.created_at).toLocaleDateString(
+    "ko-KR",
+    {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    },
+  );
 
   return (
     <div
@@ -76,3 +77,5 @@ export const InterviewCard = ({
     </div>
   );
 };
+
+export default InterviewCard;

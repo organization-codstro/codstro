@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // 컴포넌트 임포트
-import { HistoryHeader } from "../../components/CompanyInformation/InterviewHistoryPage/HistoryHeader";
+import HistoryHeader from "../../components/CompanyInformation/InterviewHistoryPage/HistoryHeader";
 import { MatchEmptyState } from "../../components/CompanyInformation/MatchingHistoryPage/MatchEmptyState";
 import { MatchingCard } from "../../components/CompanyInformation/MatchingHistoryPage/MatchingCard";
 

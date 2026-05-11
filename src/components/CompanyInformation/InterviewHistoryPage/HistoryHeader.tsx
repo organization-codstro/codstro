@@ -1,6 +1,6 @@
 import { HistoryHeaderProps } from "../../../types/pages/CompanyInformation/InterviewHistoryPage/HistoryHeader";
 
-export const HistoryHeader = ({ title, description }: HistoryHeaderProps) => {
+const HistoryHeader = ({ title, description }: HistoryHeaderProps) => {
   return (
     <div className="mb-8">
       <h1 className="mb-2 text-3xl font-bold text-gray-900">{title}</h1>
@@ -8,3 +8,5 @@ export const HistoryHeader = ({ title, description }: HistoryHeaderProps) => {
     </div>
   );
 };
+
+export default HistoryHeader;

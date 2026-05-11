@@ -1,4 +1,4 @@
-import { StudyPlanNode } from "../../../common/Woomoonkyung";
+import { StudyPlanNode } from "../../../../common/Woomoonkyung";
 
 export interface MyNodeListProps {
   nodes: StudyPlanNode[];

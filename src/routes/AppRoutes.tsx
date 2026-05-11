@@ -79,12 +79,6 @@ export default function AppRoutes() {
           element={<Page.WoomoonkyungEditNode />}
         />
 
-        {/* 추천 */}
-        <Route
-          path="/woomoonkyung/recommended"
-          element={<Page.RecommendedStudyPlans />}
-        />
-
         {/* 추천 - 선택*/}
         <Route
           path="/woomoonkyung/recommended/:planId"
