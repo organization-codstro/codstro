@@ -48,7 +48,7 @@ const plainTextToHtml = (text: string, personas: ChatRoomAI[]): string => {
 // 커서를 contenteditable 끝으로 이동
 const moveCursorToEnd = (el: HTMLElement) => {
   const range = document.createRange();
-  const sel = window.getSelection();
+  const sel = globalThis.getSelection();
   range.selectNodeContents(el);
   range.collapse(false);
   sel?.removeAllRanges();
@@ -57,7 +57,7 @@ const moveCursorToEnd = (el: HTMLElement) => {
 
 // 커서 위치 앞의 텍스트 반환
 const getTextBeforeCursor = (el: HTMLElement): string => {
-  const sel = window.getSelection();
+  const sel = globalThis.getSelection();
   if (!sel || sel.rangeCount === 0) return "";
   const range = sel.getRangeAt(0).cloneRange();
   range.selectNodeContents(el);
@@ -149,7 +149,7 @@ export function ChatInput({
     const editor = editorRef.current;
     if (!editor) return;
 
-    const sel = window.getSelection();
+    const sel = globalThis.getSelection();
     if (!sel || sel.rangeCount === 0) return;
 
     const range = sel.getRangeAt(0);

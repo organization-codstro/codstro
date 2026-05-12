@@ -1,5 +1,6 @@
 import { supabase } from "../../db/supabase/supabase";
 import {
+  GenerateCloneCodingParams,
   GetAllProjectsWithUserStatusParams,
   GetFilteredProjectsParams,
   ToggleBookmarkParams,
@@ -9,7 +10,7 @@ import {
  * [메인 프로젝트 서비스]
  * 메인 페이지에 표시될 전체 프로젝트 목록과 유저별 상태 정보를 관리합니다.
  */
-export const MainProjectService = {
+export const CloneCodingProjectMainPageService = {
   /**
    * [전체 프로젝트 및 유저 진행 데이터 로드]
    * 모든 클론코딩 프로젝트를 가져오고, 로그인한 유저의 해당 프로젝트 진행 상태를 함께 가져옵니다.
@@ -136,5 +137,21 @@ export const MainProjectService = {
       console.error("[Main toggleBookmark Error]:", error);
       throw error;
     }
+  },
+
+  /**
+   * clone_coding-generate Edge Function 호출
+   * GPT가 클론코딩 프로젝트를 생성하고 DB에 저장합니다.
+   */
+  async generateCloneCoding(params: GenerateCloneCodingParams) {
+    const { data, error } = await supabase.functions.invoke(
+      "clone_coding-generate",
+      { body: params },
+    );
+
+    if (error) throw new Error(error.message);
+    if (!data.success) throw new Error(data.error ?? "생성에 실패했습니다.");
+
+    return data.data;
   },
 };

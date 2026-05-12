@@ -2,7 +2,6 @@ import React from "react";
 import {
   Clock,
   BookmarkCheck,
-  Calendar,
   CheckCircle2,
   Github,
   ExternalLink,
@@ -73,13 +72,13 @@ const ProjectCard = ({
 
         {/* Badges */}
         <div className="flex items-center gap-2 mb-4">
-          <span
+          {/* <span
             className={`px-2 py-1 text-xs rounded-full border ${
               DIFFICULTY_COLORS[project.difficulty]
             }`}
           >
             {project.difficulty}
-          </span>
+          </span> */}
 
           <span
             className={`px-2 py-1 text-xs rounded-full border ${

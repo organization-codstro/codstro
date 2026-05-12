@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import PersonalityTestIntro from "../../components/Mbit/PersonalityTestPage/PersonalityTestIntro";
-import TestQuestion from "../../components/Mbit/MajorTestPage/TestQuestion";
+import TestQuestion from "../../components/Mbit/TestQuestion";
 import { PersonalityTestService } from "../../api/Mbit/PersonalityTestPage";
 import {
   MbitAxisCode,
@@ -117,11 +117,11 @@ export default function PersonalityTestPage() {
 
   if (loading)
     return (
-      <div className="flex-1 min-h-screen flex items-center justify-center p-8 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50" />
+      <div className="flex items-center justify-center flex-1 min-h-screen p-8 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50" />
     );
 
   return (
-    <div className="flex-1 min-h-screen flex items-center justify-center p-8 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
+    <div className="flex items-center justify-center flex-1 min-h-screen p-8 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
       <div className="w-full max-w-5xl">
         {!started ? (
           <PersonalityTestIntro onStart={() => setStarted(true)} />
@@ -133,10 +133,6 @@ export default function PersonalityTestPage() {
           />
         ) : (
           <>
-            {/* <PersonalityTestProgress
-              current={currentQuestion}
-              total={questions.length}
-            /> */}
             <TestQuestion
               content={questions[currentQuestion].mbit_questions_content}
               scale={questions[currentQuestion].mbit_questions_score_value}

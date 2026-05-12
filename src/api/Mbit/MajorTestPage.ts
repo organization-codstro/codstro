@@ -1,5 +1,5 @@
 import { supabase } from "../../db/supabase/supabase";
-import { Major } from "../../types/common/Mbit";
+import { Major, MajorTestQuestionRow } from "../../types/common/Mbit";
 
 /**
  * [MajorTestService]
@@ -11,7 +11,7 @@ export const MajorTestService = {
    * 테이블: major_questions
    * 역할: DB에 저장된 척도형 질문(score_value 배열 포함)을 가져옵니다.
    */
-  async getMajorTestQuestions() {
+  async getMajorTestQuestions(): Promise<MajorTestQuestionRow[]> {
     try {
       const { data, error } = await supabase
         .from("major_questions")
@@ -27,7 +27,7 @@ export const MajorTestService = {
         .order("major_question_id", { ascending: true });
 
       if (error) throw error;
-      return data;
+      return data as MajorTestQuestionRow[];
     } catch (error) {
       console.error("[MajorTestService Error]:", error);
       throw new Error("질문지를 불러오지 못했습니다.");
@@ -40,11 +40,14 @@ export const MajorTestService = {
    * 역할: 점수 계산으로 도출된 전공명(trait)을 기반으로 해당 전공의 상세 도감 데이터를 가져옵니다.
    */
   async getMajorDetailByTrait(trait: string): Promise<Major | null> {
+    console.log(trait);
     const { data, error } = await supabase
       .from("majors")
       .select("*")
-      .eq("major_name", trait)
+      .eq("major_id", trait)
       .single();
+
+    console.log(data);
 
     if (error || !data) {
       console.error("Major detail fetch error:", error);

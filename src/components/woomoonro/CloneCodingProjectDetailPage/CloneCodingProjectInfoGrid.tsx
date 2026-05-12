@@ -16,11 +16,11 @@ const ProjectInfoGrid: React.FC<CloneCodingProjectInfoGridProps> = ({
   return (
     <div className="space-y-6 md:col-span-2">
       <div className="flex flex-wrap items-center gap-3">
-        <span
+        {/* <span
           className={`px-3 py-1 text-sm rounded-full border ${difficultyColor}`}
         >
           {difficulty}
-        </span>
+        </span> */}
         {status && (
           <span
             className={`px-3 py-1 text-sm rounded-full border ${statusColor}`}
@@ -29,7 +29,7 @@ const ProjectInfoGrid: React.FC<CloneCodingProjectInfoGridProps> = ({
           </span>
         )}
         <span className="flex items-center gap-1 px-3 py-1 text-sm text-gray-600 bg-gray-100 rounded-full">
-          <Clock className="w-4 h-4" /> {estimatedHours} hours
+          <Clock className="w-4 h-4" /> {estimatedHours}
         </span>
       </div>
 

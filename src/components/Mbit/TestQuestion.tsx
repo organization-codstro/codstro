@@ -1,19 +1,6 @@
 import React, { useEffect } from "react";
 import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
-
-type Props = {
-  content: string;
-  scale: number[];
-  onAnswer: (value: number) => void;
-  currentIndex: number;
-  total: number;
-  answeredCount: number;
-  selectedValue: number | null;
-  allAnswered: boolean;
-  onPrev: () => void;
-  onNext: () => void;
-  onSubmit: () => void;
-};
+import { TestQuestionProps } from "../../types/pages/Mbit/TestQuestion";
 
 const LABELS: Record<number, string> = {
   5: "매우 그렇다",
@@ -23,7 +10,7 @@ const LABELS: Record<number, string> = {
   1: "매우 아니다",
 };
 
-const TestQuestion: React.FC<Props> = ({
+const MajorTestQuestion: React.FC<TestQuestionProps> = ({
   content,
   scale,
   onAnswer,
@@ -53,13 +40,13 @@ const TestQuestion: React.FC<Props> = ({
         }
         return;
       }
-      const index = parseInt(e.key) - 1;
+      const index = Number.parseInt(e.key) - 1;
       if (index >= 0 && index < sorted.length) {
         onAnswer(sorted[index]);
       }
     };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    globalThis.addEventListener("keydown", handleKeyDown);
+    return () => globalThis.removeEventListener("keydown", handleKeyDown);
   }, [
     sorted,
     onAnswer,
@@ -88,7 +75,7 @@ const TestQuestion: React.FC<Props> = ({
         <h2 className="mb-8 text-2xl font-bold text-gray-800">{content}</h2>
 
         {/* 선택지 */}
-        <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-5">
           {sorted.map((value, idx) => {
             const isSelected = selectedValue === value;
             return (
@@ -102,7 +89,7 @@ const TestQuestion: React.FC<Props> = ({
                 }`}
               >
                 <div className="flex flex-col gap-2">
-                  <span className="text-xs text-gray-400 font-medium">
+                  <span className="text-xs font-medium text-gray-400">
                     [{idx + 1}]
                   </span>
                   <span
@@ -158,4 +145,4 @@ const TestQuestion: React.FC<Props> = ({
   );
 };
 
-export default TestQuestion;
+export default MajorTestQuestion;

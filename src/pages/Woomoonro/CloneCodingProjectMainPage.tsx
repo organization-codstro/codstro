@@ -1,14 +1,15 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Loader2 } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
 import ProjectGrid from "../../components/Woomoonro/CloneCodingProjectGrid/CloneCodingProjectGrid";
 import PageHeader from "../../components/Woomoonkyung/StudyPlanEditPage/PageHeader";
 import ProjectFilters from "../../components/Woomoonro/CloneCodingProjectMainPage/ProjectFilters";
 import NoResults from "../../components/Woomoonro/CloneCodingProjectMainPage/NoResults";
 import { LoginService } from "../../api/Auth/LoginPage";
-import { MainProjectService } from "../../api/Woomoonro/CloneCodingProjectMainPage";
 import { MainProjectItem } from "../../types/pages/Woomoonro/CloneCodingProjectMainPage/CloneCodingProjectMainPage";
+import AddCloneCodingModal from "../../components/Woomoonro/CloneCodingProjectMainPage/Addclonecodingmodal";
+import { CloneCodingProjectMainPageService } from "../../api/Woomoonro/CloneCodingProjectMainPage";
 
 export default function CloneCodingProjectMainPage() {
   const navigate = useNavigate();
@@ -17,8 +18,13 @@ export default function CloneCodingProjectMainPage() {
    * 상태 관리 (States)
    */
   const [isLoading, setIsLoading] = useState(true);
-  const [userId, setUserId] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string>("");
   const [projectList, setProjectList] = useState<MainProjectItem[]>([]);
+
+  /**
+   * 모달 상태
+   */
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   /**
    * 필터 상태
@@ -38,11 +44,11 @@ export default function CloneCodingProjectMainPage() {
   const fetchProjects = useCallback(async (currentUserId: string) => {
     try {
       setIsLoading(true);
-      const data = await MainProjectService.getAllProjectsWithUserStatus({
-        userId: currentUserId,
-      });
+      const data =
+        await CloneCodingProjectMainPageService.getAllProjectsWithUserStatus({
+          userId: currentUserId,
+        });
 
-      // API 응답 구조를 CloneCodingProject 및 UserCloneCodingProject 형식으로 정제
       const formattedData: MainProjectItem[] = data.map((item: any) => ({
         project: {
           id: item.clone_coding_id,
@@ -66,7 +72,7 @@ export default function CloneCodingProjectMainPage() {
               project_id: item.clone_coding_id,
               status: item.user_project.user_clone_coding_status,
               is_bookmarked: item.user_project.user_clone_coding_is_bookmarked,
-              created_at: item.clone_coding_created_at, // 기본값
+              created_at: item.clone_coding_created_at,
             }
           : undefined,
       }));
@@ -91,7 +97,6 @@ export default function CloneCodingProjectMainPage() {
         fetchProjects(id);
       } else {
         setIsLoading(false);
-        // 비로그인 상태 대응이 필요할 경우 처리
       }
     };
     init();
@@ -99,7 +104,6 @@ export default function CloneCodingProjectMainPage() {
 
   /**
    * [북마크 토글 로직]
-   * DB 업데이트 후 로컬 상태를 즉시 갱신합니다.
    */
   const handleToggleBookmark = async (projectId: string) => {
     if (!userId) {
@@ -111,7 +115,7 @@ export default function CloneCodingProjectMainPage() {
     const isBookmarked = target?.userProject?.is_bookmarked ?? false;
 
     try {
-      await MainProjectService.toggleBookmark({
+      await CloneCodingProjectMainPageService.toggleBookmark({
         userId,
         projectId,
         isBookmarked,
@@ -147,12 +151,10 @@ export default function CloneCodingProjectMainPage() {
 
   /**
    * [필터링 및 검색 로직 (Client-side)]
-   * UX를 위해 클라이언트 측에서 실시간 필터링을 수행 (오류 방지용)
    */
   const filteredProjects = projectList.filter((item) => {
     const { project, userProject } = item;
 
-    // 1. 진행 상태 필터
     if (selectedFilter === "bookmarked" && !userProject?.is_bookmarked)
       return false;
     if (
@@ -163,14 +165,12 @@ export default function CloneCodingProjectMainPage() {
     if (selectedFilter === "completed" && userProject?.status !== "done")
       return false;
 
-    // 2. 난이도 필터
     if (
       selectedDifficulty !== "all" &&
       project.difficulty !== selectedDifficulty
     )
       return false;
 
-    // 3. 검색 필터
     if (
       searchQuery &&
       !project.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -200,11 +200,13 @@ export default function CloneCodingProjectMainPage() {
   return (
     <div className="min-h-screen p-8 bg-gray-50">
       <div className="mx-auto space-y-8 max-w-7xl">
-        {/* Header */}
-        <PageHeader
-          title="Woomoonro"
-          description="Discover and manage clone coding projects to level up your skills."
-        />
+        {/* Header + Add 버튼 */}
+        <div className="flex items-start justify-between">
+          <PageHeader
+            title="Woomoonro"
+            description="Discover and manage clone coding projects to level up your skills."
+          />
+        </div>
 
         <div className="space-y-6">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -216,15 +218,25 @@ export default function CloneCodingProjectMainPage() {
               setSelectedDifficulty={setSelectedDifficulty}
             />
 
-            {/* Search Input */}
-            <div className="relative w-full md:w-72">
-              <input
-                type="text"
-                placeholder="Search projects..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#587CF0] outline-none"
-              />
+            <div className="flex flex-col gap-4">
+              {/* Search Input */}
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  placeholder="Search projects..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#587CF0] outline-none"
+                />
+              </div>
+
+              <button
+                onClick={() => setIsAddModalOpen(true)}
+                className="w-full flex items-center justify-center gap-2 px-5 py-2.5 bg-[#587CF0] text-white text-sm font-medium rounded-xl hover:bg-[#4A6EE0] transition-colors"
+              >
+                <Plus size={16} />
+                Add Clone Coding
+              </button>
             </div>
           </div>
 
@@ -241,6 +253,16 @@ export default function CloneCodingProjectMainPage() {
           )}
         </div>
       </div>
+
+      {/* Add Clone Coding 모달 */}
+      <AddCloneCodingModal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        onSuccess={() => {
+          if (userId) fetchProjects(userId);
+        }}
+        userId={userId}
+      />
     </div>
   );
 }

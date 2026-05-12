@@ -44,12 +44,11 @@ export interface MbitQuestionRow {
  * - 동의 시 해당 문항의 major_question_trait에 major_question_score_value 만큼 점수를 가산합니다.
  * - 비동의 시 점수 변화는 없습니다.
  */
-export type MajorQuestionAxis = "E" | "P" | "C" | "R" | "L" | "V" | "B" | "A";
 
 export interface MajorTestQuestionRow {
   major_question_id: string;
   major_question_content: string;
-  major_question_axis: MajorQuestionAxis;
+  major_question_axis: string;
   major_question_trait: string;
   major_question_score_value: number[];
 }
