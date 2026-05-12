@@ -191,7 +191,7 @@ export default function CloneCodingProjectDetailPage() {
                 difficulty={project.difficulty}
                 difficultyColor={
                   DIFFICULTY_COLORS[
-                    project.difficulty as CLONE_CODINGS_DIFFICULTY_TYPE
+                    project.difficulty as keyof typeof DIFFICULTY_COLORS
                   ]
                 }
                 status={userProject?.status}

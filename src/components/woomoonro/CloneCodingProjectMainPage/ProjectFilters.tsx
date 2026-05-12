@@ -7,9 +7,17 @@ import { CLONE_CODINGS_DIFFICULTIES } from "../../../constants/Woomoonro/Woomoon
 const ProjectFilters: React.FC<CloneCodingProjectFiltersProps> = ({
   selectedFilter,
   setSelectedFilter,
-  selectedDifficulty,
-  setSelectedDifficulty,
 }) => {
+  const handleFilterChange = (
+    newFilter: "all" | "waiting" | "in progress" | "done",
+  ) => {
+    if (selectedFilter === newFilter) {
+      setSelectedFilter("all");
+    } else {
+      setSelectedFilter(newFilter);
+    }
+  };
+
   return (
     <div className="p-6 bg-white border border-purple-100 shadow-sm rounded-xl w-fit">
       <div className="flex flex-wrap items-center gap-8">
@@ -19,15 +27,9 @@ const ProjectFilters: React.FC<CloneCodingProjectFiltersProps> = ({
             label="Status"
             current={selectedFilter}
             options={CLONE_CODINGS_DIFFICULTIES}
-            onChange={setSelectedFilter}
+            onChange={handleFilterChange}
           />
         </div>
-        <FilterGroup
-          label="Difficulty"
-          current={selectedDifficulty}
-          options={CLONE_CODINGS_DIFFICULTIES}
-          onChange={setSelectedDifficulty}
-        />
       </div>
     </div>
   );

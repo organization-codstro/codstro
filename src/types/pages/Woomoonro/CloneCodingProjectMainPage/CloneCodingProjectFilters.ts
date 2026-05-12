@@ -1,6 +1,4 @@
 export interface CloneCodingProjectFiltersProps {
-  selectedFilter: string;
-  setSelectedFilter: (val: any) => void;
-  selectedDifficulty: string;
-  setSelectedDifficulty: (val: any) => void;
+  selectedFilter: "all" | "waiting" | "in progress" | "done";
+  setSelectedFilter: (val: "all" | "waiting" | "in progress" | "done") => void;
 }

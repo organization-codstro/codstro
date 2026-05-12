@@ -1,18 +1,19 @@
 import { Puzzle, Code, Layout, GitBranch, Box } from "lucide-react";
 
 export type CLONE_CODING_STATE_TYPE = "waiting" | "in progress" | "done";
-export type PROJECT_DIFFICULTY = "beginner" | "intermediate" | "advanced";
 
-//클론코딩 난이도
+//클론코딩 상태
 export type CLONE_CODINGS_DIFFICULTY_TYPE =
-  | "beginner"
-  | "intermediate"
-  | "advanced";
+  | "all"
+  | "waiting"
+  | "in progress"
+  | "done";
 
 export const CLONE_CODINGS_DIFFICULTIES: CLONE_CODINGS_DIFFICULTY_TYPE[] = [
-  "beginner",
-  "intermediate",
-  "advanced",
+  "all",
+  "waiting",
+  "in progress",
+  "done",
 ];
 
 export const DIFFICULTY_COLORS = {

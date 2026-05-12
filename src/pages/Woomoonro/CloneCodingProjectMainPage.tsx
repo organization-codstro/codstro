@@ -30,10 +30,7 @@ export default function CloneCodingProjectMainPage() {
    * 필터 상태
    */
   const [selectedFilter, setSelectedFilter] = useState<
-    "all" | "bookmarked" | "in progress" | "completed"
-  >("all");
-  const [selectedDifficulty, setSelectedDifficulty] = useState<
-    "all" | "beginner" | "intermediate" | "advanced"
+    "all" | "waiting" | "in progress" | "done"
   >("all");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -155,20 +152,19 @@ export default function CloneCodingProjectMainPage() {
   const filteredProjects = projectList.filter((item) => {
     const { project, userProject } = item;
 
-    if (selectedFilter === "bookmarked" && !userProject?.is_bookmarked)
+    if (selectedFilter === "all") {
+      // all을 선택했을 때는 모든 프로젝트 보여
+    } else if (
+      selectedFilter === "waiting" &&
+      userProject?.status !== "waiting"
+    )
       return false;
-    if (
+    else if (
       selectedFilter === "in progress" &&
       userProject?.status !== "in progress"
     )
       return false;
-    if (selectedFilter === "completed" && userProject?.status !== "done")
-      return false;
-
-    if (
-      selectedDifficulty !== "all" &&
-      project.difficulty !== selectedDifficulty
-    )
+    else if (selectedFilter === "done" && userProject?.status !== "done")
       return false;
 
     if (
@@ -214,13 +210,11 @@ export default function CloneCodingProjectMainPage() {
             <ProjectFilters
               selectedFilter={selectedFilter}
               setSelectedFilter={setSelectedFilter}
-              selectedDifficulty={selectedDifficulty}
-              setSelectedDifficulty={setSelectedDifficulty}
             />
 
-            <div className="flex flex-col gap-4">
+            <div className="flex gap-4">
               {/* Search Input */}
-              <div className="relative w-full">
+              <div className="relative w-full md:w-72">
                 <input
                   type="text"
                   placeholder="Search projects..."
@@ -232,7 +226,7 @@ export default function CloneCodingProjectMainPage() {
 
               <button
                 onClick={() => setIsAddModalOpen(true)}
-                className="w-full flex items-center justify-center gap-2 px-5 py-2.5 bg-[#587CF0] text-white text-sm font-medium rounded-xl hover:bg-[#4A6EE0] transition-colors"
+                className="flex items-center gap-2 px-5 py-2.5 bg-[#587CF0] text-white text-sm font-medium rounded-xl hover:bg-[#4A6EE0] transition-colors shrink-0 ml-auto"
               >
                 <Plus size={16} />
                 Add Clone Coding
