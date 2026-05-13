@@ -40,7 +40,11 @@ export const WoomoonkyungEditNodeService = {
         .order("study_plan_node_position", { ascending: true });
 
       if (error) throw error;
-      return data as StudyPlanNode[];
+      return (data ?? []).map((node: any) => ({
+        ...node,
+        tech_stack_name: node.tech_stacks?.tech_stack_name ?? "",
+        tech_stack_img_url: node.tech_stacks?.tech_stack_img_url ?? "",
+      }));
     } catch (error) {
       console.error("[getNodesByPlanId Error]:", error);
       throw error;

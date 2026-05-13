@@ -60,7 +60,8 @@ const DraggableNodeItem: React.FC<DraggableNodeItemProps> = ({
             <div className="flex items-center gap-1 mt-2 text-xs text-gray-500">
               <Calendar className="w-3 h-3" />
               <span>
-                {node.study_plan_node_start_date} ~ {node.study_plan_node_end_date}
+                {node.study_plan_node_start_date} ~{" "}
+                {node.study_plan_node_end_date}
               </span>
             </div>
           )}

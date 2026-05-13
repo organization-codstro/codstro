@@ -180,9 +180,6 @@ export default function StudyPlanEditNodePage() {
 
           {planInfo && (
             <div className="flex items-center gap-4 p-6 bg-white border border-purple-100 shadow-sm rounded-xl">
-              <div className="w-12 h-12 bg-gradient-to-r from-[#587CF0] to-purple-400 rounded-lg flex items-center justify-center text-white">
-                <FileText />
-              </div>
               <div>
                 <h1 className="text-2xl font-bold text-gray-800">
                   {planInfo.study_plan_name}
@@ -222,7 +219,7 @@ export default function StudyPlanEditNodePage() {
                     e.stopPropagation();
                     if (deletePendingNodeId === id) {
                       // 실제 DB 노드인 경우(숫자 형태 ID 등) 서버 삭제 호출
-                      if (!id.toString().startsWith("17")) {
+                      if (!String(id).startsWith("temp_")) {
                         // 임시 ID가 아닐 경우
                         await WoomoonkyungEditNodeService.deleteNode({
                           nodeId: id,

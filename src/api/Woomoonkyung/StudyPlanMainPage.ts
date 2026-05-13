@@ -4,8 +4,9 @@ import {
   DeletePlanParams,
   GetPlanStatsParams,
   PlanWithStats,
+  GenerateStudyPlanParams,
 } from "../../types/api/Woomoonkyung/StudyPlanMainPage";
-import { NodeItem, PlanStatsResult } from "../../types/common/Woomoonkyung";
+import { PlanStatsResult } from "../../types/common/Woomoonkyung";
 
 /**
  * [우문경 메인 대시보드 서비스]
@@ -118,5 +119,27 @@ export const WoomoonkyungMainService = {
       console.error("[getPlanStats Error]:", error);
       throw error;
     }
+  },
+
+  /**
+   * [공부계획 ai생성]
+   */
+  async generateStudyPlan(params: GenerateStudyPlanParams) {
+    const { data, error } = await supabase.functions.invoke(
+      "study_plan-generate",
+      {
+        body: params,
+      },
+    );
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    if (!data.success) {
+      throw new Error(data.error ?? "생성에 실패했습니다.");
+    }
+
+    return data;
   },
 };

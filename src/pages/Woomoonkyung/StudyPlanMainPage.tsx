@@ -3,34 +3,40 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Loader2 } from "lucide-react";
 
-// API 서비스 및 타입 임포트
 import { WoomoonkyungMainService } from "../../api/Woomoonkyung/StudyPlanMainPage";
 import { PlanWithStats } from "../../types/api/Woomoonkyung/StudyPlanMainPage";
 import { stateColors } from "../../data/Woomoonkyung/woomoonkyungData";
 
-// 컴포넌트 임포트
 import StudyPlanCard from "../../components/Woomoonkyung/StudyPlanMainPage/StudyPlanCard";
 import DashboardHeader from "../../components/Woomoonkyung/StudyPlanMainPage/DashboardHeader";
 import ActivePlanSection from "../../components/Woomoonkyung/StudyPlanMainPage/ActivePlanSection";
 import EmptyPlanState from "../../components/Woomoonkyung/StudyPlanMainPage/EmptyPlanState";
+import AddStudyPlanAiModal from "../../components/Woomoonkyung/StudyPlanMainPage/AddStudyPlanAiModal";
 import { LoginService } from "../../api/Auth/LoginPage";
 
 export default function StudyPlanMainPage() {
   const navigate = useNavigate();
 
-  // 상태 관리
   const [plans, setPlans] = useState<PlanWithStats[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
 
-  // 데이터 페칭 로직
-  const fetchActivePlans = useCallback(async () => {
+  /**
+   * AI 모달 상태
+   */
+  const [isAiModalOpen, setIsAiModalOpen] = useState(false);
+
+  const fetchActivePlans = useCallback(async (uid?: string) => {
     try {
       setIsLoading(true);
-      const userId = await LoginService.getCurrentUserId();
+      const resolvedId = uid ?? (await LoginService.getCurrentUserId());
+      if (!resolvedId) return;
+
+      if (!uid) setUserId(resolvedId);
 
       const data = await WoomoonkyungMainService.getActiveMyPlans({
-        userId: userId!,
+        userId: resolvedId,
       });
       setPlans(data);
     } catch (error) {
@@ -40,20 +46,40 @@ export default function StudyPlanMainPage() {
     }
   }, []);
 
+  const handleGenerateStudyPlan = async (data: {
+    userId: string;
+    name: string;
+    description: string;
+    goal: string;
+    currentLevel?: string;
+    maxHours?: number;
+    learningStyle: string;
+    expectedOutput: string;
+    startDate: string;
+    endDate: string;
+    techStacks: string[];
+  }) => {
+    const result = await WoomoonkyungMainService.generateStudyPlan(data);
+
+    if (result.data?.skippedNodes?.length > 0) {
+      toast.warn(
+        `일부 노드의 기술 스택을 찾지 못했습니다: ${result.data.skippedNodes.join(", ")}`,
+      );
+    }
+
+    await fetchActivePlans(data.userId);
+  };
+
   useEffect(() => {
     fetchActivePlans();
   }, [fetchActivePlans]);
 
-  // 삭제 핸들러
   const handleDeletePlan = async (e: React.MouseEvent, planId: string) => {
     e.stopPropagation();
-
     try {
       setDeletingId(planId);
       await WoomoonkyungMainService.deletePlan({ planId });
-
       toast.success("공부 계획이 삭제되었습니다.");
-      // 로컬 상태 업데이트 (다시 fetch하지 않고 필터링)
       setPlans((prev) => prev.filter((p) => p.study_plan_id !== planId));
     } catch (error) {
       toast.error("삭제 중 오류가 발생했습니다.");
@@ -65,15 +91,14 @@ export default function StudyPlanMainPage() {
   return (
     <div className="min-h-screen p-8 bg-gray-50">
       <div className="max-w-6xl mx-auto space-y-6">
-        {/* 헤더 영역 */}
         <DashboardHeader
           title="Woomoonkyung"
           description="현재 진행 중인 나의 학습 계획을 관리하세요"
           onArchiveClick={() => navigate("/woomoonkyung/archive")}
           onCreateClick={() => navigate("/woomoonkyung/create")}
+          onCreateAiClick={() => setIsAiModalOpen(true)}
         />
 
-        {/* 진행 중인 플랜 섹션 */}
         <ActivePlanSection count={plans.length}>
           {isLoading ? (
             <div className="flex flex-col items-center justify-center py-20 text-gray-400">
@@ -98,7 +123,6 @@ export default function StudyPlanMainPage() {
                   stateColors={stateColors}
                   onPlanClick={(id) => navigate(`/woomoonkyung/plan/${id}`)}
                   onDeleteClick={(e) => handleDeletePlan(e, plan.study_plan_id)}
-                  // 삭제 중일 때 UI 피드백을 주기 위한 prop
                   isDeleting={deletingId === plan.study_plan_id}
                 />
               ))}
@@ -106,6 +130,17 @@ export default function StudyPlanMainPage() {
           )}
         </ActivePlanSection>
       </div>
+
+      {/* AI 학습 계획 생성 모달 */}
+      {userId && (
+        <AddStudyPlanAiModal
+          isOpen={isAiModalOpen}
+          onClose={() => setIsAiModalOpen(false)}
+          onSuccess={() => fetchActivePlans(userId)}
+          userId={userId}
+          onSubmit={handleGenerateStudyPlan}
+        />
+      )}
     </div>
   );
 }

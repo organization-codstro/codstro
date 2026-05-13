@@ -36,3 +36,21 @@ export interface PlanWithStats extends StudyPlan {
   [key: string]: any;
   stats: PlanStatsResult;
 }
+
+/**
+ * [generateStudyPlan]
+ * 공부계획 ai생성
+ */
+export interface GenerateStudyPlanParams {
+  userId: string;
+  name: string;
+  description: string;
+  goal: string;
+  currentLevel?: string;
+  maxHours?: number;
+  learningStyle: string;
+  expectedOutput: string;
+  startDate: string;
+  endDate: string;
+  techStacks: string[];
+}

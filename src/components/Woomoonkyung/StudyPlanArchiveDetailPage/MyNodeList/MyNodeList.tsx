@@ -19,7 +19,7 @@ const MyNodeList: React.FC<MyNodeListProps> = ({
           Study Plan Nodes
         </h3>
         <button
-          onClick={() => navigate(`/woomoonkyung/edit/${planId}`)}
+          onClick={() => navigate(`/woomoonkyung/${planId}/nodes`)}
           className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-gray-500 border border-gray-200 rounded-lg hover:text-blue-500 hover:border-blue-300 transition-colors"
         >
           <Edit3 className="w-3.5 h-3.5" />
