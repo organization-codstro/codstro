@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, FileText, Loader2 } from "lucide-react";
+import { ArrowLeft, Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 import { WoomoonkyungEditNodeService } from "../../api/Woomoonkyung/StudyPlanEditNodePage";
 import DraggableNodeItem from "../../components/Woomoonkyung/StudyPlanEditNodePage/DraggableNodeItem";

@@ -47,13 +47,8 @@ export default function UserInfoPage() {
           setContent(record.ai_user_record_summary);
           setLastUpdated(record.created_at);
         }
-      } catch (error: any) {
+      } catch (error) {
         console.error(error);
-        // 데이터가 없는 경우를 위한 예외 처리 (새로 생성하거나 안내 메시지)
-        toast.info(
-          "기존 기록이 없습니다. 새로운 대화를 통해 기록을 생성해보세요.",
-          { toastId: "no-record-warning" }, // 고유 ID 지정 (ui에서 2번 나와서 id를 지정함)
-        );
       } finally {
         setIsLoading(false);
       }

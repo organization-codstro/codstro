@@ -9,6 +9,8 @@ import {
   RemoveBookmarkResponse,
   ToggleBookmarkInDBParams,
   ToggleBookmarkInDBResponse,
+  GenerateStudyPlanRequest,
+  GenerateStudyPlanResponse,
 } from "../../types/api/CompanyInformation/CompanyListPage";
 
 /**
@@ -122,6 +124,32 @@ export const CompanyListService = {
         userId: params.userId,
         companyId: params.companyId,
       });
+    }
+  },
+
+  async generateStudyPlan(
+    request: GenerateStudyPlanRequest,
+  ): Promise<GenerateStudyPlanResponse> {
+    try {
+      const { data, error } = await supabase.functions.invoke(
+        "company_information-generate_company_information",
+        {
+          body: request,
+        },
+      );
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      if (!data.success) {
+        throw new Error(data.error ?? "스터디 플랜 생성에 실패했습니다.");
+      }
+
+      return data;
+    } catch (error) {
+      console.error("스터디 플랜 생성 실패:", error);
+      throw error;
     }
   },
 };

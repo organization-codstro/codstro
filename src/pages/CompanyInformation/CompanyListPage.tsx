@@ -1,9 +1,11 @@
-import { Building2, ExternalLink, Bookmark } from "lucide-react";
+import { Building2, ExternalLink, Bookmark, Sparkles } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { GetCompanyListResponse } from "../../types/api/CompanyInformation/CompanyListPage";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { CompanyListService } from "../../api/CompanyInformation/CompanyListPage";
+import AddCompanyInformationModal from "../../components/CompanyInformation/CompanyListPage/AddCompanyInformationModal";
+import { AddCompanyInformationFormData } from "../../types/pages/CompanyInformation/CompanyListPage/AddCompanyInformationModal";
 
 export default function CompanyListPage() {
   const navigate = useNavigate();
@@ -13,6 +15,9 @@ export default function CompanyListPage() {
   const [bookmarkedIds, setBookmarkedIds] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+
+  // 모달 상태
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   // 초기 데이터 로드
   useEffect(() => {
@@ -81,6 +86,33 @@ export default function CompanyListPage() {
     }
   };
 
+  const handleGenerateCompanyInfo = async (
+    formData: AddCompanyInformationFormData,
+  ) => {
+    const userId = await LoginService.getCurrentUserId();
+
+    if (!userId) {
+      throw new Error("로그인이 필요합니다.");
+    }
+
+    const response = await CompanyListService.generateStudyPlan({
+      userId,
+      companyName: formData.name,
+      jobField: formData.jobField,
+      recruitmentType: formData.recruitmentType,
+      ...(formData.officialLink && {
+        officialLink: formData.officialLink,
+      }),
+    });
+
+    if (!response.success) {
+      throw new Error(response.error || "생성에 실패했습니다.");
+    }
+
+    const companyData = await CompanyListService.getCompanyList();
+    setCompanies(companyData);
+  };
+
   if (isLoading) {
     return <div className="p-8 text-center">데이터를 불러오는 중입니다...</div>;
   }
@@ -88,9 +120,19 @@ export default function CompanyListPage() {
   return (
     <div className="min-h-screen p-8 bg-gray-50">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-8">
-          <h1 className="mb-2 text-3xl font-bold text-gray-900">회사 정보</h1>
-          <p className="text-gray-600">관심있는 회사를 찾아보세요</p>
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="mb-2 text-3xl font-bold text-gray-900">회사 정보</h1>
+            <p className="text-gray-600">관심있는 회사를 찾아보세요</p>
+          </div>
+
+          <button
+            onClick={() => setIsAddModalOpen(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-[#587CF0] text-white rounded-lg hover:bg-[#4a6de8] transition-colors shadow-sm shrink-0"
+          >
+            <Sparkles className="w-4 h-4" />
+            Add Study Plan (AI)
+          </button>
         </div>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -185,6 +227,13 @@ export default function CompanyListPage() {
           })}
         </div>
       </div>
+
+      {/*회사정보 추가 모달 */}
+      <AddCompanyInformationModal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        onSubmit={handleGenerateCompanyInfo}
+      />
     </div>
   );
 }
