@@ -1,5 +1,5 @@
 // ===========================
-// WoomoonkyungEditService API 파일
+// StudyPlanEditService API 파일
 // ===========================
 import { supabase } from "../../db/supabase/supabase";
 import { FirebaseStorageService } from "../Image/FirebaseStorageService";
@@ -14,7 +14,7 @@ import { StudyPlan } from "../../types/common/Woomoonkyung";
  * [우문경 공부 계획 수정 서비스]
  * 기존 공부 계획의 정보를 조회하고, 이미지 업로드를 포함한 수정을 담당합니다.
  */
-export const WoomoonkyungEditService = {
+export const StudyPlanEditService = {
   /**
    * [수정용 계획 데이터 단일 조회]
    */

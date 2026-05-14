@@ -17,7 +17,7 @@ import type {
 } from "../../types/api/CompanyInformation/InterviewDetailPage";
 import type { CompanyQna } from "../../types/common/CompanyInformation";
 
-import NotFoundPage from "../NotFound/NotFoundPage";
+import { NotFoundPage } from "../NotFound/NotFoundPage";
 import { CompanyDetailService } from "../../api/CompanyInformation/CompanyDetailPage";
 
 export default function InterviewDetailPage() {

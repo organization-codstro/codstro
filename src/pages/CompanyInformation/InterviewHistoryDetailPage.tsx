@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { BackButton } from "../../components/CompanyInformation/BackButton";
 import { InfoSection } from "../../components/CompanyInformation/InterviewHistoryDetailPage/InfoSection";
 import { DetailHeader } from "../../components/CompanyInformation/InterviewHistoryDetailPage/DetailHeader";
-import NotFoundPage from "../NotFound/NotFoundPage";
+import { NotFoundPage } from "../NotFound/NotFoundPage";
 
 // 서비스 및 타입 임포트
 import { GetInterviewHistoryDetailResponse } from "../../types/api/CompanyInformation/InterviewHistoryDetailPage";

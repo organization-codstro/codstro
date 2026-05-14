@@ -6,7 +6,7 @@ import { MatchInfoFooter } from "../../components/CompanyInformation/CompanyMatc
 import { GetCompanyMatchDetailResponse } from "../../types/api/CompanyInformation/CompanyMatchPage";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { CompanyMatchService } from "../../api/CompanyInformation/CompanyMatchPage";
-import NotFoundPage from "../NotFound/NotFoundPage";
+import { NotFoundPage } from "../NotFound/NotFoundPage";
 import { ArrowLeft } from "lucide-react";
 
 export default function CompanyMatchPage() {

@@ -1,4 +1,4 @@
-import { StudyPlanNode } from "./RecommendedStudyPlanDetailPage";
+import { StudyPlanNode } from "../../../common/Woomoonkyung";
 
 export type NodeListProps = {
   nodes: StudyPlanNode[];

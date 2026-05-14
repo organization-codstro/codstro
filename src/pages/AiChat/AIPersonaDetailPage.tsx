@@ -14,7 +14,7 @@ import { PersonaHero } from "../../components/AiChat/AIPersonaDetailPage/Persona
 import { PersonaInfoCard } from "../../components/AiChat/AIPersonaDetailPage/PersonaInfoCard";
 import { DetailHeader } from "../../components/AiChat/AIPersonaDetailPage/DetailHeader";
 import { AIPersona, AiUserSettings } from "../../types/common/AiChat";
-import NotFoundPage from "../NotFound/NotFoundPage";
+import { NotFoundPage } from "../NotFound/NotFoundPage";
 
 export default function AIPersonaDetailPage() {
   const { personaId } = useParams<{ personaId: string }>();

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { WoomoonkyungEditService } from "../../api/Woomoonkyung/StudyPlanEditPage";
+import { StudyPlanEditService } from "../../api/Woomoonkyung/StudyPlanEditPage";
 import { StudyPlanForm } from "../../components/Woomoonkyung/StudyPlanForm";
 import { PageHeader } from "../../components/Woomoonkyung/StudyPlanEditPage/PageHeader";
 import { LoginService } from "../../api/Auth/LoginPage";
@@ -23,7 +23,7 @@ export default function StudyPlanEditPage() {
       if (!planId) return;
       try {
         setIsLoading(true);
-        const data = await WoomoonkyungEditService.getPlanForEdit({ planId });
+        const data = await StudyPlanEditService.getPlanForEdit({ planId });
         const userId = await LoginService.getCurrentUserId();
         setUserId(userId);
         setPlan(data);
@@ -38,7 +38,7 @@ export default function StudyPlanEditPage() {
     fetchPlan();
   }, [planId]);
 
-  /** 🔹 2. 정보 수정 핸들러 */
+  /** 2. 정보 수정 핸들러 */
   const handleSave = async (planData: any, imageFile?: File) => {
     if (!planId) return;
 
@@ -46,7 +46,7 @@ export default function StudyPlanEditPage() {
       setIsUpdating(true);
       const loadingToast = toast.loading("계획 정보를 수정 중입니다...");
 
-      await WoomoonkyungEditService.updateStudyPlan({
+      await StudyPlanEditService.updateStudyPlan({
         planId,
         planData,
         imageFile,

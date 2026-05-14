@@ -1,12 +1,12 @@
 import { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { WoomoonkyungDetailService } from "../../api/Woomoonkyung/StudyPlanDetailPage"; // 경로 확인 필요3
-import {BackButton} from "../../components/Woomoonkyung/RecommendedStudyPlanDetailPage/BackButton";
-import {PlanDetailHeader} from "../../components/Woomoonkyung/StudyPlanArchiveDetailPage/PlanDetailHeader";
-import {MyNodeList} from "../../components/Woomoonkyung/StudyPlanArchiveDetailPage/MyNodeList/MyNodeList";
+import { StudyPlanDetailService } from "../../api/Woomoonkyung/StudyPlanDetailPage";
+import { BackButton } from "../../components/Woomoonkyung/StudyPlanDetailPage/BackButton";
+import { PlanDetailHeader } from "../../components/Woomoonkyung/StudyPlanDetailPage/PlanDetailHeader";
+import { MyNodeList } from "../../components/Woomoonkyung/StudyPlanDetailPage/MyNodeList/MyNodeList";
 import { StudyPlanWithNodes } from "../../types/common/Woomoonkyung";
-import {NotFoundPage} from "../NotFound/NotFoundPage";
+import { NotFoundPage } from "../NotFound/NotFoundPage";
 
 export default function StudyPlanDetailPage() {
   const { planId } = useParams<{ planId: string }>();
@@ -22,7 +22,7 @@ export default function StudyPlanDetailPage() {
     if (!planId) return;
     try {
       setIsLoading(true);
-      const data = await WoomoonkyungDetailService.getPlanWithNodes({ planId });
+      const data = await StudyPlanDetailService.getPlanWithNodes({ planId });
       setDetail(data);
     } catch (error) {
       console.error(error);
@@ -43,7 +43,7 @@ export default function StudyPlanDetailPage() {
   const handleToggleNode = async (nodeId: string, currentStatus: boolean) => {
     try {
       // 1. 노드 상태 업데이트 API 호출
-      await WoomoonkyungDetailService.updateNodeCompletion({
+      await StudyPlanDetailService.updateNodeCompletion({
         nodeId,
         isCompleted: !currentStatus,
       });

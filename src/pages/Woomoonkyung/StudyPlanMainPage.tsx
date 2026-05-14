@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Loader2 } from "lucide-react";
 
-import { WoomoonkyungMainService } from "../../api/Woomoonkyung/StudyPlanMainPage";
+import { StudyPlanMainService } from "../../api/Woomoonkyung/StudyPlanMainPage";
 import { PlanWithStats } from "../../types/api/Woomoonkyung/StudyPlanMainPage";
 
 import { StudyPlanCard } from "../../components/Woomoonkyung/StudyPlanMainPage/StudyPlanCard";
@@ -35,7 +35,7 @@ export default function StudyPlanMainPage() {
 
       if (!uid) setUserId(resolvedId);
 
-      const data = await WoomoonkyungMainService.getActiveMyPlans({
+      const data = await StudyPlanMainService.getActiveMyPlans({
         userId: resolvedId,
       });
       setPlans(data);
@@ -59,7 +59,7 @@ export default function StudyPlanMainPage() {
     endDate: string;
     techStacks: string[];
   }) => {
-    const result = await WoomoonkyungMainService.generateStudyPlan(data);
+    const result = await StudyPlanMainService.generateStudyPlan(data);
 
     if (result.data?.skippedNodes?.length > 0) {
       toast.warn(
@@ -78,7 +78,7 @@ export default function StudyPlanMainPage() {
     e.stopPropagation();
     try {
       setDeletingId(planId);
-      await WoomoonkyungMainService.deletePlan({ planId });
+      await StudyPlanMainService.deletePlan({ planId });
       toast.success("공부 계획이 삭제되었습니다.");
       setPlans((prev) => prev.filter((p) => p.study_plan_id !== planId));
     } catch (error) {

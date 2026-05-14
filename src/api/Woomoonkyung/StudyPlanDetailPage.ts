@@ -14,7 +14,7 @@ import {
  * [우문경 공부 계획 상세 서비스]
  * 특정 공부 계획의 마스터 정보와 하위 노드 리스트를 조회합니다.
  */
-export const WoomoonkyungDetailService = {
+export const StudyPlanDetailService = {
   /**
    * [공부 계획 상세 정보 및 노드 목록 통합 조회]
    */

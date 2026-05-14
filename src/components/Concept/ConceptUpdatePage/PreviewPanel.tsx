@@ -14,7 +14,7 @@
  */
 
 import { PreviewPanelProps } from "../../../types/pages/Concept/ConceptUpdatePage/PreviewPanel";
-import MarkdownRenderer from "../../../components/Markdown/MarkdownRenderer";
+import { MarkdownRenderer } from "../../../components/Markdown/MarkdownRenderer";
 
 export const PreviewPanel = ({ markdown, isLoading }: PreviewPanelProps) => {
   return (

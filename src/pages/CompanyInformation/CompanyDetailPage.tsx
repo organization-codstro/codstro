@@ -7,7 +7,7 @@ import { LoginService } from "../../api/Auth/LoginPage";
 import { CompanyDetailService } from "../../api/CompanyInformation/CompanyDetailPage";
 import { toast } from "react-toastify";
 import { Company } from "../../types/common/CompanyInformation";
-import NotFoundPage from "../NotFound/NotFoundPage";
+import {NotFoundPage} from "../NotFound/NotFoundPage";
 
 export default function CompanyDetailPage() {
   const { companyId } = useParams<{ companyId: string }>();

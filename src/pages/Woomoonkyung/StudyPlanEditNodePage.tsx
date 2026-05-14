@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
-import { WoomoonkyungEditNodeService } from "../../api/Woomoonkyung/StudyPlanEditNodePage";
+import { StudyPlanEditNodeService } from "../../api/Woomoonkyung/StudyPlanEditNodePage";
 import { DraggableNodeItem } from "../../components/Woomoonkyung/StudyPlanEditNodePage/DraggableNodeItem";
 import { TechStackPicker } from "../../components/Woomoonkyung/StudyPlanEditNodePage/TechStackPicker";
 import { NodeEditForm } from "../../components/Woomoonkyung/StudyPlanEditNodePage/NodeEditForm";
@@ -46,9 +46,9 @@ export default function StudyPlanEditNodePage() {
     try {
       setIsLoading(true);
       const [info, nodeItems, stacks] = await Promise.all([
-        WoomoonkyungEditNodeService.getPlanInfo({ planId }),
-        WoomoonkyungEditNodeService.getNodesByPlanId({ planId }),
-        WoomoonkyungEditNodeService.getTechStacks(),
+        StudyPlanEditNodeService.getPlanInfo({ planId }),
+        StudyPlanEditNodeService.getNodesByPlanId({ planId }),
+        StudyPlanEditNodeService.getTechStacks(),
       ]);
 
       setPlanInfo(info);
@@ -142,7 +142,7 @@ export default function StudyPlanEditNodePage() {
         position: n.study_plan_node_position,
       }));
 
-      await WoomoonkyungEditNodeService.saveAllNodes({
+      await StudyPlanEditNodeService.saveAllNodes({
         nodes: formattedNodes as any,
       });
       toast.success("모든 변경사항이 저장되었습니다!");
@@ -221,7 +221,7 @@ export default function StudyPlanEditNodePage() {
                       // 실제 DB 노드인 경우(숫자 형태 ID 등) 서버 삭제 호출
                       if (!String(id).startsWith("temp_")) {
                         // 임시 ID가 아닐 경우
-                        await WoomoonkyungEditNodeService.deleteNode({
+                        await StudyPlanEditNodeService.deleteNode({
                           nodeId: id,
                         });
                       }

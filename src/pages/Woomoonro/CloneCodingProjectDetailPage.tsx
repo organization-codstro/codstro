@@ -9,7 +9,6 @@ import { LoginService } from "../../api/Auth/LoginPage";
 import { CloneCodingService } from "../../api/Woomoonro/CloneCodingProjectDetailPage";
 import {
   CLONE_CODING_STATE_TYPE,
-  DIFFICULTY_COLORS,
   STATUS_COLORS,
 } from "../../constants/Woomoonro/Woomoonro";
 import { UserProjectStatus } from "../../types/pages/Woomoonro/CloneCodingProjectDetailPage/CloneCodingProjectDetailPage";
@@ -187,12 +186,6 @@ export default function CloneCodingProjectDetailPage() {
           <div className="p-8">
             <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
               <ProjectInfoGrid
-                difficulty={project.difficulty}
-                difficultyColor={
-                  DIFFICULTY_COLORS[
-                    project.difficulty as keyof typeof DIFFICULTY_COLORS
-                  ]
-                }
                 status={userProject?.status}
                 statusColor={
                   userProject?.status ? STATUS_COLORS[userProject.status] : ""

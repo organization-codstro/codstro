@@ -1,5 +1,5 @@
 // ===========================
-// WoomoonkyungDetailService 타입 파일
+// StudyPlanDetailService 타입 파일
 // ===========================
 
 import { STUDY_PLAN_STATE_TYPE } from "../../../constants/Woomoonkyung/Woomoonkyung";

@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { MyNodeItem } from "../MyNodeItem";
+import { MyNodeItem } from "../../StudyPlanArchiveDetailPage/MyNodeItem";
 import { MyNodeListProps } from "../../../../types/pages/Woomoonkyung/StudyPlanArchiveDetailPage/MyNodeList/MyNodeList";
 import { Edit3 } from "lucide-react";
 import { StudyPlanNodeEmptyState } from "./StudyPlanNodeEmptyState";

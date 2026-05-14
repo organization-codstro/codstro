@@ -1,6 +1,4 @@
 export interface CloneCodingProjectInfoGridProps {
-  difficulty: string;
-  difficultyColor: string;
   status?: string;
   statusColor?: string;
   estimatedHours: string;

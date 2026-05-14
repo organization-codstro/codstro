@@ -1,5 +1,5 @@
 import { ReportSectionProps } from "../../../types/pages/CompanyInformation/MatchingHistoryDetailPage/ReportSection";
-import MarkdownRenderer from "../../Markdown/MarkdownRenderer";
+import { MarkdownRenderer } from "../../Markdown/MarkdownRenderer";
 
 export const ReportSection = ({
   title,

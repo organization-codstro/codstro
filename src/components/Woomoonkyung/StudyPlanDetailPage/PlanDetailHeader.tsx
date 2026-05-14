@@ -2,8 +2,8 @@ import React from "react";
 import { Calendar, Target, Edit3 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { StatusBadge } from "../StatusBadge";
-import ProgressBar from "../../ProgressBar";
-import { PlanDetailHeaderProps } from "../../../types/pages/Woomoonkyung/StudyPlanArchiveDetailPage/PlanDetailHeader";
+import { ProgressBar } from "../../ProgressBar";
+import { PlanDetailHeaderProps } from "../../../types/pages/Woomoonkyung/StudyPlanDetailPage/PlanDetailHeader";
 
 //기본 이미지
 import StudyPlanBasicImg from "../../../assets/images/Woomoonkyung/StudyPlanBasicImg.png";

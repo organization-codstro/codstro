@@ -1,5 +1,5 @@
 import { CheckCircle, ArrowRight, Star } from "lucide-react";
-import MarkdownRenderer from "../../Markdown/MarkdownRenderer";
+import { MarkdownRenderer } from "../../Markdown/MarkdownRenderer";
 import { FeedbackViewProps } from "../../../types/pages/CompanyInformation/InterviewDetailPage/FeedbackView";
 
 export function FeedbackView({

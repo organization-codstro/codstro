@@ -3,8 +3,6 @@ import { Clock, Github, ExternalLink } from "lucide-react";
 import { CloneCodingProjectInfoGridProps } from "../../../types/pages/Woomoonro/CloneCodingProjectDetailPage/CloneCodingProjectInfoGrid";
 
 export const ProjectInfoGrid: React.FC<CloneCodingProjectInfoGridProps> = ({
-  difficulty,
-  difficultyColor,
   status,
   statusColor,
   estimatedHours,
@@ -16,11 +14,6 @@ export const ProjectInfoGrid: React.FC<CloneCodingProjectInfoGridProps> = ({
   return (
     <div className="space-y-6 md:col-span-2">
       <div className="flex flex-wrap items-center gap-3">
-        {/* <span
-          className={`px-3 py-1 text-sm rounded-full border ${difficultyColor}`}
-        >
-          {difficulty}
-        </span> */}
         {status && (
           <span
             className={`px-3 py-1 text-sm rounded-full border ${statusColor}`}
@@ -86,4 +79,3 @@ export const ProjectInfoGrid: React.FC<CloneCodingProjectInfoGridProps> = ({
     </div>
   );
 };
-

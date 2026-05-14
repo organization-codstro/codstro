@@ -19,21 +19,6 @@ export const ProjectStatusCard: React.FC<CloneCodingProjectStatusCardProps> = ({
           <option value="done">done</option>
         </select>
       </div>
-
-      {/* {totalTodos > 0 && (
-        <div className="pt-2">
-          <ProgressBar
-            percentage={progressPercentage}
-            label="Overall Progress"
-          />
-          <div className="flex justify-between mt-2 text-xs text-gray-500">
-            <span>
-              {completedTodos} / {totalTodos} Tasks
-            </span>
-            <span>{Math.round(progressPercentage)}%</span>
-          </div>
-        </div>
-      )} */}
     </div>
   );
 };

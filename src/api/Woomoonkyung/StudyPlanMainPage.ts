@@ -12,7 +12,7 @@ import { PlanStatsResult } from "../../types/common/Woomoonkyung";
  * [우문경 메인 대시보드 서비스]
  * 진행 중인 학습 계획 목록 조회 및 통계 계산을 담당합니다.
  */
-export const WoomoonkyungMainService = {
+export const StudyPlanMainService = {
   /**
    * [진행 중인 내 학습 계획 목록 조회]
    */

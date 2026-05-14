@@ -15,7 +15,7 @@ import {
  * [우문경 노드 편집 페이지 서비스]
  * 학습 노드의 리스트 조회, 대량 저장(순서 변경 포함), 개별 삭제 기능을 담당합니다.
  */
-export const WoomoonkyungEditNodeService = {
+export const StudyPlanEditNodeService = {
   /**
    * [학습 노드 리스트 조회]
    */

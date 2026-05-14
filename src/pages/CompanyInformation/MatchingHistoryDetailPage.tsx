@@ -11,7 +11,7 @@ import { ReportFooter } from "../../components/CompanyInformation/MatchingHistor
 
 import { GetMatchingHistoryDetailResponse } from "../../types/api/CompanyInformation/MatchingHistoryDetailPage";
 import { MatchingHistoryDetailService } from "../../api/CompanyInformation/MatchingHistoryDetailPage";
-import NotFoundPage from "../NotFound/NotFoundPage";
+import { NotFoundPage } from "../NotFound/NotFoundPage";
 
 export default function MatchingHistoryDetailPage() {
   const navigate = useNavigate();
