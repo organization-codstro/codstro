@@ -6,7 +6,7 @@ import {
 } from "../../../../../../utils/Concepts/diffUtils";
 import { DiffLine } from "../../../../../../types/utils/Concepts/diffUtils";
 
-export default function DiffView({ original, updated }: DiffViewProps) {
+export const DiffView = ({ original, updated }: DiffViewProps) => {
   const diffLines = useMemo(() => {
     const all = computeDiff(original, updated);
     return collapseContext(all, 3);

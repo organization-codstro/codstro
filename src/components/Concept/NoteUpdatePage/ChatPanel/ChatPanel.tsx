@@ -22,9 +22,9 @@
 import { useEffect, useRef } from "react";
 import { Send, MessageSquare } from "lucide-react";
 import { ChatPanelProps } from "../../../../types/pages/Concept/NoteUpdatePage/ChatPanel/ChatPanel";
-import PendingNoteBanner from "./PendingNoteBanner/PendingNoteBanner";
+import {PendingNoteBanner} from "./PendingNoteBanner/PendingNoteBanner";
 
-export default function ChatPanel({
+export const ChatPanel = ({
   chatOpen,
   messages,
   inputValue,
@@ -35,7 +35,7 @@ export default function ChatPanel({
   currentMarkdown,
   onAccept,
   onReject,
-}: ChatPanelProps) {
+}: ChatPanelProps) => {
   const chatEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -131,7 +131,7 @@ export default function ChatPanel({
             <span className="text-[10px] font-semibold tracking-wider uppercase text-zinc-400 px-0.5">
               AI
             </span>
-            <div className="flex items-center gap-1 px-4 py-3 border rounded-xl rounded-bl-sm bg-zinc-100 border-zinc-200">
+            <div className="flex items-center gap-1 px-4 py-3 border rounded-bl-sm rounded-xl bg-zinc-100 border-zinc-200">
               {[0, 200, 400].map((delay) => (
                 <span
                   key={delay}

@@ -1,13 +1,13 @@
 import { Check, FileEdit, X } from "lucide-react";
-import DiffView from "./DiffView/DiffView";
+import {DiffView} from "./DiffView/DiffView";
 import { PendingConceptBannerProps } from "../../../../../types/pages/Concept/ConceptUpdatePage/ChatPanel/PendingNoteBanner/PendingNoteBanner";
 
-export default function PendingConceptBanner({
+export const PendingConceptBanner = ({
   currentMarkdown,
   pendingConcept,
   onAccept,
   onReject,
-}: PendingConceptBannerProps) {
+}: PendingConceptBannerProps) => {
   return (
     <div className="flex-shrink-0 bg-white border-b border-zinc-200">
       {/* 배너 헤더 */}

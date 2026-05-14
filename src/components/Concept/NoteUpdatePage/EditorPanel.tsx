@@ -12,12 +12,12 @@
 import Editor from "@monaco-editor/react";
 import { EditorPanelProps } from "../../../types/pages/Concept/NoteUpdatePage/EditorPanel";
 
-export default function EditorPanel({
+export const EditorPanel = ({
   markdown,
   onChange,
   chatOpen,
   isLoading,
-}: EditorPanelProps) {
+}: EditorPanelProps) => {
   return (
     <div
       className={`flex flex-col bg-white overflow-hidden transition-all duration-[380ms] ease-[cubic-bezier(.4,0,.2,1)] ${
@@ -35,7 +35,7 @@ export default function EditorPanel({
       <div className="flex-1 overflow-hidden">
         {isLoading ? (
           // 로딩 UI
-          <div className="flex items-center justify-center h-full text-gray-400 text-sm">
+          <div className="flex items-center justify-center h-full text-sm text-gray-400">
             Loading...
           </div>
         ) : (

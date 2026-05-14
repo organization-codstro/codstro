@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { X, Plus } from "lucide-react";
 import { ConceptEditMetaModalProps } from "../../../types/pages/Concept/ConceptDetailPage/ConceptEditMetaModal";
 
-export default function ConceptEditMetaModal({
+export const ConceptEditMetaModal = ({
   isOpen,
   onClose,
   onSave,
@@ -10,7 +10,7 @@ export default function ConceptEditMetaModal({
   initialDescription,
   initialLabels,
   isSaving = false,
-}: ConceptEditMetaModalProps) {
+}: ConceptEditMetaModalProps) => {
   const [title, setTitle] = useState(initialTitle);
   const [description, setDescription] = useState(initialDescription);
   const [labels, setLabels] = useState<string[]>(initialLabels);
@@ -165,4 +165,4 @@ export default function ConceptEditMetaModal({
       </div>
     </div>
   );
-}
+};

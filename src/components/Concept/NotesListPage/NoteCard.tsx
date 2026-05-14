@@ -1,14 +1,14 @@
 import { Calendar } from "lucide-react";
 import { NoteCardProps } from "../../../types/pages/Concept/NotesListPage/NoteCard";
 
-export default function NoteCard({
+export const NoteCard = ({
   id,
   title,
   description,
   concepts,
   lastUpdated,
   onClick,
-}: NoteCardProps) {
+}: NoteCardProps) => {
   return (
     <div
       onClick={() => onClick(id)}

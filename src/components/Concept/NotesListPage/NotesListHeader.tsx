@@ -1,11 +1,11 @@
 import { Plus } from "lucide-react";
 import { NotesListHeaderProps } from "../../../types/pages/Concept/NotesListPage/NotesListHeader";
 
-export default function NotesListHeader({
+export const NotesListHeader = ({
   title,
   description,
   onCreateClick,
-}: NotesListHeaderProps) {
+}: NotesListHeaderProps) => {
   return (
     <div className="flex items-center justify-between mb-8">
       <div>

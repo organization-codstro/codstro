@@ -1,14 +1,14 @@
 import { Edit, ExternalLink, Info, Loader2, Trash2 } from "lucide-react";
 import { ConceptActionButtonsProps } from "../../../types/pages/Concept/ConceptDetailPage/ConceptActionButtons";
 
-export default function ConceptActionButtons({
+export const ConceptActionButtons = ({
   onEdit,
   onEditMeta,
   onDelete,
   isDeleting = false,
   deleteConfirmMode,
   officialSite,
-}: ConceptActionButtonsProps) {
+}: ConceptActionButtonsProps) => {
   return (
     <div className="flex flex-col gap-3 mt-1.5">
       {/* 버튼 그룹 */}

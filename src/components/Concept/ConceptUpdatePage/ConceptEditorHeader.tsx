@@ -13,11 +13,11 @@ import { ArrowLeft, Save } from "lucide-react";
 import { ConceptEditorHeaderProps } from "../../../types/pages/Concept/ConceptUpdatePage/ConceptEditorHeader";
 import { useEffect, useRef, useState } from "react";
 
-export default function ConceptEditorHeader({
+export const ConceptEditorHeader = ({
   isDirty,
   onSave,
   onBack,
-}: ConceptEditorHeaderProps) {
+}: ConceptEditorHeaderProps) => {
   const [isWarning, setIsWarning] = useState(false);
   const warningTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -115,4 +115,4 @@ export default function ConceptEditorHeader({
       </div>
     </header>
   );
-}
+};

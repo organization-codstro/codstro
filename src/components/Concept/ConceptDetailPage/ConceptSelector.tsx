@@ -2,7 +2,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ConceptSelectorProps } from "../../../types/pages/Concept/NoteCreatePage/ConceptSelector";
 import { ConceptItem } from "../../../types/common/Concepts";
 
-export default function ConceptSelector({
+export const ConceptSelector = ({
   availableConcepts,
   selectedConcepts,
   onToggle,
@@ -10,7 +10,7 @@ export default function ConceptSelector({
   totalPages,
   onPageChange,
   isLoadingConcepts = false,
-}: ConceptSelectorProps) {
+}: ConceptSelectorProps) => {
   const isSelected = (concept: ConceptItem) =>
     selectedConcepts.some((c) => c.id === concept.id);
 

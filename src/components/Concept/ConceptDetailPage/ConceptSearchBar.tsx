@@ -2,7 +2,7 @@ import { Search } from "lucide-react";
 import { ConceptSearchBarProps } from "../../../types/pages/Concept/ConceptListPage/ConceptSearchBar";
 import { useState } from "react";
 
-export default function ConceptSearchBar({ onSearch }: ConceptSearchBarProps) {
+export const ConceptSearchBar = ({ onSearch }: ConceptSearchBarProps) => {
   const [value, setValue] = useState("");
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

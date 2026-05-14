@@ -1,11 +1,11 @@
 import { Plus } from "lucide-react";
 import { ConceptListHeaderProps } from "../../../types/pages/Concept/ConceptListHeader";
 
-export default function ConceptListHeader({
+export const ConceptListHeader = ({
   title,
   description,
   onCreateClick,
-}: ConceptListHeaderProps) {
+}: ConceptListHeaderProps) => {
   return (
     <div className="flex items-center justify-between mb-8">
       <div>

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { X, Plus } from "lucide-react";
 import { NoteEditMetaModalProps } from "../../../types/pages/Concept/NoteDetailPage/NoteEditMetaModal";
 
-export default function NoteEditMetaModal({
+export const NoteEditMetaModal = ({
   isOpen,
   onClose,
   onSave,
@@ -10,7 +10,7 @@ export default function NoteEditMetaModal({
   initialDescription,
   initialLabels,
   isSaving = false,
-}: NoteEditMetaModalProps) {
+}: NoteEditMetaModalProps) => {
   const [title, setTitle] = useState(initialTitle);
   const [description, setDescription] = useState(initialDescription);
   const [labels, setLabels] = useState<string[]>(initialLabels);

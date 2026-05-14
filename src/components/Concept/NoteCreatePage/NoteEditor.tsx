@@ -1,6 +1,6 @@
 import { NoteEditorProps } from "../../../types/pages/Concept/NoteCreatePage/NoteEditor";
 
-export default function NoteEditor({ value, onChange }: NoteEditorProps) {
+export const NoteEditor = ({ value, onChange }: NoteEditorProps) => {
   return (
     <div className="mb-6">
       <div className="flex items-center justify-between mb-2">

@@ -1,13 +1,13 @@
 import { Edit, Info, Loader2, Trash2 } from "lucide-react";
 import { NoteActionButtonsProps } from "../../../types/pages/Concept/NoteDetailPage/NoteActionButtons";
 
-export default function NoteActionButtons({
+export const NoteActionButtons = ({
   onEdit,
   onEditMeta,
   onDelete,
   isDeleting = false,
   deleteConfirmMode,
-}: NoteActionButtonsProps) {
+}: NoteActionButtonsProps) => {
   return (
     <div className="flex gap-2 mt-1.5">
       {/* 마크다운 편집 */}

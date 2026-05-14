@@ -2,10 +2,10 @@
 
 import { NoteDetailHeaderProps } from "../../../types/pages/Concept/NoteDetailPage/NoteDetailHeader";
 
-export default function NoteDetailHeader({
+export const NoteDetailHeader = ({
   title,
   lastUpdated,
-}: NoteDetailHeaderProps) {
+}: NoteDetailHeaderProps) => {
   const formattedDate = new Date(lastUpdated)
     .toISOString()
     .slice(0, 10)

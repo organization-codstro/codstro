@@ -14,12 +14,9 @@
  */
 
 import { PreviewPanelProps } from "../../../types/pages/Concept/ConceptUpdatePage/PreviewPanel";
-import MarkdownRenderer from "../../../components/Markdown/MarkdownRenderer"; 
+import MarkdownRenderer from "../../../components/Markdown/MarkdownRenderer";
 
-export default function PreviewPanel({
-  markdown,
-  isLoading,
-}: PreviewPanelProps) {
+export const PreviewPanel = ({ markdown, isLoading }: PreviewPanelProps) => {
   return (
     <div className="flex flex-col flex-1 overflow-hidden bg-white">
       {/* 패널 레이블 */}
@@ -43,4 +40,4 @@ export default function PreviewPanel({
       </div>
     </div>
   );
-}
+};

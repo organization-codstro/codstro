@@ -1,13 +1,13 @@
 import { ConceptCardProps } from "../../../types/pages/Concept/ConceptListPage/ConceptCard";
 
-export default function ConceptCard({
+export const ConceptCard = ({
   id,
   name,
   language,
   description,
   category,
   onClick,
-}: ConceptCardProps) {
+}: ConceptCardProps) => {
   return (
     <div
       onClick={() => onClick(id)}

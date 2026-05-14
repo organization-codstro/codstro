@@ -22,9 +22,9 @@
 import { useEffect, useRef } from "react";
 import { Send, MessageSquare } from "lucide-react";
 import { ChatPanelProps } from "../../../../types/pages/Concept/ConceptUpdatePage/ChatPanel/ChatPanel";
-import PendingConceptBanner from "./PendingConceptBanner/PendingConceptBanner";
+import { PendingConceptBanner } from "./PendingConceptBanner/PendingConceptBanner";
 
-export default function ChatPanel({
+export const ChatPanel = ({
   chatOpen,
   messages,
   inputValue,
@@ -35,7 +35,7 @@ export default function ChatPanel({
   currentMarkdown,
   onAccept,
   onReject,
-}: ChatPanelProps) {
+}: ChatPanelProps) => {
   const chatEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -175,4 +175,4 @@ export default function ChatPanel({
       </div>
     </div>
   );
-}
+};

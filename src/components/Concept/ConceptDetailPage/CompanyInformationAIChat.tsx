@@ -5,12 +5,12 @@ import { ConceptsService } from "../../../api/Concept/Concepts";
 import { CompanyInformationAIChatMessage } from "../../../types/common/CompanyInformation";
 import { CompanyInformationAIChatProps } from "../../../types/pages/CompanyInformation/CompanyInformationAIChat";
 
-export default function CompanyInformationAIChat({
+export const CompanyInformationAIChat = ({
   isOpen,
   onClose,
   conceptName,
   conceptId,
-}: CompanyInformationAIChatProps) {
+}: CompanyInformationAIChatProps) => {
   const [messages, setMessages] = useState<CompanyInformationAIChatMessage[]>([
     {
       id: "1",
@@ -66,6 +66,7 @@ export default function CompanyInformationAIChat({
       };
       setMessages((prev) => [...prev, aiMessage]);
     } catch (error) {
+      console.error("AI 응답을 가져오는 중 오류 발생:", error);
       toast.error("AI 응답을 가져오지 못했습니다.");
       const errorMessage: CompanyInformationAIChatMessage = {
         id: (Date.now() + 1).toString(),
@@ -226,4 +227,4 @@ export default function CompanyInformationAIChat({
       </div>
     </>
   );
-}
+};

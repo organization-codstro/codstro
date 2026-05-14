@@ -2,12 +2,13 @@ import { Search } from "lucide-react";
 import { NoteSearchBarProps } from "../../../types/pages/Concept/NotesListPage/NoteSearchBar";
 import { useState } from "react";
 
-export default function NoteSearchBar({ onSearch }: NoteSearchBarProps) {
+export const NoteSearchBar = (props: NoteSearchBarProps) => {
+  const { onSearch } = props;
   const [value, setValue] = useState("");
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      onSearch(value); // 엔터 시 검색 실행
+      onSearch(value);
     }
   };
 
@@ -18,13 +19,11 @@ export default function NoteSearchBar({ onSearch }: NoteSearchBarProps) {
         <input
           type="text"
           placeholder="Search notes..."
-          onChange={(e) => {
-            setValue(e.target.value);
-          }}
+          onChange={(e) => setValue(e.target.value)}
           onKeyDown={handleKeyDown}
           className="w-full py-2 pl-10 pr-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
     </div>
   );
-}
+};

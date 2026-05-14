@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { RelatedItemGridProps } from "../../../types/pages/Concept/ConceptDetailPage/RelatedItemGrid";
 
-export default function RelatedItemGrid({
+export const RelatedItemGrid = ({
   title = "Related Concepts",
   items,
   basePath,
-}: RelatedItemGridProps) {
+}: RelatedItemGridProps) => {
   const navigate = useNavigate();
 
   if (!items || items.length === 0) return null;

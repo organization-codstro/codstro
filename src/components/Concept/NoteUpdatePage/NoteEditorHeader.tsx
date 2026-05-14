@@ -13,11 +13,11 @@ import { ArrowLeft, Save } from "lucide-react";
 import { NoteEditorHeaderProps } from "../../../types/pages/Concept/NoteUpdatePage/NoteEditorHeader";
 import { useEffect, useRef, useState } from "react";
 
-export default function NoteEditorHeader({
+export const NoteEditorHeader = ({
   isDirty,
   onSave,
   onBack,
-}: NoteEditorHeaderProps) {
+}: NoteEditorHeaderProps) => {
   // 경고 상태: true이면 버튼이 빨간색, 3초 내 재클릭/ESC 시 나가기
   const [isWarning, setIsWarning] = useState(false);
   const warningTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);

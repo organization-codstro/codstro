@@ -1,10 +1,10 @@
 import { MessageCircle, Plus } from "lucide-react";
 import { ConceptServiceActionButtonsProps } from "../../../types/pages/Concept/ConceptDetailPage/ConceptServiceActionButtons";
 
-export default function ConceptServiceActionButtons({
+export const ConceptServiceActionButtons = ({
   onShowAIChat,
   onAddTodo,
-}: ConceptServiceActionButtonsProps) {
+}: ConceptServiceActionButtonsProps) => {
   return (
     <div className="flex gap-3 mb-8">
       <button

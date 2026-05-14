@@ -1,10 +1,10 @@
 import { LibraryHeaderProps } from "../../../types/pages/Concept/ConceptDetailPage/ConceptHeader";
 
-export default function ConceptHeader({
+export const ConceptHeader = ({
   name,
   field,
   description,
-}: LibraryHeaderProps) {
+}: LibraryHeaderProps) => {
   return (
     <div className="relative">
       <div className="flex items-center gap-3 pr-40 mt-2">
@@ -19,4 +19,4 @@ export default function ConceptHeader({
       <p className="max-w-2xl mt-4 mb-5 text-gray-600">{description}</p>
     </div>
   );
-}
+};
