@@ -1,13 +1,10 @@
 import { supabase } from "../../db/supabase/supabase";
-import { generateAiContent } from "../Gemini/Gemini";
 import {
   GetPlanningPagesParams,
   GetMeetingDetailsParams,
   CreateMeetingRoomParams,
   UpdateMeetingRoomParams,
   UpdateMeetingSummaryParams,
-  GenerateMeetingGuideParams,
-  GenerateAndSaveSummaryParams,
 } from "../../types/api/ProjectPlanning/MeetingMaterialsPage";
 
 /**
@@ -131,75 +128,6 @@ export const MeetingMaterialsService = {
       .from("project_meeting_summarys")
       .update({ project_meeting_summary: params.summaryText })
       .eq("project_meeting_summary_id", params.summaryId)
-      .select()
-      .single();
-
-    if (error) throw error;
-    return data;
-  },
-
-  // ==========================================
-  // 3. AI 연동 (Gemini + DB) 관련 함수
-  // ==========================================
-
-  /**
-   * [AI 첫 가이드 생성 및 로그 저장]
-   * 회의 시작 시 Gemini의 첫 메시지를 로그에 기록합니다.
-   */
-  async generateMeetingGuide(params: GenerateMeetingGuideParams) {
-    const prompt = `회의 목적: ${params.purpose}\n상세 정보: ${params.detail}\n위 내용을 바탕으로 회의를 시작하기 위한 가이드를 작성해줘.`;
-    const aiResponse = await generateAiContent(prompt);
-
-    const { data, error } = await supabase
-      .from("project_meeting_logs")
-      .insert([
-        {
-          project_meeting_room_id: params.roomId,
-          project_meeting_log_sender: "AI",
-          project_meeting_log_message: aiResponse,
-          project_meeting_log_meeting_index: 1,
-          project_meeting_log_reated_at: new Date().toISOString(),
-        },
-      ])
-      .select()
-      .single();
-
-    if (error) throw error;
-    return data;
-  },
-
-  /**
-   * [AI 자동 요약 생성 및 Upsert]
-   * 대화 로그를 기반으로 요약을 생성하여 저장합니다.
-   */
-  async generateAndSaveSummary(params: GenerateAndSaveSummaryParams) {
-    // 1. 대화 로그 가져오기
-    const { data: logs } = await supabase
-      .from("project_meeting_logs")
-      .select("project_meeting_log_sender, project_meeting_log_message")
-      .eq("project_meeting_room_id", params.roomId)
-      .order("created_at", { ascending: true });
-
-    const history = logs
-      ?.map(
-        (l) =>
-          `${l.project_meeting_log_sender}: ${l.project_meeting_log_message}`,
-      )
-      .join("\n");
-
-    // 2. Gemini 요약 요청
-    const prompt = `다음 대화 내용을 요약해줘:\n${history}`;
-    const summaryResult = await generateAiContent(prompt);
-
-    // 3. 요약 테이블 저장 (Upsert)
-    const { data, error } = await supabase
-      .from("project_meeting_summarys")
-      .upsert({
-        project_meeting_summary_id: `sum_${params.roomId}_idx_${params.meetingIndex}`,
-        project_meeting_room_id: params.roomId,
-        "project meeting summary": summaryResult,
-        project_meeting_summary_meeting_index: params.meetingIndex,
-      })
       .select()
       .single();
 

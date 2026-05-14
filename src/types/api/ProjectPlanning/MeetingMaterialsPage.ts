@@ -43,20 +43,3 @@ export interface UpdateMeetingSummaryParams {
   summaryId: string;
   summaryText: string;
 }
-
-/**
- * [AI 첫 가이드 생성 및 로그 저장 파라미터]
- */
-export interface GenerateMeetingGuideParams {
-  roomId: string;
-  purpose: string;
-  detail: string;
-}
-
-/**
- * [AI 자동 요약 생성 및 Upsert 파라미터]
- */
-export interface GenerateAndSaveSummaryParams {
-  roomId: string;
-  meetingIndex: number;
-}

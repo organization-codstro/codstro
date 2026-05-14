@@ -52,8 +52,3 @@ export interface UpdateProjectStatusData {
 export interface GetProjectTodosParams {
   projectId: string;
 }
-
-export interface GenerateProjectGuideParams {
-  projectTitle: string;
-  techStack: string[];
-}

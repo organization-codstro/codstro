@@ -1,12 +1,10 @@
 import { supabase } from "../../db/supabase/supabase";
-import { generateAiContent } from "../Gemini/Gemini";
 import {
   UserCloneCodingResponse,
   GetProjectDetailParams,
   GetUserProjectStatusParams,
   ToggleBookmarkParams,
   UpdateProjectStatusParams,
-  GenerateProjectGuideParams,
   UpdateProjectStatusData,
 } from "../../types/api/Woomoonro/CloneCodingProjectDetailPage";
 import { CloneCodingProject } from "../../types/common/Woomoonro";
@@ -114,6 +112,7 @@ export const CloneCodingService = {
     if (error) throw error;
   },
 
+  //해당하는 클론코딩의 정보를 가지고 오는 함수
   // async getProjectTodos(
   //   params: GetProjectTodosParams,
   // ): Promise<ProjectTodoResponse[]> {
@@ -125,15 +124,4 @@ export const CloneCodingService = {
   //   if (error) throw error;
   //   return data || [];
   // },
-
-  async generateProjectGuide(
-    params: GenerateProjectGuideParams,
-  ): Promise<string> {
-    const prompt = `프로젝트 "${
-      params.projectTitle
-    }"을(를) ${params.techStack.join(", ")}로 구현하려고 합니다. 
-    이 프로젝트에서 가장 중요하게 배워야 할 핵심 포인트 3가지를 요약해줘.`;
-
-    return await generateAiContent(prompt);
-  },
 };
