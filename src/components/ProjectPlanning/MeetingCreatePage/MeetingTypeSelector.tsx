@@ -1,30 +1,20 @@
-import { CheckCircle, MessageSquare } from "lucide-react";
+import { MEETING_TYPES } from "../../../constants/ProjectPlanning/ProjectPlanning";
 import { MeetingTypeSelectorProps } from "../../../types/pages/ProjectPlanning/MeetingCreatePage/MeetingTypeSelector";
 
-export const MeetingTypeSelector = ({ selectedType, onSelect }: MeetingTypeSelectorProps) => {
-  const types = [
-    {
-      id: "Feature",
-      title: "Feature Meeting",
-      desc: "Discuss specific project pages and features",
-      icon: CheckCircle,
-    },
-    {
-      id: "Free",
-      title: "Free Meeting",
-      desc: "Open discussion about your project",
-      icon: MessageSquare,
-    },
-  ] as const;
-
+export const MeetingTypeSelector = ({
+  selectedType,
+  onSelect,
+}: MeetingTypeSelectorProps) => {
   return (
     <div>
-      <label className="block mb-3 text-sm font-medium text-gray-700">
+      <p className="block mb-3 text-sm font-medium text-gray-700">
         Meeting Type
-      </label>
+      </p>
+
       <div className="grid grid-cols-2 gap-4">
-        {types.map((type) => (
+        {MEETING_TYPES.map((type) => (
           <button
+            type="button"
             key={type.id}
             onClick={() => onSelect(type.id)}
             className={`p-6 border-2 rounded-lg transition-all ${
@@ -38,7 +28,9 @@ export const MeetingTypeSelector = ({ selectedType, onSelect }: MeetingTypeSelec
                 selectedType === type.id ? "text-blue-600" : "text-gray-400"
               }`}
             />
+
             <h3 className="mb-1 font-semibold text-gray-900">{type.title}</h3>
+
             <p className="text-sm text-gray-600">{type.desc}</p>
           </button>
         ))}

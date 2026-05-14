@@ -2,10 +2,10 @@
 import ReactMarkdown from "react-markdown";
 import { MarkdownPreviewPanelProps } from "../../../types/pages/ProjectPlanning/SummaryEditorPage/MarkdownPreviewPanel";
 
-export default function MarkdownPreviewPanel({
+export const MarkdownPreviewPanel = ({
   value,
   isLoading = false,
-}: MarkdownPreviewPanelProps) {
+}: MarkdownPreviewPanelProps) => {
   return (
     <div className="flex flex-col w-1/2 bg-white border-l border-gray-200">
       <div className="px-4 py-2 text-xs font-medium tracking-wide text-gray-500 uppercase border-b border-gray-200 bg-gray-50">

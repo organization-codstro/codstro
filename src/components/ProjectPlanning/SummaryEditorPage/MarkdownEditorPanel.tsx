@@ -2,11 +2,11 @@
 import { Editor } from "@monaco-editor/react";
 import { MarkdownEditorPanelProps } from "../../../types/pages/ProjectPlanning/SummaryEditorPage/MarkdownEditorPanel";
 
-export default function MarkdownEditorPanel({
+export const MarkdownEditorPanel = ({
   value,
   onChange,
   isLoading = false,
-}: MarkdownEditorPanelProps) {
+}: MarkdownEditorPanelProps) => {
   return (
     <div className="flex flex-col w-1/2 overflow-hidden bg-white border-r border-gray-200">
       <div className="px-4 py-2 text-xs font-medium tracking-wide text-gray-500 uppercase border-b border-gray-200 bg-gray-50">

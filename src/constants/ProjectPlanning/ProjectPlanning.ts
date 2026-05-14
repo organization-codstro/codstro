@@ -1,3 +1,5 @@
+import { CheckCircle, LucideIcon, MessageSquare } from "lucide-react";
+
 export type PROJECT_STATUS_TYPE = "waiting" | "in progress" | "done";
 export type PROJECT_ROOM_TYPE = "Feature" | "Free";
 
@@ -46,3 +48,23 @@ export const STATUS_LABEL: Record<PROJECT_STATUS_TYPE, string> = {
   "in progress": "in progress",
   done: "done",
 };
+
+export const MEETING_TYPES: {
+  id: PROJECT_ROOM_TYPE;
+  title: string;
+  desc: string;
+  icon: LucideIcon;
+}[] = [
+  {
+    id: "Feature",
+    title: "Feature Meeting",
+    desc: "Discuss specific project pages and features",
+    icon: CheckCircle,
+  },
+  {
+    id: "Free",
+    title: "Free Meeting",
+    desc: "Open discussion about your project",
+    icon: MessageSquare,
+  },
+];

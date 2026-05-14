@@ -3,7 +3,7 @@ import { useState } from "react";
 import { TodoFormProps } from "../../../../types/pages/ProjectPlanning/ProjectInfoGeneratePage/ProjectTodoModal/TodoForm";
 import { NewProjectTodo } from "../../../../types/common/ProjectPlanning";
 
-export function TodoForm({ onAdd, onCancel }: TodoFormProps) {
+export const TodoForm = ({ onAdd, onCancel }: TodoFormProps) => {
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
   const [description, setDescription] = useState("");
@@ -116,4 +116,4 @@ export function TodoForm({ onAdd, onCancel }: TodoFormProps) {
       </div>
     </form>
   );
-}
+};

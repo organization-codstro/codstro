@@ -1,4 +1,4 @@
-export function ProjectDetailSkeleton() {
+export const ProjectDetailSkeleton = () => {
   return (
     <div className="flex-1 overflow-auto bg-gray-50">
       {/* Header 스켈레톤 */}
@@ -66,4 +66,4 @@ export function ProjectDetailSkeleton() {
       </div>
     </div>
   );
-}
+};

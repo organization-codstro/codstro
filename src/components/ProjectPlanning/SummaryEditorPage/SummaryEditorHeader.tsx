@@ -2,12 +2,12 @@
 import { ArrowLeft, Save } from "lucide-react";
 import { SummaryEditorHeaderProps } from "../../../types/pages/ProjectPlanning/SummaryEditorPage/SummaryEditorHeader";
 
-export default function SummaryEditorHeader({
+export const SummaryEditorHeader = ({
   onBack,
   onSave,
   isDirty = false,
   isWarning = false,
-}: SummaryEditorHeaderProps) {
+}: SummaryEditorHeaderProps) => {
   return (
     <div className="flex items-center justify-between px-6 py-4 bg-white border-b border-gray-200">
       {/* 왼쪽: 뒤로가기 + 타이틀 */}
