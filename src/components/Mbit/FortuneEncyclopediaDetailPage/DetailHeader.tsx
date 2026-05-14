@@ -2,7 +2,7 @@ import React from "react";
 import { Sparkles } from "lucide-react";
 import { DetailHeaderProps } from "../../../types/pages/Mbit/FortuneEncyclopediaDetailPage/DetailHeader";
 
-const DetailHeader: React.FC<DetailHeaderProps> = ({ fortune }) => {
+export const DetailHeader: React.FC<DetailHeaderProps> = ({ fortune }) => {
   return (
     <div className="p-8 pb-3 ">
       <div className="flex items-center gap-4">
@@ -14,5 +14,3 @@ const DetailHeader: React.FC<DetailHeaderProps> = ({ fortune }) => {
     </div>
   );
 };
-
-export default DetailHeader;

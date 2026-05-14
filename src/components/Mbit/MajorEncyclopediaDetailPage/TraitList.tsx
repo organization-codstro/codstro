@@ -1,7 +1,7 @@
 import React from "react";
 import { TraitListProps } from "../../../types/pages/Mbit/PersonalityEncyclopediaDetailPage/TraitList";
 
-const TraitList: React.FC<TraitListProps> = ({
+export const TraitList: React.FC<TraitListProps> = ({
   title,
   item,
   icon,
@@ -23,5 +23,3 @@ const TraitList: React.FC<TraitListProps> = ({
     </div>
   );
 };
-
-export default TraitList;

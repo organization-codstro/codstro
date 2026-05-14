@@ -2,7 +2,7 @@ import React from "react";
 import { Users } from "lucide-react";
 import { PersonalityTestIntroProps } from "../../../types/pages/Mbit/PersonalityTestPage/PersonalityTestIntro";
 
-const PersonalityTestIntro: React.FC<PersonalityTestIntroProps> = ({
+export const PersonalityTestIntro: React.FC<PersonalityTestIntroProps> = ({
   onStart,
 }) => {
   return (
@@ -54,5 +54,3 @@ const PersonalityTestIntro: React.FC<PersonalityTestIntroProps> = ({
     </div>
   );
 };
-
-export default PersonalityTestIntro;

@@ -1,7 +1,7 @@
 import React from "react";
 import { FortuneCategoryMessageProps } from "../../../types/pages/Mbit/TodayFortunePage/FortuneCategoryMessage";
 
-const FortuneCategoryMessage: React.FC<FortuneCategoryMessageProps> = ({
+export const FortuneCategoryMessage: React.FC<FortuneCategoryMessageProps> = ({
   message,
 }) => {
   if (!message) return null;
@@ -18,14 +18,14 @@ const FortuneCategoryMessage: React.FC<FortuneCategoryMessageProps> = ({
         content ? (
           <div
             key={label}
-            className="flex gap-3 items-start p-3 bg-white rounded-lg border border-gray-100"
+            className="flex items-start gap-3 p-3 bg-white border border-gray-100 rounded-lg"
           >
             <span className="text-base mt-0.5">{icon}</span>
             <div>
               <p className="text-xs font-semibold text-gray-400 mb-0.5">
                 {label}
               </p>
-              <p className="text-sm text-gray-600 leading-relaxed">{content}</p>
+              <p className="text-sm leading-relaxed text-gray-600">{content}</p>
             </div>
           </div>
         ) : null,
@@ -33,5 +33,3 @@ const FortuneCategoryMessage: React.FC<FortuneCategoryMessageProps> = ({
     </div>
   );
 };
-
-export default FortuneCategoryMessage;

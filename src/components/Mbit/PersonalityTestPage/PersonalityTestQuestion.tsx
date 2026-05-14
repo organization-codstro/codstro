@@ -2,11 +2,9 @@ import React from "react";
 import { ArrowRight } from "lucide-react";
 import { PersonalityTestQuestionProps } from "../../../types/pages/Mbit/PersonalityTestPage/PersonalityTestQuestion";
 
-const PersonalityTestQuestion: React.FC<PersonalityTestQuestionProps> = ({
-  question,
-  options,
-  onAnswer,
-}) => {
+export const PersonalityTestQuestion: React.FC<
+  PersonalityTestQuestionProps
+> = ({ question, options, onAnswer }) => {
   return (
     <div className="max-w-3xl mx-auto">
       <div className="p-12 bg-white shadow-xl rounded-2xl">
@@ -31,5 +29,3 @@ const PersonalityTestQuestion: React.FC<PersonalityTestQuestionProps> = ({
     </div>
   );
 };
-
-export default PersonalityTestQuestion;

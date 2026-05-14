@@ -27,3 +27,23 @@ export const ICON_MAP: Record<string, any> = {
   경영학: <BarChart />,
   기계공학: <Settings />,
 };
+
+//mbit 축
+export const AXIS_LABELS: Record<
+  string,
+  { name: string; a: string; b: string }
+> = {
+  "E/P": { name: "개발 참여", a: "주도형", b: "참여형" },
+  "C/R": { name: "리스크 태도", a: "도전형", b: "안정형" },
+  "L/V": { name: "사고 방식", a: "논리형", b: "직관형" },
+  "B/A": { name: "개발 접근", a: "실행형", b: "설계형" },
+};
+
+//검사 문항
+export const LABELS: Record<number, string> = {
+  5: "매우 그렇다",
+  4: "그렇다",
+  3: "보통이다",
+  2: "아니다",
+  1: "매우 아니다",
+};

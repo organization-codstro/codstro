@@ -1,7 +1,9 @@
 import React from "react";
 import { MajorDetailHeaderProps } from "../../../types/pages/Mbit/MajorEncyclopediaDetailPage/MajorDetailHeader";
 
-const MajorDetailHeader: React.FC<MajorDetailHeaderProps> = ({ major }) => {
+export const MajorDetailHeader: React.FC<MajorDetailHeaderProps> = ({
+  major,
+}) => {
   return (
     <div className="p-8 space-y-8">
       {/* name */}
@@ -16,5 +18,3 @@ const MajorDetailHeader: React.FC<MajorDetailHeaderProps> = ({ major }) => {
     </div>
   );
 };
-
-export default MajorDetailHeader;

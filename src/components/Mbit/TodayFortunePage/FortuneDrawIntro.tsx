@@ -1,7 +1,7 @@
 import React from "react";
 import { FortuneDrawIntroProps } from "../../../types/pages/Mbit/TodayFortunePage/FortuneDrawIntro";
 
-const FortuneDrawIntro: React.FC<FortuneDrawIntroProps> = ({
+export const FortuneDrawIntro: React.FC<FortuneDrawIntroProps> = ({
   onDraw,
   isDrawing,
 }) => {
@@ -29,4 +29,3 @@ const FortuneDrawIntro: React.FC<FortuneDrawIntroProps> = ({
   );
 };
 
-export default FortuneDrawIntro;

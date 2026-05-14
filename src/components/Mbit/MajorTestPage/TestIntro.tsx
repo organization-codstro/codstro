@@ -2,7 +2,7 @@ import React from "react";
 import { GraduationCap } from "lucide-react";
 import { TestIntroProps } from "../../../types/pages/Mbit/MajorTestPage/TestIntro";
 
-const TestIntro: React.FC<TestIntroProps> = ({ onStart }) => {
+export const TestIntro: React.FC<TestIntroProps> = ({ onStart }) => {
   return (
     <div className="max-w-3xl mx-auto">
       <div className="p-12 bg-white shadow-xl rounded-2xl">
@@ -52,5 +52,3 @@ const TestIntro: React.FC<TestIntroProps> = ({ onStart }) => {
     </div>
   );
 };
-
-export default TestIntro;

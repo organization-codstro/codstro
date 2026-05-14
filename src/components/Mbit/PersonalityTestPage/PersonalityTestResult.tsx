@@ -1,15 +1,9 @@
 import React from "react";
 import { Users, RotateCcw } from "lucide-react";
 import { PersonalityTestResultProps } from "../../../types/pages/Mbit/PersonalityTestPage/PersonalityTestResult";
+import { AXIS_LABELS } from "../../../constants/Mbit/Mbit";
 
-const AXIS_LABELS: Record<string, { name: string; a: string; b: string }> = {
-  "E/P": { name: "개발 참여", a: "주도형", b: "참여형" },
-  "C/R": { name: "리스크 태도", a: "도전형", b: "안정형" },
-  "L/V": { name: "사고 방식", a: "논리형", b: "직관형" },
-  "B/A": { name: "개발 접근", a: "실행형", b: "설계형" },
-};
-
-const PersonalityTestResult: React.FC<PersonalityTestResultProps> = ({
+export const PersonalityTestResult: React.FC<PersonalityTestResultProps> = ({
   result,
   axisResults,
   onReset,
@@ -64,13 +58,13 @@ const PersonalityTestResult: React.FC<PersonalityTestResultProps> = ({
                     <span className="w-20 text-sm font-semibold text-right text-gray-700">
                       {codeA} {aRatio}%
                     </span>
-                    <div className="flex flex-1 overflow-hidden rounded-full h-3 bg-gray-100">
+                    <div className="flex flex-1 h-3 overflow-hidden bg-gray-100 rounded-full">
                       <div
                         className="h-full bg-[#587CF0] transition-all duration-700"
                         style={{ width: `${aRatio}%` }}
                       />
                       <div
-                        className="h-full bg-purple-300 transition-all duration-700"
+                        className="h-full transition-all duration-700 bg-purple-300"
                         style={{ width: `${bRatio}%` }}
                       />
                     </div>
@@ -98,5 +92,3 @@ const PersonalityTestResult: React.FC<PersonalityTestResultProps> = ({
     </div>
   );
 };
-
-export default PersonalityTestResult;

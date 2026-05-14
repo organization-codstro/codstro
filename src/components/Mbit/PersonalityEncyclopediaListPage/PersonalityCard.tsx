@@ -1,7 +1,7 @@
 import React from "react";
 import { PersonalityCardProps } from "../../../types/pages/Mbit/PersonalityEncyclopediaDetailPage/PersonalityCard";
 
-const PersonalityCard: React.FC<PersonalityCardProps> = ({
+export const PersonalityCard: React.FC<PersonalityCardProps> = ({
   personality,
   onClick,
 }) => {
@@ -21,5 +21,3 @@ const PersonalityCard: React.FC<PersonalityCardProps> = ({
     </div>
   );
 };
-
-export default PersonalityCard;

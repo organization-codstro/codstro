@@ -2,9 +2,9 @@ import React from "react";
 import { Users } from "lucide-react";
 import { PersonalityDetailHeaderProps } from "../../../types/pages/Mbit/PersonalityEncyclopediaListPage/PersonalityDetailHeader";
 
-const PersonalityDetailHeader: React.FC<PersonalityDetailHeaderProps> = ({
-  personality,
-}) => {
+export const PersonalityDetailHeader: React.FC<
+  PersonalityDetailHeaderProps
+> = ({ personality }) => {
   return (
     <div className="p-8 text-white bg-gradient-to-r from-blue-500 to-purple-500">
       <div className="flex items-center gap-4">
@@ -20,5 +20,3 @@ const PersonalityDetailHeader: React.FC<PersonalityDetailHeaderProps> = ({
     </div>
   );
 };
-
-export default PersonalityDetailHeader;

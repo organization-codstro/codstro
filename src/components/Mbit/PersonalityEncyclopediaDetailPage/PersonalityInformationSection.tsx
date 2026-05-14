@@ -1,6 +1,6 @@
 import { PersonalityInformationSectionProps } from "../../../types/pages/Mbit/PersonalityEncyclopediaDetailPage/PersonalityInformationSection";
 
-const PersonalityInformationSection = ({
+export const PersonalityInformationSection = ({
   title,
   info,
 }: PersonalityInformationSectionProps) => {
@@ -13,5 +13,3 @@ const PersonalityInformationSection = ({
     </section>
   );
 };
-
-export default PersonalityInformationSection;

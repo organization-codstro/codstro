@@ -1,12 +1,14 @@
 import React from "react";
-import FortuneCategoryMessage from "./FortuneCategoryMessage";
+import { FortuneCategoryMessage } from "./FortuneCategoryMessage";
 import { FortuneResultCardProps } from "../../../types/pages/Mbit/TodayFortunePage/FortuneResultCard";
 
-const FortuneResultCard: React.FC<FortuneResultCardProps> = ({ fortune }) => {
+export const FortuneResultCard: React.FC<FortuneResultCardProps> = ({
+  fortune,
+}) => {
   return (
-    <div className="bg-white rounded-2xl p-16 shadow-xl border border-gray-100">
+    <div className="p-16 bg-white border border-gray-100 shadow-xl rounded-2xl">
       <div className="text-center">
-        <div className="flex items-center justify-center w-44 h-44 mx-auto mb-6 rounded-full bg-gradient-to-br from-blue-400 to-purple-500">
+        <div className="flex items-center justify-center mx-auto mb-6 rounded-full w-44 h-44 bg-gradient-to-br from-blue-400 to-purple-500">
           <span className="text-6xl font-bold text-white">{fortune.code}</span>
         </div>
 
@@ -18,7 +20,7 @@ const FortuneResultCard: React.FC<FortuneResultCardProps> = ({ fortune }) => {
           {fortune.summary}
         </p>
 
-        <div className="p-8 text-left bg-gray-50 rounded-xl border border-gray-100">
+        <div className="p-8 text-left border border-gray-100 bg-gray-50 rounded-xl">
           <p className="mb-6 text-lg leading-relaxed text-gray-400">
             {fortune.description}
           </p>
@@ -29,5 +31,3 @@ const FortuneResultCard: React.FC<FortuneResultCardProps> = ({ fortune }) => {
     </div>
   );
 };
-
-export default FortuneResultCard;

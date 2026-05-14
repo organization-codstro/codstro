@@ -1,16 +1,9 @@
 import React, { useEffect } from "react";
 import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
 import { TestQuestionProps } from "../../types/pages/Mbit/TestQuestion";
+import { LABELS } from "../../constants/Mbit/Mbit";
 
-const LABELS: Record<number, string> = {
-  5: "매우 그렇다",
-  4: "그렇다",
-  3: "보통이다",
-  2: "아니다",
-  1: "매우 아니다",
-};
-
-const MajorTestQuestion: React.FC<TestQuestionProps> = ({
+export const MajorTestQuestion: React.FC<TestQuestionProps> = ({
   content,
   scale,
   onAnswer,
@@ -144,5 +137,3 @@ const MajorTestQuestion: React.FC<TestQuestionProps> = ({
     </div>
   );
 };
-
-export default MajorTestQuestion;

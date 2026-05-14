@@ -1,7 +1,7 @@
 import React from "react";
 import { FortuneItemCardProps } from "../../../types/pages/Mbit/FortuneEncyclopediaListPage/FortuneItemCard";
 
-const FortuneItemCard: React.FC<FortuneItemCardProps> = ({
+export const FortuneItemCard: React.FC<FortuneItemCardProps> = ({
   fortune,
   onClick,
 }) => {
@@ -22,4 +22,3 @@ const FortuneItemCard: React.FC<FortuneItemCardProps> = ({
   );
 };
 
-export default FortuneItemCard;

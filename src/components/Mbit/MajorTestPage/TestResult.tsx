@@ -1,7 +1,8 @@
 import React from "react";
 import { GraduationCap } from "lucide-react";
 import { TestResultProps } from "../../../types/pages/Mbit/MajorTestPage/TestResult";
-const TestResult: React.FC<TestResultProps> = ({ result, onReset }) => {
+
+export const TestResult: React.FC<TestResultProps> = ({ result, onReset }) => {
   return (
     <div className="max-w-3xl mx-auto">
       <div className="p-12 text-center bg-white shadow-xl rounded-2xl">
@@ -43,4 +44,3 @@ const TestResult: React.FC<TestResultProps> = ({ result, onReset }) => {
   );
 };
 
-export default TestResult;
