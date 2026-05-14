@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { ArrowLeft, Calendar, Save, X } from "lucide-react";
-import { StudyPlanFormFormData } from "../../types/pages/Woomoonkyung/StudyPlanForm";
-import { StudyPlan } from "../../types/common/Woomoonkyung";
+import {
+  StudyPlanFormFormData,
+  StudyPlanFormProps,
+} from "../../types/pages/Woomoonkyung/StudyPlanForm";
 
-interface StudyPlanFormProps {
-  mode: "create" | "edit";
-  existingPlan?: StudyPlan;
-  onSave: (planData: StudyPlanFormFormData) => void;
-  onCancel?: () => void;
-}
-
-const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
+export const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
   mode,
   existingPlan,
   onSave,
@@ -283,5 +278,3 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
     </div>
   );
 };
-
-export default StudyPlanForm;

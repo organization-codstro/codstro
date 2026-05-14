@@ -2,7 +2,7 @@ import React from "react";
 import { Plus, Archive, Sparkles } from "lucide-react";
 import { DashboardHeaderProps } from "../../../types/pages/Woomoonkyung/StudyPlanMainPage/DashboardHeader";
 
-const DashboardHeader: React.FC<DashboardHeaderProps> = ({
+export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   title,
   description,
   onArchiveClick,
@@ -42,4 +42,3 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   );
 };
 
-export default DashboardHeader;

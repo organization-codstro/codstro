@@ -1,14 +1,13 @@
 import React from "react";
 import { Calendar, Download } from "lucide-react";
-import StatusBadge from "../StatusBadge";
+import { StatusBadge } from "../StatusBadge";
 import { PlanHeaderProps } from "../../../types/pages/Woomoonkyung/RecommendedStudyPlanDetailPage/PlanHeader";
 
-const PlanHeader: React.FC<PlanHeaderProps> = ({
+export const PlanHeader: React.FC<PlanHeaderProps> = ({
   plan,
   nodeCount,
   state,
   onAddToMyPlans,
-  //  isBookmarked,
 }) => {
   return (
     <div className="overflow-hidden bg-white border border-purple-100 shadow-sm rounded-xl">
@@ -63,5 +62,3 @@ const PlanHeader: React.FC<PlanHeaderProps> = ({
     </div>
   );
 };
-
-export default PlanHeader;

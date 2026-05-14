@@ -2,7 +2,7 @@ import React from "react";
 import { GripVertical, Calendar, Trash2 } from "lucide-react";
 import { DraggableNodeItemProps } from "../../../types/pages/Woomoonkyung/StudyPlanEditNodePage/DraggableNodeItem";
 
-const DraggableNodeItem: React.FC<DraggableNodeItemProps> = ({
+export const DraggableNodeItem: React.FC<DraggableNodeItemProps> = ({
   node,
   index,
   isDragging,
@@ -81,5 +81,3 @@ const DraggableNodeItem: React.FC<DraggableNodeItemProps> = ({
     </div>
   );
 };
-
-export default DraggableNodeItem;

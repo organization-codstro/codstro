@@ -1,8 +1,7 @@
 import React from "react";
 import { ActivePlanSectionProps } from "../../../types/pages/Woomoonkyung/StudyPlanMainPage/ActivePlanSection";
 
-
-const ActivePlanSection: React.FC<ActivePlanSectionProps> = ({
+export const ActivePlanSection: React.FC<ActivePlanSectionProps> = ({
   count,
   children,
 }) => {
@@ -17,4 +16,3 @@ const ActivePlanSection: React.FC<ActivePlanSectionProps> = ({
   );
 };
 
-export default ActivePlanSection;

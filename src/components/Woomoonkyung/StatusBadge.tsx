@@ -2,8 +2,7 @@ import React from "react";
 import { StatusBadgeProps } from "../../types/pages/Woomoonkyung/StatusBadge";
 import { STATE_COLORS } from "../../constants/Woomoonkyung/Woomoonkyung";
 
-
-const StatusBadge: React.FC<StatusBadgeProps> = ({ state }) => {
+export const StatusBadge: React.FC<StatusBadgeProps> = ({ state }) => {
   return (
     <span
       className={`px-3 py-1 text-sm rounded-full border ${
@@ -14,5 +13,3 @@ const StatusBadge: React.FC<StatusBadgeProps> = ({ state }) => {
     </span>
   );
 };
-
-export default StatusBadge;

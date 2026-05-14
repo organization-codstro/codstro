@@ -2,7 +2,10 @@ import React from "react";
 import { Calendar, CheckCircle2, Circle } from "lucide-react"; // Circle 추가
 import { MyNodeItemProps } from "../../../types/pages/Woomoonkyung/StudyPlanArchiveDetailPage/MyNodeItem";
 
-const MyNodeItem: React.FC<MyNodeItemProps> = ({ node, onToggleNode }) => {
+export const MyNodeItem: React.FC<MyNodeItemProps> = ({
+  node,
+  onToggleNode,
+}) => {
   return (
     <div
       className={`p-4 border rounded-xl transition-all ${
@@ -48,7 +51,7 @@ const MyNodeItem: React.FC<MyNodeItemProps> = ({ node, onToggleNode }) => {
               <span>
                 {node.study_plan_node_start_date
                   ? new Date(
-                      node.study_plan_node_start_date
+                      node.study_plan_node_start_date,
                     ).toLocaleDateString()
                   : "-"}{" "}
                 -{" "}
@@ -65,13 +68,13 @@ const MyNodeItem: React.FC<MyNodeItemProps> = ({ node, onToggleNode }) => {
           onClick={() =>
             onToggleNode(
               node.study_plan_node_id,
-              node.study_plan_node_completed
+              node.study_plan_node_completed,
             )
           }
-          className="flex-shrink-0 ml-4 hover:scale-110 transition-transform"
+          className="flex-shrink-0 ml-4 transition-transform hover:scale-110"
         >
           {node.study_plan_node_completed ? (
-            <CheckCircle2 className="w-7 h-7 text-green-500 fill-green-50" />
+            <CheckCircle2 className="text-green-500 w-7 h-7 fill-green-50" />
           ) : (
             <Circle className="w-7 h-7 text-gray-300 hover:text-[#587CF0]" />
           )}
@@ -81,4 +84,3 @@ const MyNodeItem: React.FC<MyNodeItemProps> = ({ node, onToggleNode }) => {
   );
 };
 
-export default MyNodeItem;

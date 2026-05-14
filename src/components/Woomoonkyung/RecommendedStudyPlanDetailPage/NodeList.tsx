@@ -1,9 +1,9 @@
 import React from "react";
 import { BookOpen } from "lucide-react";
-import NodeItem from "./NodeItem";
+import { NodeItem } from "./NodeItem";
 import { NodeListProps } from "../../../types/pages/Woomoonkyung/RecommendedStudyPlanDetailPage/NodeList";
 
-const NodeList: React.FC<NodeListProps> = ({ nodes }) => {
+export const NodeList: React.FC<NodeListProps> = ({ nodes }) => {
   return (
     <div className="p-6 bg-white border border-purple-100 shadow-sm rounded-xl">
       <h3 className="mb-6 text-lg font-semibold text-gray-800">
@@ -25,5 +25,3 @@ const NodeList: React.FC<NodeListProps> = ({ nodes }) => {
     </div>
   );
 };
-
-export default NodeList;

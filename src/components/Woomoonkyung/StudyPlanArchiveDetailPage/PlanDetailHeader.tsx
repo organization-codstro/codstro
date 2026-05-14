@@ -1,14 +1,14 @@
 import React from "react";
 import { Calendar, Target, Edit3 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import StatusBadge from "../StatusBadge";
+import { StatusBadge } from "../StatusBadge";
 import ProgressBar from "../../ProgressBar";
 import { PlanDetailHeaderProps } from "../../../types/pages/Woomoonkyung/StudyPlanArchiveDetailPage/PlanDetailHeader";
 
 //기본 이미지
 import StudyPlanBasicImg from "../../../assets/images/Woomoonkyung/StudyPlanBasicImg.png";
 
-const PlanDetailHeader: React.FC<PlanDetailHeaderProps> = ({
+export const PlanDetailHeader: React.FC<PlanDetailHeaderProps> = ({
   planId,
   name,
   description,
@@ -71,5 +71,3 @@ const PlanDetailHeader: React.FC<PlanDetailHeaderProps> = ({
     </div>
   );
 };
-
-export default PlanDetailHeader;

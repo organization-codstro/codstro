@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { BackButtonProps } from "../../../types/pages/Concept/BackButton";
 
-const BackButton: React.FC<BackButtonProps> = ({ label, to }) => {
+export const BackButton: React.FC<BackButtonProps> = ({ label, to }) => {
   const navigate = useNavigate();
 
   return (
@@ -17,4 +17,3 @@ const BackButton: React.FC<BackButtonProps> = ({ label, to }) => {
   );
 };
 
-export default BackButton;

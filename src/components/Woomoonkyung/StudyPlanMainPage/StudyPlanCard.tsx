@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Calendar, Target, Trash2, Award, User, Loader2 } from "lucide-react";
+import { Calendar, Target, Trash2, Loader2 } from "lucide-react";
 import { StudyPlanCardProps } from "../../../types/pages/Woomoonkyung/StudyPlanMainPage/StudyPlanCard";
 
 // 기본 이미지
 import StudyPlanBasicImg from "../../../assets/images/Woomoonkyung/StudyPlanBasicImg.png";
 
-const StudyPlanCard: React.FC<StudyPlanCardProps> = ({
+export const StudyPlanCard: React.FC<StudyPlanCardProps> = ({
   plan,
   completedNodes,
   totalNodes,
@@ -15,7 +15,7 @@ const StudyPlanCard: React.FC<StudyPlanCardProps> = ({
   onDeleteClick,
   isDeleting = false, // 기본값 설정
 }) => {
-  const isPlanRecommended = plan.study_plan_is_recommendation;
+  //const isPlanRecommended = plan.study_plan_is_recommendation;
 
   // 삭제 대기 상태 (해당 카드 내에서만 관리)
   const [isDeletePending, setIsDeletePending] = useState(false);
@@ -146,5 +146,3 @@ const StudyPlanCard: React.FC<StudyPlanCardProps> = ({
     </div>
   );
 };
-
-export default StudyPlanCard;

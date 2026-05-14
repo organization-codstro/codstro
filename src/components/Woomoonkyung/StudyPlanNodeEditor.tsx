@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { techStacks } from "../../data/Woomoonkyung/woomoonkyungData";
 import {
   closestCenter,
   DndContext,
@@ -20,7 +19,7 @@ import { SortableNodeItem } from "./SortableNodeItem";
 import { StudyPlanNodeEditorProps } from "../../types/pages/Woomoonkyung/StudyPlanNodeEditor";
 import { SortableNodeItemNodeFormData } from "../../types/pages/Woomoonkyung/StudyPlanMainPage/SortableNodeItem";
 
-const StudyPlanNodeEditor: React.FC<StudyPlanNodeEditorProps> = ({
+export const StudyPlanNodeEditor: React.FC<StudyPlanNodeEditorProps> = ({
   studyPlan,
   existingNodes,
   onSave,
@@ -45,7 +44,7 @@ const StudyPlanNodeEditor: React.FC<StudyPlanNodeEditorProps> = ({
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   useEffect(() => {
@@ -85,7 +84,7 @@ const StudyPlanNodeEditor: React.FC<StudyPlanNodeEditorProps> = ({
   const handleInputChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     const { name, value, type } = e.target;
     setFormData((prev) => ({
@@ -94,8 +93,8 @@ const StudyPlanNodeEditor: React.FC<StudyPlanNodeEditorProps> = ({
         type === "checkbox"
           ? (e.target as HTMLInputElement).checked
           : name === "tech_stack_id"
-          ? value
-          : value,
+            ? value
+            : value,
     }));
   };
 
@@ -146,8 +145,8 @@ const StudyPlanNodeEditor: React.FC<StudyPlanNodeEditorProps> = ({
 
     setNodes((prev) =>
       prev.map((node) =>
-        node.id === editingNode ? { ...node, ...formData } : node
-      )
+        node.id === editingNode ? { ...node, ...formData } : node,
+      ),
     );
 
     setEditingNode(null);
@@ -178,7 +177,7 @@ const StudyPlanNodeEditor: React.FC<StudyPlanNodeEditorProps> = ({
   const handleSave = () => {
     const nodesToSave = nodes.map(({ id, ...node }) => {
       const selectedTech = techStacks.find(
-        (t) => t.tech_stack_id === node.tech_stack_id
+        (t) => t.tech_stack_id === node.tech_stack_id,
       );
 
       return {
@@ -440,5 +439,3 @@ const StudyPlanNodeEditor: React.FC<StudyPlanNodeEditorProps> = ({
     </div>
   );
 };
-
-export default StudyPlanNodeEditor;

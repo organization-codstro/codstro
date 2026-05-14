@@ -2,7 +2,7 @@ import React from "react";
 import { BookOpen } from "lucide-react";
 import { EmptyStateProps } from "../../../../types/pages/Woomoonkyung/StudyPlanArchiveDetailPage/MyNodeList/EmptyState";
 
-const StudyPlanNodeEmptyState: React.FC<EmptyStateProps> = ({
+export const StudyPlanNodeEmptyState: React.FC<EmptyStateProps> = ({
   title,
   description,
 }) => {
@@ -15,4 +15,3 @@ const StudyPlanNodeEmptyState: React.FC<EmptyStateProps> = ({
   );
 };
 
-export default StudyPlanNodeEmptyState;

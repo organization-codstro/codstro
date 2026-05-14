@@ -2,7 +2,7 @@ import React from "react";
 import { Search, X } from "lucide-react";
 import { TechStackPickerProps } from "../../../types/pages/Woomoonkyung/StudyPlanEditNodePage/TechStackPicker";
 
-const TechStackPicker: React.FC<TechStackPickerProps> = ({
+export const TechStackPicker: React.FC<TechStackPickerProps> = ({
   techStacks,
   searchQuery,
   onSearchChange,
@@ -58,5 +58,3 @@ const TechStackPicker: React.FC<TechStackPickerProps> = ({
     </div>
   );
 };
-
-export default TechStackPicker;

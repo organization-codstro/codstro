@@ -1,15 +1,8 @@
 import React from "react";
-import {
-  Calendar,
-  Target,
-  Trash2,
-  Award,
-  User,
-  AlertCircle,
-} from "lucide-react";
+import { Calendar, Target, Trash2, AlertCircle } from "lucide-react";
 import { StudyPlanCardProps } from "../../../types/pages/Woomoonkyung/StudyPlanArchivePage/ArchiveStudyPlanCard";
 
-const ArchiveStudyPlanCard: React.FC<StudyPlanCardProps> = ({
+export const ArchiveStudyPlanCard: React.FC<StudyPlanCardProps> = ({
   plan,
   completedNodes,
   totalNodes,
@@ -116,5 +109,3 @@ const ArchiveStudyPlanCard: React.FC<StudyPlanCardProps> = ({
     </div>
   );
 };
-
-export default ArchiveStudyPlanCard;

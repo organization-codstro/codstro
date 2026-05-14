@@ -2,7 +2,7 @@ import React from "react";
 import { X } from "lucide-react";
 import { NodeEditFormProps } from "../../../types/pages/Woomoonkyung/StudyPlanEditNodePage/NodeEditForm";
 
-const NodeEditForm: React.FC<NodeEditFormProps> = ({
+export const NodeEditForm: React.FC<NodeEditFormProps> = ({
   node,
   errors,
   onChange,
@@ -122,5 +122,3 @@ const NodeEditForm: React.FC<NodeEditFormProps> = ({
     </div>
   );
 };
-
-export default NodeEditForm;

@@ -1,7 +1,7 @@
 import React from "react";
 import { EmptyPlanStateProps } from "../../../types/pages/Woomoonkyung/StudyPlanMainPage/EmptyPlanState";
 
-const EmptyPlanState: React.FC<EmptyPlanStateProps> = ({
+export const EmptyPlanState: React.FC<EmptyPlanStateProps> = ({
   message,
   actionLabel,
   onActionClick,
@@ -19,4 +19,3 @@ const EmptyPlanState: React.FC<EmptyPlanStateProps> = ({
   );
 };
 
-export default EmptyPlanState;

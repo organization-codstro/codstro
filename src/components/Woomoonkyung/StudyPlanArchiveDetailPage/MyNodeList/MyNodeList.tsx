@@ -1,11 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import MyNodeItem from "../MyNodeItem";
+import { MyNodeItem } from "../MyNodeItem";
 import { MyNodeListProps } from "../../../../types/pages/Woomoonkyung/StudyPlanArchiveDetailPage/MyNodeList/MyNodeList";
 import { Edit3 } from "lucide-react";
-import StudyPlanNodeEmptyState from "./StudyPlanNodeEmptyState";
+import { StudyPlanNodeEmptyState } from "./StudyPlanNodeEmptyState";
 
-const MyNodeList: React.FC<MyNodeListProps> = ({
+export const MyNodeList: React.FC<MyNodeListProps> = ({
   nodes,
   onToggleNode,
   planId,
@@ -46,5 +46,3 @@ const MyNodeList: React.FC<MyNodeListProps> = ({
     </div>
   );
 };
-
-export default MyNodeList;
