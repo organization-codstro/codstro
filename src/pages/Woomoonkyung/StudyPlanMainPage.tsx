@@ -5,7 +5,6 @@ import { Loader2 } from "lucide-react";
 
 import { WoomoonkyungMainService } from "../../api/Woomoonkyung/StudyPlanMainPage";
 import { PlanWithStats } from "../../types/api/Woomoonkyung/StudyPlanMainPage";
-import { stateColors } from "../../data/Woomoonkyung/woomoonkyungData";
 
 import StudyPlanCard from "../../components/Woomoonkyung/StudyPlanMainPage/StudyPlanCard";
 import DashboardHeader from "../../components/Woomoonkyung/StudyPlanMainPage/DashboardHeader";
@@ -13,6 +12,7 @@ import ActivePlanSection from "../../components/Woomoonkyung/StudyPlanMainPage/A
 import EmptyPlanState from "../../components/Woomoonkyung/StudyPlanMainPage/EmptyPlanState";
 import AddStudyPlanAiModal from "../../components/Woomoonkyung/StudyPlanMainPage/AddStudyPlanAiModal";
 import { LoginService } from "../../api/Auth/LoginPage";
+import { STATE_COLORS } from "../../constants/Woomoonkyung/Woomoonkyung";
 
 export default function StudyPlanMainPage() {
   const navigate = useNavigate();
@@ -120,7 +120,7 @@ export default function StudyPlanMainPage() {
                   completedNodes={plan.stats.completed}
                   totalNodes={plan.stats.total}
                   progress={plan.stats.progress}
-                  stateColors={stateColors}
+                  stateColors={STATE_COLORS}
                   onPlanClick={(id) => navigate(`/woomoonkyung/plan/${id}`)}
                   onDeleteClick={(e) => handleDeletePlan(e, plan.study_plan_id)}
                   isDeleting={deletingId === plan.study_plan_id}

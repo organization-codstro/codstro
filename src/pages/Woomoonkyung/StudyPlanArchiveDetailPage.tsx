@@ -12,9 +12,9 @@ import {
 } from "lucide-react";
 import { StudyPlanArchiveDetailService } from "../../api/Woomoonkyung/StudyPlanArchiveDetailPage";
 import { LoginService } from "../../api/Auth/LoginPage";
-import { stateColors } from "../../data/Woomoonkyung/woomoonkyungData";
 import { StudyPlan, StudyPlanNode } from "../../types/common/Woomoonkyung";
 import NotFoundPage from "../NotFound/NotFoundPage";
+import { STATE_COLORS } from "../../constants/Woomoonkyung/Woomoonkyung";
 
 export default function StudyPlanArchiveDetailPage() {
   const { planId } = useParams<{ planId: string }>();
@@ -211,7 +211,7 @@ export default function StudyPlanArchiveDetailPage() {
               <div className="flex items-center gap-2">
                 <span
                   className={`px-3 py-1 text-sm rounded-full border ${
-                    stateColors[plan.study_plan_state] ||
+                    STATE_COLORS[plan.study_plan_state] ||
                     "border-gray-200 text-gray-500"
                   }`}
                 >

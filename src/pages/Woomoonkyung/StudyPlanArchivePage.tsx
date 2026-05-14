@@ -5,8 +5,8 @@ import { StudyPlanArchiveService } from "../../api/Woomoonkyung/StudyPlanArchive
 import { LoginService } from "../../api/Auth/LoginPage";
 import ArchiveStudyPlanCard from "../../components/Woomoonkyung/StudyPlanArchivePage/ArchiveStudyPlanCard";
 import { toast } from "react-toastify";
-import { stateColors } from "../../data/Woomoonkyung/woomoonkyungData";
 import { PlanStatsResult, StudyPlan } from "../../types/common/Woomoonkyung";
+import { STATE_COLORS } from "../../constants/Woomoonkyung/Woomoonkyung";
 
 export default function StudyPlanArchivePage() {
   const navigate = useNavigate();
@@ -156,7 +156,7 @@ export default function StudyPlanArchivePage() {
                     completedNodes={stats.completed}
                     totalNodes={stats.total}
                     progress={stats.progress}
-                    stateColors={stateColors}
+                    stateColors={STATE_COLORS}
                     onPlanClick={(id) => navigate(`/woomoonkyung/plan/${id}`)}
                     onDeleteClick={(e) => handleDeletePlan(e, plan)}
                     isDeleting={deletingId === plan.study_plan_id}
