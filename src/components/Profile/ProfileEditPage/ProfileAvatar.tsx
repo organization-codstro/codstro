@@ -2,13 +2,13 @@ import { useRef } from "react";
 import { Camera } from "lucide-react";
 import { ProfileAvatarProps } from "../../../types/pages/Profile/ProfileEditPage/ProfileAvatar";
 
-export default function ProfileAvatar({
+export const ProfileAvatar: React.FC<ProfileAvatarProps> = ({
   name,
   src,
   size = "w-24 h-24",
   backgroundColor = "#587CF0",
   onImageChange,
-}: ProfileAvatarProps) {
+}: ProfileAvatarProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // 아바타 클릭 시 숨겨진 input 실행

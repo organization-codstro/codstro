@@ -1,6 +1,6 @@
 import { FormInputProps } from "../../../types/pages/Profile/ProfileEditPage/FormInput";
 
-export default function FormInput({
+export const FormInput: React.FC<FormInputProps> = ({
   label,
   value,
   type = "text",
@@ -8,7 +8,7 @@ export default function FormInput({
   disabled = false,
   helperText,
   onChange,
-}: FormInputProps) {
+}: FormInputProps) => {
   return (
     <div>
       <label className="block mb-2 text-sm font-medium text-gray-700">

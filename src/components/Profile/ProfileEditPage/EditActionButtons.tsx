@@ -1,13 +1,13 @@
 import { Save, Loader2 } from "lucide-react";
 import { EditActionButtonsProps } from "../../../types/pages/Profile/ProfileEditPage/EditActionButtons";
 
-export default function EditActionButtons({
+export const EditActionButtons: React.FC<EditActionButtonsProps> = ({
   onCancel,
   onSave,
   disabled = false,
   saveLabel = "Save Changes",
   cancelLabel = "Cancel",
-}: EditActionButtonsProps) {
+}: EditActionButtonsProps) => {
   return (
     <div className="flex gap-3 pt-4">
       {/* 1. 취소 버튼: 저장 중에는 클릭 방지 및 시각적 비활성화 */}
@@ -51,4 +51,4 @@ export default function EditActionButtons({
       </button>
     </div>
   );
-}
+};

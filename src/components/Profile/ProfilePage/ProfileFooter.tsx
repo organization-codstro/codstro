@@ -1,7 +1,7 @@
 import { Edit2 } from "lucide-react";
 import { ProfileFooterProps } from "../../../types/pages/Profile/ProfilePage/ProfileFooter";
 
-export default function ProfileFooter({ onEditProfile }: ProfileFooterProps) {
+export const ProfileFooter: React.FC<ProfileFooterProps> = ({ onEditProfile }) => {
   return (
     <button
       onClick={onEditProfile}

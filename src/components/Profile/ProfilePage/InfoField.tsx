@@ -1,10 +1,10 @@
 import { InfoFieldProps } from "../../../types/pages/Profile/ProfilePage/InfoField";
 
-export default function InfoField({
+export const InfoField: React.FC<InfoFieldProps> = ({
   label,
   value,
   icon: Icon,
-}: InfoFieldProps) {
+}) => {
   return (
     <div>
       <label className="flex items-center gap-2 mb-2 text-sm font-medium text-gray-600">

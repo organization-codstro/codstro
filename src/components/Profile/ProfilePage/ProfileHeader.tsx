@@ -1,9 +1,9 @@
 import { ProfileHeaderProps } from "../../../types/pages/Profile/ProfilePage/ProfileHeader";
 
-export default function ProfileHeader({
+export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   name,
   profileUrl,
-}: ProfileHeaderProps) {
+}) => {
   return (
     <div className="flex items-center justify-between gap-8">
       {/* Group 1: Avatar + Name */}
@@ -27,4 +27,4 @@ export default function ProfileHeader({
       </div>
     </div>
   );
-}
+};
