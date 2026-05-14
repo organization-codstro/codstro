@@ -2,13 +2,13 @@ import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Loader2, Plus } from "lucide-react";
-import ProjectGrid from "../../components/Woomoonro/CloneCodingProjectGrid/CloneCodingProjectGrid";
-import PageHeader from "../../components/Woomoonkyung/StudyPlanEditPage/PageHeader";
-import ProjectFilters from "../../components/Woomoonro/CloneCodingProjectMainPage/ProjectFilters";
-import NoResults from "../../components/Woomoonro/CloneCodingProjectMainPage/NoResults";
+import { ProjectGrid } from "../../components/Woomoonro/CloneCodingProjectGrid/CloneCodingProjectGrid";
+import { PageHeader } from "../../components/Woomoonkyung/StudyPlanEditPage/PageHeader";
+import { ProjectFilters } from "../../components/Woomoonro/CloneCodingProjectMainPage/ProjectFilters";
+import { NoResults } from "../../components/Woomoonro/CloneCodingProjectMainPage/NoResults";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { MainProjectItem } from "../../types/pages/Woomoonro/CloneCodingProjectMainPage/CloneCodingProjectMainPage";
-import AddCloneCodingModal from "../../components/Woomoonro/CloneCodingProjectMainPage/Addclonecodingmodal";
+import { AddCloneCodingModal } from "../../components/Woomoonro/CloneCodingProjectMainPage/Addclonecodingmodal";
 import { CloneCodingProjectMainPageService } from "../../api/Woomoonro/CloneCodingProjectMainPage";
 
 export default function CloneCodingProjectMainPage() {

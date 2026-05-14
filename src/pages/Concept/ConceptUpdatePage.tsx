@@ -13,11 +13,11 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { MessageSquare, FileText } from "lucide-react";
 import { useConceptEditor } from "../../hooks/Concepts/Concepteditorpage";
-import ConceptEditorHeader from "../../components/Concept/ConceptUpdatePage/ConceptEditorHeader";
-import EditorPanel from "../../components/Concept/ConceptUpdatePage/EditorPanel";
-import PreviewPanel from "../../components/Concept/ConceptUpdatePage/PreviewPanel";
-import ChatPanel from "../../components/Concept/ConceptUpdatePage/ChatPanel/ChatPanel";
-import NotFoundPage from "../NotFound/NotFoundPage";
+import { ConceptEditorHeader } from "../../components/Concept/ConceptUpdatePage/ConceptEditorHeader";
+import { EditorPanel } from "../../components/Concept/ConceptUpdatePage/EditorPanel";
+import { PreviewPanel } from "../../components/Concept/ConceptUpdatePage/PreviewPanel";
+import { ChatPanel } from "../../components/Concept/ConceptUpdatePage/ChatPanel/ChatPanel";
+import { NotFoundPage } from "../NotFound/NotFoundPage";
 
 export default function ConceptUpdatePage() {
   const navigate = useNavigate();

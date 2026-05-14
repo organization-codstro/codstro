@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { MaterialsHeader } from "../../components/ProjectPlanning/MeetingMaterialsPage/MaterialsHeader";
 import { EditableField } from "../../components/ProjectPlanning/MeetingMaterialsPage/EditableField";
 import { MeetingMaterialsService } from "../../api/ProjectPlanning/MeetingMaterialsPage";
-import NotFoundPage from "../NotFound/NotFoundPage";
+import {NotFoundPage} from "../NotFound/NotFoundPage";
 import { Edit2, X } from "lucide-react";
 
 export default function MeetingMaterialsPage() {

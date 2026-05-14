@@ -1,105 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import {
-  FileText,
-  Code2,
-  BookOpen,
-  Brain,
-  Briefcase,
-  Terminal,
-  MessageCircle,
-  Building2,
-  User,
-  Folder,
-  CheckSquare,
-  Star,
-  Archive,
-  Lightbulb,
-  Sparkles,
-  Book,
-  Users,
-  Library,
-  GraduationCap,
-  BookMarked,
-  Plus,
-  Download,
-  LayoutGrid as Layout,
-  StickyNote,
-  Bell,
-  ChevronDown,
-  ChevronRight,
-  X,
-  FolderOpen,
-  Files,
-  GitFork,
-  ScrollText,
-  UserCircle,
-  BookText,
-  FolderKanban,
-  Video,
-  Home,
-  Package,
-  Wrench,
-  CloudCog,
-  Building,
-  Bookmark,
-  Clock,
-  ListChecks,
-} from "lucide-react";
+import { User, ChevronDown, X } from "lucide-react";
 import { navigationData } from "../data/navigationData";
 import Logo from "../assets/images/logo.svg";
 import { SidebarProps } from "../types/pages/Sidebar";
-import { NavigationItem } from "../types/pages/Sidebar/sidebar"
+import { NavigationItem } from "../types/pages/Sidebar/sidebar";
 import { supabase } from "../db/supabase/supabase";
 import { useUserStore } from "../store/profileStore";
+import { SIDEBAR_ICONMAP } from "../constants/Sidebar";
 
-const iconMap = {
-  CheckSquare,
-  FileText,
-  Code2,
-  BookOpen,
-  Brain,
-  Briefcase,
-  Terminal,
-  MessageCircle,
-  Building2,
-  User,
-  Folder,
-  Star,
-  Archive,
-  Lightbulb,
-  Sparkles,
-  Book,
-  Users,
-  Library,
-  GraduationCap,
-  BookMarked,
-  Plus,
-  Download,
-  Layout,
-  StickyNote,
-  Bell,
-  ChevronDown,
-  ChevronRight,
-  FolderOpen,
-  Files,
-  GitFork,
-  ScrollText,
-  UserCircle,
-  BookText,
-  FolderKanban,
-  Video,
-  Home,
-  Package,
-  Wrench,
-  CloudCog,
-  Building,
-  Bookmark,
-  Clock,
-  ListChecks,
-};
-
-const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
   const navigate = useNavigate();
   const location = useLocation();
@@ -143,7 +53,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   };
 
   const renderNavigationItem = (item: NavigationItem) => {
-    const IconComponent = iconMap[item.icon as keyof typeof iconMap];
+    const IconComponent =
+      SIDEBAR_ICONMAP[item.icon as keyof typeof SIDEBAR_ICONMAP];
     const hasChildren = item.children && item.children.length > 0;
     const isExpanded = expandedItems.has(item.id);
     const isActive = currentRoute === item.route;
@@ -180,7 +91,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             <div className="pl-4 mt-2 ml-4 space-y-1 border-l-2 border-purple-100">
               {item.children!.map((child) => {
                 const ChildIconComponent =
-                  iconMap[child.icon as keyof typeof iconMap];
+                  SIDEBAR_ICONMAP[child.icon as keyof typeof SIDEBAR_ICONMAP];
                 const isChildActive = currentRoute === child.route;
 
                 return (
@@ -279,5 +190,3 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     </>
   );
 };
-
-export default Sidebar;

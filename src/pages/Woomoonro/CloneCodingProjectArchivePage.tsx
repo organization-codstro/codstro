@@ -11,9 +11,9 @@ import {
 import { toast } from "react-toastify";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { ArchiveService } from "../../api/Woomoonro/CloneCodingProjectArchivePage";
-import ProjectGrid from "../../components/Woomoonro/CloneCodingProjectGrid/CloneCodingProjectGrid";
+import {ProjectGrid} from "../../components/Woomoonro/CloneCodingProjectGrid/CloneCodingProjectGrid";
 import { StatCard } from "../../components/Woomoonro/CloneCodingProjectArchivePage/CloneCodingProjectStatCard";
-import ArchiveFilters from "../../components/Woomoonro/CloneCodingProjectArchivePage/CloneCodingProjectArchiveFilters";
+import {ArchiveFilters} from "../../components/Woomoonro/CloneCodingProjectArchivePage/CloneCodingProjectArchiveFilters";
 
 import {
   ArchivedProjectItem,

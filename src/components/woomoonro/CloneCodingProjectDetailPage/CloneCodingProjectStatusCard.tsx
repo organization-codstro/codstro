@@ -1,7 +1,7 @@
 import React from "react";
 import { CloneCodingProjectStatusCardProps } from "../../../types/pages/Woomoonro/CloneCodingProjectDetailPage/CloneCodingProjectStatusCard";
 
-const ProjectStatusCard: React.FC<CloneCodingProjectStatusCardProps> = ({
+export const ProjectStatusCard: React.FC<CloneCodingProjectStatusCardProps> = ({
   currentStatus,
   onStatusChange,
 }) => {
@@ -37,5 +37,3 @@ const ProjectStatusCard: React.FC<CloneCodingProjectStatusCardProps> = ({
     </div>
   );
 };
-
-export default ProjectStatusCard;

@@ -19,7 +19,7 @@ import { ProjectInfoGenerateService } from "../../api/ProjectPlanning/ProjectInf
 import { SavePlanningDraftParams } from "../../types/api/ProjectPlanning/ProjectInfoGeneratePage";
 import { getKSTDateString } from "../../utils/date/getKSTDateString";
 import { SaveDraftWarningModal } from "../../components/ProjectPlanning/ProjectInfoGeneratePage/SaveDraftWarningModal";
-import NotFoundPage from "../NotFound/NotFoundPage";
+import { NotFoundPage } from "../NotFound/NotFoundPage";
 
 export default function ProjectInfoGeneratePage() {
   const navigate = useNavigate();
@@ -266,7 +266,7 @@ export default function ProjectInfoGeneratePage() {
   const addProjectTodo = (todo: NewProjectTodo) => {
     const uiTodo: UITodo = {
       ...todo,
-      id: crypto.randomUUID(),  
+      id: crypto.randomUUID(),
       client_id: crypto.randomUUID(), // UI 전용
     };
 
@@ -336,8 +336,8 @@ export default function ProjectInfoGeneratePage() {
     setPages((prev) => prev.filter((p) => p.project_page_id !== pageId));
   };
 
-  if(!projectId){
-    return <NotFoundPage/>
+  if (!projectId) {
+    return <NotFoundPage />;
   }
 
   return (

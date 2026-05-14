@@ -4,15 +4,15 @@ import { Mail } from "lucide-react";
 import { toast } from "react-toastify";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { ProfileService } from "../../api/Profile/Profile";
-import ProfileHeader from "../../components/Profile/ProfilePage/ProfileHeader";
-import InfoField from "../../components/Profile/ProfilePage/InfoField";
-import ProfileFooter from "../../components/Profile/ProfilePage/ProfileFooter";
+import { ProfileHeader } from "../../components/Profile/ProfilePage/ProfileHeader";
+import { InfoField } from "../../components/Profile/ProfilePage/InfoField";
+import { ProfileFooter } from "../../components/Profile/ProfilePage/ProfileFooter";
+import { NotFoundPage } from "../NotFound/NotFoundPage";
 
 /* -------------------------------------------------------------------------- */
 /* API 응답 데이터 타입                                                        */
 /* -------------------------------------------------------------------------- */
 import { GetUserFullProfileResponse } from "../../types/api/Profile/ProfilePage";
-import NotFoundPage from "../NotFound/NotFoundPage";
 
 export default function ProfilePage() {
   const navigate = useNavigate();

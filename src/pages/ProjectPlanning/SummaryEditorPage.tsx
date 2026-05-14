@@ -3,9 +3,9 @@ import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { SummaryEditorService } from "../../api/ProjectPlanning/SummaryEditorPage";
-import SummaryEditorHeader from "../../components/ProjectPlanning/SummaryEditorPage/SummaryEditorHeader";
-import MarkdownEditorPanel from "../../components/ProjectPlanning/SummaryEditorPage/MarkdownEditorPanel";
-import MarkdownPreviewPanel from "../../components/ProjectPlanning/SummaryEditorPage/MarkdownPreviewPanel";
+import { SummaryEditorHeader } from "../../components/ProjectPlanning/SummaryEditorPage/SummaryEditorHeader";
+import { MarkdownEditorPanel } from "../../components/ProjectPlanning/SummaryEditorPage/MarkdownEditorPanel";
+import { MarkdownPreviewPanel } from "../../components/ProjectPlanning/SummaryEditorPage/MarkdownPreviewPanel";
 
 export default function SummaryEditorPage() {
   const { projectId, meetingId } = useParams<{

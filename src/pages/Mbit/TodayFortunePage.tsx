@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import FortuneDrawIntro from "../../components/Mbit/TodayFortunePage/FortuneDrawIntro";
-import FortuneResultCard from "../../components/Mbit/TodayFortunePage/FortuneResultCard";
+import { FortuneDrawIntro } from "../../components/Mbit/TodayFortunePage/FortuneDrawIntro";
+import { FortuneResultCard } from "../../components/Mbit/TodayFortunePage/FortuneResultCard";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { TodayFortuneService } from "../../api/Mbit/TodayFortunePage";
 import { Fortune } from "../../types/common/Mbit";
@@ -61,11 +61,11 @@ export default function TodayFortunePage() {
 
   if (loading)
     return (
-      <div className="flex-1 min-h-screen flex items-center justify-center"></div>
+      <div className="flex items-center justify-center flex-1 min-h-screen"></div>
     );
 
   return (
-    <div className="flex-1 min-h-screen flex items-center justify-center p-8">
+    <div className="flex items-center justify-center flex-1 min-h-screen p-8">
       <div className="w-full max-w-6xl mx-auto">
         {" "}
         {/* max-w-3xl → max-w-6xl */}

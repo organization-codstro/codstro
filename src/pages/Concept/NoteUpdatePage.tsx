@@ -13,11 +13,11 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { MessageSquare, FileText } from "lucide-react";
 import { useNoteEditor } from "../../hooks/Concepts/Noteeditorpage";
-import NoteEditorHeader from "../../components/Concept/NoteUpdatePage/NoteEditorHeader";
-import EditorPanel from "../../components/Concept/NoteUpdatePage/EditorPanel";
-import PreviewPanel from "../../components/Concept/NoteUpdatePage/PreviewPanel";
-import ChatPanel from "../../components/Concept/NoteUpdatePage/ChatPanel/ChatPanel";
-import NotFoundPage from "../NotFound/NotFoundPage";
+import { NoteEditorHeader } from "../../components/Concept/NoteUpdatePage/NoteEditorHeader";
+import { EditorPanel } from "../../components/Concept/NoteUpdatePage/EditorPanel";
+import { PreviewPanel } from "../../components/Concept/NoteUpdatePage/PreviewPanel";
+import { ChatPanel } from "../../components/Concept/NoteUpdatePage/ChatPanel/ChatPanel";
+import { NotFoundPage } from "../NotFound/NotFoundPage";
 
 export default function NoteUpdatePage() {
   const navigate = useNavigate();

@@ -8,11 +8,11 @@ import { TodoManagementDetailService } from "../../api/Woomoonjeong/TodoManageme
 import { LoginService } from "../../api/Auth/LoginPage";
 
 // UI 컴포넌트
-import TodoDetailHeader from "../../components/Woomoonjeong/TodoManagementDetailPage/TodoDetailHeader";
-import TodoStatusBadge from "../../components/Woomoonjeong/TodoManagementDetailPage/TodoStatusBadge";
-import TodoInfoSection from "../../components/Woomoonjeong/TodoManagementDetailPage/TodoInfoSection";
+import { TodoDetailHeader } from "../../components/Woomoonjeong/TodoManagementDetailPage/TodoDetailHeader";
+import { TodoStatusBadge } from "../../components/Woomoonjeong/TodoManagementDetailPage/TodoStatusBadge";
+import { TodoInfoSection } from "../../components/Woomoonjeong/TodoManagementDetailPage/TodoInfoSection";
 import { TodoDetail } from "../../types/pages/Woomoonjeong/TodoManagementDetailPage/TodoManagementDetailPage";
-import NotFoundPage from "../NotFound/NotFoundPage";
+import { NotFoundPage } from "../NotFound/NotFoundPage";
 
 export default function TodoManagementDetailPage() {
   const { todoId } = useParams<{ todoId: string }>();

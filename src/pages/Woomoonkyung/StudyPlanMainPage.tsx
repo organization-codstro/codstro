@@ -6,10 +6,10 @@ import { Loader2 } from "lucide-react";
 import { WoomoonkyungMainService } from "../../api/Woomoonkyung/StudyPlanMainPage";
 import { PlanWithStats } from "../../types/api/Woomoonkyung/StudyPlanMainPage";
 
-import StudyPlanCard from "../../components/Woomoonkyung/StudyPlanMainPage/StudyPlanCard";
-import DashboardHeader from "../../components/Woomoonkyung/StudyPlanMainPage/DashboardHeader";
-import ActivePlanSection from "../../components/Woomoonkyung/StudyPlanMainPage/ActivePlanSection";
-import EmptyPlanState from "../../components/Woomoonkyung/StudyPlanMainPage/EmptyPlanState";
+import { StudyPlanCard } from "../../components/Woomoonkyung/StudyPlanMainPage/StudyPlanCard";
+import { DashboardHeader } from "../../components/Woomoonkyung/StudyPlanMainPage/DashboardHeader";
+import { ActivePlanSection } from "../../components/Woomoonkyung/StudyPlanMainPage/ActivePlanSection";
+import { EmptyPlanState } from "../../components/Woomoonkyung/StudyPlanMainPage/EmptyPlanState";
 import AddStudyPlanAiModal from "../../components/Woomoonkyung/StudyPlanMainPage/AddStudyPlanAiModal";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { STATE_COLORS } from "../../constants/Woomoonkyung/Woomoonkyung";

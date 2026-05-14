@@ -13,7 +13,7 @@ import {
 import { StudyPlanArchiveDetailService } from "../../api/Woomoonkyung/StudyPlanArchiveDetailPage";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { StudyPlan, StudyPlanNode } from "../../types/common/Woomoonkyung";
-import NotFoundPage from "../NotFound/NotFoundPage";
+import { NotFoundPage } from "../NotFound/NotFoundPage";
 import { STATE_COLORS } from "../../constants/Woomoonkyung/Woomoonkyung";
 
 export default function StudyPlanArchiveDetailPage() {

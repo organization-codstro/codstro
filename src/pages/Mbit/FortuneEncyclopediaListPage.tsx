@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { FortuneEncyclopediaListService } from "../../api/Mbit/FortuneEncyclopediaListPage";
-import FortuneItemCard from "../../components/Mbit/FortuneEncyclopediaListPage/FortuneItemCard";
+import { FortuneItemCard } from "../../components/Mbit/FortuneEncyclopediaListPage/FortuneItemCard";
 import { useNavigate } from "react-router-dom";
 import { FortuneList } from "../../types/common/Mbit";
 

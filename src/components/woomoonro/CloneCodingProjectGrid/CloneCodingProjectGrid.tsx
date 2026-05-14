@@ -1,9 +1,9 @@
 import { Archive } from "lucide-react";
-import ProjectCard from "./CloneCodingProjectCard";
+import { ProjectCard } from "./CloneCodingProjectCard";
 import { CloneCodingProjectGridProps } from "../../../types/pages/Woomoonro/CloneCodingProjectGrid/CloneCodingProjectGrid";
 
 // --- ProjectGrid 컴포넌트 ---
-const ProjectGrid = ({
+export const ProjectGrid = ({
   projects,
   getUserProject,
   onCardClick,
@@ -35,4 +35,3 @@ const ProjectGrid = ({
   );
 };
 
-export default ProjectGrid;

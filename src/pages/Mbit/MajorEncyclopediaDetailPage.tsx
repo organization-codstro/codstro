@@ -10,8 +10,8 @@ import {
   BookOpen,
   DollarSign,
 } from "lucide-react";
-import MajorDetailHeader from "../../components/Mbit/MajorEncyclopediaDetailPage/MajorDetailHeader";
-import NotFoundPage from "../NotFound/NotFoundPage";
+import {MajorDetailHeader} from "../../components/Mbit/MajorEncyclopediaDetailPage/MajorDetailHeader";
+import {NotFoundPage} from "../NotFound/NotFoundPage";
 
 export default function MajorEncyclopediaDetailPage() {
   const { majorId } = useParams<{ majorId: string }>();

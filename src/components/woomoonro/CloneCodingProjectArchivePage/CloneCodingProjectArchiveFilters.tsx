@@ -3,7 +3,7 @@ import { FilterGroup } from "../FilterGroup";
 import { CloneCodingProjectArchiveFiltersProps } from "../../../types/pages/Woomoonro/CloneCodingProjectArchivePage/CloneCodingProjectArchiveFilters";
 import { CLONE_CODINGS_DIFFICULTIES } from "../../../constants/Woomoonro/Woomoonro";
 
-const ArchiveFilters: React.FC<CloneCodingProjectArchiveFiltersProps> = ({
+export const ArchiveFilters: React.FC<CloneCodingProjectArchiveFiltersProps> = ({
   selectedFilter,
   setSelectedFilter,
   selectedDifficulty,
@@ -42,5 +42,3 @@ const ArchiveFilters: React.FC<CloneCodingProjectArchiveFiltersProps> = ({
     </div>
   );
 };
-
-export default ArchiveFilters;

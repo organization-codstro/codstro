@@ -1,6 +1,6 @@
 import { Outlet, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Sidebar from "../components/Sidebar";
+import { Sidebar } from "../components/Sidebar";
 
 export default function Layout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);

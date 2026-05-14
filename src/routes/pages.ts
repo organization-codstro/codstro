@@ -87,4 +87,4 @@ export { default as Profile } from "../pages/Profile/ProfilePage";
 export { default as ProfileEdit } from "../pages/Profile/ProfileEditPage";
 
 /* ================= 404 ================= */
-export { default as NotFound } from "../pages/NotFound/NotFoundPage";
+export { NotFoundPage } from "../pages/NotFound/NotFoundPage";

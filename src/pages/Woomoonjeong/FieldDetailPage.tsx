@@ -11,11 +11,11 @@ import { LoginService } from "../../api/Auth/LoginPage";
 import { FieldDetailData } from "../../types/pages/Woomoonjeong/FieldDetailPage/FieldDetailPage";
 
 // 기존 컴포넌트
-import AssignRecommendedFieldModal from "../../components/Woomoonjeong/AssignRecommendedCreateFieldModal";
-import FieldDetailHeader from "../../components/Woomoonjeong/FieldDetailPage/FieldDetailHeader";
-import PinList from "../../components/Woomoonjeong/FieldDetailPage/PinList";
-import { GROUP_NAME_COLORS } from "../../constants/Woomoonjeong/woomoonjeong";
-import NotFoundPage from "../NotFound/NotFoundPage";
+import { AssignRecommendedFieldModal } from "../../components/Woomoonjeong/AssignRecommendedCreateFieldModal";
+import { FieldDetailHeader } from "../../components/Woomoonjeong/FieldDetailPage/FieldDetailHeader";
+import { PinList } from "../../components/Woomoonjeong/FieldDetailPage/PinList";
+import { GROUP_NAME_COLORS } from "../../constants/Woomoonjeong/Woomoonjeong";
+import { NotFoundPage } from "../NotFound/NotFoundPage";
 
 export default function FieldDetailPage() {
   const { fieldId } = useParams<{ fieldId: string }>();

@@ -4,10 +4,10 @@ import { User, Mail } from "lucide-react";
 import { toast } from "react-toastify";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { ProfileEditService } from "../../api/Profile/ProfileEditPage";
-import EditHeader from "../../components/Profile/ProfileEditPage/EditHeader";
-import ProfileAvatar from "../../components/Profile/ProfileEditPage/ProfileAvatar";
-import FormInput from "../../components/Profile/ProfileEditPage/FormInput";
-import EditActionButtons from "../../components/Profile/ProfileEditPage/EditActionButtons";
+import { EditHeader } from "../../components/Profile/ProfileEditPage/EditHeader";
+import { ProfileAvatar } from "../../components/Profile/ProfileEditPage/ProfileAvatar";
+import { FormInput } from "../../components/Profile/ProfileEditPage/FormInput";
+import { EditActionButtons } from "../../components/Profile/ProfileEditPage/EditActionButtons";
 import { ProfileFormData } from "../../types/pages/Profile/ProfileEditPage/ProfileEditPage";
 import { ProfileService } from "../../api/Profile/Profile";
 

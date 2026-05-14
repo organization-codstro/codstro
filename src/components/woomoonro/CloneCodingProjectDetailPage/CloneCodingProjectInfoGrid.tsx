@@ -2,7 +2,7 @@ import React from "react";
 import { Clock, Github, ExternalLink } from "lucide-react";
 import { CloneCodingProjectInfoGridProps } from "../../../types/pages/Woomoonro/CloneCodingProjectDetailPage/CloneCodingProjectInfoGrid";
 
-const ProjectInfoGrid: React.FC<CloneCodingProjectInfoGridProps> = ({
+export const ProjectInfoGrid: React.FC<CloneCodingProjectInfoGridProps> = ({
   difficulty,
   difficultyColor,
   status,
@@ -87,4 +87,3 @@ const ProjectInfoGrid: React.FC<CloneCodingProjectInfoGridProps> = ({
   );
 };
 
-export default ProjectInfoGrid;

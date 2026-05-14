@@ -9,20 +9,20 @@ import { LoginService } from "../../api/Auth/LoginPage";
 import { ConceptDetailService } from "../../api/Concept/ConceptDetailPage";
 
 // 공통 컴포넌트
-import AIChat from "../../components/Concept/ConceptDetailPage/CompanyInformationAIChat";
+import { CompanyInformationAIChat } from "../../components/Concept/ConceptDetailPage/CompanyInformationAIChat";
 import { AddTodoModal } from "../../components/CompanyInformation/AddTodoModal";
-import MarkdownRenderer from "../../components/Markdown/MarkdownRenderer";
+import { MarkdownRenderer } from "../../components/Markdown/MarkdownRenderer";
 import { BackButton } from "../../components/Concept/BackButton";
-import ConceptHeader from "../../components/Concept/ConceptDetailPage/ConceptHeader";
-import ConceptServiceActionButtons from "../../components/Concept/ConceptDetailPage/ConceptServiceActionButtons";
-import RelatedItemGrid from "../../components/Concept/ConceptDetailPage/RelatedItemGrid";
-import NotFoundPage from "../NotFound/NotFoundPage";
+import { ConceptHeader } from "../../components/Concept/ConceptDetailPage/ConceptHeader";
+import { ConceptServiceActionButtons } from "../../components/Concept/ConceptDetailPage/ConceptServiceActionButtons";
+import { RelatedItemGrid } from "../../components/Concept/ConceptDetailPage/RelatedItemGrid";
+import { NotFoundPage } from "../NotFound/NotFoundPage";
 import {
   GROUP_NAME,
   GROUP_NAME_TYPE,
 } from "../../constants/Woomoonjeong/Woomoonjeong";
-import ConceptActionButtons from "../../components/Concept/ConceptDetailPage/ConceptActionButtons";
-import ConceptEditMetaModal from "../../components/Concept/ConceptDetailPage/ConceptEditMetaModal";
+import { ConceptActionButtons } from "../../components/Concept/ConceptDetailPage/ConceptActionButtons";
+import { ConceptEditMetaModal } from "../../components/Concept/ConceptDetailPage/ConceptEditMetaModal";
 
 export default function ConceptDetailPage() {
   const { conceptId } = useParams<{ conceptId: string }>();
@@ -270,7 +270,7 @@ export default function ConceptDetailPage() {
       />
 
       {/* 6. 모달 및 채팅 레이어 */}
-      <AIChat
+      <CompanyInformationAIChat
         isOpen={showAIChat}
         onClose={() => setShowAIChat(false)}
         conceptName={data.name}

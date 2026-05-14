@@ -4,8 +4,8 @@ import { FortuneEncyclopediaDetailService } from "../../api/Mbit/FortuneEncyclop
 import { Fortune } from "../../types/common/Mbit";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import DetailHeader from "../../components/Mbit/FortuneEncyclopediaDetailPage/DetailHeader";
-import NotFoundPage from "../NotFound/NotFoundPage";
+import { DetailHeader } from "../../components/Mbit/FortuneEncyclopediaDetailPage/DetailHeader";
+import { NotFoundPage } from "../NotFound/NotFoundPage";
 
 export default function FortuneEncyclopediaDetailPage() {
   const { fortuneId } = useParams<{ fortuneId: string }>();

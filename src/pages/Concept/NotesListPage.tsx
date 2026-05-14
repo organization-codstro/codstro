@@ -9,11 +9,11 @@ import { NoteSummaryResponse } from "../../types/api/Concept/NotesListPage";
 import { LoginService } from "../../api/Auth/LoginPage";
 
 // 컴포넌트
-import NotesListHeader from "../../components/Concept/NotesListPage/NotesListHeader";
-import ConceptGrid from "../../components/Concept/ConceptGrid";
-import NoteCard from "../../components/Concept/NotesListPage/NoteCard";
-import EmptyNotesState from "../../components/Concept/NotesListPage/EmptyNotesState";
-import NoteSearchBar from "../../components/Concept/NotesListPage/noteSearchBar";
+import { NotesListHeader } from "../../components/Concept/NotesListPage/NotesListHeader";
+import { ConceptGrid } from "../../components/Concept/ConceptGrid";
+import { NoteCard } from "../../components/Concept/NotesListPage/NoteCard";
+import { EmptyNotesState } from "../../components/Concept/NotesListPage/EmptyNotesState";
+import { NoteSearchBar } from "../../components/Concept/NotesListPage/NoteSearchBar";
 
 export default function NotesListPage() {
   const navigate = useNavigate();
@@ -54,7 +54,7 @@ export default function NotesListPage() {
 
   // 3. 엔터 검색 핸들러
   const handleSearch = async (keyword: string) => {
-    if (!userId ) return;
+    if (!userId) return;
 
     try {
       const data = keyword.trim()

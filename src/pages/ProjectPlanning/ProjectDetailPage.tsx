@@ -9,14 +9,13 @@ import {
   UITodo,
   NewProjectTodo,
 } from "../../types/common/ProjectPlanning";
-
 import { ProjectPagesSection } from "../../components/ProjectPlanning/ProjectPagesSection/ProjectPagesSection";
 import { ProjectDetailHeader } from "../../components/ProjectPlanning/ProjectDetailPage/ProjectDetailHeader";
 import { ProjectInfoView } from "../../components/ProjectPlanning/ProjectDetailPage/ProjectInfoView";
 import { ProjectTasksSection } from "../../components/ProjectPlanning/ProjectInfoGeneratePage/ProjectTasksSection/ProjectTasksSection";
 import { ProjectTodoModal } from "../../components/ProjectPlanning/ProjectInfoGeneratePage/ProjectTodoModal/ProjectTodoModal";
 import { ProjectDetailService } from "../../api/ProjectPlanning/ProjectDetailPage";
-import NotFoundPage from "../NotFound/NotFoundPage";
+import { NotFoundPage } from "../NotFound/NotFoundPage";
 import { ProjectDetailSkeleton } from "../../components/ProjectPlanning/ProjectDetailPage/ProjectDetailSkeleton";
 import { supabase } from "../../db/supabase/supabase";
 import { ProjectStatsSidebar } from "../../components/ProjectPlanning/ProjectDetailPage/ProjectStatsSidebar";
@@ -48,8 +47,8 @@ export default function ProjectDetailPage() {
         navigate(`/projects`);
       }
     };
-    window.addEventListener("keydown", handleEsc);
-    return () => window.removeEventListener("keydown", handleEsc);
+    globalThis.addEventListener("keydown", handleEsc);
+    return () => globalThis.removeEventListener("keydown", handleEsc);
   }, [navigate, projectId]);
 
   useEffect(() => {

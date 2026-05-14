@@ -2,7 +2,9 @@ import { Bookmark, BookmarkCheck } from "lucide-react";
 import { CloneCodingProjectDetailHeaderProps } from "../../../types/pages/Woomoonro/CloneCodingProjectDetailPage/CloneCodingProjectDetailHeader";
 import CloneCodingProjectImg from "../../../assets/images/woomoonro/CloneCodingProjectbasicImg.png";
 
-const ProjectDetailHeader = (props: CloneCodingProjectDetailHeaderProps) => {
+export const ProjectDetailHeader = (
+  props: CloneCodingProjectDetailHeaderProps,
+) => {
   return (
     <div>
       <div className="h-64 overflow-hidden bg-gray-200">
@@ -40,4 +42,4 @@ const ProjectDetailHeader = (props: CloneCodingProjectDetailHeaderProps) => {
   );
 };
 
-export default ProjectDetailHeader;
+

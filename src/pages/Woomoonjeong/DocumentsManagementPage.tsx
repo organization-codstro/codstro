@@ -7,13 +7,13 @@ import { DocumentsManagementService } from "../../api/Woomoonjeong/DocumentsMana
 import { LoginService } from "../../api/Auth/LoginPage";
 
 // 기존 컴포넌트 및 설정
-import CreateCustomFieldModal from "../../components/Woomoonjeong/DocumentsManagementPage/Modal/CreateCustomFieldModal";
-import CreateDocumentModal from "../../components/Woomoonjeong/DocumentsManagementPage/Modal/CreateDocumentModal";
-import EditDocumentModal from "../../components/Woomoonjeong/DocumentsManagementPage/Modal/EditDocumentModal";
-import ManagementHeader from "../../components/Woomoonjeong/DocumentsManagementPage/ManagementHeader";
-import DocumentFilterBar from "../../components/Woomoonjeong/DocumentsManagementPage/DocumentFilterBar";
-import FieldItem from "../../components/Woomoonjeong/DocumentsManagementPage/FieldItem";
-import ManagementSidebar from "../../components/Woomoonjeong/DocumentsManagementPage/ManagementSidebar";
+import { CreateCustomFieldModal } from "../../components/Woomoonjeong/DocumentsManagementPage/Modal/CreateCustomFieldModal";
+import { CreateDocumentModal } from "../../components/Woomoonjeong/DocumentsManagementPage/Modal/CreateDocumentModal";
+import { EditDocumentModal } from "../../components/Woomoonjeong/DocumentsManagementPage/Modal/EditDocumentModal";
+import { ManagementHeader } from "../../components/Woomoonjeong/DocumentsManagementPage/ManagementHeader";
+import { DocumentFilterBar } from "../../components/Woomoonjeong/DocumentsManagementPage/DocumentFilterBar";
+import { FieldItem } from "../../components/Woomoonjeong/DocumentsManagementPage/FieldItem";
+import { ManagementSidebar } from "../../components/Woomoonjeong/DocumentsManagementPage/ManagementSidebar";
 import {
   CreateFieldParams,
   CreatePinParams,
@@ -21,7 +21,7 @@ import {
 import {
   GROUP_NAME_COLORS,
   WOOMOONJEONG_HIERARCHY,
-} from "../../constants/Woomoonjeong/woomoonjeong";
+} from "../../constants/Woomoonjeong/Woomoonjeong";
 
 export default function DocumentsManagementPage() {
   // --- 상태 관리 ---

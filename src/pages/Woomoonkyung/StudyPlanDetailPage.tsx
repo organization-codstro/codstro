@@ -2,11 +2,11 @@ import { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { WoomoonkyungDetailService } from "../../api/Woomoonkyung/StudyPlanDetailPage"; // 경로 확인 필요3
-import BackButton from "../../components/Woomoonkyung/RecommendedStudyPlanDetailPage/BackButton";
-import PlanDetailHeader from "../../components/Woomoonkyung/StudyPlanArchiveDetailPage/PlanDetailHeader";
-import MyNodeList from "../../components/Woomoonkyung/StudyPlanArchiveDetailPage/MyNodeList/MyNodeList";
+import {BackButton} from "../../components/Woomoonkyung/RecommendedStudyPlanDetailPage/BackButton";
+import {PlanDetailHeader} from "../../components/Woomoonkyung/StudyPlanArchiveDetailPage/PlanDetailHeader";
+import {MyNodeList} from "../../components/Woomoonkyung/StudyPlanArchiveDetailPage/MyNodeList/MyNodeList";
 import { StudyPlanWithNodes } from "../../types/common/Woomoonkyung";
-import NotFoundPage from "../NotFound/NotFoundPage";
+import {NotFoundPage} from "../NotFound/NotFoundPage";
 
 export default function StudyPlanDetailPage() {
   const { planId } = useParams<{ planId: string }>();

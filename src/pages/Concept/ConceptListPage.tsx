@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import ConceptListHeader from "../../components/Concept/ConceptListPage/ConceptListHeader";
-import ConceptSearchBar from "../../components/Concept/ConceptDetailPage/ConceptSearchBar";
-import ConceptGrid from "../../components/Concept/ConceptGrid";
-import ConceptCard from "../../components/Concept/ConceptListPage/ConceptCard";
+import { ConceptListHeader } from "../../components/Concept/ConceptListPage/ConceptListHeader";
+import { ConceptSearchBar } from "../../components/Concept/ConceptDetailPage/ConceptSearchBar";
+import { ConceptGrid } from "../../components/Concept/ConceptGrid";
+import { ConceptCard } from "../../components/Concept/ConceptListPage/ConceptCard";
 import { useEffect, useState } from "react";
 import { ConceptListService } from "../../api/Concept/ConceptListPage";
 import { ConceptDescriptionMaterial } from "../../types/common/Concepts";

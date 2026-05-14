@@ -7,10 +7,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { AlertCircle, ArrowLeft, TrendingUp } from "lucide-react";
 
 import { Personality } from "../../types/common/Mbit";
-import PersonalityDetailHeader from "../../components/Mbit/PersonalityEncyclopediaDetailPage/PersonalityDetailHeader";
-import TraitList from "../../components/Mbit/MajorEncyclopediaDetailPage/TraitList";
-import PersonalityInformationSection from "../../components/Mbit/PersonalityEncyclopediaDetailPage/PersonalityInformationSection";
-import NotFoundPage from "../NotFound/NotFoundPage";
+import { PersonalityDetailHeader } from "../../components/Mbit/PersonalityEncyclopediaDetailPage/PersonalityDetailHeader";
+import { TraitList } from "../../components/Mbit/MajorEncyclopediaDetailPage/TraitList";
+import { PersonalityInformationSection } from "../../components/Mbit/PersonalityEncyclopediaDetailPage/PersonalityInformationSection";
+import { NotFoundPage } from "../NotFound/NotFoundPage";
 
 export default function PersonalityEncyclopediaDetailPage() {
   const { personalityId } = useParams();

@@ -2,20 +2,19 @@ import { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ArrowLeft, Loader2 } from "lucide-react";
-import ProjectDetailHeader from "../../components/Woomoonro/CloneCodingProjectDetailPage/CloneCodingProjectDetailHeader";
-import ProjectInfoGrid from "../../components/Woomoonro/CloneCodingProjectDetailPage/CloneCodingProjectInfoGrid";
-import ProjectStatusCard from "../../components/Woomoonro/CloneCodingProjectDetailPage/CloneCodingProjectStatusCard";
+import { ProjectDetailHeader } from "../../components/Woomoonro/CloneCodingProjectDetailPage/CloneCodingProjectDetailHeader";
+import { ProjectInfoGrid } from "../../components/Woomoonro/CloneCodingProjectDetailPage/CloneCodingProjectInfoGrid";
+import { ProjectStatusCard } from "../../components/Woomoonro/CloneCodingProjectDetailPage/CloneCodingProjectStatusCard";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { CloneCodingService } from "../../api/Woomoonro/CloneCodingProjectDetailPage";
 import {
   CLONE_CODING_STATE_TYPE,
-  CLONE_CODINGS_DIFFICULTY_TYPE,
   DIFFICULTY_COLORS,
   STATUS_COLORS,
 } from "../../constants/Woomoonro/Woomoonro";
 import { UserProjectStatus } from "../../types/pages/Woomoonro/CloneCodingProjectDetailPage/CloneCodingProjectDetailPage";
 import { CloneCodingProject } from "../../types/common/Woomoonro";
-import NotFoundPage from "../NotFound/NotFoundPage";
+import { NotFoundPage } from "../NotFound/NotFoundPage";
 
 export default function CloneCodingProjectDetailPage() {
   const { projectId } = useParams<{ projectId: string }>();

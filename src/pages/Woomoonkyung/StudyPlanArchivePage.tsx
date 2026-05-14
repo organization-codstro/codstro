@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Archive, Search } from "lucide-react";
 import { StudyPlanArchiveService } from "../../api/Woomoonkyung/StudyPlanArchivePage";
 import { LoginService } from "../../api/Auth/LoginPage";
-import ArchiveStudyPlanCard from "../../components/Woomoonkyung/StudyPlanArchivePage/ArchiveStudyPlanCard";
+import { ArchiveStudyPlanCard } from "../../components/Woomoonkyung/StudyPlanArchivePage/ArchiveStudyPlanCard";
 import { toast } from "react-toastify";
 import { PlanStatsResult, StudyPlan } from "../../types/common/Woomoonkyung";
 import { STATE_COLORS } from "../../constants/Woomoonkyung/Woomoonkyung";

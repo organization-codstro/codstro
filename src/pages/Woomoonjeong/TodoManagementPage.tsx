@@ -11,10 +11,10 @@ import { LoginService } from "../../api/Auth/LoginPage";
 import { Todo } from "../../types/common/woomoonjeong";
 
 // 컴포넌트
-import TodoManagementCreateModal from "../../components/Woomoonjeong/TodoManagementPage/TodoManagementCreateModal";
-import TodoManagementHeader from "../../components/Woomoonjeong/TodoManagementPage/TodoManagementHeader";
-import TodoCard from "../../components/Woomoonjeong/TodoManagementPage/TodoCard";
-import TodoCalendar from "../../components/Woomoonjeong/TodoManagementPage/TodoCalendar";
+import { TodoManagementCreateModal } from "../../components/Woomoonjeong/TodoManagementPage/TodoManagementCreateModal";
+import { TodoManagementHeader } from "../../components/Woomoonjeong/TodoManagementPage/TodoManagementHeader";
+import { TodoCard } from "../../components/Woomoonjeong/TodoManagementPage/TodoCard";
+import { TodoCalendar } from "../../components/Woomoonjeong/TodoManagementPage/TodoCalendar";
 
 export default function TodoManagementPage() {
   const navigate = useNavigate();

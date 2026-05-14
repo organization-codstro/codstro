@@ -9,15 +9,12 @@ import {
 } from "lucide-react";
 
 import { CloneCodingProjectCardProps } from "../../../types/pages/Woomoonro/CloneCodingProjectGrid/CloneCodingProjectCard";
-import {
-  DIFFICULTY_COLORS,
-  STATUS_COLORS,
-} from "../../../constants/Woomoonro/Woomoonro";
+import { STATUS_COLORS } from "../../../constants/Woomoonro/Woomoonro";
 import CloneCodingProjectImg from "../../../assets/images/woomoonro/CloneCodingProjectbasicImg.png";
 
 // --- ProjectCard 컴포넌트 ---
 
-const ProjectCard = ({
+export const ProjectCard = ({
   project,
   userProject,
   onClick,
@@ -169,4 +166,3 @@ const ProjectCard = ({
   );
 };
 
-export default ProjectCard;

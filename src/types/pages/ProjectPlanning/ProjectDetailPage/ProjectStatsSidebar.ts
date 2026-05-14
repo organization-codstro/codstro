@@ -1,7 +1,7 @@
-import { ProjectTodo } from "../../../common/ProjectPlanning";
+import { UITodo } from "../../../common/ProjectPlanning";
 
 export interface ProjectStatsSidebarProps {
-  todos: ProjectTodo[];
+  todos: UITodo[];
   isPlanning: boolean;
   onNewMeeting: () => void;
   onViewMeetings: () => void;

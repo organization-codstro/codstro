@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 
 // 서비스 및 타입
 import { Personality } from "../../types/common/Mbit";
-import PersonalityCard from "../../components/Mbit/PersonalityEncyclopediaListPage/PersonalityCard";
+import { PersonalityCard } from "../../components/Mbit/PersonalityEncyclopediaListPage/PersonalityCard";
 import { PersonalityEncyclopediaListService } from "../../api/Mbit/PersonalityEncyclopediaListPage";
 import { useNavigate } from "react-router-dom";
 import { MBTI_THEME } from "../../constants/Mbit/Mbit";

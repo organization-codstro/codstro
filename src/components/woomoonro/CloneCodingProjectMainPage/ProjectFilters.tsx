@@ -4,7 +4,7 @@ import { FilterGroup } from "../FilterGroup";
 import { CloneCodingProjectFiltersProps } from "../../../types/pages/Woomoonro/CloneCodingProjectMainPage/CloneCodingProjectFilters";
 import { CLONE_CODINGS_DIFFICULTIES } from "../../../constants/Woomoonro/Woomoonro";
 
-const ProjectFilters: React.FC<CloneCodingProjectFiltersProps> = ({
+export const ProjectFilters: React.FC<CloneCodingProjectFiltersProps> = ({
   selectedFilter,
   setSelectedFilter,
 }) => {
@@ -34,5 +34,3 @@ const ProjectFilters: React.FC<CloneCodingProjectFiltersProps> = ({
     </div>
   );
 };
-
-export default ProjectFilters;

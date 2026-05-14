@@ -83,7 +83,7 @@ export interface UITodo {
   start_date: string;
   end_date: string;
   status: PROJECT_STATUS_TYPE;
-  created_at: string;
+  created_at?: string;
 }
 
 // ProjectPage + todos 를 함께 다루는 뷰 전용 타입

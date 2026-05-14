@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { WoomoonkyungEditService } from "../../api/Woomoonkyung/StudyPlanEditPage"; // 경로 확인 필요
-import StudyPlanForm from "../../components/Woomoonkyung/StudyPlanForm";
-import PageHeader from "../../components/Woomoonkyung/StudyPlanEditPage/PageHeader";
+import { WoomoonkyungEditService } from "../../api/Woomoonkyung/StudyPlanEditPage";
+import { StudyPlanForm } from "../../components/Woomoonkyung/StudyPlanForm";
+import { PageHeader } from "../../components/Woomoonkyung/StudyPlanEditPage/PageHeader";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { StudyPlan } from "../../types/common/Woomoonkyung";
-import NotFoundPage from "../NotFound/NotFoundPage";
+import { NotFoundPage } from "../NotFound/NotFoundPage";
 
 export default function StudyPlanEditPage() {
   const { planId } = useParams<{ planId: string }>();

@@ -5,7 +5,7 @@ interface MarkdownRendererProps {
   content: string;
 }
 
-export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
+export const MarkdownRenderer = ({ content }: MarkdownRendererProps) => {
   const normalizedContent = content.replace(/\\n/g, "\n");
 
   return (
@@ -91,4 +91,4 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
       {normalizedContent}
     </ReactMarkdown>
   );
-}
+};

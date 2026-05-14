@@ -4,9 +4,9 @@ import { toast } from "react-toastify";
 import { Save, Loader2 } from "lucide-react";
 
 import { BackButton } from "../../components/Concept/BackButton";
-import NoteTitleInput from "../../components/Concept/NoteCreatePage/NoteInput";
-import ConceptSelector from "../../components/Concept/NoteCreatePage/ConceptSelector";
-import NoteEditor from "../../components/Concept/NoteCreatePage/NoteEditor";
+import { NoteInput } from "../../components/Concept/NoteCreatePage/NoteInput";
+import { ConceptSelector } from "../../components/Concept/NoteCreatePage/ConceptSelector";
+import { NoteEditor } from "../../components/Concept/NoteCreatePage/NoteEditor";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { NoteCreateService } from "../../api/Concept/NoteCreatePage";
 import { LABEL_OPTIONS } from "../../constants/Concepts/Concepts";
@@ -157,8 +157,8 @@ export default function NoteCreatePage() {
         <h1 className="mb-6 text-3xl font-bold text-gray-900">
           Create New Note
         </h1>
-        <NoteTitleInput title={"title"} value={title} onChange={setTitle} />
-        <NoteTitleInput
+        <NoteInput title={"title"} value={title} onChange={setTitle} />
+        <NoteInput
           title={"description"}
           value={description}
           onChange={setDescription}

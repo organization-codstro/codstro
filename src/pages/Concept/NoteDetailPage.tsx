@@ -9,11 +9,11 @@ import { NoteDetailService } from "../../api/Concept/NoteDetailPage";
 
 // 컴포넌트
 import { BackButton } from "../../components/Concept/BackButton";
-import NoteDetailHeader from "../../components/Concept/NoteDetailPage/NoteDetailHeader";
-import NoteActionButtons from "../../components/Concept/NoteDetailPage/NoteActionButtons";
-import MarkdownRenderer from "../../components/Markdown/MarkdownRenderer";
-import NotFoundPage from "../NotFound/NotFoundPage";
-import NoteEditMetaModal from "../../components/Concept/NoteDetailPage/Noteeditmetamodal";
+import { NoteDetailHeader } from "../../components/Concept/NoteDetailPage/NoteDetailHeader";
+import { NoteActionButtons } from "../../components/Concept/NoteDetailPage/NoteActionButtons";
+import { MarkdownRenderer } from "../../components/Markdown/MarkdownRenderer";
+import { NotFoundPage } from "../NotFound/NotFoundPage";
+import { NoteEditMetaModal } from "../../components/Concept/NoteDetailPage/Noteeditmetamodal";
 
 export default function NoteDetailPage() {
   const { noteId } = useParams<{ noteId: string }>();

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import StudyPlanForm from "../../components/Woomoonkyung/StudyPlanForm";
+import {StudyPlanForm} from "../../components/Woomoonkyung/StudyPlanForm";
 import { PlanRegistrationService } from "../../api/Woomoonkyung/StudyPlanCreatePage";
 
 import { toast } from "react-toastify";

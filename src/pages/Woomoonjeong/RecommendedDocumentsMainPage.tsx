@@ -7,7 +7,7 @@ import { RecommendedDocumentsMainPageService } from "../../api/Woomoonjeong/Reco
 import { LoginService } from "../../api/Auth/LoginPage";
 
 // UI 컴포넌트
-import SearchInput from "../../components/Woomoonjeong/RecommendedDocumentsMainPage/SearchInput";
+import SearchInput from "../../components/Woomoonjeong/RecommendedDocumentsMainPage";
 import ContentTypeFilter from "../../components/Woomoonjeong/RecommendedDocumentsMainPage/ContentTypeFilter";
 import FilterSection from "../../components/Woomoonjeong/RecommendedDocumentsMainPage/FilterSection";
 import DocumentsGrid from "../../components/Woomoonjeong/RecommendedDocumentsMainPage/DocumentsGrid";

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import PersonalityTestIntro from "../../components/Mbit/PersonalityTestPage/PersonalityTestIntro";
-import TestQuestion from "../../components/Mbit/TestQuestion";
+import { PersonalityTestIntro } from "../../components/Mbit/PersonalityTestPage/PersonalityTestIntro";
+import { MajorTestQuestion } from "../../components/Mbit/TestQuestion";
 import { PersonalityTestService } from "../../api/Mbit/PersonalityTestPage";
 import {
   MbitAxisCode,
@@ -9,7 +9,7 @@ import {
   Personality,
   PersonalityTestResultData,
 } from "../../types/common/Mbit";
-import PersonalityTestResult from "../../components/Mbit/PersonalityTestPage/PersonalityTestResult";
+import { PersonalityTestResult } from "../../components/Mbit/PersonalityTestPage/PersonalityTestResult";
 
 export default function PersonalityTestPage() {
   const [questions, setQuestions] = useState<any[]>([]);
@@ -133,7 +133,7 @@ export default function PersonalityTestPage() {
           />
         ) : (
           <>
-            <TestQuestion
+            <MajorTestQuestion
               content={questions[currentQuestion].mbit_questions_content}
               scale={questions[currentQuestion].mbit_questions_score_value}
               onAnswer={handleAnswer}

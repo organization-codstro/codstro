@@ -8,7 +8,7 @@ import { MeetingTab } from "../../components/ProjectPlanning/ProjectMeetingPage/
 import { MeetingItemCard } from "../../components/ProjectPlanning/ProjectMeetingPage/MeetingItemCard";
 import { ProjectMeetingListService } from "../../api/ProjectPlanning/ProjectMeetingPage";
 import { PROJECT_ROOM_TYPE } from "../../constants/ProjectPlanning/ProjectPlanning";
-import NotFoundPage from "../NotFound/NotFoundPage";
+import { NotFoundPage } from "../NotFound/NotFoundPage";
 
 export default function ProjectMeetingPage() {
   const { projectId } = useParams<{ projectId: string }>();

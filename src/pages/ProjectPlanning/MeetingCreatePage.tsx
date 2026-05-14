@@ -6,7 +6,7 @@ import { ProjectPageItem } from "../../components/ProjectPlanning/MeetingCreateP
 
 import { MeetingCreateService } from "../../api/ProjectPlanning/MeetingCreatePage";
 import { PROJECT_ROOM_TYPE } from "../../constants/ProjectPlanning/ProjectPlanning";
-import NotFoundPage from "../NotFound/NotFoundPage";
+import { NotFoundPage } from "../NotFound/NotFoundPage";
 import { MeetingHeader } from "../../components/ProjectPlanning/MeetingHeader";
 import { ProjectPage } from "../../types/common/ProjectPlanning";
 

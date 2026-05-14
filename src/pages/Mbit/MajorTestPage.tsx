@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import TestIntro from "../../components/Mbit/MajorTestPage/TestIntro";
-import TestResult from "../../components/Mbit/MajorTestPage/TestResult";
-import TestProgress from "../../components/Mbit/MajorTestPage/TestProgress";
-import TestQuestion from "../../components/Mbit/TestQuestion";
+import { TestIntro } from "../../components/Mbit/MajorTestPage/TestIntro";
+import { TestResult } from "../../components/Mbit/MajorTestPage/TestResult";
+import { TestProgress } from "../../components/Mbit/MajorTestPage/TestProgress";
+import { MajorTestQuestion } from "../../components/Mbit/TestQuestion";
 import { MajorTestService } from "../../api/Mbit/MajorTestPage";
 import { Major, MajorTestQuestionRow } from "../../types/common/Mbit";
 
@@ -96,7 +96,7 @@ export default function MajorTestPage() {
         ) : (
           <>
             <TestProgress current={currentQuestion} total={questions.length} />
-            <TestQuestion
+            <MajorTestQuestion
               content={questions[currentQuestion].major_question_content}
               scale={questions[currentQuestion].major_question_score_value}
               onAnswer={handleAnswer}

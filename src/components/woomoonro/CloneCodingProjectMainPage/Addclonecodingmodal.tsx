@@ -5,12 +5,12 @@ import { AddCloneCodingModalProps } from "../../../types/pages/Woomoonro/CloneCo
 import { CloneCodingProjectMainPageService } from "../../../api/Woomoonro/CloneCodingProjectMainPage";
 import { DIFFICULTY_LEVELS } from "../../../constants/Woomoonro/Woomoonro";
 
-export default function AddCloneCodingModal({
+export const AddCloneCodingModal: React.FC<AddCloneCodingModalProps> = ({
   isOpen,
   onClose,
   onSuccess,
   userId,
-}: AddCloneCodingModalProps) {
+}) => {
   const [name, setName] = useState("");
   const [topic, setTopic] = useState("");
   const [features, setFeatures] = useState("");
@@ -329,4 +329,4 @@ export default function AddCloneCodingModal({
       </div>
     </div>
   );
-}
+};
