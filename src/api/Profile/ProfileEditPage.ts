@@ -1,8 +1,6 @@
 import { supabase } from "../../db/supabase/supabase";
 import { FirebaseStorageService } from "../Image/FirebaseStorageService";
 import {
-  GetUserProfileParams,
-  GetUserProfileResponse,
   UpdateProfileParams,
   UpdateProfileResponse,
   UpdateAvatarParams,

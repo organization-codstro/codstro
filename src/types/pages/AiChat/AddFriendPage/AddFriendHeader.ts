@@ -1,3 +1,3 @@
 export interface HeaderProps {
-  onBack: () => void;
+  readonly onBack: () => void;
 }

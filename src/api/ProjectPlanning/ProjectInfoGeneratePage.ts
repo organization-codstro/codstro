@@ -42,14 +42,12 @@ export const ProjectInfoGenerateService = {
     // 3) 페이지별 todos
     // const pageIds = pages.map((p: any) => p.project_page_id);
     //let todosData: any[] = [];
-
     // if (pageIds.length > 0) {
     //   const { data: todos, error: todosError } = await supabase
     //     .from("todos")
     //     .select("*")
     //     .in("project_page_id", pageIds)
     //     .order("created_at", { ascending: true });
-
     //   if (todosError) {
     //     throw new Error("할 일 정보를 불러오는데 실패했습니다.");
     //   }
@@ -119,7 +117,7 @@ export const ProjectInfoGenerateService = {
 
       // 2. 페이지 및 페이지 할 일 저장 (Upsert)
       for (const page of params.pages) {
-        const { data: savedPage, error: pageError } = await supabase
+        const { error: pageError } = await supabase
           .from("project_planning_pages")
           .upsert({
             project_page_id: page.project_page_id,
@@ -154,14 +152,14 @@ export const ProjectInfoGenerateService = {
       if (params.projectTodos.length > 0) {
         await supabase.from("todos").upsert(
           params.projectTodos.map((t) => ({
-            todo_id: t.todo_id, // id → todo_id
+            todo_id: t.todo_id,
             project_id: params.projectId,
-            todo_name: t.todo_name, // name → todo_name
-            todo_content: t.todo_content, // content → todo_content
-            todo_description: t.todo_description ?? "", // description → todo_description
-            todo_start_date: t.todo_start_date, // start_date → todo_start_date
-            todo_end_date: t.todo_end_date, // end_date → todo_end_date
-            todo_status: t.todo_status, // status → todo_status
+            todo_name: t.todo_name,
+            todo_content: t.todo_content,
+            todo_description: t.todo_description ?? "",
+            todo_start_date: t.todo_start_date,
+            todo_end_date: t.todo_end_date,
+            todo_status: t.todo_status,
           })),
         );
       }

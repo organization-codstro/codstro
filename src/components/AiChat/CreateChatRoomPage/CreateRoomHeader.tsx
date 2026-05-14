@@ -1,7 +1,7 @@
 import { ArrowLeft } from "lucide-react";
 import { CreateRoomHeaderProps } from "../../../types/pages/AiChat/CreateChatRoomPage/CreateRoomHeader";
 
-export function CreateRoomHeader({ step, onBack }: CreateRoomHeaderProps) {
+export const CreateRoomHeader = ({ step, onBack }: CreateRoomHeaderProps) => {
   return (
     <div className="p-4 bg-white border-b border-gray-200">
       <div className="flex items-center gap-3 mb-4">
@@ -30,4 +30,4 @@ export function CreateRoomHeader({ step, onBack }: CreateRoomHeaderProps) {
       </div>
     </div>
   );
-}
+};

@@ -1,18 +1,16 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { AddFriendModalProps } from "../../../../../types/pages/AiChat/AIPersonaDetailPage/PersonaHero/Addfriendmodal/Addfriendmodal";
 import { Bot, User, UserPlus, X, Zap } from "lucide-react";
-import Tooltip from "./Tooltip";
-import Toggle from "./Toggle";
+import { Tooltip } from "./Tooltip";
+import { Toggle } from "./Toggle";
 
-export function AddFriendModal({
+export const AddFriendModal = ({
   isOpen,
   onClose,
   onConfirm,
   personaName,
   profileImagePath,
-}: AddFriendModalProps) {
-  const overlayRef = useRef<HTMLDivElement>(null);
-
+}: AddFriendModalProps) => {
   // -- 설정 상태 --
   const [callMeName, setCallMeName] = useState<string>("");
   const [aiSelfAwareness, setAiSelfAwareness] = useState<boolean>(true);
@@ -35,11 +33,6 @@ export function AddFriendModal({
     };
   }, [isOpen]);
 
-  // 오버레이 클릭 시 닫기
-  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === overlayRef.current) onClose();
-  };
-
   const handleConfirm = () => {
     onConfirm({
       user_ai_setting_call_me_name: callMeName.trim(),
@@ -53,8 +46,6 @@ export function AddFriendModal({
 
   return (
     <div
-      ref={overlayRef}
-      onClick={handleOverlayClick}
       className="fixed inset-0 z-50 flex items-center justify-center"
       style={{
         backgroundColor: "rgba(15, 23, 42, 0.45)",
@@ -62,10 +53,19 @@ export function AddFriendModal({
         animation: "fadeIn 0.18s ease",
       }}
     >
+      {/* 배경 클릭 닫기 */}
+      <button
+        aria-label="모달 닫기"
+        onClick={onClose}
+        className="absolute inset-0 w-full h-full p-0 bg-transparent border-0 cursor-default"
+      />
+
       {/* 모달 카드 */}
       <div
-        className="relative w-full max-w-2xl mx-4 overflow-hidden bg-white shadow-2xl rounded-2xl"
-        style={{ animation: "slideUp 0.22s cubic-bezier(0.34,1.56,0.64,1)" }}
+        className="relative z-10 w-full max-w-2xl mx-4 overflow-hidden bg-white shadow-2xl rounded-2xl"
+        style={{
+          animation: "slideUp 0.22s cubic-bezier(0.34,1.56,0.64,1)",
+        }}
       >
         {/* 상단 배너 */}
         <div
@@ -236,4 +236,4 @@ export function AddFriendModal({
       `}</style>
     </div>
   );
-}
+};

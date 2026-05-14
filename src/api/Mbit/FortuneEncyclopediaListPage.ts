@@ -26,12 +26,10 @@ export const FortuneEncyclopediaListService = {
   //     `,
   //     )
   //     .order("developer_fortune_code", { ascending: true });
-
   //   if (error) {
   //     console.error("Error fetching fortunes:", error.message);
   //     throw new Error("운세 목록을 불러오지 못했습니다.");
   //   }
-
   //   return data as Fortune[];
   // },
 
@@ -68,6 +66,6 @@ export const FortuneEncyclopediaListService = {
       throw new Error("해당 코드 대역의 운세를 불러오지 못했습니다.");
     }
 
-    return data as FortuneList[];
+    return data;
   },
 };

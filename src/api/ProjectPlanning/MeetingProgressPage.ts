@@ -123,6 +123,6 @@ export const MeetingProgressService = {
 
     if (error) throw error;
     if (data?.skipped) throw new Error("요약할 메시지가 없습니다.");
-    return data; // { success, summary, previous_index, new_index }
+    return data;
   },
 };

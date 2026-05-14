@@ -1,13 +1,13 @@
 import { UserPlus } from "lucide-react";
 import { PersonaCardProps } from "../../../types/pages/AiChat/AddFriendPage/PersonaCard";
 
-export function PersonaCard({
+export const PersonaCard = ({
   persona,
   isFriend,
   onToggleFriend,
   onViewProfile,
   variant = "vertical",
-}: PersonaCardProps) {
+}: PersonaCardProps) => {
   const isHorizontal = variant === "horizontal";
 
   return (
@@ -40,7 +40,7 @@ export function PersonaCard({
         >
           {isHorizontal ? "Profile" : "View Profile"}
         </button>
-        {!isFriend ? (
+        {isFriend ? (
           <button
             onClick={() => onToggleFriend?.(persona.ai_persona_id)}
             className="px-4 py-2 text-sm font-medium text-white transition-opacity rounded-lg hover:opacity-90"
@@ -56,4 +56,4 @@ export function PersonaCard({
       </div>
     </div>
   );
-}
+};

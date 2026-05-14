@@ -1,6 +1,6 @@
 import { ChatListNavProps } from "../../../types/pages/AiChat/ChatRoomsListPage/ChatListNav";
 
-export function ChatListNav({ buttons }: ChatListNavProps) {
+export const ChatListNav = ({ buttons }: ChatListNavProps) => {
   return (
     <div className="flex gap-2 px-4 py-3 overflow-x-auto bg-white border-b border-gray-100 no-scrollbar">
       {buttons.map((btn, index) => (
@@ -14,4 +14,4 @@ export function ChatListNav({ buttons }: ChatListNavProps) {
       ))}
     </div>
   );
-}
+};

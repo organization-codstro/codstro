@@ -1,7 +1,7 @@
 import { ToggleProps } from "../../../../../types/pages/AiChat/AIPersonaDetailPage/PersonaHero/Addfriendmodal/Toggle";
 
 // -- 토글 스위치 컴포넌트 --
-export default function Toggle({ checked, onChange }: ToggleProps) {
+export const Toggle = ({ checked, onChange }: ToggleProps) => {
   return (
     <button
       type="button"
@@ -15,4 +15,4 @@ export default function Toggle({ checked, onChange }: ToggleProps) {
       />
     </button>
   );
-}
+};

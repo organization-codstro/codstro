@@ -63,6 +63,6 @@ export const PersonalityEncyclopediaListService = {
       .single();
 
     if (error || !data) return null;
-    return data as unknown as Personality;
+    return data;
   },
 };

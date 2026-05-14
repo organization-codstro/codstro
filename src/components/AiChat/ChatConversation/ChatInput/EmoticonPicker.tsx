@@ -1,6 +1,6 @@
 import { EmoticonPickerProps } from "../../../../types/pages/AiChat/ChatConversation/ChatInput/EmoticonPicker";
 
-export function EmoticonPicker({
+export const EmoticonPicker = ({
   emoticons,
   emoticonUrls,
   isLoading,
@@ -13,7 +13,65 @@ export function EmoticonPicker({
   onPageChange,
   onSearchChange,
   searchInputRef,
-}: EmoticonPickerProps) {
+}: EmoticonPickerProps) => {
+  const renderGrid = () => {
+    if (isLoading) {
+      return (
+        <div className="grid grid-cols-3 gap-2">
+          {Array.from({ length: 9 }).map((_, i) => (
+            <div
+              key={i}
+              className="bg-gray-100 rounded-lg aspect-square animate-pulse"
+            />
+          ))}
+        </div>
+      );
+    }
+
+    if (emoticons.length === 0) {
+      return (
+        <div className="flex items-center justify-center h-32 text-sm text-gray-400">
+          이모티콘이 없습니다
+        </div>
+      );
+    }
+
+    return (
+      <div className="grid grid-cols-3 gap-2">
+        {Array.from({ length: 9 }).map((_, i) => {
+          const emoticon = emoticons[i];
+          if (!emoticon) return <div key={i} className="aspect-square" />;
+          const url = emoticonUrls[emoticon.emoticon_id];
+          return (
+            <button
+              key={emoticon.emoticon_id}
+              onClick={() => onSelect(emoticon)}
+              className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all hover:scale-105 hover:shadow-md ${
+                selectedIndex === i
+                  ? "border-blue-400 shadow-md"
+                  : "border-transparent hover:border-blue-200"
+              }`}
+              title={`${emoticon.emoticon_name} (${i + 1})`}
+            >
+              <span className="absolute top-1 left-1 text-[10px] font-bold text-white bg-black/40 rounded px-1 z-10 leading-tight">
+                {i + 1}
+              </span>
+              {url ? (
+                <img
+                  src={url}
+                  alt={emoticon.emoticon_name}
+                  className="object-cover w-full h-full"
+                />
+              ) : (
+                <div className="w-full h-full bg-gray-100 animate-pulse" />
+              )}
+            </button>
+          );
+        })}
+      </div>
+    );
+  };
+
   return (
     <div className="absolute left-0 z-50 mb-2 ml-2 overflow-hidden bg-white border border-gray-200 shadow-xl bottom-full w-72 rounded-xl">
       {/* 검색 + 닫기 */}
@@ -36,55 +94,7 @@ export function EmoticonPicker({
       </div>
 
       {/* 이모지 그리드 */}
-      <div className="p-3">
-        {isLoading ? (
-          <div className="grid grid-cols-3 gap-2">
-            {Array.from({ length: 9 }).map((_, i) => (
-              <div
-                key={i}
-                className="bg-gray-100 rounded-lg aspect-square animate-pulse"
-              />
-            ))}
-          </div>
-        ) : emoticons.length === 0 ? (
-          <div className="flex items-center justify-center h-32 text-sm text-gray-400">
-            이모티콘이 없습니다
-          </div>
-        ) : (
-          <div className="grid grid-cols-3 gap-2">
-            {Array.from({ length: 9 }).map((_, i) => {
-              const emoticon = emoticons[i];
-              if (!emoticon) return <div key={i} className="aspect-square" />;
-              const url = emoticonUrls[emoticon.emoticon_id];
-              return (
-                <button
-                  key={emoticon.emoticon_id}
-                  onClick={() => onSelect(emoticon)}
-                  className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all hover:scale-105 hover:shadow-md ${
-                    selectedIndex === i
-                      ? "border-blue-400 shadow-md"
-                      : "border-transparent hover:border-blue-200"
-                  }`}
-                  title={`${emoticon.emoticon_name} (${i + 1})`}
-                >
-                  <span className="absolute top-1 left-1 text-[10px] font-bold text-white bg-black/40 rounded px-1 z-10 leading-tight">
-                    {i + 1}
-                  </span>
-                  {url ? (
-                    <img
-                      src={url}
-                      alt={emoticon.emoticon_name}
-                      className="object-cover w-full h-full"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-gray-100 animate-pulse" />
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        )}
-      </div>
+      <div className="p-3">{renderGrid()}</div>
 
       {/* 페이지네이션 */}
       <div className="flex items-center justify-between px-4 py-2 border-t border-gray-100">
@@ -113,4 +123,4 @@ export function EmoticonPicker({
       </div>
     </div>
   );
-}
+};

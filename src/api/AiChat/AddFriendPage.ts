@@ -1,16 +1,11 @@
 import { supabase } from "../../db/supabase/supabase";
 import {
-  // AddFriendParams,
-  //AddFriendResponse,
   GetMyFriendsParams,
   GetMyFriendsResponse,
   RemoveFriendParams,
   SearchPersonasParams,
 } from "../../types/api/AiChat/AddFriendPage";
-import {
-  AddFriendParams,
-  AddFriendResponse,
-} from "../../types/api/AiChat/AIPersonaDetailPage";
+import { AddFriendParams } from "../../types/api/AiChat/AIPersonaDetailPage";
 
 /**
  * 친구 찾기 및 유저 AI 설정 관리 서비스
@@ -36,7 +31,7 @@ export const AddFriendService = {
     if (error) throw new Error(`[getMyFriends Error]: ${error.message}`);
 
     // ai_personas 정보만 추출하여 반환하거나 구조화
-    return (data as unknown as GetMyFriendsResponse).map((item) => ({
+    return (data as GetMyFriendsResponse).map((item) => ({
       ...item.ai_personas,
       user_ai_setting_id: item.user_ai_setting_id,
     }));
@@ -90,7 +85,7 @@ export const AddFriendService = {
         params.aiUserSettings.user_ai_setting_service_integration,
     };
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("user_ai_settings")
       .insert(insertData);
 

@@ -19,11 +19,14 @@ export const ProjectDetailService = {
 
     const today = new Date();
     const endDate = new Date(data.project_end_date);
-    const project_status: PROJECT_STATUS_TYPE = isPlanning
-      ? "waiting"
-      : endDate < today
-        ? "done"
-        : "in progress";
+    let project_status: PROJECT_STATUS_TYPE;
+    if (isPlanning) {
+      project_status = "waiting";
+    } else if (endDate < today) {
+      project_status = "done";
+    } else {
+      project_status = "in progress";
+    }
 
     return { ...data, project_status };
   },
@@ -85,7 +88,7 @@ export const ProjectDetailService = {
 
   /**
    * [프로젝트 전체 todos 조회]
-   * project_page_id = null 인 것만 (프로젝트 레벨 todo)
+   * project_page_id = null 인 것만 (프로젝트 레벨)
    */
   async getProjectTodos(projectId: string) {
     const { data, error } = await supabase
@@ -142,7 +145,7 @@ export const ProjectDetailService = {
   },
 
   /**
-   * [Todo 업데이트]
+   * 업데이트
    */
   async updateTodo(
     todoId: string,
@@ -164,7 +167,7 @@ export const ProjectDetailService = {
   },
 
   /**
-   * [Todo 삭제]
+   * 삭제
    */
   async deleteTodo(todoId: string) {
     const { error } = await supabase
@@ -176,7 +179,7 @@ export const ProjectDetailService = {
   },
 
   /**
-   * [Todo 추가]
+   * 추가
    */
   async addProjectTodo(
     projectId: string,

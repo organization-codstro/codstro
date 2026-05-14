@@ -177,7 +177,7 @@ export const ChatConversationService = {
           params.callback(payload);
         },
       )
-      .subscribe((status, err) => {
+      .subscribe((err) => {
         if (err) console.error("[subscription] error:", err);
       });
 
@@ -238,7 +238,7 @@ export const ChatConversationService = {
           params.onTypingEnd(payload.payload.chat_room_ai_id);
         }
       })
-      .subscribe((status, err) => {
+      .subscribe((err) => {
         if (err) console.error("[typing broadcast] error:", err);
       });
 

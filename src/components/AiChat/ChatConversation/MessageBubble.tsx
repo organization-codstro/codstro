@@ -5,12 +5,12 @@ import { useEmoticonStore } from "../../../store/emoticonStore";
 import { supabase } from "../../../db/supabase/supabase";
 import { useNavigate } from "react-router-dom";
 
-export function MessageBubble({
+export const MessageBubble = ({
   message,
   onReply,
   personas = [],
   allMessages = [],
-}: MessageBubbleProps) {
+}: MessageBubbleProps) => {
   const navigate = useNavigate();
   const isUser = message.chat_message_sender_type === "USER";
   const getUrl = useImageStore((s) => s.getUrl);
@@ -81,12 +81,14 @@ export function MessageBubble({
     >
       {/* AI 프로필 이미지 */}
       {!isUser && (
-        <div
+        <button
+          type="button"
           className="flex-shrink-0 overflow-hidden bg-gray-200 rounded-full cursor-pointer w-14 h-14"
           onClick={() =>
             aiPersona?.ai_persona_id &&
             navigate(`/ai-chat/persona/${aiPersona.ai_persona_id}`)
           }
+          aria-label={`${senderName} 프로필로 이동`}
         >
           {profileImageUrl ? (
             <img
@@ -99,7 +101,7 @@ export function MessageBubble({
               {senderName.charAt(0)}
             </div>
           )}
-        </div>
+        </button>
       )}
 
       <div className="max-w-md">
@@ -210,4 +212,4 @@ export function MessageBubble({
       </div>
     </div>
   );
-}
+};

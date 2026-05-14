@@ -27,7 +27,7 @@ export const MajorTestService = {
         .order("major_question_id", { ascending: true });
 
       if (error) throw error;
-      return data as MajorTestQuestionRow[];
+      return data;
     } catch (error) {
       console.error("[MajorTestService Error]:", error);
       throw new Error("질문지를 불러오지 못했습니다.");

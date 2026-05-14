@@ -3,7 +3,6 @@ import {
   GetRecommendedPlansParams,
   ToggleBookmarkParams,
   AddToMyPlansParams,
-  GetBookmarkedIdsParams,
 } from "../../types/api/Woomoonkyung/RecommendedStudyPlansPage";
 
 /**

@@ -2,7 +2,7 @@ import { useState, KeyboardEvent } from "react";
 import { ChatRoom } from "../../../types/common/AiChat";
 import { RoomInfoFormProps } from "../../../types/pages/AiChat/CreateChatRoomPage/RoomInfoForm";
 
-export function RoomInfoForm({ data, onChange }: RoomInfoFormProps) {
+export const RoomInfoForm = ({ data, onChange }: RoomInfoFormProps) => {
   const [topicInput, setTopicInput] = useState("");
 
   const updateField = (field: keyof ChatRoom, value: any) => {
@@ -13,8 +13,8 @@ export function RoomInfoForm({ data, onChange }: RoomInfoFormProps) {
     const trimmed = topicInput.trim();
     if (!trimmed) return;
 
-    // 중복 방지
-    if (data.chat_room_topics.some((topic) => topic === trimmed)) {
+    // S7765: .some() → .includes()
+    if (data.chat_room_topics.includes(trimmed)) {
       setTopicInput("");
       return;
     }
@@ -39,12 +39,16 @@ export function RoomInfoForm({ data, onChange }: RoomInfoFormProps) {
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
-      {/* Room Name */}
+      {/* Room Name — S6853: htmlFor로 label-input 연결 */}
       <div>
-        <label className="block mb-2 text-sm font-medium text-gray-700">
+        <label
+          htmlFor="roomName"
+          className="block mb-2 text-sm font-medium text-gray-700"
+        >
           Room Name <span className="text-red-500">*</span>
         </label>
         <input
+          id="roomName"
           type="text"
           value={data.chat_room_name}
           onChange={(e) => updateField("chat_room_name", e.target.value)}
@@ -54,15 +58,16 @@ export function RoomInfoForm({ data, onChange }: RoomInfoFormProps) {
         />
       </div>
 
-      {/* Room Type */}
-      <div>
-        <label className="block mb-2 text-sm font-medium text-gray-700">
+      {/* Room Type — label은 그룹 레이블이므로 fieldset/legend 사용 */}
+      <fieldset>
+        <legend className="block mb-2 text-sm font-medium text-gray-700">
           Room Type <span className="text-red-500">*</span>
-        </label>
+        </legend>
         <div className="grid grid-cols-2 gap-3">
           {(["DAILY", "PROJECT"] as const).map((type) => (
             <button
               key={type}
+              type="button"
               onClick={() => updateField("chat_room_type", type)}
               className={`p-4 border-2 rounded-lg font-medium transition-all capitalize ${
                 data.chat_room_type === type
@@ -79,15 +84,19 @@ export function RoomInfoForm({ data, onChange }: RoomInfoFormProps) {
             </button>
           ))}
         </div>
-      </div>
+      </fieldset>
 
-      {/* Topics */}
+      {/* Topics — S6853: htmlFor로 label-input 연결 */}
       <div>
-        <label className="block mb-2 text-sm font-medium text-gray-700">
+        <label
+          htmlFor="topicInput"
+          className="block mb-2 text-sm font-medium text-gray-700"
+        >
           대화 카테고리 <span className="text-red-500">*</span>
         </label>
         <div className="flex gap-2">
           <input
+            id="topicInput"
             type="text"
             value={topicInput}
             onChange={(e) => setTopicInput(e.target.value)}
@@ -97,6 +106,7 @@ export function RoomInfoForm({ data, onChange }: RoomInfoFormProps) {
             placeholder="키워드 입력 후 엔터"
           />
           <button
+            type="button"
             onClick={addTopic}
             className="px-4 py-3 font-medium text-white rounded-lg"
             style={{ backgroundColor: "#587CF0" }}
@@ -115,8 +125,10 @@ export function RoomInfoForm({ data, onChange }: RoomInfoFormProps) {
               >
                 {topic}
                 <button
+                  type="button"
                   onClick={() => removeTopic(topic)}
                   className="ml-1 leading-none text-gray-400 hover:text-gray-600"
+                  aria-label={`${topic} 삭제`}
                 >
                   ×
                 </button>
@@ -149,4 +161,4 @@ export function RoomInfoForm({ data, onChange }: RoomInfoFormProps) {
       )}
     </div>
   );
-}
+};

@@ -4,7 +4,6 @@ import {
   CreateFieldParams,
   UpdateFieldNameParams,
   CreatePinParams,
-  //UpsertLinkCountParams,
   DeleteItemParams,
   SearchDocumentsParams,
 } from "../../types/api/Woomoonjeong/DocumentsManagementPage";
@@ -146,47 +145,21 @@ export const DocumentsManagementService = {
   },
 
   /**
-   * [링크 클릭 카운트 증가]
-   * 관리자 대시보드용 링크 카운트를 관리합니다.
-   * 참조 테이블: link
-   */
-  // async upsertLinkCount(params: UpsertLinkCountParams) {
-  //   try {
-  //     // 해당 URL이 이미 있는지 확인 후 처리 (Upsert)
-  //     const { data: existing } = await supabase
-  //       .from("link")
-  //       .select("*")
-  //       .eq("link_count_url", params.url)
-  //       .single();
-
-  //     if (existing) {
-  //       await supabase
-  //         .from("link")
-  //         .update({ link_count_number: existing.link_count_number + 1 })
-  //         .eq("link_count_id", existing.link_count_id);
-  //     } else {
-  //       await supabase
-  //         .from("link")
-  //         .insert([{ link_count_url: params.url, link_count_number: 1 }]);
-  //     }
-  //   } catch (error) {
-  //     console.error("[Service Error - upsertLinkCount]:", error);
-  //   }
-  // },
-
-  /**
    * [삭제 통합 함수]
    * 타입에 따라 그룹, 분야, 핀을 삭제합니다.
    * 참조 테이블: groups, fields, pins
    */
   async deleteItem(params: DeleteItemParams) {
     try {
-      const tableName =
-        params.type === "group"
-          ? "groups"
-          : params.type === "field"
-            ? "fields"
-            : "pins";
+      let tableName: string;
+      if (params.type === "group") {
+        tableName = "groups";
+      } else if (params.type === "field") {
+        tableName = "fields";
+      } else {
+        tableName = "pins";
+      }
+
       const idColumn = `${params.type}_id`;
 
       const { error } = await supabase

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { TooltipProps } from "../../../../../types/pages/AiChat/AIPersonaDetailPage/PersonaHero/Addfriendmodal/Tooltip";
 
 // -- 툴팁 컴포넌트 --
-export default function Tooltip({ text }: TooltipProps) {
+export const Tooltip = ({ text }: TooltipProps) => {
   const [visible, setVisible] = useState(false);
 
   return (
@@ -12,7 +12,7 @@ export default function Tooltip({ text }: TooltipProps) {
         type="button"
         onMouseEnter={() => setVisible(true)}
         onMouseLeave={() => setVisible(false)}
-        onFocus={() => setVisible(true)} 
+        onFocus={() => setVisible(true)}
         onBlur={() => setVisible(false)}
         className="ml-1.5 transition-colors"
         style={{ color: "#9ca3af" }}
@@ -43,4 +43,4 @@ export default function Tooltip({ text }: TooltipProps) {
       )}
     </div>
   );
-}
+};

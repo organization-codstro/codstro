@@ -1,6 +1,6 @@
 import { PersonaInfoCardProps } from "../../../types/pages/AiChat/AIPersonaDetailPage/PersonaInfoCard";
 
-export function PersonaInfoCard({ title, content }: PersonaInfoCardProps) {
+export const PersonaInfoCard = ({ title, content }: PersonaInfoCardProps) => {
   return (
     <div className="p-6 bg-white border border-gray-100 rounded-xl">
       <h3 className="flex items-center gap-2 mb-3 font-bold text-gray-900">
@@ -13,4 +13,4 @@ export function PersonaInfoCard({ title, content }: PersonaInfoCardProps) {
       <p className="leading-relaxed text-gray-700">{content}</p>
     </div>
   );
-}
+};

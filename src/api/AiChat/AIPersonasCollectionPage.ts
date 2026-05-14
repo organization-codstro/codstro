@@ -8,7 +8,6 @@ export const AIPersonasCollectionService = {
   /**
    * [전체 AI 페르소나 목록 조회]
    * 시스템에 등록된 모든 AI 페르소나를 가져옵니다.
-   * todo : 페이징 처리
    * 참조 테이블: ai_personas
    */
   async getAllPersonas() {

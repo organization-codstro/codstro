@@ -1,4 +1,3 @@
-import { PROJECT_ROOM_TYPE } from "../../constants/ProjectPlanning/ProjectPlanning";
 import { supabase } from "../../db/supabase/supabase";
 import {
   GetMeetingListParams,

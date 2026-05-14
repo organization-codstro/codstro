@@ -1,6 +1,6 @@
 import { ImagePreviewProps } from "../../../../types/pages/AiChat/ChatConversation/ChatInput/ImagePreview";
 
-export function ImagePreview({ images, onRemove }: ImagePreviewProps) {
+export const ImagePreview = ({ images, onRemove }: ImagePreviewProps) => {
   if (images.length === 0) return null;
 
   return (
@@ -22,4 +22,4 @@ export function ImagePreview({ images, onRemove }: ImagePreviewProps) {
       ))}
     </div>
   );
-}
+};

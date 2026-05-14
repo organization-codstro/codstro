@@ -4,7 +4,7 @@ import {
   SaveAllNodesParams,
   UpdateNodePositionsParams,
 } from "../../types/api/Woomoonkyung/StudyPlanCreateNodePage";
-import { NodeItem, TechStack } from "../../types/common/Woomoonkyung";
+import { StudyPlanNode, TechStack } from "../../types/common/Woomoonkyung";
 
 /**
  * [노드 관리 및 설정 서비스]
@@ -39,7 +39,7 @@ export const WoomoonkyungCreateNodeService = {
   /**
    * [공부 계획 노드 일괄 저장 및 순서 업데이트]
    */
-  async saveAllNodes(params: SaveAllNodesParams): Promise<NodeItem[]> {
+  async saveAllNodes(params: SaveAllNodesParams): Promise<StudyPlanNode[]> {
     try {
       const { planId, nodes } = params;
 
@@ -67,7 +67,7 @@ export const WoomoonkyungCreateNodeService = {
         .select();
 
       if (insertError) throw insertError;
-      return data as NodeItem[];
+      return data as StudyPlanNode[];
     } catch (error) {
       console.error("[saveAllNodes Error]:", error);
       throw error;
@@ -97,7 +97,7 @@ export const WoomoonkyungCreateNodeService = {
    */
   async updateNodePositions(
     params: UpdateNodePositionsParams,
-  ): Promise<NodeItem[]> {
+  ): Promise<StudyPlanNode[]> {
     try {
       const { updates } = params;
 
@@ -112,7 +112,7 @@ export const WoomoonkyungCreateNodeService = {
         .select();
 
       if (error) throw error;
-      return data as NodeItem[];
+      return data as StudyPlanNode[];
     } catch (error) {
       console.error("[updateNodePositions Error]:", error);
       throw error;

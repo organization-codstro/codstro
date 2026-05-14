@@ -37,6 +37,6 @@ export const FortuneEncyclopediaDetailService = {
       throw new Error("해당 운세를 찾을 수 없습니다.");
     }
 
-    return data as Fortune;
+    return data;
   },
 };

@@ -73,8 +73,7 @@ export const StudyPlanArchiveService = {
         }))
         .sort(
           (a, b) =>
-            new Date(b.created_at!).getTime() -
-            new Date(a.created_at!).getTime(),
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
         );
     } catch (error) {
       console.error("[getArchivedPlans Error]:", error);

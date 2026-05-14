@@ -1,6 +1,6 @@
 import { ReplyPreviewProps } from "../../../../types/pages/AiChat/ChatConversation/ChatInput/ReplyPreview";
 
-export function ReplyPreview({ replyingTo, onCancel }: ReplyPreviewProps) {
+export const ReplyPreview = ({ replyingTo, onCancel }: ReplyPreviewProps) => {
   return (
     <div className="flex items-center gap-2 mb-2 px-3 py-1.5 bg-blue-50 rounded-lg border-l-4 border-blue-400">
       <span className="flex-1 text-xs text-gray-600 truncate">
@@ -14,4 +14,4 @@ export function ReplyPreview({ replyingTo, onCancel }: ReplyPreviewProps) {
       </button>
     </div>
   );
-}
+};

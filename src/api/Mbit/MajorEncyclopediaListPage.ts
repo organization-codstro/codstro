@@ -40,6 +40,6 @@ export const MajorEncyclopediaListService = {
       .single();
 
     if (error) return null;
-    return data as unknown as Major;
+    return data;
   },
 };

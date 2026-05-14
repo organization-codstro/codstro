@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { AiUserSettings } from "../../../../types/common/AiChat";
 import { useImageStore } from "../../../../store/ImageStore";
 
-export function PersonaHero({
+export const PersonaHero = ({
   name,
   gender,
   age,
@@ -14,14 +14,13 @@ export function PersonaHero({
   onAddFriendClick,
   onDeleteFriendClick,
   isFriend,
-}: PersonaHeroProps) {
+}: PersonaHeroProps) => {
   // -- 모달 열림/닫힘 상태 --
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const getUrl = useImageStore((state) => state.getUrl);
 
   const handleOpenModal = () => setIsModalOpen(true);
-  //const handleCloseModal = () => setIsModalOpen(false);
 
   useEffect(() => {
     if (!profilePath) return;
@@ -80,9 +79,11 @@ export function PersonaHero({
 
             <button
               className={`flex items-center gap-2 px-5 py-2 text-sm font-medium text-white rounded-full transition-opacity
-  ${
-    isFriend ? "bg-red-400 hover:opacity-90" : "bg-[#587CF0] hover:opacity-90"
-  }`}
+                ${
+                  isFriend
+                    ? "bg-red-400 hover:opacity-90"
+                    : "bg-[#587CF0] hover:opacity-90"
+                }`}
               onClick={isFriend ? onDeleteFriendClick : handleOpenModal}
             >
               <UserPlus size={18} />
@@ -101,4 +102,4 @@ export function PersonaHero({
       />
     </>
   );
-}
+};

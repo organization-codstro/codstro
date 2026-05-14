@@ -15,8 +15,8 @@ export const FirebaseStorageService = {
   /**
    * [이미지 업로드]
    * @param file 업로드할 파일 객체
-   * @param path 저장 경로 (예: 'profiles', 'chats')
-   * @returns 업로드된 이미지의 public URL
+   * @param path 저장 경로
+   * @returns 업로드 결과
    */
   async uploadImage(file: File, path: StoragePath): Promise<UploadResult> {
     try {
@@ -26,16 +26,16 @@ export const FirebaseStorageService = {
       const snapshot = await uploadBytes(storageRef, file);
       const url = await getDownloadURL(snapshot.ref);
 
-      // 반환값을 객체로 만들어 필요한 정보를 더 많이 전달할 수 있음
       return {
         url,
         fileName,
+        fileType: file.type,
         size: file.size,
       };
     } catch (error) {
-      // 에러 타입 가드
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error";
+
       throw new Error(`[Firebase Upload Error]: ${errorMessage}`);
     }
   },

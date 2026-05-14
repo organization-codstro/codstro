@@ -1,8 +1,12 @@
 import { MessageModeToggleProps } from "../../../../types/pages/AiChat/ChatConversation/ChatInput/MessageModeToggle";
 
-export function MessageModeToggle({ mode, onChange }: MessageModeToggleProps) {
+export const MessageModeToggle = ({
+  mode,
+  onChange,
+}: MessageModeToggleProps) => {
   return (
-    <div
+    <button
+      type="button"
       className="relative flex items-center overflow-hidden border border-blue-500 rounded-full cursor-pointer select-none"
       onClick={() => onChange(mode === "CASUAL" ? "ACTION_REQUEST" : "CASUAL")}
     >
@@ -33,6 +37,6 @@ export function MessageModeToggle({ mode, onChange }: MessageModeToggleProps) {
       >
         ACTION_REQUEST
       </span>
-    </div>
+    </button>
   );
-}
+};

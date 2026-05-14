@@ -5,7 +5,7 @@ import { useImageStore } from "../../store/ImageStore";
 
 import clsx from "clsx";
 
-export function CollectionCard({
+export const CollectionCard = ({
   name,
   gender,
   oneLineIntroduction,
@@ -13,7 +13,7 @@ export function CollectionCard({
   profileImagePath,
   onClick,
   isSelected = false,
-}: CollectionCardProps) {
+}: CollectionCardProps) => {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const getUrl = useImageStore((state) => state.getUrl);
 
@@ -31,10 +31,11 @@ export function CollectionCard({
   }, [profileImagePath]);
 
   return (
-    <div
+    <button
+      type="button"
       onClick={onClick}
       className={clsx(
-        "p-6 transition-all border cursor-pointer rounded-xl hover:shadow-lg",
+        "p-6 transition-all border cursor-pointer rounded-xl hover:shadow-lg w-full text-left",
         {
           "bg-blue-50 border-blue-400": isSelected,
           "bg-white border-gray-100": !isSelected,
@@ -79,6 +80,6 @@ export function CollectionCard({
           Topics: {preferredFeatures}
         </p>
       </div>
-    </div>
+    </button>
   );
-}
+};

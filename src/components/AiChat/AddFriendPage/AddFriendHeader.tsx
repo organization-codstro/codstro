@@ -1,7 +1,7 @@
 import { ArrowLeft } from "lucide-react";
 import { HeaderProps } from "../../../types/pages/AiChat/AddFriendPage/AddFriendHeader";
 
-export function AddFriendHeader({ onBack }: HeaderProps) {
+export const AddFriendHeader = ({ onBack }: HeaderProps) => {
   return (
     <div className="p-4 bg-white border-b border-gray-200">
       <div className="flex items-center gap-3">
@@ -15,4 +15,4 @@ export function AddFriendHeader({ onBack }: HeaderProps) {
       </div>
     </div>
   );
-}
+};

@@ -150,7 +150,7 @@ export const TodoManagementService = {
       let nextStatus = "waiting";
       if (params.currentStatus === "waiting") nextStatus = "in progress";
       else if (params.currentStatus === "in progress") nextStatus = "done";
-      else if (params.currentStatus === "done") nextStatus = "waiting";
+      // else if (params.currentStatus === "done") nextStatus = "waiting";
 
       const { data, error } = await supabase
         .from("todos")

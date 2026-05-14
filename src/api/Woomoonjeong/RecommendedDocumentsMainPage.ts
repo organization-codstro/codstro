@@ -30,7 +30,6 @@ export const RecommendedDocumentsMainPageService = {
         .order("created_at", { ascending: false })
         // 우선 상위 10개만 조회
         .limit(10);
-      // TODO: 추후 페이지네이션 적용 예정 (range() 또는 cursor 기반 적용 가능)
 
       if (params?.searchQuery) {
         query = query.or(

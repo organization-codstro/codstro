@@ -1,7 +1,7 @@
 import { ArrowLeft } from "lucide-react";
 import { ChatHeaderProps } from "../../../types/pages/AiChat/ChatConversation/ChatHeader";
 
-export function ChatHeader({ roomName, topics, onBack }: ChatHeaderProps) {
+export const ChatHeader = ({ roomName, topics, onBack }: ChatHeaderProps) => {
   return (
     <div className="p-4 bg-white border-b border-gray-200">
       <div className="flex items-center gap-3">
@@ -26,4 +26,4 @@ export function ChatHeader({ roomName, topics, onBack }: ChatHeaderProps) {
       </div>
     </div>
   );
-}
+};

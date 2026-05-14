@@ -99,6 +99,6 @@ export const ProjectCreateChatService = {
       throw new Error(error.message || "AI 분석 실패");
     }
 
-    return data; // { success, todos }
+    return data;
   },
 };

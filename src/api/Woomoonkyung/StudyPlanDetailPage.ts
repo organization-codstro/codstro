@@ -6,7 +6,7 @@ import {
 } from "../../types/api/Woomoonkyung/StudyPlanDetailPage";
 import {
   StudyPlanWithNodes,
-  NodeItem,
+  StudyPlanNode,
   StudyPlanNodeWithTechStack,
 } from "../../types/common/Woomoonkyung";
 
@@ -81,7 +81,7 @@ export const WoomoonkyungDetailService = {
    */
   async updateNodeCompletion(
     params: UpdateNodeCompletionParams,
-  ): Promise<NodeItem> {
+  ): Promise<StudyPlanNode> {
     try {
       const { nodeId, isCompleted } = params;
 
@@ -92,7 +92,7 @@ export const WoomoonkyungDetailService = {
         .select()
         .single();
       if (error) throw error;
-      return data as NodeItem;
+      return data as StudyPlanNode;
     } catch (error) {
       console.error("[updateNodeCompletion Error]:", error);
       throw error;

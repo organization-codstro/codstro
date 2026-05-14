@@ -24,36 +24,36 @@ const htmlToPlainText = (html: string): string => {
   const div = document.createElement("div");
   div.innerHTML = html;
   // mention span을 @name 텍스트로 변환
-  div.querySelectorAll("[data-mention]").forEach((el) => {
-    el.replaceWith(`@${el.getAttribute("data-mention")}`);
+  div.querySelectorAll<HTMLElement>("[data-mention]").forEach((el) => {
+    el.replaceWith(`@${el.dataset.mention}`);
   });
   return div.innerText ?? div.textContent ?? "";
 };
 
 // plain text를 HTML로 변환 (멘션 하이라이트 포함)
-const plainTextToHtml = (text: string, personas: ChatRoomAI[]): string => {
-  const personaNames = personas.map((p) => p.ai_persona_name);
-  const escaped = text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-  return escaped.replace(/@(\w+)/g, (match, name) => {
-    if (personaNames.includes(name)) {
-      return `<span data-mention="${name}" contenteditable="false" class="mention-chip">@${name}</span>`;
-    }
-    return match;
-  });
-};
+// const plainTextToHtml = (text: string, personas: ChatRoomAI[]): string => {
+//   const personaNames = personas.map((p) => p.ai_persona_name);
+//   const escaped = text
+//     .replace(/&/g, "&amp;")
+//     .replace(/</g, "&lt;")
+//     .replace(/>/g, "&gt;");
+//   return escaped.replace(/@(\w+)/g, (match, name) => {
+//     if (personaNames.includes(name)) {
+//       return `<span data-mention="${name}" contenteditable="false" class="mention-chip">@${name}</span>`;
+//     }
+//     return match;
+//   });
+// };
 
 // 커서를 contenteditable 끝으로 이동
-const moveCursorToEnd = (el: HTMLElement) => {
-  const range = document.createRange();
-  const sel = globalThis.getSelection();
-  range.selectNodeContents(el);
-  range.collapse(false);
-  sel?.removeAllRanges();
-  sel?.addRange(range);
-};
+// const moveCursorToEnd = (el: HTMLElement) => {
+//   const range = document.createRange();
+//   const sel = globalThis.getSelection();
+//   range.selectNodeContents(el);
+//   range.collapse(false);
+//   sel?.removeAllRanges();
+//   sel?.addRange(range);
+// };
 
 // 커서 위치 앞의 텍스트 반환
 const getTextBeforeCursor = (el: HTMLElement): string => {
@@ -65,7 +65,7 @@ const getTextBeforeCursor = (el: HTMLElement): string => {
   return range.toString();
 };
 
-export function ChatInput({
+export const ChatInput = ({
   value,
   onChange,
   onSend,
@@ -75,7 +75,7 @@ export function ChatInput({
   images,
   setImages,
   personas,
-}: ChatInputProps) {
+}: ChatInputProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const editorRef = useRef<HTMLDivElement>(null);
   const setEmoticonStore = useEmoticonStore((s) => s.setEmoticons);
@@ -138,11 +138,11 @@ export function ChatInput({
 
   // -- 멘션 필터링 --
   const filteredPersonas: ChatRoomAI[] =
-    mentionQuery !== null
-      ? personas.filter((p) =>
+    mentionQuery === null
+      ? []
+      : personas.filter((p) =>
           p.ai_persona_name.toLowerCase().includes(mentionQuery.toLowerCase()),
-        )
-      : [];
+        );
 
   // -- 멘션 선택 → 칩으로 교체 --
   const selectMention = (persona: ChatRoomAI) => {
@@ -168,7 +168,7 @@ export function ChatInput({
 
     // 멘션 칩 삽입
     const chip = document.createElement("span");
-    chip.setAttribute("data-mention", persona.ai_persona_name);
+    chip.dataset.mention = persona.ai_persona_name;
     chip.setAttribute("contenteditable", "false");
     chip.className = "mention-chip";
     chip.textContent = `@${persona.ai_persona_name}`;
@@ -211,7 +211,18 @@ export function ChatInput({
   const handlePaste = (e: React.ClipboardEvent<HTMLDivElement>) => {
     e.preventDefault();
     const text = e.clipboardData.getData("text/plain");
-    document.execCommand("insertText", false, text);
+
+    const sel = globalThis.getSelection();
+    if (!sel || sel.rangeCount === 0) return;
+
+    const range = sel.getRangeAt(0);
+    range.deleteContents();
+    range.insertNode(document.createTextNode(text));
+
+    // 커서를 삽입된 텍스트 끝으로 이동
+    range.collapse(false);
+    sel.removeAllRanges();
+    sel.addRange(range);
   };
 
   const resolveUrls = useCallback(async (data: Emoticon[]) => {
@@ -637,4 +648,4 @@ export function ChatInput({
       </div>
     </>
   );
-}
+};

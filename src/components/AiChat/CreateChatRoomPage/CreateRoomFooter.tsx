@@ -1,11 +1,11 @@
 import { ArrowRight } from "lucide-react";
 import { CreateRoomFooterProps } from "../../../types/pages/AiChat/CreateChatRoomPage/CreateRoomFooter";
 
-export function CreateRoomFooter({
+export const CreateRoomFooter = ({
   step,
   isValid,
   onNext,
-}: CreateRoomFooterProps) {
+}: CreateRoomFooterProps) => {
   return (
     <div className="p-4 bg-white border-t border-gray-200">
       <button
@@ -19,4 +19,4 @@ export function CreateRoomFooter({
       </button>
     </div>
   );
-}
+};

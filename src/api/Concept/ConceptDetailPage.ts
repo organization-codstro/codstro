@@ -53,7 +53,7 @@ export const ConceptDetailService = {
   },
 
   /**
-   * 라이브러리 학습 Todo(노트)를 생성합니다.
+   * 라이브러리 학습 노트를 생성합니다.
    */
   async addConceptTodo(params: AddConceptTodoParams): Promise<boolean> {
     const { userId, conceptName, type } = params;

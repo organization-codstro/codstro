@@ -1,10 +1,10 @@
 import { EmoticonPreviewProps } from "../../../../types/pages/AiChat/ChatConversation/ChatInput/EmoticonPreview";
 
-export function EmoticonPreview({
+export const EmoticonPreview = ({
   emoticon,
   emoticonUrl,
   onCancel,
-}: EmoticonPreviewProps) {
+}: EmoticonPreviewProps) => {
   return (
     <div className="flex items-center gap-2 mb-2">
       <div className="relative shrink-0">
@@ -27,4 +27,4 @@ export function EmoticonPreview({
       <span className="text-xs text-gray-400">{emoticon.emoticon_name}</span>
     </div>
   );
-}
+};

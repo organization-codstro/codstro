@@ -1,13 +1,13 @@
 import { ArrowLeft, Save, Edit2 } from "lucide-react";
 import { UserInfoHeaderProps } from "../../../types/pages/AiChat/UserInfoPage/UserInfoHeader";
 
-export function UserInfoHeader({
+export const UserInfoHeader = ({
   lastUpdated,
   isEditing,
   onBack,
   onEdit,
   onSave,
-}: UserInfoHeaderProps) {
+}: UserInfoHeaderProps) => {
   return (
     <div className="p-4 bg-white border-b border-gray-200">
       <div className="flex items-center justify-between">
@@ -46,4 +46,4 @@ export function UserInfoHeader({
       </div>
     </div>
   );
-}
+};

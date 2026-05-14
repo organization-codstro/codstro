@@ -46,6 +46,6 @@ export const PersonalityEncyclopediaDetailService = {
       throw new Error("해당 MBIT 성격 유형을 찾을 수 없습니다.");
     }
 
-    return data as Personality;
+    return data;
   },
 };
