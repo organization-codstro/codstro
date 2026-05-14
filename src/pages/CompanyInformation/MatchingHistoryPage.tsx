@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // 컴포넌트 임포트
-import HistoryHeader from "../../components/CompanyInformation/InterviewHistoryPage/HistoryHeader";
+import { HistoryHeader } from "../../components/CompanyInformation/InterviewHistoryPage/HistoryHeader";
 import { MatchEmptyState } from "../../components/CompanyInformation/MatchingHistoryPage/MatchEmptyState";
 import { MatchingCard } from "../../components/CompanyInformation/MatchingHistoryPage/MatchingCard";
 
@@ -76,6 +76,7 @@ export default function MatchingHistoryPage() {
           toast.success("해당 매칭 기록이 삭제되었습니다.");
         }
       } catch (error) {
+        console.error("삭제 실패:", error);
         toast.error("삭제 실패: 다시 시도해주세요.");
       }
     } else {
@@ -95,7 +96,14 @@ export default function MatchingHistoryPage() {
   return (
     <div
       className="min-h-screen p-8 bg-gray-50"
-      onClick={() => setDeletePendingId(null)} // 배경 클릭 시 삭제 취소
+      role="button"
+      tabIndex={0}
+      onClick={() => setDeletePendingId(null)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          setDeletePendingId(null);
+        }
+      }}
     >
       <div className="max-w-4xl mx-auto">
         {/* 헤더 섹션 */}

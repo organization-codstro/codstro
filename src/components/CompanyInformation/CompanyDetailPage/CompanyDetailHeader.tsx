@@ -1,13 +1,13 @@
 import { Building2, Bookmark, ArrowLeft } from "lucide-react";
 import { CompanyDetailHeaderProps } from "../../../types/pages/CompanyInformation/CompanyDetailPage/CompanyDetailHeader";
 
-export function CompanyDetailHeader({
+export const CompanyDetailHeader = ({
   name,
   industry,
   isBookmarked,
   onBack,
   onBookmarkToggle,
-}: CompanyDetailHeaderProps) {
+}: CompanyDetailHeaderProps) => {
   return (
     <>
       <button
@@ -45,4 +45,4 @@ export function CompanyDetailHeader({
       </div>
     </>
   );
-}
+};

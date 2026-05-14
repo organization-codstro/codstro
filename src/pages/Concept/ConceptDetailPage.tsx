@@ -10,7 +10,7 @@ import { ConceptDetailService } from "../../api/Concept/ConceptDetailPage";
 
 // 공통 컴포넌트
 import AIChat from "../../components/Concept/ConceptDetailPage/CompanyInformationAIChat";
-import AddTodoModal from "../../components/CompanyInformation/AddTodoModal";
+import { AddTodoModal } from "../../components/CompanyInformation/AddTodoModal";
 import MarkdownRenderer from "../../components/Markdown/MarkdownRenderer";
 import BackButton from "../../components/Concept/BackButton";
 import ConceptHeader from "../../components/Concept/ConceptDetailPage/ConceptHeader";
@@ -20,7 +20,7 @@ import NotFoundPage from "../NotFound/NotFoundPage";
 import {
   GROUP_NAME,
   GROUP_NAME_TYPE,
-} from "../../constants/Woomoonjeong/woomoonjeong";
+} from "../../constants/Woomoonjeong/Woomoonjeong";
 import ConceptActionButtons from "../../components/Concept/ConceptDetailPage/ConceptActionButtons";
 import ConceptEditMetaModal from "../../components/Concept/ConceptDetailPage/ConceptEditMetaModal";
 

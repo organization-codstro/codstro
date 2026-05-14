@@ -1,12 +1,12 @@
 import { ExternalLink } from "lucide-react";
 import { CompanyInfoSectionProps } from "../../../types/pages/CompanyInformation/CompanyDetailPage/CompanyInfoSection";
 
-export function CompanyInfoSection({
+export const CompanyInfoSection = ({
   description,
   values,
   website,
   createdDate,
-}: CompanyInfoSectionProps) {
+}: CompanyInfoSectionProps) => {
   return (
     <div className="space-y-6">
       <div>
@@ -25,7 +25,7 @@ export function CompanyInfoSection({
         <div>
           <h3 className="mb-3 text-lg font-semibold text-gray-900">웹사이트</h3>
           <a
-            href={website ? website : "#"}
+            href={website || "#"}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 hover:underline"
@@ -44,4 +44,4 @@ export function CompanyInfoSection({
       </div>
     </div>
   );
-}
+};

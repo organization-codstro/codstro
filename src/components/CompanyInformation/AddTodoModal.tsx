@@ -7,16 +7,16 @@ import {
 import {
   DEFAULT_GROUP_NAME,
   TODO_STATUS_TYPE,
-} from "../../constants/Woomoonjeong/woomoonjeong";
+} from "../../constants/Woomoonjeong/Woomoonjeong";
 
-export default function AddTodoModal({
+export const AddTodoModal = ({
   isOpen,
   onClose,
   conceptName,
   todoType,
   onConfirm,
   availableGroups,
-}: AddTodoModalProeps) {
+}: AddTodoModalProeps) => {
   const [isPending, setIsPending] = useState(false);
 
   const getDefaultName = () => {
@@ -89,7 +89,10 @@ export default function AddTodoModal({
 
         <form onSubmit={handleSubmit} className="p-6 space-y-5">
           <div>
-            <label className="block mb-2 text-sm font-medium text-gray-700">
+            <label
+              htmlFor="todo-name"
+              className="block mb-2 text-sm font-medium text-gray-700"
+            >
               Related to: <span className="text-blue-600">{conceptName}</span>
             </label>
             <input
@@ -105,9 +108,9 @@ export default function AddTodoModal({
 
           {/* 그룹 선택 버튼 */}
           <div>
-            <label className="block mb-2 text-sm font-medium text-gray-700">
+            <p className="block mb-2 text-sm font-medium text-gray-700">
               그룹 이름 <span className="text-red-500">*</span>
-            </label>
+            </p>
             <div className="flex flex-wrap gap-2">
               {availableGroups.map((group) => (
                 <button
@@ -132,7 +135,10 @@ export default function AddTodoModal({
           </div>
 
           <div>
-            <label className="block mb-2 text-sm font-medium text-gray-700">
+            <label
+              htmlFor="todo-description"
+              className="block mb-2 text-sm font-medium text-gray-700"
+            >
               Description
             </label>
             <textarea
@@ -147,7 +153,10 @@ export default function AddTodoModal({
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="flex items-center gap-1 mb-2 text-sm font-medium text-gray-700">
+              <label
+                htmlFor="todo-start-date"
+                className="flex items-center gap-1 mb-2 text-sm font-medium text-gray-700"
+              >
                 <Calendar className="w-4 h-4" /> Start Date
               </label>
               <input
@@ -160,7 +169,10 @@ export default function AddTodoModal({
               />
             </div>
             <div>
-              <label className="flex items-center gap-1 mb-2 text-sm font-medium text-gray-700">
+              <label
+                htmlFor="todo-end-date"
+                className="flex items-center gap-1 mb-2 text-sm font-medium text-gray-700"
+              >
                 <Calendar className="w-4 h-4" /> End Date
               </label>
               <input
@@ -175,7 +187,10 @@ export default function AddTodoModal({
           </div>
 
           <div>
-            <label className="flex items-center gap-1 mb-2 text-sm font-medium text-gray-700">
+            <label
+              htmlFor="todo-status"
+              className="flex items-center gap-1 mb-2 text-sm font-medium text-gray-700"
+            >
               <AlertCircle className="w-4 h-4" /> Status
             </label>
             <select
@@ -218,4 +233,4 @@ export default function AddTodoModal({
       </div>
     </div>
   );
-}
+};

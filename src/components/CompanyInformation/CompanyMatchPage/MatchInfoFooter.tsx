@@ -1,6 +1,6 @@
 import { MatchInfoFooterProps } from "../../../types/pages/CompanyInformation/CompanyMatchPage/MatchInfoFooter";
 
-export function MatchInfoFooter({ created_at }: MatchInfoFooterProps) {
+export const MatchInfoFooter = ({ created_at }: MatchInfoFooterProps) => {
   return (
     <div className="p-4 mt-8 border border-gray-200 rounded-lg bg-gray-50">
       <p className="text-sm text-gray-600">
@@ -13,4 +13,4 @@ export function MatchInfoFooter({ created_at }: MatchInfoFooterProps) {
       </p>
     </div>
   );
-}
+};

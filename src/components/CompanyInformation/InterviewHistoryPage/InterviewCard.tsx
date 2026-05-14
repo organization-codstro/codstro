@@ -2,7 +2,7 @@ import { FileText, Calendar } from "lucide-react";
 import { DeleteButton } from "../DeleteButton";
 import { InterviewCardProps } from "../../../types/pages/CompanyInformation/InterviewHistoryPage/InterviewCard";
 
-const InterviewCard = ({
+export const InterviewCard = ({
   interview,
   isPending,
   onDelete,
@@ -77,5 +77,3 @@ const InterviewCard = ({
     </div>
   );
 };
-
-export default InterviewCard;

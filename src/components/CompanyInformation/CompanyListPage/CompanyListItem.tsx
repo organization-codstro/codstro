@@ -1,15 +1,16 @@
 import { Building2, Bookmark, ExternalLink } from "lucide-react";
 import { CompanyListItemProps } from "../../../types/pages/CompanyInformation/CompanyListPage/CompanyListItem";
 
-export function CompanyListItem({
+export const CompanyListItem = ({
   company,
   isBookmarked,
   onToggleBookmark,
   onSelect,
-}: CompanyListItemProps) {
+}: CompanyListItemProps) => {
   return (
-    <div
-      className="overflow-hidden transition-all bg-white border border-gray-200 shadow-sm cursor-pointer rounded-xl hover:shadow-md"
+    <button
+      type="button"
+      className="w-full overflow-hidden text-left transition-all bg-white border border-gray-200 shadow-sm cursor-pointer rounded-xl hover:shadow-md"
       onClick={() => onSelect(company.company_id)}
     >
       <div className="p-6">
@@ -71,10 +72,10 @@ export function CompanyListItem({
             <span>웹사이트</span>
           </a>
           <span className="text-xs text-gray-400">
-            {new Date(company.company_created_at).toLocaleDateString("ko-KR")}
+            {new Date(company.created_at).toLocaleDateString("ko-KR")}
           </span>
         </div>
       </div>
-    </div>
+    </button>
   );
-}
+};

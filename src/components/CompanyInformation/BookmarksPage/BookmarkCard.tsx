@@ -5,17 +5,19 @@ import {
 } from "lucide-react";
 import { BookmarkCardProps } from "../../../types/pages/CompanyInformation/BookmarksPage/BookmarkCard";
 
-export function BookmarkCard({
+export const BookmarkCard = ({
   company,
   onRemove,
   onClick,
-}: BookmarkCardProps) {
+}: BookmarkCardProps) => {
   return (
-    <div
-      className="overflow-hidden transition-all bg-white border border-gray-200 shadow-sm cursor-pointer rounded-xl hover:shadow-md"
-      onClick={() => onClick(company.company_id)}
-    >
-      <div className="p-6">
+    <article className="overflow-hidden transition-all bg-white border border-gray-200 shadow-sm rounded-xl hover:shadow-md">
+      {/* 카드 클릭 영역 — 버튼과 링크 제외한 영역 */}
+      <button
+        type="button"
+        onClick={() => onClick(company.company_id)}
+        className="w-full p-6 text-left"
+      >
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
             <div
@@ -28,13 +30,6 @@ export function BookmarkCard({
               {company.company_name}
             </h3>
           </div>
-
-          <button
-            onClick={(e) => onRemove(company.company_id, e)}
-            className="p-2 text-yellow-500 transition-colors rounded-lg hover:bg-yellow-50"
-          >
-            <BookmarkIcon size={20} fill="currentColor" />
-          </button>
         </div>
 
         <div className="space-y-3">
@@ -57,24 +52,35 @@ export function BookmarkCard({
             </p>
           </div>
         </div>
+      </button>
 
-        <div className="flex items-center justify-between pt-4 mt-4 border-t border-gray-100">
-          <a
-            href={company.company_website ? company.company_website : "#"}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            className="flex items-center gap-1 text-sm hover:underline"
-            style={{ color: "#587CF0" }}
-          >
-            <ExternalLink size={14} />
-            <span>웹사이트</span>
-          </a>
+      {/* 하단 액션 영역 — 버튼/링크가 있어서 button 바깥으로 분리 */}
+      <div className="flex items-center justify-between px-6 pt-4 pb-6 border-t border-gray-100">
+        <a
+          href={company.company_website ? company.company_website : "#"}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1 text-sm hover:underline"
+          style={{ color: "#587CF0" }}
+        >
+          <ExternalLink size={14} />
+          <span>웹사이트</span>
+        </a>
+
+        <div className="flex items-center gap-3">
           <span className="text-xs text-gray-400">
             {new Date(company.created_at).toLocaleDateString("ko-KR")}
           </span>
+          <button
+            type="button"
+            onClick={(e) => onRemove(company.company_id, e)}
+            className="p-2 text-yellow-500 transition-colors rounded-lg hover:bg-yellow-50"
+            aria-label={`${company.company_name} 북마크 제거`}
+          >
+            <BookmarkIcon size={20} fill="currentColor" />
+          </button>
         </div>
       </div>
-    </div>
+    </article>
   );
-}
+};

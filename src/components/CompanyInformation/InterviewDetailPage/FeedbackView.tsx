@@ -1,13 +1,6 @@
 import { CheckCircle, ArrowRight, Star } from "lucide-react";
 import MarkdownRenderer from "../../Markdown/MarkdownRenderer";
-import { EvaluationResult } from "../../../types/api/CompanyInformation/InterviewDetailPage";
-
-interface FeedbackViewProps {
-  feedback: string;
-  evaluation: EvaluationResult | null;
-  isLast: boolean;
-  onNext: () => void;
-}
+import { FeedbackViewProps } from "../../../types/pages/CompanyInformation/InterviewDetailPage/FeedbackView";
 
 export function FeedbackView({
   feedback,

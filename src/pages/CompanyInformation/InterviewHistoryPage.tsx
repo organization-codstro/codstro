@@ -4,9 +4,9 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // 컴포넌트 임포트
-import HistoryHeader from "../../components/CompanyInformation/InterviewHistoryPage/HistoryHeader";
-import InterviewHistoryEmptyState from "../../components/CompanyInformation/InterviewHistoryPage/InterviewHistoryEmptyState";
-import InterviewCard from "../../components/CompanyInformation/InterviewHistoryPage/InterviewCard";
+import { HistoryHeader } from "../../components/CompanyInformation/InterviewHistoryPage/HistoryHeader";
+import { InterviewHistoryEmptyState } from "../../components/CompanyInformation/InterviewHistoryPage/InterviewHistoryEmptyState";
+import { InterviewCard } from "../../components/CompanyInformation/InterviewHistoryPage/InterviewCard";
 
 // 서비스 및 타입 임포트
 import { GetUserInterviewListResponse } from "../../types/api/CompanyInformation/InterviewHistoryPage";
@@ -76,6 +76,7 @@ export default function InterviewHistoryPage() {
           toast.success("해당 기록이 삭제되었습니다.");
         }
       } catch (error) {
+        console.error("삭제 실패:", error);
         toast.error("삭제 실패: 다시 시도해주세요.");
       }
     } else {

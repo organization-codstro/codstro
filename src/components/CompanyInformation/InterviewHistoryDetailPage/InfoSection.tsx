@@ -5,7 +5,6 @@ export const InfoSection = ({
   content,
   variant = "default",
 }: InfoSectionProps) => {
-  // 스타일 매핑
   const styles = {
     default: "text-lg leading-relaxed text-gray-700",
     gray: "p-6 border border-gray-200 rounded-lg bg-gray-50 leading-relaxed text-gray-700",

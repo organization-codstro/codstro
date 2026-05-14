@@ -1,12 +1,12 @@
 import { AnswerInputFormProps } from "../../../types/pages/CompanyInformation/InterviewDetailPage/AnswerInputForm";
 
-export function AnswerInputForm({
+export const AnswerInputForm = ({
   question,
   answer,
   onAnswerChange,
   onSubmit,
   disabled,
-}: AnswerInputFormProps & { disabled?: boolean }) {
+}: AnswerInputFormProps) => {
   return (
     <div className="p-8">
       <h2 className="mb-4 text-xl font-semibold text-gray-800">질문</h2>
@@ -32,11 +32,11 @@ export function AnswerInputForm({
           className={`px-8 py-3 font-bold text-white transition-all rounded-lg ${
             disabled ? "bg-gray-300 cursor-not-allowed" : "hover:opacity-90"
           }`}
-          style={!disabled ? { backgroundColor: "#587CF0" } : {}}
+          style={disabled ? { backgroundColor: "#587CF0" } : {}}
         >
           {disabled ? "분석 중..." : "답변 제출"}
         </button>
       </div>
     </div>
   );
-}
+};

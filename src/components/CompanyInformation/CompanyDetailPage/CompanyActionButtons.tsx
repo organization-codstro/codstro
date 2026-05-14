@@ -1,12 +1,12 @@
 import { TrendingUp, FileQuestion, Loader2 } from "lucide-react";
 import { CompanyActionButtonsProps } from "../../../types/pages/CompanyInformation/CompanyDetailPage/CompanyActionButtons";
 
-export function CompanyActionButtons({
+export const CompanyActionButtons = ({
   onAnalysisClick,
   onInterviewClick,
   isAnalyzing = false,
   isGeneratingInterview = false,
-}: CompanyActionButtonsProps) {
+}: CompanyActionButtonsProps) => {
   return (
     <div className="p-6 border-t border-gray-200 bg-gray-50">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -52,4 +52,4 @@ export function CompanyActionButtons({
       </div>
     </div>
   );
-}
+};

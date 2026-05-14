@@ -1,10 +1,10 @@
 import ReactMarkdown from "react-markdown";
 import { MatchDetailReportProps } from "../../../types/pages/CompanyInformation/CompanyMatchPage/MatchDetailReport";
 
-export function MatchDetailReport({
+export const MatchDetailReport = ({
   reason,
   suggestions,
-}: MatchDetailReportProps) {
+}: MatchDetailReportProps) => {
   return (
     <div className="p-8">
       <div className="mb-8">
@@ -24,4 +24,4 @@ export function MatchDetailReport({
       </div>
     </div>
   );
-}
+};

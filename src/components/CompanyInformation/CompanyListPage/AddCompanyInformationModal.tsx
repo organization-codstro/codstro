@@ -5,14 +5,14 @@ import {
   AddCompanyInformationModalProps,
   AddCompanyInformationFormData,
 } from "../../../types/pages/CompanyInformation/CompanyListPage/AddCompanyInformationModal";
-const RECRUITMENT_TYPES = ["신입", "인턴", "경력"] as const;
+import { RECRUITMENT_TYPES } from "../../../constants/CompanyInformation/CompanyInformation";
 
-export default function AddCompanyInformationModal({
+export const AddCompanyInformationModal = ({
   isOpen,
   onClose,
   onSuccess,
   onSubmit,
-}: AddCompanyInformationModalProps) {
+}: AddCompanyInformationModalProps) => {
   const [formData, setFormData] = useState<AddCompanyInformationFormData>({
     name: "",
     jobField: "",
@@ -97,15 +97,31 @@ export default function AddCompanyInformationModal({
     !!formData.recruitmentType;
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40"
-      onClick={(e) => e.target === e.currentTarget && handleClose()}
-    >
-      <div className="w-full max-w-md bg-white shadow-xl rounded-2xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      {/* 배경 클릭 닫기 - 네이티브 button으로 분리 */}
+      <button
+        className="absolute inset-0 cursor-default bg-black/40"
+        onClick={handleClose}
+        aria-label="닫기"
+        tabIndex={-1}
+      />
+
+      {/* 다이얼로그 */}
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="dialog-title"
+        className="relative w-full max-w-md bg-white shadow-xl rounded-2xl"
+        onKeyDown={(e) => e.key === "Escape" && handleClose()}
+        tabIndex={-1}
+      >
         {/* Header */}
         <div className="flex items-start justify-between p-6 pb-0">
           <div>
-            <h2 className="text-lg font-semibold text-gray-900">
+            <h2
+              id="dialog-title"
+              className="text-lg font-semibold text-gray-900"
+            >
               AI 회사정보 생성
             </h2>
             <p className="text-sm text-gray-500 mt-0.5">
@@ -114,6 +130,7 @@ export default function AddCompanyInformationModal({
           </div>
           <button
             onClick={handleClose}
+            aria-label="닫기"
             className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
           >
             <X size={18} />
@@ -123,10 +140,11 @@ export default function AddCompanyInformationModal({
         <div className="flex flex-col gap-4 p-6">
           {/* 회사 이름 */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-gray-700">
+            <label htmlFor="name" className="text-xs font-medium text-gray-700">
               회사 이름 <span className="text-red-500">*</span>
             </label>
             <input
+              id="name"
               type="text"
               name="name"
               value={formData.name}
@@ -138,10 +156,14 @@ export default function AddCompanyInformationModal({
 
           {/* 지원 직무(분야) */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-gray-700">
+            <label
+              htmlFor="jobField"
+              className="text-xs font-medium text-gray-700"
+            >
               지원 직무(분야) <span className="text-red-500">*</span>
             </label>
             <input
+              id="jobField"
               type="text"
               name="jobField"
               value={formData.jobField}
@@ -153,10 +175,14 @@ export default function AddCompanyInformationModal({
 
           {/* 채용 유형 */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-gray-700">
+            <label
+              htmlFor="recruitmentType"
+              className="text-xs font-medium text-gray-700"
+            >
               채용 유형 <span className="text-red-500">*</span>
             </label>
             <select
+              id="recruitmentType"
               name="recruitmentType"
               value={formData.recruitmentType}
               onChange={handleInputChange}
@@ -172,11 +198,15 @@ export default function AddCompanyInformationModal({
 
           {/* 공식 공고 링크 (선택) */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-gray-700">
+            <label
+              htmlFor="officialLink"
+              className="text-xs font-medium text-gray-700"
+            >
               공식 공고 링크{" "}
               <span className="text-xs text-gray-400">(선택)</span>
             </label>
             <input
+              id="officialLink"
               type="url"
               name="officialLink"
               value={formData.officialLink}
@@ -221,4 +251,4 @@ export default function AddCompanyInformationModal({
       </div>
     </div>
   );
-}
+};
