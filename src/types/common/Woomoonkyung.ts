@@ -43,7 +43,7 @@ export interface PlanStatsResult {
  */
 
 export interface StudyPlanNode {
-  study_plan_node_id: string;
+  study_plan_node_id?: string;
   study_plan_id: string;
   study_plan_node_name: string;
   study_plan_node_description: string;

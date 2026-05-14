@@ -1,10 +1,10 @@
 import { ConceptTitleInputProps } from "../../../types/pages/Concept/ConceptCreatePage/ConceptTitleInputProps";
 
-export default function ConceptInput({
+export const ConceptInput = ({
   title,
   value,
   onChange,
-}: ConceptTitleInputProps) {
+}: ConceptTitleInputProps) => {
   return (
     <div className="mb-6">
       <label className="block mb-2 text-sm font-medium text-gray-700">
@@ -19,4 +19,4 @@ export default function ConceptInput({
       />
     </div>
   );
-}
+};

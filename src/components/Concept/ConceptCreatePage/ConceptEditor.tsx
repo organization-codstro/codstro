@@ -1,14 +1,19 @@
 import { ConceptEditorProps } from "../../../types/pages/Concept/ConceptCreatePage/ConceptEditor";
 
-export default function ConceptEditor({ value, onChange }: ConceptEditorProps) {
+export const ConceptEditor = ({ value, onChange }: ConceptEditorProps) => {
   return (
     <div className="mb-6">
       <div className="flex items-center justify-between mb-2">
-        <label className="block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="concept-prompt"
+          className="block text-sm font-medium text-gray-700"
+        >
           Prompt
         </label>
       </div>
+
       <textarea
+        id="concept-prompt"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder="Please write down the format or requirements of the concept..."
@@ -16,4 +21,4 @@ export default function ConceptEditor({ value, onChange }: ConceptEditorProps) {
       />
     </div>
   );
-}
+};

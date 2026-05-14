@@ -2,10 +2,10 @@ import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { BackButtonProps } from "../../types/pages/Concept/BackButton";
 
-export default function BackButton({
+export const BackButton = ({
   to,
   label = "Back to Concepts",
-}: BackButtonProps) {
+}: BackButtonProps) => {
   const navigate = useNavigate();
 
   return (
@@ -17,4 +17,4 @@ export default function BackButton({
       {label}
     </button>
   );
-}
+};

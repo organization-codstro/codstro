@@ -65,8 +65,8 @@ export default function StudyPlanArchiveDetailPage() {
    * [노드 완료 토글 핸들러]
    * 노드 상태 변경 후 부모 플랜의 상태를 자동 동기화(Service 로직 활용)
    */
-  const handleToggleNode = async (nodeId: string, currentStatus: boolean) => {
-    if (!planId) return;
+  const handleToggleNode = async (currentStatus: boolean, nodeId?: string) => {
+    if (!planId || !nodeId) return;
 
     try {
       const result =
@@ -250,8 +250,8 @@ export default function StudyPlanArchiveDetailPage() {
                 key={node.study_plan_node_id}
                 onClick={() =>
                   handleToggleNode(
-                    node.study_plan_node_id,
                     node.study_plan_node_completed,
+                    node.study_plan_node_id,
                   )
                 }
                 className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${

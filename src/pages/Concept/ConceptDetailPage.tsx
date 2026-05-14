@@ -12,7 +12,7 @@ import { ConceptDetailService } from "../../api/Concept/ConceptDetailPage";
 import AIChat from "../../components/Concept/ConceptDetailPage/CompanyInformationAIChat";
 import { AddTodoModal } from "../../components/CompanyInformation/AddTodoModal";
 import MarkdownRenderer from "../../components/Markdown/MarkdownRenderer";
-import BackButton from "../../components/Concept/BackButton";
+import { BackButton } from "../../components/Concept/BackButton";
 import ConceptHeader from "../../components/Concept/ConceptDetailPage/ConceptHeader";
 import ConceptServiceActionButtons from "../../components/Concept/ConceptDetailPage/ConceptServiceActionButtons";
 import RelatedItemGrid from "../../components/Concept/ConceptDetailPage/RelatedItemGrid";

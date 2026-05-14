@@ -24,7 +24,6 @@ export { default as StudyPlanArchive } from "../pages/Woomoonkyung/StudyPlanArch
 export { default as WoomoonkyungDetail } from "../pages/Woomoonkyung/StudyPlanDetailPage";
 export { default as WoomoonkyungCreate } from "../pages/Woomoonkyung/StudyPlanCreatePage";
 export { default as WoomoonkyungEdit } from "../pages/Woomoonkyung/StudyPlanEditPage";
-export { default as RecommendedStudyPlanDetail } from "../pages/Woomoonkyung/RecommendedStudyPlanDetailPage";
 export { default as StudyPlanArchiveDetail } from "../pages/Woomoonkyung/StudyPlanArchiveDetailPage";
 export { default as WoomoonkyungCreateNode } from "../pages/Woomoonkyung/StudyPlanCreateNodePage";
 export { default as WoomoonkyungEditNode } from "../pages/Woomoonkyung/StudyPlanEditNodePage";

@@ -6,13 +6,9 @@ import { CreatePlanButton } from "../../components/Woomoonkyung/StudyPlanCreateN
 import { NodeList } from "../../components/Woomoonkyung/StudyPlanCreateNodePage/NodeList";
 import { BackButton } from "../../components/Woomoonkyung/StudyPlanCreateNodePage/BackButton";
 import { RightSidebar } from "../../components/Woomoonkyung/StudyPlanCreateNodePage/RightSidebar";
-import {
-  StudyPlanNode,
-  ValidationErrors,
-} from "../../types/pages/Woomoonkyung/StudyPlanCreateNodePage/StudyPlanCreateNodePage";
-import { WoomoonkyungCreateNodeService } from "../../api/Woomoonkyung/StudyPlanCreateNodePage";
-import { RecommendedStudyPlanDetailService } from "../../api/Woomoonkyung/RecommendedStudyPlanDetailPage";
-import { TechStack } from "../../types/common/Woomoonkyung";
+import { ValidationErrors } from "../../types/pages/Woomoonkyung/StudyPlanCreateNodePage/StudyPlanCreateNodePage";
+import { StudyPlanCreateNodeService } from "../../api/Woomoonkyung/StudyPlanCreateNodePage";
+import { StudyPlanNode, TechStack } from "../../types/common/Woomoonkyung";
 
 export default function StudyPlanCreateNodePage() {
   const navigate = useNavigate();
@@ -48,9 +44,9 @@ export default function StudyPlanCreateNodePage() {
     try {
       setIsLoading(true);
       const [planData, nodesData, techData] = await Promise.all([
-        RecommendedStudyPlanDetailService.getStudyPlanById(planId),
-        RecommendedStudyPlanDetailService.getNodesByPlanId(planId),
-        WoomoonkyungCreateNodeService.getTechStacks(),
+        StudyPlanCreateNodeService.getStudyPlanById(planId),
+        StudyPlanCreateNodeService.getNodesByPlanId(planId),
+        StudyPlanCreateNodeService.getTechStacks(),
       ]);
 
       setPlanInfo(planData);
@@ -71,7 +67,7 @@ export default function StudyPlanCreateNodePage() {
   useEffect(() => {
     const fetchFilteredTech = async () => {
       try {
-        const data = await WoomoonkyungCreateNodeService.getTechStacks({
+        const data = await StudyPlanCreateNodeService.getTechStacks({
           searchQuery,
         });
         setTechStacks(data);
@@ -212,17 +208,23 @@ export default function StudyPlanCreateNodePage() {
 
     const loadingToast = toast.loading("공부 계획 노드를 저장 중입니다...");
     try {
-      //console.log(nodes);
-
-      await WoomoonkyungCreateNodeService.saveAllNodes({
+      await StudyPlanCreateNodeService.saveAllNodes({
         planId,
-        nodes: nodes.map((n, index) => ({
-          ...n,
-          study_plan_node_position: index + 1,
-          study_plan_node_id: n.study_plan_node_id.startsWith("temp-")
-            ? undefined
-            : n.study_plan_node_id,
-        })),
+        nodes: nodes.map((n, index) => {
+          if (n.study_plan_node_id?.startsWith("temp-")) {
+            const { study_plan_node_id, ...rest } = n;
+
+            return {
+              ...rest,
+              study_plan_node_position: index + 1,
+            };
+          }
+
+          return {
+            ...n,
+            study_plan_node_position: index + 1,
+          };
+        }),
       });
 
       toast.update(loadingToast, {

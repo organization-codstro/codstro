@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { GetCompanyListResponse } from "../../types/api/CompanyInformation/CompanyListPage";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { CompanyListService } from "../../api/CompanyInformation/CompanyListPage";
-import AddCompanyInformationModal from "../../components/CompanyInformation/CompanyListPage/AddCompanyInformationModal";
+import { AddCompanyInformationModal } from "../../components/CompanyInformation/CompanyListPage/AddCompanyInformationModal";
 import { AddCompanyInformationFormData } from "../../types/pages/CompanyInformation/CompanyListPage/AddCompanyInformationModal";
 
 export default function CompanyListPage() {

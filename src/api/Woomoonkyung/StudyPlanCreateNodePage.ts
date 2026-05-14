@@ -3,6 +3,8 @@ import {
   GetTechStacksParams,
   SaveAllNodesParams,
   UpdateNodePositionsParams,
+  GetStudyPlanByIdParams,
+  GetNodesByPlanIdParams,
 } from "../../types/api/Woomoonkyung/StudyPlanCreateNodePage";
 import { StudyPlanNode, TechStack } from "../../types/common/Woomoonkyung";
 
@@ -10,7 +12,63 @@ import { StudyPlanNode, TechStack } from "../../types/common/Woomoonkyung";
  * [노드 관리 및 설정 서비스]
  * 기술 스택 목록 조회, 노드 생성, 순서 변경(Drag & Drop) 반영을 담당합니다.
  */
-export const WoomoonkyungCreateNodeService = {
+export const StudyPlanCreateNodeService = {
+  /**
+   * [단일 공부 계획 상세 조회]
+   * @param planId 조회할 계획의 ID
+   * @returns study_plans 테이블의 단일 레코드
+   */
+  async getStudyPlanById(planId: GetStudyPlanByIdParams) {
+    try {
+      const { data, error } = await supabase
+        .from("study_plans")
+        .select("*")
+        .eq("study_plan_id", planId)
+        .single();
+
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error(
+        "[RecommendedStudyPlanDetailService - getStudyPlanById Error]:",
+        error,
+      );
+      throw error;
+    }
+  },
+
+  /**
+   * [공부 계획에 포함된 노드 리스트 조회]
+   * @param planId 해당 계획의 ID
+   * @returns study_plan_node_position 순으로 정렬된 노드 및 연관된 기술 스택 정보
+   */
+  async getNodesByPlanId(planId: GetNodesByPlanIdParams) {
+    try {
+      const { data, error } = await supabase
+        .from("study_plan_nodes")
+        .select(
+          `
+            *,
+            tech_stacks (
+              tech_stack_name,
+              tech_stack_img_url
+            )
+          `,
+        )
+        .eq("study_plan_id", planId)
+        .order("study_plan_node_position", { ascending: true });
+
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error(
+        "[RecommendedStudyPlanDetailService - getNodesByPlanId Error]:",
+        error,
+      );
+      throw error;
+    }
+  },
+
   /**
    * [사용 가능한 기술 스택 목록 조회]
    */
@@ -53,12 +111,11 @@ export const WoomoonkyungCreateNodeService = {
         study_plan_id: planId,
         study_plan_node_name: node.study_plan_node_name,
         study_plan_node_description: node.study_plan_node_description,
-        study_plan_node_start_date: node.start_date,
-        study_plan_node_end_date: node.end_date,
+        study_plan_node_start_date: node.study_plan_node_start_date,
+        study_plan_node_end_date: node.study_plan_node_end_date,
         study_plan_node_completed: node.study_plan_node_completed || false,
         study_plan_node_position: node.study_plan_node_position,
         tech_stack_id: node.tech_stack_id,
-        created_at: node.created_at || new Date().toISOString().split("T")[0],
       }));
 
       const { data, error: insertError } = await supabase

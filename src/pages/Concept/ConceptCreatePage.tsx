@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Save, Loader2, X } from "lucide-react";
-import BackButton from "../../components/Concept/BackButton";
-import ConceptTitleInput from "../../components/Concept/ConceptCreatePage/ConceptInput";
-import ConceptEditor from "../../components/Concept/ConceptCreatePage/ConceptEditor";
+import { BackButton } from "../../components/Concept/BackButton";
+import { ConceptInput } from "../../components/Concept/ConceptCreatePage/ConceptInput";
+import { ConceptEditor } from "../../components/Concept/ConceptCreatePage/ConceptEditor";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { ConceptCreateService } from "../../api/Concept/ConceptCreatePage";
 import { ConceptItem } from "../../types/common/Concepts";
@@ -121,8 +121,8 @@ export default function ConceptCreatePage() {
           Create New Concept
         </h1>
 
-        <ConceptTitleInput title={"title"} value={title} onChange={setTitle} />
-        <ConceptTitleInput
+        <ConceptInput title={"title"} value={title} onChange={setTitle} />
+        <ConceptInput
           title={"description"}
           value={description}
           onChange={setDescription}
@@ -146,7 +146,7 @@ export default function ConceptCreatePage() {
               {categories.map((cat) => (
                 <span
                   key={cat}
-                  className="flex items-center gap-1 px-3 py-1 text-sm font-medium text-blue-700 bg-blue-50 border border-blue-200 rounded-full"
+                  className="flex items-center gap-1 px-3 py-1 text-sm font-medium text-blue-700 border border-blue-200 rounded-full bg-blue-50"
                 >
                   {cat}
                   <button

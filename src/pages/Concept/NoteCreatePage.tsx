@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Save, Loader2 } from "lucide-react";
 
-import BackButton from "../../components/Concept/BackButton";
+import { BackButton } from "../../components/Concept/BackButton";
 import NoteTitleInput from "../../components/Concept/NoteCreatePage/NoteInput";
 import ConceptSelector from "../../components/Concept/NoteCreatePage/ConceptSelector";
 import NoteEditor from "../../components/Concept/NoteCreatePage/NoteEditor";
