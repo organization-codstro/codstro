@@ -230,8 +230,7 @@ export interface CompanyUserQnas {
   company_user_qna_answer: string; // text
   company_qna_question: string; // text
   company_user_qna_evaluation: string; // text
-  company_user_qna_create_date: Date; // date
-  company_qna_id: number; // FK / number
+  created_at: Date; // date
 }
 
 export interface libraryDescriptionMaterials {
@@ -486,7 +485,7 @@ export interface CompanyQnas {
   company_qna_question: string; // text
   company_qna_answer: string | null; // text
   company_qna_question_reason: string | null; // text
-  company_qna_created_date: Date; // date
+  created_at: Date; // date
   company_id: number; // FK / number
 }
 

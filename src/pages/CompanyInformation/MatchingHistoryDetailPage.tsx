@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 
 // 컴포넌트 임포트
 import { BackButton } from "../../components/CompanyInformation/BackButton";
@@ -46,23 +45,6 @@ export default function MatchingHistoryDetailPage() {
     fetchMatchDetail();
   }, [matchingId]);
 
-  // 2. 삭제 핸들러 (서비스 내 deleteMatchingHistory 활용)
-  const handleDelete = async () => {
-    if (
-      !matchingId ||
-      !window.confirm("이 매칭 기록을 영구적으로 삭제하시겠습니까?")
-    )
-      return;
-
-    try {
-      await MatchingHistoryDetailService.deleteMatchingHistory({ matchingId });
-      toast.success("기록이 성공적으로 삭제되었습니다.");
-      navigate("/matchs"); // 매칭 목록 페이지로 이동
-    } catch (error) {
-      toast.error("삭제 중 오류가 발생했습니다.");
-    }
-  };
-
   // 로딩 중 UI
   if (isLoading) {
     return (
@@ -83,12 +65,6 @@ export default function MatchingHistoryDetailPage() {
         <div className="flex items-center justify-between mb-4">
           <BackButton onClick={() => navigate(-1)} />
           {/* 삭제 버튼 추가 */}
-          <button
-            onClick={handleDelete}
-            className="text-sm font-medium text-red-400 hover:text-red-600 hover:underline"
-          >
-            기록 삭제
-          </button>
         </div>
 
         <div className="overflow-hidden bg-white border border-gray-200 shadow-sm rounded-xl">

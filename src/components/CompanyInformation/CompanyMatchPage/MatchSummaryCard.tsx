@@ -1,10 +1,9 @@
-import { TrendingUp, ArrowLeft } from "lucide-react";
+import { TrendingUp } from "lucide-react";
 import { MatchSummaryCardProps } from "../../../types/pages/CompanyInformation/CompanyMatchPage/MatchSummaryCard";
 
 export function MatchSummaryCard({
   companyName,
   matchRate,
-  onBack,
 }: MatchSummaryCardProps) {
   // 매칭 점수 색상 로직
   const getMatchColor = (rate: number) => {
@@ -18,14 +17,6 @@ export function MatchSummaryCard({
 
   return (
     <>
-      <button
-        onClick={onBack}
-        className="flex items-center gap-2 mb-6 text-gray-600 transition-colors hover:text-gray-900"
-      >
-        <ArrowLeft size={20} />
-        <span>뒤로 가기</span>
-      </button>
-
       <div
         className="p-8 border-b border-gray-200"
         style={{ backgroundColor: "#F0F4FF" }}

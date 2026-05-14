@@ -19,36 +19,55 @@ export const UserInfoService = {
    * 참조 테이블: ai_user_records
    */
   async getUserRecord(
-    params: GetUserRecordParams
+    params: GetUserRecordParams,
   ): Promise<GetUserRecordResponse> {
     const { data, error } = await supabase
       .from("ai_user_records")
       .select("*")
       .eq("user_id", params.userId)
-      .single(); // 유저당 하나의 기록을 가정할 경우
+      .maybeSingle();
 
     if (error) throw new Error(`[getUserRecord Error]: ${error.message}`);
     return data;
   },
 
   /**
+   * [유저 기록 생성]
+   * 해당하는 유저에 대항하는 기록이 없으면 생성합니다.
+   */
+  async createUserRecord(params: { userId: string; summary: string }) {
+    const { data, error } = await supabase
+      .from("ai_user_records")
+      .insert({
+        user_id: params.userId,
+        ai_user_record_summary: params.summary,
+      })
+      .select()
+      .single();
+
+    if (error) throw new Error(error.message);
+
+    return data;
+  },
+
+  /**
    * [유저 기록 업데이트]
    * 유저가 직접 수정한 요약본 내용을 저장합니다.
-   * 수정 시 ai_user_record_created_date를 현재 시간으로 갱신합니다.
+   * 수정 시 created_at 현재 시간으로 갱신합니다.
    * 참조 테이블: ai_user_records
    */
   async updateUserRecord(
-    params: UpdateUserRecordParams
+    params: UpdateUserRecordParams,
   ): Promise<UpdateUserRecordResponse> {
     const { data, error } = await supabase
       .from("ai_user_records")
       .update({
         ai_user_record_summary: params.summary,
-        ai_user_record_created_date: new Date().toISOString(),
+        created_at: new Date().toISOString(),
       })
       .eq("ai_user_record_id", params.recordId)
       .select()
-      .single();
+      .maybeSingle();
 
     if (error) throw new Error(`[updateUserRecord Error]: ${error.message}`);
     return data;
@@ -61,7 +80,7 @@ export const UserInfoService = {
  */
 export const AiSummaryService = {
   async generateUserSummary(
-    params: GenerateUserSummaryParams
+    params: GenerateUserSummaryParams,
   ): Promise<GenerateUserSummaryResponse> {
     const prompt = `
       Based on the following recent conversation history:
@@ -75,7 +94,7 @@ export const AiSummaryService = {
       "gemini-summarize",
       {
         body: { prompt, userId: params.userId },
-      }
+      },
     );
 
     if (error) throw new Error(`[Summary Error]: ${error.message}`);

@@ -6,8 +6,6 @@ import { CompanyActionButtons } from "../../components/CompanyInformation/Compan
 import { LoginService } from "../../api/Auth/LoginPage";
 import { CompanyDetailService } from "../../api/CompanyInformation/CompanyDetailPage";
 import { toast } from "react-toastify";
-import { CompanyMatchService } from "../../api/CompanyInformation/CompanyMatchPage";
-import { UserInfoService } from "../../api/AiChat/UserInfoPage";
 import { Company } from "../../types/common/CompanyInformation";
 import NotFoundPage from "../NotFound/NotFoundPage";
 
@@ -15,29 +13,24 @@ export default function CompanyDetailPage() {
   const { companyId } = useParams<{ companyId: string }>();
   const navigate = useNavigate();
 
-  // 1. 상태 관리
   const [company, setCompany] = useState<Company | null>(null);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [isGeneratingInterview, setIsGeneratingInterview] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
 
-  // 2. 초기 데이터 로드
   useEffect(() => {
-    if (companyId) {
-      loadCompanyData();
-    }
+    if (companyId) loadCompanyData();
   }, [companyId]);
 
   const loadCompanyData = async () => {
     if (!companyId) return;
-
     try {
       setIsLoading(true);
       setError(null);
 
-      // 유저 ID 가져오기
       const currentUserId = await LoginService.getCurrentUserId();
       if (!currentUserId) {
         setError("로그인이 필요합니다.");
@@ -46,14 +39,11 @@ export default function CompanyDetailPage() {
       }
       setUserId(currentUserId);
 
-      // 회사 상세 정보 가져오기
       const companyData = await CompanyDetailService.getCompanyDetail({
         companyId,
       });
-
       setCompany(companyData);
 
-      // 북마크 상태 확인
       const bookmarkStatus = await CompanyDetailService.checkIsBookmarked({
         userId: currentUserId,
         companyId,
@@ -67,80 +57,120 @@ export default function CompanyDetailPage() {
     }
   };
 
-  /**
-   * [AI 매칭 생성 및 저장 핸들러]
-   */
+  // ─── 회사 매칭 분석 ───────────────────────────────────────────
   const handleAnalysisClick = async () => {
-    if (!userId || !company || !companyId) return;
+    if (!userId || !company || !companyId || isAnalyzing) return;
 
-    // 이미 분석 중이면 중복 클릭 방지
-    if (isAnalyzing) return;
-
-    const toastId = toast.loading("AI 매칭 정보를 생성 중입니다...");
     setIsAnalyzing(true);
+    const toastId = toast.loading("AI 매칭 분석 중...");
 
     try {
       // 1. 유저 AI 기록 조회
-      const userRecord = await UserInfoService.getUserRecord({ userId });
-
-      if (!userRecord) {
+      const userSummary = await CompanyDetailService.getUserAiSummary(userId);
+      if (!userSummary) {
         toast.update(toastId, {
-          render: "유저 활동 기록이 부족하여 AI 분석을 시작할 수 없습니다.",
+          render: "활동 기록이 부족합니다. AI 채팅을 먼저 이용해주세요.",
           type: "error",
           isLoading: false,
-          autoClose: 500,
+          autoClose: 3000,
         });
         return;
       }
 
-      // 2. AI 매칭 리포트 생성 (Gemini API)
-      const aiReportText = await CompanyDetailService.generateAiMatchReport(
-        {
-          companyName: company.company_name,
-          companyValues: company.company_values,
-        },
-        userRecord,
-      );
-
-      // 3. AI 결과 파싱 (SCORE 추출)
-      const scoreMatch = aiReportText.match(/SCORE:\s*(\d+)/i);
-      const matchRate = scoreMatch ? parseInt(scoreMatch[1], 10) : 70; // 기본값 70
-
-      // 4. DB에 매칭 결과 저장
-      await CompanyMatchService.createMatchResult({
+      // 2. Edge Function 호출 (분석 + DB 저장 일괄 처리)
+      await CompanyDetailService.analyzeCompanyMatch({
         userId,
         companyId,
         companyName: company.company_name,
-        matchRate,
-        reason: aiReportText, // 전체 리포트를 사유 섹션에 저장하거나 파싱하여 분리
-        suggestions: "추가적인 자기계발을 통해 매칭률을 높여보세요.", // 혹은 AI 결과에서 파싱
+        companyValues: company.company_values,
+        companyDescription: company.company_description,
+        companyIndustry: company.company_industry,
+        userSummary,
       });
 
-      // 5. 성공 알림 및 페이지 이동
       toast.update(toastId, {
-        render: "매칭 정보가 성공적으로 생성되었습니다!",
+        render: "매칭 분석 완료!",
         type: "success",
         isLoading: false,
-        autoClose: 500,
+        autoClose: 1000,
       });
 
-      setTimeout(() => {
-        navigate(`/companies/${companyId}/match`);
-      }, 1500);
+      setTimeout(() => navigate(`/companies/${companyId}/match`), 1200);
     } catch (err) {
-      console.error("AI 분석 실패:", err);
+      console.error("매칭 분석 실패:", err);
       toast.update(toastId, {
-        render: "매칭 정보 생성 중 오류가 발생했습니다.",
+        render: "분석 중 오류가 발생했습니다. 다시 시도해주세요.",
         type: "error",
         isLoading: false,
-        autoClose: 500,
+        autoClose: 3000,
       });
     } finally {
       setIsAnalyzing(false);
     }
   };
 
-  // 3. 북마크 토글 핸들러
+  // ─── 모의 면접 ────────────────────────────────────────────────
+  const handleInterviewClick = async () => {
+    if (!userId || !company || !companyId || isGeneratingInterview) return;
+
+    setIsGeneratingInterview(true);
+    const toastId = toast.loading("맞춤 면접 질문 생성 중...");
+
+    try {
+      // 1. 유저 AI 기록 조회
+      const userSummary = await CompanyDetailService.getUserAiSummary(userId);
+      if (!userSummary) {
+        toast.update(toastId, {
+          render: "활동 기록이 부족합니다. AI 채팅을 먼저 이용해주세요.",
+          type: "error",
+          isLoading: false,
+          autoClose: 3000,
+        });
+        return;
+      }
+
+      // 2. 질문 생성 + DB 저장 (Edge Function)
+      const questions = await CompanyDetailService.generateInterviewQuestions({
+        userId,
+        companyId,
+        companyName: company.company_name,
+        companyValues: company.company_values,
+        companyDescription: company.company_description,
+        companyIndustry: company.company_industry,
+        userSummary,
+      });
+
+      if (!questions || questions.length === 0) {
+        throw new Error("질문 생성 실패");
+      }
+
+      toast.update(toastId, {
+        render: "질문 준비 완료! 면접을 시작합니다.",
+        type: "success",
+        isLoading: false,
+        autoClose: 1000,
+      });
+
+      // 생성된 첫 질문 ID를 state로 넘겨서 면접 페이지에서 활용
+      setTimeout(() => {
+        navigate(`/companies/${companyId}/interview`, {
+          state: { questions, companyName: company.company_name, userSummary },
+        });
+      }, 1200);
+    } catch (err) {
+      console.error("면접 질문 생성 실패:", err);
+      toast.update(toastId, {
+        render: "질문 생성 중 오류가 발생했습니다. 다시 시도해주세요.",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
+    } finally {
+      setIsGeneratingInterview(false);
+    }
+  };
+
+  // ─── 북마크 ───────────────────────────────────────────────────
   const toggleBookmark = async () => {
     if (!userId || !companyId) return;
     try {
@@ -155,7 +185,6 @@ export default function CompanyDetailPage() {
     }
   };
 
-  // 4. 로딩 상태 처리
   if (isLoading) {
     return (
       <div className="min-h-screen p-4 md:p-8 bg-gray-50">
@@ -172,7 +201,6 @@ export default function CompanyDetailPage() {
     );
   }
 
-  // 5. 에러 또는 회사 정보 없음 처리
   if (error || !company || !companyId) {
     return <NotFoundPage />;
   }
@@ -189,7 +217,6 @@ export default function CompanyDetailPage() {
               onBack={() => navigate("/companies")}
               onBookmarkToggle={toggleBookmark}
             />
-
             <CompanyInfoSection
               description={company.company_description}
               values={company.company_values}
@@ -199,10 +226,10 @@ export default function CompanyDetailPage() {
           </div>
 
           <CompanyActionButtons
-            onAnalysisClick={handleAnalysisClick} // 수정된 핸들러 연결
-            onInterviewClick={() =>
-              navigate(`/companies/${companyId}/interview`)
-            }
+            onAnalysisClick={handleAnalysisClick}
+            onInterviewClick={handleInterviewClick}
+            isAnalyzing={isAnalyzing}
+            isGeneratingInterview={isGeneratingInterview}
           />
         </div>
       </div>

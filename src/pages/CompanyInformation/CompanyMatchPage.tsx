@@ -7,6 +7,7 @@ import { GetCompanyMatchDetailResponse } from "../../types/api/CompanyInformatio
 import { LoginService } from "../../api/Auth/LoginPage";
 import { CompanyMatchService } from "../../api/CompanyInformation/CompanyMatchPage";
 import NotFoundPage from "../NotFound/NotFoundPage";
+import { ArrowLeft } from "lucide-react";
 
 export default function CompanyMatchPage() {
   const { companyId } = useParams<{ companyId: string }>();
@@ -65,11 +66,18 @@ export default function CompanyMatchPage() {
   return (
     <div className="min-h-screen p-4 md:p-8 bg-gray-50">
       <div className="max-w-4xl mx-auto">
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-2 mb-6 text-gray-600 transition-colors hover:text-gray-900"
+        >
+          <ArrowLeft size={20} />
+          <span>뒤로 가기</span>
+        </button>
         <div className="overflow-hidden bg-white border border-gray-200 shadow-sm rounded-xl">
           {/* 1. 상단 요약 섹션 (JOIN된 companys 정보 사용) */}
           <MatchSummaryCard
             companyName={matchData.companys?.company_name || "회사 정보 없음"}
-            matchRate={matchData.match_rate}
+            matchRate={matchData.company_user_match_rate}
             onBack={() => navigate(-1)}
           />
 

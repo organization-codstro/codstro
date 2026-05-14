@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { uploadFilesToStorage } from "../../db/firebase/firebase";
@@ -13,13 +13,13 @@ import {
   ChatRoomAI,
   TypingPersona,
 } from "../../types/common/AiChat";
-import NotFoundPage from "../NotFound/NotFoundPage";
 import {
   ChatMessageInteractionType,
   SendMessageParams,
 } from "../../types/api/AiChat/ChatConversationPage";
 import { ChatConversationService } from "../../api/AiChat/ChatConversationPage";
 import { LoginService } from "../../api/Auth/LoginPage";
+import { CURSOR_PAGE_SIZE } from "../../constants/AiChat/AiChat";
 
 export default function ChatConversationPage() {
   const { roomId } = useParams<{ roomId: string }>();
@@ -37,15 +37,73 @@ export default function ChatConversationPage() {
   const [personas, setPersonas] = useState<ChatRoomAI[]>([]);
   const [typingPersonas, setTypingPersonas] = useState<TypingPersona[]>([]);
 
+  // 페이지네이션 상태
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+
   const scrollToBottom = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   };
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+  // 새 메세지(실시간) 올 때만 아래로 스크롤
+  const scrollToBottomIfNeeded = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    // 이미 맨 아래 근처에 있을 때만 스크롤 (100px 이내)
+    const isNearBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 100;
+    if (isNearBottom) {
+      el.scrollTop = el.scrollHeight;
+    }
+  }, []);
+
+  // 이전 메세지 로드 (위로 스크롤 시)
+  const loadMoreMessages = useCallback(async () => {
+    if (!hasMore || isLoadingMore || !roomId) return;
+    setIsLoadingMore(true);
+
+    const scrollEl = scrollRef.current;
+    const prevScrollHeight = scrollEl?.scrollHeight ?? 0;
+
+    try {
+      const nextPage = page + 1;
+      const older = await ChatConversationService.getMessages({
+        roomId,
+        limit: CURSOR_PAGE_SIZE,
+        page: nextPage,
+      });
+
+      if (older.length === 0) {
+        setHasMore(false);
+        return;
+      }
+
+      setMessages((prev) => [...(older as ChatMessage[]), ...prev]);
+      setPage(nextPage);
+      setHasMore(older.length === CURSOR_PAGE_SIZE);
+
+      // 스크롤 위치 유지 (새로 추가된 위쪽 메세지로 튀지 않게)
+      requestAnimationFrame(() => {
+        if (scrollEl) {
+          scrollEl.scrollTop = scrollEl.scrollHeight - prevScrollHeight;
+        }
+      });
+    } catch (err) {
+      console.error("이전 메세지 로드 실패:", err);
+      toast.error("이전 메세지를 불러오지 못했습니다.");
+    } finally {
+      setIsLoadingMore(false);
+    }
+  }, [hasMore, isLoadingMore, roomId, page]);
+
+  // 스크롤 맨 위 도달 시 이전 메세지 로드
+  const handleScroll = useCallback(() => {
+    if (scrollRef.current?.scrollTop === 0) {
+      loadMoreMessages();
+    }
+  }, [loadMoreMessages]);
 
   useEffect(() => {
     let subscription: any = null;
@@ -65,7 +123,11 @@ export default function ChatConversationPage() {
 
         const [roomInfo, messageHistory, personaList] = await Promise.all([
           ChatConversationService.getRoomInfo({ roomId }),
-          ChatConversationService.getMessages({ roomId }),
+          ChatConversationService.getMessages({
+            roomId,
+            limit: CURSOR_PAGE_SIZE,
+            page: 1,
+          }),
           ChatConversationService.getChatRoomAIPersonas({ roomId }),
         ]);
 
@@ -73,7 +135,14 @@ export default function ChatConversationPage() {
 
         setRoom(roomInfo as ChatRoom);
         setMessages(messageHistory as ChatMessage[]);
+        setPage(1);
+        setHasMore(messageHistory.length === CURSOR_PAGE_SIZE);
         setPersonas(personaList);
+
+        // 초기 로드 후 맨 아래로 스크롤
+        requestAnimationFrame(() => {
+          scrollToBottom();
+        });
 
         subscription = ChatConversationService.subscribeToMessages({
           roomId,
@@ -88,6 +157,8 @@ export default function ChatConversationPage() {
                 return prev;
               return [...prev, newMessage];
             });
+            // 실시간 메세지는 맨 아래 근처일 때만 스크롤
+            scrollToBottomIfNeeded();
           },
         });
 
@@ -121,7 +192,7 @@ export default function ChatConversationPage() {
   }, [roomId, navigate]);
 
   const extractMentions = (text: string) => {
-    const regex = /@(\w+)/g;
+    const regex = /@([^\s]+)/g;
     const matches = [...text.matchAll(regex)];
     return matches.map((m) => m[1]);
   };
@@ -149,7 +220,6 @@ export default function ChatConversationPage() {
         uploadedUrls = results.map((r) => r.url);
       }
 
-      //  format 결정 로직
       const hasText = !!inputValue.trim();
       const hasImage = uploadedUrls.length > 0;
       const hasEmoticon = !!emoticonId;
@@ -161,11 +231,14 @@ export default function ChatConversationPage() {
             ? "IMG"
             : "TEXT";
 
+      // 마지막 메세지 index 기준으로 다음 index 계산
+      const lastIndex = messages[messages.length - 1]?.chat_message_index ?? 0;
+
       const payload: SendMessageParams = {
         chat_message_sender_type: "USER",
         chat_message_sender_agent_id: null,
         chat_message_content: inputValue.trim() || null,
-        chat_message_index: messages.length + 1,
+        chat_message_index: lastIndex + 1,
         emoticon_id: emoticonId ?? null,
         chat_room_id: roomId!,
         chat_message_file_content_path:
@@ -182,7 +255,7 @@ export default function ChatConversationPage() {
       // 1. 유저 메시지 저장
       await ChatConversationService.sendMessage(payload);
 
-      // 2. AI 응답 생성 요청 (fire & forget - 브로드캐스트로 타이핑 표시)
+      // 2. AI 응답 생성 요청 (fire & forget)
       ChatConversationService.requestAiResponse({
         chat_room_id: roomId!,
         userMessage: payload,
@@ -222,8 +295,23 @@ export default function ChatConversationPage() {
 
       <div
         ref={scrollRef}
+        onScroll={handleScroll}
         className="flex-1 min-h-0 p-4 space-y-4 overflow-y-auto"
       >
+        {/* 이전 메세지 로딩 표시 */}
+        {isLoadingMore && (
+          <div className="flex justify-center py-2 text-xs text-gray-400">
+            이전 메시지 불러오는 중...
+          </div>
+        )}
+
+        {/* 더 이상 이전 메세지 없음 */}
+        {!hasMore && messages.length > 0 && (
+          <div className="flex justify-center py-2 text-xs text-gray-300">
+            가장 오래된 메시지입니다
+          </div>
+        )}
+
         {messages.length > 0 ? (
           messages.map((message) => (
             <MessageBubble

@@ -1,22 +1,21 @@
 import { supabase } from "../../db/supabase/supabase";
-import { GetUserRecordResponse } from "../../types/api/AiChat/UserInfoPage";
 import {
-  GetCompanyDetailParams,
-  GetCompanyDetailResponse,
-  CheckIsBookmarkedParams,
+  InterviewQuestion,
+  MatchResult,
   CheckIsBookmarkedResponse,
+  CheckIsBookmarkedParams,
   AddBookmarkParams,
   AddBookmarkResponse,
   DeleteBookmarkParams,
   DeleteBookmarkResponse,
   ToggleBookmarkStatusParams,
   ToggleBookmarkStatusResponse,
+  GetCompanyDetailParams,
+  GetCompanyDetailResponse,
+  GenerateInterviewQuestionsParams,
+  EvaluateInterviewAnswerParams,
 } from "../../types/api/CompanyInformation/CompanyDetailPage";
-import {
-  GenerateAiMatchReportParams,
-  GenerateAiMatchReportResponse,
-} from "../../types/api/CompanyInformation/CompanyMatchPage";
-import { generateAiContent } from "../Gemini/Gemini";
+import { EvaluationResponse } from "../../types/api/CompanyInformation/InterviewDetailPage";
 
 /**
  * [CompanyDetailService]
@@ -133,32 +132,114 @@ export const CompanyDetailService = {
   },
 
   /**
-   * [함수 역할]: 유저의 AI 기록과 회사 정보를 비교하여 매칭 리포트를 생성합니다.
-   * @param params 회사 정보 (이름, 가치관 등)
-   * @param userRecord UserInfoService.getUserRecord에서 가져온 유저 활동 데이터
+   * AI 매칭 분석 실행 + DB 저장
+   * Edge Function: analyze-company-match
+   */ async analyzeCompanyMatch(params: {
+    userId: string;
+    companyId: string;
+    companyName: string;
+    companyValues: string;
+    companyDescription: string;
+    companyIndustry: string;
+    userSummary: string;
+  }): Promise<MatchResult> {
+    const { data, error } = await supabase.functions.invoke(
+      "company_information-analyze_company_match",
+      {
+        body: params,
+      },
+    );
+
+    if (error) throw new Error(error.message);
+    if (data.error) throw new Error(data.error);
+
+    return data as MatchResult;
+  },
+
+  /**
+   * 기존 매칭 결과 조회
    */
-  async generateAiMatchReport(
-    params: GenerateAiMatchReportParams,
-    userRecord: GetUserRecordResponse, // GetUserRecordResponse 타입
-  ): Promise<GenerateAiMatchReportResponse> {
-    // 유저 기록에서 분석에 쓸만한 필드들을 추출합니다. (필드명은 DB 구조에 맞춰 조정하세요)
-    const userSummary = userRecord.ai_user_record_summary || "정보 없음";
+  async getExistingMatchResult(params: {
+    userId: string;
+    companyId: string;
+  }): Promise<{
+    company_user_match_rate: number;
+    company_user_match_reason: string;
+    company_user_match_suggestions: string;
+    created_at: string;
+  } | null> {
+    const { data, error } = await supabase
+      .from("company_user_matches")
+      .select(
+        "company_user_match_rate, company_user_match_reason, company_user_match_suggestions, created_at",
+      )
+      .eq("user_id", params.userId)
+      .eq("company_id", params.companyId)
+      .single();
 
-    const prompt = `
-      당신은 전문 커리어 컨설턴트입니다. 
-      [회사 정보]
-      회사명: ${params.companyName}
-      회사가치: ${params.companyValues}
+    if (error) return null;
+    return data;
+  },
 
-      [유저 활동 요약 기록]
-      ${userSummary}
-      
-      위의 유저 활동 기록과 회사의 가치를 심층 분석하여 리포트를 마크다운 형식으로 작성해주세요.
-      내용에는 ## Strengths, ## Good Fits, ## Areas to Develop를 포함하고, 
-      마지막에 match_rate(0~100 사이의 숫자)를 'SCORE: 숫자' 형식으로 포함해주세요.
-      만약 유저의 활동 기록이 부족하다면, 솔직하게 그 점을 언급하고 일반적인 조언을 제공해주세요.
-    `;
+  // ─── 면접 질문 생성 ───────────────────────────────────────────
 
-    return await generateAiContent(prompt);
+  /**
+   * AI 면접 질문 생성 + DB 저장
+   * Edge Function: company_information-generate_interview_questions
+   */
+  async generateInterviewQuestions(
+    params: GenerateInterviewQuestionsParams,
+  ): Promise<InterviewQuestion[]> {
+    const { data, error } = await supabase.functions.invoke(
+      "company_information-generate_interview_questions",
+      {
+        body: params,
+      },
+    );
+
+    if (error) throw new Error(error.message);
+    if (data.error) throw new Error(data.error);
+
+    return data.questions as InterviewQuestion[];
+  },
+
+  // ─── 면접 답변 평가 ───────────────────────────────────────────
+
+  /**
+   * 답변 평가 + DB 저장
+   * Edge Function: company_informatio-evaluate_interview_answer
+   */
+  async evaluateInterviewAnswer(
+    params: EvaluateInterviewAnswerParams,
+  ): Promise<EvaluationResponse> {
+    const { data, error } = await supabase.functions.invoke(
+      "company_informatio-evaluate_interview_answer",
+      {
+        body: params,
+      },
+    );
+
+    if (error) throw new Error(error.message);
+    if (data.error) throw new Error(data.error);
+
+    return data as EvaluationResponse;
+  },
+
+  // ─── 유저 AI 기록 조회 ────────────────────────────────────────
+
+  /**
+   * ai_user_records에서 유저 요약 정보 조회
+   */
+  async getUserAiSummary(userId: string): Promise<string | null> {
+    const { data, error } = await supabase
+      .from("ai_user_records")
+      .select("ai_user_record_summary")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .single();
+
+    if (error || !data) return null;
+    return data.ai_user_record_summary;
   },
 };

@@ -11,7 +11,13 @@ export function RoomInfoForm({ data, onChange }: RoomInfoFormProps) {
 
   const addTopic = () => {
     const trimmed = topicInput.trim();
-    if (!trimmed || data.chat_room_topics.includes(trimmed)) return;
+    if (!trimmed) return;
+
+    // 중복 방지
+    if (data.chat_room_topics.some((topic) => topic === trimmed)) {
+      setTopicInput("");
+      return;
+    }
     updateField("chat_room_topics", [...data.chat_room_topics, trimmed]);
     setTopicInput("");
   };
@@ -24,8 +30,9 @@ export function RoomInfoForm({ data, onChange }: RoomInfoFormProps) {
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && !e.nativeEvent.isComposing) {
       e.preventDefault();
+      e.stopPropagation();
       addTopic();
     }
   };

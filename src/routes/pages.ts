@@ -33,7 +33,7 @@ export { default as WoomoonkyungEditNode } from "../pages/Woomoonkyung/StudyPlan
 export { default as CompanyList } from "../pages/CompanyInformation/CompanyListPage";
 export { default as CompanyDetail } from "../pages/CompanyInformation/CompanyDetailPage";
 export { default as CompanyMatch } from "../pages/CompanyInformation/CompanyMatchPage";
-export { default as MockInterview } from "../pages/CompanyInformation/InterviewDetailPage";
+export { default as InterviewDetailPage } from "../pages/CompanyInformation/InterviewDetailPage";
 export { default as Bookmarks } from "../pages/CompanyInformation/BookmarksPage";
 export { default as InterviewHistory } from "../pages/CompanyInformation/InterviewHistoryPage";
 export { default as InterviewHistoryDetail } from "../pages/CompanyInformation/InterviewHistoryDetailPage";

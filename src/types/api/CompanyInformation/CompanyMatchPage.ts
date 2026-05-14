@@ -15,7 +15,7 @@ export interface GetCompanyMatchDetailResponse {
   company_user_match_id?: string;
   user_id: string;
   company_id: string;
-  match_rate: number;
+  company_user_match_rate: number;
   company_user_match_reason: string;
   company_user_match_suggestions: string;
   company_user_match_created_date: string;

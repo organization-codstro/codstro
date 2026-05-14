@@ -5,7 +5,7 @@ export interface Company {
   company_industry: string;
   company_description: string;
   company_website: string | null;
-  company_values: string | null;
+  company_values: string;
   created_at: string;
 }
 
@@ -32,7 +32,7 @@ export interface CompanyQna {
   company_qna_question: string;
   company_qna_answer: string | null;
   company_qna_question_reason: string | null;
-  company_qna_created_date: string;
+  created_at: string;
   company_id: string;
 }
 
@@ -43,8 +43,7 @@ export interface CompanyUserQna {
   company_user_qna_answer: string;
   company_qna_question: string;
   company_user_qna_evaluation: string;
-  company_user_qna_create_date: string;
-  company_qna_id: string;
+  created_at: string;
 }
 
 //회사 인터뷰 타입

@@ -8,10 +8,9 @@ import {
   SaveUserInterviewResponseResponse,
   GetUserInterviewHistoryParams,
   GetUserInterviewHistoryResponse,
-  GenerateAiInterviewFeedbackParams,
-  GenerateAiInterviewFeedbackResponse,
+  EvaluateInterviewAnswerParams,
+  EvaluationResponse,
 } from "../../types/api/CompanyInformation/InterviewDetailPage";
-import { generateAiContent } from "../Gemini/Gemini";
 
 /**
  * [InterviewDetailService]
@@ -23,21 +22,16 @@ export const InterviewDetailService = {
    * [참조 테이블]: company_qnas
    */
   async getCompanyQuestions(
-    params: GetCompanyQuestionsParams
+    params: GetCompanyQuestionsParams,
   ): Promise<GetCompanyQuestionsResponse> {
-    try {
-      const { data, error } = await supabase
-        .from("company_qnas")
-        .select("*")
-        .eq("company_id", params.companyId)
-        .order("company_qna_created_date", { ascending: true });
+    const { data, error } = await supabase
+      .from("company_qnas")
+      .select("*")
+      .eq("company_id", params.companyId)
+      .order("created_at", { ascending: true });
 
-      if (error) throw error;
-      return data;
-    } catch (error) {
-      console.error("Error fetching questions:", error);
-      throw error;
-    }
+    if (error) throw error;
+    return data;
   },
 
   /**
@@ -45,53 +39,43 @@ export const InterviewDetailService = {
    * [참조 테이블]: companys
    */
   async getCompanyInfo(
-    params: GetCompanyInfoParams
+    params: GetCompanyInfoParams,
   ): Promise<GetCompanyInfoResponse> {
-    try {
-      const { data, error } = await supabase
-        .from("companys")
-        .select("company_name")
-        .eq("company_id", params.companyId)
-        .single();
+    const { data, error } = await supabase
+      .from("companys")
+      .select("company_name")
+      .eq("company_id", params.companyId)
+      .single();
 
-      if (error) throw error;
-      return data;
-    } catch (error) {
-      console.error("Error fetching company info:", error);
-      throw error;
-    }
+    if (error) throw error;
+    return data;
   },
 
   /**
-   * [함수 역할]: 유저의 면접 답변과 그에 대한 AI 평가(피드백) 결과를 저장합니다.
+   * [함수 역할]: 유저의 면접 답변과 AI 평가 결과를 저장합니다.
    * [참조 테이블]: company_user_qnas
-   * [설명]: 스키마 정의에 따라 질문 텍스트와 답변, 평가 내용을 함께 기록합니다.
+   * [주의]: evaluateAndSave 사용 시 Edge Function이 저장까지 처리하므로
+   *         이 함수는 별도 저장이 필요한 경우에만 직접 호출하세요.
    */
   async saveUserInterviewResponse(
-    params: SaveUserInterviewResponseParams
+    params: SaveUserInterviewResponseParams,
   ): Promise<SaveUserInterviewResponseResponse> {
-    try {
-      const { data, error } = await supabase
-        .from("company_user_qnas")
-        .insert([
-          {
-            user_id: params.userId,
-            company_qna_id: params.questionId,
-            company_qna_question: params.questionText,
-            company_user_qna_answer: params.userAnswer,
-            company_user_qna_evaluation: params.evaluation,
-            company_user_qna_create_date: new Date().toISOString(),
-          },
-        ])
-        .select()
-        .single();
+    const { data, error } = await supabase
+      .from("company_user_qnas")
+      .insert([
+        {
+          user_id: params.userId,
+          company_qna_id: params.questionId,
+          company_qna_question: params.questionText,
+          company_user_qna_answer: params.userAnswer,
+          company_user_qna_evaluation: params.evaluation,
+        },
+      ])
+      .select()
+      .single();
 
-      if (error) throw error;
-      return data;
-    } catch (error) {
-      console.error("Error saving interview response:", error);
-      throw error;
-    }
+    if (error) throw error;
+    return data;
   },
 
   /**
@@ -99,43 +83,46 @@ export const InterviewDetailService = {
    * [참조 테이블]: company_user_qnas
    */
   async getUserInterviewHistory(
-    params: GetUserInterviewHistoryParams
+    params: GetUserInterviewHistoryParams,
   ): Promise<GetUserInterviewHistoryResponse> {
-    try {
-      const { data, error } = await supabase
-        .from("company_user_qnas")
-        .select(
-          `
-          *,
-          company_qnas!inner(company_id)
+    const { data, error } = await supabase
+      .from("company_user_qnas")
+      .select(
         `
-        )
-        .eq("user_id", params.userId)
-        .eq("company_qnas.company_id", params.companyId);
+        *,
+        company_qnas!inner(company_id)
+      `,
+      )
+      .eq("user_id", params.userId)
+      .eq("company_qnas.company_id", params.companyId);
 
-      if (error) throw error;
-      return data;
-    } catch (error) {
-      console.error("Error fetching interview history:", error);
-      throw error;
-    }
+    if (error) throw error;
+    return data;
   },
 
+  // ─── AI 답변 평가 + DB 저장 ───────────────────────────────────
+
   /**
-   * [함수 역할]: 유저의 면접 답변에 대해 구체적인 피드백을 생성합니다.
-   * [활용 페이지]: InterviewDetail
+   * [함수 역할]: 답변 AI 평가 + company_user_qnas 저장을 한 번에 처리합니다.
+   * [Edge Function]: company_informatio-evaluate_interview_answer
+   * [저장 테이블]: company_user_qnas
+   *
+   * InterviewDetailPage에서 기존의 두 단계 호출:
+   *   1. evaluateInterviewAnswer() → AI 피드백 텍스트 반환
+   *   2. saveUserInterviewResponse() → DB 저장
+   * 을 이 메서드 하나로 대체합니다.
    */
-  async generateAiInterviewFeedback(
-    params: GenerateAiInterviewFeedbackParams
-  ): Promise<GenerateAiInterviewFeedbackResponse> {
-    const prompt = `
-      당신은 면접관입니다. 다음 질문에 대한 지원자의 답변을 평가해주세요.
-      질문: ${params.question}
-      답변: ${params.answer}
-      
-      답변의 강점과 보완점을 마크다운 형식으로 상세히 적어주세요. 
-      전문적이고 격려하는 말투를 사용하세요.
-    `;
-    return await generateAiContent(prompt);
+  async evaluateAndSave(
+    params: EvaluateInterviewAnswerParams,
+  ): Promise<EvaluationResponse> {
+    const { data, error } = await supabase.functions.invoke(
+      "company_informatio-evaluate_interview_answer",
+      { body: params },
+    );
+
+    if (error) throw new Error(error.message);
+    if (data?.error) throw new Error(data.error);
+
+    return data as EvaluationResponse;
   },
 };

@@ -1,3 +1,4 @@
+import { CURSOR_PAGE_SIZE } from "../../constants/AiChat/AiChat";
 import { supabase } from "../../db/supabase/supabase";
 import {
   GetChatRoomAIPersonasParams,
@@ -63,28 +64,24 @@ export const ChatConversationService = {
    * - 조회 후 마지막 읽은 메시지 index 업데이트 (RPC)
    */
   async getMessages(params: GetMessagesParams) {
-    const { roomId } = params;
+    const { roomId, limit = CURSOR_PAGE_SIZE, page = 1 } = params;
+    const from = (page - 1) * limit;
+    const to = from + limit - 1;
 
     const { data: messages, error: messageError } = await supabase
       .from("chat_messages")
       .select("*")
       .eq("chat_room_id", roomId)
-      .order("chat_message_index", { ascending: true });
+      .order("chat_message_index", { ascending: false }) // 최신순
+      .range(from, to);
 
     if (messageError)
       throw new Error(`[getMessages Error]: ${messageError.message}`);
 
-    // 읽음 처리 (서버 RPC)
-    const { error: rpcError } = await supabase.rpc("update_last_read", {
-      room_id: roomId,
-    });
+    // 읽음 처리
+    await supabase.rpc("update_last_read", { room_id: roomId });
 
-    if (rpcError)
-      throw new Error(
-        `[updateLastReadMessageIndex Error]: ${rpcError.message}`,
-      );
-
-    return messages;
+    return messages.reverse(); // 오래된 순으로 뒤집어서 반환
   },
 
   /**
@@ -181,7 +178,6 @@ export const ChatConversationService = {
         },
       )
       .subscribe((status, err) => {
-        console.log("[subscription] status:", status);
         if (err) console.error("[subscription] error:", err);
       });
 
@@ -243,7 +239,6 @@ export const ChatConversationService = {
         }
       })
       .subscribe((status, err) => {
-        console.log("[typing broadcast] status:", status);
         if (err) console.error("[typing broadcast] error:", err);
       });
 

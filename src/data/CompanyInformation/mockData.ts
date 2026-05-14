@@ -131,7 +131,7 @@ export const mockQnas: Record<string, CompanyQna[]> = {
       company_qna_answer: null,
       company_qna_question_reason:
         "Tests problem-solving ability and technical depth",
-      company_qna_created_date: "2024-12-23",
+      created_at: "2024-12-23",
       company_id: "1",
     },
     {
@@ -141,7 +141,7 @@ export const mockQnas: Record<string, CompanyQna[]> = {
       company_qna_answer: null,
       company_qna_question_reason:
         "Evaluates best practices and code standards awareness",
-      company_qna_created_date: "2024-12-23",
+      created_at: "2024-12-23",
       company_id: "1",
     },
     {
@@ -151,7 +151,7 @@ export const mockQnas: Record<string, CompanyQna[]> = {
       company_qna_answer: null,
       company_qna_question_reason:
         "Assesses collaboration and communication skills",
-      company_qna_created_date: "2024-12-23",
+      created_at: "2024-12-23",
       company_id: "1",
     },
   ],
@@ -163,7 +163,7 @@ export const mockQnas: Record<string, CompanyQna[]> = {
       company_qna_answer: null,
       company_qna_question_reason:
         "Tests analytical thinking and data methodology",
-      company_qna_created_date: "2024-12-23",
+      created_at: "2024-12-23",
       company_id: "2",
     },
     {
@@ -173,7 +173,7 @@ export const mockQnas: Record<string, CompanyQna[]> = {
       company_qna_answer: null,
       company_qna_question_reason:
         "Evaluates ML knowledge and practical application",
-      company_qna_created_date: "2024-12-23",
+      created_at: "2024-12-23",
       company_id: "2",
     },
     {
@@ -183,7 +183,7 @@ export const mockQnas: Record<string, CompanyQna[]> = {
       company_qna_answer: null,
       company_qna_question_reason:
         "Assesses continuous learning and industry awareness",
-      company_qna_created_date: "2024-12-23",
+      created_at: "2024-12-23",
       company_id: "2",
     },
   ],
@@ -194,7 +194,7 @@ export const mockQnas: Record<string, CompanyQna[]> = {
         "What considerations do you take into account when designing a mobile user interface?",
       company_qna_answer: null,
       company_qna_question_reason: "Tests mobile-specific design understanding",
-      company_qna_created_date: "2024-12-23",
+      created_at: "2024-12-23",
       company_id: "3",
     },
     {
@@ -204,7 +204,7 @@ export const mockQnas: Record<string, CompanyQna[]> = {
       company_qna_answer: null,
       company_qna_question_reason:
         "Evaluates technical mobile development skills",
-      company_qna_created_date: "2024-12-23",
+      created_at: "2024-12-23",
       company_id: "3",
     },
     {
@@ -214,7 +214,7 @@ export const mockQnas: Record<string, CompanyQna[]> = {
       company_qna_answer: null,
       company_qna_question_reason:
         "Assesses responsive design and platform awareness",
-      company_qna_created_date: "2024-12-23",
+      created_at: "2024-12-23",
       company_id: "3",
     },
   ],
@@ -225,7 +225,7 @@ export const mockQnas: Record<string, CompanyQna[]> = {
         "Explain your understanding of CI/CD and how you would implement it.",
       company_qna_answer: null,
       company_qna_question_reason: "Tests DevOps fundamentals knowledge",
-      company_qna_created_date: "2024-12-23",
+      created_at: "2024-12-23",
       company_id: "4",
     },
     {
@@ -235,7 +235,7 @@ export const mockQnas: Record<string, CompanyQna[]> = {
       company_qna_answer: null,
       company_qna_question_reason:
         "Evaluates system architecture understanding",
-      company_qna_created_date: "2024-12-23",
+      created_at: "2024-12-23",
       company_id: "4",
     },
     {
@@ -245,7 +245,7 @@ export const mockQnas: Record<string, CompanyQna[]> = {
       company_qna_answer: null,
       company_qna_question_reason:
         "Assesses infrastructure reliability knowledge",
-      company_qna_created_date: "2024-12-23",
+      created_at: "2024-12-23",
       company_id: "4",
     },
   ],
@@ -257,7 +257,7 @@ export const mockQnas: Record<string, CompanyQna[]> = {
       company_qna_answer: null,
       company_qna_question_reason:
         "Tests design-to-code workflow understanding",
-      company_qna_created_date: "2024-12-23",
+      created_at: "2024-12-23",
       company_id: "5",
     },
     {
@@ -266,7 +266,7 @@ export const mockQnas: Record<string, CompanyQna[]> = {
         "How do you balance aesthetic design with performance and accessibility?",
       company_qna_answer: null,
       company_qna_question_reason: "Evaluates holistic frontend thinking",
-      company_qna_created_date: "2024-12-23",
+      created_at: "2024-12-23",
       company_id: "5",
     },
     {
@@ -275,7 +275,7 @@ export const mockQnas: Record<string, CompanyQna[]> = {
         "Describe a time when you received critical feedback on your design and how you handled it.",
       company_qna_answer: null,
       company_qna_question_reason: "Assesses collaboration and growth mindset",
-      company_qna_created_date: "2024-12-23",
+      created_at: "2024-12-23",
       company_id: "5",
     },
   ],
@@ -293,7 +293,7 @@ export const mockUserInterviews: CompanyUserQna[] = [
       "Describe a challenging technical problem you solved and how you approached it.",
     company_user_qna_evaluation:
       "매우 구체적이고 실무 경험이 드러나는 답변입니다. STAR 기법을 잘 활용했습니다.",
-    company_user_qna_create_date: "2024-12-20",
+    created_at: "2024-12-20",
     company_qna_id: "1",
   },
   {
@@ -305,7 +305,7 @@ export const mockUserInterviews: CompanyUserQna[] = [
       "How do you ensure code quality and maintainability in your projects?",
     company_user_qna_evaluation:
       "좋은 답변입니다. 더 구체적인 프로젝트 예시를 추가하면 더 좋을 것 같습니다.",
-    company_user_qna_create_date: "2024-12-20",
+    created_at: "2024-12-20",
     company_qna_id: "2",
   },
   {
@@ -316,7 +316,7 @@ export const mockUserInterviews: CompanyUserQna[] = [
     company_qna_question:
       "Tell me about a time you worked effectively in a team to deliver a project.",
     company_user_qna_evaluation: "팀 작업 경험이 잘 드러났습니다.",
-    company_user_qna_create_date: "2024-12-19",
+    created_at: "2024-12-19",
     company_qna_id: "3",
   },
   {
@@ -327,7 +327,7 @@ export const mockUserInterviews: CompanyUserQna[] = [
     company_qna_question:
       "Explain how you would approach analyzing a large dataset to extract meaningful insights.",
     company_user_qna_evaluation: "접근 방식이 체계적입니다.",
-    company_user_qna_create_date: "2024-12-18",
+    created_at: "2024-12-18",
     company_qna_id: "4",
   },
   {
@@ -339,7 +339,7 @@ export const mockUserInterviews: CompanyUserQna[] = [
       "What is your experience with machine learning algorithms and when would you use them?",
     company_user_qna_evaluation:
       "기초 지식은 있으나 더 깊이 있는 경험이 필요합니다.",
-    company_user_qna_create_date: "2024-12-17",
+    created_at: "2024-12-17",
     company_qna_id: "5",
   },
 ];

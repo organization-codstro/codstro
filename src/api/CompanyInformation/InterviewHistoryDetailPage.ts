@@ -32,7 +32,7 @@ export const InterviewHistoryDetailService = {
           company_qna_question,
           company_user_qna_answer,
           company_user_qna_evaluation,
-          company_user_qna_create_date,
+          created_at,
           user_id,
           company_qna_id
         `,
@@ -59,10 +59,10 @@ export const InterviewHistoryDetailService = {
       const { data, error } = await supabase
         .from("company_user_qnas")
         .select(
-          "id, company_qna_question, company_user_qna_create_date, company_user_qna_answer, company_user_qna_evaluation, created_at",
+          "id, company_qna_question, created_at, company_user_qna_answer, company_user_qna_evaluation, created_at",
         )
         .eq("user_id", params.userId)
-        .order("company_user_qna_create_date", { ascending: false });
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
       return data;

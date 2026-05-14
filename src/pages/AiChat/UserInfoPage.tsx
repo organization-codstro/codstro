@@ -41,6 +41,7 @@ export default function UserInfoPage() {
         const record = await UserInfoService.getUserRecord({
           userId: currentUserId,
         });
+        console.log(record);
 
         if (record) {
           setRecordId(record.ai_user_record_id);
@@ -59,32 +60,39 @@ export default function UserInfoPage() {
 
   // -- 저장 핸들러 (Update) --
   const handleSave = async () => {
-    if (!recordId) {
-      toast.error("수정할 기록의 ID를 찾을 수 없습니다.");
-      return;
-    }
-
-    const toastId = toast.loading("수정 내용을 저장 중입니다...");
+    const toastId = toast.loading("저장 중입니다...");
 
     try {
-      const updatedRecord = await UserInfoService.updateUserRecord({
-        recordId,
-        summary: content,
-      });
+      if (!recordId) {
+        if (!userId) throw new Error("유저 정보 없음");
 
-      setLastUpdated(updatedRecord.created_at);
+        const createdRecord = await UserInfoService.createUserRecord({
+          userId,
+          summary: content,
+        });
+
+        setRecordId(createdRecord.ai_user_record_id);
+        setLastUpdated(createdRecord.created_at);
+      } else {
+        const updatedRecord = await UserInfoService.updateUserRecord({
+          recordId,
+          summary: content,
+        });
+
+        setLastUpdated(updatedRecord.created_at);
+      }
+
       setIsEditing(false);
 
       toast.update(toastId, {
-        render: "내용이 성공적으로 저장되었습니다.",
+        render: "저장 완료",
         type: "success",
         isLoading: false,
         autoClose: 500,
       });
-    } catch (error: any) {
-      console.error(error);
+    } catch (error) {
       toast.update(toastId, {
-        render: "저장에 실패했습니다. 다시 시도해주세요.",
+        render: "저장 실패",
         type: "error",
         isLoading: false,
         autoClose: 500,

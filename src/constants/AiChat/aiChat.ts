@@ -25,3 +25,6 @@ export const ALLOWEDKEYS = [
   "8",
   "9",
 ];
+
+//커서 페이지네이션에서 한번에 불러올 메세지 수
+export const CURSOR_PAGE_SIZE = 15;

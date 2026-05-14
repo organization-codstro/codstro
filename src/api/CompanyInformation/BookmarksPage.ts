@@ -5,10 +5,7 @@ import {
   RemoveBookmarkResponse,
 } from "../../types/api/CompanyInformation/BookmarksPage";
 import { supabase } from "../../db/supabase/supabase";
-import {
-  Company,
-  FavoriteCompanyRow,
-} from "../../types/common/CompanyInformation";
+import { FavoriteCompanyRow } from "../../types/common/CompanyInformation";
 
 /**
  * [BookmarksService]

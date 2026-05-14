@@ -15,7 +15,7 @@ export interface GetInterviewHistoryDetailResponse {
   company_qna_question: string;
   company_user_qna_answer: string;
   company_user_qna_evaluation: string;
-  company_user_qna_create_date: string;
+  created_at: string;
   user_id: string;
   company_qna_id: string;
 }

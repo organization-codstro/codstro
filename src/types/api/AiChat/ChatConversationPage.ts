@@ -9,6 +9,8 @@ export interface GetEmoticonsParams {
 
 export interface GetMessagesParams {
   roomId: string;
+  limit?: number;
+  page?: number;
 }
 
 export interface GetChatRoomAIPersonasParams {

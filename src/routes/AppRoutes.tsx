@@ -105,7 +105,7 @@ export default function AppRoutes() {
         />
         <Route
           path="/companies/:companyId/interview"
-          element={<Page.MockInterview />}
+          element={<Page.InterviewDetailPage />}
         />
 
         {/* ===== Company Archive / History ===== */}

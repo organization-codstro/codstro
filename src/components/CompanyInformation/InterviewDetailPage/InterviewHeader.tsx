@@ -1,22 +1,12 @@
-import { ArrowLeft } from "lucide-react";
 import { InterviewHeaderProps } from "../../../types/pages/CompanyInformation/InterviewDetailPage/InterviewHeader";
 
 export function InterviewHeader({
   companyName,
   currentIndex,
   totalCount,
-  onBack,
 }: InterviewHeaderProps) {
   return (
     <>
-      <button
-        onClick={onBack}
-        className="flex items-center gap-2 mb-6 text-gray-600 transition-colors hover:text-gray-900"
-      >
-        <ArrowLeft size={20} />
-        <span>뒤로 가기</span>
-      </button>
-
       <div
         className="p-8 border-b border-gray-200"
         style={{ backgroundColor: "#F0F4FF" }}

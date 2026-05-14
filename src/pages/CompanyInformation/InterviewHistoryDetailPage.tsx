@@ -91,7 +91,7 @@ export default function InterviewHistoryDetailPage() {
 
         <div className="overflow-hidden bg-white border border-gray-200 shadow-sm rounded-xl">
           {/* 3. 헤더 영역 - DB의 생성일자 연결 */}
-          <DetailHeader date={interview.company_user_qna_create_date} />
+          <DetailHeader date={interview.created_at} />
 
           <div className="p-8 space-y-8">
             {/* 4. 질문 섹션 */}
