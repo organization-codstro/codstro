@@ -1,7 +1,7 @@
 import React from "react";
 import { TodoInfoSectionProps } from "../../../types/pages/Woomoonjeong/TodoManagementDetailPage/TodoInfoSection";
 
-const TodoInfoSection: React.FC<TodoInfoSectionProps> = ({
+export const TodoInfoSection: React.FC<TodoInfoSectionProps> = ({
   label,
   children,
   className = "",
@@ -11,5 +11,3 @@ const TodoInfoSection: React.FC<TodoInfoSectionProps> = ({
     <div className="text-gray-600">{children}</div>
   </div>
 );
-
-export default TodoInfoSection;

@@ -1,7 +1,7 @@
 import React from "react";
 import { TodoInputFieldProps } from "../../../types/pages/Woomoonjeong/TodoManagementUpdate/TodoInputField";
 
-const TodoInputField: React.FC<TodoInputFieldProps> = ({
+export const TodoInputField: React.FC<TodoInputFieldProps> = ({
   label,
   name,
   type = "text",
@@ -29,4 +29,3 @@ const TodoInputField: React.FC<TodoInputFieldProps> = ({
   </div>
 );
 
-export default TodoInputField;

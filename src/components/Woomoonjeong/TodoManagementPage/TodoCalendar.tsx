@@ -6,7 +6,7 @@ import {
 } from "lucide-react";
 import { TodoCalendarProps } from "../../../types/pages/Woomoonjeong/TodoManagementPage/TodoCalendar";
 
-const TodoCalendar: React.FC<TodoCalendarProps> = ({
+export const TodoCalendar: React.FC<TodoCalendarProps> = ({
   calendarDate,
   selectedDate,
   onNavigate,
@@ -102,4 +102,3 @@ const TodoCalendar: React.FC<TodoCalendarProps> = ({
   );
 };
 
-export default TodoCalendar;

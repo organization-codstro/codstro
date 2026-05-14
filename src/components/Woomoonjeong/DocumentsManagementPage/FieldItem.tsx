@@ -8,10 +8,10 @@ import {
   Trash2,
   Check,
 } from "lucide-react";
-import PinItem from "./PinItem";
+import { PinItem } from "./PinItem";
 import { FieldItemProps } from "../../../types/pages/Woomoonjeong/DocumentsManagementPage/FieldItem";
 
-const FieldItem: React.FC<FieldItemProps> = ({
+export const FieldItem: React.FC<FieldItemProps> = ({
   field,
   group,
   isExpanded,
@@ -127,5 +127,3 @@ const FieldItem: React.FC<FieldItemProps> = ({
     </div>
   );
 };
-
-export default FieldItem;

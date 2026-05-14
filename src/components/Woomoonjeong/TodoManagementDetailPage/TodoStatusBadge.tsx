@@ -2,7 +2,7 @@ import React from "react";
 import { CheckCircle2, PlayCircle, Circle } from "lucide-react";
 import { TodoStatusBadgeProps } from "../../../types/pages/Woomoonjeong/TodoManagementDetailPage/TodoStatusBadge";
 
-const TodoStatusBadge: React.FC<TodoStatusBadgeProps> = ({ status }) => {
+export const TodoStatusBadge: React.FC<TodoStatusBadgeProps> = ({ status }) => {
   const config = {
     waiting: {
       icon: <Circle className="w-5 h-5 text-gray-400" />,
@@ -30,4 +30,3 @@ const TodoStatusBadge: React.FC<TodoStatusBadgeProps> = ({ status }) => {
   );
 };
 
-export default TodoStatusBadge;

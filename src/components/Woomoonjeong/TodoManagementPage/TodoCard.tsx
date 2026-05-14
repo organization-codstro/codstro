@@ -10,7 +10,7 @@ import {
 import { TodoCardProps } from "../../../types/pages/Woomoonjeong/TodoManagementPage/TodoCard";
 import { Todo } from "../../../types/common/woomoonjeong";
 
-const TodoCard: React.FC<TodoCardProps> = ({
+export const TodoCard: React.FC<TodoCardProps> = ({
   todo,
   isDeletePending,
   onNavigate,
@@ -56,11 +56,12 @@ const TodoCard: React.FC<TodoCardProps> = ({
         </p>
         <div className="flex items-center gap-3 mt-2">
           <div className="flex items-center gap-1 text-xs text-gray-500">
-            <Calendar className="w-3 h-3" /> {todo.todo_start_date} ~ {todo.todo_end_date}
+            <Calendar className="w-3 h-3" /> {todo.todo_start_date} ~{" "}
+            {todo.todo_end_date}
           </div>
           <span
             className={`px-2 py-0.5 rounded-full border text-[10px] ${getStatusColor(
-              todo.todo_status
+              todo.todo_status,
             )}`}
           >
             {todo.todo_status.replace("-", " ")}
@@ -93,4 +94,3 @@ const TodoCard: React.FC<TodoCardProps> = ({
   );
 };
 
-export default TodoCard;

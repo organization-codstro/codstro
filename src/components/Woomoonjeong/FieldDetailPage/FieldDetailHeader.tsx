@@ -2,7 +2,7 @@ import React from "react";
 import { ArrowLeft, Plus } from "lucide-react";
 import { FieldDetailHeaderProps } from "../../../types/pages/Woomoonjeong/FieldDetailPage/FieldDetailHeader";
 
-const FieldDetailHeader: React.FC<FieldDetailHeaderProps> = ({
+export const FieldDetailHeader: React.FC<FieldDetailHeaderProps> = ({
   fieldName,
   groupName,
   groupColorClass,
@@ -39,4 +39,3 @@ const FieldDetailHeader: React.FC<FieldDetailHeaderProps> = ({
   </div>
 );
 
-export default FieldDetailHeader;

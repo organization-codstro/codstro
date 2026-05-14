@@ -2,7 +2,7 @@ import React from "react";
 import { ArrowLeft, CreditCard as Edit3 } from "lucide-react";
 import { TodoDetailHeaderProps } from "../../../types/pages/Woomoonjeong/TodoManagementDetailPage/TodoDetailHeader";
 
-const TodoDetailHeader: React.FC<TodoDetailHeaderProps> = ({
+export const TodoDetailHeader: React.FC<TodoDetailHeaderProps> = ({
   onBack,
   onEdit,
 }) => (
@@ -23,5 +23,3 @@ const TodoDetailHeader: React.FC<TodoDetailHeaderProps> = ({
     </button>
   </div>
 );
-
-export default TodoDetailHeader;

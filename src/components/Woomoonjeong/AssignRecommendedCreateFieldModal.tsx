@@ -7,9 +7,9 @@ import {
   DEFAULT_GROUP_NAME,
   GROUP_NAME_TYPE,
   GROUP_NAME,
-} from "../../constants/Woomoonjeong/woomoonjeong";
+} from "../../constants/Woomoonjeong/Woomoonjeong";
 
-const AssignRecommendedFieldModal: React.FC<AddFieldModalProps> = ({
+export const AssignRecommendedFieldModal: React.FC<AddFieldModalProps> = ({
   isOpen,
   onClose,
   field,
@@ -101,5 +101,3 @@ const AssignRecommendedFieldModal: React.FC<AddFieldModalProps> = ({
     </div>
   );
 };
-
-export default AssignRecommendedFieldModal;

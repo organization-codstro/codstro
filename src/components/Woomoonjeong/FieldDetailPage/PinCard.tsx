@@ -2,7 +2,7 @@ import React from "react";
 import { FileText, Tag, ExternalLink } from "lucide-react";
 import { PinCardProps } from "../../../types/pages/Woomoonjeong/FieldDetailPage/PinCard";
 
-const PinCard: React.FC<PinCardProps> = ({ pin }) => (
+export const PinCard: React.FC<PinCardProps> = ({ pin }) => (
   <a
     href={pin.pin_url}
     target="_blank"
@@ -35,4 +35,3 @@ const PinCard: React.FC<PinCardProps> = ({ pin }) => (
   </a>
 );
 
-export default PinCard;

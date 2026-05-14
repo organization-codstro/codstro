@@ -1,7 +1,7 @@
 import React from "react";
 import { GroupSelectorProps } from "../../../types/pages/Woomoonjeong/TodoManagementUpdate/FieldSelector";
 
-const GroupSelector: React.FC<GroupSelectorProps> = ({
+export const GroupSelector: React.FC<GroupSelectorProps> = ({
   groups,
   selectedId,
   onSelect,
@@ -29,4 +29,3 @@ const GroupSelector: React.FC<GroupSelectorProps> = ({
   </div>
 );
 
-export default GroupSelector;

@@ -7,7 +7,7 @@ import { TodoManagementCreateProps } from "../../../types/pages/Woomoonjeong/Tod
 import { TodoManagementService } from "../../../api/Woomoonjeong/TodoManagementPage";
 import { CreateTodoParams } from "../../../types/api/Woomoonjeong/TodoManagementPage";
 
-const TodoManagementCreateModal: React.FC<TodoManagementCreateProps> = ({
+export const TodoManagementCreateModal: React.FC<TodoManagementCreateProps> = ({
   isOpen,
   onClose,
   onAdd,
@@ -366,5 +366,3 @@ const TodoManagementCreateModal: React.FC<TodoManagementCreateProps> = ({
     </div>
   );
 };
-
-export default TodoManagementCreateModal;

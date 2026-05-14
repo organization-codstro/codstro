@@ -2,7 +2,9 @@ import React from "react";
 import { Plus } from "lucide-react";
 import { TodoManagementHeaderProps } from "../../../types/pages/Woomoonjeong/TodoManagementPage/TodoManagementHeader";
 
-const TodoManagementHeader: React.FC<TodoManagementHeaderProps> = ({ onOpenModal }) => (
+export const TodoManagementHeader: React.FC<TodoManagementHeaderProps> = ({
+  onOpenModal,
+}) => (
   <div className="flex items-center justify-between">
     <div>
       <h1 className="text-2xl font-bold text-gray-800">To-do Management</h1>
@@ -20,4 +22,3 @@ const TodoManagementHeader: React.FC<TodoManagementHeaderProps> = ({ onOpenModal
   </div>
 );
 
-export default TodoManagementHeader;

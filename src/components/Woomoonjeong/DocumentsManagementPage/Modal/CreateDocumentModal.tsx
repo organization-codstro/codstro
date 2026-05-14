@@ -7,9 +7,9 @@ import {
   DEFAULT_GROUP_NAME,
   GROUP_NAME_TYPE,
   GROUP_NAME,
-} from "../../../../constants/Woomoonjeong/woomoonjeong";
+} from "../../../../constants/Woomoonjeong/Woomoonjeong";
 
-const CreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
+export const CreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
   isOpen,
   onClose,
   onAdd,
@@ -317,4 +317,3 @@ const CreateDocumentModal: React.FC<CreateDocumentModalProps> = ({
   );
 };
 
-export default CreateDocumentModal;

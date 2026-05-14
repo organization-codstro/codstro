@@ -1,7 +1,7 @@
 import React from "react";
 import { ManagementSidebarProps } from "../../../types/pages/Woomoonjeong/DocumentsManagementPage/ManagementSidebar";
 
-const ManagementSidebar: React.FC<ManagementSidebarProps> = ({
+export const ManagementSidebar: React.FC<ManagementSidebarProps> = ({
   data,
   totalFields,
   totalPins,
@@ -35,5 +35,3 @@ const ManagementSidebar: React.FC<ManagementSidebarProps> = ({
     </div>
   );
 };
-
-export default ManagementSidebar;

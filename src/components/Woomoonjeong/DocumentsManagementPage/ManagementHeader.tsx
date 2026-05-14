@@ -2,7 +2,7 @@ import React from "react";
 import { Plus } from "lucide-react";
 import { ManagementHeaderProps } from "../../../types/pages/Woomoonjeong/DocumentsManagementPage/ManagementHeader";
 
-const ManagementHeader: React.FC<ManagementHeaderProps> = ({
+export const ManagementHeader: React.FC<ManagementHeaderProps> = ({
   onCreateDocument,
   onCreateField,
 }) => {
@@ -35,5 +35,3 @@ const ManagementHeader: React.FC<ManagementHeaderProps> = ({
     </div>
   );
 };
-
-export default ManagementHeader;

@@ -1,15 +1,8 @@
 import React from "react";
-import {
-  FileText,
-  Tag,
-  Edit3,
-  Trash2,
-  ExternalLink,
-  Check,
-} from "lucide-react";
+import { FileText, Tag, Edit3, Trash2, Check } from "lucide-react";
 import { PinItemProps } from "../../../types/pages/Woomoonjeong/DocumentsManagementPage/PinItem";
 
-const PinItem: React.FC<PinItemProps> = ({
+export const PinItem: React.FC<PinItemProps> = ({
   pin,
   isDeletePending,
   onEdit,
@@ -71,5 +64,3 @@ const PinItem: React.FC<PinItemProps> = ({
     </div>
   </a>
 );
-
-export default PinItem;

@@ -1,9 +1,9 @@
 import React from "react";
 import { Filter, Search } from "lucide-react";
-import { GROUP_NAME } from "../../../constants/Woomoonjeong/woomoonjeong";
+import { GROUP_NAME } from "../../../constants/Woomoonjeong/Woomoonjeong";
 import { DocumentFilterBarProps } from "../../../types/pages/Woomoonjeong/DocumentsManagementPage/DocumentFilterBar";
 
-const DocumentFilterBar: React.FC<DocumentFilterBarProps> = ({
+export const DocumentFilterBar: React.FC<DocumentFilterBarProps> = ({
   selectedGroupType,
   onSelectType,
   searchQuery,
@@ -46,5 +46,3 @@ const DocumentFilterBar: React.FC<DocumentFilterBarProps> = ({
     </div>
   );
 };
-
-export default DocumentFilterBar;

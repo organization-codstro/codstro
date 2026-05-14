@@ -1,14 +1,14 @@
 // 사용자 직접 생성하는 필드
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
+import { CreateCustomFieldModalProps } from "../../../../types/pages/Woomoonjeong/DocumentsManagementPage/Modal/CreateCustomFieldModal";
 import {
   DEFAULT_GROUP_NAME,
-  GROUP_NAME_TYPE,
   GROUP_NAME,
-} from "../../../../constants/Woomoonjeong/woomoonjeong";
-import { CreateCustomFieldModalProps } from "../../../../types/pages/Woomoonjeong/DocumentsManagementPage/Modal/CreateCustomFieldModal";
+  GROUP_NAME_TYPE,
+} from "../../../../constants/Woomoonjeong/Woomoonjeong";
 
-const CreateCustomFieldModal: React.FC<CreateCustomFieldModalProps> = ({
+export const CreateCustomFieldModal: React.FC<CreateCustomFieldModalProps> = ({
   isOpen,
   onClose,
   onAdd,
@@ -160,5 +160,3 @@ const CreateCustomFieldModal: React.FC<CreateCustomFieldModalProps> = ({
     </div>
   );
 };
-
-export default CreateCustomFieldModal;

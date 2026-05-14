@@ -4,10 +4,10 @@ import {
   DEFAULT_GROUP_NAME,
   GROUP_NAME_TYPE,
   GROUP_NAME,
-} from "../../../../constants/Woomoonjeong/woomoonjeong";
+} from "../../../../constants/Woomoonjeong/Woomoonjeong";
 import { EditDocumentModalProps } from "../../../../types/pages/Woomoonjeong/DocumentsManagementPage/Modal/EditDocumentModal";
 
-const EditDocumentModal: React.FC<EditDocumentModalProps> = ({
+export const EditDocumentModal: React.FC<EditDocumentModalProps> = ({
   isOpen,
   onClose,
   pin,
@@ -277,4 +277,3 @@ const EditDocumentModal: React.FC<EditDocumentModalProps> = ({
   );
 };
 
-export default EditDocumentModal;
