@@ -35,7 +35,10 @@ export default function AppRoutes() {
         />
 
         {/* ================= Clone Coding Project ================= */}
-        <Route path="/clone-coding-project" element={<Page.CloneCodingProjectMain />} />
+        <Route
+          path="/clone-coding-project"
+          element={<Page.CloneCodingProjectMain />}
+        />
         <Route
           path="/clone-coding-project/project/:projectId"
           element={<Page.CloneCodingProjectDetail />}
@@ -45,49 +48,43 @@ export default function AppRoutes() {
           element={<Page.CloneCodingProjectArchive />}
         />
 
-        {/* ================= Woomoonkyung ================= */}
+        {/* ================= StudyPlan ================= */}
         {/* 목록 (list) */}
-        <Route path="/woomoonkyung" element={<Page.WoomoonkyungMain />} />
+        <Route path="/study-plan" element={<Page.StudyPlanMain />} />
 
         {/* 상세 (list → 선택) */}
         <Route
-          path="/woomoonkyung/plan/:planId"
-          element={<Page.WoomoonkyungDetail />}
+          path="/study-plan/plan/:planId"
+          element={<Page.StudyPlanDetail />}
         />
 
         {/* 수정 (edit) */}
         <Route
-          path="/woomoonkyung/edit/:planId"
-          element={<Page.WoomoonkyungEdit />}
+          path="/study-plan/edit/:planId"
+          element={<Page.StudyPlanEdit />}
         />
 
         {/* 생성 (create) */}
-        <Route
-          path="/woomoonkyung/create"
-          element={<Page.WoomoonkyungCreate />}
-        />
+        <Route path="/study-plan/create" element={<Page.StudyPlanCreate />} />
 
         {/* 노드 생성 (create/node) */}
         <Route
-          path="/woomoonkyung/create/node/:planId"
-          element={<Page.WoomoonkyungCreateNode />}
+          path="/study-plan/create/node/:planId"
+          element={<Page.StudyPlanCreateNode />}
         />
 
         {/* 노드 편집 (nodes) */}
         <Route
-          path="/woomoonkyung/:planId/nodes"
-          element={<Page.WoomoonkyungEditNode />}
+          path="/study-plan/:planId/nodes"
+          element={<Page.StudyPlanEditNode />}
         />
 
         {/* 아카이브 */}
-        <Route
-          path="/woomoonkyung/archive"
-          element={<Page.StudyPlanArchive />}
-        />
+        <Route path="/study-plan/archive" element={<Page.StudyPlanArchive />} />
 
         {/* 아카이브 - 선택*/}
         <Route
-          path="/woomoonkyung/archive/:planId"
+          path="/study-plan/archive/:planId"
           element={<Page.StudyPlanArchiveDetail />}
         />
         {/* ================= Company ================= */}

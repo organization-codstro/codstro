@@ -1,0 +1,169 @@
+import { supabase } from "../../db/supabase/supabase";
+import {
+  GetNodesByPlanIdParams,
+  SaveAllNodesParams,
+  DeleteNodeParams,
+  GetPlanInfoParams,
+} from "../../types/api/StudyPlan/StudyPlanEditNodePage";
+import {
+  StudyPlan,
+  StudyPlanNode,
+  TechStack,
+} from "../../types/common/StudyPlan";
+
+/**
+ * [우문경 노드 편집 페이지 서비스]
+ * 학습 노드의 리스트 조회, 대량 저장(순서 변경 포함), 개별 삭제 기능을 담당합니다.
+ */
+export const StudyPlanEditNodeService = {
+  /**
+   * [학습 노드 리스트 조회]
+   */
+  async getNodesByPlanId(
+    params: GetNodesByPlanIdParams,
+  ): Promise<StudyPlanNode[]> {
+    try {
+      const { planId } = params;
+
+      const { data, error } = await supabase
+        .from("study_plan_nodes")
+        .select(
+          `
+          *,
+          tech_stacks (
+            tech_stack_name,
+            tech_stack_img_url
+          )
+        `,
+        )
+        .eq("study_plan_id", planId)
+        .order("study_plan_node_position", { ascending: true });
+
+      if (error) throw error;
+      return (data ?? []).map((node: any) => ({
+        ...node,
+        tech_stack_name: node.tech_stacks?.tech_stack_name ?? "",
+        tech_stack_img_url: node.tech_stacks?.tech_stack_img_url ?? "",
+      }));
+    } catch (error) {
+      console.error("[getNodesByPlanId Error]:", error);
+      throw error;
+    }
+  },
+
+  /**
+   * [학습 노드 일괄 저장]
+   */
+  async saveAllNodes(params: SaveAllNodesParams): Promise<StudyPlanNode[]> {
+    try {
+      const { nodes } = params;
+
+      const nodesToUpsert = nodes.map((node) => ({
+        study_plan_node_id: node.study_plan_node_id,
+        study_plan_id: node.study_plan_id,
+        study_plan_node_name: node.study_plan_node_name,
+        study_plan_node_description: node.study_plan_node_description,
+        study_plan_node_start_date: node.study_plan_node_start_date,
+        study_plan_node_end_date: node.study_plan_node_end_date,
+        study_plan_node_completed: node.study_plan_node_completed || false,
+        study_plan_node_position: node.study_plan_node_position,
+        tech_stack_id: node.tech_stack_id,
+        created_at: new Date(),
+      }));
+
+      // 신규 vs 기존 분리 (temp_ 접두사 기준)
+      const newNodes = nodesToUpsert.filter((n) =>
+        String(n.study_plan_node_id).startsWith("temp_"),
+      );
+      const existingNodes = nodesToUpsert.filter(
+        (n) => !String(n.study_plan_node_id).startsWith("temp_"),
+      );
+
+      const results: StudyPlanNode[] = [];
+
+      // 기존 노드 upsert
+      if (existingNodes.length > 0) {
+        const { data, error } = await supabase
+          .from("study_plan_nodes")
+          .upsert(existingNodes)
+          .select();
+        if (error) throw error;
+        results.push(...(data as StudyPlanNode[]));
+      }
+
+      // 신규 노드 insert (id 필드 제거 → DB가 UUID 자동 생성)
+      if (newNodes.length > 0) {
+        const { data, error } = await supabase
+          .from("study_plan_nodes")
+          .insert(newNodes.map(({ study_plan_node_id, ...rest }) => rest))
+          .select();
+        if (error) throw error;
+        results.push(...(data as StudyPlanNode[]));
+      }
+
+      return results;
+    } catch (error) {
+      console.error("[saveAllNodes Error]:", error);
+      throw error;
+    }
+  },
+
+  /**
+   * [개별 노드 삭제]
+   */
+  async deleteNode(params: DeleteNodeParams): Promise<boolean> {
+    try {
+      const { nodeId } = params;
+
+      const { error } = await supabase
+        .from("study_plan_nodes")
+        .delete()
+        .eq("study_plan_node_id", nodeId);
+
+      if (error) throw error;
+      return true;
+    } catch (error) {
+      console.error("[deleteNode Error]:", error);
+      throw error;
+    }
+  },
+
+  /**
+   * [플랜 정보 조회]
+   */
+  async getPlanInfo(params: GetPlanInfoParams): Promise<StudyPlan> {
+    try {
+      const { planId } = params;
+
+      const { data, error } = await supabase
+        .from("study_plans")
+        .select("study_plan_id, study_plan_name, study_plan_description")
+        .eq("study_plan_id", planId)
+        .single();
+
+      if (error) throw error;
+      return data as StudyPlan;
+    } catch (error) {
+      console.error("[getPlanInfo Error]:", error);
+      throw error;
+    }
+  },
+
+  /**
+   * [사용 가능 기술 스택 조회]
+   */
+  async getTechStacks(): Promise<TechStack[]> {
+    try {
+      const { data, error } = await supabase
+        .from("tech_stacks")
+        .select("*")
+        .order("tech_stack_name", { ascending: true });
+
+      if (error) throw error;
+      return data as TechStack[];
+    } catch (error) {
+      console.error("[getTechStacks Error]:", error);
+      throw error;
+    }
+  },
+};

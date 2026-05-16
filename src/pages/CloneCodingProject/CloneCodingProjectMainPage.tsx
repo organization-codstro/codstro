@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Loader2, Plus } from "lucide-react";
 import { ProjectGrid } from "../../components/CloneCodingProject/CloneCodingProjectGrid/CloneCodingProjectGrid";
-import { PageHeader } from "../../components/Woomoonkyung/StudyPlanEditPage/PageHeader";
+import { PageHeader } from "../../components/StudyPlan/StudyPlanEditPage/PageHeader";
 import { ProjectFilters } from "../../components/CloneCodingProject/CloneCodingProjectMainPage/ProjectFilters";
 import { NoResults } from "../../components/CloneCodingProject/CloneCodingProjectMainPage/NoResults";
 import { LoginService } from "../../api/Auth/LoginPage";
@@ -239,7 +239,9 @@ export default function CloneCodingProjectMainPage() {
             <ProjectGrid
               projects={filteredProjects.map((item) => item.project)}
               getUserProject={getUserProject}
-              onCardClick={(id) => navigate(`/clone-coding-project/project/${id}`)}
+              onCardClick={(id) =>
+                navigate(`/clone-coding-project/project/${id}`)
+              }
               onToggleBookmark={handleToggleBookmark}
             />
           ) : (

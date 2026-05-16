@@ -40,5 +40,5 @@ test/
 src/types/test/
 
 cli/
-
 package-lock.json
+stats.html

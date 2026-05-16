@@ -18,15 +18,15 @@ export { default as CloneCodingProjectMain } from "../pages/CloneCodingProject/C
 export { default as CloneCodingProjectArchive } from "../pages/CloneCodingProject/CloneCodingProjectArchivePage";
 export { default as CloneCodingProjectDetail } from "../pages/CloneCodingProject/CloneCodingProjectDetailPage";
 
-/* ================= WOOMOONKYUNG ================= */
-export { default as WoomoonkyungMain } from "../pages/Woomoonkyung/StudyPlanMainPage";
-export { default as StudyPlanArchive } from "../pages/Woomoonkyung/StudyPlanArchivePage";
-export { default as WoomoonkyungDetail } from "../pages/Woomoonkyung/StudyPlanDetailPage";
-export { default as WoomoonkyungCreate } from "../pages/Woomoonkyung/StudyPlanCreatePage";
-export { default as WoomoonkyungEdit } from "../pages/Woomoonkyung/StudyPlanEditPage";
-export { default as StudyPlanArchiveDetail } from "../pages/Woomoonkyung/StudyPlanArchiveDetailPage";
-export { default as WoomoonkyungCreateNode } from "../pages/Woomoonkyung/StudyPlanCreateNodePage";
-export { default as WoomoonkyungEditNode } from "../pages/Woomoonkyung/StudyPlanEditNodePage";
+/* ================= STUDY PLAN ================= */
+export { default as StudyPlanMain } from "../pages/StudyPlan/StudyPlanMainPage";
+export { default as StudyPlanArchive } from "../pages/StudyPlan/StudyPlanArchivePage";
+export { default as StudyPlanDetail } from "../pages/StudyPlan/StudyPlanDetailPage";
+export { default as StudyPlanCreate } from "../pages/StudyPlan/StudyPlanCreatePage";
+export { default as StudyPlanEdit } from "../pages/StudyPlan/StudyPlanEditPage";
+export { default as StudyPlanArchiveDetail } from "../pages/StudyPlan/StudyPlanArchiveDetailPage";
+export { default as StudyPlanCreateNode } from "../pages/StudyPlan/StudyPlanCreateNodePage";
+export { default as StudyPlanEditNode } from "../pages/StudyPlan/StudyPlanEditNodePage";
 
 /* ================= COMPANY ================= */
 export { default as CompanyList } from "../pages/CompanyInformation/CompanyListPage";

@@ -42,22 +42,22 @@ export const navigationData: NavigationItem[] = [
     ],
   },
   {
-    id: "woomoonkyung",
-    title: "Woomoonkyung",
+    id: "study-plan",
+    title: "Study Plan",
     icon: "BookOpen",
-    route: "/woomoonkyung/main",
+    route: "/study-plan/main",
     children: [
       {
         id: "my-study-plans",
         title: "My Study Plans",
         icon: "Lightbulb",
-        route: "/woomoonkyung",
+        route: "/study-plan",
       },
       {
         id: "study-archive",
         title: "Archive",
         icon: "Archive",
-        route: "/woomoonkyung/archive",
+        route: "/study-plan/archive",
       },
     ],
   },
