@@ -6,12 +6,12 @@ export { default as Signup } from "../pages/Auth/SignupPage";
 /* ================= LAYOUT ================= */
 export { default as Layout } from "../pages/Layout";
 
-/* ================= WOOMOONJEONG ================= */
-export { default as TodoManagement } from "../pages/Woomoonjeong/TodoManagementPage";
-export { default as TodoManagementDetail } from "../pages/Woomoonjeong/TodoManagementDetailPage";
-export { default as FieldDetail } from "../pages/Woomoonjeong/FieldDetailPage";
-export { default as TodoManagementUpdate } from "../pages/Woomoonjeong/TodoManagementUpdatePage";
-export { default as DocumentsManagement } from "../pages/Woomoonjeong/DocumentsManagementPage";
+/* ================= TODO MANAGEMENT ================= */
+export { default as TodoManagement } from "../pages/TodoManagement/TodoManagementPage";
+export { default as TodoManagementDetail } from "../pages/TodoManagement/TodoManagementDetailPage";
+export { default as FieldDetail } from "../pages/TodoManagement/FieldDetailPage";
+export { default as TodoManagementUpdate } from "../pages/TodoManagement/TodoManagementUpdatePage";
+export { default as DocumentsManagement } from "../pages/TodoManagement/DocumentsManagementPage";
 
 /* ================= WOOMOONRO ================= */
 export { default as CloneCodingProjectMain } from "../pages/Woomoonro/CloneCodingProjectMainPage";

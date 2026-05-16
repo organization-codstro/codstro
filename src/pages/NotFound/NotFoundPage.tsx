@@ -39,7 +39,7 @@ export const NotFoundPage = () => {
           </button>
 
           <button
-            onClick={() => navigate("/woomoonjeong")}
+            onClick={() => navigate("/todo-management")}
             className="flex items-center justify-center w-full gap-2 px-6 py-3 font-medium text-white transition-opacity rounded-lg sm:w-auto hover:opacity-90"
             style={{ backgroundColor: "#587CF0" }}
           >

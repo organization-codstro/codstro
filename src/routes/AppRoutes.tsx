@@ -13,24 +13,24 @@ export default function AppRoutes() {
       {/* ================= 서비스 영역 (Layout 적용) ================= */}
       <Route element={<Page.Layout />}>
         {/* 기본 진입 */}
-        <Route path="/" element={<Navigate to="/woomoonjeong" replace />} />
+        <Route path="/" element={<Navigate to="/todo-management" replace />} />
 
-        {/* ================= Woomoonjeong ================= */}
-        <Route path="/woomoonjeong" element={<Page.TodoManagement />} />
+        {/* ================= TODO-MANAGEMENT ================= */}
+        <Route path="/todo-management" element={<Page.TodoManagement />} />
         <Route
-          path="/woomoonjeong/todo/:todoId"
+          path="/todo-management/todo/:todoId"
           element={<Page.TodoManagementDetail />}
         />
         <Route
-          path="/woomoonjeong/todo/:todoId/edit"
+          path="/todo-management/todo/:todoId/edit"
           element={<Page.TodoManagementUpdate />}
         />
         <Route
-          path="/woomoonjeong/documents"
+          path="/todo-management/documents"
           element={<Page.DocumentsManagement />}
         />
         <Route
-          path="/woomoonjeong/fields/:fieldId"
+          path="/todo-management/fields/:fieldId"
           element={<Page.FieldDetail />}
         />
 

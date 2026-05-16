@@ -7,7 +7,7 @@ import {
 import {
   DEFAULT_GROUP_NAME,
   TODO_STATUS_TYPE,
-} from "../../constants/Woomoonjeong/Woomoonjeong";
+} from "../../constants/TodoManagement/TodoManagement";
 
 export const AddTodoModal = ({
   isOpen,

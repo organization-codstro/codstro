@@ -21,7 +21,7 @@ export default function LoginPage() {
       const user = await LoginService.signIn({ email, password });
 
       // 로그인 성공 시 페이지 이동
-      navigate("/woomoonjeong");
+      navigate("/todo-management");
     } catch (err) {
       // 에러 처리
       setError(err instanceof Error ? err.message : "로그인에 실패했습니다.");

@@ -1,7 +1,7 @@
 import {
   GROUP_NAME_TYPE,
   TODO_STATUS_TYPE,
-} from "../../../constants/Woomoonjeong/woomoonjeong";
+} from "../../../constants/TodoManagement/TodoManagement";
 
 interface AvailableGroup {
   group_id: GROUP_NAME_TYPE;

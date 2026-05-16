@@ -1,5 +1,5 @@
 import { PROJECT_STATUS_TYPE } from "../../../constants/ProjectPlanning/ProjectPlanning";
-import { TODO_STATUS_TYPE } from "../../../constants/Woomoonjeong/woomoonjeong";
+import { TODO_STATUS_TYPE } from "../../../constants/TodoManagement/TodoManagement";
 
 export interface ProjectResponse {
   project_id: string;

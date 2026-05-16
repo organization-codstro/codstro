@@ -20,7 +20,7 @@ import { NotFoundPage } from "../NotFound/NotFoundPage";
 import {
   GROUP_NAME,
   GROUP_NAME_TYPE,
-} from "../../constants/Woomoonjeong/Woomoonjeong";
+} from "../../constants/TodoManagement/TodoManagement";
 import { ConceptActionButtons } from "../../components/Concept/ConceptDetailPage/ConceptActionButtons";
 import { ConceptEditMetaModal } from "../../components/Concept/ConceptDetailPage/ConceptEditMetaModal";
 

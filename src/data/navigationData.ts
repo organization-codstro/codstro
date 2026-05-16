@@ -2,22 +2,22 @@ import { NavigationItem } from "../types/pages/Sidebar/sidebar";
 
 export const navigationData: NavigationItem[] = [
   {
-    id: "woomoonjeong",
-    title: "Woomoonjeong",
+    id: "todo-management",
+    title: "Todo Management",
     icon: "FolderOpen",
-    route: "/woomoonjeong/main",
+    route: "/todo-management/main",
     children: [
       {
         id: "todo-management",
         title: "To-do Management",
         icon: "CheckSquare",
-        route: "/woomoonjeong",
+        route: "/todo-management",
       },
       {
         id: "documents-management",
         title: "Documents Management",
         icon: "FolderOpen",
-        route: "/woomoonjeong/documents",
+        route: "/todo-management/documents",
       },
     ],
   },
