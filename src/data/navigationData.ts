@@ -22,22 +22,22 @@ export const navigationData: NavigationItem[] = [
     ],
   },
   {
-    id: "woomoonro",
-    title: "Woomoonro",
+    id: "CloneCodingProject",
+    title: "Clone Coding Projects",
     icon: "Code2", // 클론 코딩
-    route: "/woomoonro/main",
+    route: "/clone-coding-project/main",
     children: [
       {
-        id: "woomoonro-main",
-        title: "Woomoonro",
+        id: "clone-coding-project-main",
+        title: "Clone Coding Projects",
         icon: "GitFork", // 코드 복제
-        route: "/woomoonro",
+        route: "/clone-coding-project",
       },
       {
         id: "clone-archive",
         title: "Archive",
         icon: "Archive", // 보관함
-        route: "/woomoonro/archive",
+        route: "/clone-coding-project/archive",
       },
     ],
   },

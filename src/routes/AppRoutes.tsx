@@ -34,14 +34,14 @@ export default function AppRoutes() {
           element={<Page.FieldDetail />}
         />
 
-        {/* ================= Woomoonro ================= */}
-        <Route path="/woomoonro" element={<Page.CloneCodingProjectMain />} />
+        {/* ================= Clone Coding Project ================= */}
+        <Route path="/clone-coding-project" element={<Page.CloneCodingProjectMain />} />
         <Route
-          path="/woomoonro/project/:projectId"
+          path="/clone-coding-project/project/:projectId"
           element={<Page.CloneCodingProjectDetail />}
         />
         <Route
-          path="/woomoonro/archive"
+          path="/clone-coding-project/archive"
           element={<Page.CloneCodingProjectArchive />}
         />
 

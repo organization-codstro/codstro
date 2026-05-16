@@ -13,10 +13,10 @@ export { default as FieldDetail } from "../pages/TodoManagement/FieldDetailPage"
 export { default as TodoManagementUpdate } from "../pages/TodoManagement/TodoManagementUpdatePage";
 export { default as DocumentsManagement } from "../pages/TodoManagement/DocumentsManagementPage";
 
-/* ================= WOOMOONRO ================= */
-export { default as CloneCodingProjectMain } from "../pages/Woomoonro/CloneCodingProjectMainPage";
-export { default as CloneCodingProjectArchive } from "../pages/Woomoonro/CloneCodingProjectArchivePage";
-export { default as CloneCodingProjectDetail } from "../pages/Woomoonro/CloneCodingProjectDetailPage";
+/* ================= CLONE CODING PROJECT ================= */
+export { default as CloneCodingProjectMain } from "../pages/CloneCodingProject/CloneCodingProjectMainPage";
+export { default as CloneCodingProjectArchive } from "../pages/CloneCodingProject/CloneCodingProjectArchivePage";
+export { default as CloneCodingProjectDetail } from "../pages/CloneCodingProject/CloneCodingProjectDetailPage";
 
 /* ================= WOOMOONKYUNG ================= */
 export { default as WoomoonkyungMain } from "../pages/Woomoonkyung/StudyPlanMainPage";
