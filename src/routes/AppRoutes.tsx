@@ -60,7 +60,7 @@ export default function AppRoutes() {
 
         {/* 수정 (edit) */}
         <Route
-          path="/study-plan/edit/:planId"
+          path="/study-plan/:planId/edit"
           element={<Page.StudyPlanEdit />}
         />
 
