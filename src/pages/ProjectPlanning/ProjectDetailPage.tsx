@@ -140,7 +140,7 @@ export default function ProjectDetailPage() {
     if (!projectId) return;
     const toastId = toast.loading("저장 중입니다...");
     try {
-      await ProjectDetailService.saveProjectStructure(updatedPages as any);
+      await ProjectDetailService.saveProjectStructure(updatedPages);
       toast.update(toastId, {
         render: "저장되었습니다.",
         type: "success",

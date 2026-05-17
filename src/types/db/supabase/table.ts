@@ -1,7 +1,7 @@
 //테이블 타입들
 
 export interface Projects {
-  project_id: number; // PK / number
+  project_id: string; // PK / number
   project_stacks: string; // text
   project_name: string; // text
   project_description: string | null; // text
@@ -16,7 +16,7 @@ export interface Projects {
 }
 
 export interface ConceptDescriptionMaterials {
-  concept_description_material_id: number; // PK / number
+  concept_description_material_id: string; // PK / number
   concept_description_material_name: string; // text
   concept_description_material_description: string; // text
   concept_description_material_content: string; // text
@@ -25,7 +25,7 @@ export interface ConceptDescriptionMaterials {
   concept_description_material_representative_image_url: string | null; // text
   concept_description_material_image_urls: string | null; // text[]
   concept_description_material_created_date: Date; // date
-  concept_description_material_update_date: any | null;
+  concept_description_material_update_date: Date | null;
 }
 
 export interface UserBadges {
@@ -36,7 +36,7 @@ export interface UserBadges {
 }
 
 export interface Emoticons {
-  emoticon_id: number; // PK / number
+  emoticon_id: string; // PK / number
   emoticon_name: number; // number
   emoticon_img_path: string; // text
   emoticon_tags: string[]; // text
@@ -44,7 +44,7 @@ export interface Emoticons {
 }
 
 export interface ChatRooms {
-  chat_room_id: number; // PK / number
+  chat_room_id: string; // PK / number
   chat_room_name: string; // text
   chat_room_daily_is_main: boolean | null; // 일상 채팅방만 적용 / boolen
   chat_room_topics: string[]; // text
@@ -76,25 +76,25 @@ export interface ChatMemoryJobs {
 }
 
 export interface UserFortune {
-  user_fortune_id: number; // PK / number
+  user_fortune_id: string; // PK / number
   user_fortune_create_date: Date; // date
-  developer_fortune_id: number; // FK / number
-  user_id: number; // FK / number
+  developer_fortune_id: string; // FK / number
+  user_id: string; // FK / number
 }
 
 export interface CompanyUserMatches {
-  company_user_match_id: number; // PK / number
+  company_user_match_id: string; // PK / number
   company_user_match_name: string; // [회사이름 - 생성일]로 저장 / text
   company_user_match_rate: number; // AI가 판단한 적합도 % (예: 87.50), 전체 5자리, 소수점 2자리 / numeric(5,2)
   company_user_match_suggestions: string; // text
   company_user_match_reason: string; // text
   company_user_match_created_date: Date; // date
-  company_id: number; // FK / number
-  user_id: number; // FK / 이 유저 고유번호로, 유저의 정보 추적 / number
+  company_id: string; // FK / number
+  user_id: string; // FK / 이 유저 고유번호로, 유저의 정보 추적 / number
 }
 
 export interface MajorQuestions {
-  major_question_id: number | null; // PK / number
+  major_question_id: string | null; // PK / number
   major_question_content: string; // text
   major_question_axis: string; // 이 질문으로 어떤 부분을 검사하는지 / text
   major_question_trait: string; // text
@@ -102,17 +102,17 @@ export interface MajorQuestions {
 }
 
 export interface NoteConcept {
-  note_concept_id: number; // PK / number
-  note_id: number; // FK / number
-  concept_description_material_id: number; // FK / number
-  tool_description_material_id: number; // FK / number
-  library_description_material_id: number; // FK / number
-  package_manager_description_material_id: number; // FK / number
-  third_party_services_description_material_id: number; // FK / number
+  note_concept_id: string; // PK / number
+  note_id: string; // FK / number
+  concept_description_material_id: string; // FK / number
+  tool_description_material_id: string; // FK / number
+  library_description_material_id: string; // FK / number
+  package_manager_description_material_id: string; // FK / number
+  third_party_services_description_material_id: string; // FK / number
 }
 
 export interface ProjectPlannings {
-  project_id: number; // PK / number
+  project_id: string; // PK / number
   project_stacks: string | null; // text
   project_name: string | null; // text
   project_description: string | null; // text
@@ -123,35 +123,35 @@ export interface ProjectPlannings {
   project_style: string | null; // text
   project_effect: string | null; // 다지인에서 주요되는 에니매이션이나 전반적인 효과들 / text
   created_at: string; // date
-  user_id: number; // FK / number
+  user_id: string; // FK / number
 }
 
 export interface AiUserRecords {
-  ai_user_record_id: number | null; // PK / number
+  ai_user_record_id: string | null; // PK / number
   ai_user_record_summary: string | null; // text
   ai_user_record_created_date: Date | null; // timestamp
-  user_id: number; // FK / number
+  user_id: string; // FK / number
 }
 
 export interface ProjectPages {
-  project_page_id: number; // PK / number
-  project_page_name: any;
-  project_page_role: any;
-  project_page_function: any;
-  project_page_is_complete: any;
-  project_id: number; // FK / number
+  project_page_id: string; // PK / number
+  project_page_name: string;
+  project_page_role: string;
+  project_page_function: string;
+  project_page_is_complete: boolean;
+  project_id: string; // FK / number
 }
 
 export interface Groups {
-  group_id: number; // PK / number
+  group_id: string; // PK / number
   group_description: string | null; // text
   group_created_date: Date; // date
   group_name: number; // 유저가 만들수 있음 / number
-  user_id: number; // FK / number
+  user_id: string; // FK / number
 }
 
 export interface ToolDescriptionMaterials {
-  tool_description_material_id: number; // PK / number
+  tool_description_material_id: string; // PK / number
   tool_description_material_name: string; // text
   tool_description_material_description: string; // text
   tool_description_material_content: string; // text
@@ -179,6 +179,11 @@ export interface UserCloneCodings {
   user_id: number; // FK / number
 }
 
+type CloneCodingSteps = {
+  title: string;
+  description: string;
+};
+
 export interface CloneCodings {
   clone_coding_id: number; // PK / number
   clone_coding_title: string; // text
@@ -190,7 +195,7 @@ export interface CloneCodings {
   clone_codings_thumbnail_url: string; // text
   clone_codings_github_url: string | null; // text
   clone_codings_demo_url: string | null; // text
-  clone_codings_steps: any; // json
+  clone_codings_steps: CloneCodingSteps[]; // json
   clone_codings_project_structure: string | null; // text
   clone_codings_created_at: Date; // date
 }
@@ -233,8 +238,8 @@ export interface CompanyUserQnas {
   created_at: Date; // date
 }
 
-export interface libraryDescriptionMaterials {
-  library_description_material_id: number; // PK / number
+export interface LibraryDescriptionMaterials {
+  library_description_material_id: string; // PK / number
   library_description_material_name: string; // text
   library_description_material_description: string | null; // text
   library_description_material_content: string | null; // text
@@ -299,7 +304,7 @@ export interface StudyPlans {
 }
 
 export interface PackageManagerDescriptionMaterials {
-  package_manager_description_material_id: number; // PK / number
+  package_manager_description_material_id: string; // PK / number
   package_manager_description_material_name: string; // text
   package_manager_description__material_description: string | null; // text
   package_manager_description_material_content: string; // text
@@ -312,8 +317,8 @@ export interface PackageManagerDescriptionMaterials {
 }
 
 export interface UserLevels {
-  user_level_id: number; // PK / number
-  badge_id: number; // FK / 해당 등급으로 올라가면 주어지는 배지 id / number
+  user_level_id: string; // PK / number
+  badge_id: string; // FK / 해당 등급으로 올라가면 주어지는 배지 id / number
   user_levels_name: string; // text
   user_levels_description: string | null; // text
   user_levels_required_points: number; // number
@@ -322,54 +327,54 @@ export interface UserLevels {
 }
 
 export interface ProjectPlanningLogs {
-  project_planning_log_id: number; // PK / number
+  project_planning_log_id: string; // PK / number
   project_planning_log_sender: string; // text
   project_planning_log_message: string; // text
-  project_id: number;
+  project_id: string;
   created_at: string;
   updated_at: string;
 }
 
 export interface ProjectMeetingLogs {
-  project_meeting_log_id: number; // PK / number
+  project_meeting_log_id: string; // PK / number
   project_meeting_log_sender: string; // text
   project_meeting_log_message: string; // text
-  project_meeting_room_id: number; // FK / number
+  project_meeting_room_id: string; // FK / number
   project_meeting_log_meeting_index: number; // 1 / number
   created_at: string; // timestamp
   updated_at: string;
 }
 
 export interface ProjectMeetingSummarys {
-  project_meeting_summary_id: any; // PK
-  "project meeting summary": any;
-  project_meeting_room_id: any; // FK
+  project_meeting_summary_id: string; // PK
+  project_meeting_summary: string;
+  project_meeting_room_id: string; // FK
   project_meeting_summary_meeting_index: number; // number
 }
 
 export interface Pins {
-  pin_id: number; // PK / number
+  pin_id: string; // PK / number
   pin_title: string; // text
   pin_description: string | null; // text
   pin_image_url: string | null; // text
   pin_created_date: Date; // date
   pin_label: string | null; // text
   pin_url: string; // text
-  field_id: number; // FK / number
+  field_id: string; // FK / number
 }
 
 export interface ProjectMeetingRooms {
-  project_meeting_room_id: any; // PK
-  project_meeting_purpose: any; // 이 회의는 무엇을 위한 회의이고, 어떤걸 결정하고 싶은지 (유저가 입력한거)
-  project_meeting_log_created_date: any;
-  project_meeting_detail: any; // 이 회의에서 다루는 프로젝트의 기본정보 (유저가 회의 생성시 정하는거 [프롬프트에 들어감])
-  project_id: number; // FK / 한 프로젝트에서 여러가지 주제로 여러게의 회의를 만들수 있음 / number
+  project_meeting_room_id: string; // PK
+  project_meeting_purpose: string; // 이 회의는 무엇을 위한 회의이고, 어떤걸 결정하고 싶은지 (유저가 입력한거)
+  project_meeting_log_created_date: Date;
+  project_meeting_detail: string; // 이 회의에서 다루는 프로젝트의 기본정보 (유저가 회의 생성시 정하는거 [프롬프트에 들어감])
+  project_id: string; // FK / 한 프로젝트에서 여러가지 주제로 여러게의 회의를 만들수 있음 / number
   project_meeting_index: number; // 이 회의를 진행한 횟수 / number
-  project_meeting_room_type: any; // Feature OR Free
+  project_meeting_room_type: string; // Feature OR Free
 }
 
 export interface DeveloperFortune {
-  developer_fortune_id: number; // PK / number
+  developer_fortune_id: string; // PK / number
   code: number; // 서버 응답코드로 구성 / number
   name: string; // text
   one_line_summary: string; // text
@@ -378,7 +383,7 @@ export interface DeveloperFortune {
 }
 
 export interface Notes {
-  note_id: number; // PK / number
+  note_id: string; // PK / number
   note_title: string; // text
   note_content: string | null; // text
   note_labels: string | null; // text[]
@@ -388,7 +393,7 @@ export interface Notes {
 }
 
 export interface MbitTypes {
-  mbit_type_id: number; // PK / number
+  mbit_type_id: string; // PK / number
   mbit_type_name: string; // text
   mbit_type_code: string; // text
   mbit_type_participation: string; // text
@@ -403,11 +408,11 @@ export interface MbitTypes {
   mbit_type_stress_management: string; // text
   mbit_type_morning_greetings: string; // text
   mbit_type_night_greetings: string; // text
-  user_id: number; // FK / number
+  user_id: string; // FK / number
 }
 
 export interface ThirdPartyServicesDescriptionMaterials {
-  third_party_services_description_material_id: number; // PK / number
+  third_party_services_description_material_id: string; // PK / number
   third_party_services_description_material_name: string; // text
   third_party_services_description_material_description: string | null; // text
   third_party_services_description_material_content: string; // text
@@ -422,22 +427,22 @@ export interface ThirdPartyServicesDescriptionMaterials {
 }
 
 export interface UserNoticeReads {
-  user_notice_reads_id: number; // PK / number
+  user_notice_reads_id: string; // PK / number
   is_read: boolean; // boolean
   read_at: Date; // date
-  user_id: number; // FK / number
-  notices_id: number; // FK / number
+  user_id: string; // FK / number
+  notices_id: string; // FK / number
 }
 
 export interface UserAiSettings {
-  user_ai_setting_id: number; // PK / number
+  user_ai_setting_id: string; // PK / number
   user_ai_setting_call_me_name: string; // text
   user_ai_setting_ai_self_awareness: boolean; // ai가 자기 인식을 하게 할건지 설정, 감정에 영향을 받지 않음 (존댓말 우선 사용) / boolean
   user_ai_setting_service_integration: boolean; // boolean
   user_ai_setting_created_date: Date; // date
   user_ai_setting_emotion: any; // srting
-  ai_persona_id: number; // FK / number
-  user_id: number; // FK / number
+  ai_persona_id: string; // FK / number
+  user_id: string; // FK / number
 }
 
 export interface StudyPlanNodes {
@@ -449,33 +454,33 @@ export interface StudyPlanNodes {
   completed: boolean; // boolean
   position: number; // 1부터 시작 / number
   created_date: Date; // date
-  tech_stack_id: number; // FK / number
-  study_plan_id: number; // FK / number
+  tech_stack_id: string; // FK / number
+  study_plan_id: string; // FK / number
 }
 
 export interface UserConcepts {
-  user_concept_id: number; // PK / number
+  user_concept_id: string; // PK / number
   user_concept_is_starred: boolean; // boolean
-  user_id: number; // FK / number
-  tool_description_material_id: number | null; // FK / number
-  concept_description_material_id: number | null; // FK / number
-  library_description_material_id: number | null; // FK / number
-  package_manager_description_material_id: number | null; // FK / number
-  third_party_services_description_material_id: number; // FK / number
+  user_id: string; // FK / number
+  tool_description_material_id: string | null; // FK / number
+  concept_description_material_id: string | null; // FK / number
+  library_description_material_id: string | null; // FK / number
+  package_manager_description_material_id: string | null; // FK / number
+  third_party_services_description_material_id: string; // FK / number
 }
 
 export interface ProjectPlanningPages {
-  project_page_id: number; // PK / number
+  project_page_id: string; // PK / number
   project_page_name: any;
   project_page_role: any;
   project_page_function: any;
   project_page_is_complete: any;
-  project_id: number; // FK / number
+  project_id: string; // FK / number
 }
 
 export interface TechStacks {
-  tech_stack_id: number; // PK / number
-  tech_stack_name: number; // number
+  tech_stack_id: string; // PK / number
+  tech_stack_name: string; // text
   tech_stack_img_url: string; // uuid
   tech_stack_created_date: Date; // date
 }
@@ -509,12 +514,12 @@ export interface ChatMessage {
 export interface UserFavoriteCompanies {
   user_favorite_company_id: string; // PK / uuid
   created_at: Date; // date
-  user_id: number; // FK / number
-  company_id: number; // FK / number
+  user_id: string; // FK / number
+  company_id: string; // FK / number
 }
 
 export interface Users {
-  user_id: number; // PK / number
+  user_id: string; // PK / number
   user_email: string; // text
   user_name: string; // text
   user_profile_url: string | null; // text
@@ -525,7 +530,7 @@ export interface Users {
 }
 
 export interface MbitQuestions {
-  mbit_questions_id: number; // PK / number
+  mbit_questions_id: string; // PK / number
   mbit_questions_content: string; // text
   mbit_questions_axis: string; // 축 (참여, 리스크, 사고, 접근) 같은 기준 / text
   mbit_questions_trait: string; // E|P / C|R / L|V, / B|A / text
@@ -542,7 +547,7 @@ export interface Notices {
 }
 
 export interface ChatRoomAiSettings {
-  chat_room_ai_id: number; // PK / number
-  user_ai_setting_id: number; // FK / number
-  chat_room_id: number; // FK / number
+  chat_room_ai_id: string; // PK / number
+  user_ai_setting_id: string; // FK / number
+  chat_room_id: string; // FK / number
 }

@@ -68,6 +68,15 @@ export interface Fortune {
   categoryMessage: FortuneCategoryMessage;
 }
 
+export interface FortuneRow {
+  developer_fortune_id: string;
+  developer_fortune_code: string;
+  developer_fortune_name: string;
+  developer_fortune_one_line_summary: string;
+  developer_fortune_description: string;
+  developer_fortune_category_message: string;
+}
+
 export interface FortuneList {
   id: string;
   code: number;

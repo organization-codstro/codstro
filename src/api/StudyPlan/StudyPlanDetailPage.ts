@@ -8,6 +8,7 @@ import {
   StudyPlanWithNodes,
   StudyPlanNode,
   StudyPlanNodeWithTechStack,
+  StudyPlan,
 } from "../../types/common/StudyPlan";
 
 /**
@@ -102,7 +103,7 @@ export const StudyPlanDetailService = {
   /**
    * [공부 계획 상태 변경]
    */
-  async updatePlanState(params: UpdatePlanStateParams): Promise<any> {
+  async updatePlanState(params: UpdatePlanStateParams): Promise<StudyPlan> {
     try {
       const { planId, newState } = params;
 

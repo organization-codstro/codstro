@@ -25,6 +25,14 @@ export interface UpdateProfileParams {
 }
 
 /**
+ * [Supabase users 테이블 업데이트 페이로드] - 프로필 편집 서비스에서 사용
+ */
+export type UpdateUserPayload = {
+  user_name: string;
+  user_profile_path?: string;
+};
+
+/**
  * [프로필 통합 업데이트 응답]
  */
 export interface UpdateProfileResponse {

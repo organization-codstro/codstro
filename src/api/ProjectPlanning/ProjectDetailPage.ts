@@ -1,5 +1,10 @@
 import { PROJECT_STATUS_TYPE } from "../../constants/ProjectPlanning/ProjectPlanning";
 import { supabase } from "../../db/supabase/supabase";
+import {
+  Project,
+  ProjectPage,
+  ProjectTodo,
+} from "../../types/common/ProjectPlanning";
 
 export const ProjectDetailService = {
   /**
@@ -116,7 +121,11 @@ export const ProjectDetailService = {
   /**
    * [프로젝트 기본 정보 업데이트]
    */
-  async updateProjectInfo(projectId: string, isPlanning: boolean, data: any) {
+  async updateProjectInfo(
+    projectId: string,
+    isPlanning: boolean,
+    data: Project,
+  ) {
     const table = isPlanning ? "project_plannings" : "projects";
     const { error } = await supabase
       .from(table)
@@ -129,7 +138,9 @@ export const ProjectDetailService = {
   /**
    * [페이지 구조 저장]
    */
-  async saveProjectStructure(pages: any[]) {
+  async saveProjectStructure(
+    pages: Array<ProjectPage & { todos: ProjectTodo[] }>,
+  ) {
     for (const page of pages) {
       const { error } = await supabase.from("project_pages").upsert({
         project_page_id: page.project_page_id,

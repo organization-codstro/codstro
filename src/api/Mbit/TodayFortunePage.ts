@@ -1,5 +1,9 @@
 import { supabase } from "../../db/supabase/supabase";
-import { Fortune } from "../../types/common/Mbit";
+import {
+  Fortune,
+  FortuneCategoryMessage,
+  FortuneRow,
+} from "../../types/common/Mbit";
 
 /**
  * [TodayFortuneService]
@@ -16,15 +20,15 @@ export const TodayFortuneService = {
       .from("user_fortunes")
       .select(
         `
-        developer_fortunes (
-          developer_fortune_id,
-          developer_fortune_code,
-          developer_fortune_name,
-          developer_fortune_one_line_summary,
-          developer_fortune_description,
-          developer_fortune_category_message
-        )
-      `,
+      developer_fortunes (
+        developer_fortune_id,
+        developer_fortune_code,
+        developer_fortune_name,
+        developer_fortune_one_line_summary,
+        developer_fortune_description,
+        developer_fortune_category_message
+      )
+    `,
       )
       .eq("user_id", userId)
       .eq("created_at", today)
@@ -37,16 +41,21 @@ export const TodayFortuneService = {
     if (!data?.developer_fortunes) {
       return null;
     }
-
-    const fortune = data.developer_fortunes as any;
+    // Supabase join은 배열 또는 단일 객체로 추론될 수 있음
+    const fortune = (
+      Array.isArray(data.developer_fortunes)
+        ? data.developer_fortunes[0]
+        : data.developer_fortunes
+    ) as FortuneRow;
 
     return {
       id: fortune.developer_fortune_id,
-      code: fortune.developer_fortune_code,
+      code: Number(fortune.developer_fortune_code),
       name: fortune.developer_fortune_name,
       summary: fortune.developer_fortune_one_line_summary,
       description: fortune.developer_fortune_description,
-      categoryMessage: fortune.developer_fortune_category_message,
+      categoryMessage:
+        fortune.developer_fortune_category_message as unknown as FortuneCategoryMessage,
     };
   },
 

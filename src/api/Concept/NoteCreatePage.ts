@@ -6,6 +6,7 @@ import {
   CreateNoteParams,
   GetConceptsByType,
 } from "../../types/api/Concept/NoteCreatePage";
+import { ConceptItem } from "../../types/common/Concepts";
 
 /**
  * [NoteCreateService]
@@ -97,7 +98,7 @@ export const NoteCreateService = {
    * page: 1-based
    */
   async getConceptsByType(params: GetConceptsByType): Promise<{
-    data: any[];
+    data: ConceptItem[];
     hasMore: boolean;
   }> {
     const { type, page } = params;

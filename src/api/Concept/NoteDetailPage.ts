@@ -45,8 +45,12 @@ export const NoteDetailService = {
     if (conceptsError) throw new Error(conceptsError.message);
 
     const conceptNames = (noteConcepts ?? [])
-      .map((row) => (row.concepts as any)?.concept_name)
-      .filter(Boolean) as string[];
+      .map(
+        (row) =>
+          (row.concepts as { concept_name: string }[] | null)?.[0]
+            ?.concept_name,
+      )
+      .filter((name): name is string => Boolean(name));
 
     return {
       noteId: note.id,

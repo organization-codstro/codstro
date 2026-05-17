@@ -9,6 +9,15 @@ import {
   ProjectPlanningDetail,
 } from "../../types/common/ProjectPlanning";
 
+type ProjectPlanningPageRow = {
+  project_page_id: string;
+  project_page_name: string;
+  project_page_role: string;
+  project_page_function: string;
+  project_page_is_complete: boolean;
+  project_id: string;
+};
+
 /**
  * [ProjectInfoGenerateService]
  * 기획 마지막 단계에서 최종 정보를 저장하고 프로젝트를 확정(Active)으로 전환합니다.
@@ -37,26 +46,11 @@ export const ProjectInfoGenerateService = {
       throw new Error("페이지 정보를 불러오는데 실패했습니다.");
     }
 
-    const pages = pagesData ?? [];
-
-    // 3) 페이지별 todos
-    // const pageIds = pages.map((p: any) => p.project_page_id);
-    //let todosData: any[] = [];
-    // if (pageIds.length > 0) {
-    //   const { data: todos, error: todosError } = await supabase
-    //     .from("todos")
-    //     .select("*")
-    //     .in("project_page_id", pageIds)
-    //     .order("created_at", { ascending: true });
-    //   if (todosError) {
-    //     throw new Error("할 일 정보를 불러오는데 실패했습니다.");
-    //   }
-    //   todosData = todos ?? [];
-    // }
+    const pages: ProjectPlanningPageRow[] = pagesData ?? [];
 
     // 4) pages에 todos 붙이기
     const pagesWithTodos: Array<ProjectPage & { todos: ProjectTodo[] }> =
-      pages.map((page: any) => ({
+      pages.map((page: ProjectPlanningPageRow) => ({
         project_page_id: page.project_page_id,
         project_page_name: page.project_page_name,
         project_page_role: page.project_page_role,
@@ -267,7 +261,6 @@ export const ProjectInfoGenerateService = {
       }
 
       // 5. planning 데이터 삭제 (초기화)
-
       await supabase
         .from("project_planning_logs")
         .delete()

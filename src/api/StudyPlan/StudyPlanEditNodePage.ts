@@ -4,6 +4,7 @@ import {
   SaveAllNodesParams,
   DeleteNodeParams,
   GetPlanInfoParams,
+  StudyPlanNodeRow,
 } from "../../types/api/StudyPlan/StudyPlanEditNodePage";
 import {
   StudyPlan,
@@ -29,18 +30,18 @@ export const StudyPlanEditNodeService = {
         .from("study_plan_nodes")
         .select(
           `
-          *,
-          tech_stacks (
-            tech_stack_name,
-            tech_stack_img_url
-          )
-        `,
+        *,
+        tech_stacks (
+          tech_stack_name,
+          tech_stack_img_url
+        )
+      `,
         )
         .eq("study_plan_id", planId)
         .order("study_plan_node_position", { ascending: true });
 
       if (error) throw error;
-      return (data ?? []).map((node: any) => ({
+      return (data ?? []).map((node: StudyPlanNodeRow) => ({
         ...node,
         tech_stack_name: node.tech_stacks?.tech_stack_name ?? "",
         tech_stack_img_url: node.tech_stacks?.tech_stack_img_url ?? "",

@@ -7,6 +7,7 @@ import {
   DeleteConceptDetailParams,
   DeleteConceptDetailResponse,
 } from "../../types/api/Concept/ConceptDetailPage";
+import { Concept } from "../../types/common/Concepts";
 
 /**
  * LibraryDetailService
@@ -43,7 +44,7 @@ export const ConceptDetailService = {
       throw new Error("라이브러리 정보를 불러올 수 없습니다.");
     }
 
-    const relatedItems: any[] = [];
+    const relatedItems: Concept[] = [];
 
     return {
       ...conceptData,

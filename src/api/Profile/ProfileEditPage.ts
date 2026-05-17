@@ -4,6 +4,7 @@ import {
   UpdateProfileParams,
   UpdateProfileResponse,
   UpdateAvatarParams,
+  UpdateUserPayload,
 } from "../../types/api/Profile/ProfileEditPage";
 
 /**
@@ -35,8 +36,9 @@ export const ProfileEditService = {
       }
 
       // 2. Supabase DB 업데이트
-      const updatePayload: any = {
+      const updatePayload: UpdateUserPayload = {
         user_name: params.name,
+        ...(profileUrl && { user_profile_path: profileUrl }),
       };
 
       if (profileUrl) {
