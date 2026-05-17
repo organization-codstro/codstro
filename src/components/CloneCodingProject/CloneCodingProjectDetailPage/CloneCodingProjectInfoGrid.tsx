@@ -10,6 +10,7 @@ export const ProjectInfoGrid: React.FC<CloneCodingProjectInfoGridProps> = ({
   tags,
   githubUrl,
   demoUrl,
+  projectStructure,
 }) => {
   return (
     <div className="space-y-6 md:col-span-2">
@@ -53,6 +54,15 @@ export const ProjectInfoGrid: React.FC<CloneCodingProjectInfoGridProps> = ({
           ))}
         </div>
       </div>
+
+      {projectStructure && (
+        <div>
+          <h3 className="mb-2 font-medium text-gray-800">Project Structure</h3>
+          <pre className="p-4 overflow-x-auto font-mono text-sm leading-relaxed text-gray-700 whitespace-pre-wrap bg-gray-100 rounded-lg">
+            {projectStructure}
+          </pre>
+        </div>
+      )}
 
       <div className="flex items-center gap-4 pt-2">
         {githubUrl && (

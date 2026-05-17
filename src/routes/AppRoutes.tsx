@@ -40,7 +40,7 @@ export default function AppRoutes() {
           element={<Page.CloneCodingProjectMain />}
         />
         <Route
-          path="/clone-coding-project/project/:projectId"
+          path="/clone-coding-project/:projectId"
           element={<Page.CloneCodingProjectDetail />}
         />
         <Route

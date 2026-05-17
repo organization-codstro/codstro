@@ -239,9 +239,7 @@ export default function CloneCodingProjectMainPage() {
             <ProjectGrid
               projects={filteredProjects.map((item) => item.project)}
               getUserProject={getUserProject}
-              onCardClick={(id) =>
-                navigate(`/clone-coding-project/project/${id}`)
-              }
+              onCardClick={(id) => navigate(`/clone-coding-project/${id}`)}
               onToggleBookmark={handleToggleBookmark}
             />
           ) : (

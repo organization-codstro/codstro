@@ -6,4 +6,5 @@ export interface CloneCodingProjectInfoGridProps {
   tags: string[];
   githubUrl?: string;
   demoUrl?: string;
+  projectStructure?: string;
 }

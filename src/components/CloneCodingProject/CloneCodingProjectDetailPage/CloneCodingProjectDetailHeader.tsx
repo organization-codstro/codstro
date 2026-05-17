@@ -1,4 +1,4 @@
-import { Bookmark, BookmarkCheck } from "lucide-react";
+import { Bookmark, BookmarkCheck, Pencil, Trash2 } from "lucide-react";
 import { CloneCodingProjectDetailHeaderProps } from "../../../types/pages/CloneCodingProject/CloneCodingProjectDetailPage/CloneCodingProjectDetailHeader";
 import CloneCodingProjectImg from "../../../assets/images/CloneCodingProject/CloneCodingProjectBasicImg.png";
 
@@ -25,10 +25,27 @@ export const ProjectDetailHeader = (
           </p>
         </div>
 
-        <div className="pt-8 pr-6">
+        <div className="flex flex-col items-end gap-2 pt-8 pr-6">
+          <div className="flex gap-2">
+            <button
+              onClick={props.onEdit}
+              className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-white bg-[#587CF0] rounded-lg hover:bg-[#4a6de8] transition-colors"
+            >
+              <Pencil className="w-3.5 h-3.5" />
+              수정
+            </button>
+            <button
+              onClick={props.onDelete}
+              className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-white bg-red-500 rounded-lg hover:bg-red-600 transition-colors"
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+              삭제
+            </button>
+          </div>
+
           <button
             onClick={props.onToggleBookmark}
-            className="flex-shrink-0 p-2 pr-6 transition-all rounded-lg "
+            className="p-2 transition-all rounded-lg"
           >
             {props.isBookmarked ? (
               <BookmarkCheck className="w-12 h-12 text-yellow-500" />

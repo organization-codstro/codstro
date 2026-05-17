@@ -4,4 +4,6 @@ export interface CloneCodingProjectDetailHeaderProps {
   isBookmarked: boolean | undefined;
   onToggleBookmark: () => void;
   thumbnailUrl: string | undefined;
+  onEdit: () => void;
+  onDelete: () => void;
 }

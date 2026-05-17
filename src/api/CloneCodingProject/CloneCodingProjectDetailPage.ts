@@ -124,4 +124,45 @@ export const CloneCodingService = {
   //   if (error) throw error;
   //   return data || [];
   // },
+
+  async updateProject(params: {
+    projectId: string;
+    data: Partial<CloneCodingProject>;
+  }): Promise<void> {
+    const { error } = await supabase
+      .from("clone_codings")
+      .update({
+        clone_coding_title: params.data.title,
+        clone_coding_description: params.data.description,
+        clone_coding_difficulty: params.data.difficulty,
+        clone_coding_estimated_hours: params.data.estimated_hours,
+        clone_coding_tech_stack: params.data.tech_stack,
+        clone_coding_tags: params.data.tags,
+        clone_coding_github_url: params.data.github_url ?? null,
+        clone_coding_demo_url: params.data.demo_url ?? null,
+        clone_coding_project_structure:
+          params.data.clone_coding_project_structure ?? null,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("clone_coding_id", params.projectId);
+
+    if (error) throw error;
+  },
+
+  async deleteProject(params: { projectId: string }): Promise<void> {
+    // user_clone_codings 먼저 삭제 (FK 제약)
+    const { error: userError } = await supabase
+      .from("user_clone_codings")
+      .delete()
+      .eq("clone_coding_id", params.projectId);
+
+    if (userError) throw userError;
+
+    const { error } = await supabase
+      .from("clone_codings")
+      .delete()
+      .eq("clone_coding_id", params.projectId);
+
+    if (error) throw error;
+  },
 };
