@@ -108,19 +108,6 @@ export const ProjectEditModal: React.FC<ProjectEditModalProps> = ({
             />
           </Field>
 
-          <Field label="Project Status">
-            <select
-              name="status"
-              value={form.status}
-              onChange={handleChange}
-              className="input-base"
-            >
-              <option value="waiting">waiting</option>
-              <option value="in progress">in progress</option>
-              <option value="completed">completed</option>
-            </select>
-          </Field>
-
           <Field label="예상 시간">
             <input
               name="estimated_hours"

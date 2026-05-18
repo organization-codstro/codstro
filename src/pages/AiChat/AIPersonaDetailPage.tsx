@@ -100,7 +100,13 @@ export default function AIPersonaDetailPage() {
       toast.success("친구가 삭제되었습니다.");
     } catch (error) {
       console.error(error);
-      toast.error("친구 삭제에 실패했습니다. 잠시 후 다시 시도해주세요.");
+      if (error instanceof Error && error.message === "ALREADY_IN_CHAT_ROOM") {
+        toast.error(
+          "이미 채팅방에 포함되어있는 친구 입니다, 채팅방을 삭제하고 다시 시도하여 주세요.",
+        );
+      } else {
+        toast.error("친구 삭제에 실패했습니다. 잠시 후 다시 시도해주세요.");
+      }
     }
   };
 

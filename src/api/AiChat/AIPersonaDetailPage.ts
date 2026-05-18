@@ -99,6 +99,23 @@ export const AIPersonaDetailService = {
 
   async deleteFriend(params: DeleteFriendParams) {
     const { userAiSettingId } = params;
+
+    // 채팅방에 포함된 AI인지 확인
+    const { data: chatRoomAi, error: checkError } = await supabase
+      .from("chat_room_ai_settings")
+      .select("chat_room_ai_id")
+      .eq("user_ai_setting_id", userAiSettingId)
+      .maybeSingle();
+
+    if (checkError) {
+      console.error("채팅방 확인 실패:", checkError);
+      throw checkError;
+    }
+
+    if (chatRoomAi) {
+      throw new Error("ALREADY_IN_CHAT_ROOM");
+    }
+
     const { error } = await supabase
       .from("user_ai_settings")
       .delete()
