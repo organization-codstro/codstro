@@ -75,7 +75,6 @@ export const UserInfoService = {
 };
 
 /**
- * [UserInfo, 여러 서비스에서 사용 하기는 하는데 방법이랑 구조 설정해서 만들기]
  * 유저의 최근 대화 내역을 바탕으로 AI가 유저 레코드를 자동 생성합니다.
  */
 export const AiSummaryService = {
