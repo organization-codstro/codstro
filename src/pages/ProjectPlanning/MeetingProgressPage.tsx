@@ -31,8 +31,8 @@ export default function MeetingProgressPage() {
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    globalThis.addEventListener("keydown", handleKeyDown);
+    return () => globalThis.removeEventListener("keydown", handleKeyDown);
   }, [navigate, projectId]);
 
   const scrollToBottom = () => {
@@ -55,17 +55,19 @@ export default function MeetingProgressPage() {
           roomId: meetingId,
         });
 
-        const formattedMessages: ProjectMessage[] = data.map((log: any) => ({
-          sender: log.project_meeting_log_sender,
-          message: log.project_meeting_log_message,
-          create_at: new Date(log.created_at).toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
+        const formattedMessages: ProjectMessage[] = data.map((log) => ({
+          sender: log.project_planning_log_sender,
+          message: log.project_planning_log_message,
+          create_at: log.created_at
+            ? new Date(log.created_at).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })
+            : "",
         }));
 
         if (data.length > 0) {
-          setMeetingIndex(data[0].project_meeting_log_meeting_index || 1);
+          setMeetingIndex(data[0].project_planning_log_index || 1);
         }
 
         if (cancelled) return;
@@ -99,7 +101,7 @@ export default function MeetingProgressPage() {
               setTimeout(scrollToBottom, 50);
             },
           )
-          .subscribe((status, err) => {
+          .subscribe((_, err) => {
             if (err) console.error("[messages] error:", err);
           });
 
@@ -188,9 +190,10 @@ export default function MeetingProgressPage() {
         isLoading: false,
         autoClose: 2000,
       });
-    } catch (err: any) {
+    } catch (err) {
       toast.update(tid, {
-        render: err?.message ?? "저장 중 오류가 발생했습니다.",
+        render:
+          err instanceof Error ? err.message : "저장 중 오류가 발생했습니다.",
         type: "error",
         isLoading: false,
         autoClose: 3000,

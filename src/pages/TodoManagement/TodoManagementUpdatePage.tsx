@@ -122,6 +122,11 @@ export default function TodoManagementUpdatePage() {
     }
   };
 
+  // TodoInputField 전용 핸들러
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleChange(e); // 내부적으로 공용 핸들러 재사용
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!todoId) return;
@@ -203,7 +208,7 @@ export default function TodoManagementUpdatePage() {
             label="Todo Name"
             name="todo_name"
             value={formData.todo_name}
-            onChange={handleChange}
+            onChange={handleInputChange}
             error={errors.name}
             required
           />
@@ -248,7 +253,7 @@ export default function TodoManagementUpdatePage() {
               name="todo_start_date"
               type="date"
               value={formData.todo_start_date}
-              onChange={handleChange}
+              onChange={handleInputChange}
               error={errors.start_date}
               required
             />
@@ -257,7 +262,7 @@ export default function TodoManagementUpdatePage() {
               name="todo_end_date"
               type="date"
               value={formData.todo_end_date}
-              onChange={handleChange}
+              onChange={handleInputChange}
               error={errors.end_date}
               required
             />

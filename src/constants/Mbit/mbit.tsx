@@ -1,7 +1,12 @@
 //MBTI 타입별 아이콘 및 컬러 매핑 테이블
+import React from "react";
 import { Users, Terminal, Layout } from "lucide-react";
+import { Cpu, Code, Palette, BarChart, Settings } from "lucide-react";
 
-export const MBTI_THEME: Record<string, { icon: any; color: string }> = {
+export const MBTI_THEME: Record<
+  string,
+  { icon: React.ReactElement; color: string }
+> = {
   PASD: {
     icon: <Terminal className="w-6 h-6 text-white" />,
     color: "from-blue-500 to-indigo-600",
@@ -18,9 +23,7 @@ export const MBTI_THEME: Record<string, { icon: any; color: string }> = {
 };
 
 // MajorEncyclopediaPage 페이지 아이콘 매핑 테이블
-import { Cpu, Code, Palette, BarChart, Settings } from "lucide-react";
-
-export const ICON_MAP: Record<string, any> = {
+export const ICON_MAP: Record<string, React.ReactElement> = {
   컴퓨터공학: <Cpu />,
   소프트웨어: <Code />,
   디자인: <Palette />,

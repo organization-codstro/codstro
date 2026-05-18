@@ -37,7 +37,8 @@ export default function ProjectPlanningArchivePage() {
         const data = await ProjectArchiveService.getArchivedProjects({
           userId,
         });
-        setArchivedProjects(data as any);
+        
+        setArchivedProjects(data);
       } catch (error) {
         console.error(error);
         toast.error("아카이브 목록을 불러오는 중 오류가 발생했습니다.");

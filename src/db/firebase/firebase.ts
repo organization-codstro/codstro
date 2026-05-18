@@ -73,6 +73,7 @@ export const uploadFilesToStorage = async (
         url,
         fileName: file.name, // 원본 파일명
         fileType: file.type, // 원본 MIME 타입
+        size: compressedFile.size, // 압축된 파일 크기
       } satisfies UploadResult;
     }),
   );

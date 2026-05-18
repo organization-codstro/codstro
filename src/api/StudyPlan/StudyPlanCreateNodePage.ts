@@ -6,7 +6,11 @@ import {
   GetStudyPlanByIdParams,
   GetNodesByPlanIdParams,
 } from "../../types/api/StudyPlan/StudyPlanCreateNodePage";
-import { StudyPlanNode, TechStack } from "../../types/common/StudyPlan";
+import {
+  StudyPlan,
+  StudyPlanNode,
+  TechStack,
+} from "../../types/common/StudyPlan";
 
 /**
  * [노드 관리 및 설정 서비스]
@@ -18,7 +22,7 @@ export const StudyPlanCreateNodeService = {
    * @param planId 조회할 계획의 ID
    * @returns study_plans 테이블의 단일 레코드
    */
-  async getStudyPlanById(planId: GetStudyPlanByIdParams) {
+  async getStudyPlanById(planId: GetStudyPlanByIdParams): Promise<StudyPlan> {
     try {
       const { data, error } = await supabase
         .from("study_plans")

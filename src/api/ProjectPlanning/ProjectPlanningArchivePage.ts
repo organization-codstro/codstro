@@ -15,7 +15,9 @@ export const ProjectArchiveService = {
    * project_end_date가 현재 날짜보다 이전인 프로젝트를 가져옵니다.
    * @table projects
    */
-  async getArchivedProjects(params: GetArchivedProjectsParams) {
+  async getArchivedProjects(
+    params: GetArchivedProjectsParams,
+  ): Promise<Project[]> {
     try {
       const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD 형식
 

@@ -1,3 +1,4 @@
+import { PROJECT_STATUS_TYPE } from "../../constants/ProjectPlanning/ProjectPlanning";
 import { supabase } from "../../db/supabase/supabase";
 import {
   GetActiveProjectsParams,
@@ -27,7 +28,10 @@ export const ProjectMainService = {
       if (error) throw error;
 
       // UI 일관성을 위해 status 추가
-      return data.map((project) => ({ ...project, project_status: "active" }));
+      return data.map((project) => ({
+        ...project,
+        project_status: "active" as PROJECT_STATUS_TYPE,
+      }));
     } catch (error) {
       console.error("[getActiveProjects Error]:", error);
       throw error;
@@ -52,7 +56,7 @@ export const ProjectMainService = {
       // UI 일관성을 위해 status 추가
       return data.map((project) => ({
         ...project,
-        project_status: "planning",
+        project_status: "planning" as PROJECT_STATUS_TYPE,
       }));
     } catch (error) {
       console.error("[getPlanningProjects Error]:", error);

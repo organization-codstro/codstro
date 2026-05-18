@@ -41,8 +41,8 @@ export default function ChatRoomsListPage() {
         const data = await ChatRoomsListService.getChatRooms({
           userId: currentUserId,
         });
-        setChatRooms(data as unknown as ChatRoom[]);
-      } catch (error: any) {
+        setChatRooms(data);
+      } catch (error) {
         console.error(error);
         toast.error("채팅방 목록을 불러오는데 실패했습니다.");
       } finally {
@@ -60,7 +60,7 @@ export default function ChatRoomsListPage() {
     // 검색어가 비어있으면 전체 목록 다시 로드
     if (!searchTerm.trim()) {
       const data = await ChatRoomsListService.getChatRooms({ userId });
-      setChatRooms(data as unknown as ChatRoom[]);
+      setChatRooms(data);
       return;
     }
 
@@ -69,8 +69,9 @@ export default function ChatRoomsListPage() {
         userId,
         searchTerm,
       });
-      setChatRooms(results as unknown as ChatRoom[]);
+      setChatRooms(results);
     } catch (error) {
+      console.log("검색 중 오류가 발생했습니다.", error);
       toast.error("검색 중 오류가 발생했습니다.");
     }
   };

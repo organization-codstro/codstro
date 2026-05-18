@@ -1,4 +1,4 @@
-import { TechStack } from "../../../api/StudyPlan/StudyPlanEditNodePage";
+import { TechStack } from "../../../common/StudyPlan";
 
 export interface TechStackPickerProps {
   techStacks: TechStack[];

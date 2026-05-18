@@ -73,7 +73,7 @@ export default function ConceptDetailPage() {
           userId: currentUserId,
         });
         setData(response);
-      } catch (error: any) {
+      } catch (error) {
         console.error(error);
         toast.error("개념 정보를 불러오는데 실패했습니다.");
       } finally {

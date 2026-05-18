@@ -5,6 +5,7 @@ import {
   GetPlanStatsParams,
   PlanWithStats,
   GenerateStudyPlanParams,
+  StudyPlanWithNodeStats,
 } from "../../types/api/StudyPlan/StudyPlanMainPage";
 import { PlanStatsResult } from "../../types/common/StudyPlan";
 
@@ -40,13 +41,13 @@ export const StudyPlanMainService = {
 
       if (planError) throw planError;
 
-      return (plans || []).map((plan: any) => {
-        const nodes = plan.study_plan_nodes || [];
+      return ((plans as StudyPlanWithNodeStats[]) || []).map((plan) => {
+        const nodes = plan.study_plan_nodes;
 
         const total = nodes.length;
 
         const completed = nodes.filter(
-          (node: any) => node.study_plan_node_completed === true,
+          (node) => node.study_plan_node_completed === true,
         ).length;
 
         const progress = total > 0 ? Math.round((completed / total) * 100) : 0;

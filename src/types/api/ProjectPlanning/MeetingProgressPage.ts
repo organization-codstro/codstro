@@ -15,15 +15,6 @@ export interface SaveMessageParams {
   meetingIndex: number;
 }
 
-/**
- * [AI 실시간 응답 생성 파라미터]
- */
-export interface GetAiResponseParams {
-  roomId: string;
-  userMessage: string;
-  meetingIndex: number;
-}
-
 export interface RequestAiResponseParams {
   roomId: string;
 }

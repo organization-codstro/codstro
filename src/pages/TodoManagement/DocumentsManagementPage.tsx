@@ -22,10 +22,11 @@ import {
   GROUP_NAME_COLORS,
   TODOM_ANAGEMENT_HIERARCHY,
 } from "../../constants/TodoManagement/TodoManagement";
+import { Field, Group, Pin } from "../../types/common/TodoManagement";
 
 export default function DocumentsManagementPage() {
   // --- 상태 관리 ---
-  const [todoData, setTodoData] = useState<any[]>([]);
+  const [todoData, setTodoData] = useState<Group[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
 
@@ -39,10 +40,11 @@ export default function DocumentsManagementPage() {
   const [isCreateDocumentModalOpen, setIsCreateDocumentModalOpen] =
     useState(false);
   const [editingPin, setEditingPin] = useState<{
-    pin: any;
-    group: any;
-    field: any;
+    pin: Pin;
+    group: Group;
+    field: Field;
   } | null>(null);
+
   const [deletePending, setDeletePending] = useState<{
     type: TODOM_ANAGEMENT_HIERARCHY;
     id: string;
@@ -140,6 +142,7 @@ export default function DocumentsManagementPage() {
         await fetchData(); // 데이터 갱신
       } catch (error) {
         toast.error("삭제 중 오류가 발생했습니다.");
+        console.log("삭제 실패", error);
       }
     } else {
       setDeletePending({ type, id });
@@ -149,7 +152,7 @@ export default function DocumentsManagementPage() {
   const handleEditPin = (pinId: string) => {
     for (const group of todoData) {
       for (const field of group.fields) {
-        const pin = field.pins.find((p: any) => (p.pin_id || p.id) === pinId);
+        const pin = field.pins.find((p: Pin) => p.pin_id === pinId);
         if (pin) {
           setEditingPin({ pin, group, field });
           return;
@@ -161,8 +164,8 @@ export default function DocumentsManagementPage() {
   // --- 필터링 및 통계 계산 ---
   const filteredGroups = useMemo(() => {
     return todoData.filter((group) => {
-      const gName = group.group_name || group.name;
-      const gDesc = group.group_description || group.description;
+      const gName = group.group_name;
+      const gDesc = group.group_description;
 
       if (selectedGroupType !== "all" && gName !== selectedGroupType)
         return false;
@@ -172,11 +175,9 @@ export default function DocumentsManagementPage() {
       return (
         gDesc.toLowerCase().includes(q) ||
         group.fields.some(
-          (f: any) =>
-            (f.field_name || f.name).toLowerCase().includes(q) ||
-            f.pins.some((p: any) =>
-              (p.pin_title || p.title).toLowerCase().includes(q),
-            ),
+          (f: Field) =>
+            f.field_name.toLowerCase().includes(q) ||
+            f.pins.some((p: Pin) => p.pin_title.toLowerCase().includes(q)),
         )
       );
     });
@@ -191,7 +192,7 @@ export default function DocumentsManagementPage() {
       (acc, g) =>
         acc +
         (g.fields?.reduce(
-          (fa: number, f: any) => fa + (f.pins?.length || 0),
+          (fa: number, f: Field) => fa + (f.pins?.length || 0),
           0,
         ) || 0),
       0,
@@ -256,9 +257,9 @@ export default function DocumentsManagementPage() {
               </h2>
               <div className="space-y-4">
                 {filteredGroups.map((group) => {
-                  const gId = group.group_id || group.id;
-                  const gName = group.group_name || group.name;
-                  const gDesc = group.group_description || group.description;
+                  const gId = group.group_id;
+                  const gName = group.group_name;
+                  const gDesc = group.group_description;
 
                   return (
                     <div
@@ -299,18 +300,16 @@ export default function DocumentsManagementPage() {
 
                       {expandedGroups.has(gId) && (
                         <div className="p-4 space-y-3 bg-white">
-                          {group.fields?.map((field: any) => (
+                          {group.fields?.map((field: Field) => (
                             <FieldItem
-                              key={field.field_id || field.id}
+                              key={field.field_id}
                               field={field}
                               group={group}
-                              isExpanded={expandedFields.has(
-                                field.field_id || field.id,
-                              )}
+                              isExpanded={expandedFields.has(field.field_id)}
                               onToggle={() =>
                                 setExpandedFields((prev) => {
                                   const next = new Set(prev);
-                                  const fId = field.field_id || field.id;
+                                  const fId = field.field_id;
                                   next.has(fId)
                                     ? next.delete(fId)
                                     : next.add(fId);

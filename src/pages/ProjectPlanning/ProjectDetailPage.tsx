@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import {
   ProjectPage,
   ProjectTodo,
+  ProjectPageWithTodos,
   Project,
   UITodo,
   NewProjectTodo,
@@ -28,9 +29,9 @@ export default function ProjectDetailPage() {
   const [isPlanning, setIsPlanning] = useState(false);
 
   const [originalProject, setOriginalProject] = useState<Project | null>(null);
-  const [originalPages, setOriginalPages] = useState<
-    Array<ProjectPage & { todos: ProjectTodo[] }>
-  >([]);
+  const [originalPages, setOriginalPages] = useState<ProjectPageWithTodos[]>(
+    [],
+  );
   const [expandedPage, setExpandedPage] = useState<string | null>(null);
 
   const [projectTodos, setProjectTodos] = useState<UITodo[]>([]);
@@ -81,19 +82,19 @@ export default function ProjectDetailPage() {
         setOriginalProject(projectData);
         setIsPlanning(planningFlag);
 
-        if (!planningFlag) {
-          const [pagesData, todosData] = await Promise.all([
-            ProjectDetailService.getProjectPagesWithTodos(projectId, false),
-            ProjectDetailService.getProjectTodos(projectId),
-          ]);
-          setOriginalPages(pagesData as any);
-          setProjectTodos(todosData);
-        } else {
+        if (planningFlag) {
           const pagesData = await ProjectDetailService.getProjectPagesWithTodos(
             projectId,
             true,
           );
-          setOriginalPages(pagesData as any);
+          setOriginalPages(pagesData as ProjectPageWithTodos[]);
+        } else {
+          const [pagesData, todosData] = await Promise.all([
+            ProjectDetailService.getProjectPagesWithTodos(projectId, false),
+            ProjectDetailService.getProjectTodos(projectId),
+          ]);
+          setOriginalPages(pagesData as ProjectPageWithTodos[]);
+          setProjectTodos(todosData);
         }
       } catch (error) {
         console.error(error);
@@ -134,9 +135,7 @@ export default function ProjectDetailPage() {
   };
 
   // ── Pages 편집 ────────────────────────────────────────────
-  const handleSavePages = async (
-    updatedPages: Array<ProjectPage & { todos: ProjectTodo[] }>,
-  ) => {
+  const handleSavePages = async (updatedPages: ProjectPageWithTodos[]) => {
     if (!projectId) return;
     const toastId = toast.loading("저장 중입니다...");
     try {
@@ -158,12 +157,16 @@ export default function ProjectDetailPage() {
     }
   };
 
-  const updatePage = (id: string, updates: any) =>
+  const updatePage = (id: string, updates: Partial<ProjectPage>) =>
     setOriginalPages((prev) =>
       prev.map((p) => (p.project_page_id === id ? { ...p, ...updates } : p)),
     );
 
-  const updatePageTodo = (pId: string, tId: string, updates: any) =>
+  const updatePageTodo = (
+    pId: string,
+    tId: string,
+    updates: Partial<ProjectTodo>,
+  ) =>
     setOriginalPages((prev) =>
       prev.map((p) =>
         p.project_page_id === pId
@@ -212,7 +215,7 @@ export default function ProjectDetailPage() {
     const todo = projectTodos.find((t) => t.client_id === clientId);
     if (todo?.id) {
       const merged = { ...todo, ...updates };
-      ProjectDetailService.updateTodo(merged.id!, {
+      ProjectDetailService.updateTodo(merged.id, {
         todo_name: merged.name,
         todo_content: merged.content,
         todo_description: merged.description ?? "",

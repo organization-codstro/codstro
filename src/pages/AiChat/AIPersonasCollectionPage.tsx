@@ -25,10 +25,14 @@ export default function AIPersonasCollectionPage() {
       setIsLoading(true);
       try {
         const data = await AIPersonasCollectionService.getAllPersonas();
-        setPersonas(data as unknown as AIPersona[]);
-      } catch (err: any) {
+        setPersonas(data as AIPersona[]);
+      } catch (err) {
         console.error(err);
-        setError(err.message);
+        setError(
+          err instanceof Error
+            ? err.message
+            : "알 수 없는 오류가 발생했습니다.",
+        );
         toast.error("컬렉션을 불러오는 중 오류가 발생했습니다.");
       } finally {
         setIsLoading(false);

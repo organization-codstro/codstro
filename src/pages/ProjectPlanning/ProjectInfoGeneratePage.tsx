@@ -20,6 +20,7 @@ import { SavePlanningDraftParams } from "../../types/api/ProjectPlanning/Project
 import { getKSTDateString } from "../../utils/date/getKSTDateString";
 import { SaveDraftWarningModal } from "../../components/ProjectPlanning/ProjectInfoGeneratePage/SaveDraftWarningModal";
 import { NotFoundPage } from "../NotFound/NotFoundPage";
+import { GeneratedTodo } from "../../types/api/ProjectPlanning/ProjectCreateChatPage";
 
 export default function ProjectInfoGeneratePage() {
   const navigate = useNavigate();
@@ -29,9 +30,9 @@ export default function ProjectInfoGeneratePage() {
   const { projectId, todos } =
     (location.state as {
       projectId?: string;
-      todos?: any[];
+      todos?: GeneratedTodo[];
     }) || {};
-
+    
   // 2. 상태 관리
   const [isSubmitting, setIsSubmitting] = useState(false);
 

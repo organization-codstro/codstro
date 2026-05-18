@@ -51,8 +51,12 @@ export default function MeetingCreatePage() {
           projectId,
         });
         setPlanningPages(pages);
-      } catch (err: any) {
-        setError(err.message || "데이터를 불러오는 중 오류가 발생했습니다.");
+      } catch (err) {
+        setError(
+          err instanceof Error
+            ? err.message
+            : "데이터를 불러오는 중 오류가 발생했습니다.",
+        );
       } finally {
         setIsLoading(false);
       }
@@ -104,7 +108,7 @@ export default function MeetingCreatePage() {
       });
 
       navigate(`/projects/${projectId}/meetings`);
-    } catch (err: any) {
+    } catch (err) {
       toast.update(toastId, {
         render: "생성에 실패했습니다. 다시 시도해주세요.",
         type: "error",

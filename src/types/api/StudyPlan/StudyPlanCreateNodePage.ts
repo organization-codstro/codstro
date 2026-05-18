@@ -13,10 +13,10 @@ export type GetNodesByPlanIdParams = string;
 /**
  * [새 공부 계획 생성 파라미터]
  */
-export interface CreateStudyPlanParams {
-  planData: any;
-  imageFile?: File;
-}
+// export interface CreateStudyPlanParams {
+//   planData: any;
+//   imageFile?: File;
+// }
 
 /**
  * [노드 완료 상태 토글 파라미터]

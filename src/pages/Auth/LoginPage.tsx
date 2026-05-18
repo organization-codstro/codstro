@@ -18,7 +18,7 @@ export default function LoginPage() {
 
     try {
       // signIn 함수 호출 (실제 경로에 맞게 import 필요)
-      const user = await LoginService.signIn({ email, password });
+      await LoginService.signIn({ email, password });
 
       // 로그인 성공 시 페이지 이동
       navigate("/todo-management");

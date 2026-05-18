@@ -3,6 +3,7 @@ import {
   GetChatHistoryParams,
   SaveChatMessageParams,
   PausePlanningParams,
+  GenerateProjectInfoResult,
 } from "../../types/api/ProjectPlanning/ProjectCreateChatPage";
 
 /**
@@ -87,18 +88,18 @@ export const ProjectCreateChatService = {
   },
 
   //ai가 만들어준 프로젝트 기본정보 가져오는 함수
-  async generateProjectInfo({ projectId }: { projectId: string }) {
+  async generateProjectInfo({
+    projectId,
+  }: {
+    projectId: string;
+  }): Promise<GenerateProjectInfoResult> {
     const { data, error } = await supabase.functions.invoke(
       "project-create-basic_information",
-      {
-        body: { project_id: projectId },
-      },
+      { body: { project_id: projectId } },
     );
 
-    if (error) {
-      throw new Error(error.message || "AI 분석 실패");
-    }
+    if (error) throw new Error(error.message || "AI 분석 실패");
 
-    return data;
+    return data as GenerateProjectInfoResult;
   },
 };

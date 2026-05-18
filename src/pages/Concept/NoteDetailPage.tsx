@@ -38,7 +38,7 @@ export default function NoteDetailPage() {
         setIsLoading(true);
         const data = await NoteDetailService.getNoteDetail({ noteId });
         setNote(data);
-      } catch (error: any) {
+      } catch (error) {
         toast.error("노트를 불러오는 데 실패했습니다.");
         console.error(error);
       } finally {

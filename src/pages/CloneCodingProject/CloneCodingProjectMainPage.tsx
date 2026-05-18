@@ -10,6 +10,8 @@ import { LoginService } from "../../api/Auth/LoginPage";
 import { MainProjectItem } from "../../types/pages/CloneCodingProject/CloneCodingProjectMainPage/CloneCodingProjectMainPage";
 import { AddCloneCodingModal } from "../../components/CloneCodingProject/CloneCodingProjectMainPage/Addclonecodingmodal";
 import { CloneCodingProjectMainPageService } from "../../api/CloneCodingProject/CloneCodingProjectMainPage";
+import { CLONE_CODING_STATE_TYPE } from "../../constants/CloneCodingProject/CloneCodingProject";
+import { CloneCodingSteps } from "../../types/common/CloneCodingProject";
 
 export default function CloneCodingProjectMainPage() {
   const navigate = useNavigate();
@@ -46,28 +48,32 @@ export default function CloneCodingProjectMainPage() {
           userId: currentUserId,
         });
 
-      const formattedData: MainProjectItem[] = data.map((item: any) => ({
+      const formattedData: MainProjectItem[] = data.map((item) => ({
         project: {
           id: item.clone_coding_id,
           title: item.clone_coding_title,
           description: item.clone_coding_description,
           tech_stack: item.clone_coding_tech_stack || [],
-          difficulty: item.clone_coding_difficulty,
+          difficulty: item.clone_coding_difficulty as CLONE_CODING_STATE_TYPE,
           estimated_hours: item.clone_coding_estimated_hours,
           thumbnail_url: item.clone_coding_thumbnail_url,
           github_url: item.clone_coding_github_url,
           demo_url: item.clone_coding_demo_url,
           tags: item.clone_coding_tags || [],
-          clone_coding_steps: item.clone_coding_steps,
+          clone_coding_steps:
+            typeof item.clone_coding_steps === "string"
+              ? (JSON.parse(item.clone_coding_steps) as CloneCodingSteps[])
+              : item.clone_coding_steps,
           clone_coding_project_structure: item.clone_coding_project_structure,
           created_at: item.clone_coding_created_at,
         },
         userProject: item.user_project
           ? {
-              id: item.user_project.user_clone_codings_id,
+              id: item.user_project.user_clone_coding_id,
               user_id: item.user_project.user_id,
               project_id: item.clone_coding_id,
-              status: item.user_project.user_clone_coding_status,
+              status: item.user_project
+                .user_clone_coding_status as CLONE_CODING_STATE_TYPE,
               is_bookmarked: item.user_project.user_clone_coding_is_bookmarked,
               created_at: item.clone_coding_created_at,
             }
@@ -142,6 +148,7 @@ export default function CloneCodingProjectMainPage() {
         !isBookmarked ? "북마크에 추가되었습니다." : "북마크가 해제되었습니다.",
       );
     } catch (error) {
+      console.log("북마크 처리 실패", error);
       toast.error("북마크 처리에 실패했습니다.");
     }
   };

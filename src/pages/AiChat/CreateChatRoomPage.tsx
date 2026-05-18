@@ -96,10 +96,10 @@ export default function CreateChatRoomPage() {
 
         // 생성된 방으로 이동
         navigate(`/ai-chat/${newRoom.chat_room_id}`);
-      } catch (error: any) {
+      } catch (error) {
         console.error(error);
         toast.update(toastId, {
-          render: `방 생성 실패: ${error.message}`,
+          render: `방 생성 실패: ${error instanceof Error ? error.message : "알 수 없는 오류"}`,
           type: "error",
           isLoading: false,
           autoClose: 500,

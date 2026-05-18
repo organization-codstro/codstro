@@ -13,7 +13,7 @@ export const SignupService = {
    */
   async signUp(params: SignUpParams): Promise<SignUpResponse> {
     try {
-      let profileUrl = null;
+      let profileUrl: string | null = null;
 
       // [Firebase] 이미지 파일이 있다면 업로드 진행
       if (params.profileFile) {
@@ -21,12 +21,12 @@ export const SignupService = {
           storage,
           `profiles/${Date.now()}_${params.profileFile.name}`,
         );
+
         const snapshot = await uploadBytes(storageRef, params.profileFile);
         profileUrl = await getDownloadURL(snapshot.ref);
       }
 
       // [Supabase] Auth 회원가입
-      // user_metadata에 저장된 값은 DB 트리거에서 new.raw_user_meta_data로 접근 가능
       const { data, error } = await supabase.auth.signUp({
         email: params.email,
         password: params.password,
@@ -38,9 +38,12 @@ export const SignupService = {
         },
       });
 
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
 
       const userId = data.user?.id;
+
       if (!userId) {
         throw new Error("유저 ID를 가져올 수 없습니다.");
       }
@@ -55,11 +58,14 @@ export const SignupService = {
         .from("groups")
         .insert(groupInsertPayload);
 
-      if (groupError) throw groupError;
+      if (groupError) {
+        throw groupError;
+      }
 
       return data;
     } catch (error) {
       console.error("SignUp Error:", error);
+
       throw new Error(
         error instanceof Error
           ? error.message

@@ -7,6 +7,7 @@ import { PageHeader } from "../../components/StudyPlan/StudyPlanEditPage/PageHea
 import { LoginService } from "../../api/Auth/LoginPage";
 import { StudyPlan } from "../../types/common/StudyPlan";
 import { NotFoundPage } from "../NotFound/NotFoundPage";
+import { UpdateStudyPlanParams } from "../../types/api/StudyPlan/StudyPlanEditPage";
 
 export default function StudyPlanEditPage() {
   const { planId } = useParams<{ planId: string }>();
@@ -39,7 +40,10 @@ export default function StudyPlanEditPage() {
   }, [planId]);
 
   /** 2. 정보 수정 핸들러 */
-  const handleSave = async (planData: any, imageFile?: File) => {
+  const handleSave = async (
+    planData: UpdateStudyPlanParams["planData"],
+    imageFile?: File,
+  ) => {
     if (!planId) return;
 
     try {

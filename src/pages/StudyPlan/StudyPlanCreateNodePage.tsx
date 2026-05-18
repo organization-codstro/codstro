@@ -8,7 +8,12 @@ import { BackButton } from "../../components/StudyPlan/StudyPlanCreateNodePage/B
 import { RightSidebar } from "../../components/StudyPlan/StudyPlanCreateNodePage/RightSidebar";
 import { ValidationErrors } from "../../types/pages/StudyPlan/StudyPlanCreateNodePage/StudyPlanCreateNodePage";
 import { StudyPlanCreateNodeService } from "../../api/StudyPlan/StudyPlanCreateNodePage";
-import { StudyPlanNode, TechStack } from "../../types/common/StudyPlan";
+import {
+  StudyPlan,
+  StudyPlanNode,
+  TechStack,
+} from "../../types/common/StudyPlan";
+import { NotFoundPage } from "../NotFound/NotFoundPage";
 
 export default function StudyPlanCreateNodePage() {
   const navigate = useNavigate();
@@ -16,7 +21,7 @@ export default function StudyPlanCreateNodePage() {
 
   /* 상태 관리 */
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [planInfo, setPlanInfo] = useState<any>(null);
+  const [planInfo, setPlanInfo] = useState<StudyPlan | null>(null);
   const [techStacks, setTechStacks] = useState<TechStack[]>([]);
   const [nodes, setNodes] = useState<StudyPlanNode[]>([]);
 
@@ -50,10 +55,11 @@ export default function StudyPlanCreateNodePage() {
       ]);
 
       setPlanInfo(planData);
-      setNodes(nodesData as unknown as StudyPlanNode[]);
+      setNodes(nodesData as StudyPlanNode[]);
       setTechStacks(techData);
     } catch (error) {
       toast.error("데이터 로딩 중 오류가 발생했습니다.");
+      console.error("계획 데이터 로딩 실패", error);
     } finally {
       setIsLoading(false);
     }
@@ -241,6 +247,7 @@ export default function StudyPlanCreateNodePage() {
         isLoading: false,
         autoClose: 500,
       });
+      console.log("계획 저장 실패", error);
     }
   };
 
@@ -251,6 +258,10 @@ export default function StudyPlanCreateNodePage() {
       </div>
     );
 
+  if (planInfo === null) {
+    return <NotFoundPage />;
+  }
+
   return (
     <div
       className="flex h-screen bg-gray-50"
@@ -258,9 +269,7 @@ export default function StudyPlanCreateNodePage() {
     >
       <div className="flex-1 p-8 overflow-y-auto">
         <div className="max-w-5xl mx-auto space-y-6">
-          <BackButton
-            onClick={() => navigate(`/study-plan/plan/${planId}`)}
-          />
+          <BackButton onClick={() => navigate(`/study-plan/plan/${planId}`)} />
 
           <PlanInfoHeader planInfo={planInfo} />
 

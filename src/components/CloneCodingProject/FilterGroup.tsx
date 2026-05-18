@@ -1,11 +1,11 @@
 import { FilterGroupProps } from "../../types/pages/CloneCodingProject/CloneCodingProjectFilterGroup";
 
-export const FilterGroup = ({
+export const FilterGroup = <T extends string>({
   label,
   current,
   options,
   onChange,
-}: FilterGroupProps) => (
+}: FilterGroupProps<T>) => (
   <div className="flex items-center gap-2">
     <span className="text-sm font-semibold text-gray-700">{label}:</span>
     <div className="flex gap-1.5">

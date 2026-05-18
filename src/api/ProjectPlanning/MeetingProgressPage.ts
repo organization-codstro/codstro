@@ -6,6 +6,7 @@ import {
   SaveMeetingSummaryParams,
   RequestAiResponseParams,
 } from "../../types/api/ProjectPlanning/MeetingProgressPage";
+import { ProjectPlanningLog } from "../../types/common/ProjectPlanning";
 
 /**
  * [MeetingProgressService]
@@ -21,7 +22,9 @@ export const MeetingProgressService = {
    * 해당 회의실의 모든 대화 내역을 시간순으로 가져옵니다.
    * @table project_meeting_logs
    */
-  async getChatMessages(params: GetChatMessagesParams) {
+  async getChatMessages(
+    params: GetChatMessagesParams,
+  ): Promise<ProjectPlanningLog[]> {
     const { data, error } = await supabase
       .from("project_meeting_logs")
       .select("*")

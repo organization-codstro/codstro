@@ -2,7 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { supabase } from "../../db/supabase/supabase";
-import { ProjectBasicInfo } from "../../types/common/ProjectPlanning";
+import {
+  ProjectBasicInfo,
+  ProjectPlanningLog,
+} from "../../types/common/ProjectPlanning";
 import { ProjectChatHeader } from "../../components/ProjectPlanning/ProjectCreateChatPage/ProjectChatHeader";
 import { ProjectChatMessage } from "../../components/ProjectPlanning/ProjectCreateChatPage/ProjectChatMessage";
 import { ProjectChatInput } from "../../components/ProjectPlanning/ProjectCreateChatPage/ProjectChatInput";
@@ -18,7 +21,7 @@ export default function ProjectCreateChatPage() {
     projectId?: string;
   };
 
-  const [messages, setMessages] = useState<any[]>([]);
+  const [messages, setMessages] = useState<ProjectPlanningLog[]>([]);
   const [input, setInput] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -73,7 +76,7 @@ export default function ProjectCreateChatPage() {
             table: "project_planning_logs",
           },
           (payload) => {
-            const newMsg = payload.new as any;
+            const newMsg = payload.new as ProjectPlanningLog;
 
             if (newMsg.project_id !== projectId) return;
 
@@ -162,13 +165,14 @@ export default function ProjectCreateChatPage() {
         },
         replace: true,
       });
-    } catch (e) {
+    } catch (error) {
       toast.update(toastId, {
         render: "프로젝트 정보 생성 실패",
         type: "error",
         isLoading: false,
         autoClose: 800,
       });
+      console.log("프로젝트 정보 생성 오류:", error);
     } finally {
       setIsGenerating(false);
     }

@@ -1,9 +1,4 @@
-type TechStack = {
-  tech_stack_id: string;
-  tech_stack_name: string;
-  tech_stack_img_url: string;
-  tech_stack_created_date: string;
-};
+import { TechStack } from "../../../common/StudyPlan";
 
 export type TechStackGridProps = {
   /** 표시할 기술 스택 목록 */

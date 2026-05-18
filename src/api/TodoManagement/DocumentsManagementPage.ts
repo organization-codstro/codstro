@@ -7,6 +7,7 @@ import {
   DeleteItemParams,
   SearchDocumentsParams,
 } from "../../types/api/TodoManagement/DocumentsManagementPage";
+import { Group } from "../../types/common/TodoManagement";
 
 /**
  * [문서 관리 서비스]
@@ -19,7 +20,7 @@ export const DocumentsManagementService = {
    * 모든 그룹과 그에 속한 분야, 핀들을 계층적으로 가져옵니다.
    * 참조 테이블: groups, fields, pins
    */
-  async getAllGroupsWithDetails() {
+  async getAllGroupsWithDetails(): Promise<Group[]> {
     try {
       const { data, error } = await supabase
         .from("groups")

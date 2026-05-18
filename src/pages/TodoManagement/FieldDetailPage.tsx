@@ -7,22 +7,20 @@ import { Loader2 } from "lucide-react";
 import { FieldDetailService } from "../../api/TodoManagement/FieldDetailPage";
 import { LoginService } from "../../api/Auth/LoginPage";
 
-// 타입 및 데이터
-import { FieldDetailData } from "../../types/pages/TodoManagement/FieldDetailPage/FieldDetailPage";
-
 // 기존 컴포넌트
 import { AssignRecommendedFieldModal } from "../../components/TodoManagement/AssignRecommendedCreateFieldModal";
 import { FieldDetailHeader } from "../../components/TodoManagement/FieldDetailPage/FieldDetailHeader";
 import { PinList } from "../../components/TodoManagement/FieldDetailPage/PinList";
 import { GROUP_NAME_COLORS } from "../../constants/TodoManagement/TodoManagement";
 import { NotFoundPage } from "../NotFound/NotFoundPage";
+import { FieldDetailWithPins } from "../../types/api/TodoManagement/FieldDetailPage";
 
 export default function FieldDetailPage() {
   const { fieldId } = useParams<{ fieldId: string }>();
   const navigate = useNavigate();
 
   // --- 상태 관리 ---
-  const [data, setData] = useState<FieldDetailData | null>(null);
+  const [data, setData] = useState<FieldDetailWithPins | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);

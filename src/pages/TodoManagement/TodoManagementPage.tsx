@@ -15,6 +15,7 @@ import { TodoManagementCreateModal } from "../../components/TodoManagement/TodoM
 import { TodoManagementHeader } from "../../components/TodoManagement/TodoManagementPage/TodoManagementHeader";
 import { TodoCard } from "../../components/TodoManagement/TodoManagementPage/TodoCard";
 import { TodoCalendar } from "../../components/TodoManagement/TodoManagementPage/TodoCalendar";
+import { TodoDateRange } from "../../types/api/TodoManagement/TodoManagementPage";
 
 export default function TodoManagementPage() {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ export default function TodoManagementPage() {
 
   // --- 상태 관리 ---
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [monthlyTodos, setMonthlyTodos] = useState<any[]>([]); // 캘린더 점 표시용
+  const [monthlyTodos, setMonthlyTodos] = useState<TodoDateRange[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState<string>(
     formatDate(new Date()),
@@ -61,6 +62,7 @@ export default function TodoManagementPage() {
         await fetchInitialData();
       } catch (error) {
         toast.error("데이터 로드에 실패했습니다.");
+        console.log("데이터 로드 실패", error);
       } finally {
         setIsLoading(false);
       }
@@ -141,6 +143,7 @@ export default function TodoManagementPage() {
       toast.success("상태가 변경되었습니다.");
     } catch (error) {
       toast.error("상태 변경 실패");
+      console.log("상태 변경 실패", error);
     }
   };
 
@@ -155,6 +158,7 @@ export default function TodoManagementPage() {
         await fetchMonthlyData();
       } catch (error) {
         toast.error("삭제 실패");
+        console.log("삭제 실패", error);
       }
     } else {
       setDeletePendingId(id);
@@ -234,18 +238,16 @@ export default function TodoManagementPage() {
                 {todos.map((todo) => (
                   <TodoCard
                     key={todo.todo_id}
-                    todo={
-                      {
-                        todo_id: todo.todo_id,
-                        group_id: todo.group_id,
-                        todo_name: todo.todo_name,
-                        todo_status: todo.todo_status,
-                        todo_start_date: todo.todo_start_date,
-                        todo_end_date: todo.todo_end_date,
-                        todo_description: todo.todo_description,
-                        todo_created_date: todo.todo_created_date,
-                      } as Todo
-                    }
+                    todo={{
+                      todo_id: todo.todo_id,
+                      group_id: todo.group_id,
+                      todo_name: todo.todo_name,
+                      todo_status: todo.todo_status,
+                      todo_start_date: todo.todo_start_date,
+                      todo_end_date: todo.todo_end_date,
+                      todo_description: todo.todo_description,
+                      todo_created_date: todo.todo_created_date,
+                    }}
                     isDeletePending={deletePendingId === todo.todo_id}
                     onNavigate={() =>
                       navigate(`/todo-management/todo/${todo.todo_id}`)

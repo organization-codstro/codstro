@@ -38,10 +38,11 @@ export default function ProjectMainPage() {
           ProjectMainService.getPlanningProjects({ userId }),
         ]);
 
-        setActiveProjects(active as any);
-        setPlanningProjects(planning as any);
+        setActiveProjects(active);
+        setPlanningProjects(planning);
       } catch (error) {
         toast.error("데이터를 불러오는데 실패했습니다.");
+        console.log("데이터 조회 실패", error);
       } finally {
         setIsLoading(false);
       }

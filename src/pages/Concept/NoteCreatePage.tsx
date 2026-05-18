@@ -42,6 +42,7 @@ export default function NoteCreatePage() {
         setUserId(currentUserId);
       } catch (error) {
         toast.error("유저 정보를 불러오는데 실패했습니다.");
+        console.log("유저 정보 조회 실패", error);
       } finally {
         setIsLoading(false);
       }
@@ -59,13 +60,7 @@ export default function NoteCreatePage() {
           type: activeFilter,
           page: currentPage + 1,
         });
-        setAvailableConcepts(
-          data.map((item: any) => ({
-            id: item.id,
-            name: item.name,
-            category: item.category,
-          })),
-        );
+        setAvailableConcepts(data);
         setTotalPages(currentPage + 1 + (hasMore ? 1 : 0));
       } catch (error) {
         console.error(error);

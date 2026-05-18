@@ -1,6 +1,6 @@
-export interface FilterGroupProps {
+export interface FilterGroupProps<T extends string = string> {
   label: string;
-  current: string;
-  options: string[];
-  onChange: (val: any) => void;
+  current: T;
+  options: T[];
+  onChange: (val: T) => void;
 }

@@ -1,4 +1,4 @@
-import { StudyPlanNode } from "../StudyPlanCreateNodePage/StudyPlanCreateNodePage";
+import { StudyPlanNode } from "../../../common/StudyPlan";
 
 export type NodeListProps = {
   /** 전체 노드 목록 */

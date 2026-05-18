@@ -1,8 +1,10 @@
+import { SortByType } from "../../../common/CloneCodingProject";
+
 export interface CloneCodingProjectArchiveFiltersProps {
   selectedFilter: string;
-  setSelectedFilter: (v: any) => void;
+  setSelectedFilter: (v: string) => void;
   selectedDifficulty: string;
-  setSelectedDifficulty: (v: any) => void;
-  sortBy: string;
-  setSortBy: (v: any) => void;
+  setSelectedDifficulty: (v: string) => void;
+  sortBy: SortByType;
+  setSortBy: (value: SortByType) => void;
 }

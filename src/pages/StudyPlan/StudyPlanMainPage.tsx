@@ -41,6 +41,7 @@ export default function StudyPlanMainPage() {
       setPlans(data);
     } catch (error) {
       toast.error("학습 계획을 불러오는데 실패했습니다.");
+      console.log("학습 계획 불러오기 실패", error);
     } finally {
       setIsLoading(false);
     }
@@ -86,6 +87,7 @@ export default function StudyPlanMainPage() {
       setPlans((prev) => prev.filter((p) => p.study_plan_id !== planId));
     } catch (error) {
       toast.error("삭제 중 오류가 발생했습니다.");
+      console.log("삭제중 오류 발생", error);
     } finally {
       setDeletingId(null);
     }

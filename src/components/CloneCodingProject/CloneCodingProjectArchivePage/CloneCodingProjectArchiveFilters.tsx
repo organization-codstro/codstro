@@ -2,6 +2,7 @@ import React from "react";
 import { FilterGroup } from "../FilterGroup";
 import { CloneCodingProjectArchiveFiltersProps } from "../../../types/pages/CloneCodingProject/CloneCodingProjectArchivePage/CloneCodingProjectArchiveFilters";
 import { CLONE_CODINGS_DIFFICULTIES } from "../../../constants/CloneCodingProject/CloneCodingProject";
+import { SortByType } from "../../../types/common/CloneCodingProject";
 
 export const ArchiveFilters: React.FC<
   CloneCodingProjectArchiveFiltersProps
@@ -32,7 +33,9 @@ export const ArchiveFilters: React.FC<
           <span className="text-sm font-semibold text-gray-700">Sort By:</span>
           <select
             value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as any)}
+            onChange={(e) =>
+              setSortBy(e.target.value as SortByType)
+            }
             className="px-4 py-1.5 text-sm border border-gray-200 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#587CF0]"
           >
             <option value="date">Latest Date</option>

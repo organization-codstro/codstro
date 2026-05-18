@@ -43,9 +43,9 @@ export interface ProjectPage {
   project_id: string;
   created_at?: string;
   updated_at?: string;
-
   project_page_status?: PROJECT_STATUS_TYPE;
 }
+
 export interface ProjectTodo {
   id: string;
   field_id?: string;
@@ -112,12 +112,13 @@ export interface MeetingMessage {
 }
 
 export interface ProjectPlanningLog {
-  project_meeting_log_id: string;
-  project_meeting_log_sender: PROJECT_CHAT_SENDER;
-  project_meeting_log_message: string;
-  created_at: string;
-  project_meeting_log_meeting_index: number;
+  project_planning_log_id: string;
+  project_planning_log_sender: PROJECT_CHAT_SENDER;
+  project_planning_log_message: string;
   project_id: string;
+  created_at: string | null;
+  updated_at: string | null;
+  project_planning_log_index: number | null;
 }
 
 export interface ProjectBasicInfo {

@@ -19,6 +19,7 @@ import {
   ArchivedProjectItem,
   ArchiveStats,
 } from "../../types/pages/CloneCodingProject/CloneCodingProjectArchivePage/CloneCodingProjectArchivePage";
+import { SortByType } from "../../types/common/CloneCodingProject";
 
 export default function CloneCodingProjectArchivePage() {
   const navigate = useNavigate();
@@ -43,7 +44,7 @@ export default function CloneCodingProjectArchivePage() {
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [selectedDifficulty, setSelectedDifficulty] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
-  const [sortBy, setSortBy] = useState("date");
+  const [sortBy, setSortBy] = useState<SortByType>("date");
 
   /**
    * [데이터 로드 로직]
@@ -114,6 +115,7 @@ export default function CloneCodingProjectArchivePage() {
         autoClose: 500,
       });
     } catch (err) {
+      console.log("북마크 해제 실패", err);
       toast.error("북마크 해제 실패");
     }
   };
@@ -246,7 +248,9 @@ export default function CloneCodingProjectArchivePage() {
           <ProjectGrid
             projects={filteredProjects.map((item) => item.project)}
             getUserProject={getUserProject}
-            onCardClick={(id) => navigate(`/clone-coding-project/project/${id}`)}
+            onCardClick={(id) =>
+              navigate(`/clone-coding-project/project/${id}`)
+            }
             onToggleBookmark={handleToggleBookmark}
           />
         ) : (

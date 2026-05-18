@@ -1,6 +1,8 @@
 import { CLONE_CODING_STATE_TYPE } from "../../constants/CloneCodingProject/CloneCodingProject";
 
-interface CloneCodingSteps {
+export type SortByType = "date" | "title" | "difficulty";
+
+export interface CloneCodingSteps {
   title: string;
   description: string;
 }

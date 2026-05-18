@@ -2,7 +2,11 @@
 // StudyPlanMainService 타입 파일
 // ===========================
 
-import { PlanStatsResult, StudyPlan } from "../../common/StudyPlan";
+import {
+  PlanStatsResult,
+  StudyPlan,
+  StudyPlanNode,
+} from "../../common/StudyPlan";
 
 /**
  * [GetActiveMyPlansParams]
@@ -10,6 +14,16 @@ import { PlanStatsResult, StudyPlan } from "../../common/StudyPlan";
  */
 export interface GetActiveMyPlansParams {
   userId: string;
+}
+export interface StudyPlanWithNodeStats extends StudyPlan {
+  study_plan_nodes: Pick<
+    StudyPlanNode,
+    "study_plan_node_id" | "study_plan_node_completed"
+  >[];
+}
+
+export interface PlanWithStats extends StudyPlan {
+  stats: PlanStatsResult;
 }
 
 /**
@@ -33,7 +47,7 @@ export interface GetPlanStatsParams {
  * 진행 중인 학습 계획과 통계 정보 포함
  */
 export interface PlanWithStats extends StudyPlan {
-  [key: string]: any;
+  // [key: string]: any;
   stats: PlanStatsResult;
 }
 

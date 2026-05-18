@@ -20,7 +20,6 @@ import { ProjectPagesSectionProps } from "../../../types/pages/ProjectPlanning/P
 import { ProjectTodoItem } from "./ProjectTodoItem";
 import { ProjectPageHeader } from "./ProjectPageHeader";
 
-
 export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
   projectId,
   pages,
@@ -52,9 +51,9 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
 
   useEffect(() => {
     setEditedPages(pages);
-     if (!isEditing) {
+    if (!isEditing) {
       setWorkingPages(pages);
-     }
+    }
   }, [pages]);
 
   useEffect(() => {
@@ -302,8 +301,8 @@ export const ProjectPagesSection: React.FC<ProjectPagesSectionProps> = ({
         {displayPages.map((page) => {
           const isEditingThisPage = editingPageId === page.project_page_id;
           const isExpanded = expandedPage === page.project_page_id;
-          const pageStatus = ((page as any).project_page_status ??
-            "waiting") as PROJECT_STATUS_TYPE;
+          const pageStatus: PROJECT_STATUS_TYPE =
+            page.project_page_status ?? "waiting";
 
           return (
             <div

@@ -5,7 +5,10 @@ import { RoomInfoFormProps } from "../../../types/pages/AiChat/CreateChatRoomPag
 export const RoomInfoForm = ({ data, onChange }: RoomInfoFormProps) => {
   const [topicInput, setTopicInput] = useState("");
 
-  const updateField = (field: keyof ChatRoom, value: any) => {
+  const updateField = <K extends keyof ChatRoom>(
+    field: K,
+    value: ChatRoom[K],
+  ) => {
     onChange({ ...data, [field]: value });
   };
 

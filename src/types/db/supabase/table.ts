@@ -440,7 +440,7 @@ export interface UserAiSettings {
   user_ai_setting_ai_self_awareness: boolean; // ai가 자기 인식을 하게 할건지 설정, 감정에 영향을 받지 않음 (존댓말 우선 사용) / boolean
   user_ai_setting_service_integration: boolean; // boolean
   user_ai_setting_created_date: Date; // date
-  user_ai_setting_emotion: any; // srting
+  user_ai_setting_emotion: string; // srting
   ai_persona_id: string; // FK / number
   user_id: string; // FK / number
 }
@@ -471,10 +471,10 @@ export interface UserConcepts {
 
 export interface ProjectPlanningPages {
   project_page_id: string; // PK / number
-  project_page_name: any;
-  project_page_role: any;
-  project_page_function: any;
-  project_page_is_complete: any;
+  project_page_name: string; // text
+  project_page_role: string; // text
+  project_page_function: string; // text
+  project_page_is_complete: boolean; // boolean
   project_id: string; // FK / number
 }
 

@@ -6,6 +6,7 @@ import {
   ToggleTodoStatusParams,
   DeleteTodoParams,
   CreateTodoParams,
+  TodoDateRange,
 } from "../../types/api/TodoManagement/TodoManagementPage";
 
 /**
@@ -75,7 +76,9 @@ export const TodoManagementService = {
    * 캘린더의 한 달 치 데이터를 로드하여 날짜별 할일 유무(카운트)를 파악합니다.
    * 참조 테이블: todos
    */
-  async getMonthlyTodoCount(params: GetMonthlyTodoCountParams) {
+  async getMonthlyTodoCount(
+    params: GetMonthlyTodoCountParams,
+  ): Promise<TodoDateRange[]> {
     try {
       const startDate = new Date(params.year, params.month, 1)
         .toISOString()

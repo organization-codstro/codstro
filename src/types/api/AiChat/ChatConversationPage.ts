@@ -1,3 +1,5 @@
+import { ChatMessage } from "../../common/AiChat";
+
 export interface GetRoomInfoParams {
   roomId: string;
 }
@@ -50,7 +52,16 @@ export interface SendMessageParams {
   chat_message_mention_target_agent_id: string | null;
 }
 
+interface PostgresInsertPayload<T> {
+  schema: string;
+  table: string;
+  commit_timestamp: string;
+  eventType: "INSERT";
+  new: T;
+  old: Record<string, never>;
+  errors: string[] | null;
+}
 export interface SubscribeToMessagesParams {
   roomId: string;
-  callback: (payload: any) => void;
+  callback: (payload: PostgresInsertPayload<ChatMessage>) => void;
 }

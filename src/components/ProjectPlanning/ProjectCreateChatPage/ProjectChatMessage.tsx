@@ -1,6 +1,11 @@
 import { ProjectChatMessageProps } from "../../../types/pages/ProjectPlanning/ProjectCreateChatPage/ProjectChatMessage";
+import { MarkdownRenderer } from "../../Markdown/MarkdownRenderer";
 
-export const ProjectChatMessage = ({ sender, message }: ProjectChatMessageProps) => {
+export const ProjectChatMessage = ({
+  sender,
+  message,
+}: ProjectChatMessageProps) => {
+  console.log(message);
   const isUser = sender === "USER";
 
   return (
@@ -13,7 +18,11 @@ export const ProjectChatMessage = ({ sender, message }: ProjectChatMessageProps)
         }`}
         style={isUser ? { backgroundColor: "#587CF0" } : {}}
       >
-        <p className="text-sm leading-relaxed">{message}</p>
+        {isUser ? (
+          <p className="text-sm leading-relaxed">{message}</p>
+        ) : (
+          <MarkdownRenderer content={message} />
+        )}
       </div>
     </div>
   );

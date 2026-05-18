@@ -1,4 +1,4 @@
-
+import { ProjectBasicInfo } from "../../common/ProjectPlanning";
 
 /**
  * [기초 정보 저장 및 프로젝트 초기화 파라미터]

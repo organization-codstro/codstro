@@ -56,6 +56,7 @@ export default function StudyPlanEditNodePage() {
       setTechStacks(stacks);
     } catch (error) {
       toast.error("데이터를 불러오는데 실패했습니다.");
+      console.error("계획 데이터 로딩 실패", error);
     } finally {
       setIsLoading(false);
     }
@@ -133,22 +134,12 @@ export default function StudyPlanEditNodePage() {
   /** 5. 최종 서버 저장 (일괄 저장) */
   const handleFinalSave = async () => {
     try {
-      const formattedNodes = nodes.map((n) => ({
-        ...n,
-        description: n.study_plan_node_description,
-        start_date: n.study_plan_node_start_date,
-        end_date: n.study_plan_node_end_date,
-        completed: n.study_plan_node_completed,
-        position: n.study_plan_node_position,
-      }));
-
-      await StudyPlanEditNodeService.saveAllNodes({
-        nodes: formattedNodes as any,
-      });
+      await StudyPlanEditNodeService.saveAllNodes({ nodes });
       toast.success("모든 변경사항이 저장되었습니다!");
       navigate(`/study-plan/plan/${planId}`);
     } catch (error) {
       toast.error("저장 중 오류가 발생했습니다.");
+      console.error("노드 저장 실패", error);
     }
   };
 

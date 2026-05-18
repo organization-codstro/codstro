@@ -6,13 +6,14 @@ import { PersonalityTestService } from "../../api/Mbit/PersonalityTestPage";
 import {
   MbitAxisCode,
   MbitAxisResult,
+  MbitQuestionRow,
   Personality,
   PersonalityTestResultData,
 } from "../../types/common/Mbit";
 import { PersonalityTestResult } from "../../components/Mbit/PersonalityTestPage/PersonalityTestResult";
 
 export default function PersonalityTestPage() {
-  const [questions, setQuestions] = useState<any[]>([]);
+  const [questions, setQuestions] = useState<MbitQuestionRow[]>([]);
   const [started, setStarted] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<(number | null)[]>([]); // 각 문항 선택값

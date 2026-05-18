@@ -106,8 +106,8 @@ export default function ChatConversationPage() {
   }, [loadMoreMessages]);
 
   useEffect(() => {
-    let subscription: any = null;
-    let typingSubscription: any = null;
+    let subscription: { unsubscribe: () => void } | null = null;
+    let typingSubscription: { unsubscribe: () => void } | null = null;
     let cancelled = false;
 
     const initChat = async () => {
@@ -147,7 +147,7 @@ export default function ChatConversationPage() {
         subscription = ChatConversationService.subscribeToMessages({
           roomId,
           callback: (payload) => {
-            const newMessage = payload.new as ChatMessage;
+            const newMessage = payload.new;
             setMessages((prev) => {
               if (
                 prev.find(
@@ -173,7 +173,7 @@ export default function ChatConversationPage() {
             );
           },
         });
-      } catch (error: any) {
+      } catch (error) {
         console.error(error);
         navigate("/ai-chat");
         toast.error("채팅방을 불러오는 데 실패했습니다.");

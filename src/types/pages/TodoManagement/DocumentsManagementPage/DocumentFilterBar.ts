@@ -1,6 +1,6 @@
 export interface DocumentFilterBarProps {
   selectedGroupType: string;
-  onSelectType: (type: any) => void;
+  onSelectType: (type: string) => void;
   searchQuery: string;
   onSearchChange: (query: string) => void;
 }

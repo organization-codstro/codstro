@@ -1,5 +1,6 @@
 import { supabase } from "../../db/supabase/supabase";
 import {
+  CloneCodingWithUserStatus,
   GenerateCloneCodingParams,
   GetAllProjectsWithUserStatusParams,
   GetFilteredProjectsParams,
@@ -41,8 +42,7 @@ export const CloneCodingProjectMainPageService = {
       if (error) throw error;
 
       // 클라이언트에서 사용하기 편하도록 데이터 정제
-      return data.map((project) => {
-        // 해당 유저의 프로젝트 기록이 있다면 첫 번째 항목을 사용 (1:1 관계 가정)
+      return (data as CloneCodingWithUserStatus[]).map((project) => {
         const userProject =
           project.user_status && project.user_status.length > 0
             ? project.user_status[0]
@@ -72,8 +72,8 @@ export const CloneCodingProjectMainPageService = {
           `
           *,
           user_status:user_clone_codings!inner (
-            user_clone_codings_id,
-            user_clone_codings_status,
+            user_clone_coding_id,
+            user_clone_coding_status,
             user_clone_coding_is_bookmarked,
             user_id
           )

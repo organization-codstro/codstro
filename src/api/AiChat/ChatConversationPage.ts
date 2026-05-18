@@ -1,3 +1,4 @@
+import { RealtimePostgresInsertPayload } from "@supabase/supabase-js";
 import { CURSOR_PAGE_SIZE } from "../../constants/AiChat/AiChat";
 import { supabase } from "../../db/supabase/supabase";
 import {
@@ -9,7 +10,7 @@ import {
   SendMessageParams,
   SubscribeToMessagesParams,
 } from "../../types/api/AiChat/ChatConversationPage";
-import { ChatRoomAI, Emoticon } from "../../types/common/AiChat";
+import { ChatMessage, ChatRoomAI, Emoticon } from "../../types/common/AiChat";
 
 /**
  * 채팅방 관련 데이터 및 실시간 처리 서비스
@@ -172,7 +173,7 @@ export const ChatConversationService = {
           schema: "public",
           table: "chat_messages",
         },
-        (payload) => {
+        (payload: RealtimePostgresInsertPayload<ChatMessage>) => {
           if (payload.new?.chat_room_id !== params.roomId) return;
           params.callback(payload);
         },

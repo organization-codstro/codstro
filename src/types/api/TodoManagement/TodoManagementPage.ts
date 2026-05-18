@@ -14,6 +14,13 @@ export interface GetMonthlyTodoCountParams {
   year: number;
   month: number;
 }
+/**
+ * [월별 할일 개수 조회 반환값]
+ */
+export interface TodoDateRange {
+  todo_start_date: string;
+  todo_end_date: string;
+}
 
 /**
  * [할일 검색 파라미터]
