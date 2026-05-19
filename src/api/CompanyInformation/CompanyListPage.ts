@@ -20,7 +20,7 @@ import {
 export const CompanyListService = {
   /**
    * [함수 역할]: 전체 회사 리스트를 조회합니다.
-   * [참조 테이블]: companies
+   * [참조 테이블]: companys
    * [설명]: 목록 화면에 필요한 기본 정보들을 최신 업데이트 순으로 가져옵니다.
    */
   async getCompanyList(): Promise<GetCompanyListResponse> {
@@ -55,7 +55,6 @@ export const CompanyListService = {
         .eq("user_id", params.userId);
 
       if (error) throw error;
-      // id 배열 형태로 변환하여 반환
       return data.map((item) => item.company_id);
     } catch (error) {
       console.error("Error fetching user bookmark IDs:", error);
@@ -125,6 +124,46 @@ export const CompanyListService = {
         companyId: params.companyId,
       });
     }
+  },
+
+  /**
+   * [함수 역할]: 회사 및 연관 데이터를 순서대로 삭제합니다.
+   * [삭제 순서]
+   * 1. user_favorite_companys (북마크)
+   * 2. company_user_matches (매칭 정보)
+   * 3. company_qnas (Q&A)
+   * 4. companys (본체)
+   */
+  async deleteCompany(params: { companyId: string }): Promise<void> {
+    const { companyId } = params;
+
+    // 1. user_favorite_companys 삭제
+    const { error: favoriteError } = await supabase
+      .from("user_favorite_companys")
+      .delete()
+      .eq("company_id", companyId);
+    if (favoriteError) throw favoriteError;
+
+    // 2. company_user_matches 삭제
+    const { error: matchError } = await supabase
+      .from("company_user_matches")
+      .delete()
+      .eq("company_id", companyId);
+    if (matchError) throw matchError;
+
+    // 3. company_qnas 삭제
+    const { error: qnaError } = await supabase
+      .from("company_qnas")
+      .delete()
+      .eq("company_id", companyId);
+    if (qnaError) throw qnaError;
+
+    // 4. companys 본체 삭제
+    const { error: companyError } = await supabase
+      .from("companys")
+      .delete()
+      .eq("company_id", companyId);
+    if (companyError) throw companyError;
   },
 
   async generateStudyPlan(

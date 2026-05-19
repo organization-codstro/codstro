@@ -1,5 +1,11 @@
-import { Building2, ExternalLink, Bookmark, Sparkles } from "lucide-react";
-import { useState, useEffect } from "react";
+import {
+  Building2,
+  ExternalLink,
+  Bookmark,
+  Sparkles,
+  Trash2,
+} from "lucide-react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { GetCompanyListResponse } from "../../types/api/CompanyInformation/CompanyListPage";
 import { LoginService } from "../../api/Auth/LoginPage";
@@ -18,6 +24,12 @@ export default function CompanyListPage() {
 
   // 모달 상태
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+  // 삭제 확인 상태
+  const deleteConfirmRef = useRef<
+    Record<string, ReturnType<typeof setTimeout>>
+  >({});
+  const [pendingDeleteIds, setPendingDeleteIds] = useState<string[]>([]);
 
   // 초기 데이터 로드
   useEffect(() => {
@@ -46,6 +58,13 @@ export default function CompanyListPage() {
     fetchData();
   }, []);
 
+  // 언마운트 시 타이머 정리
+  useEffect(() => {
+    return () => {
+      Object.values(deleteConfirmRef.current).forEach(clearTimeout);
+    };
+  }, []);
+
   const handleCompanySelect = (companyId: string) => {
     navigate(`/companies/${companyId}`);
   };
@@ -53,7 +72,6 @@ export default function CompanyListPage() {
   const toggleBookmark = async (companyId: string, e: React.MouseEvent) => {
     e.stopPropagation();
 
-    // 로그인이 안 되어 있을 경우 처리 (임시)
     if (!currentUserId) {
       alert("로그인이 필요한 서비스입니다.");
       return;
@@ -83,6 +101,35 @@ export default function CompanyListPage() {
           ? [...prev, companyId]
           : prev.filter((id) => id !== companyId),
       );
+    }
+  };
+
+  const handleDeleteClick = (companyId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+
+    if (pendingDeleteIds.includes(companyId)) {
+      // 두 번째 클릭 → 실제 삭제
+      clearTimeout(deleteConfirmRef.current[companyId]);
+      delete deleteConfirmRef.current[companyId];
+      setPendingDeleteIds((prev) => prev.filter((id) => id !== companyId));
+      handleDeleteCompany(companyId);
+    } else {
+      // 첫 번째 클릭 → 3초 대기
+      setPendingDeleteIds((prev) => [...prev, companyId]);
+      deleteConfirmRef.current[companyId] = setTimeout(() => {
+        setPendingDeleteIds((prev) => prev.filter((id) => id !== companyId));
+        delete deleteConfirmRef.current[companyId];
+      }, 3000);
+    }
+  };
+
+  const handleDeleteCompany = async (companyId: string) => {
+    try {
+      await CompanyListService.deleteCompany({ companyId });
+      setCompanies((prev) => prev.filter((c) => c.company_id !== companyId));
+    } catch (error) {
+      console.error("회사 삭제 실패:", error);
+      alert("삭제에 실패했습니다.");
     }
   };
 
@@ -138,6 +185,10 @@ export default function CompanyListPage() {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {companies.map((company) => {
             const isBookmarked = bookmarkedIds.includes(company.company_id);
+            const isPendingDelete = pendingDeleteIds.includes(
+              company.company_id,
+            );
+
             return (
               <div
                 key={company.company_id}
@@ -159,19 +210,40 @@ export default function CompanyListPage() {
                         </h3>
                       </div>
                     </div>
-                    <button
-                      onClick={(e) => toggleBookmark(company.company_id, e)}
-                      className={`p-2 rounded-lg transition-colors ${
-                        isBookmarked
-                          ? "text-yellow-500 hover:bg-yellow-50"
-                          : "text-gray-400 hover:bg-gray-100"
-                      }`}
-                    >
-                      <Bookmark
-                        size={20}
-                        fill={isBookmarked ? "currentColor" : "none"}
-                      />
-                    </button>
+
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={(e) => toggleBookmark(company.company_id, e)}
+                        className={`p-2 rounded-lg transition-colors ${
+                          isBookmarked
+                            ? "text-yellow-500 hover:bg-yellow-50"
+                            : "text-gray-400 hover:bg-gray-100"
+                        }`}
+                      >
+                        <Bookmark
+                          size={20}
+                          fill={isBookmarked ? "currentColor" : "none"}
+                        />
+                      </button>
+
+                      <button
+                        onClick={(e) =>
+                          handleDeleteClick(company.company_id, e)
+                        }
+                        className={`p-2 rounded-lg transition-all duration-200 ${
+                          isPendingDelete
+                            ? "text-red-500 bg-red-50 hover:bg-red-100"
+                            : "text-gray-400 hover:bg-gray-100"
+                        }`}
+                        title={
+                          isPendingDelete
+                            ? "한 번 더 클릭하면 삭제됩니다"
+                            : "삭제"
+                        }
+                      >
+                        <Trash2 size={20} />
+                      </button>
+                    </div>
                   </div>
 
                   <div className="space-y-3">
@@ -188,7 +260,6 @@ export default function CompanyListPage() {
                       <p className="mb-1 text-sm font-medium text-gray-500">
                         회사 설명
                       </p>
-                      {/* API 컬럼명 반영: company_description */}
                       <p className="text-sm text-gray-700 line-clamp-2">
                         {company.company_description}
                       </p>
@@ -217,7 +288,6 @@ export default function CompanyListPage() {
                       <span>웹사이트</span>
                     </a>
                     <span className="text-xs text-gray-400">
-                      {/* API 컬럼명 반영: company_update_date */}
                       {new Date(company.created_at).toLocaleDateString("ko-KR")}
                     </span>
                   </div>
@@ -228,7 +298,7 @@ export default function CompanyListPage() {
         </div>
       </div>
 
-      {/*회사정보 추가 모달 */}
+      {/* 회사정보 추가 모달 */}
       <AddCompanyInformationModal
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
