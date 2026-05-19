@@ -33,8 +33,7 @@ export const InterviewHistoryDetailService = {
           company_user_qna_answer,
           company_user_qna_evaluation,
           created_at,
-          user_id,
-          company_qna_id
+          user_id
         `,
         )
         .eq("id", params.id)
