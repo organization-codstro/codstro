@@ -56,8 +56,8 @@ export default function MeetingProgressPage() {
         });
 
         const formattedMessages: ProjectMessage[] = data.map((log) => ({
-          sender: log.project_planning_log_sender,
-          message: log.project_planning_log_message,
+          sender: log.project_meeting_log_sender,
+          message: log.project_meeting_log_message,
           create_at: log.created_at
             ? new Date(log.created_at).toLocaleTimeString([], {
                 hour: "2-digit",
@@ -67,7 +67,7 @@ export default function MeetingProgressPage() {
         }));
 
         if (data.length > 0) {
-          setMeetingIndex(data[0].project_planning_log_index || 1);
+          setMeetingIndex(data[0].project_meeting_log_meeting_index || 1);
         }
 
         if (cancelled) return;

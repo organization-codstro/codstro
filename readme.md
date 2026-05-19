@@ -7,42 +7,43 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">Codstro (dev 0.0.1)</h3>
+  <h3 align="center">Codstro (1.0.0)</h3>
 
   <p align="center">
-    A collection of personalized learning tools for us
+    우리를 위한 맞춤형 학습 도구 모음
   </p>
 
-[English](README.md) | [한국어](README.ko.md)
+[한국어](README.md) | [영어](README.en.md)
 
 </div>
 <br />
 
-Welcome everyone, Codstro is a project to help you with your personal studies, such as organizing your to-do list, studying, and planning projects.
+안녕하세요 여러분, Codstro는 여러분의 개인 학습을 돕기 위해 만들어진 프로젝트입니다. 할 일 목록 정리, 학습, 프로젝트 계획 등 다양한 용도로 활용하실 수 있습니다.
 
-This Codstro is a collection of things that helped me personally while studying, and its goal is to help people learn coding-related information more easily and quickly through AI.
+이 코드스트로는 제가 개인적으로 공부하는 동안 도움이 되었던 것들을 모아놓은 것이며, 인공지능을 통해 사람들이 코딩 관련 정보를 더 쉽고 빠르게 학습할 수 있도록 돕는 것을 목표로 합니다.
 
 ## Caution
 
-1. This project is a demo version, and many features are still unstable and under development. Please wait until the official version is released.
-2. This project has no financial purpose and is created for personal study.
-3. This project is simultaneously using Firebase to manage assets such as supabase images for data management.
+1. 이 프로젝트는 금전적 목적이 없으며 개인적인 학습을 위해 만들어졌습니다.
+2. 이 프로젝트는 데이터 관리를 위해 슈퍼베이스, 이미지와 같은 자산을 관리하기 위해 Firebase를 동시에 사용하고 있습니다.
 
 ## function (In development)
 
-Woomoonjeong : It features task management and document management.
-It supports basic task management functions and allows you to manage documents using a group -> field -> pin structure.
+TodoManagement : 이 기능 작업 관리 및 문서 관리 기능을 제공합니다.
+기본적인 작업 관리 기능을 지원하며, 그룹 -> 필드 -> 고정 구조를 사용하여 문서를 관리할 수 있습니다.
 
-Woomoonro : This is a repository of clone coding information for those who are new to coding.
+CloneCodingProject : 이곳은 코딩을 처음 접하는 사람들을 위한 클론 코딩 정보 저장소입니다.
 
-Woomoonkyung : This is a service that allows you to manage your own study plan.
+StudyPlan : 이 서비스는 사용자가 자신의 학습 계획을 관리할 수 있도록 해줍니다.
 
-MBIT : Find out and share your development tendencies, like with MBTI. You can also check out your major or development horoscope!
+MBIT : MBTI처럼 자신의 발전 경향을 알아보고 공유해 보세요. 전공이나 개발 운세도 확인할 수 있습니다!
 
-Project Planning : This is a function that allows you to easily plan projects with AI and hold or manage project-related meetings.
+Project Planning : 이 기능은 AI를 활용하여 프로젝트를 쉽게 계획하고 프로젝트 관련 회의를 진행하거나 관리할 수 있도록 해줍니다.
 
-Coding Concepts : Review basic coding concepts and create your own notes!
+Coding Concepts : 기본 코딩 개념을 복습하고 자신만의 노트를 만들어 보세요!
 
-Company Info Sharing : Check out the most basic company information and conduct a mock interview with AI.
+Company Info Sharing : 가장 기본적인 회사 정보를 확인하고 AI를 이용해 모의 면접을 진행해 보세요.
 
-AI Chat Service : Know the functionality of the above features and try having a 1:n chat where you can react to mentions and replies!
+AI Chat Service : 위 기능들의 작동 방식을 숙지하고, 멘션과 답글에 반응할 수 있는 1:n 채팅을 시도해 보세요!
+
+[기능 자세히 보기]()

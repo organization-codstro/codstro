@@ -4,6 +4,8 @@ import ReactMarkdown from "react-markdown";
 export const ChatMessage = ({ message }: ChatMessageProps) => {
   const isUser = message.sender === "USER";
 
+  console.log(message);
+
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
       <div className={`max-w-3xl ${isUser ? "text-right" : ""}`}>

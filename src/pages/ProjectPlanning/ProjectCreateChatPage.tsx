@@ -80,7 +80,7 @@ export default function ProjectCreateChatPage() {
 
             if (newMsg.project_id !== projectId) return;
 
-            if (newMsg.project_planning_log_sender !== "USER") {
+            if (newMsg.project_meeting_log_sender !== "USER") {
               setIsAiTyping(false);
               setIsSending(false);
             }
@@ -88,7 +88,7 @@ export default function ProjectCreateChatPage() {
             setMessages((prev) => {
               const exists = prev.some(
                 (m) =>
-                  m.project_planning_log_id === newMsg.project_planning_log_id,
+                  m.project_meeting_log_id === newMsg.project_meeting_log_id,
               );
               if (exists) return prev;
               return [...prev, newMsg];
@@ -203,9 +203,9 @@ export default function ProjectCreateChatPage() {
         <div className="max-w-4xl p-8 mx-auto space-y-4">
           {messages.map((msg, idx) => (
             <ProjectChatMessage
-              key={msg.project_planning_log_id || idx}
-              sender={msg.project_planning_log_sender}
-              message={msg.project_planning_log_message}
+              key={msg.project_meeting_log_id || idx}
+              sender={msg.project_meeting_log_sender}
+              message={msg.project_meeting_log_message}
             />
           ))}
 

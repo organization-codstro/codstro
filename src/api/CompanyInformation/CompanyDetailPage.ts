@@ -46,7 +46,7 @@ export const CompanyDetailService = {
 
   /**
    * [함수 역할]: 특정 유저가 해당 회사를 북마크(관심 등록)했는지 여부를 확인합니다.
-   * [참조 테이블]: user_favorite_companies
+   * [참조 테이블]: user_favorite_companys
    */
   async checkIsBookmarked(
     params: CheckIsBookmarkedParams,
@@ -69,11 +69,11 @@ export const CompanyDetailService = {
 
   /**
    * [함수 역할]: 회사를 관심 목록에 추가합니다.
-   * [참조 테이블]: user_favorite_companies
+   * [참조 테이블]: user_favorite_companys
    */
   async addBookmark(params: AddBookmarkParams): Promise<AddBookmarkResponse> {
     try {
-      const { error } = await supabase.from("user_favorite_companies").insert([
+      const { error } = await supabase.from("user_favorite_companys").insert([
         {
           user_id: params.userId,
           company_id: params.companyId,
@@ -91,14 +91,14 @@ export const CompanyDetailService = {
 
   /**
    * [함수 역할]: 회사를 관심 목록에서 제거합니다.
-   * [참조 테이블]: user_favorite_companies
+   * [참조 테이블]: user_favorite_companys
    */
   async deleteBookmark(
     params: DeleteBookmarkParams,
   ): Promise<DeleteBookmarkResponse> {
     try {
       const { error } = await supabase
-        .from("user_favorite_companies")
+        .from("user_favorite_companys")
         .delete()
         .eq("user_id", params.userId)
         .eq("company_id", params.companyId);

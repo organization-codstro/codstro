@@ -42,7 +42,7 @@ export const CompanyListService = {
 
   /**
    * [함수 역할]: 로그인한 유저의 전체 북마크(관심 회사) ID 목록을 조회합니다.
-   * [참조 테이블]: user_favorite_companies
+   * [참조 테이블]: user_favorite_companys
    * [설명]: 리스트에서 각 카드의 북마크 활성화 여부(isBookmarked)를 판단하기 위해 사용합니다.
    */
   async getUserBookmarkedIds(
@@ -65,7 +65,7 @@ export const CompanyListService = {
 
   /**
    * [함수 역할]: 특정 회사를 관심 목록에 추가(북마크 등록)합니다.
-   * [참조 테이블]: user_favorite_companies
+   * [참조 테이블]: user_favorite_companys
    */
   async addBookmark(params: AddBookmarkParams): Promise<AddBookmarkResponse> {
     try {
@@ -87,7 +87,7 @@ export const CompanyListService = {
 
   /**
    * [함수 역할]: 특정 회사를 관심 목록에서 제거(북마크 해제)합니다.
-   * [참조 테이블]: user_favorite_companies
+   * [참조 테이블]: user_favorite_companys
    */
   async removeBookmark(
     params: RemoveBookmarkParams,

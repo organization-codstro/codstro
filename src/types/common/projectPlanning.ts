@@ -112,13 +112,13 @@ export interface MeetingMessage {
 }
 
 export interface ProjectPlanningLog {
-  project_planning_log_id: string;
-  project_planning_log_sender: PROJECT_CHAT_SENDER;
-  project_planning_log_message: string;
+  project_meeting_log_id: string;
+  project_meeting_log_sender: PROJECT_CHAT_SENDER;
+  project_meeting_log_message: string;
+  project_meeting_log_meeting_index: number | null;
   project_id: string;
   created_at: string | null;
   updated_at: string | null;
-  project_planning_log_index: number | null;
 }
 
 export interface ProjectBasicInfo {

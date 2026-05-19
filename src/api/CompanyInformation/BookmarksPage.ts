@@ -52,14 +52,14 @@ export const BookmarksService = {
 
   /**
    * [함수 역할]: 유저의 북마크를 해제합니다. (관계 삭제)
-   * [참조 테이블]: user_favorite_companies
+   * [참조 테이블]: user_favorite_companys
    */
   async removeBookmark(
     params: RemoveBookmarkParams,
   ): Promise<RemoveBookmarkResponse> {
     try {
       const { error } = await supabase
-        .from("user_favorite_companies")
+        .from("user_favorite_companys")
         .delete()
         .eq("user_id", params.userId)
         .eq("company_id", params.companyId);

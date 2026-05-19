@@ -147,13 +147,6 @@ export const ProjectMainService = {
       } else {
         // ── 활성 프로젝트 삭제 ───────────────────────────────
 
-        // 0. project_pages 삭제 (FK 때문에 먼저 삭제)
-        const { error: pagesError } = await supabase
-          .from("project_pages")
-          .delete()
-          .eq("project_id", projectId);
-        if (pagesError) throw pagesError;
-
         // 1. 해당 프로젝트의 meeting room id 목록 조회
         const { data: rooms, error: roomsQueryError } = await supabase
           .from("project_meeting_rooms")
@@ -164,21 +157,28 @@ export const ProjectMainService = {
         if (rooms && rooms.length > 0) {
           const roomIds = rooms.map((r) => r.project_meeting_room_id);
 
-          // 2. meeting logs 삭제
+          // 2. project_meeting_room_pages 삭제 (project_pages 참조하므로 먼저!)
+          const { error: meetingRoomPagesError } = await supabase
+            .from("project_meeting_room_pages")
+            .delete()
+            .in("project_meeting_room_id", roomIds);
+          if (meetingRoomPagesError) throw meetingRoomPagesError;
+
+          // 3. meeting logs 삭제
           const { error: meetingLogsError } = await supabase
             .from("project_meeting_logs")
             .delete()
             .in("project_meeting_room_id", roomIds);
           if (meetingLogsError) throw meetingLogsError;
 
-          // 3. meeting summarys 삭제
+          // 4. meeting summarys 삭제
           const { error: meetingSummarysError } = await supabase
             .from("project_meeting_summarys")
             .delete()
             .in("project_meeting_room_id", roomIds);
           if (meetingSummarysError) throw meetingSummarysError;
 
-          // 4. meeting rooms 삭제
+          // 5. meeting rooms 삭제
           const { error: meetingRoomsError } = await supabase
             .from("project_meeting_rooms")
             .delete()
@@ -186,14 +186,21 @@ export const ProjectMainService = {
           if (meetingRoomsError) throw meetingRoomsError;
         }
 
-        // 5. todos 삭제
+        // 6. project_pages 삭제 (참조 제거 후 이제 안전)
+        const { error: pagesError } = await supabase
+          .from("project_pages")
+          .delete()
+          .eq("project_id", projectId);
+        if (pagesError) throw pagesError;
+
+        // 7. todos 삭제
         const { error: todosError } = await supabase
           .from("todos")
           .delete()
           .eq("project_id", projectId);
         if (todosError) throw todosError;
 
-        // 6. 프로젝트 본체 삭제
+        // 8. 프로젝트 본체 삭제
         const { error: projectError } = await supabase
           .from("projects")
           .delete()
