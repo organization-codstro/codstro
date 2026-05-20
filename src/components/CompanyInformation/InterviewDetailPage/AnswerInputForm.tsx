@@ -32,7 +32,7 @@ export const AnswerInputForm = ({
           className={`px-8 py-3 font-bold text-white transition-all rounded-lg ${
             disabled ? "bg-gray-300 cursor-not-allowed" : "hover:opacity-90"
           }`}
-          style={disabled ? { backgroundColor: "#587CF0" } : {}}
+          style={{ backgroundColor: disabled ? "#cbd5e1" : "#587CF0" }}
         >
           {disabled ? "분석 중..." : "답변 제출"}
         </button>

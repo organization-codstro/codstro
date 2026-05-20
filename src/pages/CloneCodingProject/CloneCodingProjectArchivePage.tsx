@@ -237,10 +237,6 @@ export default function CloneCodingProjectArchivePage() {
         <ArchiveFilters
           selectedFilter={selectedFilter}
           setSelectedFilter={setSelectedFilter}
-          selectedDifficulty={selectedDifficulty}
-          setSelectedDifficulty={setSelectedDifficulty}
-          sortBy={sortBy}
-          setSortBy={setSortBy}
         />
 
         {/* Projects Grid */}
