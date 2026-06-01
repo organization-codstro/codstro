@@ -57,6 +57,7 @@ export { default as ChatRoomsList } from "../pages/AiChat/ChatRoomsListPage";
 export { default as ChatConversation } from "../pages/AiChat/ChatConversationPage";
 export { default as AIPersonasCollection } from "../pages/AiChat/AIPersonasCollectionPage";
 export { default as AIPersonaDetail } from "../pages/AiChat/AIPersonaDetailPage";
+export { default as CreateAIPersona } from "../pages/AiChat/CreateAIPersonaPage";
 export { default as CreateChatRoom } from "../pages/AiChat/CreateChatRoomPage";
 export { default as UserInfo } from "../pages/AiChat/UserInfoPage";
 

@@ -10,7 +10,12 @@ import {
   SendMessageParams,
   SubscribeToMessagesParams,
 } from "../../types/api/AiChat/ChatConversationPage";
-import { ChatMessage, ChatRoomAI, Emoticon } from "../../types/common/AiChat";
+import {
+  ChatMessage,
+  ChatRoomAI,
+  Emoticon,
+  LinkPreview,
+} from "../../types/common/AiChat";
 
 /**
  * 채팅방 관련 데이터 및 실시간 처리 서비스
@@ -121,6 +126,7 @@ export const ChatConversationService = {
           chat_message_sender_agent_id: params.chat_message_sender_agent_id,
           chat_message_content: params.chat_message_content,
           chat_message_file_content_path: params.chat_message_file_content_path,
+          chat_message_metadata: params.chat_message_metadata,
           emoticon_id: params.emoticon_id,
           chat_message_format: params.chat_message_format,
           chat_message_index: params.chat_message_index,
@@ -156,6 +162,29 @@ export const ChatConversationService = {
     });
 
     if (error) throw new Error(`[requestAiResponse Error]: ${error.message}`);
+  },
+
+  /**
+   * [URL 링크 미리보기 생성/조회]
+   * - Supabase Edge Function에서 Open Graph metadata를 조회하고 cache 테이블에 저장
+   */
+  async createLinkPreview(params: { url: string }): Promise<LinkPreview | null> {
+    const { data, error } = await supabase.functions.invoke(
+      "ai_chat-create_link_preview",
+      {
+        body: {
+          url: params.url,
+        },
+      },
+    );
+
+    if (error) throw new Error(`[createLinkPreview Error]: ${error.message}`);
+    if (!data?.success) {
+      console.warn("[createLinkPreview skipped]:", data?.error);
+      return null;
+    }
+
+    return data.preview as LinkPreview;
   },
 
   /**

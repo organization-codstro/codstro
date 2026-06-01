@@ -9,6 +9,7 @@ import { ChatInput } from "../../components/AiChat/ChatConversation/ChatInput/Ch
 
 import {
   ChatMessage,
+  ChatMessageMetadataAttachment,
   ChatRoom,
   ChatRoomAI,
   TypingPersona,
@@ -21,6 +22,13 @@ import { ChatConversationService } from "../../api/AiChat/ChatConversationPage";
 import { LoginService } from "../../api/Auth/LoginPage";
 import { CURSOR_PAGE_SIZE } from "../../constants/AiChat/AiChat";
 
+const URL_REGEX = /(https?:\/\/[^\s<>"']+|www\.[^\s<>"']+)/gi;
+
+const extractUrls = (text: string) => {
+  const matches = text.match(URL_REGEX) ?? [];
+  return [...new Set(matches.map((url) => url.replace(/[),.?!]+$/, "")))];
+};
+
 export default function ChatConversationPage() {
   const { roomId } = useParams<{ roomId: string }>();
   const navigate = useNavigate();
@@ -30,7 +38,6 @@ export default function ChatConversationPage() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [userId, setUserId] = useState<string | null>(null);
   const [isSending, setIsSending] = useState(false);
   const [replyingTo, setReplyingTo] = useState<ChatMessage | null>(null);
   const [images, setImages] = useState<File[]>([]);
@@ -118,7 +125,6 @@ export default function ChatConversationPage() {
           navigate("/login");
           return;
         }
-        setUserId(currentUserId);
         if (!roomId) return;
 
         const [roomInfo, messageHistory, personaList] = await Promise.all([
@@ -211,17 +217,27 @@ export default function ChatConversationPage() {
         ? personas.find((p) => p.ai_persona_name === mentions[0])
         : null;
 
-      let uploadedUrls: string[] = [];
+      let uploadedFiles: Awaited<ReturnType<typeof uploadFilesToStorage>> = [];
       if (images.length > 0) {
-        const results = await uploadFilesToStorage(
+        uploadedFiles = await uploadFilesToStorage(
           images,
           `aichat-assets/${roomId}`,
         );
-        uploadedUrls = results.map((r) => r.url);
       }
+      const uploadedPaths = uploadedFiles.map((file) => file.path);
+      const linkPreviewResults = await Promise.allSettled(
+        extractUrls(inputValue).map((url) =>
+          ChatConversationService.createLinkPreview({ url }),
+        ),
+      );
+      const linkPreviews = linkPreviewResults
+        .map((result) => (result.status === "fulfilled" ? result.value : null))
+        .filter((preview): preview is NonNullable<typeof preview> =>
+          Boolean(preview),
+        );
 
       const hasText = !!inputValue.trim();
-      const hasImage = uploadedUrls.length > 0;
+      const hasImage = uploadedPaths.length > 0;
       const hasEmoticon = !!emoticonId;
 
       const chat_message_format =
@@ -233,6 +249,24 @@ export default function ChatConversationPage() {
 
       // 마지막 메세지 index 기준으로 다음 index 계산
       const lastIndex = messages[messages.length - 1]?.chat_message_index ?? 0;
+      const metadataAttachments: ChatMessageMetadataAttachment[] = [
+        ...uploadedFiles.map((file) => ({
+          type: "image" as const,
+          storagePath: file.path,
+          originalFileName: file.fileName,
+          mimeType: file.fileType,
+          fileSizeBytes: file.size,
+        })),
+        ...linkPreviews.map((preview) => ({
+          type: "link" as const,
+          url: preview.url,
+          title: preview.title,
+          description: preview.description,
+          siteName: preview.siteName,
+          imageUrl: preview.imageUrl,
+          imageStoragePath: preview.imageStoragePath,
+        })),
+      ];
 
       const payload: SendMessageParams = {
         chat_message_sender_type: "USER",
@@ -242,7 +276,14 @@ export default function ChatConversationPage() {
         emoticon_id: emoticonId ?? null,
         chat_room_id: roomId!,
         chat_message_file_content_path:
-          uploadedUrls.length > 0 ? uploadedUrls : null,
+          uploadedPaths.length > 0 ? uploadedPaths : null,
+        chat_message_metadata: {
+          version: 1,
+          attachments: metadataAttachments,
+          client: {
+            platform: "web",
+          },
+        },
         chat_message_format,
         chat_message_interaction_type: interactionType,
         chat_message_reply_message_id: replyingTo?.chat_message_id ?? null,

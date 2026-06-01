@@ -2,14 +2,18 @@ export interface AIPersona {
   ai_persona_id: string;
   ai_persona_name: string;
   ai_persona_description: string;
-  ai_persona_personality: string;
+  ai_persona_category?: string[];
   ai_persona_gender: string;
-  ai_persona_age: number;
-  ai_persona_preferred_features: string;
+  ai_persona_personality: string;
   ai_persona_speech_style: string;
+  ai_persona_age: number;
+  ai_persona_preferred_topics?: string;
+  ai_persona_preferred_features: string[] | string;
   ai_persona_one_line_introduction?: string;
   ai_persona_profile_image_path?: string;
+  user_id?: string | null;
   created_at: string;
+  updated_at?: string | null;
 }
 //채팅에서 사용하는 이모지
 export interface Emoticon {
@@ -52,6 +56,61 @@ export interface ChatRoom {
   chat_room_daily_is_main?: boolean;
 }
 
+export type ChatMessageAttachmentType =
+  | "image"
+  | "camera_image"
+  | "audio"
+  | "file"
+  | "link"
+  | "location";
+
+export interface ChatMessageMetadataAttachment {
+  type: ChatMessageAttachmentType;
+  storagePath?: string | null;
+  thumbnailStoragePath?: string | null;
+  originalFileName?: string | null;
+  mimeType?: string | null;
+  fileSizeBytes?: number | null;
+  width?: number | null;
+  height?: number | null;
+  durationMs?: number | null;
+  transcript?: string | null;
+  url?: string | null;
+  title?: string | null;
+  description?: string | null;
+  siteName?: string | null;
+  imageUrl?: string | null;
+  imageStoragePath?: string | null;
+  provider?: string | null;
+  placeName?: string | null;
+  addressName?: string | null;
+  roadAddressName?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
+  kakaoPlaceId?: string | null;
+  kakaoMapUrl?: string | null;
+}
+
+export interface LinkPreview {
+  url: string;
+  title: string | null;
+  description: string | null;
+  siteName: string | null;
+  imageUrl: string | null;
+  imageStoragePath: string | null;
+  faviconUrl: string | null;
+  status: "ready" | "failed";
+}
+
+export interface ChatMessageMetadata {
+  version: number;
+  attachments: ChatMessageMetadataAttachment[];
+  client?: {
+    platform: "web" | "ios" | "android" | "react_native" | string;
+    appVersion?: string | null;
+  };
+}
+
 export interface ChatMessage {
   // Primary Key
   chat_message_id: string; // uuid, PK, default: gen_random_uuid()
@@ -82,6 +141,9 @@ export interface ChatMessage {
 
   // 이미지 url 목록
   chat_message_file_content_path?: string[]; // ARRAY, nullable
+
+  // 메시지 확장 메타데이터 (첨부, 링크, 위치, 클라이언트 정보)
+  chat_message_metadata?: ChatMessageMetadata;
 
   // 메세지 타입
   chat_message_format: string; // text, NOT NULL, default: ''

@@ -1,9 +1,57 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { MessageBubbleProps } from "../../../types/pages/AiChat/ChatConversation/MessageBubble";
 import { useImageStore } from "../../../store/ImageStore";
 import { useEmoticonStore } from "../../../store/emoticonStore";
 import { supabase } from "../../../db/supabase/supabase";
 import { useNavigate } from "react-router-dom";
+import { ChatConversationService } from "../../../api/AiChat/ChatConversationPage";
+import {
+  ChatMessageMetadataAttachment,
+  LinkPreview,
+} from "../../../types/common/AiChat";
+
+const URL_REGEX = /(https?:\/\/[^\s<>"']+|www\.[^\s<>"']+)/gi;
+
+const extractUrls = (text: string) => {
+  const matches = text.match(URL_REGEX) ?? [];
+  return [...new Set(matches.map((url) => url.replace(/[),.?!]+$/, "")))];
+};
+
+const getHostName = (url: string) => {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url;
+  }
+};
+
+const toLinkPreview = (
+  attachment: ChatMessageMetadataAttachment,
+): LinkPreview | null => {
+  if (attachment.type !== "link" || !attachment.url) return null;
+
+  return {
+    url: attachment.url,
+    title: attachment.title ?? null,
+    description: attachment.description ?? null,
+    siteName: attachment.siteName ?? null,
+    imageUrl: attachment.imageUrl ?? null,
+    imageStoragePath: attachment.imageStoragePath ?? null,
+    faviconUrl: null,
+    status: "ready",
+  };
+};
+
+const isLocationAttachment = (
+  attachment: ChatMessageMetadataAttachment,
+): attachment is ChatMessageMetadataAttachment & {
+  type: "location";
+  kakaoMapUrl: string;
+  placeName: string;
+} =>
+  attachment.type === "location" &&
+  !!attachment.kakaoMapUrl &&
+  !!attachment.placeName;
 
 export const MessageBubble = ({
   message,
@@ -74,6 +122,76 @@ export const MessageBubble = ({
 
     loadEmoticon();
   }, [message.emoticon_id]);
+
+  const [attachmentUrls, setAttachmentUrls] = useState<string[]>([]);
+  useEffect(() => {
+    const paths = message.chat_message_file_content_path ?? [];
+    if (paths.length === 0) {
+      setAttachmentUrls([]);
+      return;
+    }
+
+    let cancelled = false;
+    Promise.all(paths.map((path) => getUrl(path))).then((urls) => {
+      if (cancelled) return;
+      setAttachmentUrls(urls.filter((url): url is string => Boolean(url)));
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [message.chat_message_file_content_path, getUrl]);
+
+  const metadataLinkPreviews = useMemo(
+    () =>
+      message.chat_message_metadata?.attachments
+      .map(toLinkPreview)
+        .filter((preview): preview is LinkPreview => Boolean(preview)) ?? [],
+    [message.chat_message_metadata],
+  );
+
+  const contentUrls = useMemo(
+    () => {
+      const metadataLinkUrls = new Set(
+        metadataLinkPreviews.map((preview) => preview.url),
+      );
+      return extractUrls(message.chat_message_content ?? "").filter(
+        (url) => !metadataLinkUrls.has(url),
+      );
+    },
+    [message.chat_message_content, metadataLinkPreviews],
+  );
+  const [contentLinkPreviews, setContentLinkPreviews] = useState<LinkPreview[]>(
+    [],
+  );
+
+  useEffect(() => {
+    if (contentUrls.length === 0) {
+      setContentLinkPreviews([]);
+      return;
+    }
+
+    let cancelled = false;
+    Promise.allSettled(
+      contentUrls.map((url) => ChatConversationService.createLinkPreview({ url })),
+    ).then((results) => {
+      if (cancelled) return;
+      setContentLinkPreviews(
+        results
+          .map((result) => (result.status === "fulfilled" ? result.value : null))
+          .filter((preview): preview is LinkPreview => Boolean(preview)),
+      );
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [contentUrls]);
+
+  const linkPreviews = [...metadataLinkPreviews, ...contentLinkPreviews];
+  const locationPreviews =
+    message.chat_message_metadata?.attachments.filter(isLocationAttachment) ??
+    [];
 
   return (
     <div
@@ -171,19 +289,104 @@ export const MessageBubble = ({
           )}
 
           {/* 이미지 첨부 */}
-          {message.chat_message_file_content_path &&
-            message.chat_message_file_content_path.length > 0 && (
-              <div className="mt-2 space-y-2">
-                {message.chat_message_file_content_path.map((img, i) => (
-                  <img
-                    key={i}
-                    src={img}
-                    alt={`첨부 이미지 ${i + 1}`}
-                    className="object-cover rounded-lg max-h-60"
-                  />
-                ))}
-              </div>
-            )}
+          {attachmentUrls.length > 0 && (
+            <div className="mt-2 space-y-2">
+              {attachmentUrls.map((img, i) => (
+                <img
+                  key={i}
+                  src={img}
+                  alt={`첨부 이미지 ${i + 1}`}
+                  className="object-cover rounded-lg max-h-60"
+                />
+              ))}
+            </div>
+          )}
+
+          {/* 링크 미리보기 */}
+          {linkPreviews.length > 0 && (
+            <div className="mt-2 space-y-2">
+              {linkPreviews.map((preview) => (
+                <button
+                  type="button"
+                  key={preview.url}
+                  onClick={() =>
+                    window.open(preview.url, "_blank", "noopener,noreferrer")
+                  }
+                  className={`block w-full overflow-hidden text-left border rounded-lg transition-colors ${
+                    isUser
+                      ? "border-blue-300 bg-blue-50 text-gray-900 hover:bg-white"
+                      : "border-gray-200 bg-gray-50 hover:bg-gray-100"
+                  }`}
+                >
+                  {preview.imageUrl && (
+                    <img
+                      src={preview.imageUrl}
+                      alt=""
+                      className="object-cover w-full h-32 bg-gray-100"
+                    />
+                  )}
+                  <div className="p-3">
+                    <div className="text-xs font-medium text-gray-500 truncate">
+                      {preview.siteName ?? getHostName(preview.url)}
+                    </div>
+                    <div className="mt-1 text-sm font-semibold text-gray-900 line-clamp-2">
+                      {preview.title ?? preview.url}
+                    </div>
+                    {preview.description && (
+                      <div className="mt-1 text-xs text-gray-600 line-clamp-2">
+                        {preview.description}
+                      </div>
+                    )}
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* 카카오 위치 미리보기 */}
+          {locationPreviews.length > 0 && (
+            <div className="mt-2 space-y-2">
+              {locationPreviews.map((location) => (
+                <button
+                  type="button"
+                  key={`${location.kakaoMapUrl}-${location.placeName}`}
+                  onClick={() =>
+                    window.open(
+                      location.kakaoMapUrl,
+                      "_blank",
+                      "noopener,noreferrer",
+                    )
+                  }
+                  className={`block w-full overflow-hidden text-left border rounded-lg transition-colors ${
+                    isUser
+                      ? "border-blue-300 bg-blue-50 text-gray-900 hover:bg-white"
+                      : "border-gray-200 bg-gray-50 hover:bg-gray-100"
+                  }`}
+                >
+                  <div className="relative flex h-28 items-center justify-center bg-[#f2f5f3]">
+                    <div className="absolute inset-x-0 top-1/2 border-t border-[#d8e2dc]" />
+                    <div className="absolute inset-y-0 left-1/2 border-l border-[#d8e2dc]" />
+                    <div className="relative flex h-11 w-11 items-center justify-center rounded-full bg-[#fee500] shadow-sm">
+                      <div className="h-4 w-4 rounded-full bg-[#3c1e1e]" />
+                    </div>
+                  </div>
+                  <div className="p-3">
+                    <div className="text-xs font-medium text-gray-500">
+                      Kakao Map
+                    </div>
+                    <div className="mt-1 text-sm font-semibold text-gray-900 line-clamp-2">
+                      {location.placeName}
+                    </div>
+                    {(location.roadAddressName || location.addressName) && (
+                      <div className="mt-1 text-xs text-gray-600 line-clamp-2">
+                        {location.roadAddressName ?? location.addressName}
+                      </div>
+                    )}
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
 
           {/* 시간 + Reply */}
           <div className="flex items-center justify-between mt-2">

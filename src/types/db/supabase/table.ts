@@ -504,6 +504,16 @@ export interface ChatMessage {
   created_at?: string | null;
   updated_at?: string | null;
   chat_message_file_content_path?: string[] | null;
+  chat_message_metadata?: {
+    version: number;
+    attachments: Array<Record<string, unknown>>;
+    client?: {
+      platform: string;
+      appVersion?: string | null;
+    };
+  } | null;
+  chat_message_client_id?: string | null;
+  chat_message_source_platform?: string | null;
   chat_message_format: "TEXT" | "IMG" | "MULTIMODAL";
   chat_message_interaction_type: "CASUAL" | "ACTION_REQUEST";
   chat_message_reply_message_id: string;

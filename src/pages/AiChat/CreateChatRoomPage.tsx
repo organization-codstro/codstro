@@ -157,7 +157,13 @@ export default function CreateChatRoomPage() {
                       friend.ai_personas.ai_persona_profile_image_path
                     }
                     preferredFeatures={
-                      friend.ai_personas.ai_persona_preferred_features
+                      Array.isArray(
+                        friend.ai_personas.ai_persona_preferred_features,
+                      )
+                        ? friend.ai_personas.ai_persona_preferred_features.join(
+                            ", ",
+                          )
+                        : friend.ai_personas.ai_persona_preferred_features
                     }
                     oneLineIntroduction={
                       friend.ai_personas.ai_persona_one_line_introduction

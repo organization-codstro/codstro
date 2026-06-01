@@ -21,13 +21,15 @@ export const FirebaseStorageService = {
   async uploadImage(file: File, path: StoragePath): Promise<UploadResult> {
     try {
       const fileName = `${Date.now()}_${file.name}`;
-      const storageRef = ref(storage, `${path}/${fileName}`);
+      const fullPath = `${path}/${fileName}`;
+      const storageRef = ref(storage, fullPath);
 
       const snapshot = await uploadBytes(storageRef, file);
       const url = await getDownloadURL(snapshot.ref);
 
       return {
         url,
+        path: fullPath,
         fileName,
         fileType: file.type,
         size: file.size,

@@ -154,7 +154,11 @@ export default function AIPersonaDetailPage() {
 
           <PersonaInfoCard
             title="Conversation Topics"
-            content={persona.ai_persona_preferred_features}
+            content={
+              Array.isArray(persona.ai_persona_preferred_features)
+                ? persona.ai_persona_preferred_features.join(", ")
+                : persona.ai_persona_preferred_features
+            }
           />
 
           <PersonaInfoCard

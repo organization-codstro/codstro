@@ -154,6 +154,10 @@ export default function AppRoutes() {
           element={<Page.AIPersonasCollection />}
         />
         <Route
+          path="/ai-chat/persona/create"
+          element={<Page.CreateAIPersona />}
+        />
+        <Route
           path="/ai-chat/persona/:personaId"
           element={<Page.AIPersonaDetail />}
         />

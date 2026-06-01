@@ -1,4 +1,4 @@
-import { ChatMessage } from "../../common/AiChat";
+import { ChatMessage, ChatMessageMetadata } from "../../common/AiChat";
 
 export interface GetRoomInfoParams {
   roomId: string;
@@ -39,6 +39,7 @@ export interface SendMessageParams {
 
   chat_message_content: string | null;
   chat_message_file_content_path: string[] | null;
+  chat_message_metadata: ChatMessageMetadata;
   emoticon_id: string | null;
 
   chat_message_format: ChatMessageFormat;

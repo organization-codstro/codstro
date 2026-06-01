@@ -1,5 +1,8 @@
 import { supabase } from "../../db/supabase/supabase";
-import { GetPersonasByCategoryParams } from "../../types/api/AiChat/AIPersonasCollectionPage";
+import {
+  GetAllPersonasParams,
+  GetPersonasByCategoryParams,
+} from "../../types/api/AiChat/AIPersonasCollectionPage";
 
 /**
  * AI 페르소나 컬렉션(전체 목록) 조회를 위한 서비스
@@ -10,10 +13,11 @@ export const AIPersonasCollectionService = {
    * 시스템에 등록된 모든 AI 페르소나를 가져옵니다.
    * 참조 테이블: ai_personas
    */
-  async getAllPersonas() {
+  async getAllPersonas(params: GetAllPersonasParams) {
     const { data, error } = await supabase
       .from("ai_personas")
       .select("*")
+      .or(`user_id.is.null,user_id.eq.${params.userId}`)
       .order("ai_persona_id", { ascending: true });
 
     if (error) throw new Error(`[getAllPersonas Error]: ${error.message}`);
@@ -29,7 +33,8 @@ export const AIPersonasCollectionService = {
     const { data, error } = await supabase
       .from("ai_personas")
       .select("*")
-      .contains("ai_personas_category", [params.category]);
+      .or(`user_id.is.null,user_id.eq.${params.userId}`)
+      .contains("ai_persona_category", [params.category]);
 
     if (error)
       throw new Error(`[getPersonasByCategory Error]: ${error.message}`);

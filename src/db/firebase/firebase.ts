@@ -59,7 +59,8 @@ export const uploadFilesToStorage = async (
       const uniqueName = `${Date.now()}_${Math.random()
         .toString(36)
         .slice(2, 7)}_${compressedFile.name}`;
-      const fileRef = ref(storage, `${storagePath}/${uniqueName}`);
+      const path = `${storagePath}/${uniqueName}`;
+      const fileRef = ref(storage, path);
 
       // 3. 업로드
       await uploadBytes(fileRef, compressedFile, {
@@ -71,6 +72,7 @@ export const uploadFilesToStorage = async (
 
       return {
         url,
+        path,
         fileName: file.name, // 원본 파일명
         fileType: file.type, // 원본 MIME 타입
         size: compressedFile.size, // 압축된 파일 크기
@@ -89,4 +91,32 @@ export const uploadFilesToStorage = async (
   });
 
   return urls;
+};
+
+/**
+ * 지정한 Firebase Storage 전체 경로에 파일 1개를 업로드합니다.
+ *
+ * @param file            업로드할 파일
+ * @param storageFullPath 파일명을 포함한 Firebase Storage 전체 경로
+ */
+export const uploadFileToStoragePath = async (
+  file: File,
+  storageFullPath: string,
+): Promise<UploadResult> => {
+  const compressedFile = await compressFile(file);
+  const fileRef = ref(storage, storageFullPath);
+
+  await uploadBytes(fileRef, compressedFile, {
+    contentType: compressedFile.type || file.type || "application/octet-stream",
+  });
+
+  const url = await getDownloadURL(fileRef);
+
+  return {
+    url,
+    path: storageFullPath,
+    fileName: file.name,
+    fileType: file.type,
+    size: compressedFile.size,
+  } satisfies UploadResult;
 };

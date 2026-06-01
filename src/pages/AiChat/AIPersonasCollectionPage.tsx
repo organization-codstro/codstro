@@ -6,6 +6,7 @@ import { CollectionEmptyState } from "../../components/AiChat/AIPersonasCollecti
 import { CollectionHeader } from "../../components/AiChat/AIPersonasCollectionPage/CollectionHeader";
 import { AIPersonasCollectionService } from "../../api/AiChat/AIPersonasCollectionPage";
 import { AIPersona } from "../../types/common/AiChat";
+import { LoginService } from "../../api/Auth/LoginPage";
 
 export default function AIPersonasCollectionPage() {
   const navigate = useNavigate();
@@ -24,7 +25,15 @@ export default function AIPersonasCollectionPage() {
     const fetchPersonas = async () => {
       setIsLoading(true);
       try {
-        const data = await AIPersonasCollectionService.getAllPersonas();
+        const userId = await LoginService.getCurrentUserId();
+        if (!userId) {
+          navigate("/login");
+          return;
+        }
+
+        const data = await AIPersonasCollectionService.getAllPersonas({
+          userId,
+        });
         setPersonas(data as AIPersona[]);
       } catch (err) {
         console.error(err);
@@ -40,7 +49,7 @@ export default function AIPersonasCollectionPage() {
     };
 
     fetchPersonas();
-  }, []);
+  }, [navigate]);
 
   const handleSelectPersona = (personaId: string) => {
     //  선택 상태 변경
@@ -51,7 +60,10 @@ export default function AIPersonasCollectionPage() {
 
   return (
     <div className="flex flex-col h-screen bg-gray-50">
-      <CollectionHeader onBack={() => navigate("/ai-chat")} />
+      <CollectionHeader
+        onBack={() => navigate("/ai-chat")}
+        onCreate={() => navigate("/ai-chat/persona/create")}
+      />
 
       {/* 메인 콘텐츠 섹션 */}
       <div className="flex-1 p-4 overflow-y-auto">
@@ -86,7 +98,11 @@ export default function AIPersonasCollectionPage() {
                 gender={persona.ai_persona_gender}
                 profileImagePath={persona.ai_persona_profile_image_path}
                 oneLineIntroduction={persona.ai_persona_one_line_introduction}
-                preferredFeatures={persona.ai_persona_preferred_features}
+                preferredFeatures={
+                  Array.isArray(persona.ai_persona_preferred_features)
+                    ? persona.ai_persona_preferred_features.join(", ")
+                    : persona.ai_persona_preferred_features
+                }
                 isSelected={selectedPersonaId === persona.ai_persona_id}
                 onClick={() => handleSelectPersona(persona.ai_persona_id)}
               />
