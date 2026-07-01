@@ -125,7 +125,12 @@ export const MessageBubble = ({
 
   const [attachmentUrls, setAttachmentUrls] = useState<string[]>([]);
   useEffect(() => {
-    const paths = message.chat_message_file_content_path ?? [];
+    const rawPaths = message.chat_message_file_content_path;
+    const paths = Array.isArray(rawPaths)
+      ? rawPaths
+      : rawPaths
+        ? [rawPaths]
+        : [];
     if (paths.length === 0) {
       setAttachmentUrls([]);
       return;
@@ -142,12 +147,20 @@ export const MessageBubble = ({
     };
   }, [message.chat_message_file_content_path, getUrl]);
 
+  const metadataAttachments = useMemo(
+    () =>
+      Array.isArray(message.chat_message_metadata?.attachments)
+        ? message.chat_message_metadata.attachments
+        : [],
+    [message.chat_message_metadata],
+  );
+
   const metadataLinkPreviews = useMemo(
     () =>
-      message.chat_message_metadata?.attachments
-      .map(toLinkPreview)
+      metadataAttachments
+        .map(toLinkPreview)
         .filter((preview): preview is LinkPreview => Boolean(preview)) ?? [],
-    [message.chat_message_metadata],
+    [metadataAttachments],
   );
 
   const contentUrls = useMemo(
@@ -189,9 +202,7 @@ export const MessageBubble = ({
   }, [contentUrls]);
 
   const linkPreviews = [...metadataLinkPreviews, ...contentLinkPreviews];
-  const locationPreviews =
-    message.chat_message_metadata?.attachments.filter(isLocationAttachment) ??
-    [];
+  const locationPreviews = metadataAttachments.filter(isLocationAttachment);
 
   return (
     <div
